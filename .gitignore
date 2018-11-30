@@ -1,0 +1,8 @@
+.vs
+*.pyc
+*.user
+obj
+bin
+project.lock.json
+_site
+site
