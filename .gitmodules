@@ -1,0 +1,6 @@
+[submodule "protobuf"]
+	path = protobuf
+	url = https://github.com/protocolbuffers/protobuf.git
+[submodule "api-common-protos"]
+	path = api-common-protos
+	url = https://github.com/googleapis/api-common-protos.git

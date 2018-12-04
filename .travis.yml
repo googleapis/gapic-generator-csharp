@@ -1,0 +1,8 @@
+language: csharp
+mono: none
+dotnet: 2.1.500
+dist: trusty
+
+script:
+  - dotnet build
+  - dotnet test Google.Api.Generator.Tests

@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.28307.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Google.Api.Generator", "Google.Api.Generator\Google.Api.Generator.csproj", "{C28A3B50-A61C-488C-9E2A-82A5C38C8B6B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Google.Api.Generator.Tests", "Google.Api.Generator.Tests\Google.Api.Generator.Tests.csproj", "{7F2B20B6-4F23-49D7-9D12-EC767631E5D8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Google.Protobuf", "protobuf\csharp\src\Google.Protobuf\Google.Protobuf.csproj", "{82564A75-126D-4000-B29E-98889E62C6F9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{C28A3B50-A61C-488C-9E2A-82A5C38C8B6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C28A3B50-A61C-488C-9E2A-82A5C38C8B6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C28A3B50-A61C-488C-9E2A-82A5C38C8B6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F2B20B6-4F23-49D7-9D12-EC767631E5D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F2B20B6-4F23-49D7-9D12-EC767631E5D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F2B20B6-4F23-49D7-9D12-EC767631E5D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F2B20B6-4F23-49D7-9D12-EC767631E5D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82564A75-126D-4000-B29E-98889E62C6F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82564A75-126D-4000-B29E-98889E62C6F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82564A75-126D-4000-B29E-98889E62C6F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82564A75-126D-4000-B29E-98889E62C6F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
