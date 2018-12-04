@@ -18,7 +18,7 @@ using System.Reflection;
 
 namespace Google.Api.Generator.ProtoUtils
 {
-    static class ProtoExtensions
+    internal static class ProtoExtensions
     {
         public static string CSharpNamespace(this FileDescriptor desc)
         {

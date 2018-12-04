@@ -21,7 +21,7 @@ namespace Google.Api.Generator.ProtoUtils
     /// <summary>
     /// A catalog of all loaded proto messages.
     /// </summary>
-    class ProtoCatalog
+    internal class ProtoCatalog
     {
         public ProtoCatalog(string defaultPackage, IEnumerable<FileDescriptor> descs)
         {

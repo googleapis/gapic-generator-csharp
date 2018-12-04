@@ -26,3 +26,8 @@ These annotations are required for the test protos.
 
 Once these annotations have been merged into `master`, the submodule
 will be updated to refer to the `master` branch.
+
+## protoc executable
+
+Consider installing the `Google.Protobuf.Tools` package, rather than having
+the `protoc` executables directly in the repo.

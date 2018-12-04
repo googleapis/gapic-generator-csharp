@@ -21,7 +21,7 @@ using System.Linq;
 
 namespace Google.Api.Generator
 {
-    static class Generator
+    internal static class CodeGenerator
     {
         public class ResultFile
         {

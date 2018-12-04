@@ -45,7 +45,7 @@ namespace Google.Api.Generator.Tests
                     }
                 }
                 var descBytes = File.ReadAllBytes(descOutputPath);
-                var files = Generator.Generate(descBytes, "testing");
+                var files = CodeGenerator.Generate(descBytes, "testing");
                 Assert.Empty(files);
             }
             catch (Exception e)
