@@ -12,12 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Google.Api.Generator.Generation;
 using Google.Api.Generator.ProtoUtils;
 using Google.Protobuf;
 using Google.Protobuf.Reflection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Google.Api.Generator
 {
@@ -35,14 +37,24 @@ namespace Google.Api.Generator
         {
             var descriptors = GetFileDescriptors(descriptorBytes);
             var catalog = new ProtoCatalog(package, descriptors);
-            // Generate code for requested package
+            // Generate settings and client code for requested package
             foreach (var desc in descriptors.Where(x => x.Package == package))
             {
                 var ns = desc.CSharpNamespace();
-                // TODO: Generate code
+                foreach (var service in desc.Services)
+                {
+                    var serviceDetails = new ServiceDetails(catalog, ns, service);
+                    var ctx = new SourceFileContext(SourceFileContext.ImportStyle.FullyAliased);
+                    var code = ServiceCodeGenerator.Generate(ctx, serviceDetails);
+                    // TODO: Format the code.
+                    // TODO: Place the generated code in the correct directory.
+                    var filename = $"{serviceDetails.ClientAbstractTyp.Name}.cs";
+                    var content = Encoding.UTF8.GetBytes(code.ToFullString());
+                    // May not use `yield return` later, but it's fine for now.
+                    yield return new ResultFile(filename, content);
+                }
             }
-            // TODO: Return generated files
-            return Enumerable.Empty<ResultFile>();
+            // TODO: Generate resource names, csproj, tests, smoketests, integration tests, snippets, etc...
         }
 
         private static IReadOnlyList<FileDescriptor> GetFileDescriptors(byte[] bytes)
