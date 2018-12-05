@@ -12,13 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Google.Api.Generator
+using System;
+
+namespace Google.Api.Generator.Utils
 {
-    public class Program
+    /// <summary>
+    /// A general implementation of IDisposable that allows an arbitrary
+    /// action to be executed on disposal.
+    /// </summary>
+    internal class Disposable : IDisposable
     {
-        static void Main(string[] args)
-        {
-            // TODO...
-        }
+        public Disposable(Action action) => _action = action;
+        private readonly Action _action;
+        public void Dispose() => _action();
     }
 }

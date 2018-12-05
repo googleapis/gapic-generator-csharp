@@ -12,13 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Google.Api.Generator
+namespace Google.Api.Generator.ProtoUtils
 {
-    public class Program
+    internal static class ProtoConsts
     {
-        static void Main(string[] args)
+        public static class ServiceOption
         {
-            // TODO...
+            public const int DefaultHost = 1049;
         }
     }
 }
