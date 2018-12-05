@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Google.Api.Generator.Formatting;
 using Google.Api.Generator.Generation;
 using Google.Api.Generator.ProtoUtils;
 using Google.Protobuf;
@@ -46,10 +47,10 @@ namespace Google.Api.Generator
                     var serviceDetails = new ServiceDetails(catalog, ns, service);
                     var ctx = new SourceFileContext(SourceFileContext.ImportStyle.FullyAliased);
                     var code = ServiceCodeGenerator.Generate(ctx, serviceDetails);
-                    // TODO: Format the code.
+                    var formattedCode = CodeFormatter.Format(code);
                     // TODO: Place the generated code in the correct directory.
                     var filename = $"{serviceDetails.ClientAbstractTyp.Name}.cs";
-                    var content = Encoding.UTF8.GetBytes(code.ToFullString());
+                    var content = Encoding.UTF8.GetBytes(formattedCode.ToFullString());
                     // May not use `yield return` later, but it's fine for now.
                     yield return new ResultFile(filename, content);
                 }

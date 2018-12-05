@@ -93,14 +93,20 @@ namespace Google.Api.Generator.Tests
             var clientCs = files.FirstOrDefault(x => x.RelativePath == "TestClient.cs");
             Assert.NotNull(clientCs);
             var clientCsContent = Encoding.UTF8.GetString(clientCs.Content);
-            // Even though this isn't valid C#, the Roslyn parser should not fail.
+            // TODO: Create helper methods for much of this Roslyn testing.
+            // Parse the C# source.
             var root = CSharpSyntaxTree.ParseText(clientCsContent).GetCompilationUnitRoot();
             Assert.NotNull(root);
-            // The generator has produced something. Check for a couple of expected strings.
-            Assert.Contains("namespace", clientCsContent);
-            Assert.Contains("Testing", clientCsContent);
-            Assert.Contains("class", clientCsContent);
-            Assert.Contains("TestSettings", clientCsContent);
+            // Check there is at least one `using` directive.
+            Assert.NotEmpty(root.Usings);
+            // Check there is only one `namespace` statement.
+            Assert.Single(root.Members);
+            var ns = root.Members[0] as NamespaceDeclarationSyntax;
+            Assert.NotNull(ns);
+            // Check there is one settings class.
+            Assert.NotEmpty(ns.Members);
+            var settingsCls = ns.Members.Where(x => (x as ClassDeclarationSyntax)?.Identifier.Text == "TestSettings").ToList();
+            Assert.Single(settingsCls);
         }
     }
 }
