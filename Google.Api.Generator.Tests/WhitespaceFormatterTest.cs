@@ -15,13 +15,17 @@
 // This test loads this source file during the test, parses it into
 // Roslyn, removes all trivia, passes it through the Whitespace formatter,
 // then checks that the input source and re-formatted source are identical.
-// Code at the start, end, and between IGNORE_START/IGNORE_END markers
-// are ignored.
+// Code between the TEST_SOURCE_START and TEST_SOURCE_END comments are used
+// as source for this test.
 // So some of the source code looks a bit odd, as it needs to test every
 // code construct is formatted correctly.
 // TODO: Add further code as WhitespaceFormatter adds more formatting.
 
-// IGNORE_END
+// TODO: Consider splitting this test into multiple files; possibly
+// putting the test source separately, or splitting the test source
+// into multiple source files, and/or multiple tests.
+
+// TEST_SOURCE_START
 using Google.Api.Generator.Formatting;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -95,7 +99,7 @@ namespace Google.Api.Generator.Tests
         {
             // Test class that has no members.
         }
-        // IGNORE_START
+        // TEST_SOURCE_END
 
         private class TriviaRemover : CSharpSyntaxRewriter
         {
@@ -120,8 +124,8 @@ namespace Google.Api.Generator.Tests
             var testSourceLines = sourceLines.Aggregate((ignoring: true, lines: new List<string>()), (acc, line) =>
             {
                 var ignoring =
-                    line.Trim() == "// IGNORE_START" ? true :
-                    line.Trim() == "// IGNORE_END" ? false : (bool?)null;
+                    line.Trim() == "// TEST_SOURCE_END" ? true :
+                    line.Trim() == "// TEST_SOURCE_START" ? false : (bool?)null;
                 if (!acc.ignoring && ignoring != true && !line.Trim().StartsWith("//"))
                 {
                     acc.lines.Add(line);
@@ -143,8 +147,8 @@ namespace Google.Api.Generator.Tests
             // Check that the sources are identical.
             Assert.Equal(testSource, testSourceFormatter);
         }
-        // IGNORE_END
+        // TEST_SOURCE_START
     }
 }
 
-// IGNORE_START
+// TEST_SOURCE_END
