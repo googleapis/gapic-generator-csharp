@@ -31,7 +31,7 @@ namespace Google.Api.Generator.Generation
 
         private static readonly IReadOnlyDictionary<string, string> s_wellknownNamespaceAliases = new Dictionary<string, string>
         {
-            { typeof(System.Int32).Namespace, "sys" }, // Don't use "s"; one-letter alias cause a compilation error!
+            { typeof(System.Int32).Namespace, "sys" }, // Don't use "s"; one-letter aliases cause a compilation error!
             { typeof(System.Collections.Generic.IEnumerable<>).Namespace, "scg" },
             { typeof(Google.Api.Gax.Expiration).Namespace, "gax" },
             { typeof(Google.Api.Gax.Grpc.CallSettings).Namespace, "gaxgrpc" },
@@ -127,7 +127,7 @@ namespace Google.Api.Generator.Generation
                 // Generic typ, so return a generic name by recursively calling this method on all type args.
                 result = GenericName(result.Identifier, TypeArgumentList(SeparatedList(typ.GenericArgTyps.Select(Type))));
             }
-            // Return the final TypeSyntax, aliased on not as required.
+            // Return the final TypeSyntax, aliased or not as required.
             return namespaceAlias == null ? (TypeSyntax)result : AliasQualifiedName(namespaceAlias, result);
         }
 

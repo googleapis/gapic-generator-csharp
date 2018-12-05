@@ -18,8 +18,12 @@ using System.Linq;
 
 namespace Google.Api.Generator.Utils
 {
+    // TODO: If this name causes too much confusion change it to something
+    // more descriptive, possibly "ClrType".
     /// <summary>
     /// Abstraction of a .NET type.
+    /// The name "Typ" is delibrately concise as this type is used extensively
+    /// throughout the rest of the code.
     /// </summary>
     internal abstract class Typ
     {

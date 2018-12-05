@@ -41,33 +41,33 @@ namespace Google.Api.Generator.RoslynUtils
 
     internal static class ModifierExtensions
     {
-        private static readonly SyntaxToken PUBLIC_TOKEN = SyntaxFactory.Token(SyntaxKind.PublicKeyword);
-        private static readonly SyntaxToken ABSTRACT_TOKEN = SyntaxFactory.Token(SyntaxKind.AbstractKeyword);
-        private static readonly SyntaxToken PARTIAL_TOKEN = SyntaxFactory.Token(SyntaxKind.PartialKeyword);
-        private static readonly SyntaxToken STATIC_TOKEN = SyntaxFactory.Token(SyntaxKind.StaticKeyword);
-        private static readonly SyntaxToken READONLY_TOKEN = SyntaxFactory.Token(SyntaxKind.ReadOnlyKeyword);
-        private static readonly SyntaxToken PRIVATE_TOKEN = SyntaxFactory.Token(SyntaxKind.PrivateKeyword);
-        private static readonly SyntaxToken ASYNC_TOKEN = SyntaxFactory.Token(SyntaxKind.AsyncKeyword);
-        private static readonly SyntaxToken SEALED_TOKEN = SyntaxFactory.Token(SyntaxKind.SealedKeyword);
-        private static readonly SyntaxToken VIRTUAL_TOKEN = SyntaxFactory.Token(SyntaxKind.VirtualKeyword);
-        private static readonly SyntaxToken OVERRIDE_TOKEN = SyntaxFactory.Token(SyntaxKind.OverrideKeyword);
-        private static readonly SyntaxToken INTERNAL_TOKEN = SyntaxFactory.Token(SyntaxKind.InternalKeyword);
+        private static readonly SyntaxToken s_publicToken = SyntaxFactory.Token(SyntaxKind.PublicKeyword);
+        private static readonly SyntaxToken s_abstractToken = SyntaxFactory.Token(SyntaxKind.AbstractKeyword);
+        private static readonly SyntaxToken s_partialToken = SyntaxFactory.Token(SyntaxKind.PartialKeyword);
+        private static readonly SyntaxToken s_staticToken = SyntaxFactory.Token(SyntaxKind.StaticKeyword);
+        private static readonly SyntaxToken s_readonlyToken = SyntaxFactory.Token(SyntaxKind.ReadOnlyKeyword);
+        private static readonly SyntaxToken s_privateToken = SyntaxFactory.Token(SyntaxKind.PrivateKeyword);
+        private static readonly SyntaxToken s_asyncToken = SyntaxFactory.Token(SyntaxKind.AsyncKeyword);
+        private static readonly SyntaxToken s_sealedToken = SyntaxFactory.Token(SyntaxKind.SealedKeyword);
+        private static readonly SyntaxToken s_virtualToken = SyntaxFactory.Token(SyntaxKind.VirtualKeyword);
+        private static readonly SyntaxToken s_overrideToken = SyntaxFactory.Token(SyntaxKind.OverrideKeyword);
+        private static readonly SyntaxToken s_internalToken = SyntaxFactory.Token(SyntaxKind.InternalKeyword);
 
         public static SyntaxToken[] ToSyntaxTokens(this Modifier m)
         {
             var result = new List<SyntaxToken>();
             // Order here matters; it's the order in which the modifiers will be placed in the generated source.
-            if ((m & Modifier.Public) != 0) result.Add(PUBLIC_TOKEN);
-            if ((m & Modifier.Private) != 0) result.Add(PRIVATE_TOKEN);
-            if ((m & Modifier.Internal) != 0) result.Add(INTERNAL_TOKEN);
-            if ((m & Modifier.Abstract) != 0) result.Add(ABSTRACT_TOKEN);
-            if ((m & Modifier.Virtual) != 0) result.Add(VIRTUAL_TOKEN);
-            if ((m & Modifier.Override) != 0) result.Add(OVERRIDE_TOKEN);
-            if ((m & Modifier.Readonly) != 0) result.Add(READONLY_TOKEN);
-            if ((m & Modifier.Static) != 0) result.Add(STATIC_TOKEN);
-            if ((m & Modifier.Sealed) != 0) result.Add(SEALED_TOKEN);
-            if ((m & Modifier.Async) != 0) result.Add(ASYNC_TOKEN);
-            if ((m & Modifier.Partial) != 0) result.Add(PARTIAL_TOKEN);
+            if ((m & Modifier.Public) != 0) result.Add(s_publicToken);
+            if ((m & Modifier.Private) != 0) result.Add(s_privateToken);
+            if ((m & Modifier.Internal) != 0) result.Add(s_internalToken);
+            if ((m & Modifier.Abstract) != 0) result.Add(s_abstractToken);
+            if ((m & Modifier.Virtual) != 0) result.Add(s_virtualToken);
+            if ((m & Modifier.Override) != 0) result.Add(s_overrideToken);
+            if ((m & Modifier.Readonly) != 0) result.Add(s_readonlyToken);
+            if ((m & Modifier.Static) != 0) result.Add(s_staticToken);
+            if ((m & Modifier.Sealed) != 0) result.Add(s_sealedToken);
+            if ((m & Modifier.Async) != 0) result.Add(s_asyncToken);
+            if ((m & Modifier.Partial) != 0) result.Add(s_partialToken);
             return result.ToArray();
         }
     }

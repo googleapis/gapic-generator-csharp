@@ -16,6 +16,10 @@ using System;
 
 namespace Google.Api.Generator.Utils
 {
+    /// <summary>
+    /// A general implementation of IDisposable that allows an arbitrary
+    /// action to be executed on disposal.
+    /// </summary>
     internal class Disposable : IDisposable
     {
         public Disposable(Action action) => _action = action;
