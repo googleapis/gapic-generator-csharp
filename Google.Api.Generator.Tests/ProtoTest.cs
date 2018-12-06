@@ -105,11 +105,11 @@ namespace Google.Api.Generator.Tests
             Assert.NotNull(ns);
             // Check there is one settings class.
             Assert.NotEmpty(ns.Members);
-            var settingsClss = ns.Members.OfType<ClassDeclarationSyntax>().Where(x => x.Identifier.Text == "TestSettings").ToList();
-            Assert.Single(settingsClss);
-            var settingsCls = settingsClss[0];
+            var settingsClasses = ns.Members.OfType<ClassDeclarationSyntax>().Where(x => x.Identifier.Text == "TestSettings").ToList();
+            Assert.Single(settingsClasses);
+            var settingsClass = settingsClasses[0];
             // Check the static method `GetDefault()` exists.
-            var getDefaultMethods = settingsCls.Members.OfType<MethodDeclarationSyntax>()
+            var getDefaultMethods = settingsClass.Members.OfType<MethodDeclarationSyntax>()
                 .Where(x => x.Identifier.Text == "GetDefault" && !x.ParameterList.Parameters.Any()).ToList();
             Assert.Single(getDefaultMethods);
             var getDefaultMethod = getDefaultMethods[0];

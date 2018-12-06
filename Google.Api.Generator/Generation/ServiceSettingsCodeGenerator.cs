@@ -36,6 +36,7 @@ namespace Google.Api.Generator.Generation
 
         private ClassDeclarationSyntax Generate()
         {
+            // TODO: Re-word the xmldoc summary, or handle the "a"/"an" case properly.
             var cls = Class(Public | Sealed | Partial, _svc.SettingsTyp, baseType: _ctx.Type<ServiceSettingsBase>())
                 .WithXmlDoc(XmlDoc.Summary("Settings for a ", _ctx.Type(_svc.ClientAbstractTyp), "."));
             using (_ctx.InClass(cls))
