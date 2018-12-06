@@ -101,6 +101,8 @@ namespace Google.Api.Generator.Generation
 
         public TypeSyntax Type<T>() => Type(Typ.Of<T>());
 
+        public TypeSyntax Type(System.Type type) => Type(Typ.Of(type));
+
         public TypeSyntax Type(Typ typ)
         {
             if (_importStyle != ImportStyle.FullyAliased)

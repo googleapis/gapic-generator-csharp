@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
@@ -85,10 +86,8 @@ namespace Google.Api.Generator.Tests
         [Fact]
         public void TestThatSomeCodeIsGenerated()
         {
-            // Test that the code generator executes, and produces *something*.
-            // At the moment the code produced is not formatted, which means all
-            // whitespace is missing, and is therefore unparsable as C# code.
-            // TODO: Remove this test.
+            // Test that the code generator executes, and produces the expected code.
+            // TODO: Improve this testing infrastructure.
             var files = Run("ProtoTest.proto", "testing");
             var clientCs = files.FirstOrDefault(x => x.RelativePath == "TestClient.cs");
             Assert.NotNull(clientCs);
@@ -118,6 +117,15 @@ namespace Google.Api.Generator.Tests
             // Check that the parameterless ctor has an empty body.
             var defaultCtor = settingsClass.Members.OfType<ConstructorDeclarationSyntax>().Single(x => !x.ParameterList.Parameters.Any());
             Assert.Empty(defaultCtor.Body.Statements);
+            // check that the copy ctor is as it should be.
+            var copyCtor = settingsClass.Members.OfType<ConstructorDeclarationSyntax>().Single(x => x.ParameterList.Parameters.Count == 1);
+            Assert.Equal(3, copyCtor.Body.Statements.Count);
+            Assert.Equal("gax::GaxPreconditions.CheckNotNull(existing, nameof(existing));",
+                copyCtor.Body.Statements[0].WithoutTrivia().ToFullString());
+            Assert.Equal("Method1Settings = existing.Method1Settings;",
+                copyCtor.Body.Statements[1].WithoutTrivia().ToFullString());
+            Assert.Equal("OnCopy(existing);",
+                copyCtor.Body.Statements[2].WithoutTrivia().ToFullString());
         }
     }
 }

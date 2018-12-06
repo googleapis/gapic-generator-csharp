@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
@@ -27,7 +28,7 @@ namespace Google.Api.Generator.RoslynUtils
     /// </summary>
     internal static class RoslynConverters
     {
-        private static IEnumerable<ExpressionSyntax> ToExpressions(object o)
+        public static IEnumerable<ExpressionSyntax> ToExpressions(object o)
         {
             switch (o)
             {
@@ -86,5 +87,36 @@ namespace Google.Api.Generator.RoslynUtils
 
         public static ArgumentListSyntax CreateArgList(params object[] args) =>
             ArgumentList(SeparatedList(args.SelectMany(ToArgs)));
+
+        public static SimpleNameSyntax ToSimpleName(object o, params TypeSyntax[] genericArgs)
+        {
+            if (o.GetType().IsEnum)
+            {
+                if (genericArgs.Any())
+                {
+                    throw new ArgumentException("Generic args must not be present for an enum");
+                }
+                return IdentifierName(o.ToString());
+            }
+            SyntaxToken name;
+            switch (o)
+            {
+                case string v:
+                    name = Identifier(v);
+                    break;
+                case PropertyDeclarationSyntax v:
+                    name = v.Identifier;
+                    break;
+                case MethodDeclarationSyntax v:
+                    name = v.Identifier;
+                    break;
+                default:
+                    throw new NotSupportedException($"Cannot handle ToSimpleName({o.GetType()})");
+            }
+            return genericArgs.Any() ?
+                GenericName(name, TypeArgumentList(SeparatedList(genericArgs))) :
+                (SimpleNameSyntax)IdentifierName(name);
+        }
+
     }
 }

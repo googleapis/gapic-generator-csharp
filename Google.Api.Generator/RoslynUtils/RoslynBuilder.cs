@@ -13,7 +13,10 @@
 // limitations under the License.
 
 using Google.Api.Generator.Utils;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System.Collections.Generic;
 using System.Linq;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
@@ -24,8 +27,12 @@ namespace Google.Api.Generator.RoslynUtils
     /// </summary>
     internal static class RoslynBuilder
     {
+        private static readonly SyntaxToken s_semicolonToken = Token(SyntaxKind.SemicolonToken);
+
         public delegate T ParametersFunc<T>(params ParameterSyntax[] parameters);
         public delegate T ArgumentsFunc<T>(params object[] args);
+
+        public static ExpressionSyntax This { get; } = ThisExpression();
 
         public static NamespaceDeclarationSyntax Namespace(string ns) => NamespaceDeclaration(IdentifierName(ns));
 
@@ -56,6 +63,35 @@ namespace Google.Api.Generator.RoslynUtils
             }
             return method;
         };
+
+        public static ParameterSyntax Parameter(TypeSyntax type, string name, ExpressionSyntax @default = null)
+        {
+            var param = SyntaxFactory.Parameter(Identifier(name)).WithType(type);
+            if (@default != null)
+            {
+                param = param.WithDefault(EqualsValueClause(@default));
+            }
+            return param;
+        }
+
+        public static PropertyDeclarationSyntax AutoProperty(Modifier modifiers, TypeSyntax type, string name, bool hasSetter = false)
+        {
+            var accessors = new List<AccessorDeclarationSyntax>
+            {
+                AccessorDeclaration(SyntaxKind.GetAccessorDeclaration).WithSemicolonToken(s_semicolonToken)
+            };
+            if (hasSetter)
+            {
+                accessors.Add(AccessorDeclaration(SyntaxKind.SetAccessorDeclaration).WithSemicolonToken(s_semicolonToken));
+            }
+            return PropertyDeclaration(type, name)
+                .AddModifiers(modifiers.ToSyntaxTokens())
+                .AddAccessorListAccessors(accessors.ToArray());
+        }
+
+        public static ExpressionSyntax Nameof(ParameterSyntax nameof) =>
+            InvocationExpression(IdentifierName("nameof"))
+                .WithArgumentList(ArgumentList(SingletonSeparatedList(Argument(IdentifierName(nameof.Identifier)))));
 
         public static ArgumentsFunc<ObjectCreationExpressionSyntax> New(TypeSyntax type) => args =>
             ObjectCreationExpression(type).WithArgumentList(RoslynConverters.CreateArgList(args));

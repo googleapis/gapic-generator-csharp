@@ -12,9 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Google.Api.Gax;
 using Google.Api.Gax.Grpc;
 using Google.Api.Generator.RoslynUtils;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using static Google.Api.Generator.RoslynUtils.Modifier;
 using static Google.Api.Generator.RoslynUtils.RoslynBuilder;
 
@@ -43,6 +47,7 @@ namespace Google.Api.Generator.Generation
             {
                 cls = cls.AddMembers(GetDefault());
                 cls = cls.AddMembers(ParameterlessCtor());
+                cls = cls.AddMembers(CopyCtor());
             }
             return cls;
         }
@@ -60,5 +65,32 @@ namespace Google.Api.Generator.Generation
             Ctor(Public, _ctx.CurrentTyp)()
                 .WithBody()
                 .WithXmlDoc(XmlDoc.Summary("Constructs a new ", _ctx.CurrentType, " object with default settings."));
+
+        // Generates the copy ctor in the Settings class.
+        private MemberDeclarationSyntax CopyCtor()
+        {
+            var existing = Parameter(_ctx.CurrentType, "existing");
+            return Ctor(Private, _ctx.CurrentTyp)(existing)
+                .WithBody(
+                    // Check `existing` parameter value is not null.
+                    _ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(existing, Nameof(existing)),
+                    // Copy all the per-method settings.
+                    _svc.Methods.SelectMany(PerMethod).Select(p => p.Assign(existing.Access(p))),
+                    // Call the OnCopy() partial method.
+                    This.Call("OnCopy")(existing)
+                );
+            IEnumerable<PropertyDeclarationSyntax> PerMethod(MethodDetails method)
+            {
+                yield return SettingsProperty(method);
+                // TODO: Extra properties required for LRO and streaming methods.
+            }
+        }
+
+        private PropertyDeclarationSyntax SettingsProperty(MethodDetails method)
+        {
+            var prop = AutoProperty(Public, _ctx.Type<CallSettings>(), method.SettingsName, hasSetter: true);
+            // TODO: Add retry initialization.
+            return prop;
+        }
     }
 }
