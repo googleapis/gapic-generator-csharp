@@ -39,6 +39,11 @@ namespace Google.Api.Generator.RoslynUtils
             return cls;
         }
 
+        public static ParametersFunc<ConstructorDeclarationSyntax> Ctor(Modifier modifiers, Typ type) => parameters =>
+            ConstructorDeclaration(Identifier(type.Name))
+                .AddModifiers(modifiers.ToSyntaxTokens())
+                .WithParameterList(ParameterList(SeparatedList(parameters)));
+
         public static ParametersFunc<MethodDeclarationSyntax> Method(
             Modifier modifiers, TypeSyntax returnType, string name, params Typ.GenericParameter[] genericParams) => parameters =>
         {
