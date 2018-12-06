@@ -86,6 +86,7 @@ namespace Google.Api.Generator.Utils
         public static Typ Generic(System.Type genericDef, params Typ[] typeArgs) => new FromGeneric(Of(genericDef), typeArgs);
 
 
+
         /// <summary> the namespace of this typ. </summary>
         public abstract string Namespace { get; }
 
