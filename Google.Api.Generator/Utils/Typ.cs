@@ -60,6 +60,11 @@ namespace Google.Api.Generator.Utils
 
         private sealed class FromGeneric : Typ
         {
+            /// <summary>
+            /// Construct a closed generic typ, from an open typ def and the generic args.
+            /// </summary>
+            /// <param name="def">Open generic typ definition.</param>
+            /// <param name="typeArgs">The typ arguments; must be the same quantity as in the typ definition.</param>
             public FromGeneric(Typ def, IEnumerable<Typ> typeArgs) => (_def, GenericArgTyps) = (def, typeArgs);
             private Typ _def;
             public override string Namespace => _def.Namespace;
