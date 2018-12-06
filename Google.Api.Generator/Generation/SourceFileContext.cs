@@ -75,6 +75,13 @@ namespace Google.Api.Generator.Generation
             return new Disposable(() => Namespace = restoreNamespace);
         }
 
+        public IDisposable InClass(ClassDeclarationSyntax cls)
+        {
+            var restoreTypes = Typs;
+            Typs = Typs.Append(Typ.Manual(Namespace, cls)).ToList();
+            return new Disposable(() => Typs = restoreTypes);
+        }
+
         public TypeSyntax Type<T>() => Type(Typ.Of<T>());
 
         public TypeSyntax Type(Typ typ)

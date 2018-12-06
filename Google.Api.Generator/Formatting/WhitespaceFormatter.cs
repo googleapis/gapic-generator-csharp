@@ -269,5 +269,12 @@ namespace Google.Api.Generator.Formatting
             }
             return node;
         }
+
+        public override SyntaxNode VisitObjectCreationExpression(ObjectCreationExpressionSyntax node)
+        {
+            node = (ObjectCreationExpressionSyntax)base.VisitObjectCreationExpression(node);
+            node = node.WithNewKeyword(node.NewKeyword.WithTrailingSpace());
+            return node;
+        }
     }
 }
