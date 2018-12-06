@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,10 +56,20 @@ namespace Google.Api.Generator.Utils
             public override string FullName => $"{DeclaringTyp.FullName}+{Name}";
         }
 
+        public sealed class GenericParameter : Typ
+        {
+            public GenericParameter(string name) => Name = name;
+            public override string Namespace => throw new InvalidOperationException();
+            public override string Name { get; }
+            public override string FullName => $"<{Name}>";
+        }
+
         public static Typ Of<T>() => Of(typeof(T));
         public static Typ Of(System.Type type) => new FromType(type);
         public static Typ Manual(string ns, string name) => new FromManual(ns, name);
+        public static Typ Manual(string ns, ClassDeclarationSyntax cls) => new FromManual(ns, cls.Identifier.Text);
         public static Typ Nested(Typ declaringTyp, string name) => new FromNested(declaringTyp, name);
+
 
         /// <summary> the namespace of this typ. </summary>
         public abstract string Namespace { get; }

@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Google.Api.Gax.Grpc;
+using Google.Api.Generator.RoslynUtils;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Google.Api.Generator.RoslynUtils.Modifier;
 using static Google.Api.Generator.RoslynUtils.RoslynBuilder;
@@ -35,9 +36,22 @@ namespace Google.Api.Generator.Generation
 
         private ClassDeclarationSyntax Generate()
         {
-            var cls = Class(Public | Sealed | Partial, _svc.SettingsTyp, baseType: _ctx.Type<ServiceSettingsBase>());
-            // TODO: Fill the settings class.
+            // TODO: Re-word the xmldoc summary, or handle the "a"/"an" case properly.
+            var cls = Class(Public | Sealed | Partial, _svc.SettingsTyp, baseType: _ctx.Type<ServiceSettingsBase>())
+                .WithXmlDoc(XmlDoc.Summary("Settings for a ", _ctx.Type(_svc.ClientAbstractTyp), "."));
+            using (_ctx.InClass(cls))
+            {
+                cls = cls.AddMembers(GetDefault());
+            }
             return cls;
         }
+
+        // Generates the GetDefault() static method in the Settings class.
+        private MemberDeclarationSyntax GetDefault() =>
+            Method(Public | Static, _ctx.CurrentType, "GetDefault")()
+                .WithBody(New(_ctx.CurrentType)())
+                .WithXmlDoc(
+                    XmlDoc.Summary("Get a new instance of the default ", _ctx.CurrentType, "."),
+                    XmlDoc.Returns("A new instance of the default ", _ctx.CurrentType, "."));
     }
 }

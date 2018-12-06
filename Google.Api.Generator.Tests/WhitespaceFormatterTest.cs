@@ -92,6 +92,10 @@ namespace Google.Api.Generator.Tests
                 get => _p4 + _p4;
                 set => _p4 = value;
             }
+
+            // Test expression-bodied method
+            // Test `new` keyword
+            public object GetObject() => new object();
         }
 
         // Test base-list with one item.

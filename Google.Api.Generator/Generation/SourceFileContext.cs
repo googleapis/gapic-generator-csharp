@@ -21,6 +21,9 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace Google.Api.Generator.Generation
 {
+    /// <summary>
+    /// The context tracking the state for a single C# source file.
+    /// </summary>
     internal class SourceFileContext
     {
         public enum ImportStyle
@@ -68,11 +71,32 @@ namespace Google.Api.Generator.Generation
         /// </summary>
         public TypeSyntax CurrentType => Type(CurrentTyp);
 
+        /// <summary>
+        /// Move the current context into a namespace.
+        /// This is relevant for namespacing of type references.
+        /// Disposing of the return value moves the context back out of the namespace.
+        /// </summary>
+        /// <param name="ns">The namespace into which to move.</param>
+        /// <returns>An <c>IDisposable</c> value that must be disposed of to move out of this namespace.</returns>
         public IDisposable InNamespace(NamespaceDeclarationSyntax ns)
         {
             var restoreNamespace = Namespace;
             Namespace = $"{Namespace}.{ns.Name}".Trim('.');
             return new Disposable(() => Namespace = restoreNamespace);
+        }
+
+        /// <summary>
+        /// Move the current context into a class.
+        /// This is relevant for type references to nested classes.
+        /// Disposing of the return value moves the context back out of the class.
+        /// </summary>
+        /// <param name="cls">The class into which to move.</param>
+        /// <returns>An <c>IDisposable</c> value that must be disposed of to move out of this class.</returns>
+        public IDisposable InClass(ClassDeclarationSyntax cls)
+        {
+            var restoreTypes = Typs;
+            Typs = Typs.Append(Typ.Manual(Namespace, cls)).ToList();
+            return new Disposable(() => Typs = restoreTypes);
         }
 
         public TypeSyntax Type<T>() => Type(Typ.Of<T>());
