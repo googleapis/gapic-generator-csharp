@@ -12,6 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Google.Api.Generator.ProtoUtils;
+using Google.Protobuf.Reflection;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,10 +58,33 @@ namespace Google.Api.Generator.Utils
             public override string FullName => $"{DeclaringTyp.FullName}+{Name}";
         }
 
+        private sealed class FromGeneric : Typ
+        {
+            public FromGeneric(Typ def, IEnumerable<Typ> typeArgs) => (_def, GenericArgTyps) = (def, typeArgs);
+            private Typ _def;
+            public override string Namespace => _def.Namespace;
+            public override string Name => _def.Name;
+            public override Typ DeclaringTyp => _def.DeclaringTyp;
+            public override IEnumerable<Typ> GenericArgTyps { get; }
+            public override string FullName => $"{base.FullName}<{string.Join(", ", GenericArgTyps.Select(x => x.FullName))}>";
+        }
+
+        public sealed class GenericParameter : Typ
+        {
+            public GenericParameter(string name) => Name = name;
+            public override string Namespace => throw new InvalidOperationException();
+            public override string Name { get; }
+            public override string FullName => $"<{Name}>";
+        }
+
         public static Typ Of<T>() => Of(typeof(T));
         public static Typ Of(System.Type type) => new FromType(type);
+        public static Typ Of(MessageDescriptor desc) => Manual(desc.File.CSharpNamespace(), desc.Name);
         public static Typ Manual(string ns, string name) => new FromManual(ns, name);
+        public static Typ Manual(string ns, ClassDeclarationSyntax cls) => new FromManual(ns, cls.Identifier.Text);
         public static Typ Nested(Typ declaringTyp, string name) => new FromNested(declaringTyp, name);
+        public static Typ Generic(System.Type genericDef, params Typ[] typeArgs) => new FromGeneric(Of(genericDef), typeArgs);
+
 
         /// <summary> the namespace of this typ. </summary>
         public abstract string Namespace { get; }

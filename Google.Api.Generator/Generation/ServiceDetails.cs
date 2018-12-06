@@ -15,9 +15,14 @@
 using Google.Api.Generator.ProtoUtils;
 using Google.Api.Generator.Utils;
 using Google.Protobuf.Reflection;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Google.Api.Generator.Generation
 {
+    /// <summary>
+    /// Details of a proto-defined service.
+    /// </summary>
     internal class ServiceDetails
     {
         public ServiceDetails(ProtoCatalog catalog, string ns, ServiceDescriptor desc)
@@ -32,6 +37,7 @@ namespace Google.Api.Generator.Generation
             desc.CustomOptions.TryGetString(ProtoConsts.ServiceOption.DefaultHost, out var defaultHost);
             DefaultHost = defaultHost;
             DefaultPort = 443; // Hardcoded; this is not specifiable by proto annotation.
+            Methods = desc.Methods.Select(x => MethodDetails.Create(this, x)).ToList();
         }
 
         public ProtoCatalog Catalog { get; }
@@ -71,5 +77,10 @@ namespace Google.Api.Generator.Generation
         /// The default port for this service.
         /// </summary>
         public int DefaultPort { get; }
+
+        /// <summary>
+        /// All RPC methods within this service.
+        /// </summary>
+        public IEnumerable<MethodDetails> Methods { get; }
     }
 }
