@@ -113,8 +113,11 @@ namespace Google.Api.Generator.Tests
                 .Where(x => x.Identifier.Text == "GetDefault" && !x.ParameterList.Parameters.Any()).ToList();
             Assert.Single(getDefaultMethods);
             var getDefaultMethod = getDefaultMethods[0];
-            // Check that the method body is as expected.
+            // Check that the GetDefault() method body is as expected.
             Assert.Equal("=> new TestSettings()", getDefaultMethod.ExpressionBody.ToFullString());
+            // Check that the parameterless ctor has an empty body.
+            var defaultCtor = settingsClass.Members.OfType<ConstructorDeclarationSyntax>().Single(x => !x.ParameterList.Parameters.Any());
+            Assert.Empty(defaultCtor.Body.Statements);
         }
     }
 }

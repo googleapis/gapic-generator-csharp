@@ -38,6 +38,9 @@ namespace Google.Api.Generator.RoslynUtils
         public static ClassDeclarationSyntax WithXmlDoc(this ClassDeclarationSyntax cls, params SyntaxTrivia[] xmlDoc) =>
             cls.WithLeadingTrivia(xmlDoc);
 
+        public static ConstructorDeclarationSyntax WithXmlDoc(this ConstructorDeclarationSyntax ctor, params SyntaxTrivia[] xmlDoc) =>
+            ctor.WithLeadingTrivia(xmlDoc);
+
         public static MethodDeclarationSyntax WithXmlDoc(this MethodDeclarationSyntax method, params SyntaxTrivia[] xmlDoc) =>
             method.WithLeadingTrivia(xmlDoc);
 
@@ -50,6 +53,9 @@ namespace Google.Api.Generator.RoslynUtils
             return fnExpr != null && statements.Count == 1 && statements[0] is ExpressionStatementSyntax expr ?
                 fnExpr(ArrowExpressionClause(expr.Expression)) : fnBlock(Block(statements));
         }
+
+        public static ConstructorDeclarationSyntax WithBody(this ConstructorDeclarationSyntax ctor, params object[] code) =>
+            WithBody(code, x => ctor.WithExpressionBody(x).WithSemicolonToken(s_semicolonToken), ctor.WithBody);
 
         public static MethodDeclarationSyntax WithBody(this MethodDeclarationSyntax method, params object[] code) =>
             WithBody(code, x => method.WithExpressionBody(x).WithSemicolonToken(s_semicolonToken), method.WithBody);

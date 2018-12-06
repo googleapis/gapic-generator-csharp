@@ -42,6 +42,7 @@ namespace Google.Api.Generator.Generation
             using (_ctx.InClass(cls))
             {
                 cls = cls.AddMembers(GetDefault());
+                cls = cls.AddMembers(ParameterlessCtor());
             }
             return cls;
         }
@@ -53,5 +54,11 @@ namespace Google.Api.Generator.Generation
                 .WithXmlDoc(
                     XmlDoc.Summary("Get a new instance of the default ", _ctx.CurrentType, "."),
                     XmlDoc.Returns("A new instance of the default ", _ctx.CurrentType, "."));
+
+        // Generates the parameterless constructor in the Settings class.
+        private MemberDeclarationSyntax ParameterlessCtor() =>
+            Ctor(Public, _ctx.CurrentTyp)()
+                .WithBody()
+                .WithXmlDoc(XmlDoc.Summary("Constructs a new ", _ctx.CurrentType, " object with default settings."));
     }
 }
