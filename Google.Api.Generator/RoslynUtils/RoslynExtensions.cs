@@ -18,6 +18,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static Google.Api.Generator.RoslynUtils.RoslynConverters;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace Google.Api.Generator.RoslynUtils
@@ -59,5 +60,25 @@ namespace Google.Api.Generator.RoslynUtils
 
         public static MethodDeclarationSyntax WithBody(this MethodDeclarationSyntax method, params object[] code) =>
             WithBody(code, x => method.WithExpressionBody(x).WithSemicolonToken(s_semicolonToken), method.WithBody);
+
+        public static RoslynBuilder.ArgumentsFunc<InvocationExpressionSyntax> Call(
+            this TypeSyntax type, object method, params TypeSyntax[] genericArgs) => args =>
+                InvocationExpression(MemberAccessExpression(
+                    SyntaxKind.SimpleMemberAccessExpression, type, ToSimpleName(method, genericArgs)), CreateArgList(args));
+
+        public static RoslynBuilder.ArgumentsFunc<InvocationExpressionSyntax> Call(
+            this ExpressionSyntax expr, object method, params TypeSyntax[] genericArgs) => args =>
+                expr is ThisExpressionSyntax ?
+                    InvocationExpression(ToSimpleName(method, genericArgs), CreateArgList(args)) :
+                    InvocationExpression(MemberAccessExpression(
+                        SyntaxKind.SimpleMemberAccessExpression, expr, ToSimpleName(method, genericArgs)), CreateArgList(args));
+
+        public static AssignmentExpressionSyntax Assign(this PropertyDeclarationSyntax assignTo, object assignFrom) =>
+            AssignmentExpression(
+                SyntaxKind.SimpleAssignmentExpression, IdentifierName(assignTo.Identifier), ToExpressions(assignFrom).Single());
+
+        public static ExpressionSyntax Access(this ParameterSyntax obj, object member, bool conditional = false) => conditional ?
+            (ExpressionSyntax)ConditionalAccessExpression(IdentifierName(obj.Identifier), MemberBindingExpression(ToSimpleName(member))) :
+            MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, IdentifierName(obj.Identifier), ToSimpleName(member));
     }
 }
