@@ -75,7 +75,7 @@ namespace Google.Api.Generator.Tests
         }
 
         [Fact]
-        public void TestProtocExecution()
+        public void ProtocExecution()
         {
             // Test that protoc executes successfully,
             // and the generator processes the descriptors without crashing!
@@ -84,48 +84,28 @@ namespace Google.Api.Generator.Tests
         }
 
         [Fact]
-        public void TestThatSomeCodeIsGenerated()
+        public void ProtoTests()
         {
-            // Test that the code generator executes, and produces the expected code.
-            // TODO: Improve this testing infrastructure.
-            var files = Run("ProtoTest.proto", "testing");
-            var clientCs = files.FirstOrDefault(x => x.RelativePath == "TestClient.cs");
-            Assert.NotNull(clientCs);
-            var clientCsContent = Encoding.UTF8.GetString(clientCs.Content);
-            // TODO: Create helper methods for much of this Roslyn testing.
-            // Parse the C# source.
-            var root = CSharpSyntaxTree.ParseText(clientCsContent).GetCompilationUnitRoot();
-            Assert.NotNull(root);
-            // Check there is at least one `using` directive.
-            Assert.NotEmpty(root.Usings);
-            // Check there is only one `namespace` statement.
-            Assert.Single(root.Members);
-            var ns = root.Members[0] as NamespaceDeclarationSyntax;
-            Assert.NotNull(ns);
-            // Check there is one settings class.
-            Assert.NotEmpty(ns.Members);
-            var settingsClasses = ns.Members.OfType<ClassDeclarationSyntax>().Where(x => x.Identifier.Text == "TestSettings").ToList();
-            Assert.Single(settingsClasses);
-            var settingsClass = settingsClasses[0];
-            // Check the static method `GetDefault()` exists.
-            var getDefaultMethods = settingsClass.Members.OfType<MethodDeclarationSyntax>()
-                .Where(x => x.Identifier.Text == "GetDefault" && !x.ParameterList.Parameters.Any()).ToList();
-            Assert.Single(getDefaultMethods);
-            var getDefaultMethod = getDefaultMethods[0];
-            // Check that the GetDefault() method body is as expected.
-            Assert.Equal("=> new TestSettings()", getDefaultMethod.ExpressionBody.ToFullString());
-            // Check that the parameterless ctor has an empty body.
-            var defaultCtor = settingsClass.Members.OfType<ConstructorDeclarationSyntax>().Single(x => !x.ParameterList.Parameters.Any());
-            Assert.Empty(defaultCtor.Body.Statements);
-            // check that the copy ctor is as it should be.
-            var copyCtor = settingsClass.Members.OfType<ConstructorDeclarationSyntax>().Single(x => x.ParameterList.Parameters.Count == 1);
-            Assert.Equal(3, copyCtor.Body.Statements.Count);
-            Assert.Equal("gax::GaxPreconditions.CheckNotNull(existing, nameof(existing));",
-                copyCtor.Body.Statements[0].WithoutTrivia().ToFullString());
-            Assert.Equal("Method1Settings = existing.Method1Settings;",
-                copyCtor.Body.Statements[1].WithoutTrivia().ToFullString());
-            Assert.Equal("OnCopy(existing);",
-                copyCtor.Body.Statements[2].WithoutTrivia().ToFullString());
+            // TODO: Auto-detect all test protos in the "ProtoTests" directory.
+            var testProtoNames = new[]
+            {
+                "Basic"
+            };
+
+            foreach (var testProtoName in testProtoNames)
+            {
+                // Confirm each generated file is idential to the expected output.
+                // TODO: Allow subsets of files to be verified, this will allow tests for specific generator features
+                // without requiring a (possibly large) expected output file to be entirely written.
+                var files = Run(Path.Combine("ProtoTests", $"{testProtoName}.proto"), "testing");
+                foreach (var file in files)
+                {
+                    var expectedFilePath = Path.Combine("ProtoTests", file.RelativePath);
+                    Assert.True(File.Exists(expectedFilePath), $"Expected file does not exist: '{expectedFilePath}'");
+                    var expectedContent = File.ReadAllText(expectedFilePath).Replace("\r\n", "\n");
+                    Assert.Equal(expectedContent, Encoding.UTF8.GetString(file.Content).Replace("\r\n", "\n"));
+                }
+            }
         }
     }
 }

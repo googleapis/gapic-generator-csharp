@@ -48,6 +48,9 @@ namespace Google.Api.Generator.Generation
                 cls = cls.AddMembers(GetDefault());
                 cls = cls.AddMembers(ParameterlessCtor());
                 cls = cls.AddMembers(CopyCtor());
+                cls = cls.AddMembers(OnCopyPartial());
+                cls = cls.AddMembers(SettingsProperties().ToArray());
+                cls = cls.AddMembers(Clone());
             }
             return cls;
         }
@@ -75,22 +78,33 @@ namespace Google.Api.Generator.Generation
                     // Check `existing` parameter value is not null.
                     _ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(existing, Nameof(existing)),
                     // Copy all the per-method settings.
-                    _svc.Methods.SelectMany(PerMethod).Select(p => p.Assign(existing.Access(p))),
+                    SettingsProperties().Select(p => p.Assign(existing.Access(p))),
                     // Call the OnCopy() partial method.
                     This.Call("OnCopy")(existing)
                 );
+        }
+
+        private IEnumerable<PropertyDeclarationSyntax> SettingsProperties()
+        {
+            return _svc.Methods.SelectMany(PerMethod);
             IEnumerable<PropertyDeclarationSyntax> PerMethod(MethodDetails method)
             {
-                yield return SettingsProperty(method);
-                // TODO: Extra properties required for LRO and streaming methods.
+                var property = AutoProperty(Public, _ctx.Type<CallSettings>(), method.SettingsName, hasSetter: true);
+                // TODO: XmlDoc.
+                // TODO: Initialization.
+                yield return property;
+                // TODO: Extra properties for LRO and streaming methods.
             }
         }
 
-        private PropertyDeclarationSyntax SettingsProperty(MethodDetails method)
-        {
-            var prop = AutoProperty(Public, _ctx.Type<CallSettings>(), method.SettingsName, hasSetter: true);
-            // TODO: Add retry initialization.
-            return prop;
-        }
+        private MemberDeclarationSyntax OnCopyPartial() => PartialMethod("OnCopy")(Parameter(_ctx.CurrentType, "existing"));
+
+        private MemberDeclarationSyntax Clone() =>
+            Method(Public, _ctx.CurrentType, "Clone")()
+                .WithBody(New(_ctx.CurrentType)(This))
+                .WithXmlDoc(
+                    XmlDoc.Summary("Creates a deep clone of this object, with all the same property values."),
+                    XmlDoc.Returns("A deep clone of this ", _ctx.CurrentType, " object.")
+                );
     }
 }

@@ -32,6 +32,8 @@ namespace Google.Api.Generator.RoslynUtils
         public delegate T ParametersFunc<T>(params ParameterSyntax[] parameters);
         public delegate T ArgumentsFunc<T>(params object[] args);
 
+        public static TypeSyntax VoidType { get; } = PredefinedType(Token(SyntaxKind.VoidKeyword));
+
         public static ExpressionSyntax This { get; } = ThisExpression();
 
         public static NamespaceDeclarationSyntax Namespace(string ns) => NamespaceDeclaration(IdentifierName(ns));
@@ -63,6 +65,10 @@ namespace Google.Api.Generator.RoslynUtils
             }
             return method;
         };
+
+        public static ParametersFunc<MethodDeclarationSyntax> PartialMethod(
+            string name, params Typ.GenericParameter[] genericParams) => parameters =>
+                Method(Modifier.Partial, VoidType, name, genericParams)(parameters).WithSemicolonToken(s_semicolonToken);
 
         public static ParameterSyntax Parameter(TypeSyntax type, string name, ExpressionSyntax @default = null)
         {
