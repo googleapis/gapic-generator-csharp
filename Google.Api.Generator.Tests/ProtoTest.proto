@@ -1,13 +1,3 @@
 ﻿syntax = "proto3";
 
 package testing;
-
-service Test {
-  rpc Method1(Request) returns(Response);
-}
-
-message Request {
-}
-
-message Response {
-}

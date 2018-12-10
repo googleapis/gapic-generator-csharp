@@ -1,0 +1,13 @@
+﻿syntax = "proto3";
+
+package testing;
+
+service Basic {
+  rpc Method1(Request) returns(Response);
+}
+
+message Request {
+}
+
+message Response {
+}
