@@ -42,10 +42,11 @@ namespace Google.Api.Generator.Tests
             var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
             var protocPath = Path.GetFullPath(Path.Combine(rootPath, "tools", isWindows ? "protoc.exe" : "protoc"));
             var commonProtosPath = Path.GetFullPath(Path.Combine(rootPath, "api-common-protos"));
+            var protobufPath = Path.GetFullPath(Path.Combine(rootPath, "protobuf", "src"));
             var descOutputPath = Path.GetTempFileName();
             try
             {
-                var protocArgs = $"-o {descOutputPath} --include_imports --include_source_info -I. -I{commonProtosPath} {protoFilename}";
+                var protocArgs = $"-o {descOutputPath} --include_imports --include_source_info -I. -I{commonProtosPath} -I{protobufPath} {protoFilename}";
                 var processStart = new ProcessStartInfo(protocPath, protocArgs)
                 {
                     RedirectStandardError = true
@@ -83,29 +84,25 @@ namespace Google.Api.Generator.Tests
             Run("ProtoTest.proto", "testing");
         }
 
-        [Fact]
-        public void ProtoTests()
+        private void ProtoTestSingle(string testProtoName)
         {
-            // TODO: Auto-detect all test protos in the "ProtoTests" directory.
-            var testProtoNames = new[]
+            // Confirm each generated file is idential to the expected output.
+            // TODO: Allow subsets of files to be verified, this will allow tests for specific generator features
+            // without requiring a (possibly large) expected output file to be entirely written.
+            var files = Run(Path.Combine("ProtoTests", $"{testProtoName}.proto"), "testing");
+            foreach (var file in files)
             {
-                "Basic"
-            };
-
-            foreach (var testProtoName in testProtoNames)
-            {
-                // Confirm each generated file is idential to the expected output.
-                // TODO: Allow subsets of files to be verified, this will allow tests for specific generator features
-                // without requiring a (possibly large) expected output file to be entirely written.
-                var files = Run(Path.Combine("ProtoTests", $"{testProtoName}.proto"), "testing");
-                foreach (var file in files)
-                {
-                    var expectedFilePath = Path.Combine("ProtoTests", file.RelativePath);
-                    Assert.True(File.Exists(expectedFilePath), $"Expected file does not exist: '{expectedFilePath}'");
-                    var expectedContent = File.ReadAllText(expectedFilePath).Replace("\r\n", "\n");
-                    Assert.Equal(expectedContent, Encoding.UTF8.GetString(file.Content).Replace("\r\n", "\n"));
-                }
+                var expectedFilePath = Path.Combine("ProtoTests", file.RelativePath);
+                Assert.True(File.Exists(expectedFilePath), $"Expected file does not exist: '{expectedFilePath}'");
+                var expectedContent = File.ReadAllText(expectedFilePath).Replace("\r\n", "\n");
+                Assert.Equal(expectedContent, Encoding.UTF8.GetString(file.Content).Replace("\r\n", "\n"));
             }
         }
+
+        [Fact]
+        public void Basic() => ProtoTestSingle("Basic");
+
+        [Fact]
+        public void BasicLro() => ProtoTestSingle("BasicLro");
     }
 }

@@ -41,6 +41,7 @@ namespace Google.Api.Generator.Generation
             { typeof(Grpc.Core.CallCredentials).Namespace, "grpccore" },
             { typeof(Grpc.Core.Interceptors.Interceptor).Namespace, "grpcinter" },
             { typeof(Google.Protobuf.WellKnownTypes.Any).Namespace, "wkt" },
+            { typeof(Google.LongRunning.Operation).Namespace, "lro" },
         };
 
         public SourceFileContext(ImportStyle importStyle) => _importStyle = importStyle;

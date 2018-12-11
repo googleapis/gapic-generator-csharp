@@ -27,6 +27,12 @@ These annotations are required for the test protos.
 Once these annotations have been merged into `master`, the submodule
 will be updated to refer to the `master` branch.
 
+## Google.Api.CommonProtosExtra project
+
+This is required to add the new input-contract common protos.
+Once GAX has been updated to include these, this project can be deleted,
+and references to it removed.
+
 ## protoc executable
 
 Consider installing the `Google.Protobuf.Tools` package, rather than having
