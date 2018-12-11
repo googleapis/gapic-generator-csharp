@@ -15,6 +15,7 @@
 using Google.Api.Gax;
 using Google.Api.Gax.Grpc;
 using Google.Api.Generator.RoslynUtils;
+using Google.LongRunning;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,12 @@ namespace Google.Api.Generator.Generation
     /// </summary>
     internal class ServiceSettingsCodeGenerator
     {
+        private readonly static PollSettings s_lroDefaultPollSettings = new PollSettings(
+            expiration: Expiration.FromTimeout(TimeSpan.FromHours(24)),
+            delay: TimeSpan.FromSeconds(20),
+            delayMultiplier: 1.5,
+            maxDelay: TimeSpan.FromSeconds(45));
+
         public static ClassDeclarationSyntax Generate(SourceFileContext ctx, ServiceDetails svc) =>
             new ServiceSettingsCodeGenerator(ctx, svc).Generate();
 
@@ -89,13 +96,39 @@ namespace Google.Api.Generator.Generation
             return _svc.Methods.SelectMany(PerMethod);
             IEnumerable<PropertyDeclarationSyntax> PerMethod(MethodDetails method)
             {
+                // Add the general per-method settings property.
                 var property = AutoProperty(Public, _ctx.Type<CallSettings>(), method.SettingsName, hasSetter: true);
                 // TODO: XmlDoc.
                 // TODO: Initialization.
                 yield return property;
-                // TODO: Extra properties for LRO and streaming methods.
+                // Add extra properties as required for special call types.
+                switch (method)
+                {
+                    // TODO: Extra properties for streaming methods.
+                    case MethodDetails.Lro lro:
+                        yield return LroSettingsProperty(lro);
+                        break;
+                }
             }
         }
+
+        private PropertyDeclarationSyntax LroSettingsProperty(MethodDetails.Lro method) =>
+            AutoProperty(Public, _ctx.Type<OperationsSettings>(), method.LroSettingsName, hasSetter: true)
+                .WithInitializer(New(_ctx.Type<OperationsSettings>())().WithInitializer(
+                    (nameof(OperationsSettings.DefaultPollSettings), New(_ctx.Type<PollSettings>())(
+                        _ctx.Type<Expiration>().Call(nameof(Expiration.FromTimeout))(_ctx.Type<TimeSpan>().Call(nameof(TimeSpan.FromHours))((int)s_lroDefaultPollSettings.Expiration.Timeout.Value.TotalHours)),
+                        _ctx.Type<TimeSpan>().Call(nameof(TimeSpan.FromSeconds))((int)s_lroDefaultPollSettings.Delay.TotalSeconds),
+                        s_lroDefaultPollSettings.DelayMultiplier,
+                        _ctx.Type<TimeSpan>().Call(nameof(TimeSpan.FromSeconds))((int)s_lroDefaultPollSettings.MaxDelay.TotalSeconds)))))
+                .WithXmlDoc(
+                    XmlDoc.Summary("Long Running Operation settings for calls to ",
+                        XmlDoc.C($"{_svc.ClientAbstractTyp.Name}.{method.SyncMethodName}"), " and ",
+                        XmlDoc.C($"{_svc.ClientAbstractTyp.Name}.{method.AsyncMethodName}"), "."),
+                    XmlDoc.Remarks("Uses default ", _ctx.Type<PollSettings>(), " of:", XmlDoc.UL(
+                        $"Initial delay: {(int)s_lroDefaultPollSettings.Delay.TotalSeconds} seconds.",
+                        $"Delay multiplier: {s_lroDefaultPollSettings.DelayMultiplier}",
+                        $"Maximum delay: {(int)s_lroDefaultPollSettings.MaxDelay.TotalSeconds} seconds.",
+                        $"Total timeout: {(int)s_lroDefaultPollSettings.Expiration.Timeout.Value.TotalHours} hours.")));
 
         private MemberDeclarationSyntax OnCopyPartial() => PartialMethod("OnCopy")(Parameter(_ctx.CurrentType, "existing"));
 

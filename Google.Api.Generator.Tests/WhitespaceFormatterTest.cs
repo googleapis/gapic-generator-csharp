@@ -93,6 +93,23 @@ namespace Google.Api.Generator.Tests
                 set => _p4 = value;
             }
 
+            public class ObjectWithProperties
+            {
+                public string S { get; set; }
+
+                public ObjectWithProperties O { get; set; }
+            }
+
+            // Test property with initializer using nested object initialization.
+            public ObjectWithProperties P5 { get; set; } = new ObjectWithProperties
+            {
+                S = "A_string",
+                O = new ObjectWithProperties
+                {
+                    S = "Another_string",
+                },
+            };
+
             // Test expression-bodied method
             // Test `new` keyword
             public object GetObject() => new object();

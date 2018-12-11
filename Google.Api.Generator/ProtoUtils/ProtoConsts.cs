@@ -20,5 +20,10 @@ namespace Google.Api.Generator.ProtoUtils
         {
             public const int DefaultHost = 1049;
         }
+
+        public static class MethodOption
+        {
+            public const int OperationTypes = 1049;
+        }
     }
 }

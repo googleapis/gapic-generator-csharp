@@ -1,0 +1,24 @@
+﻿syntax = "proto3";
+
+import "google/api/annotations.proto";
+import "google/longrunning/operations.proto";
+
+package testing;
+
+service BasicLro {
+  rpc Method1(Request) returns(google.longrunning.Operation) {
+    option (google.api.operation) = {
+      response_type: "LroResponse"
+      metadata_type: "LroMetadata"
+    };
+  }
+}
+
+message Request {
+}
+
+message LroResponse {
+}
+
+message LroMetadata {
+}

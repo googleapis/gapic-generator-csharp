@@ -13,8 +13,11 @@
 // limitations under the License.
 
 using Google.Api.Gax.Grpc;
+using Google.Api.Generator.ProtoUtils;
 using Google.Api.Generator.Utils;
+using Google.LongRunning;
 using Google.Protobuf.Reflection;
+using System;
 using System.Threading.Tasks;
 
 namespace Google.Api.Generator.Generation
@@ -31,15 +34,37 @@ namespace Google.Api.Generator.Generation
         {
             public Normal(ServiceDetails svc, MethodDescriptor desc) : base(svc, desc) { }
             public override Typ SyncReturnTyp => ResponseType;
-            public override Typ AsyncReturnTyp => Typ.Generic(typeof(Task<>), ResponseType);
             public override Typ ApiCallTyp => Typ.Generic(typeof(ApiCall<,>), RequestType, ResponseType);
+        }
+
+        /// <summary>
+        /// Details about an LRO method.
+        /// </summary>
+        public sealed class Lro : MethodDetails
+        {
+            public Lro(ServiceDetails svc, MethodDescriptor desc) : base(svc, desc)
+            {
+                if (!desc.CustomOptions.TryGetMessage<OperationData>(ProtoConsts.MethodOption.OperationTypes, out var lroData))
+                {
+                    throw new InvalidOperationException("LRO method must contain a `google.api.operation` option.");
+                }
+                _lroResponseTyp = Typ.Of(svc.Catalog.GetMessageByName(lroData.ResponseType));
+                _lroMetadataTyp = Typ.Of(svc.Catalog.GetMessageByName(lroData.MetadataType));
+                LroSettingsName = $"{desc.Name}OperationsSettings";
+            }
+            private Typ _lroResponseTyp;
+            private Typ _lroMetadataTyp;
+            public override Typ ApiCallTyp => Typ.Generic(typeof(ApiCall<,>), RequestType, Typ.Of<Operation>());
+            public override Typ SyncReturnTyp => Typ.Generic(typeof(Operation<,>), _lroResponseTyp, _lroMetadataTyp);
+            public string LroSettingsName { get; }
         }
 
         // TODO: Nested classes for other method types: paged, streaming, LRO, ...
 
         public static MethodDetails Create(ServiceDetails svc, MethodDescriptor desc) =>
-            // TODO: Create correct class for the method type (paged, streaming, LRO, ...)
-            new Normal(svc, desc);
+            // TODO: Create correct class for the method type (paged, streaming, ...)
+            desc.OutputType.FullName == "google.longrunning.Operation" ? new Lro(svc, desc) :
+            (MethodDetails)new Normal(svc, desc);
 
         private MethodDetails(ServiceDetails svc, MethodDescriptor desc)
         {
@@ -90,7 +115,7 @@ namespace Google.Api.Generator.Generation
         /// <summary>
         /// The async return typ for this method.
         /// </summary>
-        public abstract Typ AsyncReturnTyp { get; }
+        public virtual Typ AsyncReturnTyp => Typ.Generic(typeof(Task<>), SyncReturnTyp);
 
         /// <summary>
         /// The Gax ApiCall<> typ for this method.

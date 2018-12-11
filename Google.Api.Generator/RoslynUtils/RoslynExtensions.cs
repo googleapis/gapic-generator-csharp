@@ -45,6 +45,9 @@ namespace Google.Api.Generator.RoslynUtils
         public static MethodDeclarationSyntax WithXmlDoc(this MethodDeclarationSyntax method, params SyntaxTrivia[] xmlDoc) =>
             method.WithLeadingTrivia(xmlDoc);
 
+        public static PropertyDeclarationSyntax WithXmlDoc(this PropertyDeclarationSyntax property, params SyntaxTrivia[] xmlDoc) =>
+            property.WithLeadingTrivia(xmlDoc);
+
         public static StatementSyntax ToStatement(this ExpressionSyntax expr) => ExpressionStatement(expr);
 
         private static T WithBody<T>(IEnumerable<object> code, Func<ArrowExpressionClauseSyntax, T> fnExpr, Func<BlockSyntax, T> fnBlock)
@@ -60,6 +63,22 @@ namespace Google.Api.Generator.RoslynUtils
 
         public static MethodDeclarationSyntax WithBody(this MethodDeclarationSyntax method, params object[] code) =>
             WithBody(code, x => method.WithExpressionBody(x).WithSemicolonToken(s_semicolonToken), method.WithBody);
+
+        public static ObjectCreationExpressionSyntax WithInitializer(
+            this ObjectCreationExpressionSyntax obj, params (string propertyName, object code)[] inits)
+        {
+            if (!obj.ArgumentList.Arguments.Any())
+            {
+                // If calling the parameterless ctor, recreate the `new` expression without an argument list.
+                obj = ObjectCreationExpression(obj.Type);
+            }
+            return obj.WithInitializer(InitializerExpression(SyntaxKind.ObjectInitializerExpression,
+                SeparatedList<ExpressionSyntax>(inits.Select(init =>
+                    AssignmentExpression(SyntaxKind.SimpleAssignmentExpression, ToSimpleName(init.propertyName), ToExpressions(init.code).Single())))));
+        }
+
+        public static PropertyDeclarationSyntax WithInitializer(this PropertyDeclarationSyntax prop, object code) =>
+            prop.WithInitializer(EqualsValueClause(((ExpressionStatementSyntax)ToStatements(code).Single()).Expression)).WithSemicolonToken(s_semicolonToken);
 
         public static RoslynBuilder.ArgumentsFunc<InvocationExpressionSyntax> Call(
             this TypeSyntax type, object method, params TypeSyntax[] genericArgs) => args =>

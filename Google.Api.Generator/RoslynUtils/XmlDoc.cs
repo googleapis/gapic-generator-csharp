@@ -53,6 +53,19 @@ namespace Google.Api.Generator.RoslynUtils
             Trivia(DocumentationComment(fn(parts.Select(ToNode).ToArray())));
 
         public static SyntaxTrivia Summary(params object[] parts) => XmlDocElement(parts, XmlSummaryElement);
+        public static SyntaxTrivia Remarks(params object[] parts) => XmlDocElement(parts, XmlRemarksElement);
         public static SyntaxTrivia Returns(params object[] parts) => XmlDocElement(parts, XmlReturnsElement);
+
+        public static XmlNodeSyntax C(string c) => XmlElement("c", List(new XmlNodeSyntax[] { XmlText(c) }));
+
+        public static XmlNodeSyntax UL(params object[] items) => XmlElement(
+            XmlElementStartTag(XmlName("list"), List(new XmlAttributeSyntax[] { XmlTextAttribute("type", "bullet") })),
+                List<XmlNodeSyntax>(items.Select(item =>
+                {
+                    var node = ToNode(item);
+                    var desc = XmlElement("description", List(new[] { node }));
+                    return XmlElement("item", List(new XmlNodeSyntax[] { desc }));
+                })),
+                XmlElementEndTag(XmlName("list")));
     }
 }

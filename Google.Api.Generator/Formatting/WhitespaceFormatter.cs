@@ -276,5 +276,18 @@ namespace Google.Api.Generator.Formatting
             node = node.WithNewKeyword(node.NewKeyword.WithTrailingSpace());
             return node;
         }
+
+        public override SyntaxNode VisitInitializerExpression(InitializerExpressionSyntax node)
+        {
+            using (WithIndent())
+            {
+                node = node.WithExpressions(SeparatedList(
+                    node.Expressions.Select(e => Visit(e).WithLeadingTrivia(_indentTrivia)),
+                    node.Expressions.Select(_ => Token(SyntaxKind.CommaToken).WithTrailingCrLf())));
+            }
+            node = node.WithOpenBraceToken(node.OpenBraceToken.WithLeadingTrivia(CarriageReturnLineFeed, _indentTrivia).WithTrailingCrLf());
+            node = node.WithCloseBraceToken(node.CloseBraceToken.WithLeadingTrivia(_indentTrivia));
+            return node;
+        }
     }
 }
