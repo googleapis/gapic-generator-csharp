@@ -94,10 +94,34 @@ namespace Google.Api.Generator.Tests
             {
                 var expectedFilePath = Path.Combine("ProtoTests", file.RelativePath);
                 Assert.True(File.Exists(expectedFilePath), $"Expected file does not exist: '{expectedFilePath}'");
-                var expectedContent = File.ReadAllText(expectedFilePath).Replace("\r\n", "\n");
-                Assert.Equal(expectedContent, Encoding.UTF8.GetString(file.Content).Replace("\r\n", "\n"));
+                var expectedLines = File.ReadAllLines(expectedFilePath).Select(x => x.Trim('\r')).ToList();
+                var actualLines = Encoding.UTF8.GetString(file.Content).Split('\n').Select(x => x.Trim('\r')).ToList();
+                // Check that all the testable lines with in the expected file match.
+                int expectedIndex = 0;
+                int actualIndex = 0;
+                bool active = !expectedLines.Any(x => x.Trim() == "// TEST_START");
+                while (expectedIndex < expectedLines.Count && actualIndex < actualLines.Count)
+                {
+                    active &= expectedLines[expectedIndex].Trim() != "// TEST_END";
+                    if (active)
+                    {
+                        expectedIndex += actualLines[actualIndex] == expectedLines[expectedIndex] ? 1 : 0;
+                        actualIndex += 1;
+                    }
+                    else
+                    {
+                        active |= expectedLines[expectedIndex].Trim() == "// TEST_START";
+                        expectedIndex += 1;
+                    }
+                }
+                if (expectedIndex != expectedLines.Count)
+                {
+                    Assert.True(false, $"Failed to find expected line: '{expectedLines[expectedIndex]}'");
+                }
             }
         }
+
+        // TODO: Consider using a single Theory for these.
 
         [Fact]
         public void Basic() => ProtoTestSingle("Basic");
