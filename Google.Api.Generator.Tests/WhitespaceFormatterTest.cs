@@ -110,6 +110,12 @@ namespace Google.Api.Generator.Tests
                 },
             };
 
+            public void M1()
+            {
+                // Test named argument
+                string.Join(separator: ',', values: "a");
+            }
+
             // Test expression-bodied method
             // Test `new` keyword
             public object GetObject() => new object();

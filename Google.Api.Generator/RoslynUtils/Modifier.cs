@@ -63,8 +63,8 @@ namespace Google.Api.Generator.RoslynUtils
             if ((m & Modifier.Abstract) != 0) result.Add(s_abstractToken);
             if ((m & Modifier.Virtual) != 0) result.Add(s_virtualToken);
             if ((m & Modifier.Override) != 0) result.Add(s_overrideToken);
-            if ((m & Modifier.Readonly) != 0) result.Add(s_readonlyToken);
             if ((m & Modifier.Static) != 0) result.Add(s_staticToken);
+            if ((m & Modifier.Readonly) != 0) result.Add(s_readonlyToken);
             if ((m & Modifier.Sealed) != 0) result.Add(s_sealedToken);
             if ((m & Modifier.Async) != 0) result.Add(s_asyncToken);
             if ((m & Modifier.Partial) != 0) result.Add(s_partialToken);

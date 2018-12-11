@@ -4,6 +4,8 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -35,10 +37,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="ProtoTests\BasicLroClient.cs">
+    <Compile Update="ProtoTests\BasicClient.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="ProtoTests\BasicClient.cs">
+    <Compile Update="ProtoTests\BasicLroClient.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Update="WhitespaceFormatterTest.cs">

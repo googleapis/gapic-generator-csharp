@@ -75,56 +75,43 @@ namespace Google.Api.Generator.Generation
             RequestType = Typ.Of(desc.InputType);
             ResponseType = Typ.Of(desc.OutputType);
             ApiCallFieldName = $"_call{desc.Name}";
+            // Assume HTTP GET methods are idempotent; all others are non-idempotent.
+            IsIdempotent = desc.CustomOptions.TryGetMessage<HttpRule>(
+                ProtoConsts.MethodOption.HttpRule, out var http) ? !string.IsNullOrEmpty(http.Get) : false;
+
         }
 
-        /// <summary>
-        /// The service in which this method is defined.
-        /// </summary>
+        /// <summary>The service in which this method is defined.</summary>
         public ServiceDetails Svc { get; }
 
-        /// <summary>
-        /// The sync name for this method.
-        /// </summary>
+        /// <summary>The sync name for this method.</summary>
         public string SyncMethodName { get; }
 
-        /// <summary>
-        /// The async name for this method.
-        /// </summary>
+        /// <summary>The async name for this method.</summary>
         public string AsyncMethodName { get; }
 
-        /// <summary>
-        /// The per-method settings property name.
-        /// </summary>
+        /// <summary>The per-method settings property name.</summary>
         public string SettingsName { get; }
 
-        /// <summary>
-        /// The typ of the method request.
-        /// </summary>
+        /// <summary>The typ of the method request.</summary>
         public Typ RequestType { get; }
 
-        /// <summary>
-        /// The typ of the method response.
-        /// </summary>
+        /// <summary>The typ of the method response.</summary>
         public Typ ResponseType { get; }
 
-        /// <summary>
-        /// The sync return typ for this method.
-        /// </summary>
+        /// <summary>The sync return typ for this method.</summary>
         public abstract Typ SyncReturnTyp { get; }
 
-        /// <summary>
-        /// The async return typ for this method.
-        /// </summary>
+        /// <summary>The async return typ for this method.</summary>
         public virtual Typ AsyncReturnTyp => Typ.Generic(typeof(Task<>), SyncReturnTyp);
 
-        /// <summary>
-        /// The Gax ApiCall<> typ for this method.
-        /// </summary>
+        /// <summary>The Gax ApiCall<> typ for this method.</summary>
         public abstract Typ ApiCallTyp { get; }
 
-        /// <summary>
-        /// The name of the ApiCall<> field.
-        /// </summary>
+        /// <summary>The name of the ApiCall<> field.</summary>
         public string ApiCallFieldName { get; }
+
+        /// <summary>Is this method idempotent?</summary>
+        public bool IsIdempotent { get; }
     }
 }

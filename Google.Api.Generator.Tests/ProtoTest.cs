@@ -116,7 +116,11 @@ namespace Google.Api.Generator.Tests
                 }
                 if (expectedIndex != expectedLines.Count)
                 {
-                    Assert.True(false, $"Failed to find expected line: '{expectedLines[expectedIndex]}'");
+                    foreach (var actualLine in actualLines)
+                    {
+                        Console.WriteLine(actualLine);
+                    }
+                    Assert.True(false, $"Failed to find expected line {expectedIndex + 1}: '{expectedLines[expectedIndex]}'");
                 }
             }
         }

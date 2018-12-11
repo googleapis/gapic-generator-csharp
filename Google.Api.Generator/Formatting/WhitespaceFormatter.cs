@@ -151,6 +151,13 @@ namespace Google.Api.Generator.Formatting
             return node;
         }
 
+        public override SyntaxNode VisitNameColon(NameColonSyntax node)
+        {
+            node = (NameColonSyntax)base.VisitNameColon(node);
+            node = node.WithColonToken(node.ColonToken.WithTrailingSpace());
+            return node;
+        }
+
         public override SyntaxNode VisitParameter(ParameterSyntax node)
         {
             node = (ParameterSyntax)base.VisitParameter(node);

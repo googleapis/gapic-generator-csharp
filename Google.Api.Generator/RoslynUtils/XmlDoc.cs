@@ -58,7 +58,8 @@ namespace Google.Api.Generator.RoslynUtils
 
         public static XmlNodeSyntax C(string c) => XmlElement("c", List(new XmlNodeSyntax[] { XmlText(c) }));
 
-        public static XmlNodeSyntax UL(params object[] items) => XmlElement(
+        public static XmlNodeSyntax UL(params object[] items) => UL((IEnumerable<object>)items);
+        public static XmlNodeSyntax UL<T>(IEnumerable<T> items) => XmlElement(
             XmlElementStartTag(XmlName("list"), List(new XmlAttributeSyntax[] { XmlTextAttribute("type", "bullet") })),
                 List<XmlNodeSyntax>(items.Select(item =>
                 {
