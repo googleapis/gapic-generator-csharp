@@ -19,6 +19,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace Google.Api.Generator.RoslynUtils
@@ -60,7 +61,11 @@ namespace Google.Api.Generator.RoslynUtils
 
         private static IEnumerable<ArgumentSyntax> ToArgs(object o)
         {
-            // TODO: Named arguments.
+            if (o is ITuple tuple && tuple.Length == 2 && tuple[0] is string argName)
+            {
+                // Named argument
+                return new[] { ToArgs(tuple[1]).Single().WithNameColon(NameColon(argName)) };
+            }
             // TODO: ref arguments.
             return ToExpressions(o).Select(Argument);
         }

@@ -80,6 +80,11 @@ namespace Google.Api.Generator.RoslynUtils
         public static PropertyDeclarationSyntax WithInitializer(this PropertyDeclarationSyntax prop, object code) =>
             prop.WithInitializer(EqualsValueClause(((ExpressionStatementSyntax)ToStatements(code).Single()).Expression)).WithSemicolonToken(s_semicolonToken);
 
+        public static FieldDeclarationSyntax WithInitializer(this FieldDeclarationSyntax field, object code) =>
+            field.WithDeclaration(field.Declaration.WithVariables(
+                SingletonSeparatedList(field.Declaration.Variables.Single().WithInitializer(
+                    EqualsValueClause(((ExpressionStatementSyntax)ToStatements(code).Single()).Expression)))));
+
         public static RoslynBuilder.ArgumentsFunc<InvocationExpressionSyntax> Call(
             this TypeSyntax type, object method, params TypeSyntax[] genericArgs) => args =>
                 InvocationExpression(MemberAccessExpression(
@@ -95,6 +100,9 @@ namespace Google.Api.Generator.RoslynUtils
         public static AssignmentExpressionSyntax Assign(this PropertyDeclarationSyntax assignTo, object assignFrom) =>
             AssignmentExpression(
                 SyntaxKind.SimpleAssignmentExpression, IdentifierName(assignTo.Identifier), ToExpressions(assignFrom).Single());
+
+        public static ExpressionSyntax Access(this TypeSyntax type, object member) =>
+            MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, type, ToSimpleName(member));
 
         public static ExpressionSyntax Access(this ParameterSyntax obj, object member, bool conditional = false) => conditional ?
             (ExpressionSyntax)ConditionalAccessExpression(IdentifierName(obj.Identifier), MemberBindingExpression(ToSimpleName(member))) :

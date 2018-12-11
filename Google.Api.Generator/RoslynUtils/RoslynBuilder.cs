@@ -95,6 +95,9 @@ namespace Google.Api.Generator.RoslynUtils
                 .AddAccessorListAccessors(accessors.ToArray());
         }
 
+        public static FieldDeclarationSyntax Field(Modifier modifiers, TypeSyntax type, string name) =>
+            FieldDeclaration(VariableDeclaration(type, SingletonSeparatedList(VariableDeclarator(name)))).AddModifiers(modifiers.ToSyntaxTokens());
+
         public static ExpressionSyntax Nameof(ParameterSyntax nameof) =>
             InvocationExpression(IdentifierName("nameof"))
                 .WithArgumentList(ArgumentList(SingletonSeparatedList(Argument(IdentifierName(nameof.Identifier)))));

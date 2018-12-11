@@ -2,8 +2,13 @@
 
 package testing;
 
+import "google/api/annotations.proto";
+
 service Basic {
-  rpc Method1(Request) returns(Response);
+  rpc IdempotentMethod(Request) returns(Response) {
+    option (google.api.http).get = "/path/here";
+  };
+  rpc NonIdempotentMethod(Request) returns(Response);
 }
 
 message Request {

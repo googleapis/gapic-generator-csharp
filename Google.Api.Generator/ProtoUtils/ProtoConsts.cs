@@ -24,6 +24,7 @@ namespace Google.Api.Generator.ProtoUtils
         public static class MethodOption
         {
             public const int OperationTypes = 1049;
+            public const int HttpRule = 72295728;
         }
     }
 }
