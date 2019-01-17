@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Google.Api.Generator.Utils;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
@@ -36,12 +37,32 @@ namespace Google.Api.Generator.Generation
         {
             { typeof(System.Int32).Namespace, "sys" }, // Don't use "s"; one-letter aliases cause a compilation error!
             { typeof(System.Collections.Generic.IEnumerable<>).Namespace, "scg" },
+            { typeof(System.Collections.ObjectModel.Collection<>).Namespace, "sco" },
             { typeof(Google.Api.Gax.Expiration).Namespace, "gax" },
             { typeof(Google.Api.Gax.Grpc.CallSettings).Namespace, "gaxgrpc" },
             { typeof(Grpc.Core.CallCredentials).Namespace, "grpccore" },
             { typeof(Grpc.Core.Interceptors.Interceptor).Namespace, "grpcinter" },
             { typeof(Google.Protobuf.WellKnownTypes.Any).Namespace, "wkt" },
             { typeof(Google.LongRunning.Operation).Namespace, "lro" },
+        };
+
+        private static readonly IReadOnlyDictionary<string, TypeSyntax> s_predefinedTypes = new Dictionary<string, TypeSyntax>
+        {
+            { typeof(bool).FullName, PredefinedType(Token(SyntaxKind.BoolKeyword)) },
+            { typeof(byte).FullName, PredefinedType(Token(SyntaxKind.ByteKeyword)) },
+            { typeof(sbyte).FullName, PredefinedType(Token(SyntaxKind.SByteKeyword)) },
+            { typeof(short).FullName, PredefinedType(Token(SyntaxKind.ShortKeyword)) },
+            { typeof(ushort).FullName, PredefinedType(Token(SyntaxKind.UShortKeyword)) },
+            { typeof(int).FullName, PredefinedType(Token(SyntaxKind.IntKeyword)) },
+            { typeof(uint).FullName, PredefinedType(Token(SyntaxKind.UIntKeyword)) },
+            { typeof(long).FullName, PredefinedType(Token(SyntaxKind.LongKeyword)) },
+            { typeof(ulong).FullName, PredefinedType(Token(SyntaxKind.ULongKeyword)) },
+            { typeof(char).FullName, PredefinedType(Token(SyntaxKind.CharKeyword)) },
+            { typeof(decimal).FullName, PredefinedType(Token(SyntaxKind.DecimalKeyword)) },
+            { typeof(double).FullName, PredefinedType(Token(SyntaxKind.DoubleKeyword)) },
+            { typeof(float).FullName, PredefinedType(Token(SyntaxKind.FloatKeyword)) },
+            { typeof(string).FullName, PredefinedType(Token(SyntaxKind.StringKeyword)) },
+            { typeof(object).FullName, PredefinedType(Token(SyntaxKind.ObjectKeyword)) },
         };
 
         public SourceFileContext(ImportStyle importStyle) => _importStyle = importStyle;
@@ -111,6 +132,16 @@ namespace Google.Api.Generator.Generation
                 // TODO: Remove when other import style(s) are implemented.
                 throw new NotImplementedException();
             }
+            if (typ.ElementTyp is Typ elementType)
+            {
+                // Handle array typs.
+                return SyntaxFactory.ArrayType(Type(elementType));
+            }
+            if (s_predefinedTypes.TryGetValue(typ.FullName, out var predefinedType))
+            {
+                // Handle typs representing predefined C# types (e.g. `string`).
+                return predefinedType;
+            }
             string namespaceAlias;
             if ($"{Namespace}.".StartsWith($"{typ.Namespace}."))
             {
@@ -156,6 +187,19 @@ namespace Google.Api.Generator.Generation
             }
             // Return the final TypeSyntax, aliased or not as required.
             return namespaceAlias == null ? (TypeSyntax)result : AliasQualifiedName(namespaceAlias, result);
+        }
+
+        public ArrayTypeSyntax ArrayType<T>(int? size = null)
+        {
+            if (!typeof(T).IsArray)
+            {
+                throw new ArgumentException("Type argument must be an array.", nameof(T));
+            }
+            if (size != null)
+            {
+                throw new ArgumentException("Array size specification not yet supported", nameof(size));
+            }
+            return ((ArrayTypeSyntax)Type<T>()).WithRankSpecifiers(SingletonList(ArrayRankSpecifier()));
         }
 
         public CompilationUnitSyntax CreateCompilationUnit(NamespaceDeclarationSyntax ns)

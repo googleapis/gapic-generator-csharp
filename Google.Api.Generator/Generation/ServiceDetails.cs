@@ -29,6 +29,7 @@ namespace Google.Api.Generator.Generation
         {
             Catalog = catalog;
             Namespace = ns;
+            DocumentationName = desc.Name; // TODO: There may be a more suitable name than this.
             ProtoTyp = Typ.Manual(ns, desc.Name);
             GrpcClientTyp = Typ.Nested(ProtoTyp, $"{desc.Name}Client");
             SettingsTyp = Typ.Manual(ns, $"{desc.Name}Settings");
@@ -37,11 +38,18 @@ namespace Google.Api.Generator.Generation
             desc.CustomOptions.TryGetString(ProtoConsts.ServiceOption.DefaultHost, out var defaultHost);
             DefaultHost = defaultHost;
             DefaultPort = 443; // Hardcoded; this is not specifiable by proto annotation.
+            desc.CustomOptions.TryGetMessage<OAuth>(ProtoConsts.ServiceOption.OAuth, out var oauth);
+            DefaultScopes = oauth?.Scopes ?? Enumerable.Empty<string>();
             Methods = desc.Methods.Select(x => MethodDetails.Create(this, x)).ToList();
         }
 
         public ProtoCatalog Catalog { get; }
         public string Namespace { get; }
+
+        /// <summary>
+        /// The name of this service to be used in documetation.
+        /// </summary>
+        public string DocumentationName { get; }
 
         /// <summary>
         /// The outer typ of the protoc-generated C# code.
@@ -77,6 +85,11 @@ namespace Google.Api.Generator.Generation
         /// The default port for this service.
         /// </summary>
         public int DefaultPort { get; }
+
+        /// <summary>
+        /// The default scopes for this services.
+        /// </summary>
+        public IEnumerable<string> DefaultScopes { get; }
 
         /// <summary>
         /// All RPC methods within this service.

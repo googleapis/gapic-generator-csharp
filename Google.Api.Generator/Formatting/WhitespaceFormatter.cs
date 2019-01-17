@@ -284,6 +284,13 @@ namespace Google.Api.Generator.Formatting
             return node;
         }
 
+        public override SyntaxNode VisitArrayCreationExpression(ArrayCreationExpressionSyntax node)
+        {
+            node = (ArrayCreationExpressionSyntax)base.VisitArrayCreationExpression(node);
+            node = node.WithNewKeyword(node.NewKeyword.WithTrailingSpace());
+            return node;
+        }
+
         public override SyntaxNode VisitInitializerExpression(InitializerExpressionSyntax node)
         {
             using (WithIndent())

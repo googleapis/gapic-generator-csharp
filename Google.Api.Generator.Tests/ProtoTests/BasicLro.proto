@@ -6,6 +6,11 @@ import "google/longrunning/operations.proto";
 package testing;
 
 service BasicLro {
+  option (google.api.default_host) = "lro.example.com";
+  option (google.api.oauth) = {
+    scopes: ["scope1", "scope2"]
+  };
+
   rpc Method1(Request) returns(google.longrunning.Operation) {
     option (google.api.operation) = {
       response_type: "LroResponse"

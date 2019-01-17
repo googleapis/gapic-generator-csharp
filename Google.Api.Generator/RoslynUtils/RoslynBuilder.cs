@@ -104,5 +104,9 @@ namespace Google.Api.Generator.RoslynUtils
 
         public static ArgumentsFunc<ObjectCreationExpressionSyntax> New(TypeSyntax type) => args =>
             ObjectCreationExpression(type).WithArgumentList(RoslynConverters.CreateArgList(args));
+
+        public static ArgumentsFunc<ArrayCreationExpressionSyntax> NewArray(ArrayTypeSyntax arrayType) => args =>
+            ArrayCreationExpression(arrayType)
+                .WithInitializer(InitializerExpression(SyntaxKind.ArrayInitializerExpression, SeparatedList(args.SelectMany(RoslynConverters.ToExpressions))));
     }
 }

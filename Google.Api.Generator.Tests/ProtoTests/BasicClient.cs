@@ -2,6 +2,8 @@
 using gaxgrpc = Google.Api.Gax.Grpc;
 using grpccore = Grpc.Core;
 using sys = System;
+using scg = System.Collections.Generic;
+using sco = System.Collections.ObjectModel;
 
 namespace Testing
 {
@@ -42,5 +44,20 @@ namespace Testing
         /// <summary>Creates a deep clone of this object, with all the same property values.</summary>
         /// <returns>A deep clone of this <see cref="BasicSettings"/> object.</returns>
         public BasicSettings Clone() => new BasicSettings(this);
+    }
+
+    /// <summary>Basic client wrapper, for convenient use.</summary>
+    public abstract partial class BasicClient
+    {
+        /// <summary>The default endpoint for the Basic service, which is a host of "basic.example.com" and a port of 443.</summary>
+        public static gaxgrpc::ServiceEndpoint DefaultEndpoint { get; } = new gaxgrpc::ServiceEndpoint("basic.example.com", 443);
+
+        /// <summary>The default Basic scopes.</summary>
+        /// <remarks>The default Basic scopes are:<list type="bullet"><item><description>scope1</description></item><item><description>scope2</description></item></list></remarks>
+        public static scg::IReadOnlyList<string> DefaultScopes { get; } = new sco::ReadOnlyCollection<string>(new string[]
+        {
+            "scope1",
+            "scope2",
+        });
     }
 }
