@@ -18,6 +18,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using static Google.Api.Generator.RoslynUtils.RoslynConverters;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
@@ -85,10 +86,20 @@ namespace Google.Api.Generator.RoslynUtils
                 SingletonSeparatedList(field.Declaration.Variables.Single().WithInitializer(
                     EqualsValueClause(((ExpressionStatementSyntax)ToStatements(code).Single()).Expression)))));
 
+        public static LocalDeclarationStatementSyntax WithInitializer(this LocalDeclarationStatementSyntax var, object code) =>
+            var.WithDeclaration(var.Declaration.WithVariables(
+                SingletonSeparatedList(var.Declaration.Variables.Single().WithInitializer(
+                    EqualsValueClause(((ExpressionStatementSyntax)ToStatements(code).Single()).Expression)))));
+
         public static RoslynBuilder.ArgumentsFunc<InvocationExpressionSyntax> Call(
             this TypeSyntax type, object method, params TypeSyntax[] genericArgs) => args =>
                 InvocationExpression(MemberAccessExpression(
                     SyntaxKind.SimpleMemberAccessExpression, type, ToSimpleName(method, genericArgs)), CreateArgList(args));
+
+        public static RoslynBuilder.ArgumentsFunc<InvocationExpressionSyntax> Call(
+            this FieldDeclarationSyntax field, object method, params TypeSyntax[] genericArgs) => args =>
+                InvocationExpression(MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression,
+                    IdentifierName(field.Declaration.Variables.Single().Identifier), ToSimpleName(method, genericArgs)), CreateArgList(args));
 
         public static RoslynBuilder.ArgumentsFunc<InvocationExpressionSyntax> Call(
             this ExpressionSyntax expr, object method, params TypeSyntax[] genericArgs) => args =>
@@ -97,9 +108,15 @@ namespace Google.Api.Generator.RoslynUtils
                     InvocationExpression(MemberAccessExpression(
                         SyntaxKind.SimpleMemberAccessExpression, expr, ToSimpleName(method, genericArgs)), CreateArgList(args));
 
+        public static InvocationExpressionSyntax ConfigureAwait(this ExpressionSyntax expr) =>
+            expr.Call(nameof(Task.ConfigureAwait))(false);
+
         public static AssignmentExpressionSyntax Assign(this PropertyDeclarationSyntax assignTo, object assignFrom) =>
             AssignmentExpression(
                 SyntaxKind.SimpleAssignmentExpression, IdentifierName(assignTo.Identifier), ToExpressions(assignFrom).Single());
+
+        public static AssignmentExpressionSyntax Assign(this ParameterSyntax assignTo, object assignFrom) =>
+            AssignmentExpression(SyntaxKind.SimpleAssignmentExpression, IdentifierName(assignTo.Identifier), ToExpressions(assignFrom).Single());
 
         public static ExpressionSyntax Access(this TypeSyntax type, object member) =>
             MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, type, ToSimpleName(member));
@@ -107,5 +124,14 @@ namespace Google.Api.Generator.RoslynUtils
         public static ExpressionSyntax Access(this ParameterSyntax obj, object member, bool conditional = false) => conditional ?
             (ExpressionSyntax)ConditionalAccessExpression(IdentifierName(obj.Identifier), MemberBindingExpression(ToSimpleName(member))) :
             MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, IdentifierName(obj.Identifier), ToSimpleName(member));
+
+        public static ExpressionSyntax NullCoalesce(this ParameterSyntax lhs, object rhs) =>
+            BinaryExpression(SyntaxKind.CoalesceExpression, ToExpressions(lhs).Single(), ToExpressions(rhs).Single());
+
+        public static ExpressionSyntax NotEqualTo(this LocalDeclarationStatementSyntax lhs, object rhs) =>
+            BinaryExpression(SyntaxKind.NotEqualsExpression, ToExpressions(lhs).Single(), ToExpressions(rhs).Single());
+
+        public static IfStatementSyntax Then(this IfStatementSyntax @if, params object[] code) =>
+            WithBody(code, fnExpr: null, fnBlock: @if.WithStatement);
     }
 }

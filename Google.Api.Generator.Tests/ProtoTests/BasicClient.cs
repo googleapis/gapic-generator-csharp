@@ -1,9 +1,11 @@
 ﻿using gax = Google.Api.Gax;
 using gaxgrpc = Google.Api.Gax.Grpc;
 using grpccore = Grpc.Core;
+using grpcinter = Grpc.Core.Interceptors;
 using sys = System;
 using scg = System.Collections.Generic;
 using sco = System.Collections.ObjectModel;
+using stt = System.Threading.Tasks;
 
 namespace Testing
 {
@@ -59,5 +61,55 @@ namespace Testing
             "scope1",
             "scope2",
         });
+
+        private static readonly gaxgrpc::ChannelPool s_channelPool = new gaxgrpc::ChannelPool(DefaultScopes);
+
+        /// <summary>Asynchronously creates a <see cref="BasicClient"/>, applying defaults for all unspecified settings, and creating a channel connecting to the given endpoint with application default credentials where necessary. See the example for how to use custom credentials.</summary>
+        /// <example>This sample shows how to create a client using default credentials:<code>using Google.Cloud.Vision.V1;...// When running on Google Cloud Platform this will use the project Compute Credential.// Or set the GOOGLE_APPLICATION_CREDENTIALS environment variable to the path of a JSON// credential file to use that credential.ImageAnnotatorClient client = await ImageAnnotatorClient.CreateAsync();</code>This sample shows how to create a client using credentials loaded from a JSON file:<code>using Google.Cloud.Vision.V1;using Google.Apis.Auth.OAuth2;using Grpc.Auth;using Grpc.Core;...GoogleCredential cred = GoogleCredential.FromFile("/path/to/credentials.json");Channel channel = new Channel(    ImageAnnotatorClient.DefaultEndpoint.Host, ImageAnnotatorClient.DefaultEndpoint.Port, cred.ToChannelCredentials());ImageAnnotatorClient client = ImageAnnotatorClient.Create(channel);...// Shutdown the channel when it is no longer required.await channel.ShutdownAsync();</code></example>
+        /// <param name="endpoint">Optional <see cref="gaxgrpc::ServiceEndpoint"/>.</param>
+        /// <param name="settings">Optional <see cref="BasicSettings"/>.</param>
+        /// <returns>The task representing the created <see cref="BasicClient"/>.</returns>
+        public static async stt::Task<BasicClient> CreateAsync(gaxgrpc::ServiceEndpoint endpoint = null, BasicSettings settings = null)
+        {
+            grpccore::Channel channel = await s_channelPool.GetChannelAsync(endpoint ?? DefaultEndpoint).ConfigureAwait(false);
+            return Create(channel, settings);
+        }
+
+        /// <summary>Synchronously creates a <see cref="BasicClient"/>, applying defaults for all unspecified settings, and creating a channel connecting to the given endpoint with application default credentials where necessary. See the example for how to use custom credentials.</summary>
+        /// <example>This sample shows how to create a client using default credentials:<code>using Google.Cloud.Vision.V1;...// When running on Google Cloud Platform this will use the project Compute Credential.// Or set the GOOGLE_APPLICATION_CREDENTIALS environment variable to the path of a JSON// credential file to use that credential.ImageAnnotatorClient client = ImageAnnotatorClient.Create();</code>This sample shows how to create a client using credentials loaded from a JSON file:<code>using Google.Cloud.Vision.V1;using Google.Apis.Auth.OAuth2;using Grpc.Auth;using Grpc.Core;...GoogleCredential cred = GoogleCredential.FromFile("/path/to/credentials.json");Channel channel = new Channel(    ImageAnnotatorClient.DefaultEndpoint.Host, ImageAnnotatorClient.DefaultEndpoint.Port, cred.ToChannelCredentials());ImageAnnotatorClient client = ImageAnnotatorClient.Create(channel);...// Shutdown the channel when it is no longer required.await channel.ShutdownAsync();</code></example>
+        /// <param name="endpoint">Optional <see cref="gaxgrpc::ServiceEndpoint"/>.</param>
+        /// <param name="settings">Optional <see cref="BasicSettings"/>.</param>
+        /// <returns>The created <see cref="BasicClient"/>.</returns>
+        public static BasicClient Create(gaxgrpc::ServiceEndpoint endpoint = null, BasicSettings settings = null)
+        {
+            grpccore::Channel channel = s_channelPool.GetChannel(endpoint ?? DefaultEndpoint);
+            return Create(channel, settings);
+        }
+
+        /// <summary>Creates a <see cref="BasicClient"/> which uses the specified channel for remote operations.</summary>
+        /// <param name="channel">The <see cref="grpccore::Channel"/> for remote operations. Must not be null.</param>
+        /// <param name="settings">Optional <see cref="BasicSettings"/>.</param>
+        /// <returns>The created <see cref="BasicClient"/>.</returns>
+        public static BasicClient Create(grpccore::Channel channel, BasicSettings settings = null)
+        {
+            gax::GaxPreconditions.CheckNotNull(channel, nameof(channel));
+            return Create(new grpccore::DefaultCallInvoker(channel));
+        }
+
+        /// <summary>Creates a <see cref="BasicClient"/> which uses the specified call invoker for remote operations.</summary>
+        /// <param name="callInvoker">The <see cref="grpccore::CallInvoker"/> for remote operations. Must not be null.</param>
+        /// <param name="settings">Optional <see cref="BasicSettings"/>.</param>
+        /// <returns>The created <see cref="BasicClient"/>.</returns>
+        public static BasicClient Create(grpccore::CallInvoker callInvoker, BasicSettings settings = null)
+        {
+            gax::GaxPreconditions.CheckNotNull(callInvoker, nameof(callInvoker));
+            grpcinter::Interceptor interceptor = settings?.Interceptor;
+            if (interceptor != null)
+            {
+                callInvoker = grpcinter::CallInvokerExtensions.Intercept(callInvoker, interceptor);
+            }
+            Basic.BasicClient grpcClient = new Basic.BasicClient(callInvoker);
+            return null;
+        }
     }
 }

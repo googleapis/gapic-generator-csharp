@@ -54,9 +54,12 @@ namespace Google.Api.Generator.RoslynUtils
 
         public static SyntaxTrivia Summary(params object[] parts) => XmlDocElement(parts, XmlSummaryElement);
         public static SyntaxTrivia Remarks(params object[] parts) => XmlDocElement(parts, XmlRemarksElement);
+        public static SyntaxTrivia Example(params object[] parts) => XmlDocElement(parts, XmlExampleElement);
+        public static SyntaxTrivia Param(ParameterSyntax param, params object[] parts) => XmlDocElement(parts, x => XmlParamElement(param.Identifier.Text, x));
         public static SyntaxTrivia Returns(params object[] parts) => XmlDocElement(parts, XmlReturnsElement);
 
         public static XmlNodeSyntax C(string c) => XmlElement("c", List(new XmlNodeSyntax[] { XmlText(c) }));
+        public static XmlNodeSyntax Code(params string[] lines) => XmlElement("code", List(lines.Select(ToNode)));
 
         public static XmlNodeSyntax UL(params object[] items) => UL((IEnumerable<object>)items);
         public static XmlNodeSyntax UL<T>(IEnumerable<T> items) => XmlElement(
