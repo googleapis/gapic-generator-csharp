@@ -126,7 +126,7 @@ namespace Google.Api.Generator.Tests
         }
 
         // TODO: Consider using a single Theory for these.
-        // It's currently convinient having them separate, so they can easily be run individually.
+        // It's currently convenient having them separate, so they can easily be run individually.
 
         // `0` suffix so it's easier to run this test by itself!
         [Fact]
