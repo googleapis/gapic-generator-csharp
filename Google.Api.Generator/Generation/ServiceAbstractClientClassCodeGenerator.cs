@@ -19,6 +19,7 @@ using Google.Api.Generator.Utils;
 using Grpc.Core;
 using Grpc.Core.Interceptors;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -51,10 +52,13 @@ namespace Google.Api.Generator.Generation
                 var createFromChannel = CreateFromChannel(createFromCallInvoker);
                 var createFromEndPoint = CreateFromEndpoint(sChannelPool, defaultEndpoint, createFromChannel);
                 var createAsync = CreateAsync(sChannelPool, defaultEndpoint, createFromChannel);
+                var shutdown = ShutdownDefaultChannelsAsync(sChannelPool, createFromCallInvoker, createAsync);
+                var grpcClient = GrpcClient();
                 // TODO: Further abstract client content...
                 cls = cls.AddMembers(
                     defaultEndpoint, defaultScopes, sChannelPool,
-                    createAsync, createFromEndPoint, createFromChannel, createFromCallInvoker);
+                    createAsync, createFromEndPoint, createFromChannel, createFromCallInvoker,
+                    shutdown, grpcClient);
             }
             return cls;
         }
@@ -198,5 +202,21 @@ namespace Google.Api.Generator.Generation
                     XmlDoc.Returns("The task representing the created ", _ctx.CurrentType, "."));
         }
 
+        private MemberDeclarationSyntax ShutdownDefaultChannelsAsync(FieldDeclarationSyntax channelPool, MethodDeclarationSyntax create, MethodDeclarationSyntax createAsync) =>
+            Method(Public | Static, _ctx.Type<Task>(), "ShutdownDefaultChannelsAsync")()
+                .WithBody(
+                    channelPool.Call(nameof(ChannelPool.ShutdownChannelsAsync))())
+                .WithXmlDoc(
+                    XmlDoc.Summary("Shuts down any channels automatically created by ", create, " and ", createAsync, ".",
+                        " Channels which weren't automatically created are not affected."),
+                    XmlDoc.Remarks("After calling this method, further calls to ", create, " and ", createAsync,
+                        " will create new channels, which could in turn be shut down by another call to this method."),
+                    XmlDoc.Returns("A task representing the asynchronous shutdown operation.")
+                );
+
+        private PropertyDeclarationSyntax GrpcClient() =>
+            Property(Public | Virtual, _ctx.Type(_svc.GrpcClientTyp), "GrpcClient")
+                .WithGetBody(Throw(New(_ctx.Type<NotImplementedException>())()))
+                .WithXmlDoc(XmlDoc.Summary("The underlying gRPC ", _svc.DocumentationName, " client"));
     }
 }

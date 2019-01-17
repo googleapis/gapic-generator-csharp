@@ -88,6 +88,9 @@ namespace Google.Api.Generator.RoslynUtils
             return LocalDeclarationStatement(variable);
         }
 
+        public static PropertyDeclarationSyntax Property(Modifier modifiers, TypeSyntax type, string name) =>
+            PropertyDeclaration(type, name).AddModifiers(modifiers.ToSyntaxTokens());
+
         public static PropertyDeclarationSyntax AutoProperty(Modifier modifiers, TypeSyntax type, string name, bool hasSetter = false)
         {
             var accessors = new List<AccessorDeclarationSyntax>
@@ -122,5 +125,7 @@ namespace Google.Api.Generator.RoslynUtils
         public static ReturnStatementSyntax Return(ExpressionSyntax expr) => ReturnStatement(expr);
 
         public static IfStatementSyntax If(ExpressionSyntax condition) => IfStatement(condition, Block());
+
+        public static ThrowExpressionSyntax Throw(ExpressionSyntax obj) => ThrowExpression(obj);
     }
 }

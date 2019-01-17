@@ -65,6 +65,11 @@ namespace Google.Api.Generator.RoslynUtils
         public static MethodDeclarationSyntax WithBody(this MethodDeclarationSyntax method, params object[] code) =>
             WithBody(code, x => method.WithExpressionBody(x).WithSemicolonToken(s_semicolonToken), method.WithBody);
 
+        public static PropertyDeclarationSyntax WithGetBody(this PropertyDeclarationSyntax prop, params object[] code) =>
+            WithBody(code,
+                x => prop.AddAccessorListAccessors(AccessorDeclaration(SyntaxKind.GetAccessorDeclaration).WithExpressionBody(x).WithSemicolonToken(s_semicolonToken)),
+                x => prop.AddAccessorListAccessors(AccessorDeclaration(SyntaxKind.GetAccessorDeclaration, x)));
+
         public static ObjectCreationExpressionSyntax WithInitializer(
             this ObjectCreationExpressionSyntax obj, params (string propertyName, object code)[] inits)
         {
