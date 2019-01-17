@@ -33,6 +33,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Xunit;
 using sys = System;
 
@@ -118,7 +119,11 @@ namespace Google.Api.Generator.Tests
 
             // Test expression-bodied method
             // Test `new` keyword
-            public object GetObject() => new object();
+            // Test `return` statement.
+            public object GetObject()
+            {
+                return new object();
+            }
 
             // Test `new` array with size.
             public string[] GetStringArrayWithSize() => new string[0];
@@ -128,6 +133,16 @@ namespace Google.Api.Generator.Tests
             {
                 "one",
             };
+
+            // Test expression containing `await`.
+            // Test `if` statement.
+            public async Task Yield(bool yield)
+            {
+                if (yield)
+                {
+                    await Task.Yield();
+                }
+            }
         }
 
         // Test base-list with one item.

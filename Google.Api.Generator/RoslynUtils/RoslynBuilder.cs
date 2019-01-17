@@ -33,6 +33,7 @@ namespace Google.Api.Generator.RoslynUtils
         public delegate T ArgumentsFunc<T>(params object[] args);
 
         public static TypeSyntax VoidType { get; } = PredefinedType(Token(SyntaxKind.VoidKeyword));
+        public static ExpressionSyntax Null { get; } = LiteralExpression(SyntaxKind.NullLiteralExpression);
 
         public static ExpressionSyntax This { get; } = ThisExpression();
 
@@ -80,6 +81,13 @@ namespace Google.Api.Generator.RoslynUtils
             return param;
         }
 
+        public static LocalDeclarationStatementSyntax Local(TypeSyntax type, string name)
+        {
+            var varDecl = VariableDeclarator(name);
+            var variable = VariableDeclaration(type, SingletonSeparatedList(varDecl));
+            return LocalDeclarationStatement(variable);
+        }
+
         public static PropertyDeclarationSyntax AutoProperty(Modifier modifiers, TypeSyntax type, string name, bool hasSetter = false)
         {
             var accessors = new List<AccessorDeclarationSyntax>
@@ -108,5 +116,11 @@ namespace Google.Api.Generator.RoslynUtils
         public static ArgumentsFunc<ArrayCreationExpressionSyntax> NewArray(ArrayTypeSyntax arrayType) => args =>
             ArrayCreationExpression(arrayType)
                 .WithInitializer(InitializerExpression(SyntaxKind.ArrayInitializerExpression, SeparatedList(args.SelectMany(RoslynConverters.ToExpressions))));
+
+        public static AwaitExpressionSyntax Await(ExpressionSyntax expr) => AwaitExpression(expr);
+
+        public static ReturnStatementSyntax Return(ExpressionSyntax expr) => ReturnStatement(expr);
+
+        public static IfStatementSyntax If(ExpressionSyntax condition) => IfStatement(condition, Block());
     }
 }

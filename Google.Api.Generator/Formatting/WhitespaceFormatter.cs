@@ -43,6 +43,7 @@ namespace Google.Api.Generator.Formatting
         private SyntaxTriviaList FormatXmlDoc(SyntaxTriviaList trivList)
         {
             // Minimal XML formatting, just to make sure the result is valid C#, indented correctly.
+            // TODO: Sort out XML doc formatting. It's currently a disaster.
             return TriviaList(trivList.Select(triv =>
             {
                 if (triv.HasStructure && triv.GetStructure() is DocumentationCommentTriviaSyntax doc)
@@ -301,6 +302,27 @@ namespace Google.Api.Generator.Formatting
             }
             node = node.WithOpenBraceToken(node.OpenBraceToken.WithLeadingTrivia(CarriageReturnLineFeed, _indentTrivia).WithTrailingCrLf());
             node = node.WithCloseBraceToken(node.CloseBraceToken.WithLeadingTrivia(_indentTrivia));
+            return node;
+        }
+
+        public override SyntaxNode VisitReturnStatement(ReturnStatementSyntax node)
+        {
+            node = (ReturnStatementSyntax)base.VisitReturnStatement(node);
+            node = node.WithReturnKeyword(node.ReturnKeyword.WithTrailingSpace());
+            return node;
+        }
+
+        public override SyntaxNode VisitAwaitExpression(AwaitExpressionSyntax node)
+        {
+            node = (AwaitExpressionSyntax)base.VisitAwaitExpression(node);
+            node = node.WithAwaitKeyword(node.AwaitKeyword.WithTrailingSpace());
+            return node;
+        }
+
+        public override SyntaxNode VisitIfStatement(IfStatementSyntax node)
+        {
+            node = (IfStatementSyntax)base.VisitIfStatement(node);
+            node = node.WithIfKeyword(node.IfKeyword.WithTrailingSpace());
             return node;
         }
     }
