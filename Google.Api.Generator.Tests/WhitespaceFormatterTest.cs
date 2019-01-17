@@ -119,6 +119,15 @@ namespace Google.Api.Generator.Tests
             // Test expression-bodied method
             // Test `new` keyword
             public object GetObject() => new object();
+
+            // Test `new` array with size.
+            public string[] GetStringArrayWithSize() => new string[0];
+
+            // Test `new` array without size, with initializer.
+            public string[] GetStringArrayWithInitializer() => new string[]
+            {
+                "one",
+            };
         }
 
         // Test base-list with one item.

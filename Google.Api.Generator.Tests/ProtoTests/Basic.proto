@@ -5,9 +5,16 @@ package testing;
 import "google/api/annotations.proto";
 
 service Basic {
+  option (google.api.default_host) = "basic.example.com";
+  option (google.api.oauth) = {
+    scopes: ["scope1", "scope2"]
+  };
+
   rpc IdempotentMethod(Request) returns(Response) {
+    // A method with a non-empty http.get option is assumed to be idempotent.
     option (google.api.http).get = "/path/here";
   };
+
   rpc NonIdempotentMethod(Request) returns(Response);
 }
 
