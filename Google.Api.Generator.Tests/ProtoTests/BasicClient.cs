@@ -118,9 +118,6 @@ namespace Testing
         public static stt::Task ShutdownDefaultChannelsAsync() => s_channelPool.ShutdownChannelsAsync();
 
         /// <summary>The underlying gRPC Basic client</summary>
-        public virtual Basic.BasicClient GrpcClient
-        {
-            get => throw new sys::NotImplementedException();
-        }
+        public virtual Basic.BasicClient GrpcClient => throw new sys::NotImplementedException();
     }
 }

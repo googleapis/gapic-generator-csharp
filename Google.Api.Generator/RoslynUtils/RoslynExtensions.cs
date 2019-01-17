@@ -53,7 +53,7 @@ namespace Google.Api.Generator.RoslynUtils
 
         private static T WithBody<T>(IEnumerable<object> code, Func<ArrowExpressionClauseSyntax, T> fnExpr, Func<BlockSyntax, T> fnBlock)
         {
-            var statements = RoslynConverters.ToStatements(code).ToList();
+            var statements = ToStatements(code).ToList();
             // Use an expression-body if the body contains exactly one expression.
             return fnExpr != null && statements.Count == 1 && statements[0] is ExpressionStatementSyntax expr ?
                 fnExpr(ArrowExpressionClause(expr.Expression)) : fnBlock(Block(statements));
@@ -65,10 +65,18 @@ namespace Google.Api.Generator.RoslynUtils
         public static MethodDeclarationSyntax WithBody(this MethodDeclarationSyntax method, params object[] code) =>
             WithBody(code, x => method.WithExpressionBody(x).WithSemicolonToken(s_semicolonToken), method.WithBody);
 
-        public static PropertyDeclarationSyntax WithGetBody(this PropertyDeclarationSyntax prop, params object[] code) =>
-            WithBody(code,
+        public static PropertyDeclarationSyntax WithGetBody(this PropertyDeclarationSyntax prop, params object[] code)
+        {
+            var statements = ToStatements(code).ToList();
+            if (!(prop.AccessorList?.Accessors.Any() ?? false) && statements.Count == 1 && statements[0] is ExpressionStatementSyntax expr)
+            {
+                // If this is a getter with no setter, containing a single expression, then use an expression-bodied property.
+                return prop.WithExpressionBody(ArrowExpressionClause(expr.Expression)).WithSemicolonToken(s_semicolonToken);
+            }
+            return WithBody(code,
                 x => prop.AddAccessorListAccessors(AccessorDeclaration(SyntaxKind.GetAccessorDeclaration).WithExpressionBody(x).WithSemicolonToken(s_semicolonToken)),
                 x => prop.AddAccessorListAccessors(AccessorDeclaration(SyntaxKind.GetAccessorDeclaration, x)));
+        }
 
         public static ObjectCreationExpressionSyntax WithInitializer(
             this ObjectCreationExpressionSyntax obj, params (string propertyName, object code)[] inits)
