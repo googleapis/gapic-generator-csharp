@@ -29,6 +29,7 @@
 using Google.Api.Generator.Formatting;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -142,6 +143,15 @@ namespace Google.Api.Generator.Tests
                 {
                     await Task.Yield();
                 }
+            }
+
+            // Test `throw` expression.
+            public void ThrowExpression(Exception e) => throw e;
+
+            // Test `throw` statement.
+            public void ThrowStatement(Exception e)
+            {
+                throw e;
             }
         }
 

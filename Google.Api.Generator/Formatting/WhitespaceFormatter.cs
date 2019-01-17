@@ -325,5 +325,19 @@ namespace Google.Api.Generator.Formatting
             node = node.WithIfKeyword(node.IfKeyword.WithTrailingSpace());
             return node;
         }
+
+        public override SyntaxNode VisitThrowStatement(ThrowStatementSyntax node)
+        {
+            node = (ThrowStatementSyntax)base.VisitThrowStatement(node);
+            node = node.WithThrowKeyword(node.ThrowKeyword.WithTrailingSpace());
+            return node;
+        }
+
+        public override SyntaxNode VisitThrowExpression(ThrowExpressionSyntax node)
+        {
+            node = (ThrowExpressionSyntax)base.VisitThrowExpression(node);
+            node = node.WithThrowKeyword(node.ThrowKeyword.WithTrailingSpace());
+            return node;
+        }
     }
 }

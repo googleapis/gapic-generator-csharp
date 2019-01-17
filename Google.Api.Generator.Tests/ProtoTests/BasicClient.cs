@@ -111,5 +111,13 @@ namespace Testing
             Basic.BasicClient grpcClient = new Basic.BasicClient(callInvoker);
             return null;
         }
+
+        /// <summary>Shuts down any channels automatically created by <see cref="Create(grpccore::CallInvoker,BasicSettings)"/> and <see cref="CreateAsync(gaxgrpc::ServiceEndpoint,BasicSettings)"/>. Channels which weren't automatically created are not affected.</summary>
+        /// <remarks>After calling this method, further calls to <see cref="Create(grpccore::CallInvoker,BasicSettings)"/> and <see cref="CreateAsync(gaxgrpc::ServiceEndpoint,BasicSettings)"/> will create new channels, which could in turn be shut down by another call to this method.</remarks>
+        /// <returns>A task representing the asynchronous shutdown operation.</returns>
+        public static stt::Task ShutdownDefaultChannelsAsync() => s_channelPool.ShutdownChannelsAsync();
+
+        /// <summary>The underlying gRPC Basic client</summary>
+        public virtual Basic.BasicClient GrpcClient => throw new sys::NotImplementedException();
     }
 }
