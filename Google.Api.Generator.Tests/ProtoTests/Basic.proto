@@ -10,11 +10,13 @@ service Basic {
     scopes: ["scope1", "scope2"]
   };
 
+  // Test summary text for IdempotentMethod
   rpc IdempotentMethod(Request) returns(Response) {
     // A method with a non-empty http.get option is assumed to be idempotent.
     option (google.api.http).get = "/path/here";
   };
 
+  // Test summary text for NonIdempotentMethod
   rpc NonIdempotentMethod(Request) returns(Response);
 }
 

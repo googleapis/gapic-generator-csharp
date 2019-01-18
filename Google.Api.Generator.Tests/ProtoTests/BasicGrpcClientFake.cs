@@ -26,4 +26,8 @@ namespace Testing
             }
         }
     }
+
+    public class Request { }
+
+    public class Response { }
 }
