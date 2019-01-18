@@ -18,10 +18,10 @@
     <Content Include="ProtoTest.proto">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ProtoTests\Basic.proto">
+    <Content Include="ProtoTests\Basic\Basic.proto">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ProtoTests\BasicLro.proto">
+    <Content Include="ProtoTests\BasicLro\BasicLro.proto">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -37,10 +37,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="ProtoTests\BasicClient.cs">
+    <Compile Update="ProtoTests\Basic\BasicClient.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="ProtoTests\BasicLroClient.cs">
+    <Compile Update="ProtoTests\BasicLro\BasicLroClient.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Update="WhitespaceFormatterTest.cs">

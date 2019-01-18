@@ -9,7 +9,7 @@ using sco = System.Collections.ObjectModel;
 using st = System.Threading;
 using stt = System.Threading.Tasks;
 
-namespace Testing
+namespace Testing.Basic
 {
     /// <summary>Settings for a <see cref="BasicClient"/>.</summary>
     public sealed partial class BasicSettings : gaxgrpc::ServiceSettingsBase

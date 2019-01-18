@@ -87,12 +87,14 @@ namespace Google.Api.Generator.Tests
         private void ProtoTestSingle(string testProtoName)
         {
             // Confirm each generated file is idential to the expected output.
-            // TODO: Allow subsets of files to be verified, this will allow tests for specific generator features
-            // without requiring a (possibly large) expected output file to be entirely written.
-            var files = Run(Path.Combine("ProtoTests", $"{testProtoName}.proto"), "testing");
+            // Use `// TEST_START` and `// TEST_END` lines in the expected file to test subsets of output files.
+            var files = Run(Path.Combine("ProtoTests", testProtoName, $"{testProtoName}.proto"), $"testing.{testProtoName.ToLowerInvariant()}");
+            // Check output is present.
+            Assert.NotEmpty(files);
+            // Verify each output file.
             foreach (var file in files)
             {
-                var expectedFilePath = Path.Combine("ProtoTests", file.RelativePath);
+                var expectedFilePath = Path.Combine("ProtoTests", testProtoName, file.RelativePath);
                 Assert.True(File.Exists(expectedFilePath), $"Expected file does not exist: '{expectedFilePath}'");
                 var expectedLines = File.ReadAllLines(expectedFilePath).Select(x => x.Trim('\r')).ToList();
                 var actualLines = Encoding.UTF8.GetString(file.Content).Split('\n').Select(x => x.Trim('\r')).ToList();
