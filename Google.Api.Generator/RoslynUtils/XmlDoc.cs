@@ -53,6 +53,8 @@ namespace Google.Api.Generator.RoslynUtils
             Trivia(DocumentationComment(fn(parts.Select(ToNode).ToArray())));
 
         public static SyntaxTrivia Summary(params object[] parts) => XmlDocElement(parts, XmlSummaryElement);
+        public static SyntaxTrivia SummaryMultiline(IEnumerable<string> lines) =>
+            Trivia(DocumentationComment(XmlMultiLineElement("summary", List<XmlNodeSyntax>(lines.Select(XmlText)))));
         public static SyntaxTrivia Remarks(params object[] parts) => XmlDocElement(parts, XmlRemarksElement);
         public static SyntaxTrivia Example(params object[] parts) => XmlDocElement(parts, XmlExampleElement);
         public static SyntaxTrivia Param(ParameterSyntax param, params object[] parts) => XmlDocElement(parts, x => XmlParamElement(param.Identifier.Text, x));

@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Google.Protobuf.Reflection;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -37,5 +38,10 @@ namespace Google.Api.Generator.ProtoUtils
             // As a fallback, capitalize the first character of each part of the proto package.
             return string.Join(".", desc.Package.Split('.').Select(x => char.ToUpperInvariant(x[0]) + x.Substring(1)));
         }
+
+        public static IEnumerable<string> DocLines(this DescriptorDeclaration decl) =>
+            decl?.LeadingComments.Split('\n').Select(x => x.Trim())
+                .SkipWhile(string.IsNullOrWhiteSpace).Reverse().SkipWhile(string.IsNullOrWhiteSpace).Reverse() ??
+                    Enumerable.Empty<string>();
     }
 }

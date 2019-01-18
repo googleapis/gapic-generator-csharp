@@ -18,6 +18,8 @@ using Google.Api.Generator.Utils;
 using Google.LongRunning;
 using Google.Protobuf.Reflection;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Google.Api.Generator.Generation
@@ -33,8 +35,8 @@ namespace Google.Api.Generator.Generation
         public sealed class Normal : MethodDetails
         {
             public Normal(ServiceDetails svc, MethodDescriptor desc) : base(svc, desc) { }
-            public override Typ SyncReturnTyp => ResponseType;
-            public override Typ ApiCallTyp => Typ.Generic(typeof(ApiCall<,>), RequestType, ResponseType);
+            public override Typ SyncReturnTyp => ResponseTyp;
+            public override Typ ApiCallTyp => Typ.Generic(typeof(ApiCall<,>), RequestTyp, ResponseTyp);
         }
 
         /// <summary>
@@ -52,9 +54,9 @@ namespace Google.Api.Generator.Generation
                 _lroMetadataTyp = Typ.Of(svc.Catalog.GetMessageByName(lroData.MetadataType));
                 LroSettingsName = $"{desc.Name}OperationsSettings";
             }
-            private Typ _lroResponseTyp;
-            private Typ _lroMetadataTyp;
-            public override Typ ApiCallTyp => Typ.Generic(typeof(ApiCall<,>), RequestType, Typ.Of<Operation>());
+            private readonly Typ _lroResponseTyp;
+            private readonly Typ _lroMetadataTyp;
+            public override Typ ApiCallTyp => Typ.Generic(typeof(ApiCall<,>), RequestTyp, Typ.Of<Operation>());
             public override Typ SyncReturnTyp => Typ.Generic(typeof(Operation<,>), _lroResponseTyp, _lroMetadataTyp);
             public string LroSettingsName { get; }
         }
@@ -72,13 +74,13 @@ namespace Google.Api.Generator.Generation
             SyncMethodName = desc.Name;
             AsyncMethodName = $"{desc.Name}Async";
             SettingsName = $"{desc.Name}Settings";
-            RequestType = Typ.Of(desc.InputType);
-            ResponseType = Typ.Of(desc.OutputType);
+            RequestTyp = Typ.Of(desc.InputType);
+            ResponseTyp = Typ.Of(desc.OutputType);
             ApiCallFieldName = $"_call{desc.Name}";
             // Assume HTTP GET methods are idempotent; all others are non-idempotent.
             IsIdempotent = desc.CustomOptions.TryGetMessage<HttpRule>(
                 ProtoConsts.MethodOption.HttpRule, out var http) ? !string.IsNullOrEmpty(http.Get) : false;
-
+            DocLines = desc.Declaration.DocLines().ToList();
         }
 
         /// <summary>The service in which this method is defined.</summary>
@@ -94,10 +96,10 @@ namespace Google.Api.Generator.Generation
         public string SettingsName { get; }
 
         /// <summary>The typ of the method request.</summary>
-        public Typ RequestType { get; }
+        public Typ RequestTyp { get; }
 
         /// <summary>The typ of the method response.</summary>
-        public Typ ResponseType { get; }
+        public Typ ResponseTyp { get; }
 
         /// <summary>The sync return typ for this method.</summary>
         public abstract Typ SyncReturnTyp { get; }
@@ -113,5 +115,8 @@ namespace Google.Api.Generator.Generation
 
         /// <summary>Is this method idempotent?</summary>
         public bool IsIdempotent { get; }
+
+        /// <summary>The lines of method documentation from the proto.</summary>
+        public IEnumerable<string> DocLines { get; }
     }
 }

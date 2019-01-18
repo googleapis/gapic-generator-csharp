@@ -22,6 +22,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using static Google.Api.Generator.RoslynUtils.Modifier;
 using static Google.Api.Generator.RoslynUtils.RoslynBuilder;
@@ -54,11 +55,12 @@ namespace Google.Api.Generator.Generation
                 var createAsync = CreateAsync(sChannelPool, defaultEndpoint, createFromChannel);
                 var shutdown = ShutdownDefaultChannelsAsync(sChannelPool, createFromCallInvoker, createAsync);
                 var grpcClient = GrpcClient();
-                // TODO: Further abstract client content...
                 cls = cls.AddMembers(
                     defaultEndpoint, defaultScopes, sChannelPool,
                     createAsync, createFromEndPoint, createFromChannel, createFromCallInvoker,
                     shutdown, grpcClient);
+                var methods = ServiceMethodGenerator.Generate(_ctx, _svc, inAbstract: true);
+                cls = cls.AddMembers(methods.ToArray());
             }
             return cls;
         }

@@ -5,6 +5,7 @@ using grpcinter = Grpc.Core.Interceptors;
 using sys = System;
 using scg = System.Collections.Generic;
 using sco = System.Collections.ObjectModel;
+using st = System.Threading;
 using stt = System.Threading.Tasks;
 
 namespace Testing
@@ -119,5 +120,41 @@ namespace Testing
 
         /// <summary>The underlying gRPC Basic client</summary>
         public virtual Basic.BasicClient GrpcClient => throw new sys::NotImplementedException();
+
+        /// <summary>Test summary text for IdempotentMethod</summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>The RPC response.</returns>
+        public virtual Response IdempotentMethod(Request request, gaxgrpc::CallSettings callSettings = null) => throw new sys::NotImplementedException();
+
+        /// <summary>Test summary text for IdempotentMethod</summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<Response> IdempotentMethodAsync(Request request, gaxgrpc::CallSettings callSettings = null) => throw new sys::NotImplementedException();
+
+        /// <summary>Test summary text for IdempotentMethod</summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<Response> IdempotentMethodAsync(Request request, st::CancellationToken cancellationToken) => IdempotentMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+
+        /// <summary>Test summary text for NonIdempotentMethod</summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>The RPC response.</returns>
+        public virtual Response NonIdempotentMethod(Request request, gaxgrpc::CallSettings callSettings = null) => throw new sys::NotImplementedException();
+
+        /// <summary>Test summary text for NonIdempotentMethod</summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<Response> NonIdempotentMethodAsync(Request request, gaxgrpc::CallSettings callSettings = null) => throw new sys::NotImplementedException();
+
+        /// <summary>Test summary text for NonIdempotentMethod</summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<Response> NonIdempotentMethodAsync(Request request, st::CancellationToken cancellationToken) => NonIdempotentMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
     }
 }
