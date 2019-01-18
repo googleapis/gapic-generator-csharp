@@ -12,12 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Google.Protobuf;
-using Google.Protobuf.Reflection;
 using Grpc.Core;
 using System;
 
-namespace Testing
+namespace Testing.Basic
 {
     public class Basic
     {
@@ -36,25 +34,6 @@ namespace Testing
         }
     }
 
-    public class Request : IMessage<Request>
-    {
-        public MessageDescriptor Descriptor => throw new NotImplementedException();
-        public int CalculateSize() => throw new NotImplementedException();
-        public Request Clone() => throw new NotImplementedException();
-        public bool Equals(Request other) => throw new NotImplementedException();
-        public void MergeFrom(Request message) => throw new NotImplementedException();
-        public void MergeFrom(CodedInputStream input) => throw new NotImplementedException();
-        public void WriteTo(CodedOutputStream output) => throw new NotImplementedException();
-    }
-
-    public class Response : IMessage<Response>
-    {
-        public MessageDescriptor Descriptor => throw new NotImplementedException();
-        public int CalculateSize() => throw new NotImplementedException();
-        public Response Clone() => throw new NotImplementedException();
-        public bool Equals(Response other) => throw new NotImplementedException();
-        public void MergeFrom(Response message) => throw new NotImplementedException();
-        public void MergeFrom(CodedInputStream input) => throw new NotImplementedException();
-        public void WriteTo(CodedOutputStream output) => throw new NotImplementedException();
-    }
+    public class Request : ProtoMsgFake<Request> { }
+    public class Response : ProtoMsgFake<Response> { }
 }

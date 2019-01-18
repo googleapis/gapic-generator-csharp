@@ -12,10 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Google.Api.Gax;
 using Google.Api.Gax.Grpc;
 using Google.Api.Generator.ProtoUtils;
 using Google.Api.Generator.RoslynUtils;
 using Google.Api.Generator.Utils;
+using Google.LongRunning;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
@@ -56,6 +58,14 @@ namespace Google.Api.Generator.Generation
                         yield return method.AbstractAsyncCallSettingsRequestMethod;
                         yield return method.AbstractAsyncCancellationTokenRequestMethod;
                         break;
+                    case MethodDetails.Lro _:
+                        yield return method.AbstractSyncRequestMethod;
+                        yield return method.AbstractAsyncCallSettingsRequestMethod;
+                        yield return method.AbstractAsyncCancellationTokenRequestMethod;
+                        yield return method.AbstractLroOperationsProperty;
+                        yield return method.AbstractLroSyncPollMethod;
+                        yield return method.AbstractLroAsyncPollMethod;
+                        break;
                 }
             }
 
@@ -79,6 +89,7 @@ namespace Google.Api.Generator.Generation
             public SourceFileContext Ctx { get; }
             public string Namespace { get; }
             public MethodDetails MethodDetails { get; }
+            public MethodDetails.Lro MethodDetailsLro => (MethodDetails.Lro)MethodDetails;
 
             private string ApiCallSyncName => nameof(ApiCall<ProtoMsg, ProtoMsg>.Sync);
             private string ApiCallAsyncName => nameof(ApiCall<ProtoMsg, ProtoMsg>.Async);
@@ -86,6 +97,7 @@ namespace Google.Api.Generator.Generation
             private ParameterSyntax RequestParam => Parameter(Ctx.Type(MethodDetails.RequestTyp), "request");
             private ParameterSyntax CallSettingsParam => Parameter(Ctx.Type<CallSettings>(), "callSettings", @default: Null);
             private ParameterSyntax CancellationTokenParam => Parameter(Ctx.Type<CancellationToken>(), "cancellationToken");
+            private ParameterSyntax OperationNameParam => Parameter(Ctx.Type<string>(), "operationName");
 
             private SyntaxTrivia SummaryXmlDoc => XmlDoc.SummaryMultiline(MethodDetails.DocLines);
             private SyntaxTrivia RequestXmlDoc => XmlDoc.Param(RequestParam, "The request object containing all of the parameters for the API call.");
@@ -93,6 +105,10 @@ namespace Google.Api.Generator.Generation
             private SyntaxTrivia CancellationTokenXmlDoc => XmlDoc.Param(CancellationTokenParam, "A ", Ctx.Type<CancellationToken>(), " to use for this RPC.");
             private SyntaxTrivia ReturnsSyncXmlDoc => XmlDoc.Returns("The RPC response.");
             private SyntaxTrivia ReturnsAsyncXmlDoc => XmlDoc.Returns("A Task containing the RPC response.");
+            private SyntaxTrivia OperationsSummaryXmlDoc => XmlDoc.Summary("The long-running operations client for ", XmlDoc.C(MethodDetails.SyncMethodName), ".");
+            private SyntaxTrivia OperationNameXmlDoc => XmlDoc.Param(OperationNameParam, "The name of a previously invoked operation. Must not be ", XmlDoc.C("null"), " or empty.");
+
+            // Base abstract members.
 
             public MethodDeclarationSyntax AbstractSyncRequestMethod =>
                 Method(Public | Virtual, Ctx.Type(MethodDetails.SyncReturnTyp), MethodDetails.SyncMethodName)(RequestParam, CallSettingsParam)
@@ -109,6 +125,8 @@ namespace Google.Api.Generator.Generation
                     .WithBody(This.Call(AbstractAsyncCallSettingsRequestMethod)(RequestParam, Ctx.Type<CallSettings>().Call(nameof(CallSettings.FromCancellationToken))(CancellationTokenParam)))
                     .WithXmlDoc(SummaryXmlDoc, RequestXmlDoc, CancellationTokenXmlDoc, ReturnsAsyncXmlDoc);
 
+            // Base impl members.
+
             public MethodDeclarationSyntax ImplSyncRequestMethod =>
                 Method(Public | Override, Ctx.Type(MethodDetails.SyncReturnTyp), MethodDetails.SyncMethodName)(RequestParam, CallSettingsParam)
                         .WithBody(
@@ -122,6 +140,33 @@ namespace Google.Api.Generator.Generation
                             This.Call(ServiceImplClientClassGenerator.ModifyRequestMethod(Ctx, MethodDetails))(Ref(RequestParam), Ref(CallSettingsParam)),
                             Return(ServiceImplClientClassGenerator.ApiCallField(Ctx, MethodDetails).Call(ApiCallAsyncName)(RequestParam, CallSettingsParam)))
                         .WithXmlDoc(SummaryXmlDoc, RequestXmlDoc, CallSettingsXmlDoc, ReturnsAsyncXmlDoc);
+
+            // LRO abstract members.
+
+            public PropertyDeclarationSyntax AbstractLroOperationsProperty =>
+                Property(Public | Virtual, Ctx.Type<OperationsClient>(), MethodDetailsLro.LroClientName)
+                    .WithGetBody(Throw(New(Ctx.Type<NotImplementedException>())()))
+                    .WithXmlDoc(OperationsSummaryXmlDoc);
+
+            public MethodDeclarationSyntax AbstractLroSyncPollMethod =>
+                Method(Public | Virtual, Ctx.Type(MethodDetails.SyncReturnTyp), MethodDetailsLro.SyncPollMethodName)(OperationNameParam, CallSettingsParam)
+                    .WithBody(
+                        Ctx.Type(MethodDetailsLro.OperationTyp).Call(nameof(Operation<ProtoMsg, ProtoMsg>.PollOnceFromName))(
+                            Ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNullOrEmpty))(OperationNameParam, Nameof(OperationNameParam)),
+                            AbstractLroOperationsProperty, CallSettingsParam))
+                    .WithXmlDoc(
+                        XmlDoc.Summary("Poll an operation once, using an ", XmlDoc.C("operationName"), " from a previous invocation of ", XmlDoc.C(MethodDetails.SyncMethodName), "."),
+                            OperationNameXmlDoc, CallSettingsXmlDoc, XmlDoc.Returns("The result of polling the operation."));
+
+            public MethodDeclarationSyntax AbstractLroAsyncPollMethod =>
+                Method(Public | Virtual, Ctx.Type(MethodDetails.AsyncReturnTyp), MethodDetailsLro.AsyncPollMethodName)(OperationNameParam, CallSettingsParam)
+                    .WithBody(
+                        Ctx.Type(MethodDetailsLro.OperationTyp).Call(nameof(Operation<ProtoMsg, ProtoMsg>.PollOnceFromNameAsync))(
+                            Ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNullOrEmpty))(OperationNameParam, Nameof(OperationNameParam)),
+                            AbstractLroOperationsProperty, CallSettingsParam))
+                    .WithXmlDoc(
+                        XmlDoc.Summary("Asynchronously poll an operation once, using an ", XmlDoc.C("operationName"), " from a previous invocation of ", XmlDoc.C(MethodDetails.SyncMethodName), "."),
+                            OperationNameXmlDoc, CallSettingsXmlDoc, XmlDoc.Returns("A task representing the result of polling the operation."));
         }
     }
 }

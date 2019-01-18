@@ -52,13 +52,22 @@ namespace Google.Api.Generator.Generation
                 }
                 _lroResponseTyp = Typ.Of(svc.Catalog.GetMessageByName(lroData.ResponseType));
                 _lroMetadataTyp = Typ.Of(svc.Catalog.GetMessageByName(lroData.MetadataType));
+                ApiCallTyp = Typ.Generic(typeof(ApiCall<,>), RequestTyp, Typ.Of<Operation>());
+                SyncReturnTyp = Typ.Generic(typeof(Operation<,>), _lroResponseTyp, _lroMetadataTyp);
                 LroSettingsName = $"{desc.Name}OperationsSettings";
+                LroClientName = $"{desc.Name}OperationsClient";
+                SyncPollMethodName = $"PollOnce{SyncMethodName}";
+                AsyncPollMethodName = $"PollOnce{AsyncMethodName}";
             }
             private readonly Typ _lroResponseTyp;
             private readonly Typ _lroMetadataTyp;
-            public override Typ ApiCallTyp => Typ.Generic(typeof(ApiCall<,>), RequestTyp, Typ.Of<Operation>());
-            public override Typ SyncReturnTyp => Typ.Generic(typeof(Operation<,>), _lroResponseTyp, _lroMetadataTyp);
+            public override Typ ApiCallTyp { get; }
+            public override Typ SyncReturnTyp { get; }
             public string LroSettingsName { get; }
+            public string LroClientName { get; }
+            public string SyncPollMethodName { get; }
+            public string AsyncPollMethodName { get; }
+            public Typ OperationTyp => SyncReturnTyp;
         }
 
         // TODO: Nested classes for other method types: paged, streaming, LRO, ...

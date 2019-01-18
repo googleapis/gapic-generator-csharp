@@ -3,7 +3,7 @@
 import "google/api/annotations.proto";
 import "google/longrunning/operations.proto";
 
-package testing;
+package testing.basiclro;
 
 service BasicLro {
   option (google.api.default_host) = "lro.example.com";
