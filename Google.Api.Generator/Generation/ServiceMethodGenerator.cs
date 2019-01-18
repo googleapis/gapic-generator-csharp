@@ -13,7 +13,9 @@
 // limitations under the License.
 
 using Google.Api.Gax.Grpc;
+using Google.Api.Generator.ProtoUtils;
 using Google.Api.Generator.RoslynUtils;
+using Google.Api.Generator.Utils;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
@@ -62,7 +64,9 @@ namespace Google.Api.Generator.Generation
                 switch (method.MethodDetails)
                 {
                     case MethodDetails.Normal _:
-                        yield break;
+                        yield return method.ImplSyncRequestMethod;
+                        yield return method.ImplAsyncCallSettingsRequestMethod;
+                        break;
                 }
             }
         }
@@ -75,6 +79,9 @@ namespace Google.Api.Generator.Generation
             public SourceFileContext Ctx { get; }
             public string Namespace { get; }
             public MethodDetails MethodDetails { get; }
+
+            private string ApiCallSyncName => nameof(ApiCall<ProtoMsg, ProtoMsg>.Sync);
+            private string ApiCallAsyncName => nameof(ApiCall<ProtoMsg, ProtoMsg>.Async);
 
             private ParameterSyntax RequestParam => Parameter(Ctx.Type(MethodDetails.RequestTyp), "request");
             private ParameterSyntax CallSettingsParam => Parameter(Ctx.Type<CallSettings>(), "callSettings", @default: Null);
@@ -101,6 +108,20 @@ namespace Google.Api.Generator.Generation
                 Method(Public | Virtual, Ctx.Type(MethodDetails.AsyncReturnTyp), MethodDetails.AsyncMethodName)(RequestParam, CancellationTokenParam)
                     .WithBody(This.Call(AbstractAsyncCallSettingsRequestMethod)(RequestParam, Ctx.Type<CallSettings>().Call(nameof(CallSettings.FromCancellationToken))(CancellationTokenParam)))
                     .WithXmlDoc(SummaryXmlDoc, RequestXmlDoc, CancellationTokenXmlDoc, ReturnsAsyncXmlDoc);
+
+            public MethodDeclarationSyntax ImplSyncRequestMethod =>
+                Method(Public | Override, Ctx.Type(MethodDetails.SyncReturnTyp), MethodDetails.SyncMethodName)(RequestParam, CallSettingsParam)
+                        .WithBody(
+                            This.Call(ServiceImplClientClassGenerator.ModifyRequestMethod(Ctx, MethodDetails))(Ref(RequestParam), Ref(CallSettingsParam)),
+                            Return(ServiceImplClientClassGenerator.ApiCallField(Ctx, MethodDetails).Call(ApiCallSyncName)(RequestParam, CallSettingsParam)))
+                        .WithXmlDoc(SummaryXmlDoc, RequestXmlDoc, CallSettingsXmlDoc, ReturnsSyncXmlDoc);
+
+            public MethodDeclarationSyntax ImplAsyncCallSettingsRequestMethod =>
+                Method(Public | Override, Ctx.Type(MethodDetails.AsyncReturnTyp), MethodDetails.AsyncMethodName)(RequestParam, CallSettingsParam)
+                        .WithBody(
+                            This.Call(ServiceImplClientClassGenerator.ModifyRequestMethod(Ctx, MethodDetails))(Ref(RequestParam), Ref(CallSettingsParam)),
+                            Return(ServiceImplClientClassGenerator.ApiCallField(Ctx, MethodDetails).Call(ApiCallAsyncName)(RequestParam, CallSettingsParam)))
+                        .WithXmlDoc(SummaryXmlDoc, RequestXmlDoc, CallSettingsXmlDoc, ReturnsAsyncXmlDoc);
         }
     }
 }
