@@ -96,10 +96,7 @@ namespace Google.Api.Generator.Generation
                     If(interceptor.NotEqualTo(Null)).Then(
                         callInvoker.Assign(_ctx.Type(typeof(CallInvokerExtensions)).Call(nameof(CallInvokerExtensions.Intercept))(callInvoker, interceptor))),
                     grpcClient.WithInitializer(New(_ctx.Type(_svc.GrpcClientTyp))(callInvoker)),
-                    // Temporarily return `null` so it generates compilable C#; because the `ClientImplTyp` isn't yet generated.
-                    // TODO: Return the correct concrete instance.
-                    //Return(New(_ctx.Type(_svc.ClientImplTyp))(grpcClient, settings))
-                    Return(Null)
+                    Return(New(_ctx.Type(_svc.ClientImplTyp))(grpcClient, settings))
                 )
                 .WithXmlDoc(
                     XmlDoc.Summary("Creates a ", _ctx.CurrentType, " which uses the specified call invoker for remote operations."),
