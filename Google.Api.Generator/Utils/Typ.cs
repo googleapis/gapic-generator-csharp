@@ -82,6 +82,16 @@ namespace Google.Api.Generator.Utils
             public override string FullName => $"<{Name}>";
         }
 
+        public sealed class Special : Typ
+        {
+            public const string NamePrefix = "::special::";
+            public enum Type { ClassConstraint }
+            public Special(Type type) => SpecialType = type;
+            public Type SpecialType { get; }
+            public override string Namespace => throw new InvalidOperationException();
+            public override string Name => throw new InvalidOperationException();
+        }
+
         public static Typ Of<T>() => Of(typeof(T));
         public static Typ Of(System.Type type) => new FromType(type);
         public static Typ Of(MessageDescriptor desc) => Manual(desc.File.CSharpNamespace(), desc.Name);
@@ -89,8 +99,8 @@ namespace Google.Api.Generator.Utils
         public static Typ Manual(string ns, ClassDeclarationSyntax cls) => new FromManual(ns, cls.Identifier.Text);
         public static Typ Nested(Typ declaringTyp, string name) => new FromNested(declaringTyp, name);
         public static Typ Generic(System.Type genericDef, params Typ[] typeArgs) => new FromGeneric(Of(genericDef), typeArgs);
-
-
+        public static Typ.GenericParameter GenericParam(string name) => new Typ.GenericParameter(name);
+        public static Typ.Special ClassConstraint { get; } = new Special(Special.Type.ClassConstraint);
 
         /// <summary> the namespace of this typ. </summary>
         public abstract string Namespace { get; }

@@ -1,5 +1,6 @@
 ﻿using gax = Google.Api.Gax;
 using gaxgrpc = Google.Api.Gax.Grpc;
+using proto = Google.Protobuf;
 using grpccore = Grpc.Core;
 using grpcinter = Grpc.Core.Interceptors;
 using sys = System;
@@ -161,11 +162,36 @@ namespace Testing
     /// <summary>Basic client wrapper implementation, for convenient use.</summary>
     public sealed partial class BasicClientImpl : BasicClient
     {
+        private readonly gaxgrpc::ApiCall<Request, Response> _callIdempotentMethod;
+
+        private readonly gaxgrpc::ApiCall<Request, Response> _callNonIdempotentMethod;
+
         /// <summary>Constructs a client wrapper for the Basic service, with the specified gRPC client and settings.</summary>
         /// <param name="grpcClient">The underlying gRPC client.</param>
         /// <param name="settings">The base <see cref="BasicSettings"/> used within this client.</param>
         public BasicClientImpl(Basic.BasicClient grpcClient, BasicSettings settings)
         {
+            GrpcClient = grpcClient;
+            BasicSettings effectiveSettings = settings ?? BasicSettings.GetDefault();
+            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings);
+            _callIdempotentMethod = clientHelper.BuildApiCall<Request, Response>(grpcClient.IdempotentMethodAsync, grpcClient.IdempotentMethod, effectiveSettings.IdempotentMethodSettings);
+            Modify_ApiCall(ref _callIdempotentMethod);
+            Modify_IdempotentMethodApiCall(ref _callIdempotentMethod);
+            _callNonIdempotentMethod = clientHelper.BuildApiCall<Request, Response>(grpcClient.NonIdempotentMethodAsync, grpcClient.NonIdempotentMethod, effectiveSettings.NonIdempotentMethodSettings);
+            Modify_ApiCall(ref _callNonIdempotentMethod);
+            Modify_NonIdempotentMethodApiCall(ref _callNonIdempotentMethod);
+            OnConstruction(grpcClient, effectiveSettings, clientHelper);
         }
+
+        partial void Modify_ApiCall<TRequest, TResponse>(ref gaxgrpc::ApiCall<TRequest, TResponse> call) where TRequest : class, proto::IMessage<TRequest> where TResponse : class, proto::IMessage<TResponse>;
+
+        partial void Modify_IdempotentMethodApiCall(ref gaxgrpc::ApiCall<Request, Response> call);
+
+        partial void Modify_NonIdempotentMethodApiCall(ref gaxgrpc::ApiCall<Request, Response> call);
+
+        partial void OnConstruction(Basic.BasicClient grpcClient, BasicSettings effectiveSettings, gaxgrpc::ClientHelper clientHelper);
+
+        /// <summary>The underlying gRPC Basic client</summary>
+        public override Basic.BasicClient GrpcClient { get; }
     }
 }

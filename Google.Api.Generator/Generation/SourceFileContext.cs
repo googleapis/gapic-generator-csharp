@@ -44,6 +44,7 @@ namespace Google.Api.Generator.Generation
             { typeof(Grpc.Core.Interceptors.Interceptor).Namespace, "grpcinter" },
             { typeof(Google.Protobuf.WellKnownTypes.Any).Namespace, "wkt" },
             { typeof(Google.LongRunning.Operation).Namespace, "lro" },
+            { typeof(Google.Protobuf.ByteString).Namespace, "proto" },
         };
 
         private static readonly IReadOnlyDictionary<string, TypeSyntax> s_predefinedTypes = new Dictionary<string, TypeSyntax>
@@ -131,6 +132,16 @@ namespace Google.Api.Generator.Generation
             {
                 // TODO: Remove when other import style(s) are implemented.
                 throw new NotImplementedException();
+            }
+            if (typ is Typ.Special special)
+            {
+                // Handle special typ; e.g. `class` generic constraint.
+                return IdentifierName($"{Typ.Special.NamePrefix}{special.SpecialType}");
+            }
+            if (typ is Typ.GenericParameter)
+            {
+                // Handle generic parameters.
+                return IdentifierName(typ.Name);
             }
             if (typ.ElementTyp is Typ elementType)
             {
