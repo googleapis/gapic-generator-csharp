@@ -29,6 +29,16 @@ namespace Google.Api.Generator.Generation
         public static ClassDeclarationSyntax Generate(SourceFileContext ctx, ServiceDetails svc) =>
             new ServiceImplClientClassGenerator(ctx, svc).Generate();
 
+        public static FieldDeclarationSyntax ApiCallField(SourceFileContext ctx, MethodDetails method) =>
+            Field(Private | Readonly, ctx.Type(method.ApiCallTyp), method.ApiCallFieldName);
+
+        public static MethodDeclarationSyntax ModifyRequestMethod(SourceFileContext ctx, MethodDetails method)
+        {
+            var requestParam = Parameter(ctx.Type(method.RequestTyp), "request").Ref();
+            var settingsParam = Parameter(ctx.Type<CallSettings>(), "settings").Ref();
+            return PartialMethod(method.ModifyRequestMethodName)(requestParam, settingsParam);
+        }
+
         private ServiceImplClientClassGenerator(SourceFileContext ctx, ServiceDetails svc) =>
             (_ctx, _svc) = (ctx, svc);
 
@@ -47,20 +57,20 @@ namespace Google.Api.Generator.Generation
                 var modifyApiCallPerMethod = ModifyPerMethodApiCallMethods().ToArray();
                 var onCtor = OnConstruction();
                 var ctor = CtorGrpcClient(grpcClient, onCtor, modifyApiCallGeneric.First());
-                // TODO: Implementation members.
+                var modifyRequestMethods = ModifyRequestMethods().ToArray();
                 cls = cls.AddMembers(apiCallFields);
                 cls = cls.AddMembers(ctor);
                 cls = cls.AddMembers(modifyApiCallGeneric);
                 cls = cls.AddMembers(modifyApiCallPerMethod);
                 cls = cls.AddMembers(onCtor, grpcClient);
+                cls = cls.AddMembers(modifyRequestMethods);
+                var methods = ServiceMethodGenerator.Generate(_ctx, _svc, inAbstract: false);
+                cls = cls.AddMembers(methods.ToArray());
             }
             return cls;
         }
 
-        private FieldDeclarationSyntax ApiCallField(MethodDetails method) =>
-            Field(Private | Readonly, _ctx.Type(method.ApiCallTyp), method.ApiCallFieldName);
-
-        private IEnumerable<FieldDeclarationSyntax> ApiCallFields() => _svc.Methods.Select(ApiCallField);
+        private IEnumerable<FieldDeclarationSyntax> ApiCallFields() => _svc.Methods.Select(m => ApiCallField(_ctx, m));
 
         private MemberDeclarationSyntax CtorGrpcClient(PropertyDeclarationSyntax grpcClientProperty, MethodDeclarationSyntax onCtor, MethodDeclarationSyntax modifyApiCall)
         {
@@ -84,7 +94,7 @@ namespace Google.Api.Generator.Generation
 
             IEnumerable<object> PerMethod(MethodDetails method)
             {
-                var field = ApiCallField(method);
+                var field = ApiCallField(_ctx, method);
                 var fieldInit = clientHelper.Call(nameof(ClientHelper.BuildApiCall), _ctx.Type(method.RequestTyp), _ctx.Type(method.ResponseTyp))(
                     grpcClient.Access(method.AsyncMethodName), grpcClient.Access(method.SyncMethodName), effectiveSettings.Access(method.SettingsName));
                 // Initialize ApiCall field.
@@ -122,6 +132,18 @@ namespace Google.Api.Generator.Generation
             var effectiveSettings = Parameter(_ctx.Type(_svc.SettingsTyp), "effectiveSettings");
             var clientHelper = Parameter(_ctx.Type<ClientHelper>(), "clientHelper");
             return PartialMethod("OnConstruction")(grpcClient, effectiveSettings, clientHelper);
+        }
+
+        private IEnumerable<MethodDeclarationSyntax> ModifyRequestMethods()
+        {
+            var seenTypes = new HashSet<Typ>();
+            foreach (var method in _svc.Methods)
+            {
+                if (seenTypes.Add(method.RequestTyp))
+                {
+                    yield return ModifyRequestMethod(_ctx, method);
+                }
+            }
         }
     }
 }

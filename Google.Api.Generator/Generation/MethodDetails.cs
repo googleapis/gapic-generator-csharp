@@ -78,6 +78,7 @@ namespace Google.Api.Generator.Generation
             ResponseTyp = Typ.Of(desc.OutputType);
             ApiCallFieldName = $"_call{desc.Name}";
             ModifyApiCallMethodName = $"Modify_{desc.Name}ApiCall";
+            ModifyRequestMethodName = $"Modify_{RequestTyp.Name}";
             // Assume HTTP GET methods are idempotent; all others are non-idempotent.
             IsIdempotent = desc.CustomOptions.TryGetMessage<HttpRule>(
                 ProtoConsts.MethodOption.HttpRule, out var http) ? !string.IsNullOrEmpty(http.Get) : false;
@@ -116,6 +117,9 @@ namespace Google.Api.Generator.Generation
 
         /// <summary>The name of the per-method partial method to modify the ApiCall.</summary>
         public string ModifyApiCallMethodName { get; }
+
+        /// <summary>The name of the per-request-type partial method to modify the request.</summary>
+        public string ModifyRequestMethodName { get; }
 
         /// <summary>Is this method idempotent?</summary>
         public bool IsIdempotent { get; }

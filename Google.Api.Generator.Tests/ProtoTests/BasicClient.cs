@@ -193,5 +193,47 @@ namespace Testing
 
         /// <summary>The underlying gRPC Basic client</summary>
         public override Basic.BasicClient GrpcClient { get; }
+
+        partial void Modify_Request(ref Request request, ref gaxgrpc::CallSettings settings);
+
+        /// <summary>Test summary text for IdempotentMethod</summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>The RPC response.</returns>
+        public override Response IdempotentMethod(Request request, gaxgrpc::CallSettings callSettings = null)
+        {
+            Modify_Request(ref request, ref callSettings);
+            return _callIdempotentMethod.Sync(request, callSettings);
+        }
+
+        /// <summary>Test summary text for IdempotentMethod</summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public override stt::Task<Response> IdempotentMethodAsync(Request request, gaxgrpc::CallSettings callSettings = null)
+        {
+            Modify_Request(ref request, ref callSettings);
+            return _callIdempotentMethod.Async(request, callSettings);
+        }
+
+        /// <summary>Test summary text for NonIdempotentMethod</summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>The RPC response.</returns>
+        public override Response NonIdempotentMethod(Request request, gaxgrpc::CallSettings callSettings = null)
+        {
+            Modify_Request(ref request, ref callSettings);
+            return _callNonIdempotentMethod.Sync(request, callSettings);
+        }
+
+        /// <summary>Test summary text for NonIdempotentMethod</summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public override stt::Task<Response> NonIdempotentMethodAsync(Request request, gaxgrpc::CallSettings callSettings = null)
+        {
+            Modify_Request(ref request, ref callSettings);
+            return _callNonIdempotentMethod.Async(request, callSettings);
+        }
     }
 }
