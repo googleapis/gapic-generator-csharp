@@ -29,7 +29,8 @@ namespace Google.Api.Generator.Generation
             {
                 var settingsClass = ServiceSettingsCodeGenerator.Generate(ctx, svc);
                 var abstractClientClass = ServiceAbstractClientClassCodeGenerator.Generate(ctx, svc);
-                ns = ns.AddMembers(settingsClass, abstractClientClass);
+                var implClientClass = ServiceImplClientClassGenerator.Generate(ctx, svc);
+                ns = ns.AddMembers(settingsClass, abstractClientClass, implClientClass);
             }
             return ctx.CreateCompilationUnit(ns);
         }

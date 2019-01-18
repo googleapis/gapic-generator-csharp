@@ -110,7 +110,7 @@ namespace Testing
                 callInvoker = grpcinter::CallInvokerExtensions.Intercept(callInvoker, interceptor);
             }
             Basic.BasicClient grpcClient = new Basic.BasicClient(callInvoker);
-            return null;
+            return new BasicClientImpl(grpcClient, settings);
         }
 
         /// <summary>Shuts down any channels automatically created by <see cref="Create(grpccore::CallInvoker,BasicSettings)"/> and <see cref="CreateAsync(gaxgrpc::ServiceEndpoint,BasicSettings)"/>. Channels which weren't automatically created are not affected.</summary>
@@ -156,5 +156,16 @@ namespace Testing
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
         /// <returns>A Task containing the RPC response.</returns>
         public virtual stt::Task<Response> NonIdempotentMethodAsync(Request request, st::CancellationToken cancellationToken) => NonIdempotentMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+    }
+
+    /// <summary>Basic client wrapper implementation, for convenient use.</summary>
+    public sealed partial class BasicClientImpl : BasicClient
+    {
+        /// <summary>Constructs a client wrapper for the Basic service, with the specified gRPC client and settings.</summary>
+        /// <param name="grpcClient">The underlying gRPC client.</param>
+        /// <param name="settings">The base <see cref="BasicSettings"/> used within this client.</param>
+        public BasicClientImpl(Basic.BasicClient grpcClient, BasicSettings settings)
+        {
+        }
     }
 }
