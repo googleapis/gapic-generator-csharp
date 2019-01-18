@@ -34,7 +34,6 @@ namespace Google.Api.Generator.RoslynUtils
 
         public static TypeSyntax VoidType { get; } = PredefinedType(Token(SyntaxKind.VoidKeyword));
         public static ExpressionSyntax Null { get; } = LiteralExpression(SyntaxKind.NullLiteralExpression);
-
         public static ExpressionSyntax This { get; } = ThisExpression();
 
         public static NamespaceDeclarationSyntax Namespace(string ns) => NamespaceDeclaration(IdentifierName(ns));
@@ -127,5 +126,7 @@ namespace Google.Api.Generator.RoslynUtils
         public static IfStatementSyntax If(ExpressionSyntax condition) => IfStatement(condition, Block());
 
         public static ThrowExpressionSyntax Throw(ExpressionSyntax obj) => ThrowExpression(obj);
+
+        public static ArgModifier Ref(object arg) => new ArgModifier(ArgModifier.Type.Ref, arg);
     }
 }

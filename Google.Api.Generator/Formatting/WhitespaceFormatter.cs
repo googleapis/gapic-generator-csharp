@@ -152,6 +152,16 @@ namespace Google.Api.Generator.Formatting
             return node;
         }
 
+        public override SyntaxNode VisitArgument(ArgumentSyntax node)
+        {
+            node = (ArgumentSyntax)base.VisitArgument(node);
+            if (node.RefKindKeyword != null)
+            {
+                node = node.WithRefKindKeyword(node.RefKindKeyword.WithTrailingSpace());
+            }
+            return node;
+        }
+
         public override SyntaxNode VisitNameColon(NameColonSyntax node)
         {
             node = (NameColonSyntax)base.VisitNameColon(node);
@@ -337,6 +347,29 @@ namespace Google.Api.Generator.Formatting
         {
             node = (ThrowExpressionSyntax)base.VisitThrowExpression(node);
             node = node.WithThrowKeyword(node.ThrowKeyword.WithTrailingSpace());
+            return node;
+        }
+
+        public override SyntaxNode VisitTypeParameterList(TypeParameterListSyntax node)
+        {
+            node = (TypeParameterListSyntax)base.VisitTypeParameterList(node);
+            node = node.WithParameters(SeparatedList(node.Parameters, CommaSpaces(node.Parameters.Count - 1)));
+            return node;
+        }
+
+        public override SyntaxNode VisitTypeParameterConstraintClause(TypeParameterConstraintClauseSyntax node)
+        {
+            node = (TypeParameterConstraintClauseSyntax)base.VisitTypeParameterConstraintClause(node);
+            node = node.WithWhereKeyword(node.WhereKeyword.WithLeadingSpace().WithTrailingSpace());
+            node = node.WithColonToken(node.ColonToken.WithLeadingSpace().WithTrailingSpace());
+            node = node.WithConstraints(SeparatedList(node.Constraints, CommaSpaces(node.Constraints.Count - 1)));
+            return node;
+        }
+
+        public override SyntaxNode VisitGenericName(GenericNameSyntax node)
+        {
+            node = (GenericNameSyntax)base.VisitGenericName(node);
+            node = node.WithTypeArgumentList(TypeArgumentList(SeparatedList(node.TypeArgumentList.Arguments, CommaSpaces(node.TypeArgumentList.Arguments.Count - 1))));
             return node;
         }
     }

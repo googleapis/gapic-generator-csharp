@@ -66,6 +66,20 @@ namespace Google.Api.Generator.RoslynUtils
                 // Named argument
                 return new[] { ToArgs(tuple[1]).Single().WithNameColon(NameColon(argName)) };
             }
+            if (o is ArgModifier argMod)
+            {
+                // Handle argument modifiers; e.g. `ref`
+                SyntaxKind kind;
+                switch (argMod.ModType)
+                {
+                    case ArgModifier.Type.Ref:
+                        kind = SyntaxKind.RefKeyword;
+                        break;
+                    default:
+                        throw new InvalidOperationException($"Cannot convert modtype: {argMod.ModType}");
+                }
+                return new[] { Argument(ToExpressions(argMod.Arg).Single()).WithRefKindKeyword(Token(kind)) };
+            }
             // TODO: ref arguments.
             return ToExpressions(o).Select(Argument);
         }

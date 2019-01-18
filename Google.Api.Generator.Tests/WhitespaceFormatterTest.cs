@@ -153,6 +153,17 @@ namespace Google.Api.Generator.Tests
             {
                 throw e;
             }
+
+            // Test generic field type.
+            private Dictionary<int, string> _genericField;
+
+            // Test generic parameters and generic constraints.
+            public void GenericMethod<A, B>(A a, B b) where A : class, IList<B> where B : struct, IList<A>
+            {
+            }
+
+            // Test `ref` parameter and `ref` arg.
+            public void WithRef(ref int a) => WithRef(ref a);
         }
 
         // Test base-list with one item.

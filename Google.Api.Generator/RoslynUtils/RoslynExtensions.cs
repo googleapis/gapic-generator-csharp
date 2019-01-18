@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Google.Api.Generator.Utils;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -121,6 +122,11 @@ namespace Google.Api.Generator.RoslynUtils
                     InvocationExpression(MemberAccessExpression(
                         SyntaxKind.SimpleMemberAccessExpression, expr, ToSimpleName(method, genericArgs)), CreateArgList(args));
 
+        public static RoslynBuilder.ArgumentsFunc<InvocationExpressionSyntax> Call(
+            this LocalDeclarationStatementSyntax var, object method, params TypeSyntax[] genericArgs) => args =>
+                InvocationExpression(MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression,
+                    IdentifierName(var.Declaration.Variables.Single().Identifier), ToSimpleName(method, genericArgs)), CreateArgList(args));
+
         public static InvocationExpressionSyntax ConfigureAwait(this ExpressionSyntax expr) =>
             expr.Call(nameof(Task.ConfigureAwait))(false);
 
@@ -131,12 +137,19 @@ namespace Google.Api.Generator.RoslynUtils
         public static AssignmentExpressionSyntax Assign(this ParameterSyntax assignTo, object assignFrom) =>
             AssignmentExpression(SyntaxKind.SimpleAssignmentExpression, IdentifierName(assignTo.Identifier), ToExpressions(assignFrom).Single());
 
+        public static AssignmentExpressionSyntax Assign(this FieldDeclarationSyntax assignTo, object assignFrom) =>
+            AssignmentExpression(SyntaxKind.SimpleAssignmentExpression,
+                IdentifierName(assignTo.Declaration.Variables.Single().Identifier), ToExpressions(assignFrom).Single());
+
         public static ExpressionSyntax Access(this TypeSyntax type, object member) =>
             MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, type, ToSimpleName(member));
 
         public static ExpressionSyntax Access(this ParameterSyntax obj, object member, bool conditional = false) => conditional ?
             (ExpressionSyntax)ConditionalAccessExpression(IdentifierName(obj.Identifier), MemberBindingExpression(ToSimpleName(member))) :
             MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, IdentifierName(obj.Identifier), ToSimpleName(member));
+
+        public static ExpressionSyntax Access(this LocalDeclarationStatementSyntax var, object member) =>
+            MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, IdentifierName(var.Declaration.Variables.Single().Identifier), ToSimpleName(member));
 
         public static ExpressionSyntax NullCoalesce(this ParameterSyntax lhs, object rhs) =>
             BinaryExpression(SyntaxKind.CoalesceExpression, ToExpressions(lhs).Single(), ToExpressions(rhs).Single());
@@ -146,5 +159,29 @@ namespace Google.Api.Generator.RoslynUtils
 
         public static IfStatementSyntax Then(this IfStatementSyntax @if, params object[] code) =>
             WithBody(code, fnExpr: null, fnBlock: @if.WithStatement);
+
+        public static ParameterSyntax Ref(this ParameterSyntax parameter) => parameter.WithModifiers(TokenList(Token(SyntaxKind.RefKeyword)));
+
+        public static MethodDeclarationSyntax AddGenericConstraint(this MethodDeclarationSyntax method, Typ.GenericParameter genericParam, params TypeSyntax[] constraints)
+        {
+            var constraint = TypeParameterConstraintClause(IdentifierName(genericParam.Name), SeparatedList(constraints.Select(MakeConstraint)));
+            return method.WithConstraintClauses(List(method.ConstraintClauses.Append(constraint)));
+
+            TypeParameterConstraintSyntax MakeConstraint(TypeSyntax type)
+            {
+                if (type is SimpleNameSyntax simple && simple.Identifier.Text.StartsWith(Typ.Special.NamePrefix))
+                {
+                    var special = Enum.Parse<Typ.Special.Type>(simple.Identifier.Text.Substring(Typ.Special.NamePrefix.Length));
+                    switch (special)
+                    {
+                        case Typ.Special.Type.ClassConstraint:
+                            return ClassOrStructConstraint(SyntaxKind.ClassConstraint);
+                        default:
+                            throw new ArgumentException($"Cannot handle special constraint: '{special}'");
+                    }
+                }
+                return TypeConstraint(type);
+            }
+        }
     }
 }
