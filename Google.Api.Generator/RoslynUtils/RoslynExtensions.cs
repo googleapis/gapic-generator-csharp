@@ -38,17 +38,8 @@ namespace Google.Api.Generator.RoslynUtils
         public static SyntaxToken WithTrailingSpace(this SyntaxToken token) => token.WithTrailingTrivia(Space);
         public static SyntaxToken WithTrailingCrLf(this SyntaxToken token) => token.WithTrailingTrivia(CarriageReturnLineFeed);
 
-        public static ClassDeclarationSyntax WithXmlDoc(this ClassDeclarationSyntax cls, params SyntaxTrivia[] xmlDoc) =>
-            cls.WithLeadingTrivia(xmlDoc);
-
-        public static ConstructorDeclarationSyntax WithXmlDoc(this ConstructorDeclarationSyntax ctor, params SyntaxTrivia[] xmlDoc) =>
-            ctor.WithLeadingTrivia(xmlDoc);
-
-        public static MethodDeclarationSyntax WithXmlDoc(this MethodDeclarationSyntax method, params SyntaxTrivia[] xmlDoc) =>
-            method.WithLeadingTrivia(xmlDoc);
-
-        public static PropertyDeclarationSyntax WithXmlDoc(this PropertyDeclarationSyntax property, params SyntaxTrivia[] xmlDoc) =>
-            property.WithLeadingTrivia(xmlDoc);
+        public static T WithXmlDoc<T>(this T node, params DocumentationCommentTriviaSyntax[] xmlDoc) where T : SyntaxNode =>
+            node.WithLeadingTrivia(xmlDoc.Select(Trivia));
 
         public static StatementSyntax ToStatement(this ExpressionSyntax expr) => ExpressionStatement(expr);
 

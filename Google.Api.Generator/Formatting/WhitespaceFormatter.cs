@@ -49,7 +49,7 @@ namespace Google.Api.Generator.Formatting
                 if (triv.HasStructure && triv.GetStructure() is DocumentationCommentTriviaSyntax doc)
                 {
                     doc = doc.WithContent(List(doc.Content.Select(x =>
-                        x.WithLeadingTrivia(new[] { _indentTrivia }.Concat(x.GetLeadingTrivia())).WithTrailingCrLf())));
+                        x.WithLeadingTrivia(new[] { _indentTrivia, DocumentationCommentExterior("///"), Whitespace(" ") }).WithTrailingCrLf())));
                     return Trivia(doc);
                 }
                 return triv;

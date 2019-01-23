@@ -171,7 +171,7 @@ namespace Google.Api.Generator.Generation
                         break;
                 }
 
-                SyntaxTrivia XmlDocRemarks() => method.IsIdempotent ?
+                DocumentationCommentTriviaSyntax XmlDocRemarks() => method.IsIdempotent ?
                     XmlDoc.Remarks(
                         "The default ", cSync, " and ", cAsync, " ", _ctx.Type<RetrySettings>(), "are:",
                         _methodSettingsXmlDocUl,
