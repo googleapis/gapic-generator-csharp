@@ -91,6 +91,8 @@ namespace Google.Api.Generator.RoslynUtils
                 // Order matters.
                 case null:
                     return Enumerable.Empty<StatementSyntax>();
+                case string v:
+                    return new[] { ExpressionStatement(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(v))) };
                 case IEnumerable v:
                     return v.Cast<object>().SelectMany(ToStatements);
                 case StatementSyntax v:

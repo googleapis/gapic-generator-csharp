@@ -99,14 +99,14 @@ namespace Google.Api.Generator.Generation
             private ParameterSyntax CancellationTokenParam => Parameter(Ctx.Type<CancellationToken>(), "cancellationToken");
             private ParameterSyntax OperationNameParam => Parameter(Ctx.Type<string>(), "operationName");
 
-            private SyntaxTrivia SummaryXmlDoc => XmlDoc.SummaryMultiline(MethodDetails.DocLines);
-            private SyntaxTrivia RequestXmlDoc => XmlDoc.Param(RequestParam, "The request object containing all of the parameters for the API call.");
-            private SyntaxTrivia CallSettingsXmlDoc => XmlDoc.Param(CallSettingsParam, "If not null, applies overrides to this RPC call.");
-            private SyntaxTrivia CancellationTokenXmlDoc => XmlDoc.Param(CancellationTokenParam, "A ", Ctx.Type<CancellationToken>(), " to use for this RPC.");
-            private SyntaxTrivia ReturnsSyncXmlDoc => XmlDoc.Returns("The RPC response.");
-            private SyntaxTrivia ReturnsAsyncXmlDoc => XmlDoc.Returns("A Task containing the RPC response.");
-            private SyntaxTrivia OperationsSummaryXmlDoc => XmlDoc.Summary("The long-running operations client for ", XmlDoc.C(MethodDetails.SyncMethodName), ".");
-            private SyntaxTrivia OperationNameXmlDoc => XmlDoc.Param(OperationNameParam, "The name of a previously invoked operation. Must not be ", XmlDoc.C("null"), " or empty.");
+            private DocumentationCommentTriviaSyntax SummaryXmlDoc => XmlDoc.SummaryMultiline(MethodDetails.DocLines);
+            private DocumentationCommentTriviaSyntax RequestXmlDoc => XmlDoc.Param(RequestParam, "The request object containing all of the parameters for the API call.");
+            private DocumentationCommentTriviaSyntax CallSettingsXmlDoc => XmlDoc.Param(CallSettingsParam, "If not null, applies overrides to this RPC call.");
+            private DocumentationCommentTriviaSyntax CancellationTokenXmlDoc => XmlDoc.Param(CancellationTokenParam, "A ", Ctx.Type<CancellationToken>(), " to use for this RPC.");
+            private DocumentationCommentTriviaSyntax ReturnsSyncXmlDoc => XmlDoc.Returns("The RPC response.");
+            private DocumentationCommentTriviaSyntax ReturnsAsyncXmlDoc => XmlDoc.Returns("A Task containing the RPC response.");
+            private DocumentationCommentTriviaSyntax OperationsSummaryXmlDoc => XmlDoc.Summary("The long-running operations client for ", XmlDoc.C(MethodDetails.SyncMethodName), ".");
+            private DocumentationCommentTriviaSyntax OperationNameXmlDoc => XmlDoc.Param(OperationNameParam, "The name of a previously invoked operation. Must not be ", XmlDoc.C("null"), " or empty.");
 
             // Base abstract members.
 

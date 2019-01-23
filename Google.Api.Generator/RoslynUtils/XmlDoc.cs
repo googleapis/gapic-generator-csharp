@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
@@ -49,28 +50,28 @@ namespace Google.Api.Generator.RoslynUtils
             }
         }
 
-        private static SyntaxTrivia XmlDocElement<T>(IEnumerable<object> parts, Func<XmlNodeSyntax[], T> fn) where T : XmlNodeSyntax =>
-            Trivia(DocumentationComment(fn(parts.Select(ToNode).ToArray())));
+        private static DocumentationCommentTriviaSyntax XmlDocElement<T>(IEnumerable<object> parts, Func<XmlNodeSyntax[], T> fn) where T : XmlNodeSyntax =>
+            DocumentationCommentTrivia(SyntaxKind.SingleLineDocumentationCommentTrivia, SingletonList<XmlNodeSyntax>(fn(parts.Select(ToNode).ToArray())));
 
-        public static SyntaxTrivia Summary(params object[] parts) => XmlDocElement(parts, XmlSummaryElement);
-        public static SyntaxTrivia SummaryMultiline(IEnumerable<string> lines) =>
-            Trivia(DocumentationComment(XmlMultiLineElement("summary", List<XmlNodeSyntax>(lines.Select(XmlText)))));
-        public static SyntaxTrivia Remarks(params object[] parts) => XmlDocElement(parts, XmlRemarksElement);
-        public static SyntaxTrivia Example(params object[] parts) => XmlDocElement(parts, XmlExampleElement);
-        public static SyntaxTrivia Param(ParameterSyntax param, params object[] parts) => XmlDocElement(parts, x => XmlParamElement(param.Identifier.Text, x));
-        public static SyntaxTrivia Returns(params object[] parts) => XmlDocElement(parts, XmlReturnsElement);
+        public static DocumentationCommentTriviaSyntax Summary(params object[] parts) => XmlDocElement(parts, XmlSummaryElement);
+        public static DocumentationCommentTriviaSyntax SummaryMultiline(IEnumerable<string> lines) =>
+            DocumentationCommentTrivia(SyntaxKind.MultiLineDocumentationCommentTrivia,
+                SingletonList<XmlNodeSyntax>(XmlMultiLineElement("summary", List<XmlNodeSyntax>(lines.Select(XmlText)))));
+        public static DocumentationCommentTriviaSyntax Remarks(params object[] parts) => XmlDocElement(parts, XmlRemarksElement);
+        public static DocumentationCommentTriviaSyntax Example(params object[] parts) => XmlDocElement(parts, XmlExampleElement);
+        public static DocumentationCommentTriviaSyntax Param(ParameterSyntax param, params object[] parts) => XmlDocElement(parts, x => XmlParamElement(param.Identifier.Text, x));
+        public static DocumentationCommentTriviaSyntax Returns(params object[] parts) => XmlDocElement(parts, XmlReturnsElement);
 
-        public static XmlNodeSyntax C(string c) => XmlElement("c", List(new XmlNodeSyntax[] { XmlText(c) }));
+        public static XmlNodeSyntax C(string c) => XmlElement("c", SingletonList<XmlNodeSyntax>(XmlText(c)));
         public static XmlNodeSyntax Code(params string[] lines) => XmlElement("code", List(lines.Select(ToNode)));
 
         public static XmlNodeSyntax UL(params object[] items) => UL((IEnumerable<object>)items);
         public static XmlNodeSyntax UL<T>(IEnumerable<T> items) => XmlElement(
-            XmlElementStartTag(XmlName("list"), List(new XmlAttributeSyntax[] { XmlTextAttribute("type", "bullet") })),
+            XmlElementStartTag(XmlName("list"), SingletonList<XmlAttributeSyntax>(XmlTextAttribute("type", "bullet"))),
                 List<XmlNodeSyntax>(items.Select(item =>
                 {
-                    var node = ToNode(item);
-                    var desc = XmlElement("description", List(new[] { node }));
-                    return XmlElement("item", List(new XmlNodeSyntax[] { desc }));
+                    var desc = XmlElement("description", SingletonList(ToNode(item)));
+                    return XmlElement("item", SingletonList<XmlNodeSyntax>(desc));
                 })),
                 XmlElementEndTag(XmlName("list")));
     }
