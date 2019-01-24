@@ -53,21 +53,24 @@ namespace Testing.Basiclro
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The RPC response.</returns>
-        public virtual lro::Operation<LroResponse, LroMetadata> Method1(Request request, gaxgrpc::CallSettings callSettings = null) => throw new sys::NotImplementedException();
+        public virtual lro::Operation<LroResponse, LroMetadata> Method1(Request request, gaxgrpc::CallSettings callSettings = null) =>
+            throw new sys::NotImplementedException();
 
         /// <summary>
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<lro::Operation<LroResponse, LroMetadata>> Method1Async(Request request, gaxgrpc::CallSettings callSettings = null) => throw new sys::NotImplementedException();
+        public virtual stt::Task<lro::Operation<LroResponse, LroMetadata>> Method1Async(Request request, gaxgrpc::CallSettings callSettings = null) =>
+            throw new sys::NotImplementedException();
 
         /// <summary>
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
         /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<lro::Operation<LroResponse, LroMetadata>> Method1Async(Request request, st::CancellationToken cancellationToken) => Method1Async(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+        public virtual stt::Task<lro::Operation<LroResponse, LroMetadata>> Method1Async(Request request, st::CancellationToken cancellationToken) =>
+            Method1Async(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>The long-running operations client for <c>Method1</c>.</summary>
         public virtual lro::OperationsClient Method1OperationsClient => throw new sys::NotImplementedException();
@@ -80,7 +83,8 @@ namespace Testing.Basiclro
         /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The result of polling the operation.</returns>
-        public virtual lro::Operation<LroResponse, LroMetadata> PollOnceMethod1(string operationName, gaxgrpc::CallSettings callSettings = null) => lro::Operation<LroResponse, LroMetadata>.PollOnceFromName(gax::GaxPreconditions.CheckNotNullOrEmpty(operationName, nameof(operationName)), Method1OperationsClient, callSettings);
+        public virtual lro::Operation<LroResponse, LroMetadata> PollOnceMethod1(string operationName, gaxgrpc::CallSettings callSettings = null) =>
+            lro::Operation<LroResponse, LroMetadata>.PollOnceFromName(gax::GaxPreconditions.CheckNotNullOrEmpty(operationName, nameof(operationName)), Method1OperationsClient, callSettings);
 
         /// <summary>
         /// Asynchronously poll an operation once, using an <c>operationName</c> from a previous invocation of
@@ -91,7 +95,8 @@ namespace Testing.Basiclro
         /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A task representing the result of polling the operation.</returns>
-        public virtual stt::Task<lro::Operation<LroResponse, LroMetadata>> PollOnceMethod1Async(string operationName, gaxgrpc::CallSettings callSettings = null) => lro::Operation<LroResponse, LroMetadata>.PollOnceFromNameAsync(gax::GaxPreconditions.CheckNotNullOrEmpty(operationName, nameof(operationName)), Method1OperationsClient, callSettings);
+        public virtual stt::Task<lro::Operation<LroResponse, LroMetadata>> PollOnceMethod1Async(string operationName, gaxgrpc::CallSettings callSettings = null) =>
+            lro::Operation<LroResponse, LroMetadata>.PollOnceFromNameAsync(gax::GaxPreconditions.CheckNotNullOrEmpty(operationName, nameof(operationName)), Method1OperationsClient, callSettings);
         // TEST_END
     }
 }

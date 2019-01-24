@@ -27,10 +27,13 @@ namespace Google.Api.Generator.Formatting
     internal class WhitespaceFormatter : CSharpSyntaxRewriter
     {
         private static readonly SyntaxToken s_commaSpace = Token(SyntaxKind.CommaToken).WithTrailingSpace();
-        private IEnumerable<SyntaxToken> CommaSpaces(int count) => Enumerable.Repeat(s_commaSpace, Math.Max(0, count));
+        private static IEnumerable<SyntaxToken> CommaSpaces(int count) => Enumerable.Repeat(s_commaSpace, Math.Max(0, count));
+        private static readonly SyntaxTrivia s_singleIndentTrivia = SyntaxTrivia(SyntaxKind.WhitespaceTrivia, "    ");
 
-        public WhitespaceFormatter() : base(visitIntoStructuredTrivia: false) { }
+        public WhitespaceFormatter(int maxLineLength) : base(visitIntoStructuredTrivia: false) =>
+            _maxLineLength = maxLineLength;
 
+        private readonly int _maxLineLength;
         private SyntaxTrivia _indentTrivia = SyntaxTrivia(SyntaxKind.WhitespaceTrivia, "");
 
         private IDisposable WithIndent()
@@ -41,7 +44,7 @@ namespace Google.Api.Generator.Formatting
         }
 
         private SyntaxTriviaList FormatXmlDoc(SyntaxTriviaList trivList) =>
-            XmlDocSplitter.Split(_indentTrivia, maxLineLength: 120, trivList);
+            XmlDocSplitter.Split(_indentTrivia, _maxLineLength, trivList);
 
         public override SyntaxNode VisitCompilationUnit(CompilationUnitSyntax node)
         {
@@ -173,8 +176,10 @@ namespace Google.Api.Generator.Formatting
 
         public override SyntaxNode VisitArrowExpressionClause(ArrowExpressionClauseSyntax node)
         {
+            var postTrivia = node.Parent is MethodDeclarationSyntax method && method.Span.Length + _indentTrivia.Span.Length > _maxLineLength ?
+                TriviaList(CarriageReturnLineFeed, _indentTrivia, s_singleIndentTrivia) : TriviaList(Space);
             node = (ArrowExpressionClauseSyntax)base.VisitArrowExpressionClause(node);
-            node = node.WithArrowToken(node.ArrowToken.WithLeadingSpace().WithTrailingSpace());
+            node = node.WithArrowToken(node.ArrowToken.WithLeadingSpace().WithTrailingTrivia(postTrivia));
             return node;
         }
 

@@ -214,7 +214,7 @@ namespace Google.Api.Generator.Tests
             Assert.DoesNotContain(" ", testSourceWithoutWhitespace);
             Assert.DoesNotContain("\n", testSourceWithoutWhitespace);
             // Use the WhitespaceFormatter.
-            var rootFormatter = new WhitespaceFormatter().Visit(rootWithoutWhitespace);
+            var rootFormatter = new WhitespaceFormatter(maxLineLength: 120).Visit(rootWithoutWhitespace);
             var testSourceFormatter = rootFormatter.ToFullString();
             // Check that the sources are identical.
             Assert.Equal(testSource, testSourceFormatter);
