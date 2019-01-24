@@ -173,7 +173,7 @@ namespace Google.Api.Generator.Generation
 
                 DocumentationCommentTriviaSyntax XmlDocRemarks() => method.IsIdempotent ?
                     XmlDoc.Remarks(
-                        "The default ", cSync, " and ", cAsync, " ", _ctx.Type<RetrySettings>(), "are:",
+                        "The default ", cSync, " and ", cAsync, " ", _ctx.Type<RetrySettings>(), " are:",
                         _methodSettingsXmlDocUl,
                         "By default retry will be attempted on the following response status codes:",
                         XmlDoc.UL(s_defaultIdempotentRetryCodes.Select(x => _ctx.Type<StatusCode>().Access(x)))) :

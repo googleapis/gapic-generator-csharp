@@ -40,21 +40,8 @@ namespace Google.Api.Generator.Formatting
             return new Disposable(() => _indentTrivia = orgIndentTrivia);
         }
 
-        private SyntaxTriviaList FormatXmlDoc(SyntaxTriviaList trivList)
-        {
-            // Minimal XML formatting, just to make sure the result is valid C#, indented correctly.
-            // TODO: Sort out XML doc formatting. It's currently a disaster.
-            return TriviaList(trivList.Select(triv =>
-            {
-                if (triv.HasStructure && triv.GetStructure() is DocumentationCommentTriviaSyntax doc)
-                {
-                    doc = doc.WithContent(List(doc.Content.Select(x =>
-                        x.WithLeadingTrivia(new[] { _indentTrivia, DocumentationCommentExterior("///"), Whitespace(" ") }).WithTrailingCrLf())));
-                    return Trivia(doc);
-                }
-                return triv;
-            }));
-        }
+        private SyntaxTriviaList FormatXmlDoc(SyntaxTriviaList trivList) =>
+            XmlDocSplitter.Split(_indentTrivia, maxLineLength: 100, trivList);
 
         public override SyntaxNode VisitCompilationUnit(CompilationUnitSyntax node)
         {
