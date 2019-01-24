@@ -23,7 +23,7 @@ namespace Testing.Basic
         {
         }
 
-        private BasicSettings(BasicSettings existing)
+        private BasicSettings(BasicSettings existing) : base(existing)
         {
             gax::GaxPreconditions.CheckNotNull(existing, nameof(existing));
             IdempotentMethodSettings = existing.IdempotentMethodSettings;

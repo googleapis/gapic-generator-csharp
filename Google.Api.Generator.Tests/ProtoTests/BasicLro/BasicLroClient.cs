@@ -11,7 +11,7 @@ namespace Testing.Basiclro
     public sealed partial class BasicLroSettings : gaxgrpc::ServiceSettingsBase
     {
         // TEST_START
-        private BasicLroSettings(BasicLroSettings existing)
+        private BasicLroSettings(BasicLroSettings existing) : base(existing)
         {
             gax::GaxPreconditions.CheckNotNull(existing, nameof(existing));
             Method1Settings = existing.Method1Settings;

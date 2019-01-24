@@ -18,6 +18,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections.Generic;
 using System.Linq;
+using static Google.Api.Generator.RoslynUtils.RoslynConverters;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace Google.Api.Generator.RoslynUtils
@@ -48,10 +49,20 @@ namespace Google.Api.Generator.RoslynUtils
             return cls;
         }
 
-        public static ParametersFunc<ConstructorDeclarationSyntax> Ctor(Modifier modifiers, Typ type) => parameters =>
-            ConstructorDeclaration(Identifier(type.Name))
+        public static ParametersFunc<ConstructorDeclarationSyntax> Ctor(Modifier modifiers, Typ type, ConstructorInitializerSyntax initializer = null) => parameters =>
+        {
+            var ctor = ConstructorDeclaration(Identifier(type.Name))
                 .AddModifiers(modifiers.ToSyntaxTokens())
                 .WithParameterList(ParameterList(SeparatedList(parameters)));
+            if (initializer != null)
+            {
+                ctor = ctor.WithInitializer(initializer);
+            }
+            return ctor;
+        };
+
+        public static ConstructorInitializerSyntax BaseInitializer(params object[] args) =>
+            ConstructorInitializer(SyntaxKind.BaseConstructorInitializer, CreateArgList(args));
 
         public static ParametersFunc<MethodDeclarationSyntax> Method(
             Modifier modifiers, TypeSyntax returnType, string name, params Typ.GenericParameter[] genericParams) => parameters =>
