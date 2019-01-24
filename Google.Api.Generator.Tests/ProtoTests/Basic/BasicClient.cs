@@ -18,9 +18,7 @@ namespace Testing.Basic
         /// <returns>A new instance of the default <see cref="BasicSettings"/>.</returns>
         public static BasicSettings GetDefault() => new BasicSettings();
 
-        /// <summary>
-        /// Constructs a new <see cref="BasicSettings"/> object with default settings.
-        /// </summary>
+        /// <summary>Constructs a new <see cref="BasicSettings"/> object with default settings.</summary>
         public BasicSettings()
         {
         }
@@ -70,9 +68,7 @@ namespace Testing.Basic
         /// <remarks>By default, retry will not be attempted.</remarks>
         public gaxgrpc::CallSettings NonIdempotentMethodSettings { get; set; } = _defaultNonIdempotentCallSettings;
 
-        /// <summary>
-        /// Creates a deep clone of this object, with all the same property values.
-        /// </summary>
+        /// <summary>Creates a deep clone of this object, with all the same property values.</summary>
         /// <returns>A deep clone of this <see cref="BasicSettings"/> object.</returns>
         public BasicSettings Clone() => new BasicSettings(this);
     }
@@ -81,8 +77,7 @@ namespace Testing.Basic
     public abstract partial class BasicClient
     {
         /// <summary>
-        /// The default endpoint for the Basic service, which is a host of "basic.example.com" and a
-        /// port of 443.
+        /// The default endpoint for the Basic service, which is a host of "basic.example.com" and a port of 443.
         /// </summary>
         public static gaxgrpc::ServiceEndpoint DefaultEndpoint { get; } = new gaxgrpc::ServiceEndpoint("basic.example.com", 443);
 
@@ -103,10 +98,9 @@ namespace Testing.Basic
         private static readonly gaxgrpc::ChannelPool s_channelPool = new gaxgrpc::ChannelPool(DefaultScopes);
 
         /// <summary>
-        /// Asynchronously creates a <see cref="BasicClient"/>, applying defaults for all
-        /// unspecified settings, and creating a channel connecting to the given endpoint with
-        /// application default credentials where necessary. See the example for how to use custom
-        /// credentials.
+        /// Asynchronously creates a <see cref="BasicClient"/>, applying defaults for all unspecified settings, and
+        /// creating a channel connecting to the given endpoint with application default credentials where necessary.
+        /// See the example for how to use custom credentials.
         /// </summary>
         /// <example>
         /// This sample shows how to create a client using default credentials:
@@ -144,9 +138,9 @@ namespace Testing.Basic
         }
 
         /// <summary>
-        /// Synchronously creates a <see cref="BasicClient"/>, applying defaults for all unspecified
-        /// settings, and creating a channel connecting to the given endpoint with application
-        /// default credentials where necessary. See the example for how to use custom credentials.
+        /// Synchronously creates a <see cref="BasicClient"/>, applying defaults for all unspecified settings, and
+        /// creating a channel connecting to the given endpoint with application default credentials where necessary.
+        /// See the example for how to use custom credentials.
         /// </summary>
         /// <example>
         /// This sample shows how to create a client using default credentials:
@@ -184,12 +178,9 @@ namespace Testing.Basic
         }
 
         /// <summary>
-        /// Creates a <see cref="BasicClient"/> which uses the specified channel for remote
-        /// operations.
+        /// Creates a <see cref="BasicClient"/> which uses the specified channel for remote operations.
         /// </summary>
-        /// <param name="channel">
-        /// The <see cref="grpccore::Channel"/> for remote operations. Must not be null.
-        /// </param>
+        /// <param name="channel">The <see cref="grpccore::Channel"/> for remote operations. Must not be null.</param>
         /// <param name="settings">Optional <see cref="BasicSettings"/>.</param>
         /// <returns>The created <see cref="BasicClient"/>.</returns>
         public static BasicClient Create(grpccore::Channel channel, BasicSettings settings = null)
@@ -199,8 +190,7 @@ namespace Testing.Basic
         }
 
         /// <summary>
-        /// Creates a <see cref="BasicClient"/> which uses the specified call invoker for remote
-        /// operations.
+        /// Creates a <see cref="BasicClient"/> which uses the specified call invoker for remote operations.
         /// </summary>
         /// <param name="callInvoker">
         /// The <see cref="grpccore::CallInvoker"/> for remote operations. Must not be null.
@@ -220,16 +210,14 @@ namespace Testing.Basic
         }
 
         /// <summary>
-        /// Shuts down any channels automatically created by
-        /// <see cref="Create(grpccore::CallInvoker,BasicSettings)"/> and
-        /// <see cref="CreateAsync(gaxgrpc::ServiceEndpoint,BasicSettings)"/>. Channels which
-        /// weren't automatically created are not affected.
+        /// Shuts down any channels automatically created by <see cref="Create(grpccore::CallInvoker,BasicSettings)"/>
+        /// and <see cref="CreateAsync(gaxgrpc::ServiceEndpoint,BasicSettings)"/>. Channels which weren't automatically
+        /// created are not affected.
         /// </summary>
         /// <remarks>
-        /// After calling this method, further calls to
-        /// <see cref="Create(grpccore::CallInvoker,BasicSettings)"/> and
-        /// <see cref="CreateAsync(gaxgrpc::ServiceEndpoint,BasicSettings)"/> will create new
-        /// channels, which could in turn be shut down by another call to this method.
+        /// After calling this method, further calls to <see cref="Create(grpccore::CallInvoker,BasicSettings)"/> and
+        /// <see cref="CreateAsync(gaxgrpc::ServiceEndpoint,BasicSettings)"/> will create new channels, which could in
+        /// turn be shut down by another call to this method.
         /// </remarks>
         /// <returns>A task representing the asynchronous shutdown operation.</returns>
         public static stt::Task ShutdownDefaultChannelsAsync() => s_channelPool.ShutdownChannelsAsync();
@@ -240,9 +228,7 @@ namespace Testing.Basic
         /// <summary>
         /// Test summary text for IdempotentMethod
         /// </summary>
-        /// <param name="request">
-        /// The request object containing all of the parameters for the API call.
-        /// </param>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The RPC response.</returns>
         public virtual Response IdempotentMethod(Request request, gaxgrpc::CallSettings callSettings = null) => throw new sys::NotImplementedException();
@@ -250,9 +236,7 @@ namespace Testing.Basic
         /// <summary>
         /// Test summary text for IdempotentMethod
         /// </summary>
-        /// <param name="request">
-        /// The request object containing all of the parameters for the API call.
-        /// </param>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A Task containing the RPC response.</returns>
         public virtual stt::Task<Response> IdempotentMethodAsync(Request request, gaxgrpc::CallSettings callSettings = null) => throw new sys::NotImplementedException();
@@ -260,21 +244,15 @@ namespace Testing.Basic
         /// <summary>
         /// Test summary text for IdempotentMethod
         /// </summary>
-        /// <param name="request">
-        /// The request object containing all of the parameters for the API call.
-        /// </param>
-        /// <param name="cancellationToken">
-        /// A <see cref="st::CancellationToken"/> to use for this RPC.
-        /// </param>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
         /// <returns>A Task containing the RPC response.</returns>
         public virtual stt::Task<Response> IdempotentMethodAsync(Request request, st::CancellationToken cancellationToken) => IdempotentMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
         /// Test summary text for NonIdempotentMethod
         /// </summary>
-        /// <param name="request">
-        /// The request object containing all of the parameters for the API call.
-        /// </param>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The RPC response.</returns>
         public virtual Response NonIdempotentMethod(Request request, gaxgrpc::CallSettings callSettings = null) => throw new sys::NotImplementedException();
@@ -282,9 +260,7 @@ namespace Testing.Basic
         /// <summary>
         /// Test summary text for NonIdempotentMethod
         /// </summary>
-        /// <param name="request">
-        /// The request object containing all of the parameters for the API call.
-        /// </param>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A Task containing the RPC response.</returns>
         public virtual stt::Task<Response> NonIdempotentMethodAsync(Request request, gaxgrpc::CallSettings callSettings = null) => throw new sys::NotImplementedException();
@@ -292,12 +268,8 @@ namespace Testing.Basic
         /// <summary>
         /// Test summary text for NonIdempotentMethod
         /// </summary>
-        /// <param name="request">
-        /// The request object containing all of the parameters for the API call.
-        /// </param>
-        /// <param name="cancellationToken">
-        /// A <see cref="st::CancellationToken"/> to use for this RPC.
-        /// </param>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
         /// <returns>A Task containing the RPC response.</returns>
         public virtual stt::Task<Response> NonIdempotentMethodAsync(Request request, st::CancellationToken cancellationToken) => NonIdempotentMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
     }
@@ -310,13 +282,10 @@ namespace Testing.Basic
         private readonly gaxgrpc::ApiCall<Request, Response> _callNonIdempotentMethod;
 
         /// <summary>
-        /// Constructs a client wrapper for the Basic service, with the specified gRPC client and
-        /// settings.
+        /// Constructs a client wrapper for the Basic service, with the specified gRPC client and settings.
         /// </summary>
         /// <param name="grpcClient">The underlying gRPC client.</param>
-        /// <param name="settings">
-        /// The base <see cref="BasicSettings"/> used within this client.
-        /// </param>
+        /// <param name="settings">The base <see cref="BasicSettings"/> used within this client.</param>
         public BasicClientImpl(Basic.BasicClient grpcClient, BasicSettings settings)
         {
             GrpcClient = grpcClient;
@@ -347,9 +316,7 @@ namespace Testing.Basic
         /// <summary>
         /// Test summary text for IdempotentMethod
         /// </summary>
-        /// <param name="request">
-        /// The request object containing all of the parameters for the API call.
-        /// </param>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The RPC response.</returns>
         public override Response IdempotentMethod(Request request, gaxgrpc::CallSettings callSettings = null)
@@ -361,9 +328,7 @@ namespace Testing.Basic
         /// <summary>
         /// Test summary text for IdempotentMethod
         /// </summary>
-        /// <param name="request">
-        /// The request object containing all of the parameters for the API call.
-        /// </param>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A Task containing the RPC response.</returns>
         public override stt::Task<Response> IdempotentMethodAsync(Request request, gaxgrpc::CallSettings callSettings = null)
@@ -375,9 +340,7 @@ namespace Testing.Basic
         /// <summary>
         /// Test summary text for NonIdempotentMethod
         /// </summary>
-        /// <param name="request">
-        /// The request object containing all of the parameters for the API call.
-        /// </param>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The RPC response.</returns>
         public override Response NonIdempotentMethod(Request request, gaxgrpc::CallSettings callSettings = null)
@@ -389,9 +352,7 @@ namespace Testing.Basic
         /// <summary>
         /// Test summary text for NonIdempotentMethod
         /// </summary>
-        /// <param name="request">
-        /// The request object containing all of the parameters for the API call.
-        /// </param>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A Task containing the RPC response.</returns>
         public override stt::Task<Response> NonIdempotentMethodAsync(Request request, gaxgrpc::CallSettings callSettings = null)

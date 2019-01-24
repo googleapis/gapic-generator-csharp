@@ -41,7 +41,7 @@ namespace Google.Api.Generator.Formatting
         }
 
         private SyntaxTriviaList FormatXmlDoc(SyntaxTriviaList trivList) =>
-            XmlDocSplitter.Split(_indentTrivia, maxLineLength: 100, trivList);
+            XmlDocSplitter.Split(_indentTrivia, maxLineLength: 120, trivList);
 
         public override SyntaxNode VisitCompilationUnit(CompilationUnitSyntax node)
         {

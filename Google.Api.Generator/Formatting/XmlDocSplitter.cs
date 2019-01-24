@@ -228,7 +228,7 @@ namespace Google.Api.Generator.Formatting
                             {
                                 yield return continuation.Append(prevTextLine == null ? null : XmlText(prevTextLine));
                                 continuation = Enumerable.Empty<XmlNodeSyntax>();
-                                textLine = word;
+                                textLine = string.IsNullOrWhiteSpace(word) ? "" : word;
                             }
                         }
                         yield return continuation.Append(XmlText(textLine));

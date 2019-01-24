@@ -158,7 +158,7 @@ namespace Google.Api.Generator.Generation
                 var property = AutoProperty(Public, _ctx.Type<CallSettings>(), method.SettingsName, hasSetter: true)
                     .WithInitializer(method.IsIdempotent ? DefaultIdempotentCallSettings : DefaultNonIdempotentCallSettings)
                     .WithXmlDoc(
-                        XmlDoc.Summary(_ctx.Type<CallSettings>(), " for synchronous and asynchronous calls to", cSync, " and ", cAsync, "."),
+                        XmlDoc.Summary(_ctx.Type<CallSettings>(), " for synchronous and asynchronous calls to ", cSync, " and ", cAsync, "."),
                         XmlDocRemarks());
                 // TODO: Initialization.
                 yield return property;
