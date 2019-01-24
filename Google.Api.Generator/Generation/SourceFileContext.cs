@@ -122,6 +122,8 @@ namespace Google.Api.Generator.Generation
             return new Disposable(() => Typs = restoreTypes);
         }
 
+        public TypeSyntax TypeDontCare => Type<int>();
+
         public TypeSyntax Type<T>() => Type(Typ.Of<T>());
 
         public TypeSyntax Type(System.Type type) => Type(Typ.Of(type));

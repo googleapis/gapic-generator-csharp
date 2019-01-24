@@ -15,7 +15,9 @@
 using Google.Api.Gax.Grpc;
 using Google.Api.Generator.RoslynUtils;
 using Google.Api.Generator.Utils;
+using Google.LongRunning;
 using Google.Protobuf;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections.Generic;
 using System.Linq;
@@ -83,6 +85,7 @@ namespace Google.Api.Generator.Generation
                     grpcClientProperty.Assign(grpcClient),
                     effectiveSettings.WithInitializer(settings.NullCoalesce(_ctx.Type(_svc.SettingsTyp).Call("GetDefault")())),
                     clientHelper.WithInitializer(New(_ctx.Type<ClientHelper>())(effectiveSettings)),
+                    _svc.Methods.OfType<MethodDetails.Lro>().Select(LroClient),
                     _svc.Methods.SelectMany(PerMethod),
                     This.Call(onCtor)(grpcClient, effectiveSettings, clientHelper)
                 )
@@ -92,7 +95,14 @@ namespace Google.Api.Generator.Generation
                     XmlDoc.Param(settings, "The base ", _ctx.Type(_svc.SettingsTyp), " used within this client.")
                 );
 
-            IEnumerable<object> PerMethod(MethodDetails method)
+            SyntaxNode LroClient(MethodDetails.Lro lro)
+            {
+                var lroOperationsClientProperty = Property(Public, _ctx.Type<OperationsClient>(), lro.LroClientName);
+                return lroOperationsClientProperty.Assign(New(_ctx.Type<OperationsClientImpl>())(
+                    grpcClient.Call("CreateOperationsClient")(), effectiveSettings.Access(lro.LroSettingsName)));
+            }
+
+            IEnumerable<SyntaxNode> PerMethod(MethodDetails method)
             {
                 var field = ApiCallField(_ctx, method);
                 var fieldInit = clientHelper.Call(nameof(ClientHelper.BuildApiCall), _ctx.Type(method.RequestTyp), _ctx.Type(method.ResponseTyp))(

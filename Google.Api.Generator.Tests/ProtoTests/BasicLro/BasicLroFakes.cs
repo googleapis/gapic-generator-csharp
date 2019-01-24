@@ -12,8 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Grpc.Core;
+using System;
+
 namespace Testing.Basiclro
 {
+    // Fake gRPC client, to allow `BasicLroClient.cs` to compile.
+    public static partial class BasicLro
+    {
+        public partial class BasicLroClient
+        {
+            private CallInvoker CallInvoker => throw new NotImplementedException();
+        }
+    }
+
     public class Request : ProtoMsgFake<Request> { }
     public class LroResponse : ProtoMsgFake<LroResponse> { }
     public class LroMetadata : ProtoMsgFake<LroMetadata> { }

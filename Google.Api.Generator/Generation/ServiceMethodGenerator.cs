@@ -62,7 +62,7 @@ namespace Google.Api.Generator.Generation
                         yield return method.AbstractSyncRequestMethod;
                         yield return method.AbstractAsyncCallSettingsRequestMethod;
                         yield return method.AbstractAsyncCancellationTokenRequestMethod;
-                        yield return method.AbstractLroOperationsProperty;
+                        yield return method.AbstractLroOperationsClientProperty;
                         yield return method.AbstractLroSyncPollMethod;
                         yield return method.AbstractLroAsyncPollMethod;
                         break;
@@ -77,6 +77,11 @@ namespace Google.Api.Generator.Generation
                         yield return method.ImplSyncRequestMethod;
                         yield return method.ImplAsyncCallSettingsRequestMethod;
                         break;
+                    case MethodDetails.Lro _:
+                        yield return method.ImplLroOperationsClientProperty;
+                        yield return method.ImplLroSyncRequestMethod;
+                        yield return method.ImplLroAsyncCallSettingsRequestMethod;
+                        break;
                 }
             }
         }
@@ -88,8 +93,12 @@ namespace Google.Api.Generator.Generation
 
             public SourceFileContext Ctx { get; }
             public string Namespace { get; }
+
             public MethodDetails MethodDetails { get; }
             public MethodDetails.Lro MethodDetailsLro => (MethodDetails.Lro)MethodDetails;
+
+            private MethodDeclarationSyntax ModifyRequestMethod => ServiceImplClientClassGenerator.ModifyRequestMethod(Ctx, MethodDetails);
+            private FieldDeclarationSyntax ApiCallField => ServiceImplClientClassGenerator.ApiCallField(Ctx, MethodDetails);
 
             private string ApiCallSyncName => nameof(ApiCall<ProtoMsg, ProtoMsg>.Sync);
             private string ApiCallAsyncName => nameof(ApiCall<ProtoMsg, ProtoMsg>.Async);
@@ -130,20 +139,20 @@ namespace Google.Api.Generator.Generation
             public MethodDeclarationSyntax ImplSyncRequestMethod =>
                 Method(Public | Override, Ctx.Type(MethodDetails.SyncReturnTyp), MethodDetails.SyncMethodName)(RequestParam, CallSettingsParam)
                         .WithBody(
-                            This.Call(ServiceImplClientClassGenerator.ModifyRequestMethod(Ctx, MethodDetails))(Ref(RequestParam), Ref(CallSettingsParam)),
-                            Return(ServiceImplClientClassGenerator.ApiCallField(Ctx, MethodDetails).Call(ApiCallSyncName)(RequestParam, CallSettingsParam)))
+                            This.Call(ModifyRequestMethod)(Ref(RequestParam), Ref(CallSettingsParam)),
+                            Return(ApiCallField.Call(ApiCallSyncName)(RequestParam, CallSettingsParam)))
                         .WithXmlDoc(SummaryXmlDoc, RequestXmlDoc, CallSettingsXmlDoc, ReturnsSyncXmlDoc);
 
             public MethodDeclarationSyntax ImplAsyncCallSettingsRequestMethod =>
                 Method(Public | Override, Ctx.Type(MethodDetails.AsyncReturnTyp), MethodDetails.AsyncMethodName)(RequestParam, CallSettingsParam)
                         .WithBody(
-                            This.Call(ServiceImplClientClassGenerator.ModifyRequestMethod(Ctx, MethodDetails))(Ref(RequestParam), Ref(CallSettingsParam)),
-                            Return(ServiceImplClientClassGenerator.ApiCallField(Ctx, MethodDetails).Call(ApiCallAsyncName)(RequestParam, CallSettingsParam)))
+                            This.Call(ModifyRequestMethod)(Ref(RequestParam), Ref(CallSettingsParam)),
+                            Return(ApiCallField.Call(ApiCallAsyncName)(RequestParam, CallSettingsParam)))
                         .WithXmlDoc(SummaryXmlDoc, RequestXmlDoc, CallSettingsXmlDoc, ReturnsAsyncXmlDoc);
 
             // LRO abstract members.
 
-            public PropertyDeclarationSyntax AbstractLroOperationsProperty =>
+            public PropertyDeclarationSyntax AbstractLroOperationsClientProperty =>
                 Property(Public | Virtual, Ctx.Type<OperationsClient>(), MethodDetailsLro.LroClientName)
                     .WithGetBody(Throw(New(Ctx.Type<NotImplementedException>())()))
                     .WithXmlDoc(OperationsSummaryXmlDoc);
@@ -153,7 +162,7 @@ namespace Google.Api.Generator.Generation
                     .WithBody(
                         Ctx.Type(MethodDetailsLro.OperationTyp).Call(nameof(Operation<ProtoMsg, ProtoMsg>.PollOnceFromName))(
                             Ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNullOrEmpty))(OperationNameParam, Nameof(OperationNameParam)),
-                            AbstractLroOperationsProperty, CallSettingsParam))
+                            AbstractLroOperationsClientProperty, CallSettingsParam))
                     .WithXmlDoc(
                         XmlDoc.Summary("Poll an operation once, using an ", XmlDoc.C("operationName"), " from a previous invocation of ", XmlDoc.C(MethodDetails.SyncMethodName), "."),
                             OperationNameXmlDoc, CallSettingsXmlDoc, XmlDoc.Returns("The result of polling the operation."));
@@ -163,10 +172,32 @@ namespace Google.Api.Generator.Generation
                     .WithBody(
                         Ctx.Type(MethodDetailsLro.OperationTyp).Call(nameof(Operation<ProtoMsg, ProtoMsg>.PollOnceFromNameAsync))(
                             Ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNullOrEmpty))(OperationNameParam, Nameof(OperationNameParam)),
-                            AbstractLroOperationsProperty, CallSettingsParam))
+                            AbstractLroOperationsClientProperty, CallSettingsParam))
                     .WithXmlDoc(
                         XmlDoc.Summary("Asynchronously poll an operation once, using an ", XmlDoc.C("operationName"), " from a previous invocation of ", XmlDoc.C(MethodDetails.SyncMethodName), "."),
                             OperationNameXmlDoc, CallSettingsXmlDoc, XmlDoc.Returns("A task representing the result of polling the operation."));
+
+            // LRO impl members.
+
+            public PropertyDeclarationSyntax ImplLroOperationsClientProperty =>
+                AutoProperty(Public | Override, Ctx.Type<OperationsClient>(), MethodDetailsLro.LroClientName)
+                    .WithXmlDoc(OperationsSummaryXmlDoc);
+
+            public MethodDeclarationSyntax ImplLroSyncRequestMethod =>
+                Method(Public | Override, Ctx.Type(MethodDetails.SyncReturnTyp), MethodDetails.SyncMethodName)(RequestParam, CallSettingsParam)
+                        .WithBody(
+                            This.Call(ModifyRequestMethod)(Ref(RequestParam), Ref(CallSettingsParam)),
+                            Return(New(Ctx.Type(MethodDetailsLro.OperationTyp))(ApiCallField.Call(ApiCallSyncName)(RequestParam, CallSettingsParam), ImplLroOperationsClientProperty))
+                        )
+                        .WithXmlDoc(SummaryXmlDoc, RequestXmlDoc, CallSettingsXmlDoc, ReturnsSyncXmlDoc);
+
+            public MethodDeclarationSyntax ImplLroAsyncCallSettingsRequestMethod =>
+                Method(Public | Override | Async, Ctx.Type(MethodDetails.AsyncReturnTyp), MethodDetails.AsyncMethodName)(RequestParam, CallSettingsParam)
+                        .WithBody(
+                            This.Call(ModifyRequestMethod)(Ref(RequestParam), Ref(CallSettingsParam)),
+                            Return(New(Ctx.Type(MethodDetailsLro.OperationTyp))(Await(ApiCallField.Call(ApiCallAsyncName)(RequestParam, CallSettingsParam).ConfigureAwait()), ImplLroOperationsClientProperty))
+                        )
+                        .WithXmlDoc(SummaryXmlDoc, RequestXmlDoc, CallSettingsXmlDoc, ReturnsAsyncXmlDoc);
         }
     }
 }
