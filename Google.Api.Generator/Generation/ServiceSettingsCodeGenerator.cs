@@ -158,7 +158,7 @@ namespace Google.Api.Generator.Generation
                 var property = AutoProperty(Public, _ctx.Type<CallSettings>(), method.SettingsName, hasSetter: true)
                     .WithInitializer(method.IsIdempotent ? DefaultIdempotentCallSettings : DefaultNonIdempotentCallSettings)
                     .WithXmlDoc(
-                        XmlDoc.Summary(_ctx.Type<CallSettings>(), " for synchronous and asynchronous calls to", cSync, " and ", cAsync, "."),
+                        XmlDoc.Summary(_ctx.Type<CallSettings>(), " for synchronous and asynchronous calls to ", cSync, " and ", cAsync, "."),
                         XmlDocRemarks());
                 // TODO: Initialization.
                 yield return property;
@@ -173,7 +173,7 @@ namespace Google.Api.Generator.Generation
 
                 DocumentationCommentTriviaSyntax XmlDocRemarks() => method.IsIdempotent ?
                     XmlDoc.Remarks(
-                        "The default ", cSync, " and ", cAsync, " ", _ctx.Type<RetrySettings>(), "are:",
+                        "The default ", cSync, " and ", cAsync, " ", _ctx.Type<RetrySettings>(), " are:",
                         _methodSettingsXmlDocUl,
                         "By default retry will be attempted on the following response status codes:",
                         XmlDoc.UL(s_defaultIdempotentRetryCodes.Select(x => _ctx.Type<StatusCode>().Access(x)))) :
