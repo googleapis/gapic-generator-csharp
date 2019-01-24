@@ -108,7 +108,7 @@ namespace Google.Api.Generator.Generation
         private MemberDeclarationSyntax CopyCtor()
         {
             var existing = Parameter(_ctx.CurrentType, "existing");
-            return Ctor(Private, _ctx.CurrentTyp)(existing)
+            return Ctor(Private, _ctx.CurrentTyp, initializer: BaseInitializer(existing))(existing)
                 .WithBody(
                     // Check `existing` parameter value is not null.
                     _ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(existing, Nameof(existing)),
