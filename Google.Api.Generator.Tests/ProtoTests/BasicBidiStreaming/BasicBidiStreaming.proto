@@ -1,0 +1,20 @@
+﻿syntax = "proto3";
+
+package testing.basicbidistreaming;
+
+import "google/api/annotations.proto";
+
+service BasicBidiStreaming {
+  option (google.api.default_host) = "bidi.example.com";
+  option (google.api.oauth) = {
+    scopes: ["scope1", "scope2"]
+  };
+
+  rpc MethodBidi(stream Request) returns(stream Response);
+}
+
+message Request {
+}
+
+message Response {
+}

@@ -18,12 +18,14 @@ using Google.Api.Generator.ProtoUtils;
 using Google.Api.Generator.RoslynUtils;
 using Google.Api.Generator.Utils;
 using Google.LongRunning;
+using Grpc.Core;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using static Google.Api.Generator.RoslynUtils.Modifier;
 using static Google.Api.Generator.RoslynUtils.RoslynBuilder;
 
@@ -66,6 +68,10 @@ namespace Google.Api.Generator.Generation
                         yield return method.AbstractLroSyncPollMethod;
                         yield return method.AbstractLroAsyncPollMethod;
                         break;
+                    case MethodDetails.BidiStreaming _:
+                        yield return method.AbstractBidiStreamClass;
+                        yield return method.AbstractBidiSyncRequestMethod;
+                        break;
                 }
             }
 
@@ -82,6 +88,10 @@ namespace Google.Api.Generator.Generation
                         yield return method.ImplLroSyncRequestMethod;
                         yield return method.ImplLroAsyncCallSettingsRequestMethod;
                         break;
+                    case MethodDetails.BidiStreaming _:
+                        yield return method.ImplBidiStreamClass();
+                        yield return method.ImplBidiSyncRequestMethod();
+                        break;
                 }
             }
         }
@@ -96,9 +106,11 @@ namespace Google.Api.Generator.Generation
 
             public MethodDetails MethodDetails { get; }
             public MethodDetails.Lro MethodDetailsLro => (MethodDetails.Lro)MethodDetails;
+            public MethodDetails.BidiStreaming MethodDetailsBidi => (MethodDetails.BidiStreaming)MethodDetails;
 
-            private MethodDeclarationSyntax ModifyRequestMethod => ServiceImplClientClassGenerator.ModifyRequestMethod(Ctx, MethodDetails);
+            private MethodDeclarationSyntax ModifyRequestMethod => ServiceImplClientClassGenerator.ModifyRequestPartialMethod(Ctx, MethodDetails);
             private FieldDeclarationSyntax ApiCallField => ServiceImplClientClassGenerator.ApiCallField(Ctx, MethodDetails);
+            private MethodDeclarationSyntax ModifyBidiRequestCallSettingsPartialMethod => ServiceImplClientClassGenerator.ModifyBidiRequestCallSettingsPartialMethod(Ctx, MethodDetailsBidi);
 
             private string ApiCallSyncName => nameof(ApiCall<ProtoMsg, ProtoMsg>.Sync);
             private string ApiCallAsyncName => nameof(ApiCall<ProtoMsg, ProtoMsg>.Async);
@@ -107,6 +119,7 @@ namespace Google.Api.Generator.Generation
             private ParameterSyntax CallSettingsParam => Parameter(Ctx.Type<CallSettings>(), "callSettings", @default: Null);
             private ParameterSyntax CancellationTokenParam => Parameter(Ctx.Type<CancellationToken>(), "cancellationToken");
             private ParameterSyntax OperationNameParam => Parameter(Ctx.Type<string>(), "operationName");
+            private ParameterSyntax BidiStreamingSettingsParam => Parameter(Ctx.Type<BidirectionalStreamingSettings>(), "streamingSettings", @default: Null);
 
             private DocumentationCommentTriviaSyntax SummaryXmlDoc => XmlDoc.SummaryMultiline(MethodDetails.DocLines);
             private DocumentationCommentTriviaSyntax RequestXmlDoc => XmlDoc.Param(RequestParam, "The request object containing all of the parameters for the API call.");
@@ -116,6 +129,8 @@ namespace Google.Api.Generator.Generation
             private DocumentationCommentTriviaSyntax ReturnsAsyncXmlDoc => XmlDoc.Returns("A Task containing the RPC response.");
             private DocumentationCommentTriviaSyntax OperationsSummaryXmlDoc => XmlDoc.Summary("The long-running operations client for ", XmlDoc.C(MethodDetails.SyncMethodName), ".");
             private DocumentationCommentTriviaSyntax OperationNameXmlDoc => XmlDoc.Param(OperationNameParam, "The name of a previously invoked operation. Must not be ", XmlDoc.C("null"), " or empty.");
+            private DocumentationCommentTriviaSyntax BidiStreamingSettingsXmlDoc => XmlDoc.Param(BidiStreamingSettingsParam, "If not null, applies streaming overrides to this RPC call.");
+            private DocumentationCommentTriviaSyntax ReturnsBidiStreamingXmlDoc => XmlDoc.Returns("The client-server stream.");
 
             // Base abstract members.
 
@@ -198,6 +213,123 @@ namespace Google.Api.Generator.Generation
                             Return(New(Ctx.Type(MethodDetailsLro.OperationTyp))(Await(ApiCallField.Call(ApiCallAsyncName)(RequestParam, CallSettingsParam).ConfigureAwait()), ImplLroOperationsClientProperty))
                         )
                         .WithXmlDoc(SummaryXmlDoc, RequestXmlDoc, CallSettingsXmlDoc, ReturnsAsyncXmlDoc);
+
+            // Bidi streaming abstract members.
+
+            public ClassDeclarationSyntax AbstractBidiStreamClass =>
+                Class(Public | Abstract | Partial, MethodDetailsBidi.AbstractStreamTyp, baseType: Ctx.Type(Typ.Generic(typeof(BidirectionalStreamingBase<,>), MethodDetails.RequestTyp, MethodDetails.ResponseTyp)))
+                    .WithXmlDoc(XmlDoc.Summary("Bidirectional streaming methods for ", AbstractBidiSyncRequestMethod, "."));
+
+            public MethodDeclarationSyntax AbstractBidiSyncRequestMethod =>
+                Method(Public | Virtual, Ctx.Type(MethodDetailsBidi.AbstractStreamTyp), MethodDetails.SyncMethodName)(CallSettingsParam, BidiStreamingSettingsParam)
+                    .WithBody(Throw(New(Ctx.Type<NotImplementedException>())()))
+                    .WithXmlDoc(SummaryXmlDoc, CallSettingsXmlDoc, BidiStreamingSettingsXmlDoc, ReturnsBidiStreamingXmlDoc);
+
+            // Bidi streaming impl members.
+
+            public ClassDeclarationSyntax ImplBidiStreamClass()
+            {
+                var cls = Class(Internal | Sealed | Partial, MethodDetailsBidi.ImplStreamTyp, baseType: Ctx.Type(Typ.Manual(Namespace, AbstractBidiStreamClass)));
+                var serviceTyp = Ctx.CurrentTyp;
+                var serviceField = Field(Private, Ctx.Type(serviceTyp), "_service");
+                var writeBufferType = Typ.Generic(typeof(BufferedClientStreamWriter<>), MethodDetails.RequestTyp);
+                var writeBufferField = Field(Private, Ctx.Type(writeBufferType), "_writeBuffer");
+                var grpcCallType = Typ.Generic(typeof(AsyncDuplexStreamingCall<,>), MethodDetails.RequestTyp, MethodDetails.ResponseTyp);
+                var grpcCallName = nameof(BidirectionalStreamingBase<ProtoMsg, ProtoMsg>.GrpcCall);
+                var grpcCallProperty = AutoProperty(Public | Override, Ctx.Type(grpcCallType), grpcCallName);
+                var modifyRequestMethod = ModifyRequest();
+                var messageParam = Parameter(Ctx.Type(MethodDetails.RequestTyp), "message");
+                var optionsParam = Parameter(Ctx.Type<WriteOptions>(), "options");
+                using (Ctx.InClass(cls))
+                {
+                    cls = cls.AddMembers(
+                        Constructor(),
+                        serviceField, writeBufferField,
+                        grpcCallProperty,
+                        modifyRequestMethod,
+                        TryWriteAsync1(), WriteAsync1(),
+                        TryWriteAsync2(), WriteAsync2(),
+                        TryWriteCompleteAsync(), WriteCompleteAsync(),
+                        ResponseStream());
+                }
+                return cls;
+
+                ConstructorDeclarationSyntax Constructor()
+                {
+                    var serviceParam = Parameter(Ctx.Type(serviceTyp), "service");
+                    var callParam = Parameter(Ctx.Type(grpcCallType), "call");
+                    var writeBufferParam = Parameter(Ctx.Type(writeBufferType), "writeBuffer");
+                    return Ctor(Public, cls)(serviceParam, callParam, writeBufferParam)
+                        .WithBody(
+                            serviceField.Assign(serviceParam),
+                            grpcCallProperty.Assign(callParam),
+                            writeBufferField.Assign(writeBufferParam))
+                        .WithXmlDoc(
+                            XmlDoc.Summary("Construct the bidirectional streaming method for ", XmlDoc.C(MethodDetails.SyncMethodName), "."),
+                            XmlDoc.Param(serviceParam, "The service containing this streaming method."),
+                            XmlDoc.Param(callParam, "The underlying gRPC duplex streaming call."),
+                            XmlDoc.Param(writeBufferParam, "The ", Ctx.Type(writeBufferType), " instance associated with this streaming call.")
+                        );
+                }
+
+                MethodDeclarationSyntax ModifyRequest()
+                {
+                    var requestParam = Parameter(Ctx.Type(MethodDetails.RequestTyp), "request");
+                    return Method(Private, Ctx.Type(MethodDetails.RequestTyp), "ModifyRequest")(requestParam)
+                        .WithBody(
+                            serviceField.Call(MethodDetailsBidi.ModifyStreamingRequestMethodName)(Ref(requestParam)),
+                            Return(requestParam)
+                        );
+                }
+
+                MethodDeclarationSyntax TryWriteAsync1() =>
+                    Method(Public | Override, Ctx.Type<Task>(), nameof(BidirectionalStreamingBase<ProtoMsg, ProtoMsg>.TryWriteAsync))(messageParam)
+                        .WithBody(writeBufferField.Call(nameof(BufferedClientStreamWriter<ProtoMsg>.TryWriteAsync))(This.Call(modifyRequestMethod)(messageParam)));
+
+                MethodDeclarationSyntax WriteAsync1() =>
+                    Method(Public | Override, Ctx.Type<Task>(), nameof(BidirectionalStreamingBase<ProtoMsg, ProtoMsg>.WriteAsync))(messageParam)
+                        .WithBody(writeBufferField.Call(nameof(BufferedClientStreamWriter<ProtoMsg>.WriteAsync))(This.Call(modifyRequestMethod)(messageParam)));
+
+                MethodDeclarationSyntax TryWriteAsync2() =>
+                    RoslynBuilder.Method(Public | Override, Ctx.Type<Task>(), nameof(BidirectionalStreamingBase<ProtoMsg, ProtoMsg>.TryWriteAsync))(messageParam, optionsParam)
+                        .WithBody(writeBufferField.Call(nameof(BufferedClientStreamWriter<ProtoMsg>.TryWriteAsync))(This.Call(modifyRequestMethod)(messageParam), optionsParam));
+
+                MethodDeclarationSyntax WriteAsync2() =>
+                    Method(Public | Override, Ctx.Type<Task>(), nameof(BidirectionalStreamingBase<ProtoMsg, ProtoMsg>.WriteAsync))(messageParam, optionsParam)
+                        .WithBody(writeBufferField.Call(nameof(BufferedClientStreamWriter<ProtoMsg>.WriteAsync))(This.Call(modifyRequestMethod)(messageParam), optionsParam));
+
+                MethodDeclarationSyntax TryWriteCompleteAsync() =>
+                    Method(Public | Override, Ctx.Type<Task>(), nameof(BidirectionalStreamingBase<ProtoMsg, ProtoMsg>.TryWriteCompleteAsync))()
+                        .WithBody(writeBufferField.Call(nameof(BufferedClientStreamWriter<ProtoMsg>.TryWriteCompleteAsync))());
+
+                MethodDeclarationSyntax WriteCompleteAsync() =>
+                    Method(Public | Override, Ctx.Type<Task>(), nameof(BidirectionalStreamingBase<ProtoMsg, ProtoMsg>.WriteCompleteAsync))()
+                        .WithBody(writeBufferField.Call(nameof(BufferedClientStreamWriter<ProtoMsg>.WriteCompleteAsync))());
+
+                PropertyDeclarationSyntax ResponseStream() =>
+                    Property(Public | Override, Ctx.Type(Typ.Generic(typeof(IAsyncEnumerator<>), MethodDetails.ResponseTyp)), nameof(BidirectionalStreamingBase<ProtoMsg, ProtoMsg>.ResponseStream))
+                        .WithGetBody(grpcCallProperty.Access(nameof(BidirectionalStreamingBase<ProtoMsg, ProtoMsg>.ResponseStream)));
+            }
+
+            public MethodDeclarationSyntax ImplBidiSyncRequestMethod()
+            {
+                var effectiveStreamingSettings = Local(Ctx.Type<BidirectionalStreamingSettings>(), "effectiveStreamingSettings");
+                var streamingSettingsName = nameof(ApiBidirectionalStreamingCall<ProtoMsg, ProtoMsg>.StreamingSettings);
+                var call = Local(Ctx.Type(Typ.Generic(typeof(AsyncDuplexStreamingCall<,>), MethodDetails.RequestTyp, MethodDetails.ResponseTyp)), "call");
+                var writeBufferType = Typ.Generic(typeof(BufferedClientStreamWriter<>), MethodDetails.RequestTyp);
+                var writeBuffer = Local(Ctx.Type(writeBufferType), "writeBuffer");
+                var requestStreamName = nameof(AsyncDuplexStreamingCall<ProtoMsg, ProtoMsg>.RequestStream);
+                var bufferedClientWriterCapacityName = nameof(BidirectionalStreamingSettings.BufferedClientWriterCapacity);
+                return Method(Public | Override, Ctx.Type(MethodDetailsBidi.AbstractStreamTyp), MethodDetails.SyncMethodName)(CallSettingsParam, BidiStreamingSettingsParam)
+                    .WithBody(
+                        This.Call(ModifyBidiRequestCallSettingsPartialMethod)(Ref(CallSettingsParam)),
+                        effectiveStreamingSettings.WithInitializer(BidiStreamingSettingsParam.NullCoalesce(ApiCallField.Access(streamingSettingsName))),
+                        call.WithInitializer(ApiCallField.Call(nameof(ApiBidirectionalStreamingCall<ProtoMsg, ProtoMsg>.Call))(CallSettingsParam)),
+                        writeBuffer.WithInitializer(New(Ctx.Type(writeBufferType))(call.Access(requestStreamName), effectiveStreamingSettings.Access(bufferedClientWriterCapacityName))),
+                        Return(New(Ctx.Type(MethodDetailsBidi.ImplStreamTyp))(This, call, writeBuffer))
+                    )
+                    .WithXmlDoc(SummaryXmlDoc, CallSettingsXmlDoc, BidiStreamingSettingsXmlDoc, ReturnsBidiStreamingXmlDoc);
+            }
         }
     }
 }

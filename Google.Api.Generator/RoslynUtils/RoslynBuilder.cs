@@ -61,6 +61,10 @@ namespace Google.Api.Generator.RoslynUtils
             return ctor;
         };
 
+        public static ParametersFunc<ConstructorDeclarationSyntax> Ctor(Modifier modifiers, ClassDeclarationSyntax cls) => parameters =>
+            ConstructorDeclaration(cls.Identifier).AddModifiers(modifiers.ToSyntaxTokens()).WithParameterList(ParameterList(SeparatedList(parameters)));
+
+
         public static ConstructorInitializerSyntax BaseInitializer(params object[] args) =>
             ConstructorInitializer(SyntaxKind.BaseConstructorInitializer, CreateArgList(args));
 
@@ -133,6 +137,8 @@ namespace Google.Api.Generator.RoslynUtils
         public static AwaitExpressionSyntax Await(ExpressionSyntax expr) => AwaitExpression(expr);
 
         public static ReturnStatementSyntax Return(ExpressionSyntax expr) => ReturnStatement(expr);
+
+        public static ReturnStatementSyntax Return(ParameterSyntax param) => ReturnStatement(IdentifierName(param.Identifier));
 
         public static IfStatementSyntax If(ExpressionSyntax condition) => IfStatement(condition, Block());
 

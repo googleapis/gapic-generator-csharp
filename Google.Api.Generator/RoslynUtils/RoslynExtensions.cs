@@ -147,6 +147,12 @@ namespace Google.Api.Generator.RoslynUtils
         public static ExpressionSyntax Access(this LocalDeclarationStatementSyntax var, object member) =>
             MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, IdentifierName(var.Declaration.Variables.Single().Identifier), ToSimpleName(member));
 
+        public static ExpressionSyntax Access(this PropertyDeclarationSyntax prop, object member) =>
+            MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, IdentifierName(prop.Identifier), ToSimpleName(member));
+
+        public static ExpressionSyntax Access(this FieldDeclarationSyntax field, object member) =>
+            MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, IdentifierName(field.Declaration.Variables.Single().Identifier), ToSimpleName(member));
+
         public static ExpressionSyntax NullCoalesce(this ParameterSyntax lhs, object rhs) =>
             BinaryExpression(SyntaxKind.CoalesceExpression, ToExpressions(lhs).Single(), ToExpressions(rhs).Single());
 
