@@ -10,6 +10,8 @@ namespace Testing.Basiclro
     /// <summary>Settings for a <see cref="BasicLroClient"/>.</summary>
     public sealed partial class BasicLroSettings : gaxgrpc::ServiceSettingsBase
     {
+        public BasicLroSettings() { }
+
         // TEST_START
         private BasicLroSettings(BasicLroSettings existing) : base(existing)
         {
@@ -99,4 +101,60 @@ namespace Testing.Basiclro
             lro::Operation<LroResponse, LroMetadata>.PollOnceFromNameAsync(gax::GaxPreconditions.CheckNotNullOrEmpty(operationName, nameof(operationName)), Method1OperationsClient, callSettings);
         // TEST_END
     }
+
+    public sealed partial class BasicLroClientImpl : BasicLroClient
+    {
+        private readonly gaxgrpc::ApiCall<Request, lro::Operation> _callMethod1;
+
+        public BasicLroClientImpl(BasicLro.BasicLroClient grpcClient)
+        {
+            var effectiveSettings = new BasicLroSettings();
+            // TEST_START
+            Method1OperationsClient = new lro::OperationsClientImpl(grpcClient.CreateOperationsClient(), effectiveSettings.Method1OperationsSettings);
+            // TEST_END
+        }
+
+        // TEST_START
+        partial void Modify_Request(ref Request request, ref gaxgrpc::CallSettings settings);
+
+        /// <summary>The long-running operations client for <c>Method1</c>.</summary>
+        public override lro::OperationsClient Method1OperationsClient { get; }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>The RPC response.</returns>
+        public override lro::Operation<LroResponse, LroMetadata> Method1(Request request, gaxgrpc::CallSettings callSettings = null)
+        {
+            Modify_Request(ref request, ref callSettings);
+            return new lro::Operation<LroResponse, LroMetadata>(_callMethod1.Sync(request, callSettings), Method1OperationsClient);
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public override async stt::Task<lro::Operation<LroResponse, LroMetadata>> Method1Async(Request request, gaxgrpc::CallSettings callSettings = null)
+        {
+            Modify_Request(ref request, ref callSettings);
+            return new lro::Operation<LroResponse, LroMetadata>(await _callMethod1.Async(request, callSettings).ConfigureAwait(false), Method1OperationsClient);
+        }
+    }
+
+    public static partial class BasicLro
+    {
+        public partial class BasicLroClient
+        {
+            /// <summary>
+            /// Creates a new instance of <see cref="lro::Operations.OperationsClient"/> using the same call invoker as
+            /// this client.
+            /// </summary>
+            /// <returns>A new Operations client for the same target as this client.</returns>
+            public virtual lro::Operations.OperationsClient CreateOperationsClient() =>
+                new lro::Operations.OperationsClient(CallInvoker);
+        }
+    }
+    // TEST_END
 }

@@ -118,6 +118,11 @@ namespace Google.Api.Generator.RoslynUtils
                 InvocationExpression(MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression,
                     IdentifierName(var.Declaration.Variables.Single().Identifier), ToSimpleName(method, genericArgs)), CreateArgList(args));
 
+        public static RoslynBuilder.ArgumentsFunc<InvocationExpressionSyntax> Call(
+            this ParameterSyntax param, object method, params TypeSyntax[] genericArgs) => args =>
+                InvocationExpression(MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression,
+                    IdentifierName(param.Identifier), ToSimpleName(method, genericArgs)), CreateArgList(args));
+
         public static InvocationExpressionSyntax ConfigureAwait(this ExpressionSyntax expr) =>
             expr.Call(nameof(Task.ConfigureAwait))(false);
 

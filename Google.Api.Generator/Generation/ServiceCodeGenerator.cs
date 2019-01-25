@@ -12,7 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Google.Api.Generator.RoslynUtils;
+using Google.LongRunning;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System.Linq;
+using static Google.Api.Generator.RoslynUtils.Modifier;
 using static Google.Api.Generator.RoslynUtils.RoslynBuilder;
 
 namespace Google.Api.Generator.Generation
@@ -31,6 +35,30 @@ namespace Google.Api.Generator.Generation
                 var abstractClientClass = ServiceAbstractClientClassCodeGenerator.Generate(ctx, svc);
                 var implClientClass = ServiceImplClientClassGenerator.Generate(ctx, svc);
                 ns = ns.AddMembers(settingsClass, abstractClientClass, implClientClass);
+
+                if (svc.Methods.Any(m => m is MethodDetails.Lro))
+                {
+                    // Emit partial class to give access to an LRO operations client.
+                    var grpcOuterCls = Class(Public | Static | Partial, svc.GrpcClientTyp.DeclaringTyp);
+                    using (ctx.InClass(grpcOuterCls))
+                    {
+                        var grpcInnerClass = Class(Public | Partial, svc.GrpcClientTyp);
+                        using (ctx.InClass(grpcInnerClass))
+                        {
+                            var callInvoker = Property(Private, ctx.TypeDontCare, "CallInvoker");
+                            var opTyp = ctx.Type<Operations.OperationsClient>();
+                            var createOperationsClientMethod = Method(Public | Virtual, opTyp , "CreateOperationsClient")()
+                                .WithBody(New(opTyp)(callInvoker))
+                                .WithXmlDoc(
+                                    XmlDoc.Summary("Creates a new instance of ", opTyp, " using the same call invoker as this client."),
+                                    XmlDoc.Returns("A new Operations client for the same target as this client.")
+                                );
+                            grpcInnerClass = grpcInnerClass.AddMembers(createOperationsClientMethod);
+                        }
+                        grpcOuterCls = grpcOuterCls.AddMembers(grpcInnerClass);
+                    }
+                    ns = ns.AddMembers(grpcOuterCls);
+                }
             }
             return ctx.CreateCompilationUnit(ns);
         }
