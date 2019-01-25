@@ -40,6 +40,9 @@
     <Compile Update="ProtoTests\BasicBidiStreaming\BasicBidiStreamingClient.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Update="ProtoTests\BasicPaginated\BasicPaginatedClient.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Update="ProtoTests\BasicServerStreaming\BasicServerStreamingClient.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
@@ -56,6 +59,9 @@
 
   <ItemGroup>
     <None Update="ProtoTests\BasicBidiStreaming\BasicBidiStreaming.proto">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="ProtoTests\BasicPaginated\BasicPaginated.proto">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="ProtoTests\BasicServerStreaming\BasicServerStreaming.proto">

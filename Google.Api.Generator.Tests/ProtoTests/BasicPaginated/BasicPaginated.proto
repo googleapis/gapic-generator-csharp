@@ -1,0 +1,24 @@
+﻿syntax = "proto3";
+
+package testing.basicpaginated;
+
+import "google/api/annotations.proto";
+
+service BasicPaginated {
+  option (google.api.default_host) = "paginated.example.com";
+  option (google.api.oauth) = {
+    scopes: ["scope1", "scope2"]
+  };
+
+  rpc MethodPaginated(Request) returns(Response);
+}
+
+message Request {
+  int32 page_size = 1;
+  string page_token = 2;
+}
+
+message Response {
+  string next_page_token = 1;
+  repeated string results = 2;
+}

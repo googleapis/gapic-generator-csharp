@@ -43,6 +43,9 @@ namespace Google.Api.Generator.RoslynUtils
 
         public static StatementSyntax ToStatement(this ExpressionSyntax expr) => ExpressionStatement(expr);
 
+        public static MethodDeclarationSyntax WithExplicitInterfaceSpecifier(this MethodDeclarationSyntax method, TypeSyntax interfaceType) =>
+            method.WithExplicitInterfaceSpecifier(ExplicitInterfaceSpecifier((NameSyntax)interfaceType));
+
         private static T WithBody<T>(IEnumerable<object> code, Func<ArrowExpressionClauseSyntax, T> fnExpr, Func<BlockSyntax, T> fnBlock)
         {
             var statements = ToStatements(code).ToList();
@@ -122,6 +125,10 @@ namespace Google.Api.Generator.RoslynUtils
             this ParameterSyntax param, object method, params TypeSyntax[] genericArgs) => args =>
                 InvocationExpression(MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression,
                     IdentifierName(param.Identifier), ToSimpleName(method, genericArgs)), CreateArgList(args));
+
+        public static RoslynBuilder.ArgumentsFunc<InvocationExpressionSyntax> Call(this PropertyDeclarationSyntax property, object method, params TypeSyntax[] genericArgs) => args =>
+            InvocationExpression(MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression,
+                IdentifierName(property.Identifier), ToSimpleName(method, genericArgs)), CreateArgList(args));
 
         public static InvocationExpressionSyntax ConfigureAwait(this ExpressionSyntax expr) =>
             expr.Call(nameof(Task.ConfigureAwait))(false);

@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Google.Api.Gax;
 using Google.Api.Gax.Grpc;
 using Google.Api.Generator.ProtoUtils;
 using Google.Api.Generator.Utils;
@@ -34,9 +35,34 @@ namespace Google.Api.Generator.Generation
         /// </summary>
         public sealed class Normal : MethodDetails
         {
-            public Normal(ServiceDetails svc, MethodDescriptor desc) : base(svc, desc) { }
+            public Normal(ServiceDetails svc, MethodDescriptor desc) : base(svc, desc) =>
+                ApiCallTyp = Typ.Generic(typeof(ApiCall<,>), RequestTyp, ResponseTyp);
             public override Typ SyncReturnTyp => ResponseTyp;
-            public override Typ ApiCallTyp => Typ.Generic(typeof(ApiCall<,>), RequestTyp, ResponseTyp);
+            public override Typ ApiCallTyp { get; }
+        }
+
+        /// <summary>
+        /// Details about a paginated method.
+        /// </summary>
+        public sealed class Paginated : MethodDetails
+        {
+            public Paginated(ServiceDetails svc, MethodDescriptor desc, FieldDescriptor responseResourceField) : base(svc, desc)
+            {
+                ResourceTyp = Typ.Of(responseResourceField, forceRepeated: false);
+                ApiCallTyp = Typ.Generic(typeof(ApiCall<,>), RequestTyp, ResponseTyp);
+                SyncReturnTyp = Typ.Generic(typeof(PagedEnumerable<,>), ResponseTyp, ResourceTyp);
+                AsyncReturnTyp = Typ.Generic(typeof(PagedAsyncEnumerable<,>), ResponseTyp, ResourceTyp);
+                SyncGrpcType = Typ.Generic(typeof(GrpcPagedEnumerable<,,>), RequestTyp, ResponseTyp, ResourceTyp);
+                AsyncGrpcType = Typ.Generic(typeof(GrpcPagedAsyncEnumerable<,,>), RequestTyp, ResponseTyp, ResourceTyp);
+                ResourcesFieldName = responseResourceField.CSharpName();
+            }
+            public override Typ ApiCallTyp { get; }
+            public override Typ SyncReturnTyp { get; }
+            public override Typ AsyncReturnTyp { get; }
+            public Typ ResourceTyp { get; }
+            public Typ SyncGrpcType { get; }
+            public Typ AsyncGrpcType { get; }
+            public string ResourcesFieldName { get; }
         }
 
         /// <summary>
@@ -105,11 +131,46 @@ namespace Google.Api.Generator.Generation
         // TODO: Nested classes for other method types: paged, streaming, LRO, ...
 
         public static MethodDetails Create(ServiceDetails svc, MethodDescriptor desc) =>
-            // TODO: Create correct class for the method type (paged, streaming, ...)
+            DetectPagination(svc, desc) ?? (
             desc.IsClientStreaming && desc.IsServerStreaming ? new BidiStreaming(svc, desc) :
             desc.IsServerStreaming ? new ServerStreaming(svc, desc) :
             desc.OutputType.FullName == "google.longrunning.Operation" ? new Lro(svc, desc) :
-            (MethodDetails)new Normal(svc, desc);
+            (MethodDetails)new Normal(svc, desc));
+
+        private static MethodDetails DetectPagination(ServiceDetails svc, MethodDescriptor desc)
+        {
+            var input = desc.InputType;
+            var output = desc.OutputType;
+            var pageSize = input.FindFieldByName("page_size");
+            var pageToken = input.FindFieldByName("page_token");
+            var nextPageToken = output.FindFieldByName("next_page_token");
+            var items = output.Fields.InDeclarationOrder().Where(field =>
+            {
+                // TODO: Add support for "items" annotation when it is available
+                return field.IsRepeated;
+            }).ToList();
+            if (pageSize != null && pageToken != null && nextPageToken != null && items.Count > 0)
+            {
+                if (pageSize.FieldType != FieldType.Int32)
+                {
+                    throw new InvalidOperationException("page_size must be of type int32");
+                }
+                if (pageToken.FieldType != FieldType.String)
+                {
+                    throw new InvalidOperationException("page_token must be of type string");
+                }
+                if (nextPageToken.FieldType != FieldType.String)
+                {
+                    throw new InvalidOperationException("next_page_token must be of type string");
+                }
+                if (items.Count > 1)
+                {
+                    throw new InvalidOperationException("Ambiguous item responces");
+                }
+                return new Paginated(svc, desc, items[0]);
+            }
+            return null;
+        }
 
         private MethodDetails(ServiceDetails svc, MethodDescriptor desc)
         {

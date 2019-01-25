@@ -12,9 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Google.Api.Gax.Grpc;
 using Google.Api.Generator.RoslynUtils;
+using Google.Api.Generator.Utils;
 using Google.LongRunning;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using static Google.Api.Generator.RoslynUtils.Modifier;
 using static Google.Api.Generator.RoslynUtils.RoslynBuilder;
@@ -36,31 +41,74 @@ namespace Google.Api.Generator.Generation
                 var implClientClass = ServiceImplClientClassGenerator.Generate(ctx, svc);
                 ns = ns.AddMembers(settingsClass, abstractClientClass, implClientClass);
 
-                if (svc.Methods.Any(m => m is MethodDetails.Lro))
-                {
-                    // Emit partial class to give access to an LRO operations client.
-                    var grpcOuterCls = Class(Public | Static | Partial, svc.GrpcClientTyp.DeclaringTyp);
-                    using (ctx.InClass(grpcOuterCls))
-                    {
-                        var grpcInnerClass = Class(Public | Partial, svc.GrpcClientTyp);
-                        using (ctx.InClass(grpcInnerClass))
-                        {
-                            var callInvoker = Property(Private, ctx.TypeDontCare, "CallInvoker");
-                            var opTyp = ctx.Type<Operations.OperationsClient>();
-                            var createOperationsClientMethod = Method(Public | Virtual, opTyp , "CreateOperationsClient")()
-                                .WithBody(New(opTyp)(callInvoker))
-                                .WithXmlDoc(
-                                    XmlDoc.Summary("Creates a new instance of ", opTyp, " using the same call invoker as this client."),
-                                    XmlDoc.Returns("A new Operations client for the same target as this client.")
-                                );
-                            grpcInnerClass = grpcInnerClass.AddMembers(createOperationsClientMethod);
-                        }
-                        grpcOuterCls = grpcOuterCls.AddMembers(grpcInnerClass);
-                    }
-                    ns = ns.AddMembers(grpcOuterCls);
-                }
+                ns = ns.AddMembers(PaginatedPartialClasses(ctx, svc).ToArray());
+                ns = ns.AddMembers(LroPartialClasses(ctx, svc).ToArray());
             }
             return ctx.CreateCompilationUnit(ns);
+        }
+
+        private static IEnumerable<MemberDeclarationSyntax> PaginatedPartialClasses(SourceFileContext ctx, ServiceDetails svc)
+        {
+            var paginatedMethods = svc.Methods.OfType<MethodDetails.Paginated>();
+            var requestTyps = paginatedMethods.Select(x => x.RequestTyp).Distinct();
+            foreach (var typ in requestTyps)
+            {
+                yield return Class(Public | Partial, typ, baseType: ctx.Type<IPageRequest>());
+            }
+            var seen = new Dictionary<string, Typ>();
+            foreach (var method in paginatedMethods)
+            {
+                if (seen.TryGetValue(method.SyncMethodName, out var seenTyp))
+                {
+                    if (seenTyp != method.ResourceTyp)
+                    {
+                        throw new InvalidOperationException($"Incompatible resource-types in paginated method: {method.SyncMethodName}");
+                    }
+                }
+                else
+                {
+                    var cls = Class(Public | Partial, method.ResponseTyp, baseType: ctx.Type(Typ.Generic(typeof(IPageResponse<>), method.ResourceTyp)));
+                    using (ctx.InClass(cls))
+                    {
+                        var genericGetEnumerator = Method(Public, ctx.Type(Typ.Generic(typeof(IEnumerator<>), method.ResourceTyp)), "GetEnumerator")()
+                            .WithBody(Property(Public, ctx.Type(method.ResourceTyp), method.ResourcesFieldName).Call(nameof(IEnumerable<int>.GetEnumerator))())
+                            .WithXmlDoc(XmlDoc.Summary("Returns an enumerator that iterates through the resources in this response."));
+                        var getEnumerator = Method(None, ctx.Type<IEnumerator>(), "GetEnumerator")()
+                            .WithExplicitInterfaceSpecifier(ctx.Type<IEnumerable>())
+                            .WithBody(This.Call(genericGetEnumerator)());
+                        cls = cls.AddMembers(genericGetEnumerator, getEnumerator);
+                    }
+                    yield return cls;
+                }
+            }
+        }
+
+
+        private static IEnumerable<MemberDeclarationSyntax> LroPartialClasses(SourceFileContext ctx, ServiceDetails svc)
+        {
+            if (svc.Methods.Any(m => m is MethodDetails.Lro))
+            {
+                // Emit partial class to give access to an LRO operations client.
+                var grpcOuterCls = Class(Public | Static | Partial, svc.GrpcClientTyp.DeclaringTyp);
+                using (ctx.InClass(grpcOuterCls))
+                {
+                    var grpcInnerClass = Class(Public | Partial, svc.GrpcClientTyp);
+                    using (ctx.InClass(grpcInnerClass))
+                    {
+                        var callInvoker = Property(Private, ctx.TypeDontCare, "CallInvoker");
+                        var opTyp = ctx.Type<Operations.OperationsClient>();
+                        var createOperationsClientMethod = Method(Public | Virtual, opTyp, "CreateOperationsClient")()
+                            .WithBody(New(opTyp)(callInvoker))
+                            .WithXmlDoc(
+                                XmlDoc.Summary("Creates a new instance of ", opTyp, " using the same call invoker as this client."),
+                                XmlDoc.Returns("A new Operations client for the same target as this client.")
+                            );
+                        grpcInnerClass = grpcInnerClass.AddMembers(createOperationsClientMethod);
+                    }
+                    grpcOuterCls = grpcOuterCls.AddMembers(grpcInnerClass);
+                }
+                yield return grpcOuterCls;
+            }
         }
     }
 }

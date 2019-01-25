@@ -24,7 +24,7 @@ namespace Google.Api.Generator.RoslynUtils
     internal enum Modifier
     {
         DontCare = 0,
-        NoModifiers = 0,
+        None = 0,
 
         Public = 0x1,
         Static = 0x2,

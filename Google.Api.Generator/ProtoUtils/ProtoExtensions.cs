@@ -16,6 +16,7 @@ using Google.Protobuf.Reflection;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 
 namespace Google.Api.Generator.ProtoUtils
 {
@@ -43,5 +44,14 @@ namespace Google.Api.Generator.ProtoUtils
             decl?.LeadingComments.Split('\n').Select(x => x.Trim())
                 .SkipWhile(string.IsNullOrWhiteSpace).Reverse().SkipWhile(string.IsNullOrWhiteSpace).Reverse() ??
                     Enumerable.Empty<string>();
+
+        private static string CSharpName(string name, bool isFieldName) =>
+            name.Aggregate((upper: !isFieldName, sb: new StringBuilder()), (acc, c) =>
+                c == '_' ? (true, acc.sb) : (false, acc.sb.Append(acc.upper ? char.ToUpperInvariant(c) : char.ToLowerInvariant(c))),
+                acc => acc.sb.ToString());
+
+        public static string CSharpName(this FieldDescriptor field) => CSharpName(field.Name, isFieldName: false);
+
+        public static string CSharpFieldName(this FieldDescriptor field) => CSharpName(field.Name, isFieldName: true);
     }
 }

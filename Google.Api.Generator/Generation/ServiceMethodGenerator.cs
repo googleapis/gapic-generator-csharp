@@ -56,13 +56,17 @@ namespace Google.Api.Generator.Generation
                 switch (method.MethodDetails)
                 {
                     case MethodDetails.Normal _:
-                        yield return method.AbstractSyncRequestMethod;
-                        yield return method.AbstractAsyncCallSettingsRequestMethod;
+                        yield return method.AbstractSyncRequestMethod();
+                        yield return method.AbstractAsyncCallSettingsRequestMethod();
                         yield return method.AbstractAsyncCancellationTokenRequestMethod;
                         break;
+                    case MethodDetails.Paginated _:
+                        yield return method.AbstractSyncRequestMethod(paginated: true);
+                        yield return method.AbstractAsyncCallSettingsRequestMethod(paginated: true);
+                        break;
                     case MethodDetails.Lro _:
-                        yield return method.AbstractSyncRequestMethod;
-                        yield return method.AbstractAsyncCallSettingsRequestMethod;
+                        yield return method.AbstractSyncRequestMethod();
+                        yield return method.AbstractAsyncCallSettingsRequestMethod();
                         yield return method.AbstractAsyncCancellationTokenRequestMethod;
                         yield return method.AbstractLroOperationsClientProperty;
                         yield return method.AbstractLroSyncPollMethod;
@@ -86,6 +90,10 @@ namespace Google.Api.Generator.Generation
                     case MethodDetails.Normal _:
                         yield return method.ImplSyncRequestMethod;
                         yield return method.ImplAsyncCallSettingsRequestMethod;
+                        break;
+                    case MethodDetails.Paginated _:
+                        yield return method.ImplPaginatedSyncRequestMethod;
+                        yield return method.ImplPaginatedAsyncCallSettingsRequestMethod;
                         break;
                     case MethodDetails.Lro _:
                         yield return method.ImplLroOperationsClientProperty;
@@ -113,6 +121,7 @@ namespace Google.Api.Generator.Generation
             public string Namespace { get; }
 
             public MethodDetails MethodDetails { get; }
+            public MethodDetails.Paginated MethodDetailsPaginated => (MethodDetails.Paginated)MethodDetails;
             public MethodDetails.Lro MethodDetailsLro => (MethodDetails.Lro)MethodDetails;
             public MethodDetails.BidiStreaming MethodDetailsBidiStream => (MethodDetails.BidiStreaming)MethodDetails;
             public MethodDetails.ServerStreaming MethodDetailsServerStream => (MethodDetails.ServerStreaming)MethodDetails;
@@ -136,6 +145,8 @@ namespace Google.Api.Generator.Generation
             private DocumentationCommentTriviaSyntax CancellationTokenXmlDoc => XmlDoc.Param(CancellationTokenParam, "A ", Ctx.Type<CancellationToken>(), " to use for this RPC.");
             private DocumentationCommentTriviaSyntax ReturnsSyncXmlDoc => XmlDoc.Returns("The RPC response.");
             private DocumentationCommentTriviaSyntax ReturnsAsyncXmlDoc => XmlDoc.Returns("A Task containing the RPC response.");
+            private DocumentationCommentTriviaSyntax ReturnsSyncPaginatedXmlDoc => XmlDoc.Returns("A pageable sequence of ", Ctx.Type(MethodDetailsPaginated.ResourceTyp) , " resources.");
+            private DocumentationCommentTriviaSyntax ReturnsAsyncPaginatedXmlDoc => XmlDoc.Returns("A pageable asynchronous sequence of ", Ctx.Type(MethodDetailsPaginated.ResourceTyp), " resources.");
             private DocumentationCommentTriviaSyntax OperationsSummaryXmlDoc => XmlDoc.Summary("The long-running operations client for ", XmlDoc.C(MethodDetails.SyncMethodName), ".");
             private DocumentationCommentTriviaSyntax OperationNameXmlDoc => XmlDoc.Param(OperationNameParam, "The name of a previously invoked operation. Must not be ", XmlDoc.C("null"), " or empty.");
             private DocumentationCommentTriviaSyntax BidiStreamingSettingsXmlDoc => XmlDoc.Param(BidiStreamingSettingsParam, "If not null, applies streaming overrides to this RPC call.");
@@ -144,19 +155,19 @@ namespace Google.Api.Generator.Generation
 
             // Base abstract members.
 
-            public MethodDeclarationSyntax AbstractSyncRequestMethod =>
+            public MethodDeclarationSyntax AbstractSyncRequestMethod(bool paginated = false) =>
                 Method(Public | Virtual, Ctx.Type(MethodDetails.SyncReturnTyp), MethodDetails.SyncMethodName)(RequestParam, CallSettingsParam)
                     .WithBody(Throw(New(Ctx.Type<NotImplementedException>())()))
-                    .WithXmlDoc(SummaryXmlDoc, RequestXmlDoc, CallSettingsXmlDoc, ReturnsSyncXmlDoc);
+                    .WithXmlDoc(SummaryXmlDoc, RequestXmlDoc, CallSettingsXmlDoc, paginated ? ReturnsSyncPaginatedXmlDoc : ReturnsSyncXmlDoc);
 
-            public MethodDeclarationSyntax AbstractAsyncCallSettingsRequestMethod =>
+            public MethodDeclarationSyntax AbstractAsyncCallSettingsRequestMethod(bool paginated = false) =>
                 Method(Public | Virtual, Ctx.Type(MethodDetails.AsyncReturnTyp), MethodDetails.AsyncMethodName)(RequestParam, CallSettingsParam)
                     .WithBody(Throw(New(Ctx.Type<NotImplementedException>())()))
-                    .WithXmlDoc(SummaryXmlDoc, RequestXmlDoc, CallSettingsXmlDoc, ReturnsAsyncXmlDoc);
+                    .WithXmlDoc(SummaryXmlDoc, RequestXmlDoc, CallSettingsXmlDoc, paginated ? ReturnsAsyncPaginatedXmlDoc : ReturnsAsyncXmlDoc);
 
             public MethodDeclarationSyntax AbstractAsyncCancellationTokenRequestMethod =>
                 Method(Public | Virtual, Ctx.Type(MethodDetails.AsyncReturnTyp), MethodDetails.AsyncMethodName)(RequestParam, CancellationTokenParam)
-                    .WithBody(This.Call(AbstractAsyncCallSettingsRequestMethod)(RequestParam, Ctx.Type<CallSettings>().Call(nameof(CallSettings.FromCancellationToken))(CancellationTokenParam)))
+                    .WithBody(This.Call(AbstractAsyncCallSettingsRequestMethod())(RequestParam, Ctx.Type<CallSettings>().Call(nameof(CallSettings.FromCancellationToken))(CancellationTokenParam)))
                     .WithXmlDoc(SummaryXmlDoc, RequestXmlDoc, CancellationTokenXmlDoc, ReturnsAsyncXmlDoc);
 
             // Base impl members.
@@ -174,6 +185,22 @@ namespace Google.Api.Generator.Generation
                             This.Call(ModifyRequestMethod)(Ref(RequestParam), Ref(CallSettingsParam)),
                             Return(ApiCallField.Call(ApiCallAsyncName)(RequestParam, CallSettingsParam)))
                         .WithXmlDoc(SummaryXmlDoc, RequestXmlDoc, CallSettingsXmlDoc, ReturnsAsyncXmlDoc);
+
+            // Paginated impl members.
+
+            public MethodDeclarationSyntax ImplPaginatedSyncRequestMethod =>
+                Method(Public | Override, Ctx.Type(MethodDetails.SyncReturnTyp), MethodDetails.SyncMethodName)(RequestParam, CallSettingsParam)
+                    .WithBody(
+                        This.Call(ModifyRequestMethod)(Ref(RequestParam), Ref(CallSettingsParam)),
+                        Return(New(Ctx.Type(MethodDetailsPaginated.SyncGrpcType))(ApiCallField, RequestParam, CallSettingsParam)))
+                    .WithXmlDoc(SummaryXmlDoc, RequestXmlDoc, CallSettingsXmlDoc, ReturnsSyncPaginatedXmlDoc);
+
+            public MethodDeclarationSyntax ImplPaginatedAsyncCallSettingsRequestMethod =>
+                Method(Public | Override, Ctx.Type(MethodDetails.AsyncReturnTyp), MethodDetails.AsyncMethodName)(RequestParam, CallSettingsParam)
+                    .WithBody(
+                        This.Call(ModifyRequestMethod)(Ref(RequestParam), Ref(CallSettingsParam)),
+                        Return(New(Ctx.Type(MethodDetailsPaginated.AsyncGrpcType))(ApiCallField, RequestParam, CallSettingsParam)))
+                    .WithXmlDoc(SummaryXmlDoc, RequestXmlDoc, CallSettingsXmlDoc, ReturnsAsyncPaginatedXmlDoc);
 
             // LRO abstract members.
 
