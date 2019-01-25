@@ -1,0 +1,20 @@
+﻿syntax = "proto3";
+
+package testing.basicserverstreaming;
+
+import "google/api/annotations.proto";
+
+service BasicServerStreaming {
+  option (google.api.default_host) = "serverstreaming.example.com";
+  option (google.api.oauth) = {
+    scopes: ["scope1", "scope2"]
+  };
+
+  rpc MethodServer(Request) returns(stream Response);
+}
+
+message Request {
+}
+
+message Response {
+}

@@ -137,5 +137,8 @@ namespace Google.Api.Generator.Tests
 
         [Fact]
         public void BasicBidiStreaming() => ProtoTestSingle("BasicBidiStreaming");
+
+        [Fact]
+        public void BasicServerStreaming() => ProtoTestSingle("BasicServerStreaming");
     }
 }

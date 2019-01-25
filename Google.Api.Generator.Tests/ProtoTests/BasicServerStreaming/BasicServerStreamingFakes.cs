@@ -12,8 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Testing.Basicbidistreaming
+using Grpc.Core;
+using System;
+
+namespace Testing.Basicserverstreaming
 {
+    public class BasicServerStreaming
+    {
+        public class BasicServerStreamingClient
+        {
+            public AsyncServerStreamingCall<Response> MethodServer(Request request, CallOptions options) =>
+                throw new NotImplementedException();
+        }
+    }
+
     public class Request : ProtoMsgFake<Request> { }
     public class Response : ProtoMsgFake<Response> { }
 }
