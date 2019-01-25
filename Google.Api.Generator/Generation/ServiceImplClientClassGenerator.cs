@@ -116,8 +116,13 @@ namespace Google.Api.Generator.Generation
                 {
                     case MethodDetails.BidiStreaming methodBidi:
                         var fieldInitBidi = clientHelper.Call(nameof(ClientHelper.BuildApiCall), _ctx.Type(method.RequestTyp), _ctx.Type(method.ResponseTyp))(
-                                grpcClient.Access(method.SyncMethodName), effectiveSettings.Access(method.SettingsName), effectiveSettings.Access(methodBidi.StreamingSettingsName));
+                            grpcClient.Access(method.SyncMethodName), effectiveSettings.Access(method.SettingsName), effectiveSettings.Access(methodBidi.StreamingSettingsName));
                         yield return field.Assign(fieldInitBidi);
+                        break;
+                    case MethodDetails.ServerStreaming _:
+                        var fieldInitServer = clientHelper.Call(nameof(ClientHelper.BuildApiCall), _ctx.Type(method.RequestTyp), _ctx.Type(method.ResponseTyp))(
+                            grpcClient.Access(method.SyncMethodName), effectiveSettings.Access(method.SettingsName));
+                        yield return field.Assign(fieldInitServer);
                         break;
                     default:
                         var fieldInit = clientHelper.Call(nameof(ClientHelper.BuildApiCall), _ctx.Type(method.RequestTyp), _ctx.Type(method.ResponseTyp))(
@@ -147,6 +152,13 @@ namespace Google.Api.Generator.Generation
             {
                 var callBidiStreaming = Parameter(_ctx.Type(Typ.Generic(typeof(ApiBidirectionalStreamingCall<,>), tRequest, tResponse)), "call").Ref();
                 yield return PartialMethod("Modify_ApiCall", tRequest, tResponse)(callBidiStreaming)
+                    .AddGenericConstraint(tRequest, _ctx.Type(Typ.ClassConstraint), _ctx.Type(Typ.Generic(typeof(IMessage<>), tRequest)))
+                    .AddGenericConstraint(tResponse, _ctx.Type(Typ.ClassConstraint), _ctx.Type(Typ.Generic(typeof(IMessage<>), tResponse)));
+            }
+            if (_svc.Methods.Any(m => m is MethodDetails.ServerStreaming))
+            {
+                var callServerStreaming = Parameter(_ctx.Type(Typ.Generic(typeof(ApiServerStreamingCall<,>), tRequest, tResponse)), "call").Ref();
+                yield return PartialMethod("Modify_ApiCall", tRequest, tResponse)(callServerStreaming)
                     .AddGenericConstraint(tRequest, _ctx.Type(Typ.ClassConstraint), _ctx.Type(Typ.Generic(typeof(IMessage<>), tRequest)))
                     .AddGenericConstraint(tResponse, _ctx.Type(Typ.ClassConstraint), _ctx.Type(Typ.Generic(typeof(IMessage<>), tResponse)));
             }

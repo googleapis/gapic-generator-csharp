@@ -88,11 +88,26 @@ namespace Google.Api.Generator.Generation
             public string ModifyStreamingRequestMethodName { get; }
         }
 
+        public sealed class ServerStreaming : MethodDetails
+        {
+            public ServerStreaming(ServiceDetails svc, MethodDescriptor desc) : base(svc, desc)
+            {
+                ApiCallTyp = Typ.Generic(typeof(ApiServerStreamingCall<,>), RequestTyp, ResponseTyp);
+                AbstractStreamTyp = Typ.Nested(svc.ClientAbstractTyp, $"{SyncMethodName}Stream");
+                ImplStreamTyp = Typ.Nested(svc.ClientImplTyp, $"{SyncMethodName}StreamImpl");
+            }
+            public override Typ ApiCallTyp { get; }
+            public override Typ SyncReturnTyp => AbstractStreamTyp;
+            public Typ AbstractStreamTyp { get; }
+            public Typ ImplStreamTyp { get; }
+        }
+
         // TODO: Nested classes for other method types: paged, streaming, LRO, ...
 
         public static MethodDetails Create(ServiceDetails svc, MethodDescriptor desc) =>
             // TODO: Create correct class for the method type (paged, streaming, ...)
             desc.IsClientStreaming && desc.IsServerStreaming ? new BidiStreaming(svc, desc) :
+            desc.IsServerStreaming ? new ServerStreaming(svc, desc) :
             desc.OutputType.FullName == "google.longrunning.Operation" ? new Lro(svc, desc) :
             (MethodDetails)new Normal(svc, desc);
 
