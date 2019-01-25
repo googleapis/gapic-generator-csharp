@@ -169,6 +169,9 @@ namespace Google.Api.Generator.Generation
                     case MethodDetails.Lro lro:
                         yield return LroSettingsProperty(lro);
                         break;
+                    case MethodDetails.BidiStreaming bidi:
+                        yield return BidiSettingsProperty(bidi);
+                        break;
                 }
 
                 DocumentationCommentTriviaSyntax XmlDocRemarks() => method.IsIdempotent ?
@@ -198,6 +201,15 @@ namespace Google.Api.Generator.Generation
                         $"Delay multiplier: {s_lroDefaultPollSettings.DelayMultiplier}",
                         $"Maximum delay: {(int)s_lroDefaultPollSettings.MaxDelay.TotalSeconds} seconds.",
                         $"Total timeout: {(int)s_lroDefaultPollSettings.Expiration.Timeout.Value.TotalHours} hours.")));
+
+        private PropertyDeclarationSyntax BidiSettingsProperty(MethodDetails.BidiStreaming method) =>
+            AutoProperty(Public, _ctx.Type<BidirectionalStreamingSettings>(), method.StreamingSettingsName, hasSetter: true)
+                .WithInitializer(New(_ctx.Type<BidirectionalStreamingSettings>())(100))
+                .WithXmlDoc(
+                    XmlDoc.Summary(_ctx.Type<BidirectionalStreamingSettings>(), " for calls to ",
+                        XmlDoc.C($"{_svc.ClientAbstractTyp.Name}.{method.SyncMethodName}"), " and ",
+                        XmlDoc.C($"{_svc.ClientAbstractTyp.Name}.{method.AsyncMethodName}"), "."),
+                    XmlDoc.Remarks("The default local send queue size is 100."));
 
         private MemberDeclarationSyntax OnCopyPartial() => PartialMethod("OnCopy")(Parameter(_ctx.CurrentType, "existing"));
 

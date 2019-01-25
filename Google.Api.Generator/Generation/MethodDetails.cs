@@ -50,17 +50,15 @@ namespace Google.Api.Generator.Generation
                 {
                     throw new InvalidOperationException("LRO method must contain a `google.api.operation` option.");
                 }
-                _lroResponseTyp = Typ.Of(svc.Catalog.GetMessageByName(lroData.ResponseType));
-                _lroMetadataTyp = Typ.Of(svc.Catalog.GetMessageByName(lroData.MetadataType));
                 ApiCallTyp = Typ.Generic(typeof(ApiCall<,>), RequestTyp, Typ.Of<Operation>());
-                SyncReturnTyp = Typ.Generic(typeof(Operation<,>), _lroResponseTyp, _lroMetadataTyp);
+                SyncReturnTyp = Typ.Generic(typeof(Operation<,>),
+                    Typ.Of(svc.Catalog.GetMessageByName(lroData.ResponseType)),
+                    Typ.Of(svc.Catalog.GetMessageByName(lroData.MetadataType)));
                 LroSettingsName = $"{desc.Name}OperationsSettings";
                 LroClientName = $"{desc.Name}OperationsClient";
                 SyncPollMethodName = $"PollOnce{SyncMethodName}";
                 AsyncPollMethodName = $"PollOnce{AsyncMethodName}";
             }
-            private readonly Typ _lroResponseTyp;
-            private readonly Typ _lroMetadataTyp;
             public override Typ ApiCallTyp { get; }
             public override Typ SyncReturnTyp { get; }
             public string LroSettingsName { get; }
@@ -70,10 +68,31 @@ namespace Google.Api.Generator.Generation
             public Typ OperationTyp => SyncReturnTyp;
         }
 
+        public sealed class BidiStreaming : MethodDetails
+        {
+            public BidiStreaming(ServiceDetails svc, MethodDescriptor desc) : base(svc, desc)
+            {
+                ApiCallTyp = Typ.Generic(typeof(ApiBidirectionalStreamingCall<,>), RequestTyp, ResponseTyp);
+                AbstractStreamTyp = Typ.Nested(svc.ClientAbstractTyp, $"{SyncMethodName}Stream");
+                ImplStreamTyp = Typ.Nested(svc.ClientImplTyp, $"{SyncMethodName}StreamImpl");
+                StreamingSettingsName = $"{desc.Name}StreamingSettings";
+                ModifyStreamingCallSettingsMethodName = $"Modify_{RequestTyp.Name}CallSettings";
+                ModifyStreamingRequestMethodName = $"Modify_{RequestTyp.Name}Request";
+            }
+            public override Typ ApiCallTyp { get; }
+            public override Typ SyncReturnTyp => AbstractStreamTyp;
+            public Typ AbstractStreamTyp { get; }
+            public Typ ImplStreamTyp { get; }
+            public string StreamingSettingsName { get; }
+            public string ModifyStreamingCallSettingsMethodName { get; }
+            public string ModifyStreamingRequestMethodName { get; }
+        }
+
         // TODO: Nested classes for other method types: paged, streaming, LRO, ...
 
         public static MethodDetails Create(ServiceDetails svc, MethodDescriptor desc) =>
             // TODO: Create correct class for the method type (paged, streaming, ...)
+            desc.IsClientStreaming && desc.IsServerStreaming ? new BidiStreaming(svc, desc) :
             desc.OutputType.FullName == "google.longrunning.Operation" ? new Lro(svc, desc) :
             (MethodDetails)new Normal(svc, desc);
 

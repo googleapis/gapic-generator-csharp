@@ -34,11 +34,17 @@ namespace Google.Api.Generator.Generation
         public static FieldDeclarationSyntax ApiCallField(SourceFileContext ctx, MethodDetails method) =>
             Field(Private | Readonly, ctx.Type(method.ApiCallTyp), method.ApiCallFieldName);
 
-        public static MethodDeclarationSyntax ModifyRequestMethod(SourceFileContext ctx, MethodDetails method)
+        public static MethodDeclarationSyntax ModifyRequestPartialMethod(SourceFileContext ctx, MethodDetails method)
         {
             var requestParam = Parameter(ctx.Type(method.RequestTyp), "request").Ref();
             var settingsParam = Parameter(ctx.Type<CallSettings>(), "settings").Ref();
             return PartialMethod(method.ModifyRequestMethodName)(requestParam, settingsParam);
+        }
+
+        public static MethodDeclarationSyntax ModifyBidiRequestCallSettingsPartialMethod(SourceFileContext ctx, MethodDetails.BidiStreaming method)
+        {
+            var settingsParam = Parameter(ctx.Type<CallSettings>(), "settings").Ref();
+            return PartialMethod(method.ModifyStreamingCallSettingsMethodName)(settingsParam);
         }
 
         private ServiceImplClientClassGenerator(SourceFileContext ctx, ServiceDetails svc) =>
@@ -56,7 +62,7 @@ namespace Google.Api.Generator.Generation
                 var apiCallFields = ApiCallFields().ToArray();
                 var grpcClient = GrpcClient();
                 var modifyApiCallGeneric = ModifyApiCallGenericPartialMethods().ToArray();
-                var modifyApiCallPerMethod = ModifyPerMethodApiCallMethods().ToArray();
+                var modifyApiCallPerMethod = ModifyPerMethodApiCallPartialMethods().ToArray();
                 var onCtor = OnConstruction();
                 var ctor = CtorGrpcClient(grpcClient, onCtor, modifyApiCallGeneric.First());
                 var modifyRequestMethods = ModifyRequestMethods().ToArray();
@@ -105,10 +111,20 @@ namespace Google.Api.Generator.Generation
             IEnumerable<SyntaxNode> PerMethod(MethodDetails method)
             {
                 var field = ApiCallField(_ctx, method);
-                var fieldInit = clientHelper.Call(nameof(ClientHelper.BuildApiCall), _ctx.Type(method.RequestTyp), _ctx.Type(method.ResponseTyp))(
-                    grpcClient.Access(method.AsyncMethodName), grpcClient.Access(method.SyncMethodName), effectiveSettings.Access(method.SettingsName));
                 // Initialize ApiCall field.
-                yield return field.Assign(fieldInit);
+                switch (method)
+                {
+                    case MethodDetails.BidiStreaming methodBidi:
+                        var fieldInitBidi = clientHelper.Call(nameof(ClientHelper.BuildApiCall), _ctx.Type(method.RequestTyp), _ctx.Type(method.ResponseTyp))(
+                                grpcClient.Access(method.SyncMethodName), effectiveSettings.Access(method.SettingsName), effectiveSettings.Access(methodBidi.StreamingSettingsName));
+                        yield return field.Assign(fieldInitBidi);
+                        break;
+                    default:
+                        var fieldInit = clientHelper.Call(nameof(ClientHelper.BuildApiCall), _ctx.Type(method.RequestTyp), _ctx.Type(method.ResponseTyp))(
+                            grpcClient.Access(method.AsyncMethodName), grpcClient.Access(method.SyncMethodName), effectiveSettings.Access(method.SettingsName));
+                        yield return field.Assign(fieldInit);
+                        break;
+                }
                 // Call modify partial methods.
                 yield return This.Call(modifyApiCall)(Ref(field));
                 yield return This.Call(method.ModifyApiCallMethodName)(Ref(field));
@@ -127,9 +143,16 @@ namespace Google.Api.Generator.Generation
             yield return PartialMethod("Modify_ApiCall", tRequest, tResponse)(call)
                 .AddGenericConstraint(tRequest, _ctx.Type(Typ.ClassConstraint), _ctx.Type(Typ.Generic(typeof(IMessage<>), tRequest)))
                 .AddGenericConstraint(tResponse, _ctx.Type(Typ.ClassConstraint), _ctx.Type(Typ.Generic(typeof(IMessage<>), tResponse)));
+            if (_svc.Methods.Any(m => m is MethodDetails.BidiStreaming))
+            {
+                var callBidiStreaming = Parameter(_ctx.Type(Typ.Generic(typeof(ApiBidirectionalStreamingCall<,>), tRequest, tResponse)), "call").Ref();
+                yield return PartialMethod("Modify_ApiCall", tRequest, tResponse)(callBidiStreaming)
+                    .AddGenericConstraint(tRequest, _ctx.Type(Typ.ClassConstraint), _ctx.Type(Typ.Generic(typeof(IMessage<>), tRequest)))
+                    .AddGenericConstraint(tResponse, _ctx.Type(Typ.ClassConstraint), _ctx.Type(Typ.Generic(typeof(IMessage<>), tResponse)));
+            }
         }
 
-        private IEnumerable<MethodDeclarationSyntax> ModifyPerMethodApiCallMethods() =>
+        private IEnumerable<MethodDeclarationSyntax> ModifyPerMethodApiCallPartialMethods() =>
             _svc.Methods.Select(method =>
             {
                 var call = Parameter(_ctx.Type(method.ApiCallTyp), "call").Ref();
@@ -147,11 +170,24 @@ namespace Google.Api.Generator.Generation
         private IEnumerable<MethodDeclarationSyntax> ModifyRequestMethods()
         {
             var seenTypes = new HashSet<Typ>();
+            var seenStreamingTypes = new HashSet<Typ>();
             foreach (var method in _svc.Methods)
             {
-                if (seenTypes.Add(method.RequestTyp))
+                switch (method)
                 {
-                    yield return ModifyRequestMethod(_ctx, method);
+                    case MethodDetails.BidiStreaming methodBidi:
+                        if (seenStreamingTypes.Add(method.RequestTyp))
+                        {
+                            yield return ModifyBidiRequestCallSettingsPartialMethod(_ctx, methodBidi);
+                            yield return PartialMethod(methodBidi.ModifyStreamingRequestMethodName)(Parameter(_ctx.Type(method.RequestTyp), "request").Ref());
+                        }
+                        break;
+                    default:
+                        if (seenTypes.Add(method.RequestTyp))
+                        {
+                            yield return ModifyRequestPartialMethod(_ctx, method);
+                        }
+                        break;
                 }
             }
         }
