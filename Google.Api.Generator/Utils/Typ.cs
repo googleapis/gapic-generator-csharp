@@ -109,6 +109,7 @@ namespace Google.Api.Generator.Utils
             {
                 throw new NotSupportedException("Maps not yet supported");
             }
+            // See https://developers.google.com/protocol-buffers/docs/proto3#scalar
             if (forceRepeated ?? desc.IsRepeated)
             {
                 switch (desc.FieldType)
@@ -117,11 +118,13 @@ namespace Google.Api.Generator.Utils
                     case FieldType.Bytes: return Of<IEnumerable<ByteString>>();
                     case FieldType.Double: return Of<IEnumerable<double>>();
                     case FieldType.Int32:
-                    case FieldType.SFixed32: // TODO: Check about signed/unsigned
-                    case FieldType.Fixed32: return Of<IEnumerable<int>>();
+                    case FieldType.SFixed32: return Of<IEnumerable<int>>();
+                    case FieldType.UInt32:
+                    case FieldType.Fixed32: return Of<IEnumerable<uint>>();
                     case FieldType.Int64:
-                    case FieldType.SFixed64: // TODO: Check about signed/unsigned
-                    case FieldType.Fixed64: return Of<IEnumerable<long>>();
+                    case FieldType.SFixed64: return Of<IEnumerable<long>>();
+                    case FieldType.UInt64:
+                    case FieldType.Fixed64: return Of<IEnumerable<ulong>>();
                     case FieldType.Float: return Of<IEnumerable<float>>();
                     case FieldType.String: return Of<IEnumerable<string>>();
                     case FieldType.Message: return Generic(typeof(IEnumerable<>), Of(desc.MessageType));
@@ -134,11 +137,13 @@ namespace Google.Api.Generator.Utils
                 case FieldType.Bytes: return Of<ByteString>();
                 case FieldType.Double: return Of<double>();
                 case FieldType.Int32:
-                case FieldType.SFixed32: // TODO: Check about signed/unsigned
-                case FieldType.Fixed32: return Of<int>();
+                case FieldType.SFixed32: return Of<int>();
+                case FieldType.UInt32:
+                case FieldType.Fixed32: return Of<uint>();
                 case FieldType.Int64:
-                case FieldType.SFixed64: // TODO: Check about signed/unsigned
-                case FieldType.Fixed64: return Of<long>();
+                case FieldType.SFixed64: return Of<long>();
+                case FieldType.UInt64:
+                case FieldType.Fixed64: return Of<ulong>();
                 case FieldType.Float: return Of<float>();
                 case FieldType.String: return Of<string>();
                 case FieldType.Message: return Of(desc.MessageType);
