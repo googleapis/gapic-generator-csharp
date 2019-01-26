@@ -38,6 +38,7 @@ namespace Google.Api.Generator.Generation
             { typeof(System.Int32).Namespace, "sys" }, // Don't use "s"; one-letter aliases cause a compilation error!
             { typeof(System.Collections.Generic.IEnumerable<>).Namespace, "scg" },
             { typeof(System.Collections.ObjectModel.Collection<>).Namespace, "sco" },
+            { typeof(System.Linq.Enumerable).Namespace, "linq" },
             { typeof(Google.Api.Gax.Expiration).Namespace, "gax" },
             { typeof(Google.Api.Gax.Grpc.CallSettings).Namespace, "gaxgrpc" },
             { typeof(Grpc.Core.CallCredentials).Namespace, "grpccore" },

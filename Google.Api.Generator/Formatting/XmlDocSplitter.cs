@@ -15,6 +15,7 @@
 // This is not a general-purpose C# code formatter.
 // It makes various assumptions about the Roslyn input.
 
+using Google.Api.Generator.RoslynUtils;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -32,13 +33,8 @@ namespace Google.Api.Generator.Formatting
         private static readonly XmlElementEndTagSyntax s_missingEndTag = XmlElementEndTag(
             MissingToken(SyntaxKind.LessThanSlashToken), XmlName(MissingToken(SyntaxKind.IdentifierToken)), MissingToken(SyntaxKind.GreaterThanToken));
 
-        private static XmlElementSyntax StartTag(string name, SyntaxList<XmlAttributeSyntax> attrs = default) => StartTag(XmlName(name), attrs);
         private static XmlElementSyntax StartTag(XmlNameSyntax name, SyntaxList<XmlAttributeSyntax> attrs = default) => XmlElement(XmlElementStartTag(name, attrs), s_missingEndTag);
-        private static XmlElementSyntax EndTag(string name) => EndTag(XmlName(name));
         private static XmlElementSyntax EndTag(XmlNameSyntax name) => XmlElement(s_missingStartTag, XmlElementEndTag(name));
-
-        private static readonly XmlElementSyntax s_startSummaryTag = StartTag("summary");
-        private static readonly XmlElementSyntax s_endSummaryTag = EndTag("summary");
 
         public static SyntaxTriviaList Split(SyntaxTrivia indent, int maxLineLength, SyntaxTriviaList xmlDocTrivia) =>
             new XmlDocSplitter(indent, maxLineLength).Split(xmlDocTrivia);
@@ -62,16 +58,7 @@ namespace Google.Api.Generator.Formatting
             var trivia = xmlDocTrivia.Where(x => !x.Span.IsEmpty).SelectMany(item =>
             {
                 var docComment = (DocumentationCommentTriviaSyntax)item.GetStructure();
-                var kind = item.Kind();
-                switch (kind)
-                {
-                    case SyntaxKind.MultiLineDocumentationCommentTrivia:
-                        return SplitMultiLine(docComment);
-                    case SyntaxKind.SingleLineDocumentationCommentTrivia:
-                        return SplitSingleLine(docComment);
-                    default:
-                        throw new InvalidOperationException($"Cannot split xmldoc of kind: {kind}");
-                }
+                return docComment.HasAnnotation(XmlDoc.Annotations.Preformatted) ? SplitPreformatted(docComment) : SplitUnformatted(docComment);
             });
             return TriviaList(trivia.Select(Trivia));
         }
@@ -82,22 +69,22 @@ namespace Google.Api.Generator.Formatting
             DocumentationCommentTrivia(SyntaxKind.SingleLineDocumentationCommentTrivia, xmlNodes)
                 .WithLeadingTrivia(_preTrivia).WithTrailingTrivia(CarriageReturnLineFeed);
 
-        private IEnumerable<DocumentationCommentTriviaSyntax> SplitMultiLine(DocumentationCommentTriviaSyntax docComment)
+        private IEnumerable<DocumentationCommentTriviaSyntax> SplitPreformatted(DocumentationCommentTriviaSyntax docComment)
         {
             // TODO: This assumes it's for a summary element, which may not always be true in the future.
             // Already correct pre-formatted into lines; need to indent and add `/// `.
             foreach (var element in docComment.Content.OfType<XmlElementSyntax>())
             {
-                yield return OneLine(s_startSummaryTag);
+                yield return OneLine(StartTag(element.StartTag.Name, element.StartTag.Attributes));
                 foreach (var node in element.Content)
                 {
                     yield return OneLine(node);
                 }
-                yield return OneLine(s_endSummaryTag);
+                yield return OneLine(EndTag(element.EndTag.Name));
             }
         }
 
-        private IEnumerable<DocumentationCommentTriviaSyntax> SplitSingleLine(DocumentationCommentTriviaSyntax docComment)
+        private IEnumerable<DocumentationCommentTriviaSyntax> SplitUnformatted(DocumentationCommentTriviaSyntax docComment)
         {
             // Types of nested XML, with examples:
             // * <c> inline, but first and last XML tags must be on same line as adjacant word.

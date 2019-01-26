@@ -187,7 +187,7 @@ namespace Google.Api.Generator.Generation
         private PropertyDeclarationSyntax LroSettingsProperty(MethodDetails.Lro method) =>
             AutoProperty(Public, _ctx.Type<OperationsSettings>(), method.LroSettingsName, hasSetter: true)
                 .WithInitializer(New(_ctx.Type<OperationsSettings>())().WithInitializer(
-                    (nameof(OperationsSettings.DefaultPollSettings), New(_ctx.Type<PollSettings>())(
+                    new ObjectInitExpr(nameof(OperationsSettings.DefaultPollSettings), New(_ctx.Type<PollSettings>())(
                         _ctx.Type<Expiration>().Call(nameof(Expiration.FromTimeout))(_ctx.Type<TimeSpan>().Call(nameof(TimeSpan.FromHours))((int)s_lroDefaultPollSettings.Expiration.Timeout.Value.TotalHours)),
                         _ctx.Type<TimeSpan>().Call(nameof(TimeSpan.FromSeconds))((int)s_lroDefaultPollSettings.Delay.TotalSeconds),
                         s_lroDefaultPollSettings.DelayMultiplier,

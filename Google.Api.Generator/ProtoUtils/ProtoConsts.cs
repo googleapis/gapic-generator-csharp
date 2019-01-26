@@ -25,7 +25,13 @@ namespace Google.Api.Generator.ProtoUtils
         public static class MethodOption
         {
             public const int OperationTypes = 1049;
+            public const int MethodSignature = 1051;
             public const int HttpRule = 72295728;
+        }
+
+        public static class FieldOption
+        {
+            public const int FieldBehavior = 1052;
         }
     }
 }

@@ -19,7 +19,6 @@ using Google.Api.Generator.RoslynUtils;
 using Google.Api.Generator.Utils;
 using Google.LongRunning;
 using Grpc.Core;
-using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
@@ -31,7 +30,7 @@ using static Google.Api.Generator.RoslynUtils.RoslynBuilder;
 
 namespace Google.Api.Generator.Generation
 {
-    internal class ServiceMethodGenerator
+    internal partial class ServiceMethodGenerator
     {
         public static IEnumerable<MemberDeclarationSyntax> Generate(SourceFileContext ctx, ServiceDetails svc, bool inAbstract) =>
             new ServiceMethodGenerator(ctx, svc, inAbstract).Generate();
@@ -59,6 +58,12 @@ namespace Google.Api.Generator.Generation
                         yield return method.AbstractSyncRequestMethod();
                         yield return method.AbstractAsyncCallSettingsRequestMethod();
                         yield return method.AbstractAsyncCancellationTokenRequestMethod;
+                        foreach (var signature in method.Signatures)
+                        {
+                            yield return signature.AbstractSyncRequestMethod;
+                            yield return signature.AbstractAsyncCallSettingsRequestMethod;
+                            yield return signature.AbstractAsyncCancellationTokenRequestMethod;
+                        }
                         break;
                     case MethodDetails.Paginated _:
                         yield return method.AbstractSyncRequestMethod(paginated: true);
@@ -112,7 +117,7 @@ namespace Google.Api.Generator.Generation
             }
         }
 
-        private class MethodDef
+        private partial class MethodDef
         {
             public MethodDef(SourceFileContext ctx, string ns, MethodDetails methodDetails) =>
                 (Ctx, Namespace, MethodDetails) = (ctx, ns, methodDetails);
@@ -139,7 +144,7 @@ namespace Google.Api.Generator.Generation
             private ParameterSyntax OperationNameParam => Parameter(Ctx.Type<string>(), "operationName");
             private ParameterSyntax BidiStreamingSettingsParam => Parameter(Ctx.Type<BidirectionalStreamingSettings>(), "streamingSettings", @default: Null);
 
-            private DocumentationCommentTriviaSyntax SummaryXmlDoc => XmlDoc.SummaryMultiline(MethodDetails.DocLines);
+            private DocumentationCommentTriviaSyntax SummaryXmlDoc => XmlDoc.SummaryPreFormatted(MethodDetails.DocLines);
             private DocumentationCommentTriviaSyntax RequestXmlDoc => XmlDoc.Param(RequestParam, "The request object containing all of the parameters for the API call.");
             private DocumentationCommentTriviaSyntax CallSettingsXmlDoc => XmlDoc.Param(CallSettingsParam, "If not null, applies overrides to this RPC call.");
             private DocumentationCommentTriviaSyntax CancellationTokenXmlDoc => XmlDoc.Param(CancellationTokenParam, "A ", Ctx.Type<CancellationToken>(), " to use for this RPC.");

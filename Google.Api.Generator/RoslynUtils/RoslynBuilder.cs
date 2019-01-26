@@ -127,12 +127,15 @@ namespace Google.Api.Generator.RoslynUtils
             InvocationExpression(IdentifierName("nameof"))
                 .WithArgumentList(ArgumentList(SingletonSeparatedList(Argument(IdentifierName(nameof.Identifier)))));
 
+        public static InitializerExpressionSyntax CollectionInitializer(params object[] exprs) =>
+            InitializerExpression(SyntaxKind.CollectionInitializerExpression, SeparatedList(ToExpressions(exprs)));
+
         public static ArgumentsFunc<ObjectCreationExpressionSyntax> New(TypeSyntax type) => args =>
             ObjectCreationExpression(type).WithArgumentList(RoslynConverters.CreateArgList(args));
 
         public static ArgumentsFunc<ArrayCreationExpressionSyntax> NewArray(ArrayTypeSyntax arrayType) => args =>
             ArrayCreationExpression(arrayType)
-                .WithInitializer(InitializerExpression(SyntaxKind.ArrayInitializerExpression, SeparatedList(args.SelectMany(RoslynConverters.ToExpressions))));
+                .WithInitializer(InitializerExpression(SyntaxKind.ArrayInitializerExpression, SeparatedList(args.SelectMany(ToExpressions))));
 
         public static AwaitExpressionSyntax Await(ExpressionSyntax expr) => AwaitExpression(expr);
 

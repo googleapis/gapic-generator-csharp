@@ -100,15 +100,24 @@ namespace Google.Api.Generator.Tests
                 public string S { get; set; }
 
                 public ObjectWithProperties O { get; set; }
+
+                public List<int> List { get; }
             }
 
             // Test property with initializer using nested object initialization.
+            // Test object collection initialization.
             public ObjectWithProperties P5 { get; set; } = new ObjectWithProperties
             {
                 S = "A_string",
                 O = new ObjectWithProperties
                 {
                     S = "Another_string",
+                },
+                List =
+                {
+                    1,
+                    2,
+                    3,
                 },
             };
 
@@ -164,6 +173,13 @@ namespace Google.Api.Generator.Tests
 
             // Test `ref` parameter and `ref` arg.
             public void WithRef(ref int a) => WithRef(ref a);
+
+            // Test wrapping of long expression-bodied method, with correct multi-line indent.
+            public object MethodWithLongNameSoTheExpressionBodyWillWrapToTheNextLine(string aParameter, string anotherParameter, string aThirdParameter) =>
+                new List<int>
+                {
+                    18,
+                };
         }
 
         // Test base-list with one item.

@@ -143,5 +143,8 @@ namespace Google.Api.Generator.Tests
 
         [Fact]
         public void BasicPaginated() => ProtoTestSingle("BasicPaginated");
+
+        [Fact]
+        public void MethodSignatures() => ProtoTestSingle("MethodSignatures");
     }
 }
