@@ -140,5 +140,8 @@ namespace Google.Api.Generator.Tests
 
         [Fact]
         public void BasicServerStreaming() => ProtoTestSingle("BasicServerStreaming");
+
+        [Fact]
+        public void BasicPaginated() => ProtoTestSingle("BasicPaginated");
     }
 }
