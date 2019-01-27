@@ -50,6 +50,8 @@ namespace Testing.Basicbidistreaming
 
     public sealed partial class BasicBidiStreamingClientImpl : BasicBidiStreamingClient
     {
+        public BasicBidiStreamingClientImpl() => _callMethodBidi = null;
+
         // TEST_START
         private readonly gaxgrpc::ApiBidirectionalStreamingCall<Request, Response> _callMethodBidi;
         // TEST_END

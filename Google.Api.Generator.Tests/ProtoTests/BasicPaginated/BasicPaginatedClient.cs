@@ -29,7 +29,7 @@ namespace Testing.Basicpaginated
 
     public sealed partial class BasicPaginatedClientImpl : BasicPaginatedClient
     {
-        private readonly gaxgrpc::ApiCall<Request, Response> _callMethodPaginated;
+        private readonly gaxgrpc::ApiCall<Request, Response> _callMethodPaginated = null;
 
         partial void Modify_Request(ref Request request, ref gaxgrpc::CallSettings callSettings);
 

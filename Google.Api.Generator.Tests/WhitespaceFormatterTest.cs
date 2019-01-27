@@ -155,7 +155,7 @@ namespace Google.Api.Generator.Tests
             }
 
             // Test generic field type.
-            private Dictionary<int, string> _genericField;
+            public Dictionary<int, string> _genericField = null;
 
             // Test generic parameters and generic constraints.
             public void GenericMethod<A, B>(A a, B b) where A : class, IList<B> where B : struct, IList<A>
