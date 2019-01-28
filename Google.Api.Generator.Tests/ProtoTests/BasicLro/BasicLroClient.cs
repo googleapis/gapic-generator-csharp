@@ -104,7 +104,7 @@ namespace Testing.Basiclro
 
     public sealed partial class BasicLroClientImpl : BasicLroClient
     {
-        private readonly gaxgrpc::ApiCall<Request, lro::Operation> _callMethod1;
+        private readonly gaxgrpc::ApiCall<Request, lro::Operation> _callMethod1 = null;
 
         public BasicLroClientImpl(BasicLro.BasicLroClient grpcClient)
         {
