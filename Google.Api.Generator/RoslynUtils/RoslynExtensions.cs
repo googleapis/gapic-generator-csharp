@@ -74,7 +74,7 @@ namespace Google.Api.Generator.RoslynUtils
         }
 
         public static ObjectCreationExpressionSyntax WithInitializer(
-            this ObjectCreationExpressionSyntax obj, params (string propertyName, object code)[] inits)
+            this ObjectCreationExpressionSyntax obj, params ObjectInitExpr[] inits)
         {
             if (!obj.ArgumentList.Arguments.Any())
             {
@@ -83,7 +83,7 @@ namespace Google.Api.Generator.RoslynUtils
             }
             return obj.WithInitializer(InitializerExpression(SyntaxKind.ObjectInitializerExpression,
                 SeparatedList<ExpressionSyntax>(inits.Select(init =>
-                    AssignmentExpression(SyntaxKind.SimpleAssignmentExpression, ToSimpleName(init.propertyName), ToExpressions(init.code).Single())))));
+                    AssignmentExpression(SyntaxKind.SimpleAssignmentExpression, ToSimpleName(init.PropertyName), ToExpressions(init.Code).Single())))));
         }
 
         public static PropertyDeclarationSyntax WithInitializer(this PropertyDeclarationSyntax prop, object code) =>

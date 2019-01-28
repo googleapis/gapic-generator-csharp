@@ -27,6 +27,11 @@ namespace Google.Api.Generator.RoslynUtils
     /// </summary>
     internal static class XmlDoc
     {
+        public static class Annotations
+        {
+            public readonly static SyntaxAnnotation Preformatted = new SyntaxAnnotation("preformatted");
+        }
+
         private static XmlNodeSyntax ToNode(object o)
         {
             switch (o)
@@ -54,12 +59,11 @@ namespace Google.Api.Generator.RoslynUtils
             DocumentationCommentTrivia(SyntaxKind.SingleLineDocumentationCommentTrivia, SingletonList<XmlNodeSyntax>(fn(parts.Select(ToNode).ToArray())));
 
         public static DocumentationCommentTriviaSyntax Summary(params object[] parts) => XmlDocElement(parts, XmlSummaryElement);
-        public static DocumentationCommentTriviaSyntax SummaryMultiline(IEnumerable<string> lines) =>
-            DocumentationCommentTrivia(SyntaxKind.MultiLineDocumentationCommentTrivia,
-                SingletonList<XmlNodeSyntax>(XmlMultiLineElement("summary", List<XmlNodeSyntax>(lines.Select(XmlText)))));
+        public static DocumentationCommentTriviaSyntax SummaryPreFormatted(IEnumerable<string> lines) => Summary(lines.ToArray()).WithAdditionalAnnotations(Annotations.Preformatted);
         public static DocumentationCommentTriviaSyntax Remarks(params object[] parts) => XmlDocElement(parts, XmlRemarksElement);
         public static DocumentationCommentTriviaSyntax Example(params object[] parts) => XmlDocElement(parts, XmlExampleElement);
         public static DocumentationCommentTriviaSyntax Param(ParameterSyntax param, params object[] parts) => XmlDocElement(parts, x => XmlParamElement(param.Identifier.Text, x));
+        public static DocumentationCommentTriviaSyntax ParamPreFormatted(ParameterSyntax param, IEnumerable<string> lines) => Param(param, lines.ToArray()).WithAdditionalAnnotations(Annotations.Preformatted);
         public static DocumentationCommentTriviaSyntax Returns(params object[] parts) => XmlDocElement(parts, XmlReturnsElement);
 
         public static XmlNodeSyntax C(string c) => XmlElement("c", SingletonList<XmlNodeSyntax>(XmlText(c)));

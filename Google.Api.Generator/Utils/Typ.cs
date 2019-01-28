@@ -95,13 +95,24 @@ namespace Google.Api.Generator.Utils
 
         public static Typ Of<T>() => Of(typeof(T));
         public static Typ Of(System.Type type) => new FromType(type);
-        public static Typ Of(MessageDescriptor desc) => Manual(desc.File.CSharpNamespace(), desc.Name);
         public static Typ Manual(string ns, string name) => new FromManual(ns, name);
         public static Typ Manual(string ns, ClassDeclarationSyntax cls) => new FromManual(ns, cls.Identifier.Text);
         public static Typ Nested(Typ declaringTyp, string name) => new FromNested(declaringTyp, name);
         public static Typ Generic(System.Type genericDef, params Typ[] typeArgs) => new FromGeneric(Of(genericDef), typeArgs);
         public static Typ.GenericParameter GenericParam(string name) => new Typ.GenericParameter(name);
         public static Typ.Special ClassConstraint { get; } = new Special(Special.Type.ClassConstraint);
+
+        public static Typ Of(MessageDescriptor desc)
+        {
+            var ns = desc.File.CSharpNamespace();
+            var typ = Manual(ns, desc.Name);
+            while (desc.ContainingType != null)
+            {
+                desc = desc.ContainingType;
+                typ = Nested(Nested(Manual(ns, desc.Name), "Types"), typ.Name);
+            }
+            return typ;
+        }
 
         public static Typ Of(FieldDescriptor desc, bool? forceRepeated = null)
         {

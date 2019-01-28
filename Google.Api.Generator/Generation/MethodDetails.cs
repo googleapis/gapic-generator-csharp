@@ -54,7 +54,7 @@ namespace Google.Api.Generator.Generation
                 AsyncReturnTyp = Typ.Generic(typeof(PagedAsyncEnumerable<,>), ResponseTyp, ResourceTyp);
                 SyncGrpcType = Typ.Generic(typeof(GrpcPagedEnumerable<,,>), RequestTyp, ResponseTyp, ResourceTyp);
                 AsyncGrpcType = Typ.Generic(typeof(GrpcPagedAsyncEnumerable<,,>), RequestTyp, ResponseTyp, ResourceTyp);
-                ResourcesFieldName = responseResourceField.CSharpName();
+                ResourcesFieldName = responseResourceField.CSharpPropertyName();
             }
             public override Typ ApiCallTyp { get; }
             public override Typ SyncReturnTyp { get; }
@@ -128,12 +128,38 @@ namespace Google.Api.Generator.Generation
             public Typ ImplStreamTyp { get; }
         }
 
-        // TODO: Nested classes for other method types: paged, streaming, LRO, ...
+        public sealed class Signature
+        {
+            public sealed class Field
+            {
+                public Field(MessageDescriptor msg, string fieldName)
+                {
+                    var desc = msg.FindFieldByName(fieldName);
+                    Typ = Typ.Of(desc);
+                    Required = desc.CustomOptions.TryGetRepeatedEnum<FieldBehavior>(ProtoConsts.FieldOption.FieldBehavior, out var behaviors) &&
+                        behaviors.Any(x => x == FieldBehavior.Required);
+                    FieldName = desc.CSharpFieldName();
+                    PropertyName = desc.CSharpPropertyName();
+                    DocLines = desc.Declaration.DocLines();
+                }
+                public Typ Typ { get; }
+                public bool Required { get; }
+                public string FieldName { get; }
+                public string PropertyName { get; }
+                public IEnumerable<string> DocLines { get; }
+            }
+            public Signature(MessageDescriptor msg , MethodSignature sig)
+            {
+                Fields = sig.Fields.Select(fieldName => new Field(msg, fieldName)).ToList();
+            }
+            public IEnumerable<Field> Fields { get; }
+        }
 
         public static MethodDetails Create(ServiceDetails svc, MethodDescriptor desc) =>
             DetectPagination(svc, desc) ?? (
             desc.IsClientStreaming && desc.IsServerStreaming ? new BidiStreaming(svc, desc) :
             desc.IsServerStreaming ? new ServerStreaming(svc, desc) :
+            desc.IsClientStreaming ? throw new NotImplementedException() :
             desc.OutputType.FullName == "google.longrunning.Operation" ? new Lro(svc, desc) :
             (MethodDetails)new Normal(svc, desc));
 
@@ -187,6 +213,8 @@ namespace Google.Api.Generator.Generation
             IsIdempotent = desc.CustomOptions.TryGetMessage<HttpRule>(
                 ProtoConsts.MethodOption.HttpRule, out var http) ? !string.IsNullOrEmpty(http.Get) : false;
             DocLines = desc.Declaration.DocLines().ToList();
+            Signatures = desc.CustomOptions.TryGetRepeatedMessage<MethodSignature>(ProtoConsts.MethodOption.MethodSignature, out var sigs) ?
+                sigs.Select(sig => new Signature(desc.InputType, sig)).ToList() : Enumerable.Empty<Signature>();
         }
 
         /// <summary>The service in which this method is defined.</summary>
@@ -230,5 +258,8 @@ namespace Google.Api.Generator.Generation
 
         /// <summary>The lines of method documentation from the proto.</summary>
         public IEnumerable<string> DocLines { get; }
+
+        /// <summary>Method signatures.</summary>
+        public IEnumerable<Signature> Signatures { get; }
     }
 }

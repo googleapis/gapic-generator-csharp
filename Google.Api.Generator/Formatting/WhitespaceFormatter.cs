@@ -36,11 +36,18 @@ namespace Google.Api.Generator.Formatting
         private readonly int _maxLineLength;
         private SyntaxTrivia _indentTrivia = SyntaxTrivia(SyntaxKind.WhitespaceTrivia, "");
 
-        private IDisposable WithIndent()
+        private IDisposable WithIndent(bool withIndent = true)
         {
-            var orgIndentTrivia = _indentTrivia;
-            _indentTrivia = SyntaxTrivia(SyntaxKind.WhitespaceTrivia, new string(' ', orgIndentTrivia.Span.Length + 4));
-            return new Disposable(() => _indentTrivia = orgIndentTrivia);
+            if (withIndent)
+            {
+                var orgIndentTrivia = _indentTrivia;
+                _indentTrivia = SyntaxTrivia(SyntaxKind.WhitespaceTrivia, new string(' ', orgIndentTrivia.Span.Length + 4));
+                return new Disposable(() => _indentTrivia = orgIndentTrivia);
+            }
+            else
+            {
+                return new Disposable(() => { });
+            }
         }
 
         private SyntaxTriviaList FormatXmlDoc(SyntaxTriviaList trivList) =>
@@ -176,9 +183,12 @@ namespace Google.Api.Generator.Formatting
 
         public override SyntaxNode VisitArrowExpressionClause(ArrowExpressionClauseSyntax node)
         {
-            var postTrivia = node.Parent is MethodDeclarationSyntax method && method.Span.Length + _indentTrivia.Span.Length > _maxLineLength ?
-                TriviaList(CarriageReturnLineFeed, _indentTrivia, s_singleIndentTrivia) : TriviaList(Space);
-            node = (ArrowExpressionClauseSyntax)base.VisitArrowExpressionClause(node);
+            var lineSplit = node.Parent is MethodDeclarationSyntax method && method.Span.Length + _indentTrivia.Span.Length > _maxLineLength;
+            var postTrivia = lineSplit ? TriviaList(CarriageReturnLineFeed, _indentTrivia, s_singleIndentTrivia) : TriviaList(Space);
+            using (WithIndent(lineSplit))
+            {
+                node = (ArrowExpressionClauseSyntax)base.VisitArrowExpressionClause(node);
+            }
             node = node.WithArrowToken(node.ArrowToken.WithLeadingSpace().WithTrailingTrivia(postTrivia));
             return node;
         }
@@ -198,7 +208,9 @@ namespace Google.Api.Generator.Formatting
         public override SyntaxNode VisitAssignmentExpression(AssignmentExpressionSyntax node)
         {
             node = (AssignmentExpressionSyntax)base.VisitAssignmentExpression(node);
-            node = node.WithOperatorToken(node.OperatorToken.WithLeadingSpace().WithTrailingSpace());
+            var noSpace = node.Right is InitializerExpressionSyntax initExpr && initExpr.Kind() == SyntaxKind.CollectionInitializerExpression;
+            var operatorToken1 = noSpace ? node.OperatorToken.WithLeadingSpace() : node.OperatorToken.WithLeadingSpace().WithTrailingSpace();
+            node = node.WithOperatorToken(operatorToken1);
             return node;
         }
 

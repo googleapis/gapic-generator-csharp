@@ -12,7 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Google.Protobuf;
 using Google.Protobuf.Reflection;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -50,8 +53,55 @@ namespace Google.Api.Generator.ProtoUtils
                 c == '_' ? (true, acc.sb) : (false, acc.sb.Append(acc.upper ? char.ToUpperInvariant(c) : char.ToLowerInvariant(c))),
                 acc => acc.sb.ToString());
 
-        public static string CSharpName(this FieldDescriptor field) => CSharpName(field.Name, isFieldName: false);
+        public static string CSharpPropertyName(this FieldDescriptor field) => CSharpName(field.Name, isFieldName: false);
 
         public static string CSharpFieldName(this FieldDescriptor field) => CSharpName(field.Name, isFieldName: true);
+
+        private static IEnumerable<(ulong number, ByteString byteString)> GetRepeated(CustomOptions opts, int field)
+        {
+            // There is no way of reading a repeated custom option.
+            // The normal `TryGetMessage<T>()` method returns the single merged value of all repeated options.
+            // See proto code for details for the members reflected over:
+            // https://github.com/protocolbuffers/protobuf/blob/45a723b40dc63ddf23ee0d45c1daca3e4eae5919/csharp/src/Google.Protobuf/Reflection/CustomOptions.cs
+            var valuesByField = typeof(CustomOptions).GetField("valuesByField", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(opts);
+            // valuesByField is a Dictionary<int, List<CustomOptions.FieldValue>> - FieldValue is a private nested struct.
+            var parameters = new object[] { field, null };
+            var containsField = (bool)valuesByField.GetType().GetMethod("TryGetValue").Invoke(valuesByField, parameters);
+            return containsField ? ((IEnumerable)parameters[1]).Cast<object>().Select(fieldValue =>
+            {
+                var number = (ulong)fieldValue.GetType().GetProperty("Number", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(fieldValue);
+                var byteString = (ByteString)fieldValue.GetType().GetProperty("ByteString", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(fieldValue);
+                return (number, byteString);
+            }) : null;
+        }
+
+        public static bool TryGetRepeatedMessage<T>(this CustomOptions opts, int field, out IEnumerable<T> value) where T : class, IMessage<T>, new()
+        {
+            var result = GetRepeated(opts, field)?.Select(fieldValue =>
+            {
+                if (fieldValue.byteString == null)
+                {
+                    return null;
+                }
+                T v = new T();
+                v.MergeFrom(fieldValue.byteString);
+                return v;
+            }).Where(x => x != null).ToList();
+            value = result == null || result.Count == 0 ? null : result;
+            return value != null;
+        }
+
+        public static bool TryGetRepeatedInt32(this CustomOptions opts, int field, out IEnumerable<int> value)
+        {
+            var result = GetRepeated(opts, field)?.Select(fieldValue => (int)fieldValue.number).ToList();
+            value = result == null || result.Count == 0 ? null : result;
+            return value != null;
+        }
+
+        public static bool TryGetRepeatedEnum<T>(this CustomOptions opts, int field, out IEnumerable<T> value) where T : Enum
+        {
+            value = TryGetRepeatedInt32(opts, field, out var ints) ? ints.Select(x => (T)(object)x) : null;
+            return value != null;
+        }
     }
 }

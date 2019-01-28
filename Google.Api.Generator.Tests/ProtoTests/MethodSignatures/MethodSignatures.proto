@@ -1,0 +1,73 @@
+﻿syntax = "proto3";
+
+package testing.methodsignatures;
+
+import "google/api/annotations.proto";
+
+service MethodSignatures {
+  option (google.api.default_host) = "methodsignatures.example.com";
+
+  rpc SimpleMethod(SimpleRequest) returns(Response) {
+    option (google.api.method_signature) = { fields: ["a_number"] };
+    option (google.api.method_signature) = { fields: ["a_string"] };
+    option (google.api.method_signature) = { fields: ["a_number", "a_string"] };
+    option (google.api.method_signature) = { fields: ["a_string", "a_number"] };
+  }
+
+  rpc PrimitiveArgs(PrimitiveRequest) returns(Response) {
+    option (google.api.method_signature) = { fields: ["optional", "required", "repeated_optional", "repeated_required"]};
+  }
+
+  rpc StringArgs(StringRequest) returns(Response) {
+    option (google.api.method_signature) = { fields: ["optional", "required", "repeated_optional", "repeated_required"]};
+  }
+
+  rpc BytesArgs(BytesRequest) returns(Response) {
+    option (google.api.method_signature) = { fields: ["optional", "required", "repeated_optional", "repeated_required"]};
+  }
+
+  rpc MessageArgs(MessageRequest) returns(Response) {
+    option (google.api.method_signature) = { fields: ["optional", "required", "repeated_optional", "repeated_required"]};
+  }
+}
+
+message SimpleRequest {
+  // A number with some test (preformatted) documentation.
+  int32 a_number = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // Another number with some test (preformatted) documetation
+  // that spans more than one line.
+  string a_string = 2; // Not marked as required, so optional
+}
+
+message PrimitiveRequest {
+  int32 optional = 1;
+  int32 required = 2 [(google.api.field_behavior) = REQUIRED];
+  repeated int32 repeated_optional = 3;
+  repeated int32 repeated_required = 4 [(google.api.field_behavior) = REQUIRED];
+}
+
+message StringRequest {
+  string optional = 1;
+  string required = 2 [(google.api.field_behavior) = REQUIRED];
+  repeated string repeated_optional = 3;
+  repeated string repeated_required = 4 [(google.api.field_behavior) = REQUIRED];
+}
+
+message BytesRequest {
+  bytes optional = 1;
+  bytes required = 2 [(google.api.field_behavior) = REQUIRED];
+  repeated bytes repeated_optional = 3;
+  repeated bytes repeated_required = 4 [(google.api.field_behavior) = REQUIRED];
+}
+
+message MessageRequest {
+  message Msg { }
+  Msg optional = 1;
+  Msg required = 2 [(google.api.field_behavior) = REQUIRED];
+  repeated Msg repeated_optional = 3;
+  repeated Msg repeated_required = 4 [(google.api.field_behavior) = REQUIRED];
+}
+
+message Response {
+}
