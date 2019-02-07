@@ -59,6 +59,8 @@ namespace Google.Api.Generator.RoslynUtils
             }
         }
 
+        public static ExpressionSyntax ToExpression(object o) => ToExpressions(o).Single();
+
         private static IEnumerable<ArgumentSyntax> ToArgs(object o)
         {
             if (o is ITuple tuple && tuple.Length == 2 && tuple[0] is string argName)
@@ -79,6 +81,11 @@ namespace Google.Api.Generator.RoslynUtils
                         throw new InvalidOperationException($"Cannot convert modtype: {argMod.ModType}");
                 }
                 return new[] { Argument(ToExpressions(argMod.Arg).Single()).WithRefKindKeyword(Token(kind)) };
+            }
+            if (o is DeclarationExpressionSyntax decl)
+            {
+                // Handle `out var` parameters. This may need to be generalized later.
+                return new[] { Argument(decl).WithRefKindKeyword(Token(SyntaxKind.OutKeyword)) };
             }
             // TODO: ref arguments.
             return ToExpressions(o).Select(Argument);

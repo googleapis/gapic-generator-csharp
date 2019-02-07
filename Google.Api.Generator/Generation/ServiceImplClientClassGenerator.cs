@@ -55,7 +55,7 @@ namespace Google.Api.Generator.Generation
 
         private ClassDeclarationSyntax Generate()
         {
-            var cls = Class(Public | Sealed | Partial, _svc.ClientImplTyp, baseType: _ctx.Type(_svc.ClientAbstractTyp))
+            var cls = Class(Public | Sealed | Partial, _svc.ClientImplTyp, baseTypes: _ctx.Type(_svc.ClientAbstractTyp))
                 .WithXmlDoc(XmlDoc.Summary($"{_svc.DocumentationName} client wrapper implementation, for convenient use."));
             using (_ctx.InClass(cls))
             {

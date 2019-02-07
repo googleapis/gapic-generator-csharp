@@ -146,5 +146,8 @@ namespace Google.Api.Generator.Tests
 
         [Fact]
         public void MethodSignatures() => ProtoTestSingle("MethodSignatures");
+
+        [Fact]
+        public void ResourceNames() => ProtoTestSingle("ResourceNames");
     }
 }

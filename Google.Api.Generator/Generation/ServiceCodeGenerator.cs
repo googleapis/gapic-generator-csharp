@@ -53,7 +53,7 @@ namespace Google.Api.Generator.Generation
             var requestTyps = paginatedMethods.Select(x => x.RequestTyp).Distinct();
             foreach (var typ in requestTyps)
             {
-                yield return Class(Public | Partial, typ, baseType: ctx.Type<IPageRequest>());
+                yield return Class(Public | Partial, typ, baseTypes: ctx.Type<IPageRequest>());
             }
             var seen = new Dictionary<string, Typ>();
             foreach (var method in paginatedMethods)
@@ -67,7 +67,7 @@ namespace Google.Api.Generator.Generation
                 }
                 else
                 {
-                    var cls = Class(Public | Partial, method.ResponseTyp, baseType: ctx.Type(Typ.Generic(typeof(IPageResponse<>), method.ResourceTyp)));
+                    var cls = Class(Public | Partial, method.ResponseTyp, baseTypes: ctx.Type(Typ.Generic(typeof(IPageResponse<>), method.ResourceTyp)));
                     using (ctx.InClass(cls))
                     {
                         var genericGetEnumerator = Method(Public, ctx.Type(Typ.Generic(typeof(IEnumerator<>), method.ResourceTyp)), "GetEnumerator")()

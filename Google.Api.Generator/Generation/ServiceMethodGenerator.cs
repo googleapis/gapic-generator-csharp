@@ -63,6 +63,12 @@ namespace Google.Api.Generator.Generation
                             yield return signature.AbstractSyncRequestMethod;
                             yield return signature.AbstractAsyncCallSettingsRequestMethod;
                             yield return signature.AbstractAsyncCancellationTokenRequestMethod;
+                            foreach (var resourceName in signature.ResourceNames)
+                            {
+                                yield return resourceName.AbstractSyncRequestMethod;
+                                yield return resourceName.AbstractAsyncCallSettingsRequestMethod;
+                                yield return resourceName.AbstractAsyncCancellationTokenRequestMethod;
+                            }
                         }
                         break;
                     case MethodDetails.Paginated _:
@@ -259,7 +265,7 @@ namespace Google.Api.Generator.Generation
             // Bidi streaming abstract members.
 
             public ClassDeclarationSyntax AbstractBidiStreamClass =>
-                Class(Public | Abstract | Partial, MethodDetailsBidiStream.AbstractStreamTyp, baseType: Ctx.Type(Typ.Generic(typeof(BidirectionalStreamingBase<,>), MethodDetails.RequestTyp, MethodDetails.ResponseTyp)))
+                Class(Public | Abstract | Partial, MethodDetailsBidiStream.AbstractStreamTyp, baseTypes: Ctx.Type(Typ.Generic(typeof(BidirectionalStreamingBase<,>), MethodDetails.RequestTyp, MethodDetails.ResponseTyp)))
                     .WithXmlDoc(XmlDoc.Summary("Bidirectional streaming methods for ", AbstractBidiStreamSyncRequestMethod, "."));
 
             public MethodDeclarationSyntax AbstractBidiStreamSyncRequestMethod =>
@@ -271,7 +277,7 @@ namespace Google.Api.Generator.Generation
 
             public ClassDeclarationSyntax ImplBidiStreamClass()
             {
-                var cls = Class(Internal | Sealed | Partial, MethodDetailsBidiStream.ImplStreamTyp, baseType: Ctx.Type(Typ.Manual(Namespace, AbstractBidiStreamClass)));
+                var cls = Class(Internal | Sealed | Partial, MethodDetailsBidiStream.ImplStreamTyp, baseTypes: Ctx.Type(Typ.Manual(Namespace, AbstractBidiStreamClass)));
                 var serviceTyp = Ctx.CurrentTyp;
                 var serviceField = Field(Private, Ctx.Type(serviceTyp), "_service");
                 var writeBufferType = Typ.Generic(typeof(BufferedClientStreamWriter<>), MethodDetails.RequestTyp);
@@ -376,7 +382,7 @@ namespace Google.Api.Generator.Generation
             // Server streaming abstract members.
 
             public ClassDeclarationSyntax AbstractServerStreamClass =>
-                Class(Public | Abstract | Partial, MethodDetailsServerStream.AbstractStreamTyp, baseType: Ctx.Type(Typ.Generic(typeof(ServerStreamingBase<>), MethodDetails.ResponseTyp)))
+                Class(Public | Abstract | Partial, MethodDetailsServerStream.AbstractStreamTyp, baseTypes: Ctx.Type(Typ.Generic(typeof(ServerStreamingBase<>), MethodDetails.ResponseTyp)))
                     .WithXmlDoc(XmlDoc.Summary("Server streaming methods for ", AbstractServerStreamSyncRequestMethod, "."));
 
             public MethodDeclarationSyntax AbstractServerStreamSyncRequestMethod =>
@@ -388,7 +394,7 @@ namespace Google.Api.Generator.Generation
 
             public ClassDeclarationSyntax ImplServerStreamClass()
             {
-                var cls = Class(Internal | Sealed | Partial, MethodDetailsServerStream.ImplStreamTyp, baseType: Ctx.Type(Typ.Manual(Namespace, AbstractServerStreamClass)));
+                var cls = Class(Internal | Sealed | Partial, MethodDetailsServerStream.ImplStreamTyp, baseTypes: Ctx.Type(Typ.Manual(Namespace, AbstractServerStreamClass)));
                 var grpcCallType = Typ.Generic(typeof(AsyncServerStreamingCall<>), MethodDetails.ResponseTyp);
                 var grpcCallName = nameof(ServerStreamingBase<ProtoMsg>.GrpcCall);
                 var grpcCallProperty = AutoProperty(Public | Override, Ctx.Type(grpcCallType), grpcCallName);

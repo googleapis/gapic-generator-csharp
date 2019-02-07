@@ -12,18 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Google.Api.Generator.RoslynUtils
+namespace Testing.Resourcenames
 {
-    class ArgModifier
+    public partial class SimpleResource : ProtoMsgFake<SimpleResource>
     {
-        public enum Type
-        {
-            Ref,
-        }
-
-        public ArgModifier(Type type, object arg) => (ModType, Arg) = (type, arg);
-
-        public Type ModType { get; }
-        public object Arg { get; }
+        public string Name { get; set; }
     }
+
+    public class Response : ProtoMsgFake<Response> { }
 }

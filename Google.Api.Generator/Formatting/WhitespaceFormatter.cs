@@ -142,6 +142,16 @@ namespace Google.Api.Generator.Formatting
             return node;
         }
 
+        public override SyntaxNode VisitOperatorDeclaration(OperatorDeclarationSyntax node)
+        {
+            node = (OperatorDeclarationSyntax)base.VisitOperatorDeclaration(node);
+            node = node.WithLeadingTrivia(FormatXmlDoc(node.GetLeadingTrivia()).Append(_indentTrivia));
+            node = node.WithModifiers(TokenList(node.Modifiers.Select(m => m.WithTrailingSpace())));
+            node = node.WithReturnType(node.ReturnType.WithTrailingSpace());
+            node = node.WithOperatorKeyword(node.OperatorKeyword.WithTrailingSpace());
+            return node;
+        }
+
         public override SyntaxNode VisitArgumentList(ArgumentListSyntax node)
         {
             node = (ArgumentListSyntax)base.VisitArgumentList(node);
@@ -322,7 +332,10 @@ namespace Google.Api.Generator.Formatting
         public override SyntaxNode VisitReturnStatement(ReturnStatementSyntax node)
         {
             node = (ReturnStatementSyntax)base.VisitReturnStatement(node);
-            node = node.WithReturnKeyword(node.ReturnKeyword.WithTrailingSpace());
+            if (node.Expression != null)
+            {
+                node = node.WithReturnKeyword(node.ReturnKeyword.WithTrailingSpace());
+            }
             return node;
         }
 
@@ -337,6 +350,13 @@ namespace Google.Api.Generator.Formatting
         {
             node = (IfStatementSyntax)base.VisitIfStatement(node);
             node = node.WithIfKeyword(node.IfKeyword.WithTrailingSpace());
+            return node;
+        }
+
+        public override SyntaxNode VisitElseClause(ElseClauseSyntax node)
+        {
+            node = (ElseClauseSyntax)base.VisitElseClause(node);
+            node = node.WithElseKeyword(node.ElseKeyword.WithLeadingTrivia(_indentTrivia));
             return node;
         }
 
@@ -374,6 +394,21 @@ namespace Google.Api.Generator.Formatting
         {
             node = (GenericNameSyntax)base.VisitGenericName(node);
             node = node.WithTypeArgumentList(TypeArgumentList(SeparatedList(node.TypeArgumentList.Arguments, CommaSpaces(node.TypeArgumentList.Arguments.Count - 1))));
+            return node;
+        }
+
+        public override SyntaxNode VisitConditionalExpression(ConditionalExpressionSyntax node)
+        {
+            node = (ConditionalExpressionSyntax)base.VisitConditionalExpression(node);
+            node = node.WithQuestionToken(node.QuestionToken.WithLeadingSpace().WithTrailingSpace());
+            node = node.WithColonToken(node.ColonToken.WithLeadingSpace().WithTrailingSpace());
+            return node;
+        }
+
+        public override SyntaxNode VisitDeclarationExpression(DeclarationExpressionSyntax node)
+        {
+            node = (DeclarationExpressionSyntax)base.VisitDeclarationExpression(node);
+            node = node.WithType(node.Type.WithTrailingSpace());
             return node;
         }
     }

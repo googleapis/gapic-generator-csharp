@@ -19,6 +19,7 @@ using Google.Api.Generator.RoslynUtils;
 using Google.Api.Generator.Utils;
 using Google.Protobuf;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using static Google.Api.Generator.RoslynUtils.Modifier;
@@ -40,7 +41,7 @@ namespace Google.Api.Generator.Generation
                         DocumentationCommentTriviaSyntax xmlDoc) => (Parameter, InitExpr, XmlDoc) = (parameter, initExpr, xmlDoc);
                     public ParameterSyntax Parameter { get; }
                     public ObjectInitExpr InitExpr { get; }
-                    public DocumentationCommentTriviaSyntax XmlDoc { get; }//TODO
+                    public DocumentationCommentTriviaSyntax XmlDoc { get; }
                 }
 
                 public Signature(MethodDef def, MethodDetails.Signature sig) => (_def, _sig) = (def, sig);
@@ -51,7 +52,7 @@ namespace Google.Api.Generator.Generation
                 private SourceFileContext Ctx => _def.Ctx;
                 private MethodDetails MethodDetails => _def.MethodDetails;
 
-                private ObjectInitExpr InitExpr(MethodDetails.Signature.Field field, ParameterSyntax param)
+                private ObjectInitExpr InitExpr(MethodDetails.Signature.Field field, ParameterSyntax param, bool treatAsResource = false, bool isResourceSet = false)
                 {
                     // Type                  | Single optional | Single required | Repeated optional | Repeated required
                     // ----------------------|-----------------|-----------------|-------------------|------------------
@@ -59,20 +60,39 @@ namespace Google.Api.Generator.Generation
                     // string                | null -> ""      | check not empty | null -> empty     | check not null
                     // bytes                 | null -> byte[0] | check not null  | null -> empty     | check not null
                     // message               | null ok         | check not null  | null -> empty     | check not null
-                    // resourcename (string) | null -> ""      | check not empty | null -> empty     | check not null
+                    // resourcename (string) | null -> ""      | check not null  | null -> empty     | check not null
+                    // resourcenames use the generated partial resource-name-typde properties, which perform the string conversion.
+                    var resourceField = field.FieldResource; // Null if not a resource field.
                     object code;
-                    if ($"{field.Typ.Namespace}.{field.Typ.Name}`1" == typeof(IEnumerable<>).FullName)
+                    if (field.IsRepeated)
                     {
-                        // Repeated
-                        code = CollectionInitializer(field.Required ?
-                            Ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(param, Nameof(param)) :
-                            param.NullCoalesce(Ctx.Type(typeof(Enumerable)).Call(nameof(Enumerable.Empty), Ctx.Type(field.Typ.GenericArgTyps.First()))()));
-
+                        if (treatAsResource)
+                        {
+                            throw new NotImplementedException(); // TODO: Repeated resource.
+                        }
+                        else
+                        {
+                            code = CollectionInitializer(field.Required ?
+                                Ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(param, Nameof(param)) :
+                                param.NullCoalesce(Ctx.Type(typeof(Enumerable)).Call(nameof(Enumerable.Empty), Ctx.Type(field.Typ.GenericArgTyps.First()))()));
+                        }
                     }
                     else
                     {
-                        // Single (not repeated)
-                        if (field.Typ.IsPrimitive)
+                        if (treatAsResource)
+                        {
+                            if (isResourceSet)
+                            {
+                                throw new NotImplementedException(); // TODO: Resource set.
+                            }
+                            else
+                            {
+                                code = field.Required ?
+                                    Ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(param, Nameof(param)) :
+                                    (object)param;
+                            }
+                        }
+                        else if (field.Typ.IsPrimitive)
                         {
                             code = param;
                         }
@@ -94,9 +114,9 @@ namespace Google.Api.Generator.Generation
                                 Ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(param, Nameof(param)) :
                                 (object)param;
                         }
-                        // TODO: Resource-names.
                     }
-                    return new ObjectInitExpr(field.PropertyName, code);
+
+                    return new ObjectInitExpr(treatAsResource ? resourceField.ResourcePropertyName : field.PropertyName, code);
                 }
 
                 private IEnumerable<ParameterInfo> Parameters => _sig.Fields.Select(field =>
@@ -110,23 +130,96 @@ namespace Google.Api.Generator.Generation
                 private IEnumerable<ParameterSyntax> ParametersWithCallSettings => Parameters.Select(x => x.Parameter).Append(_def.CallSettingsParam);
                 private IEnumerable<ParameterSyntax> ParametersWithCancellationToken => Parameters.Select(x => x.Parameter).Append(_def.CancellationTokenParam);
 
-                public MethodDeclarationSyntax AbstractSyncRequestMethod =>
-                    Method(Public | Virtual, Ctx.Type(MethodDetails.SyncReturnTyp), MethodDetails.SyncMethodName)(ParametersWithCallSettings.ToArray())
-                        .WithBody(This.Call(MethodDetails.SyncMethodName)(New(Ctx.Type(MethodDetails.RequestTyp))()
-                            .WithInitializer(Parameters.Select(x => x.InitExpr).ToArray()), _def.CallSettingsParam))
-                            .WithXmlDoc(Parameters.Select(p => p.XmlDoc).Prepend(_def.SummaryXmlDoc).Append(_def.CallSettingsXmlDoc).Append(_def.ReturnsSyncXmlDoc).ToArray());
+                private MethodDeclarationSyntax AbstractRequestMethod(bool sync, bool callSettings, IEnumerable<ParameterInfo> parameters)
+                {
+                    var returnTyp = sync ? MethodDetails.SyncReturnTyp : MethodDetails.AsyncReturnTyp;
+                    var methodName = sync ? MethodDetails.SyncMethodName : MethodDetails.AsyncMethodName;
+                    var finalParam = callSettings ? _def.CallSettingsParam : _def.CancellationTokenParam;
+                    var finalParamXmlDoc = callSettings ? _def.CallSettingsXmlDoc : _def.CancellationTokenXmlDoc;
+                    var returnsXmlDoc = sync ? _def.ReturnsSyncXmlDoc : _def.ReturnsAsyncXmlDoc;
+                    if (callSettings)
+                    {
+                        return Method(Public | Virtual, Ctx.Type(returnTyp), methodName)(parameters.Select(x => x.Parameter).Append(finalParam).ToArray())
+                                .WithBody(This.Call(methodName)(New(Ctx.Type(MethodDetails.RequestTyp))()
+                                    .WithInitializer(parameters.Select(x => x.InitExpr).ToArray()), finalParam))
+                                    .WithXmlDoc(parameters.Select(x => x.XmlDoc).Prepend(_def.SummaryXmlDoc).Append(finalParamXmlDoc).Append(returnsXmlDoc).ToArray());
+                    }
+                    else
+                    {
+                        return Method(Public | Virtual, Ctx.Type(returnTyp), methodName)(parameters.Select(x => x.Parameter).Append(finalParam).ToArray())
+                                .WithBody(This.Call(methodName)(parameters.Select(x => (object)x.Parameter).Append(
+                                    Ctx.Type<CallSettings>().Call(nameof(CallSettings.FromCancellationToken))(finalParam))))
+                                    .WithXmlDoc(parameters.Select(x => x.XmlDoc).Prepend(_def.SummaryXmlDoc).Append(finalParamXmlDoc).Append(returnsXmlDoc).ToArray());
+                    }
+                }
 
-                public MethodDeclarationSyntax AbstractAsyncCallSettingsRequestMethod =>
-                    Method(Public | Virtual, Ctx.Type(MethodDetails.AsyncReturnTyp), MethodDetails.AsyncMethodName)(ParametersWithCallSettings.ToArray())
-                        .WithBody(This.Call(MethodDetails.AsyncMethodName)(New(Ctx.Type(MethodDetails.RequestTyp))()
-                            .WithInitializer(Parameters.Select(x => x.InitExpr).ToArray()), _def.CallSettingsParam))
-                            .WithXmlDoc(Parameters.Select(p => p.XmlDoc).Prepend(_def.SummaryXmlDoc).Append(_def.CallSettingsXmlDoc).Append(_def.ReturnsAsyncXmlDoc).ToArray());
+                public MethodDeclarationSyntax AbstractSyncRequestMethod => AbstractRequestMethod(true, true, Parameters);
+                public MethodDeclarationSyntax AbstractAsyncCallSettingsRequestMethod => AbstractRequestMethod(false, true, Parameters);
+                public MethodDeclarationSyntax AbstractAsyncCancellationTokenRequestMethod => AbstractRequestMethod(false, false, Parameters);
 
-                public MethodDeclarationSyntax AbstractAsyncCancellationTokenRequestMethod =>
-                    Method(Public | Virtual, Ctx.Type(MethodDetails.AsyncReturnTyp), MethodDetails.AsyncMethodName)(ParametersWithCancellationToken.ToArray())
-                        .WithBody(This.Call(MethodDetails.AsyncMethodName)(Parameters.Select(x => (object)x.Parameter).Append(
-                            Ctx.Type<CallSettings>().Call(nameof(CallSettings.FromCancellationToken))(_def.CancellationTokenParam))))
-                        .WithXmlDoc(Parameters.Select(p => p.XmlDoc).Prepend(_def.SummaryXmlDoc).Append(_def.CancellationTokenXmlDoc).Append(_def.ReturnsAsyncXmlDoc).ToArray());
+                public class ResourceName
+                {
+                    internal static IEnumerable<ResourceName> Create(Signature signature)
+                    {
+                        var ctx = signature.Ctx;
+                        var fields = signature._sig.Fields;
+                        if (!fields.Any(f => f.FieldResource != null))
+                        {
+                            yield break;
+                        }
+                        var bothCount = fields.Count(f => f.FieldResource?.ResourceDefinition.One != null && f.FieldResource?.ResourceDefinition.Set != null);
+                        if (bothCount > 4)
+                        {
+                            throw new InvalidOperationException($"Cannot generate >16 overloads for resource/resourceset method signature: '{signature._def.MethodDetails.SyncMethodName}'");
+                        }
+                        var overloadCount = 1 << bothCount;
+                        for (int i = 0; i < overloadCount; i++)
+                        {
+                            var parameters = new List<ParameterInfo>();
+                            int mask = 1;
+                            foreach (var field in fields)
+                            {
+                                var fieldResource = field.FieldResource;
+                                var oneDef = fieldResource?.ResourceDefinition.One;
+                                var setDef = fieldResource?.ResourceDefinition.Set;
+                                bool isSet = false;
+                                if (oneDef != null && setDef != null)
+                                {
+                                    isSet = (i & mask) != 0;
+                                    mask <<= 1;
+                                }
+                                else
+                                {
+                                    isSet = setDef != null;
+                                }
+                                var parameter = Parameter(ctx.Type((isSet ? setDef?.ResourceNameTyp : oneDef?.ResourceNameTyp) ?? field.Typ), field.FieldName);
+                                var initExpr = signature.InitExpr(field, parameter, fieldResource != null, isSet);
+                                var xmlDoc = XmlDoc.ParamPreFormatted(parameter, field.DocLines);
+                                parameters.Add(new ParameterInfo(parameter, initExpr, xmlDoc));
+                            }
+                            yield return new ResourceName(signature, parameters);
+                        }
+                    }
+
+                    private ResourceName(Signature signature, IEnumerable<ParameterInfo> parameters)
+                    {
+                        _signature = signature;
+                        _parameters = parameters;
+                    }
+
+                    private Signature _signature;
+                    private IEnumerable<ParameterInfo> _parameters;
+
+                    private SourceFileContext Ctx => _signature.Ctx;
+                    private MethodDetails MethodDetails => _signature.MethodDetails;
+                    private MethodDef Def => _signature._def;
+
+                    public MethodDeclarationSyntax AbstractSyncRequestMethod => _signature.AbstractRequestMethod(true, true, _parameters);
+                    public MethodDeclarationSyntax AbstractAsyncCallSettingsRequestMethod => _signature.AbstractRequestMethod(false, true, _parameters);
+                    public MethodDeclarationSyntax AbstractAsyncCancellationTokenRequestMethod => _signature.AbstractRequestMethod(false, false, _parameters);
+                }
+
+                public IEnumerable<ResourceName> ResourceNames => ResourceName.Create(this);
             }
 
             public IEnumerable<Signature> Signatures => MethodDetails.Signatures.Select(sig => new Signature(this, sig));

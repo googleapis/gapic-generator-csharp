@@ -45,6 +45,12 @@ namespace Google.Api.Generator.Utils
 
         private sealed class FromManual : Typ
         {
+            public FromManual(string fullName)
+            {
+                var dotIndex = fullName.LastIndexOf('.');
+                Namespace = dotIndex < 0 ? "" : fullName.Substring(0, dotIndex);
+                Name = dotIndex < 0 ? fullName : fullName.Substring(dotIndex + 1);
+            }
             public FromManual(string ns, string name) => (Namespace, Name) = (ns, name);
             public override string Namespace { get; }
             public override string Name { get; }
@@ -96,6 +102,7 @@ namespace Google.Api.Generator.Utils
         public static Typ Of<T>() => Of(typeof(T));
         public static Typ Of(System.Type type) => new FromType(type);
         public static Typ Manual(string ns, string name) => new FromManual(ns, name);
+        public static Typ Manual(string fullName) => new FromManual(fullName);
         public static Typ Manual(string ns, ClassDeclarationSyntax cls) => new FromManual(ns, cls.Identifier.Text);
         public static Typ Nested(Typ declaringTyp, string name) => new FromNested(declaringTyp, name);
         public static Typ Generic(System.Type genericDef, params Typ[] typeArgs) => new FromGeneric(Of(genericDef), typeArgs);
