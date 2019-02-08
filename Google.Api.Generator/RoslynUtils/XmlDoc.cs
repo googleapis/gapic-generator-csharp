@@ -36,10 +36,20 @@ namespace Google.Api.Generator.RoslynUtils
         {
             switch (o)
             {
+                case null:
+                    return C("null");
+                case true:
+                    return C("true");
+                case false:
+                    return C("false");
                 case string v:
                     return XmlText(v);
                 case XmlNodeSyntax v:
                     return v;
+                case ParameterSyntax v:
+                    return XmlParamRefElement(v.Identifier.Text);
+                case PropertyDeclarationSyntax v:
+                    return XmlSeeElement(NameMemberCref(IdentifierName(v.Identifier)));
                 case ClassDeclarationSyntax v:
                     return XmlSeeElement(NameMemberCref(IdentifierName(v.Identifier)));
                 case MethodDeclarationSyntax v:
@@ -65,6 +75,9 @@ namespace Google.Api.Generator.RoslynUtils
         public static DocumentationCommentTriviaSyntax Param(ParameterSyntax param, params object[] parts) => XmlDocElement(parts, x => XmlParamElement(param.Identifier.Text, x));
         public static DocumentationCommentTriviaSyntax ParamPreFormatted(ParameterSyntax param, IEnumerable<string> lines) => Param(param, lines.ToArray()).WithAdditionalAnnotations(Annotations.Preformatted);
         public static DocumentationCommentTriviaSyntax Returns(params object[] parts) => XmlDocElement(parts, XmlReturnsElement);
+
+        public static DocumentationCommentTriviaSyntax InheritDoc =>
+            DocumentationCommentTrivia(SyntaxKind.SingleLineDocumentationCommentTrivia, SingletonList<XmlNodeSyntax>(XmlEmptyElement("inheritdoc")));
 
         public static XmlNodeSyntax C(string c) => XmlElement("c", SingletonList<XmlNodeSyntax>(XmlText(c)));
         public static XmlNodeSyntax Code(params string[] lines) => XmlElement("code", List(lines.Select(ToNode)));

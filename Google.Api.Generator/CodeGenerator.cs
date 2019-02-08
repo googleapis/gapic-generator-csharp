@@ -19,6 +19,7 @@ using Google.Protobuf;
 using Google.Protobuf.Reflection;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -28,34 +29,43 @@ namespace Google.Api.Generator
     {
         public class ResultFile
         {
-            public ResultFile(string relativePath, byte[] content) =>
-                (RelativePath, Content) = (relativePath, content);
+            public ResultFile(string relativePath, byte[] content) => (RelativePath, Content) = (relativePath, content);
             public string RelativePath { get; }
             public byte[] Content { get; }
         }
 
         public static IEnumerable<ResultFile> Generate(byte[] descriptorBytes, string package)
         {
+            // TODO: Place the generated code in the correct directories.
             var descriptors = GetFileDescriptors(descriptorBytes);
             var catalog = new ProtoCatalog(package, descriptors);
-            // Generate settings and client code for requested package
-            foreach (var desc in descriptors.Where(x => x.Package == package))
+            var packageFileDescs = descriptors.Where(x => x.Package == package).ToList();
+            foreach (var fileDesc in packageFileDescs)
             {
-                var ns = desc.CSharpNamespace();
-                foreach (var service in desc.Services)
+                // Generate settings and client code for requested package.
+                var ns = fileDesc.CSharpNamespace();
+                foreach (var service in fileDesc.Services)
                 {
                     var serviceDetails = new ServiceDetails(catalog, ns, service);
                     var ctx = new SourceFileContext(SourceFileContext.ImportStyle.FullyAliased);
                     var code = ServiceCodeGenerator.Generate(ctx, serviceDetails);
                     var formattedCode = CodeFormatter.Format(code);
-                    // TODO: Place the generated code in the correct directory.
                     var filename = $"{serviceDetails.ClientAbstractTyp.Name}.cs";
                     var content = Encoding.UTF8.GetBytes(formattedCode.ToFullString());
-                    // May not use `yield return` later, but it's fine for now.
                     yield return new ResultFile(filename, content);
                 }
+                // Generate resource-names for this proto file, if there are any.
+                if (catalog.GetResourceDefsByFile(fileDesc).Any())
+                {
+                    var resCtx = new SourceFileContext(SourceFileContext.ImportStyle.FullyAliased);
+                    var resCode = ResourceNamesGenerator.Generate(catalog, resCtx, fileDesc);
+                    var formattedResCode = CodeFormatter.Format(resCode);
+                    var resFilename = $"{Path.GetFileNameWithoutExtension(fileDesc.Name)}ResourceNames.cs";
+                    var resContent = Encoding.UTF8.GetBytes(formattedResCode.ToFullString());
+                    yield return new ResultFile(resFilename, resContent);
+                }
             }
-            // TODO: Generate resource names, csproj, tests, smoketests, integration tests, snippets, etc...
+            // TODO: Generate csproj, tests, smoketests, integration tests, snippets, etc...
         }
 
         private static IReadOnlyList<FileDescriptor> GetFileDescriptors(byte[] bytes)

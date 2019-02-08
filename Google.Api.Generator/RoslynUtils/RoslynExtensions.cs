@@ -50,8 +50,18 @@ namespace Google.Api.Generator.RoslynUtils
         {
             var statements = ToStatements(code).ToList();
             // Use an expression-body if the body contains exactly one expression.
-            return fnExpr != null && statements.Count == 1 && statements[0] is ExpressionStatementSyntax expr ?
-                fnExpr(ArrowExpressionClause(expr.Expression)) : fnBlock(Block(statements));
+            if (fnExpr != null && statements.Count == 1)
+            {
+                if (statements[0] is ReturnStatementSyntax ret)
+                {
+                    return fnExpr(ArrowExpressionClause(ret.Expression));
+                }
+                if (statements[0] is ExpressionStatementSyntax expr)
+                {
+                    return fnExpr(ArrowExpressionClause(expr.Expression));
+                }
+            }
+            return fnBlock(Block(statements));
         }
 
         public static ConstructorDeclarationSyntax WithBody(this ConstructorDeclarationSyntax ctor, params object[] code) =>
@@ -60,18 +70,29 @@ namespace Google.Api.Generator.RoslynUtils
         public static MethodDeclarationSyntax WithBody(this MethodDeclarationSyntax method, params object[] code) =>
             WithBody(code, x => method.WithExpressionBody(x).WithSemicolonToken(s_semicolonToken), method.WithBody);
 
-        public static PropertyDeclarationSyntax WithGetBody(this PropertyDeclarationSyntax prop, params object[] code)
+        public static OperatorDeclarationSyntax WithBody(this OperatorDeclarationSyntax method, params object[] code) =>
+            WithBody(code, x => method.WithExpressionBody(x).WithSemicolonToken(s_semicolonToken), method.WithBody);
+
+        private static PropertyDeclarationSyntax PropertyBody(PropertyDeclarationSyntax prop, SyntaxKind accessorKind, object[] code)
         {
             var statements = ToStatements(code).ToList();
-            if (!(prop.AccessorList?.Accessors.Any() ?? false) && statements.Count == 1 && statements[0] is ExpressionStatementSyntax expr)
+            if (accessorKind == SyntaxKind.GetAccessorDeclaration && !(prop.AccessorList?.Accessors.Any() ?? false) && statements.Count == 1 && statements[0] is ExpressionStatementSyntax expr)
             {
                 // If this is a getter with no setter, containing a single expression, then use an expression-bodied property.
                 return prop.WithExpressionBody(ArrowExpressionClause(expr.Expression)).WithSemicolonToken(s_semicolonToken);
             }
+            if (accessorKind == SyntaxKind.SetAccessorDeclaration && prop.ExpressionBody != null)
+            {
+                prop = prop.AddAccessorListAccessors(AccessorDeclaration(SyntaxKind.GetAccessorDeclaration).WithExpressionBody(prop.ExpressionBody).WithSemicolonToken(s_semicolonToken))
+                    .WithExpressionBody(null);
+            }
             return WithBody(code,
-                x => prop.AddAccessorListAccessors(AccessorDeclaration(SyntaxKind.GetAccessorDeclaration).WithExpressionBody(x).WithSemicolonToken(s_semicolonToken)),
-                x => prop.AddAccessorListAccessors(AccessorDeclaration(SyntaxKind.GetAccessorDeclaration, x)));
+                x => prop.AddAccessorListAccessors(AccessorDeclaration(accessorKind).WithExpressionBody(x).WithSemicolonToken(s_semicolonToken)),
+                x => prop.AddAccessorListAccessors(AccessorDeclaration(accessorKind, x)));
         }
+
+        public static PropertyDeclarationSyntax WithGetBody(this PropertyDeclarationSyntax prop, params object[] code) => PropertyBody(prop, SyntaxKind.GetAccessorDeclaration, code);
+        public static PropertyDeclarationSyntax WithSetBody(this PropertyDeclarationSyntax prop, params object[] code) => PropertyBody(prop, SyntaxKind.SetAccessorDeclaration, code);
 
         public static ObjectCreationExpressionSyntax WithInitializer(
             this ObjectCreationExpressionSyntax obj, params ObjectInitExpr[] inits)
@@ -110,21 +131,33 @@ namespace Google.Api.Generator.RoslynUtils
                     IdentifierName(field.Declaration.Variables.Single().Identifier), ToSimpleName(method, genericArgs)), CreateArgList(args));
 
         public static RoslynBuilder.ArgumentsFunc<InvocationExpressionSyntax> Call(
-            this ExpressionSyntax expr, object method, params TypeSyntax[] genericArgs) => args =>
-                expr is ThisExpressionSyntax ?
-                    InvocationExpression(ToSimpleName(method, genericArgs), CreateArgList(args)) :
-                    InvocationExpression(MemberAccessExpression(
-                        SyntaxKind.SimpleMemberAccessExpression, expr, ToSimpleName(method, genericArgs)), CreateArgList(args));
-
-        public static RoslynBuilder.ArgumentsFunc<InvocationExpressionSyntax> Call(
             this LocalDeclarationStatementSyntax var, object method, params TypeSyntax[] genericArgs) => args =>
                 InvocationExpression(MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression,
                     IdentifierName(var.Declaration.Variables.Single().Identifier), ToSimpleName(method, genericArgs)), CreateArgList(args));
 
+        public static RoslynBuilder.ArgumentsFunc<ExpressionSyntax> Call(
+            this ExpressionSyntax expr, object method, bool conditional, params TypeSyntax[] genericArgs) => args =>
+                expr is ThisExpressionSyntax ?
+                    InvocationExpression(ToSimpleName(method, genericArgs), CreateArgList(args)) :
+                    conditional ?
+                        (ExpressionSyntax)ConditionalAccessExpression(expr,
+                             InvocationExpression(MemberBindingExpression(ToSimpleName(method, genericArgs)), CreateArgList(args))) :
+                        InvocationExpression(MemberAccessExpression(
+                            SyntaxKind.SimpleMemberAccessExpression, expr, ToSimpleName(method, genericArgs)), CreateArgList(args));
+
         public static RoslynBuilder.ArgumentsFunc<InvocationExpressionSyntax> Call(
-            this ParameterSyntax param, object method, params TypeSyntax[] genericArgs) => args =>
-                InvocationExpression(MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression,
-                    IdentifierName(param.Identifier), ToSimpleName(method, genericArgs)), CreateArgList(args));
+            this ExpressionSyntax expr, object method, params TypeSyntax[] genericArgs) => args => (InvocationExpressionSyntax)Call(expr, method, false, genericArgs)(args);
+
+        public static RoslynBuilder.ArgumentsFunc<ExpressionSyntax> Call(
+            this ParameterSyntax param, object method, bool conditional, params TypeSyntax[] genericArgs) => args =>
+                conditional ?
+                    (ExpressionSyntax)ConditionalAccessExpression(IdentifierName(param.Identifier),
+                        InvocationExpression(MemberBindingExpression(ToSimpleName(method, genericArgs)), CreateArgList(args))) :
+                    InvocationExpression(MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression,
+                        IdentifierName(param.Identifier), ToSimpleName(method, genericArgs)), CreateArgList(args));
+
+        public static RoslynBuilder.ArgumentsFunc<InvocationExpressionSyntax> Call(
+            this ParameterSyntax param, object method, params TypeSyntax[] genericArgs) => args => (InvocationExpressionSyntax)Call(param, method, false, genericArgs)(args);
 
         public static RoslynBuilder.ArgumentsFunc<InvocationExpressionSyntax> Call(this PropertyDeclarationSyntax property, object method, params TypeSyntax[] genericArgs) => args =>
             InvocationExpression(MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression,
@@ -144,6 +177,10 @@ namespace Google.Api.Generator.RoslynUtils
             AssignmentExpression(SyntaxKind.SimpleAssignmentExpression,
                 IdentifierName(assignTo.Declaration.Variables.Single().Identifier), ToExpressions(assignFrom).Single());
 
+        public static AssignmentExpressionSyntax Assign(this LocalDeclarationStatementSyntax assignTo, object assignFrom) =>
+            AssignmentExpression(SyntaxKind.SimpleAssignmentExpression,
+                IdentifierName(assignTo.Declaration.Variables.Single().Identifier), ToExpressions(assignFrom).Single());
+
         public static ExpressionSyntax Access(this TypeSyntax type, object member) =>
             MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, type, ToSimpleName(member));
 
@@ -160,6 +197,17 @@ namespace Google.Api.Generator.RoslynUtils
         public static ExpressionSyntax Access(this FieldDeclarationSyntax field, object member) =>
             MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, IdentifierName(field.Declaration.Variables.Single().Identifier), ToSimpleName(member));
 
+        public static ExpressionSyntax ElementAccess(this LocalDeclarationStatementSyntax var, object element) =>
+            ElementAccessExpression(IdentifierName(var.Declaration.Variables.Single().Identifier),
+                BracketedArgumentList(SeparatedList(ToExpressions(element).Select(x => Argument(x)))));
+
+        public static ExpressionSyntax ElementAccess(this DeclarationExpressionSyntax decl, object element) =>
+            ElementAccessExpression(IdentifierName(((SingleVariableDesignationSyntax)decl.Designation).Identifier),
+                BracketedArgumentList(SeparatedList(ToExpressions(element).Select(x => Argument(x)))));
+
+        public static ExpressionSyntax NullCoalesce(this ExpressionSyntax lhs, object rhs) =>
+            BinaryExpression(SyntaxKind.CoalesceExpression, ToExpressions(lhs).Single(), ToExpressions(rhs).Single());
+
         public static ExpressionSyntax NullCoalesce(this ParameterSyntax lhs, object rhs) =>
             BinaryExpression(SyntaxKind.CoalesceExpression, ToExpressions(lhs).Single(), ToExpressions(rhs).Single());
 
@@ -169,7 +217,27 @@ namespace Google.Api.Generator.RoslynUtils
         public static IfStatementSyntax Then(this IfStatementSyntax @if, params object[] code) =>
             WithBody(code, fnExpr: null, fnBlock: @if.WithStatement);
 
+        public static IfStatementSyntax Else(this IfStatementSyntax @if, params object[] code) =>
+            WithBody(code, fnExpr: null, fnBlock: x => @if.WithElse(ElseClause(x)));
+
+        public static ConditionalExpressionSyntax ConditionalOperator(this ExpressionSyntax condition, object whenTrue, object whenFalse) =>
+            ConditionalExpression(condition, ToExpression(whenTrue), ToExpression(whenFalse));
+
+        public static BinaryExpressionSyntax As(this ParameterSyntax parameter, TypeSyntax type) =>
+            BinaryExpression(SyntaxKind.AsExpression, IdentifierName(parameter.Identifier), type);
+
+        public static BinaryExpressionSyntax Equality(this ExpressionSyntax lhs, object rhs) =>
+            BinaryExpression(SyntaxKind.EqualsExpression, lhs, ToExpression(rhs));
+
+        public static BinaryExpressionSyntax Equality(this ParameterSyntax lhs, object rhs) =>
+            BinaryExpression(SyntaxKind.EqualsExpression, IdentifierName(lhs.Identifier), ToExpression(rhs));
+
+        public static BinaryExpressionSyntax Or(this ExpressionSyntax lhs, object rhs) =>
+            BinaryExpression(SyntaxKind.LogicalOrExpression, lhs, ToExpression(rhs));
+
         public static ParameterSyntax Ref(this ParameterSyntax parameter) => parameter.WithModifiers(TokenList(Token(SyntaxKind.RefKeyword)));
+        public static ParameterSyntax Out(this ParameterSyntax parameter) => parameter.WithModifiers(TokenList(Token(SyntaxKind.OutKeyword)));
+        public static ParameterSyntax OutVar(this ParameterSyntax parameter) => parameter.WithModifiers(TokenList(Token(SyntaxKind.OutKeyword), Token(SyntaxKind.TypeVarKeyword)));
 
         public static MethodDeclarationSyntax AddGenericConstraint(this MethodDeclarationSyntax method, Typ.GenericParameter genericParam, params TypeSyntax[] constraints)
         {

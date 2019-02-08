@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Google.Protobuf.Reflection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -26,13 +27,26 @@ namespace Google.Api.Generator.ProtoUtils
         public ProtoCatalog(string defaultPackage, IEnumerable<FileDescriptor> descs)
         {
             _defaultPackage = defaultPackage;
+            descs = descs.ToList();
             _msgs = descs.SelectMany(desc => desc.MessageTypes).ToDictionary(x => x.FullName);
+            _resourcesByFileName = descs.ToDictionary(x => x.Name, ResourceDetails.LoadResourceDefinitions);
+            var resourcesByFullSymbol = _resourcesByFileName.Values.SelectMany(x => x).ToDictionary(x => x.FullSymbol);
+            _resourcesByFieldName = descs
+                .SelectMany(desc => desc.MessageTypes)
+                .SelectMany(msg => msg.Fields.InFieldNumberOrder().Select(field =>
+                    (field, res: ResourceDetails.LoadResourceReference(msg, field, resourcesByFullSymbol))).Where(x => x.res != null))
+                .ToDictionary(x => x.field.FullName, x => x.res);
         }
 
         private readonly string _defaultPackage;
         private readonly IReadOnlyDictionary<string, MessageDescriptor> _msgs;
+        private readonly IReadOnlyDictionary<string, ResourceDetails.Field> _resourcesByFieldName;
+        private readonly IReadOnlyDictionary<string, IEnumerable<ResourceDetails.Definition>> _resourcesByFileName;
 
-        public MessageDescriptor GetMessageByName(string name) =>
-            _msgs[name.Contains('.') ? name : $"{_defaultPackage}.{name}"];
+        public MessageDescriptor GetMessageByName(string name) => _msgs[name.Contains('.') ? name : $"{_defaultPackage}.{name}"];
+
+        public ResourceDetails.Field GetResourceDetailsByField(FieldDescriptor fieldDesc) => _resourcesByFieldName.GetValueOrDefault(fieldDesc.FullName);
+
+        public IEnumerable<ResourceDetails.Definition> GetResourceDefsByFile(FileDescriptor fileDesc) => _resourcesByFileName.GetValueOrDefault(fileDesc.Name);
     }
 }

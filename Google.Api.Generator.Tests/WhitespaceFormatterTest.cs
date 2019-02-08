@@ -145,12 +145,17 @@ namespace Google.Api.Generator.Tests
             };
 
             // Test expression containing `await`.
-            // Test `if` statement.
+            // Test `if` and `else` statement.
+            // Test void `return`.
             public async Task Yield(bool yield)
             {
                 if (yield)
                 {
                     await Task.Yield();
+                }
+                else
+                {
+                    return;
                 }
             }
 
@@ -180,6 +185,24 @@ namespace Google.Api.Generator.Tests
                 {
                     18,
                 };
+
+            // Test conditional operator.
+            public int Conditional(bool b) => b ? 1 : 2;
+
+            // Test `out var`.
+            public bool OutVar() => _genericField.TryGetValue(0, out var value);
+
+            // Test operator
+            public static bool operator ==(Inner a, Inner b) => a.Equals(b);
+
+            // Test parens.
+            // Test unary prefix.
+            public static bool operator !=(Inner a, Inner b) => !(a == b);
+
+            // `Equals` and `GetHashCode` required as `==` and `!=` are defined.
+            public override bool Equals(object obj) => false;
+
+            public override int GetHashCode() => 0;
         }
 
         // Test base-list with one item.

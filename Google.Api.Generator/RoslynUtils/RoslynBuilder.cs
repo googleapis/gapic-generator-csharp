@@ -16,6 +16,7 @@ using Google.Api.Generator.Utils;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using static Google.Api.Generator.RoslynUtils.RoslynConverters;
@@ -36,15 +37,16 @@ namespace Google.Api.Generator.RoslynUtils
         public static TypeSyntax VoidType { get; } = PredefinedType(Token(SyntaxKind.VoidKeyword));
         public static ExpressionSyntax Null { get; } = LiteralExpression(SyntaxKind.NullLiteralExpression);
         public static ExpressionSyntax This { get; } = ThisExpression();
+        public static ExpressionSyntax Value { get; } = IdentifierName("value");
 
         public static NamespaceDeclarationSyntax Namespace(string ns) => NamespaceDeclaration(IdentifierName(ns));
 
-        public static ClassDeclarationSyntax Class(Modifier modifier, Typ typ, TypeSyntax baseType = null)
+        public static ClassDeclarationSyntax Class(Modifier modifier, Typ typ, params TypeSyntax[] baseTypes)
         {
             var cls = ClassDeclaration(typ.Name).AddModifiers(modifier.ToSyntaxTokens());
-            if (baseType != null)
+            if (baseTypes.Any())
             {
-                cls = cls.WithBaseList(BaseList(SingletonSeparatedList<BaseTypeSyntax>(SimpleBaseType(baseType))));
+                cls = cls.WithBaseList(BaseList(SeparatedList<BaseTypeSyntax>(baseTypes.Select(SimpleBaseType))));
             }
             return cls;
         }
@@ -85,6 +87,16 @@ namespace Google.Api.Generator.RoslynUtils
             string name, params Typ.GenericParameter[] genericParams) => parameters =>
                 Method(Modifier.Partial, VoidType, name, genericParams)(parameters).WithSemicolonToken(s_semicolonToken);
 
+        private static readonly IReadOnlyDictionary<string, SyntaxKind> operatorNameTokens = new Dictionary<string, SyntaxKind>
+        {
+            { "==", SyntaxKind.EqualsEqualsToken },
+            { "!=", SyntaxKind.ExclamationEqualsToken },
+        };
+        public static ParametersFunc<OperatorDeclarationSyntax> OperatorMethod(TypeSyntax returnType, string name) => parameters =>
+            OperatorDeclaration(returnType, Token(operatorNameTokens[name]))
+                .WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword), Token(SyntaxKind.StaticKeyword)))
+                .WithParameterList(ParameterList(SeparatedList(parameters)));
+
         public static ParameterSyntax Parameter(TypeSyntax type, string name, ExpressionSyntax @default = null)
         {
             var param = SyntaxFactory.Parameter(Identifier(name)).WithType(type);
@@ -94,6 +106,8 @@ namespace Google.Api.Generator.RoslynUtils
             }
             return param;
         }
+
+        public static DeclarationExpressionSyntax ParameterOutVar(TypeSyntax type, string name) => DeclarationExpression(type, SingleVariableDesignation(Identifier(name)));
 
         public static LocalDeclarationStatementSyntax Local(TypeSyntax type, string name)
         {
@@ -139,13 +153,15 @@ namespace Google.Api.Generator.RoslynUtils
 
         public static AwaitExpressionSyntax Await(ExpressionSyntax expr) => AwaitExpression(expr);
 
-        public static ReturnStatementSyntax Return(ExpressionSyntax expr) => ReturnStatement(expr);
-
-        public static ReturnStatementSyntax Return(ParameterSyntax param) => ReturnStatement(IdentifierName(param.Identifier));
+        public static ReturnStatementSyntax Return(object expr) => ReturnStatement(ToExpression(expr));
 
         public static IfStatementSyntax If(ExpressionSyntax condition) => IfStatement(condition, Block());
 
         public static ThrowExpressionSyntax Throw(ExpressionSyntax obj) => ThrowExpression(obj);
+
+        public static PrefixUnaryExpressionSyntax Not(object expr) => PrefixUnaryExpression(SyntaxKind.LogicalNotExpression, ToExpression(expr));
+
+        public static ParenthesizedExpressionSyntax Parens(object expr) => ParenthesizedExpression(ToExpression(expr));
 
         public static ArgModifier Ref(object arg) => new ArgModifier(ArgModifier.Type.Ref, arg);
     }

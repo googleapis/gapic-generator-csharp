@@ -16,6 +16,12 @@ namespace Google.Api.Generator.ProtoUtils
 {
     internal static class ProtoConsts
     {
+        public static class FileOption
+        {
+            public const int ResourceDefinition = 1053;
+            public const int ResourceSetDefinition = 1054;
+        }
+
         public static class ServiceOption
         {
             public const int DefaultHost = 1049;
@@ -32,6 +38,9 @@ namespace Google.Api.Generator.ProtoUtils
         public static class FieldOption
         {
             public const int FieldBehavior = 1052;
+            public const int Resource = 1053;
+            public const int ResourceSet = 1054;
+            public const int ResourceReference = 1055;
         }
     }
 }

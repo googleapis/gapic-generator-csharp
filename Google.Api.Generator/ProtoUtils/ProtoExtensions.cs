@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Google.Api.Generator.Utils;
 using Google.Protobuf;
 using Google.Protobuf.Reflection;
 using System;
@@ -40,7 +41,7 @@ namespace Google.Api.Generator.ProtoUtils
                 return ns;
             }
             // As a fallback, capitalize the first character of each part of the proto package.
-            return string.Join(".", desc.Package.Split('.').Select(x => char.ToUpperInvariant(x[0]) + x.Substring(1)));
+            return string.Join(".", desc.Package.Split('.').Select(x => x.ToUpperCamelCase()));
         }
 
         public static IEnumerable<string> DocLines(this DescriptorDeclaration decl) =>
@@ -48,14 +49,9 @@ namespace Google.Api.Generator.ProtoUtils
                 .SkipWhile(string.IsNullOrWhiteSpace).Reverse().SkipWhile(string.IsNullOrWhiteSpace).Reverse() ??
                     Enumerable.Empty<string>();
 
-        private static string CSharpName(string name, bool isFieldName) =>
-            name.Aggregate((upper: !isFieldName, sb: new StringBuilder()), (acc, c) =>
-                c == '_' ? (true, acc.sb) : (false, acc.sb.Append(acc.upper ? char.ToUpperInvariant(c) : char.ToLowerInvariant(c))),
-                acc => acc.sb.ToString());
+        public static string CSharpPropertyName(this FieldDescriptor field) => field.Name.ToUpperCamelCase();
 
-        public static string CSharpPropertyName(this FieldDescriptor field) => CSharpName(field.Name, isFieldName: false);
-
-        public static string CSharpFieldName(this FieldDescriptor field) => CSharpName(field.Name, isFieldName: true);
+        public static string CSharpFieldName(this FieldDescriptor field) => field.Name.ToLowerCamelCase();
 
         private static IEnumerable<(ulong number, ByteString byteString)> GetRepeated(CustomOptions opts, int field)
         {

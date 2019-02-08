@@ -1,0 +1,25 @@
+﻿syntax = "proto3";
+
+package testing.resourcenames;
+
+import "google/api/annotations.proto";
+
+service ResourceNames {
+  option (google.api.default_host) = "resourcenames.example.com";
+
+  rpc SimpleMethod(SimpleResource) returns(Response) {
+    option (google.api.method_signature) = { fields: ["name"] };
+  }
+}
+
+option (google.api.resource_definition) = {
+  name: "SimpleResource",
+  path: "items/{item_id}"
+};
+
+message SimpleResource {
+  string name = 1 [(google.api.resource_reference) = "SimpleResource"];
+}
+
+message Response {
+}

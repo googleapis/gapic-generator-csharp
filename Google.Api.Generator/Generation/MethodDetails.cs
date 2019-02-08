@@ -132,25 +132,34 @@ namespace Google.Api.Generator.Generation
         {
             public sealed class Field
             {
-                public Field(MessageDescriptor msg, string fieldName)
+                public Field(ServiceDetails svc, MessageDescriptor msg, string fieldName)
                 {
                     var desc = msg.FindFieldByName(fieldName);
+                    if (desc == null)
+                    {
+                        throw new InvalidOperationException($"Field '{fieldName}' doesn't exist in message: {msg.FullName}");
+                    }
                     Typ = Typ.Of(desc);
+                    IsRepeated = desc.IsRepeated;
                     Required = desc.CustomOptions.TryGetRepeatedEnum<FieldBehavior>(ProtoConsts.FieldOption.FieldBehavior, out var behaviors) &&
                         behaviors.Any(x => x == FieldBehavior.Required);
                     FieldName = desc.CSharpFieldName();
                     PropertyName = desc.CSharpPropertyName();
                     DocLines = desc.Declaration.DocLines();
+                    FieldResource = svc.Catalog.GetResourceDetailsByField(desc);
                 }
                 public Typ Typ { get; }
+                public bool IsRepeated { get; }
                 public bool Required { get; }
                 public string FieldName { get; }
                 public string PropertyName { get; }
                 public IEnumerable<string> DocLines { get; }
+                /// <summary>Resource details if this field respresents a resource. Null if not a resource field.</summary>
+                public ResourceDetails.Field FieldResource { get; }
             }
-            public Signature(MessageDescriptor msg , MethodSignature sig)
+            public Signature(ServiceDetails svc, MessageDescriptor msg , MethodSignature sig)
             {
-                Fields = sig.Fields.Select(fieldName => new Field(msg, fieldName)).ToList();
+                Fields = sig.Fields.Select(fieldName => new Field(svc, msg, fieldName)).ToList();
             }
             public IEnumerable<Field> Fields { get; }
         }
@@ -214,7 +223,7 @@ namespace Google.Api.Generator.Generation
                 ProtoConsts.MethodOption.HttpRule, out var http) ? !string.IsNullOrEmpty(http.Get) : false;
             DocLines = desc.Declaration.DocLines().ToList();
             Signatures = desc.CustomOptions.TryGetRepeatedMessage<MethodSignature>(ProtoConsts.MethodOption.MethodSignature, out var sigs) ?
-                sigs.Select(sig => new Signature(desc.InputType, sig)).ToList() : Enumerable.Empty<Signature>();
+                sigs.Select(sig => new Signature(svc, desc.InputType, sig)).ToList() : Enumerable.Empty<Signature>();
         }
 
         /// <summary>The service in which this method is defined.</summary>
