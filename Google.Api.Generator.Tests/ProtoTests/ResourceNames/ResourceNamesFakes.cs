@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Google.Protobuf.Collections;
+
 namespace Testing.Resourcenames
 {
     public partial class SimpleResource : ProtoMsgFake<SimpleResource>
@@ -22,6 +24,11 @@ namespace Testing.Resourcenames
     public partial class SimpleInlineResource : ProtoMsgFake<SimpleInlineResource>
     {
         public string Name { get; set; }
+    }
+
+    public partial class SimpleRepeatedResource : ProtoMsgFake<SimpleRepeatedResource>
+    {
+        public RepeatedField<string> Names { get; }
     }
 
     public class Response : ProtoMsgFake<Response> { }

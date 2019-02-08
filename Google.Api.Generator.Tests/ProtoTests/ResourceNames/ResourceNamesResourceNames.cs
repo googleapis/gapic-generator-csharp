@@ -200,4 +200,12 @@ namespace Testing.Resourcenames
             set => Name = value?.ToString() ?? "";
         }
     }
+
+    public partial class SimpleRepeatedResource
+    {
+        /// <summary>
+        /// <see cref="SimpleResourceName"/>-typed view over the <see cref="Names"/> resource name property.
+        /// </summary>
+        public gax::ResourceNameList<SimpleResourceName> SimpleResourceNames => new gax::ResourceNameList<SimpleResourceName>(Names, s => SimpleResourceName.Parse(s));
+    }
 }

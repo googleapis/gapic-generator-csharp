@@ -219,18 +219,36 @@ namespace Google.Api.Generator.Generation
                     var cls = Class(Public | Partial, Typ.Of(msg));
                     using (_ctx.InClass(cls))
                     {
-                        foreach(var res in resources)
+                        foreach (var res in resources)
                         {
                             var underlyingProperty = Property(DontCare, _ctx.TypeDontCare, res.resDetails.UnderlyingPropertyName);
-                            if (res.field.IsRepeated)
+                            var one = res.resDetails.ResourceDefinition.One;
+                            var set = res.resDetails.ResourceDefinition.Set;
+                            var xmlDocSummary = XmlDoc.Summary(
+                                _ctx.Type(one.ResourceNameTyp, forceFullyQualified: one.ResourceNameTyp.Name == res.resDetails.ResourcePropertyName),
+                                "-typed view over the ", underlyingProperty, " resource name property.");
+                            if (one != null)
                             {
-                                throw new NotImplementedException();
-                            }
-                            else
-                            {
-                                var one = res.resDetails.ResourceDefinition.One;
-                                var set = res.resDetails.ResourceDefinition.Set;
-                                if (one != null)
+                                PropertyDeclarationSyntax resourceProperty;
+                                if (res.field.IsRepeated)
+                                {
+                                    var repeatedTyp = Typ.Generic(typeof(ResourceNameList<>), one.ResourceNameTyp);
+                                    object getter;
+                                    if (one.IsWildcard)
+                                    {
+                                        // TODO: Repeated wildcard pattern support.
+                                        throw new NotImplementedException();
+                                    }
+                                    else
+                                    {
+                                        var s = Parameter(null, "s");
+                                        getter = New(_ctx.Type(repeatedTyp))(underlyingProperty, Lambda(s, _ctx.Type(one.ResourceNameTyp).Call("Parse")(s)));
+                                    }
+                                    resourceProperty = Property(Public, _ctx.Type(repeatedTyp), res.resDetails.ResourcePropertyName)
+                                        .WithGetBody(getter)
+                                        .WithXmlDoc(xmlDocSummary);
+                                }
+                                else
                                 {
                                     object getter;
                                     if (one.IsWildcard)
@@ -243,20 +261,19 @@ namespace Google.Api.Generator.Generation
                                         getter = Return(_ctx.Type<string>().Call(nameof(string.IsNullOrEmpty))(underlyingProperty).ConditionalOperator(
                                             Null, _ctx.Type(one.ResourceNameTyp).Call("Parse")(underlyingProperty)));
                                     }
-                                    var resourceProperty = Property(Public, _ctx.Type(one.ResourceNameTyp), res.resDetails.ResourcePropertyName)
+                                    resourceProperty = Property(Public, _ctx.Type(one.ResourceNameTyp), res.resDetails.ResourcePropertyName)
                                         .WithGetBody(getter)
                                         .WithSetBody(underlyingProperty.Assign(Value.Call(nameof(object.ToString), conditional: true)().NullCoalesce("")))
-                                        .WithXmlDoc(XmlDoc.Summary(_ctx.Type(one.ResourceNameTyp, forceFullyQualified: one.ResourceNameTyp.Name == res.resDetails.ResourcePropertyName),
-                                            "-typed view over the ", underlyingProperty, " resource name property."));
-                                    // TODO: Sets and One/Set combination.
-                                    cls = cls.AddMembers(resourceProperty);
+                                        .WithXmlDoc(xmlDocSummary);
                                 }
-                                if (set != null)
-                                {
-                                    // TODO: Resource-sets.
-                                    throw new NotImplementedException();
-                                }
+                                cls = cls.AddMembers(resourceProperty);
                             }
+                            if (set != null)
+                            {
+                                // TODO: Resource-sets.
+                                throw new NotImplementedException();
+                            }
+                            // TODO: Sets and One/Set combination.
                         }
                     }
                     yield return cls;
