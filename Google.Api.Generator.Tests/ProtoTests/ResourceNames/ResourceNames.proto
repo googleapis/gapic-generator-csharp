@@ -21,6 +21,14 @@ service ResourceNames {
   rpc SimpleRepeatedMethod(SimpleRepeatedResource) returns(Response) {
     option (google.api.method_signature) = { fields: ["names"] };
   }
+
+  // Test multiple cases of resoure-names.
+  // All combinations of optional/required and single/repeated.
+  // Using field names that are not "name" or "names".
+  rpc MultiCaseMethod(MultiCaseRequest) returns (Response) {
+    option (google.api.method_signature) = {
+	  fields: ["optional_single", "optional_repeated", "required_single", "required_repeated"] };
+  }
 }
 
 option (google.api.resource_definition) = {
@@ -38,6 +46,13 @@ message SimpleInlineResource {
 
 message SimpleRepeatedResource {
   repeated string names = 1 [(google.api.resource_reference) = "SimpleResource"];
+}
+
+message MultiCaseRequest {
+  string optional_single = 1 [(google.api.resource_reference) = "SimpleResource"];
+  repeated string optional_repeated = 2 [(google.api.resource_reference) = "SimpleResource"];
+  string required_single = 3 [(google.api.resource_reference) = "SimpleResource", (google.api.field_behavior) = REQUIRED];
+  repeated string required_repeated = 4 [(google.api.resource_reference) = "SimpleResource", (google.api.field_behavior) = REQUIRED];
 }
 
 message Response {
