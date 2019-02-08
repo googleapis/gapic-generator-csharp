@@ -16,6 +16,7 @@ namespace Testing.Resourcenames
 
         // TEST_START
         /// <summary>
+        /// Test top-level resource definition.
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -28,6 +29,7 @@ namespace Testing.Resourcenames
             }, callSettings);
 
         /// <summary>
+        /// Test top-level resource definition.
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -40,6 +42,7 @@ namespace Testing.Resourcenames
             }, callSettings);
 
         /// <summary>
+        /// Test top-level resource definition.
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -49,6 +52,7 @@ namespace Testing.Resourcenames
             SimpleMethodAsync(name, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test top-level resource definition.
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -61,6 +65,7 @@ namespace Testing.Resourcenames
             }, callSettings);
 
         /// <summary>
+        /// Test top-level resource definition.
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -73,6 +78,7 @@ namespace Testing.Resourcenames
             }, callSettings);
 
         /// <summary>
+        /// Test top-level resource definition.
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -87,6 +93,7 @@ namespace Testing.Resourcenames
 
         // TEST_START
         /// <summary>
+        /// Test resource definition inlined in the proto message.
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -99,6 +106,7 @@ namespace Testing.Resourcenames
             }, callSettings);
 
         /// <summary>
+        /// Test resource definition inlined in the proto message.
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -111,6 +119,7 @@ namespace Testing.Resourcenames
             }, callSettings);
 
         /// <summary>
+        /// Test resource definition inlined in the proto message.
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -120,6 +129,7 @@ namespace Testing.Resourcenames
             SimpleInlineMethodAsync(name, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test resource definition inlined in the proto message.
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -132,6 +142,7 @@ namespace Testing.Resourcenames
             }, callSettings);
 
         /// <summary>
+        /// Test resource definition inlined in the proto message.
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -144,6 +155,7 @@ namespace Testing.Resourcenames
             }, callSettings);
 
         /// <summary>
+        /// Test resource definition inlined in the proto message.
         /// </summary>
         /// <param name="name">
         /// </param>
