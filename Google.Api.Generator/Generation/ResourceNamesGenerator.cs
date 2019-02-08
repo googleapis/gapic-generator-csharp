@@ -208,6 +208,8 @@ namespace Google.Api.Generator.Generation
 
         private IEnumerable<ClassDeclarationSyntax> ProtoMessagePartials()
         {
+            // Note: Whether a field is required or optional is purposefully ignored in this partial class.
+            // The optionalness of a field is only relevant within a method signature (flattening).
             foreach (var msg in _fileDesc.MessageTypes)
             {
                 var resources = msg.Fields.InFieldNumberOrder()
