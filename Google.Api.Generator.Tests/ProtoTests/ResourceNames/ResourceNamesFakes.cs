@@ -19,5 +19,10 @@ namespace Testing.Resourcenames
         public string Name { get; set; }
     }
 
+    public partial class SimpleInlineResource : ProtoMsgFake<SimpleInlineResource>
+    {
+        public string Name { get; set; }
+    }
+
     public class Response : ProtoMsgFake<Response> { }
 }

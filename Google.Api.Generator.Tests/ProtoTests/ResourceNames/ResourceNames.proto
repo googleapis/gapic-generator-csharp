@@ -7,7 +7,13 @@ import "google/api/annotations.proto";
 service ResourceNames {
   option (google.api.default_host) = "resourcenames.example.com";
 
+  // Test top-level resource definition.
   rpc SimpleMethod(SimpleResource) returns(Response) {
+    option (google.api.method_signature) = { fields: ["name"] };
+  }
+
+  // Test resource definition inlined in the proto message.
+  rpc SimpleInlineMethod(SimpleInlineResource) returns(Response) {
     option (google.api.method_signature) = { fields: ["name"] };
   }
 }
@@ -19,6 +25,10 @@ option (google.api.resource_definition) = {
 
 message SimpleResource {
   string name = 1 [(google.api.resource_reference) = "SimpleResource"];
+}
+
+message SimpleInlineResource {
+  string name = 1 [(google.api.resource).path = "items1/{item1_id}/items2/{item2_id}"];
 }
 
 message Response {
