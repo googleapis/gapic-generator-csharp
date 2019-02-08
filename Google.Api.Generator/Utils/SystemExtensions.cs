@@ -20,8 +20,9 @@ namespace Google.Api.Generator.Utils
     internal static class SystemExtensions
     {
         private static string Camelizer(string s, bool firstUpper) =>
-            s.Aggregate((upper: firstUpper, sb: new StringBuilder()), (acc, c) =>
-                c == '_' ? (true, acc.sb) : (false, acc.sb.Append(acc.upper ? char.ToUpperInvariant(c) : char.ToLowerInvariant(c))),
+            s.Aggregate((upper: (bool?)firstUpper, sb: new StringBuilder()), (acc, c) =>
+                c == '_' ? (true, acc.sb) :
+                    ((bool?)null, acc.sb.Append(acc.upper is bool upper ? upper ? char.ToUpperInvariant(c) : char.ToLowerInvariant(c) : c)),
                 acc => acc.sb.ToString());
 
         public static string ToLowerCamelCase(this string s) => Camelizer(s, firstUpper: false);

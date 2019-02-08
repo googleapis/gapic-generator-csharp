@@ -129,7 +129,8 @@ namespace Google.Api.Generator.Generation
 
         public TypeSyntax Type(System.Type type) => Type(Typ.Of(type));
 
-        public TypeSyntax Type(Typ typ)
+        public TypeSyntax Type(Typ typ) => Type(typ, false);
+        public TypeSyntax Type(Typ typ, bool forceFullyQualified)
         {
             if (_importStyle != ImportStyle.FullyAliased)
             {
@@ -157,7 +158,7 @@ namespace Google.Api.Generator.Generation
                 return predefinedType;
             }
             string namespaceAlias;
-            if ($"{Namespace}.".StartsWith($"{typ.Namespace}."))
+            if (!forceFullyQualified && $"{Namespace}.".StartsWith($"{typ.Namespace}."))
             {
                 // Within the current namespace, no import required.
                 namespaceAlias = null;

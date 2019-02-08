@@ -103,6 +103,7 @@ namespace Google.Api.Generator.Tests
                 {
                     int blockIndex = 0;
                     (int lineNumber, string line) missing = default;
+                    string missingActualLine = null;
                     int missingBestLength = -1;
                     foreach (var actualLine in actualLines)
                     {
@@ -120,6 +121,7 @@ namespace Google.Api.Generator.Tests
                             if (blockIndex > missingBestLength)
                             {
                                 missing = block[blockIndex];
+                                missingActualLine = actualLine;
                                 missingBestLength = blockIndex;
                             }
                             blockIndex = 0;
@@ -128,7 +130,9 @@ namespace Google.Api.Generator.Tests
                     if (missing.line != null)
                     {
                         Console.WriteLine(string.Join(Environment.NewLine, actualLines));
-                        throw new XunitException($"Failed to find expected line {missing.lineNumber + 1} in '{Path.GetFileName(file.RelativePath)}': '{missing.line}'");
+                        throw new XunitException($"Failed to find expected line {missing.lineNumber + 1} in '{Path.GetFileName(file.RelativePath)}'\n" +
+                            $"  Expected line: '{missing.line}'\n" +
+                            $"  Actual line:   '{missingActualLine}'");
                     }
                 }
 

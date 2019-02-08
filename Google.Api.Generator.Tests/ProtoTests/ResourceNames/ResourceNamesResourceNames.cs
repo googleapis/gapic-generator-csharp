@@ -1,5 +1,6 @@
 ﻿using gax = Google.Api.Gax;
 using sys = System;
+using tr = Testing.Resourcenames;
 
 namespace Testing.Resourcenames
 {
@@ -12,14 +13,14 @@ namespace Testing.Resourcenames
         /// Parses the given <c>SimpleResource</c> resource name in string form into a new
         /// <see cref="SimpleResourceName"/> instance.
         /// </summary>
-        /// <param name="simpleresource">
+        /// <param name="simpleResource">
         /// The <c>SimpleResource</c> resource name in string form. Must not be <c>null</c>.
         /// </param>
         /// <returns>The parsed <see cref="SimpleResourceName"/> if successful.</returns>
-        public static SimpleResourceName Parse(string simpleresource)
+        public static SimpleResourceName Parse(string simpleResource)
         {
-            gax::GaxPreconditions.CheckNotNull(simpleresource, nameof(simpleresource));
-            gax::TemplatedResourceName resourceName = s_template.ParseName(simpleresource);
+            gax::GaxPreconditions.CheckNotNull(simpleResource, nameof(simpleResource));
+            gax::TemplatedResourceName resourceName = s_template.ParseName(simpleResource);
             return new SimpleResourceName(resourceName[0]);
         }
 
@@ -28,20 +29,20 @@ namespace Testing.Resourcenames
         /// instance.
         /// </summary>
         /// <remarks>
-        /// This method still throws <see cref="sys::ArgumentNullException"/> if <paramref name="simpleresource"/> is
+        /// This method still throws <see cref="sys::ArgumentNullException"/> if <paramref name="simpleResource"/> is
         /// <c>null</c>, as this would usually indicate a programming error rather than a data error.
         /// </remarks>
-        /// <param name="simpleresource">
+        /// <param name="simpleResource">
         /// The <c>SimpleResource</c> resource name in string form. Must not be <c>null</c>.
         /// </param>
         /// <param name="result">
         /// When this method returns, the parsed <see cref="SimpleResourceName"/>, or <c>null</c> if parsing fails.
         /// </param>
         /// <returns><c>true</c> if the name was parsed successfully; <c>false</c> otherwise.</returns>
-        public static bool TryParse(string simpleresource, out SimpleResourceName result)
+        public static bool TryParse(string simpleResource, out SimpleResourceName result)
         {
-            gax::GaxPreconditions.CheckNotNull(simpleresource, nameof(simpleresource));
-            if (s_template.TryParseName(simpleresource, out gax::TemplatedResourceName resourceName))
+            gax::GaxPreconditions.CheckNotNull(simpleResource, nameof(simpleResource));
+            if (s_template.TryParseName(simpleResource, out gax::TemplatedResourceName resourceName))
             {
                 result = new SimpleResourceName(resourceName[0]);
                 return true;
@@ -94,14 +95,14 @@ namespace Testing.Resourcenames
         /// Parses the given <c>SimpleInlineResource</c> resource name in string form into a new
         /// <see cref="SimpleInlineResourceName"/> instance.
         /// </summary>
-        /// <param name="simpleinlineresource">
+        /// <param name="simpleInlineResource">
         /// The <c>SimpleInlineResource</c> resource name in string form. Must not be <c>null</c>.
         /// </param>
         /// <returns>The parsed <see cref="SimpleInlineResourceName"/> if successful.</returns>
-        public static SimpleInlineResourceName Parse(string simpleinlineresource)
+        public static SimpleInlineResourceName Parse(string simpleInlineResource)
         {
-            gax::GaxPreconditions.CheckNotNull(simpleinlineresource, nameof(simpleinlineresource));
-            gax::TemplatedResourceName resourceName = s_template.ParseName(simpleinlineresource);
+            gax::GaxPreconditions.CheckNotNull(simpleInlineResource, nameof(simpleInlineResource));
+            gax::TemplatedResourceName resourceName = s_template.ParseName(simpleInlineResource);
             return new SimpleInlineResourceName(resourceName[0], resourceName[1]);
         }
 
@@ -110,10 +111,10 @@ namespace Testing.Resourcenames
         /// <see cref="SimpleInlineResourceName"/> instance.
         /// </summary>
         /// <remarks>
-        /// This method still throws <see cref="sys::ArgumentNullException"/> if <paramref name="simpleinlineresource"/>
+        /// This method still throws <see cref="sys::ArgumentNullException"/> if <paramref name="simpleInlineResource"/>
         /// is <c>null</c>, as this would usually indicate a programming error rather than a data error.
         /// </remarks>
-        /// <param name="simpleinlineresource">
+        /// <param name="simpleInlineResource">
         /// The <c>SimpleInlineResource</c> resource name in string form. Must not be <c>null</c>.
         /// </param>
         /// <param name="result">
@@ -121,10 +122,10 @@ namespace Testing.Resourcenames
         /// fails.
         /// </param>
         /// <returns><c>true</c> if the name was parsed successfully; <c>false</c> otherwise.</returns>
-        public static bool TryParse(string simpleinlineresource, out SimpleInlineResourceName result)
+        public static bool TryParse(string simpleInlineResource, out SimpleInlineResourceName result)
         {
-            gax::GaxPreconditions.CheckNotNull(simpleinlineresource, nameof(simpleinlineresource));
-            if (s_template.TryParseName(simpleinlineresource, out gax::TemplatedResourceName resourceName))
+            gax::GaxPreconditions.CheckNotNull(simpleInlineResource, nameof(simpleInlineResource));
+            if (s_template.TryParseName(simpleInlineResource, out gax::TemplatedResourceName resourceName))
             {
                 result = new SimpleInlineResourceName(resourceName[0], resourceName[1]);
                 return true;
@@ -179,9 +180,9 @@ namespace Testing.Resourcenames
     public partial class SimpleResource
     {
         /// <summary>
-        /// <see cref="SimpleResourceName"/>-typed view over the <see cref="Name"/> resource name property.
+        /// <see cref="tr::SimpleResourceName"/>-typed view over the <see cref="Name"/> resource name property.
         /// </summary>
-        public SimpleResourceName NameAsSimpleResourceName
+        public SimpleResourceName SimpleResourceName
         {
             get => string.IsNullOrEmpty(Name) ? null : SimpleResourceName.Parse(Name);
             set => Name = value?.ToString() ?? "";
@@ -191,9 +192,9 @@ namespace Testing.Resourcenames
     public partial class SimpleInlineResource
     {
         /// <summary>
-        /// <see cref="SimpleInlineResourceName"/>-typed view over the <see cref="Name"/> resource name property.
+        /// <see cref="tr::SimpleInlineResourceName"/>-typed view over the <see cref="Name"/> resource name property.
         /// </summary>
-        public SimpleInlineResourceName NameAsSimpleInlineResourceName
+        public SimpleInlineResourceName SimpleInlineResourceName
         {
             get => string.IsNullOrEmpty(Name) ? null : SimpleInlineResourceName.Parse(Name);
             set => Name = value?.ToString() ?? "";
