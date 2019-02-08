@@ -204,7 +204,6 @@ namespace Google.Api.Generator.Generation
                         .WithXmlDoc(XmlDoc.InheritDoc);
                 }
             }
-
         }
 
         private IEnumerable<ClassDeclarationSyntax> ProtoMessagePartials()
