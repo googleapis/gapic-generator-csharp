@@ -229,6 +229,7 @@ namespace Google.Api.Generator.Generation
                             else
                             {
                                 var one = res.resDetails.ResourceDefinition.One;
+                                var set = res.resDetails.ResourceDefinition.Set;
                                 if (one != null)
                                 {
                                     object getter;
@@ -245,9 +246,15 @@ namespace Google.Api.Generator.Generation
                                     var resourceProperty = Property(Public, _ctx.Type(one.ResourceNameTyp), res.resDetails.ResourcePropertyName)
                                         .WithGetBody(getter)
                                         .WithSetBody(underlyingProperty.Assign(Value.Call(nameof(object.ToString), conditional: true)().NullCoalesce("")))
-                                        .WithXmlDoc(XmlDoc.Summary(_ctx.Type(one.ResourceNameTyp), "-typed view over the ", underlyingProperty, " resource name property."));
+                                        .WithXmlDoc(XmlDoc.Summary(_ctx.Type(one.ResourceNameTyp, forceFullyQualified: one.ResourceNameTyp.Name == res.resDetails.ResourcePropertyName),
+                                            "-typed view over the ", underlyingProperty, " resource name property."));
                                     // TODO: Sets and One/Set combination.
                                     cls = cls.AddMembers(resourceProperty);
+                                }
+                                if (set != null)
+                                {
+                                    // TODO: Resource-sets.
+                                    throw new NotImplementedException();
                                 }
                             }
                         }

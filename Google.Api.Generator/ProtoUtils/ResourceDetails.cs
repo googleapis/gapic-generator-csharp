@@ -88,8 +88,8 @@ namespace Google.Api.Generator.ProtoUtils
                 // This naming logic is copied directly from the Java generator.
                 // TODO: Make sure it's correct for all combinations - I'm not sure it is!
                 var typName = resourceDefinition.One.IsWildcard ? "Any" : resourceDefinition.One.ResourceNameTyp.Name;
-                var requireIdentifier = !(fieldDesc.IsRepeated && fieldDesc.Name.ToLowerInvariant() == "names") ||
-                    (!fieldDesc.IsRepeated && fieldDesc.Name.ToLowerInvariant() == "name");
+                var requireIdentifier = !((fieldDesc.IsRepeated && fieldDesc.Name.ToLowerInvariant() == "names") ||
+                    (!fieldDesc.IsRepeated && fieldDesc.Name.ToLowerInvariant() == "name"));
                 var requireAs = requireIdentifier || resourceDefinition.One.IsWildcard;
                 var requirePlural = fieldDesc.IsRepeated;
                 var name = requireIdentifier ? UnderlyingPropertyName : "";

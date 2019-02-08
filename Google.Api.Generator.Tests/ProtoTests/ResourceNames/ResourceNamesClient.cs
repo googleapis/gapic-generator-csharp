@@ -61,7 +61,7 @@ namespace Testing.Resourcenames
         public virtual Response SimpleMethod(SimpleResourceName name, gaxgrpc::CallSettings callSettings = null) =>
             SimpleMethod(new SimpleResource
             {
-                NameAsSimpleResourceName = name,
+                SimpleResourceName = name,
             }, callSettings);
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Testing.Resourcenames
         public virtual stt::Task<Response> SimpleMethodAsync(SimpleResourceName name, gaxgrpc::CallSettings callSettings = null) =>
             SimpleMethodAsync(new SimpleResource
             {
-                NameAsSimpleResourceName = name,
+                SimpleResourceName = name,
             }, callSettings);
 
         /// <summary>
@@ -138,7 +138,7 @@ namespace Testing.Resourcenames
         public virtual Response SimpleInlineMethod(SimpleInlineResourceName name, gaxgrpc::CallSettings callSettings = null) =>
             SimpleInlineMethod(new SimpleInlineResource
             {
-                NameAsSimpleInlineResourceName = name,
+                SimpleInlineResourceName = name,
             }, callSettings);
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace Testing.Resourcenames
         public virtual stt::Task<Response> SimpleInlineMethodAsync(SimpleInlineResourceName name, gaxgrpc::CallSettings callSettings = null) =>
             SimpleInlineMethodAsync(new SimpleInlineResource
             {
-                NameAsSimpleInlineResourceName = name,
+                SimpleInlineResourceName = name,
             }, callSettings);
 
         /// <summary>
