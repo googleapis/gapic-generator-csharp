@@ -179,7 +179,10 @@ namespace Google.Api.Generator.Formatting
         public override SyntaxNode VisitParameter(ParameterSyntax node)
         {
             node = (ParameterSyntax)base.VisitParameter(node);
-            node = node.WithType(node.Type.WithTrailingSpace());
+            if (node.Type != null)
+            {
+                node = node.WithType(node.Type.WithTrailingSpace());
+            }
             node = node.WithModifiers(TokenList(node.Modifiers.Select(x => x.WithTrailingSpace())));
             return node;
         }
@@ -409,6 +412,13 @@ namespace Google.Api.Generator.Formatting
         {
             node = (DeclarationExpressionSyntax)base.VisitDeclarationExpression(node);
             node = node.WithType(node.Type.WithTrailingSpace());
+            return node;
+        }
+
+        public override SyntaxNode VisitSimpleLambdaExpression(SimpleLambdaExpressionSyntax node)
+        {
+            node = (SimpleLambdaExpressionSyntax)base.VisitSimpleLambdaExpression(node);
+            node = node.WithArrowToken(node.ArrowToken.WithLeadingSpace().WithTrailingSpace());
             return node;
         }
     }

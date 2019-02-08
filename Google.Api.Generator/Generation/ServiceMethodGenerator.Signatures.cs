@@ -68,7 +68,17 @@ namespace Google.Api.Generator.Generation
                     {
                         if (treatAsResource)
                         {
-                            throw new NotImplementedException(); // TODO: Repeated resource.
+                            if (isResourceSet)
+                            {
+                                throw new NotImplementedException(); // TODO: Resource sets.
+                            }
+                            else
+                            {
+                                code = CollectionInitializer(field.Required ?
+                                    Ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(param, Nameof(param)) :
+                                    param.NullCoalesce(Ctx.Type(typeof(Enumerable)).Call(
+                                        nameof(Enumerable.Empty), Ctx.Type(field.FieldResource.ResourceDefinition.One.ResourceNameTyp))()));
+                            }
                         }
                         else
                         {
@@ -192,10 +202,11 @@ namespace Google.Api.Generator.Generation
                                 {
                                     isSet = setDef != null;
                                 }
-                                var parameter = Parameter(ctx.Type((isSet ? setDef?.ResourceNameTyp : oneDef?.ResourceNameTyp) ?? field.Typ), field.FieldName);
+                                var parameter = Parameter(ctx.Type(MaybeRepeated(isSet ? setDef?.ResourceNameTyp : oneDef?.ResourceNameTyp) ?? field.Typ), field.FieldName);
                                 var initExpr = signature.InitExpr(field, parameter, fieldResource != null, isSet);
                                 var xmlDoc = XmlDoc.ParamPreFormatted(parameter, field.DocLines);
                                 parameters.Add(new ParameterInfo(parameter, initExpr, xmlDoc));
+                                Typ MaybeRepeated(Typ typ) => field.IsRepeated ? Typ.Generic(typeof(IEnumerable<>), typ) : typ;
                             }
                             yield return new ResourceName(signature, parameters);
                         }

@@ -33,6 +33,7 @@ namespace Google.Api.Generator.RoslynUtils
 
         public delegate T ParametersFunc<T>(params ParameterSyntax[] parameters);
         public delegate T ArgumentsFunc<T>(params object[] args);
+        public delegate T CodeFunc<T>(params object[] code);
 
         public static TypeSyntax VoidType { get; } = PredefinedType(Token(SyntaxKind.VoidKeyword));
         public static ExpressionSyntax Null { get; } = LiteralExpression(SyntaxKind.NullLiteralExpression);
@@ -99,7 +100,11 @@ namespace Google.Api.Generator.RoslynUtils
 
         public static ParameterSyntax Parameter(TypeSyntax type, string name, ExpressionSyntax @default = null)
         {
-            var param = SyntaxFactory.Parameter(Identifier(name)).WithType(type);
+            var param = SyntaxFactory.Parameter(Identifier(name));
+            if (type != null)
+            {
+                param = param.WithType(type);
+            }
             if (@default != null)
             {
                 param = param.WithDefault(EqualsValueClause(@default));
@@ -133,6 +138,9 @@ namespace Google.Api.Generator.RoslynUtils
                 .AddModifiers(modifiers.ToSyntaxTokens())
                 .AddAccessorListAccessors(accessors.ToArray());
         }
+
+        public static LambdaExpressionSyntax Lambda(ParameterSyntax parameter, object code) =>
+            SimpleLambdaExpression(parameter, ToExpression(code));
 
         public static FieldDeclarationSyntax Field(Modifier modifiers, TypeSyntax type, string name) =>
             FieldDeclaration(VariableDeclaration(type, SingletonSeparatedList(VariableDeclarator(name)))).AddModifiers(modifiers.ToSyntaxTokens());

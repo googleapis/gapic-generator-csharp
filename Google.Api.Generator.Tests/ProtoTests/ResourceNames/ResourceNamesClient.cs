@@ -164,5 +164,94 @@ namespace Testing.Resourcenames
         public virtual stt::Task<Response> SimpleInlineMethodAsync(SimpleInlineResourceName name, st::CancellationToken cancellationToken) =>
             SimpleInlineMethodAsync(name, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
         // TEST_END
+
+        public Response SimpleRepeatedMethod(SimpleRepeatedResource request, gaxgrpc::CallSettings callSettings) => throw new sys::NotImplementedException();
+        public stt::Task<Response> SimpleRepeatedMethodAsync(SimpleRepeatedResource request, gaxgrpc::CallSettings callSettings) => throw new sys::NotImplementedException();
+
+        // TEST_START
+        /// <summary>
+        /// Test repeated resource.
+        /// </summary>
+        /// <param name="names">
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>The RPC response.</returns>
+        public virtual Response SimpleRepeatedMethod(scg::IEnumerable<string> names, gaxgrpc::CallSettings callSettings = null) =>
+            SimpleRepeatedMethod(new SimpleRepeatedResource
+            {
+                Names =
+                {
+                    names ?? linq::Enumerable.Empty<string>(),
+                },
+            }, callSettings);
+
+        /// <summary>
+        /// Test repeated resource.
+        /// </summary>
+        /// <param name="names">
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<Response> SimpleRepeatedMethodAsync(scg::IEnumerable<string> names, gaxgrpc::CallSettings callSettings = null) =>
+            SimpleRepeatedMethodAsync(new SimpleRepeatedResource
+            {
+                Names =
+                {
+                    names ?? linq::Enumerable.Empty<string>(),
+                },
+            }, callSettings);
+
+        /// <summary>
+        /// Test repeated resource.
+        /// </summary>
+        /// <param name="names">
+        /// </param>
+        /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<Response> SimpleRepeatedMethodAsync(scg::IEnumerable<string> names, st::CancellationToken cancellationToken) =>
+            SimpleRepeatedMethodAsync(names, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+
+        /// <summary>
+        /// Test repeated resource.
+        /// </summary>
+        /// <param name="names">
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>The RPC response.</returns>
+        public virtual Response SimpleRepeatedMethod(scg::IEnumerable<SimpleResourceName> names, gaxgrpc::CallSettings callSettings = null) =>
+            SimpleRepeatedMethod(new SimpleRepeatedResource
+            {
+                SimpleResourceNames =
+                {
+                    names ?? linq::Enumerable.Empty<SimpleResourceName>(),
+                },
+            }, callSettings);
+
+        /// <summary>
+        /// Test repeated resource.
+        /// </summary>
+        /// <param name="names">
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<Response> SimpleRepeatedMethodAsync(scg::IEnumerable<SimpleResourceName> names, gaxgrpc::CallSettings callSettings = null) =>
+            SimpleRepeatedMethodAsync(new SimpleRepeatedResource
+            {
+                SimpleResourceNames =
+                {
+                    names ?? linq::Enumerable.Empty<SimpleResourceName>(),
+                },
+            }, callSettings);
+
+        /// <summary>
+        /// Test repeated resource.
+        /// </summary>
+        /// <param name="names">
+        /// </param>
+        /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<Response> SimpleRepeatedMethodAsync(scg::IEnumerable<SimpleResourceName> names, st::CancellationToken cancellationToken) =>
+            SimpleRepeatedMethodAsync(names, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+        // TEST_END
     }
 }

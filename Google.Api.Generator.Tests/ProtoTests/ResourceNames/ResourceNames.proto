@@ -16,6 +16,11 @@ service ResourceNames {
   rpc SimpleInlineMethod(SimpleInlineResource) returns(Response) {
     option (google.api.method_signature) = { fields: ["name"] };
   }
+
+  // Test repeated resource.
+  rpc SimpleRepeatedMethod(SimpleRepeatedResource) returns(Response) {
+    option (google.api.method_signature) = { fields: ["names"] };
+  }
 }
 
 option (google.api.resource_definition) = {
@@ -29,6 +34,10 @@ message SimpleResource {
 
 message SimpleInlineResource {
   string name = 1 [(google.api.resource).path = "items1/{item1_id}/items2/{item2_id}"];
+}
+
+message SimpleRepeatedResource {
+  repeated string names = 1 [(google.api.resource_reference) = "SimpleResource"];
 }
 
 message Response {

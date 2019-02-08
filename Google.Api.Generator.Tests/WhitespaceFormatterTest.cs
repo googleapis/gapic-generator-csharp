@@ -203,6 +203,9 @@ namespace Google.Api.Generator.Tests
             public override bool Equals(object obj) => false;
 
             public override int GetHashCode() => 0;
+
+            // Test a simple lambda expression.
+            public IEnumerable<int> SimpleLambda() => new string[0].Select(x => x.Length);
         }
 
         // Test base-list with one item.
