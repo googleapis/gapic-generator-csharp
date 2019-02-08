@@ -96,31 +96,66 @@ namespace Google.Api.Generator.Tests
                 Assert.True(File.Exists(expectedFilePath), $"Expected file does not exist: '{expectedFilePath}'");
                 var expectedLines = File.ReadAllLines(expectedFilePath).Select(x => x.Trim('\r')).ToList();
                 var actualLines = Encoding.UTF8.GetString(file.Content).Split('\n').Select(x => x.Trim('\r')).ToList();
-                // Check that all the testable lines with in the expected file match.
-                int expectedIndex = 0;
-                int actualIndex = 0;
-                bool active = !expectedLines.Any(x => x.Trim() == "// TEST_START");
-                while (expectedIndex < expectedLines.Count && actualIndex < actualLines.Count)
+                var expectedBlocks = expectedLines.Any(x => x.Trim() == "// TEST_START") ? TestBlocks() : new[] { expectedLines.Select((s, i) => (i, s)).ToList() };
+                // Check that all expected code blocks in the expected code exist in the generated (actual) code.
+                // The order of the test blocks is not enforced, only the content.
+                foreach (var block in expectedBlocks)
                 {
-                    active &= expectedLines[expectedIndex].Trim() != "// TEST_END";
-                    if (active)
-                    {
-                        expectedIndex += actualLines[actualIndex] == expectedLines[expectedIndex] ? 1 : 0;
-                        actualIndex += 1;
-                    }
-                    else
-                    {
-                        active |= expectedLines[expectedIndex].Trim() == "// TEST_START";
-                        expectedIndex += 1;
-                    }
-                }
-                if (expectedIndex != expectedLines.Count)
-                {
+                    int blockIndex = 0;
+                    (int lineNumber, string line) missing = default;
+                    int missingBestLength = -1;
                     foreach (var actualLine in actualLines)
                     {
-                        Console.WriteLine(actualLine);
+                        if (block[blockIndex].line == actualLine)
+                        {
+                            blockIndex += 1;
+                            if (blockIndex == block.Count)
+                            {
+                                missing = default;
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            if (blockIndex > missingBestLength)
+                            {
+                                missing = block[blockIndex];
+                                missingBestLength = blockIndex;
+                            }
+                            blockIndex = 0;
+                        }
                     }
-                    Assert.True(false, $"Failed to find expected line {expectedIndex + 1}: '{expectedLines[expectedIndex]}'");
+                    if (missing.line != null)
+                    {
+                        Console.WriteLine(string.Join(Environment.NewLine, actualLines));
+                        throw new XunitException($"Failed to find expected line {missing.lineNumber + 1} in '{Path.GetFileName(file.RelativePath)}': '{missing.line}'");
+                    }
+                }
+
+                IEnumerable<IList<(int lineNumber, string line)>> TestBlocks()
+                {
+                    bool active = false;
+                    var block = new List<(int, string)>();
+                    foreach (var (line, lineNumber) in expectedLines.Select((s, i) => (s, i)))
+                    {
+                        if (active)
+                        {
+                            if (line.Trim() == "// TEST_END")
+                            {
+                                active = false;
+                                yield return block.ToArray();
+                                block.Clear();
+                            }
+                            else
+                            {
+                                block.Add((lineNumber, line));
+                            }
+                        }
+                        else if (line.Trim() == "// TEST_START")
+                        {
+                            active = true;
+                        }
+                    }
                 }
             }
         }
