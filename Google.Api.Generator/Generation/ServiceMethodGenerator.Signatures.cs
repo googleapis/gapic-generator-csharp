@@ -140,13 +140,15 @@ namespace Google.Api.Generator.Generation
                 private IEnumerable<ParameterSyntax> ParametersWithCallSettings => Parameters.Select(x => x.Parameter).Append(_def.CallSettingsParam);
                 private IEnumerable<ParameterSyntax> ParametersWithCancellationToken => Parameters.Select(x => x.Parameter).Append(_def.CancellationTokenParam);
 
-                private MethodDeclarationSyntax AbstractRequestMethod(bool sync, bool callSettings, IEnumerable<ParameterInfo> parameters)
+                private MethodDeclarationSyntax AbstractRequestMethod(bool sync, bool paginated, bool callSettings, IEnumerable<ParameterInfo> parameters)
                 {
                     var returnTyp = sync ? MethodDetails.SyncReturnTyp : MethodDetails.AsyncReturnTyp;
                     var methodName = sync ? MethodDetails.SyncMethodName : MethodDetails.AsyncMethodName;
                     var finalParam = callSettings ? _def.CallSettingsParam : _def.CancellationTokenParam;
                     var finalParamXmlDoc = callSettings ? _def.CallSettingsXmlDoc : _def.CancellationTokenXmlDoc;
-                    var returnsXmlDoc = sync ? _def.ReturnsSyncXmlDoc : _def.ReturnsAsyncXmlDoc;
+                    var returnsXmlDoc = sync ?
+                        paginated ? _def.ReturnsSyncPaginatedXmlDoc : _def.ReturnsSyncXmlDoc :
+                        paginated ? _def.ReturnsAsyncPaginatedXmlDoc : _def.ReturnsAsyncXmlDoc;
                     if (callSettings)
                     {
                         return Method(Public | Virtual, Ctx.Type(returnTyp), methodName)(parameters.Select(x => x.Parameter).Append(finalParam).ToArray())
@@ -163,9 +165,9 @@ namespace Google.Api.Generator.Generation
                     }
                 }
 
-                public MethodDeclarationSyntax AbstractSyncRequestMethod => AbstractRequestMethod(true, true, Parameters);
-                public MethodDeclarationSyntax AbstractAsyncCallSettingsRequestMethod => AbstractRequestMethod(false, true, Parameters);
-                public MethodDeclarationSyntax AbstractAsyncCancellationTokenRequestMethod => AbstractRequestMethod(false, false, Parameters);
+                public MethodDeclarationSyntax AbstractSyncRequestMethod(bool paginated = false) => AbstractRequestMethod(true, paginated, true, Parameters);
+                public MethodDeclarationSyntax AbstractAsyncCallSettingsRequestMethod(bool paginated = false) => AbstractRequestMethod(false, paginated, true, Parameters);
+                public MethodDeclarationSyntax AbstractAsyncCancellationTokenRequestMethod => AbstractRequestMethod(false, false, false, Parameters);
 
                 public class ResourceName
                 {
@@ -225,9 +227,9 @@ namespace Google.Api.Generator.Generation
                     private MethodDetails MethodDetails => _signature.MethodDetails;
                     private MethodDef Def => _signature._def;
 
-                    public MethodDeclarationSyntax AbstractSyncRequestMethod => _signature.AbstractRequestMethod(true, true, _parameters);
-                    public MethodDeclarationSyntax AbstractAsyncCallSettingsRequestMethod => _signature.AbstractRequestMethod(false, true, _parameters);
-                    public MethodDeclarationSyntax AbstractAsyncCancellationTokenRequestMethod => _signature.AbstractRequestMethod(false, false, _parameters);
+                    public MethodDeclarationSyntax AbstractSyncRequestMethod(bool paginated = false) => _signature.AbstractRequestMethod(true, paginated, true, _parameters);
+                    public MethodDeclarationSyntax AbstractAsyncCallSettingsRequestMethod(bool paginated = false) => _signature.AbstractRequestMethod(false, paginated, true, _parameters);
+                    public MethodDeclarationSyntax AbstractAsyncCancellationTokenRequestMethod => _signature.AbstractRequestMethod(false, false, false, _parameters);
                 }
 
                 public IEnumerable<ResourceName> ResourceNames => ResourceName.Create(this);

@@ -48,13 +48,16 @@ namespace Google.Api.Generator.Generation
         {
             public Paginated(ServiceDetails svc, MethodDescriptor desc, FieldDescriptor responseResourceField) : base(svc, desc)
             {
-                ResourceTyp = Typ.Of(responseResourceField, forceRepeated: false);
+                // TODO: Handle resource-sets.
+                var resourceDetails = svc.Catalog.GetResourceDetailsByField(responseResourceField);
+                ResourceTyp = resourceDetails?.ResourceDefinition.One.ResourceNameTyp ?? Typ.Of(responseResourceField, forceRepeated: false);
                 ApiCallTyp = Typ.Generic(typeof(ApiCall<,>), RequestTyp, ResponseTyp);
                 SyncReturnTyp = Typ.Generic(typeof(PagedEnumerable<,>), ResponseTyp, ResourceTyp);
                 AsyncReturnTyp = Typ.Generic(typeof(PagedAsyncEnumerable<,>), ResponseTyp, ResourceTyp);
                 SyncGrpcType = Typ.Generic(typeof(GrpcPagedEnumerable<,,>), RequestTyp, ResponseTyp, ResourceTyp);
                 AsyncGrpcType = Typ.Generic(typeof(GrpcPagedAsyncEnumerable<,,>), RequestTyp, ResponseTyp, ResourceTyp);
                 ResourcesFieldName = responseResourceField.CSharpPropertyName();
+                ResourcesFieldResourceName = svc.Catalog.GetResourceDetailsByField(responseResourceField);
             }
             public override Typ ApiCallTyp { get; }
             public override Typ SyncReturnTyp { get; }
@@ -63,6 +66,7 @@ namespace Google.Api.Generator.Generation
             public Typ SyncGrpcType { get; }
             public Typ AsyncGrpcType { get; }
             public string ResourcesFieldName { get; }
+            public ResourceDetails.Field ResourcesFieldResourceName { get; }
         }
 
         /// <summary>
