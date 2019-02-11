@@ -14,9 +14,9 @@ service Lro {
       response_type: "LroResponse"
       metadata_type: "LroMetadata"
     };
-	option (google.api.method_signature) = {
-	  fields: ["name"]
-	};
+    option (google.api.method_signature) = {
+      fields: ["name"]
+    };
   }
 
   // Test an LRO RPC with a method signature that contains resource-names.
@@ -26,8 +26,8 @@ service Lro {
       metadata_type: "LroMetadata"
     };
     option (google.api.method_signature) = {
-	  fields: ["name"]
-	};
+      fields: ["name"]
+    };
   }
 }
 
