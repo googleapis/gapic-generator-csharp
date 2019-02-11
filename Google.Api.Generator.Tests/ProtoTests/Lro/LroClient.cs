@@ -1,4 +1,4 @@
-﻿using gaxgrpc = Google.Api.Gax.Grpc;
+using gaxgrpc = Google.Api.Gax.Grpc;
 using lro = Google.LongRunning;
 using st = System.Threading;
 using stt = System.Threading.Tasks;
