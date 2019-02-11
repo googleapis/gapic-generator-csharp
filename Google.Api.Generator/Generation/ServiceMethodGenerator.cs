@@ -55,52 +55,52 @@ namespace Google.Api.Generator.Generation
                 switch (method.MethodDetails)
                 {
                     case MethodDetails.Normal _:
-                        yield return method.AbstractSyncRequestMethod();
-                        yield return method.AbstractAsyncCallSettingsRequestMethod();
+                        yield return method.AbstractSyncRequestMethod;
+                        yield return method.AbstractAsyncCallSettingsRequestMethod;
                         yield return method.AbstractAsyncCancellationTokenRequestMethod;
                         foreach (var signature in method.Signatures)
                         {
-                            yield return signature.AbstractSyncRequestMethod();
-                            yield return signature.AbstractAsyncCallSettingsRequestMethod();
+                            yield return signature.AbstractSyncRequestMethod;
+                            yield return signature.AbstractAsyncCallSettingsRequestMethod;
                             yield return signature.AbstractAsyncCancellationTokenRequestMethod;
                             foreach (var resourceName in signature.ResourceNames)
                             {
-                                yield return resourceName.AbstractSyncRequestMethod();
-                                yield return resourceName.AbstractAsyncCallSettingsRequestMethod();
+                                yield return resourceName.AbstractSyncRequestMethod;
+                                yield return resourceName.AbstractAsyncCallSettingsRequestMethod;
                                 yield return resourceName.AbstractAsyncCancellationTokenRequestMethod;
                             }
                         }
                         break;
                     case MethodDetails.Paginated _:
-                        yield return method.AbstractSyncRequestMethod(paginated: true);
-                        yield return method.AbstractAsyncCallSettingsRequestMethod(paginated: true);
+                        yield return method.AbstractSyncRequestMethod;
+                        yield return method.AbstractAsyncCallSettingsRequestMethod;
                         foreach (var signature in method.Signatures)
                         {
-                            yield return signature.AbstractSyncRequestMethod(paginated: true);
-                            yield return signature.AbstractAsyncCallSettingsRequestMethod(paginated: true);
+                            yield return signature.AbstractSyncRequestMethod;
+                            yield return signature.AbstractAsyncCallSettingsRequestMethod;
                             foreach (var resourceName in signature.ResourceNames)
                             {
-                                yield return resourceName.AbstractSyncRequestMethod(paginated: true);
-                                yield return resourceName.AbstractAsyncCallSettingsRequestMethod(paginated: true);
+                                yield return resourceName.AbstractSyncRequestMethod;
+                                yield return resourceName.AbstractAsyncCallSettingsRequestMethod;
                             }
                         }
                         break;
                     case MethodDetails.Lro _:
-                        yield return method.AbstractSyncRequestMethod();
-                        yield return method.AbstractAsyncCallSettingsRequestMethod();
+                        yield return method.AbstractSyncRequestMethod;
+                        yield return method.AbstractAsyncCallSettingsRequestMethod;
                         yield return method.AbstractAsyncCancellationTokenRequestMethod;
                         yield return method.AbstractLroOperationsClientProperty;
                         yield return method.AbstractLroSyncPollMethod;
                         yield return method.AbstractLroAsyncPollMethod;
                         foreach (var signature in method.Signatures)
                         {
-                            yield return signature.AbstractSyncRequestMethod();
-                            yield return signature.AbstractAsyncCallSettingsRequestMethod();
+                            yield return signature.AbstractSyncRequestMethod;
+                            yield return signature.AbstractAsyncCallSettingsRequestMethod;
                             yield return signature.AbstractAsyncCancellationTokenRequestMethod;
                             foreach (var resourceName in signature.ResourceNames)
                             {
-                                yield return resourceName.AbstractSyncRequestMethod();
-                                yield return resourceName.AbstractAsyncCallSettingsRequestMethod();
+                                yield return resourceName.AbstractSyncRequestMethod;
+                                yield return resourceName.AbstractAsyncCallSettingsRequestMethod;
                                 yield return resourceName.AbstractAsyncCancellationTokenRequestMethod;
                             }
                         }
@@ -112,6 +112,14 @@ namespace Google.Api.Generator.Generation
                     case MethodDetails.ServerStreaming _:
                         yield return method.AbstractServerStreamClass;
                         yield return method.AbstractServerStreamSyncRequestMethod;
+                        foreach (var signature in method.Signatures)
+                        {
+                            yield return signature.AbstractServerStreamSyncRequestMethod;
+                            foreach (var resourceName in signature.ResourceNames)
+                            {
+                                yield return resourceName.AbstractServerStreamSyncRequestMethod;
+                            }
+                        }
                         break;
                 }
             }
@@ -188,19 +196,19 @@ namespace Google.Api.Generator.Generation
 
             // Base abstract members.
 
-            public MethodDeclarationSyntax AbstractSyncRequestMethod(bool paginated = false) =>
+            public MethodDeclarationSyntax AbstractSyncRequestMethod =>
                 Method(Public | Virtual, Ctx.Type(MethodDetails.SyncReturnTyp), MethodDetails.SyncMethodName)(RequestParam, CallSettingsParam)
                     .WithBody(Throw(New(Ctx.Type<NotImplementedException>())()))
-                    .WithXmlDoc(SummaryXmlDoc, RequestXmlDoc, CallSettingsXmlDoc, paginated ? ReturnsSyncPaginatedXmlDoc : ReturnsSyncXmlDoc);
+                    .WithXmlDoc(SummaryXmlDoc, RequestXmlDoc, CallSettingsXmlDoc, MethodDetails is MethodDetails.Paginated ? ReturnsSyncPaginatedXmlDoc : ReturnsSyncXmlDoc);
 
-            public MethodDeclarationSyntax AbstractAsyncCallSettingsRequestMethod(bool paginated = false) =>
+            public MethodDeclarationSyntax AbstractAsyncCallSettingsRequestMethod =>
                 Method(Public | Virtual, Ctx.Type(MethodDetails.AsyncReturnTyp), MethodDetails.AsyncMethodName)(RequestParam, CallSettingsParam)
                     .WithBody(Throw(New(Ctx.Type<NotImplementedException>())()))
-                    .WithXmlDoc(SummaryXmlDoc, RequestXmlDoc, CallSettingsXmlDoc, paginated ? ReturnsAsyncPaginatedXmlDoc : ReturnsAsyncXmlDoc);
+                    .WithXmlDoc(SummaryXmlDoc, RequestXmlDoc, CallSettingsXmlDoc, MethodDetails is MethodDetails.Paginated ? ReturnsAsyncPaginatedXmlDoc : ReturnsAsyncXmlDoc);
 
             public MethodDeclarationSyntax AbstractAsyncCancellationTokenRequestMethod =>
                 Method(Public | Virtual, Ctx.Type(MethodDetails.AsyncReturnTyp), MethodDetails.AsyncMethodName)(RequestParam, CancellationTokenParam)
-                    .WithBody(This.Call(AbstractAsyncCallSettingsRequestMethod())(RequestParam, Ctx.Type<CallSettings>().Call(nameof(CallSettings.FromCancellationToken))(CancellationTokenParam)))
+                    .WithBody(This.Call(AbstractAsyncCallSettingsRequestMethod)(RequestParam, Ctx.Type<CallSettings>().Call(nameof(CallSettings.FromCancellationToken))(CancellationTokenParam)))
                     .WithXmlDoc(SummaryXmlDoc, RequestXmlDoc, CancellationTokenXmlDoc, ReturnsAsyncXmlDoc);
 
             // Base impl members.

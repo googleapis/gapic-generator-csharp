@@ -199,5 +199,8 @@ namespace Google.Api.Generator.Tests
 
         [Fact]
         public void Lro0() => ProtoTestSingle("Lro");
+
+        [Fact]
+        public void ServerStreaming0() => ProtoTestSingle("ServerStreaming");
     }
 }
