@@ -92,6 +92,18 @@ namespace Google.Api.Generator.Generation
                         yield return method.AbstractLroOperationsClientProperty;
                         yield return method.AbstractLroSyncPollMethod;
                         yield return method.AbstractLroAsyncPollMethod;
+                        foreach (var signature in method.Signatures)
+                        {
+                            yield return signature.AbstractSyncRequestMethod();
+                            yield return signature.AbstractAsyncCallSettingsRequestMethod();
+                            yield return signature.AbstractAsyncCancellationTokenRequestMethod;
+                            foreach (var resourceName in signature.ResourceNames)
+                            {
+                                yield return resourceName.AbstractSyncRequestMethod();
+                                yield return resourceName.AbstractAsyncCallSettingsRequestMethod();
+                                yield return resourceName.AbstractAsyncCancellationTokenRequestMethod;
+                            }
+                        }
                         break;
                     case MethodDetails.BidiStreaming _:
                         yield return method.AbstractBidiStreamClass;
