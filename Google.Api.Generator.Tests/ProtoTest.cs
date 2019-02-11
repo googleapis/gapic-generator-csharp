@@ -196,5 +196,8 @@ namespace Google.Api.Generator.Tests
 
         [Fact]
         public void Paginated0() => ProtoTestSingle("Paginated");
+
+        [Fact]
+        public void Lro0() => ProtoTestSingle("Lro");
     }
 }
