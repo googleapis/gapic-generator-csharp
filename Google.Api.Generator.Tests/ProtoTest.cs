@@ -86,6 +86,7 @@ namespace Google.Api.Generator.Tests
         {
             // Confirm each generated file is idential to the expected output.
             // Use `// TEST_START` and `// TEST_END` lines in the expected file to test subsets of output files.
+            // Or include `// TEST_DISABLE` to disable testing of the entire file.
             var files = Run(Path.Combine("ProtoTests", testProtoName, $"{testProtoName}.proto"), $"testing.{testProtoName.ToLowerInvariant()}");
             // Check output is present.
             Assert.NotEmpty(files);
@@ -95,6 +96,10 @@ namespace Google.Api.Generator.Tests
                 var expectedFilePath = Path.Combine("ProtoTests", testProtoName, file.RelativePath);
                 Assert.True(File.Exists(expectedFilePath), $"Expected file does not exist: '{expectedFilePath}'");
                 var expectedLines = File.ReadAllLines(expectedFilePath).Select(x => x.Trim('\r')).ToList();
+                if (expectedLines.Any(line => line.Trim() == "// TEST_DISABLE"))
+                {
+                    continue;
+                }
                 var actualLines = Encoding.UTF8.GetString(file.Content).Split('\n').Select(x => x.Trim('\r')).ToList();
                 var expectedBlocks = expectedLines.Any(x => x.Trim() == "// TEST_START") ? TestBlocks() : new[] { expectedLines.Select((s, i) => (i, s)).ToList() };
                 // Check that all expected code blocks in the expected code exist in the generated (actual) code.
@@ -188,5 +193,8 @@ namespace Google.Api.Generator.Tests
 
         [Fact]
         public void ResourceNames() => ProtoTestSingle("ResourceNames");
+
+        [Fact]
+        public void Paginated0() => ProtoTestSingle("Paginated");
     }
 }

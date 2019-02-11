@@ -60,13 +60,13 @@ namespace Google.Api.Generator.Generation
                         yield return method.AbstractAsyncCancellationTokenRequestMethod;
                         foreach (var signature in method.Signatures)
                         {
-                            yield return signature.AbstractSyncRequestMethod;
-                            yield return signature.AbstractAsyncCallSettingsRequestMethod;
+                            yield return signature.AbstractSyncRequestMethod();
+                            yield return signature.AbstractAsyncCallSettingsRequestMethod();
                             yield return signature.AbstractAsyncCancellationTokenRequestMethod;
                             foreach (var resourceName in signature.ResourceNames)
                             {
-                                yield return resourceName.AbstractSyncRequestMethod;
-                                yield return resourceName.AbstractAsyncCallSettingsRequestMethod;
+                                yield return resourceName.AbstractSyncRequestMethod();
+                                yield return resourceName.AbstractAsyncCallSettingsRequestMethod();
                                 yield return resourceName.AbstractAsyncCancellationTokenRequestMethod;
                             }
                         }
@@ -74,6 +74,16 @@ namespace Google.Api.Generator.Generation
                     case MethodDetails.Paginated _:
                         yield return method.AbstractSyncRequestMethod(paginated: true);
                         yield return method.AbstractAsyncCallSettingsRequestMethod(paginated: true);
+                        foreach (var signature in method.Signatures)
+                        {
+                            yield return signature.AbstractSyncRequestMethod(paginated: true);
+                            yield return signature.AbstractAsyncCallSettingsRequestMethod(paginated: true);
+                            foreach (var resourceName in signature.ResourceNames)
+                            {
+                                yield return resourceName.AbstractSyncRequestMethod(paginated: true);
+                                yield return resourceName.AbstractAsyncCallSettingsRequestMethod(paginated: true);
+                            }
+                        }
                         break;
                     case MethodDetails.Lro _:
                         yield return method.AbstractSyncRequestMethod();

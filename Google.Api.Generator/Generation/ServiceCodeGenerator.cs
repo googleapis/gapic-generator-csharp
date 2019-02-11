@@ -50,8 +50,7 @@ namespace Google.Api.Generator.Generation
         private static IEnumerable<MemberDeclarationSyntax> PaginatedPartialClasses(SourceFileContext ctx, ServiceDetails svc)
         {
             var paginatedMethods = svc.Methods.OfType<MethodDetails.Paginated>();
-            var requestTyps = paginatedMethods.Select(x => x.RequestTyp).Distinct();
-            foreach (var typ in requestTyps)
+            foreach (var typ in paginatedMethods.Select(x => x.RequestTyp).Distinct())
             {
                 yield return Class(Public | Partial, typ, baseTypes: ctx.Type<IPageRequest>());
             }
@@ -70,8 +69,9 @@ namespace Google.Api.Generator.Generation
                     var cls = Class(Public | Partial, method.ResponseTyp, baseTypes: ctx.Type(Typ.Generic(typeof(IPageResponse<>), method.ResourceTyp)));
                     using (ctx.InClass(cls))
                     {
+                        var propertyName = method.ResourcesFieldResourceName?.ResourcePropertyName ?? method.ResourcesFieldName;
                         var genericGetEnumerator = Method(Public, ctx.Type(Typ.Generic(typeof(IEnumerator<>), method.ResourceTyp)), "GetEnumerator")()
-                            .WithBody(Property(Public, ctx.Type(method.ResourceTyp), method.ResourcesFieldName).Call(nameof(IEnumerable<int>.GetEnumerator))())
+                            .WithBody(Property(Public, ctx.TypeDontCare, propertyName).Call(nameof(IEnumerable<int>.GetEnumerator))())
                             .WithXmlDoc(XmlDoc.Summary("Returns an enumerator that iterates through the resources in this response."));
                         var getEnumerator = Method(None, ctx.Type<IEnumerator>(), "GetEnumerator")()
                             .WithExplicitInterfaceSpecifier(ctx.Type<IEnumerable>())
