@@ -139,8 +139,8 @@ namespace Testing.Paginated
 
     public sealed partial class PaginatedClientImpl : PaginatedClient
     {
-        private readonly gaxgrpc::ApiCall<Request, Response> _callSignatureMethod;
-        private readonly gaxgrpc::ApiCall<ResourceRequest, ResourceResponse> _callResourcedMethod;
+        private readonly gaxgrpc::ApiCall<Request, Response> _callSignatureMethod = null;
+        private readonly gaxgrpc::ApiCall<ResourceRequest, ResourceResponse> _callResourcedMethod = null;
 
         partial void Modify_Request(ref Request request, ref gaxgrpc::CallSettings callSettings);
         partial void Modify_ResourceRequest(ref ResourceRequest request, ref gaxgrpc::CallSettings callSettings);
