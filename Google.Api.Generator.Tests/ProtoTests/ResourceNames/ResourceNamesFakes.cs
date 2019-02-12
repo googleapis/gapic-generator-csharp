@@ -31,6 +31,14 @@ namespace Testing.Resourcenames
         public RepeatedField<string> Names { get; }
     }
 
+    public partial class WildcardResource : ProtoMsgFake<WildcardResource>
+    {
+        public string Name { get; set; }
+        public RepeatedField<string> Names { get; }
+        public string RequiredSingle { get; set; }
+        public RepeatedField<string> RequiredRepeated { get; set; }
+    }
+
     public partial class MultiCaseRequest : ProtoMsgFake<MultiCaseRequest>
     {
         public string OptionalSingle { get; set; }

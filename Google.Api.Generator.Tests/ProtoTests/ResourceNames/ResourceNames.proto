@@ -22,6 +22,11 @@ service ResourceNames {
     option (google.api.method_signature) = { fields: ["names"] };
   }
 
+  // Test wilcard resource.
+  rpc WildcardMethod(WildcardResource) returns(Response) {
+    option (google.api.method_signature) = { fields: ["name", "names", "required_single", "required_repeated"] };
+  }
+
   // Test multiple cases of resoure-names.
   // All combinations of optional/required and single/repeated.
   // Using field names that are not "name" or "names".
@@ -46,6 +51,18 @@ message SimpleInlineResource {
 
 message SimpleRepeatedResource {
   repeated string names = 1 [(google.api.resource_reference) = "SimpleResource"];
+}
+
+option (google.api.resource_definition) = {
+  name: "WildcardResource",
+  path: "*"
+};
+
+message WildcardResource {
+  string name = 1 [(google.api.resource_reference) = "WildcardResource"];
+  repeated string names = 2 [(google.api.resource_reference) = "WildcardResource"];
+  string required_single = 3 [(google.api.resource_reference) = "WildcardResource", (google.api.field_behavior) = REQUIRED];
+  repeated string required_repeated = 4 [(google.api.resource_reference) = "WildcardResource", (google.api.field_behavior) = REQUIRED];
 }
 
 message MultiCaseRequest {

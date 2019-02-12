@@ -254,6 +254,155 @@ namespace Testing.Resourcenames
             SimpleRepeatedMethodAsync(names, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
         // TEST_END
 
+        public Response WildcardMethod(WildcardResource request, gaxgrpc::CallSettings callSettings = null) => throw new sys::NotImplementedException();
+        public stt::Task<Response> WildcardMethodAsync(WildcardResource request, gaxgrpc::CallSettings callSettings = null) => throw new sys::NotImplementedException();
+
+        // TEST_START
+        /// <summary>
+        /// Test wilcard resource.
+        /// </summary>
+        /// <param name="name">
+        /// </param>
+        /// <param name="names">
+        /// </param>
+        /// <param name="requiredSingle">
+        /// </param>
+        /// <param name="requiredRepeated">
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>The RPC response.</returns>
+        public virtual Response WildcardMethod(string name, scg::IEnumerable<string> names, string requiredSingle, scg::IEnumerable<string> requiredRepeated, gaxgrpc::CallSettings callSettings = null) =>
+            WildcardMethod(new WildcardResource
+            {
+                Name = name ?? "",
+                Names =
+                {
+                    names ?? linq::Enumerable.Empty<string>(),
+                },
+                RequiredSingle = gax::GaxPreconditions.CheckNotNullOrEmpty(requiredSingle, nameof(requiredSingle)),
+                RequiredRepeated =
+                {
+                    gax::GaxPreconditions.CheckNotNull(requiredRepeated, nameof(requiredRepeated)),
+                },
+            }, callSettings);
+
+        /// <summary>
+        /// Test wilcard resource.
+        /// </summary>
+        /// <param name="name">
+        /// </param>
+        /// <param name="names">
+        /// </param>
+        /// <param name="requiredSingle">
+        /// </param>
+        /// <param name="requiredRepeated">
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<Response> WildcardMethodAsync(string name, scg::IEnumerable<string> names, string requiredSingle, scg::IEnumerable<string> requiredRepeated, gaxgrpc::CallSettings callSettings = null) =>
+            WildcardMethodAsync(new WildcardResource
+            {
+                Name = name ?? "",
+                Names =
+                {
+                    names ?? linq::Enumerable.Empty<string>(),
+                },
+                RequiredSingle = gax::GaxPreconditions.CheckNotNullOrEmpty(requiredSingle, nameof(requiredSingle)),
+                RequiredRepeated =
+                {
+                    gax::GaxPreconditions.CheckNotNull(requiredRepeated, nameof(requiredRepeated)),
+                },
+            }, callSettings);
+
+        /// <summary>
+        /// Test wilcard resource.
+        /// </summary>
+        /// <param name="name">
+        /// </param>
+        /// <param name="names">
+        /// </param>
+        /// <param name="requiredSingle">
+        /// </param>
+        /// <param name="requiredRepeated">
+        /// </param>
+        /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<Response> WildcardMethodAsync(string name, scg::IEnumerable<string> names, string requiredSingle, scg::IEnumerable<string> requiredRepeated, st::CancellationToken cancellationToken) =>
+            WildcardMethodAsync(name, names, requiredSingle, requiredRepeated, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+
+        /// <summary>
+        /// Test wilcard resource.
+        /// </summary>
+        /// <param name="name">
+        /// </param>
+        /// <param name="names">
+        /// </param>
+        /// <param name="requiredSingle">
+        /// </param>
+        /// <param name="requiredRepeated">
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>The RPC response.</returns>
+        public virtual Response WildcardMethod(gax::IResourceName name, scg::IEnumerable<gax::IResourceName> names, gax::IResourceName requiredSingle, scg::IEnumerable<gax::IResourceName> requiredRepeated, gaxgrpc::CallSettings callSettings = null) =>
+            WildcardMethod(new WildcardResource
+            {
+                AsResourceName = name,
+                AsResourceNames =
+                {
+                    names ?? linq::Enumerable.Empty<gax::IResourceName>(),
+                },
+                RequiredSingleAsResourceName = gax::GaxPreconditions.CheckNotNull(requiredSingle, nameof(requiredSingle)),
+                RequiredRepeatedAsResourceNames =
+                {
+                    gax::GaxPreconditions.CheckNotNull(requiredRepeated, nameof(requiredRepeated)),
+                },
+            }, callSettings);
+
+        /// <summary>
+        /// Test wilcard resource.
+        /// </summary>
+        /// <param name="name">
+        /// </param>
+        /// <param name="names">
+        /// </param>
+        /// <param name="requiredSingle">
+        /// </param>
+        /// <param name="requiredRepeated">
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<Response> WildcardMethodAsync(gax::IResourceName name, scg::IEnumerable<gax::IResourceName> names, gax::IResourceName requiredSingle, scg::IEnumerable<gax::IResourceName> requiredRepeated, gaxgrpc::CallSettings callSettings = null) =>
+            WildcardMethodAsync(new WildcardResource
+            {
+                AsResourceName = name,
+                AsResourceNames =
+                {
+                    names ?? linq::Enumerable.Empty<gax::IResourceName>(),
+                },
+                RequiredSingleAsResourceName = gax::GaxPreconditions.CheckNotNull(requiredSingle, nameof(requiredSingle)),
+                RequiredRepeatedAsResourceNames =
+                {
+                    gax::GaxPreconditions.CheckNotNull(requiredRepeated, nameof(requiredRepeated)),
+                },
+            }, callSettings);
+
+        /// <summary>
+        /// Test wilcard resource.
+        /// </summary>
+        /// <param name="name">
+        /// </param>
+        /// <param name="names">
+        /// </param>
+        /// <param name="requiredSingle">
+        /// </param>
+        /// <param name="requiredRepeated">
+        /// </param>
+        /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<Response> WildcardMethodAsync(gax::IResourceName name, scg::IEnumerable<gax::IResourceName> names, gax::IResourceName requiredSingle, scg::IEnumerable<gax::IResourceName> requiredRepeated, st::CancellationToken cancellationToken) =>
+            WildcardMethodAsync(name, names, requiredSingle, requiredRepeated, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+        // TEST_END
+
         public Response MultiCaseMethod(MultiCaseRequest request, gaxgrpc::CallSettings callSettings) => throw new sys::NotImplementedException();
         public stt::Task<Response> MultiCaseMethodAsync(MultiCaseRequest request, gaxgrpc::CallSettings callSettings) => throw new sys::NotImplementedException();
 

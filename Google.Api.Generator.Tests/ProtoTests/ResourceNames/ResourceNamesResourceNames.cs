@@ -209,6 +209,37 @@ namespace Testing.Resourcenames
         public gax::ResourceNameList<SimpleResourceName> SimpleResourceNames => new gax::ResourceNameList<SimpleResourceName>(Names, s => SimpleResourceName.Parse(s));
     }
 
+    public partial class WildcardResource
+    {
+        /// <summary>
+        /// <see cref="gax::IResourceName"/>-typed view over the <see cref="Name"/> resource name property.
+        /// </summary>
+        public gax::IResourceName AsResourceName
+        {
+            get => string.IsNullOrEmpty(Name) ? null : gax::UnknownResourceName.Parse(Name);
+            set => Name = value?.ToString() ?? "";
+        }
+
+        /// <summary>
+        /// <see cref="gax::IResourceName"/>-typed view over the <see cref="Names"/> resource name property.
+        /// </summary>
+        public gax::ResourceNameList<gax::IResourceName> AsResourceNames => new gax::ResourceNameList<gax::IResourceName>(Names, s => gax::UnknownResourceName.Parse(s));
+
+        /// <summary>
+        /// <see cref="gax::IResourceName"/>-typed view over the <see cref="RequiredSingle"/> resource name property.
+        /// </summary>
+        public gax::IResourceName RequiredSingleAsResourceName
+        {
+            get => string.IsNullOrEmpty(RequiredSingle) ? null : gax::UnknownResourceName.Parse(RequiredSingle);
+            set => RequiredSingle = value?.ToString() ?? "";
+        }
+
+        /// <summary>
+        /// <see cref="gax::IResourceName"/>-typed view over the <see cref="RequiredRepeated"/> resource name property.
+        /// </summary>
+        public gax::ResourceNameList<gax::IResourceName> RequiredRepeatedAsResourceNames => new gax::ResourceNameList<gax::IResourceName>(RequiredRepeated, s => gax::UnknownResourceName.Parse(s));
+    }
+
     public partial class MultiCaseRequest
     {
         /// <summary>
