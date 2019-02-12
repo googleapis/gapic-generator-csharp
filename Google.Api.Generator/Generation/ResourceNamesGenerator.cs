@@ -66,8 +66,10 @@ namespace Google.Api.Generator.Generation
             var defs = _catalog.GetResourceDefsByFile(_fileDesc);
             foreach (var def in defs)
             {
-                if (def.One != null)
+                if (def.One != null && !def.One.IsWildcard)
                 {
+                    // Generate single (ie not a set) resource-name class.
+                    // But not for wildcard resources. They don't have a generated class, but use the `UnknownResourceName` class in gax.
                     var cls = Class(Public | Sealed | Partial, def.One.ResourceNameTyp, _ctx.Type<IResourceName>(), _ctx.Type(Typ.Generic(typeof(IEquatable<>), def.One.ResourceNameTyp)))
                         .WithXmlDoc(XmlDoc.Summary("Resource name for the ", XmlDoc.C(def.DocName), " resource"));
                     using (_ctx.InClass(cls))
@@ -235,15 +237,14 @@ namespace Google.Api.Generator.Generation
                                 if (res.field.IsRepeated)
                                 {
                                     var repeatedTyp = Typ.Generic(typeof(ResourceNameList<>), one.ResourceNameTyp);
+                                    var s = Parameter(null, "s");
                                     object getter;
                                     if (one.IsWildcard)
                                     {
-                                        // TODO: Repeated wildcard pattern support.
-                                        throw new NotImplementedException();
+                                        getter = New(_ctx.Type(repeatedTyp))(underlyingProperty, Lambda(s, _ctx.Type<UnknownResourceName>().Call(nameof(UnknownResourceName.Parse))(s)));
                                     }
                                     else
                                     {
-                                        var s = Parameter(null, "s");
                                         getter = New(_ctx.Type(repeatedTyp))(underlyingProperty, Lambda(s, _ctx.Type(one.ResourceNameTyp).Call("Parse")(s)));
                                     }
                                     resourceProperty = Property(Public, _ctx.Type(repeatedTyp), res.resDetails.ResourcePropertyName)
@@ -255,8 +256,8 @@ namespace Google.Api.Generator.Generation
                                     object getter;
                                     if (one.IsWildcard)
                                     {
-                                        // TODO: Wildcard pattern support.
-                                        throw new NotImplementedException();
+                                        getter = Return(_ctx.Type<string>().Call(nameof(string.IsNullOrEmpty))(underlyingProperty).ConditionalOperator(
+                                            Null, _ctx.Type<UnknownResourceName>().Call(nameof(UnknownResourceName.Parse))(underlyingProperty)));
                                     }
                                     else
                                     {
