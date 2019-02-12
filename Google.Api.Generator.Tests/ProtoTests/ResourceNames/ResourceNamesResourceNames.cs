@@ -58,10 +58,10 @@ namespace Testing.Resourcenames
         /// Constructs a new instance of the <see cref="SimpleResourceName"/> resource name class from its component
         /// parts.
         /// </summary>
-        /// <param name="itemId">The itemId ID. Must not be <c>null</c>.</param>
+        /// <param name="itemId">The <c>Item</c> ID. Must not be <c>null</c>.</param>
         public SimpleResourceName(string itemId) => ItemId = gax::GaxPreconditions.CheckNotNull(itemId, nameof(itemId));
 
-        /// <summary>The ItemId ID. Never <c>null</c>.</summary>
+        /// <summary>The <c>Item</c> ID. Never <c>null</c>.</summary>
         public string ItemId { get; }
 
         /// <inheritdoc/>
@@ -84,6 +84,98 @@ namespace Testing.Resourcenames
 
         /// <inheritdoc/>
         public static bool operator !=(SimpleResourceName a, SimpleResourceName b) => !(a == b);
+    }
+
+    /// <summary>Resource name for the <c>CheckIdSuffixResource</c> resource</summary>
+    public sealed partial class CheckIdSuffixResourceName : gax::IResourceName, sys::IEquatable<CheckIdSuffixResourceName>
+    {
+        private static readonly gax::PathTemplate s_template = new gax::PathTemplate("with_suffix/{with_suffix_id}/no_suffix/{no_suffix}");
+
+        /// <summary>
+        /// Parses the given <c>CheckIdSuffixResource</c> resource name in string form into a new
+        /// <see cref="CheckIdSuffixResourceName"/> instance.
+        /// </summary>
+        /// <param name="checkIdSuffixResource">
+        /// The <c>CheckIdSuffixResource</c> resource name in string form. Must not be <c>null</c>.
+        /// </param>
+        /// <returns>The parsed <see cref="CheckIdSuffixResourceName"/> if successful.</returns>
+        public static CheckIdSuffixResourceName Parse(string checkIdSuffixResource)
+        {
+            gax::GaxPreconditions.CheckNotNull(checkIdSuffixResource, nameof(checkIdSuffixResource));
+            gax::TemplatedResourceName resourceName = s_template.ParseName(checkIdSuffixResource);
+            return new CheckIdSuffixResourceName(resourceName[0], resourceName[1]);
+        }
+
+        /// <summary>
+        /// Tries to parse the given session resource name in string form into a new
+        /// <see cref="CheckIdSuffixResourceName"/> instance.
+        /// </summary>
+        /// <remarks>
+        /// This method still throws <see cref="sys::ArgumentNullException"/> if
+        /// <paramref name="checkIdSuffixResource"/> is <c>null</c>, as this would usually indicate a programming error
+        /// rather than a data error.
+        /// </remarks>
+        /// <param name="checkIdSuffixResource">
+        /// The <c>CheckIdSuffixResource</c> resource name in string form. Must not be <c>null</c>.
+        /// </param>
+        /// <param name="result">
+        /// When this method returns, the parsed <see cref="CheckIdSuffixResourceName"/>, or <c>null</c> if parsing
+        /// fails.
+        /// </param>
+        /// <returns><c>true</c> if the name was parsed successfully; <c>false</c> otherwise.</returns>
+        public static bool TryParse(string checkIdSuffixResource, out CheckIdSuffixResourceName result)
+        {
+            gax::GaxPreconditions.CheckNotNull(checkIdSuffixResource, nameof(checkIdSuffixResource));
+            if (s_template.TryParseName(checkIdSuffixResource, out gax::TemplatedResourceName resourceName))
+            {
+                result = new CheckIdSuffixResourceName(resourceName[0], resourceName[1]);
+                return true;
+            }
+            else
+            {
+                result = null;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Constructs a new instance of the <see cref="CheckIdSuffixResourceName"/> resource name class from its
+        /// component parts.
+        /// </summary>
+        /// <param name="withSuffixId">The <c>WithSuffix</c> ID. Must not be <c>null</c>.</param>
+        /// <param name="noSuffixId">The <c>NoSuffix</c> ID. Must not be <c>null</c>.</param>
+        public CheckIdSuffixResourceName(string withSuffixId, string noSuffixId)
+        {
+            WithSuffixId = gax::GaxPreconditions.CheckNotNull(withSuffixId, nameof(withSuffixId));
+            NoSuffixId = gax::GaxPreconditions.CheckNotNull(noSuffixId, nameof(noSuffixId));
+        }
+
+        /// <summary>The <c>WithSuffix</c> ID. Never <c>null</c>.</summary>
+        public string WithSuffixId { get; }
+
+        /// <summary>The <c>NoSuffix</c> ID. Never <c>null</c>.</summary>
+        public string NoSuffixId { get; }
+
+        /// <inheritdoc/>
+        public gax::ResourceNameKind Kind => gax::ResourceNameKind.Simple;
+
+        /// <inheritdoc/>
+        public override string ToString() => s_template.Expand(WithSuffixId, NoSuffixId);
+
+        /// <inheritdoc/>
+        public override int GetHashCode() => ToString().GetHashCode();
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj) => Equals(obj as CheckIdSuffixResourceName);
+
+        /// <inheritdoc/>
+        public bool Equals(CheckIdSuffixResourceName other) => ToString() == other?.ToString();
+
+        /// <inheritdoc/>
+        public static bool operator ==(CheckIdSuffixResourceName a, CheckIdSuffixResourceName b) => ReferenceEquals(a, b) || (a?.Equals(b) ?? false);
+
+        /// <inheritdoc/>
+        public static bool operator !=(CheckIdSuffixResourceName a, CheckIdSuffixResourceName b) => !(a == b);
     }
 
     /// <summary>Resource name for the <c>SimpleInlineResource</c> resource</summary>
@@ -141,18 +233,18 @@ namespace Testing.Resourcenames
         /// Constructs a new instance of the <see cref="SimpleInlineResourceName"/> resource name class from its
         /// component parts.
         /// </summary>
-        /// <param name="item1Id">The item1Id ID. Must not be <c>null</c>.</param>
-        /// <param name="item2Id">The item2Id ID. Must not be <c>null</c>.</param>
+        /// <param name="item1Id">The <c>Item1</c> ID. Must not be <c>null</c>.</param>
+        /// <param name="item2Id">The <c>Item2</c> ID. Must not be <c>null</c>.</param>
         public SimpleInlineResourceName(string item1Id, string item2Id)
         {
             Item1Id = gax::GaxPreconditions.CheckNotNull(item1Id, nameof(item1Id));
             Item2Id = gax::GaxPreconditions.CheckNotNull(item2Id, nameof(item2Id));
         }
 
-        /// <summary>The Item1Id ID. Never <c>null</c>.</summary>
+        /// <summary>The <c>Item1</c> ID. Never <c>null</c>.</summary>
         public string Item1Id { get; }
 
-        /// <summary>The Item2Id ID. Never <c>null</c>.</summary>
+        /// <summary>The <c>Item2</c> ID. Never <c>null</c>.</summary>
         public string Item2Id { get; }
 
         /// <inheritdoc/>

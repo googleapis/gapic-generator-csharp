@@ -55,9 +55,19 @@ namespace Google.Api.Generator.Generation
 
         private class ParamProperty
         {
-            public ParamProperty(ParameterSyntax parameter, PropertyDeclarationSyntax property) => (Parameter, Property) = (parameter, property);
+            public ParamProperty(SourceFileContext ctx, string name)
+            {
+                var (nameWithId, nameWithoutId) = name.ToLowerInvariant().EndsWith("_id") ? (name, name.Substring(0, name.Length - "_id".Length)) : (name + "_id", name);
+                Parameter = RoslynBuilder.Parameter(ctx.Type<string>(), nameWithId.ToLowerCamelCase());
+                ParameterXmlDoc = XmlDoc.Param(Parameter, "The ", XmlDoc.C(nameWithoutId.ToUpperCamelCase()), " ID. Must not be ", null, ".");
+                Property = AutoProperty(Public, ctx.Type<string>(), nameWithId.ToUpperCamelCase());
+                PropertyXmlDoc = XmlDoc.Summary("The ", XmlDoc.C(nameWithoutId.ToUpperCamelCase()), " ID. Never ", null, ".");
+            }
+
             public ParameterSyntax Parameter { get; }
+            public DocumentationCommentTriviaSyntax ParameterXmlDoc { get; }
             public PropertyDeclarationSyntax Property { get; }
+            public DocumentationCommentTriviaSyntax PropertyXmlDoc { get; }
         }
 
         private IEnumerable<ClassDeclarationSyntax> ResourceNameClasses()
@@ -74,10 +84,7 @@ namespace Google.Api.Generator.Generation
                         .WithXmlDoc(XmlDoc.Summary("Resource name for the ", XmlDoc.C(def.DocName), " resource"));
                     using (_ctx.InClass(cls))
                     {
-                        // TODO: Deal with the "ID" suffix on resource part names.
-                        var paramProperties = def.One.Template.ParameterNames.Select(name => new ParamProperty(
-                            Parameter(_ctx.Type<string>(), name.ToLowerCamelCase()), AutoProperty(Public, _ctx.Type<string>(), name.ToUpperCamelCase())))
-                                .ToList();
+                        var paramProperties = def.One.Template.ParameterNames.Select(name => new ParamProperty(_ctx, name)).ToList();
                         var templateField = TemplateField();
                         cls = cls.AddMembers(
                             templateField,
@@ -141,22 +148,15 @@ namespace Google.Api.Generator.Generation
                         );
                 }
 
-                ConstructorDeclarationSyntax Constructor(ClassDeclarationSyntax cls, IEnumerable<ParamProperty> paramProperties)
-                {
-                    // TODO: Sort out "ID" suffix on part names, in parameter/property names, and in XmlDoc.
-                    return Ctor(Public, cls)(paramProperties.Select(x => x.Parameter).ToArray())
+                ConstructorDeclarationSyntax Constructor(ClassDeclarationSyntax cls, IEnumerable<ParamProperty> paramProperties) =>
+                    Ctor(Public, cls)(paramProperties.Select(x => x.Parameter).ToArray())
                         .WithBody(paramProperties.Select(x =>
                             x.Property.Assign(_ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(x.Parameter, Nameof(x.Parameter)))))
-                        .WithXmlDoc(paramProperties.Select(x => XmlDoc.Param(x.Parameter, "The ", x.Parameter.Identifier.Text, " ID. Must not be ", null, "."))
+                        .WithXmlDoc(paramProperties.Select(x => x.ParameterXmlDoc)
                             .Prepend(XmlDoc.Summary("Constructs a new instance of the ", _ctx.Type(def.One.ResourceNameTyp), " resource name class from its component parts.")).ToArray());
-                }
 
-                IEnumerable<PropertyDeclarationSyntax> PartProperties(IEnumerable<ParamProperty> paramProperties)
-                {
-                    // TODO: Get rid of this, put XmlDoc elsewhere?
-                    return paramProperties.Select(x => x.Property.WithXmlDoc(
-                        XmlDoc.Summary("The ", x.Property.Identifier.Text, " ID. Never ", null, ".")));
-                }
+                IEnumerable<PropertyDeclarationSyntax> PartProperties(IEnumerable<ParamProperty> paramProperties) =>
+                    paramProperties.Select(x => x.Property.WithXmlDoc(x.PropertyXmlDoc));
 
                 PropertyDeclarationSyntax Kind() => Property(Public, _ctx.Type<ResourceNameKind>(), nameof(IResourceName.Kind))
                     .WithGetBody(_ctx.Type<ResourceNameKind>().Access(ResourceNameKind.Simple))

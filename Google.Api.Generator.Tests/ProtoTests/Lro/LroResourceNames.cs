@@ -2,9 +2,6 @@
 using sys = System;
 using tl = Testing.Lro;
 
-// This file isn't being tested; the following line disables testing.
-// TEST_DISABLE
-
 namespace Testing.Lro
 {
     /// <summary>Resource name for the <c>Resource</c> resource</summary>
@@ -56,10 +53,10 @@ namespace Testing.Lro
         /// <summary>
         /// Constructs a new instance of the <see cref="ResourceName"/> resource name class from its component parts.
         /// </summary>
-        /// <param name="itemId">The itemId ID. Must not be <c>null</c>.</param>
+        /// <param name="itemId">The <c>Item</c> ID. Must not be <c>null</c>.</param>
         public ResourceName(string itemId) => ItemId = gax::GaxPreconditions.CheckNotNull(itemId, nameof(itemId));
 
-        /// <summary>The ItemId ID. Never <c>null</c>.</summary>
+        /// <summary>The <c>Item</c> ID. Never <c>null</c>.</summary>
         public string ItemId { get; }
 
         /// <inheritdoc/>
