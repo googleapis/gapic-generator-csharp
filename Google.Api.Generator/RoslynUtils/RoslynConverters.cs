@@ -100,8 +100,8 @@ namespace Google.Api.Generator.RoslynUtils
                     return Enumerable.Empty<StatementSyntax>();
                 case string v:
                     return new[] { ExpressionStatement(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(v))) };
-                case IEnumerable v:
-                    return v.Cast<object>().SelectMany(ToStatements);
+                case IEnumerable en:
+                    return HandleEnumerable(en);
                 case StatementSyntax v:
                     return new[] { v };
                 case ExpressionSyntax v:
@@ -110,6 +110,32 @@ namespace Google.Api.Generator.RoslynUtils
                     return new[] { IdentifierName(field.Declaration.Variables[0].Identifier).ToStatement() };
                 default:
                     throw new NotSupportedException($"Cannot handle ToStatement({o.GetType()})");
+            }
+
+
+            IEnumerable<StatementSyntax> HandleEnumerable(IEnumerable items)
+            {
+                var result = new List<StatementSyntax>();
+                var preTrivia = new SyntaxTriviaList();
+                foreach (object item in items)
+                {
+                    var item1 = item is string s && s.StartsWith("// ") ? Comment(s) : item;
+                    if (item1 is SyntaxTrivia triv)
+                    {
+                        preTrivia = preTrivia.Add(triv);
+                    }
+                    else
+                    {
+                        var statements = ToStatements(item1).ToList();
+                        result.AddRange(statements.Take(1).Select(x => preTrivia.Any() ? x.WithLeadingTrivia(preTrivia) : x).Concat(statements.Skip(1)));
+                        preTrivia = new SyntaxTriviaList();
+                    }
+                }
+                if (preTrivia.Any())
+                {
+                    result[result.Count - 1] = result.Last().WithTrailingTrivia(preTrivia);
+                }
+                return result;
             }
         }
 

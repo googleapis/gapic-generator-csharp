@@ -41,59 +41,47 @@ namespace Google.Api.Generator.Generation
             desc.CustomOptions.TryGetMessage<OAuth>(ProtoConsts.ServiceOption.OAuth, out var oauth);
             DefaultScopes = oauth?.Scopes ?? Enumerable.Empty<string>();
             Methods = desc.Methods.Select(x => MethodDetails.Create(this, x)).ToList();
+            SnippetsTyp = Typ.Manual(ns, $"Generated{desc.Name}Snippets");
+            SnippetsClientName = $"{desc.Name.ToLowerCamelCase()}Client";
         }
 
         public ProtoCatalog Catalog { get; }
         public string Namespace { get; }
 
-        /// <summary>
-        /// The name of this service to be used in documetation.
-        /// </summary>
+        /// <summary>The name of this service to be used in documentation.</summary>
         public string DocumentationName { get; }
 
-        /// <summary>
-        /// The outer typ of the protoc-generated C# code.
-        /// </summary>
+        /// <summary>The outer typ of the protoc-generated C# code.</summary>
         public Typ ProtoTyp { get; }
 
-        /// <summary>
-        /// The typ of the grpc-protoc-generated C# gRPC client code.
-        /// </summary>
+        /// <summary>The typ of the grpc-protoc-generated C# gRPC client code.</summary>
         public Typ GrpcClientTyp { get; }
 
-        /// <summary>
-        /// The typ of the GAPIC settings class for this service.
-        /// </summary>
+        /// <summary>The typ of the GAPIC settings class for this service.</summary>
         public Typ SettingsTyp { get; }
 
-        /// <summary>
-        /// The typ of the GAPIC abstract client for this service.
-        /// </summary>
+        /// <summary>The typ of the GAPIC abstract client for this service.</summary>
         public Typ ClientAbstractTyp { get; }
 
-        /// <summary>
-        /// The typ of the GAPIC client implementation for this service.
-        /// </summary>
+        /// <summary>The typ of the GAPIC client implementation for this service.</summary>
         public Typ ClientImplTyp { get; }
 
-        /// <summary>
-        /// The default hostname for this service.
-        /// </summary>
+        /// <summary>The default hostname for this service.</summary>
         public string DefaultHost { get; }
 
-        /// <summary>
-        /// The default port for this service.
-        /// </summary>
+        /// <summary>The default port for this service.</summary>
         public int DefaultPort { get; }
 
-        /// <summary>
-        /// The default scopes for this services.
-        /// </summary>
+        /// <summary>The default scopes for this services.</summary>
         public IEnumerable<string> DefaultScopes { get; }
 
-        /// <summary>
-        /// All RPC methods within this service.
-        /// </summary>
+        /// <summary>All RPC methods within this service.</summary>
         public IEnumerable<MethodDetails> Methods { get; }
+
+        /// <summary>The typ of the snippets class for this service.</summary>
+        public Typ SnippetsTyp { get; }
+
+        /// <summary>The name of the variable to hold the client instance.</summary>
+        public string SnippetsClientName { get; }
     }
 }

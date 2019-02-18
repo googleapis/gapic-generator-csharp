@@ -40,10 +40,22 @@
     <Compile Update="ProtoTests\BasicBidiStreaming\BasicBidiStreamingClient.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Update="ProtoTests\BasicBidiStreaming\BasicBidiStreamingClientSnippets.g.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Update="ProtoTests\BasicLro\BasicLroClientSnippets.g.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Update="ProtoTests\BasicPaginated\BasicPaginatedClient.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Update="ProtoTests\BasicPaginated\BasicPaginatedClientSnippets.g.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Update="ProtoTests\BasicServerStreaming\BasicServerStreamingClient.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Update="ProtoTests\BasicServerStreaming\BasicServerStreamingClientSnippets.g.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Update="ProtoTests\Basic\BasicClient.cs">
@@ -52,7 +64,13 @@
     <Compile Update="ProtoTests\BasicLro\BasicLroClient.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Update="ProtoTests\Basic\BasicClientSnippets.g.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Update="ProtoTests\Lro\LroClient.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Update="ProtoTests\Lro\LroClientSnippets.g.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Update="ProtoTests\Lro\LroResourceNames.cs">
@@ -61,7 +79,13 @@
     <Compile Update="ProtoTests\MethodSignatures\MethodSignaturesClient.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Update="ProtoTests\MethodSignatures\MethodSignaturesClientSnippets.g.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Update="ProtoTests\Paginated\PaginatedClient.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Update="ProtoTests\Paginated\PaginatedClientSnippets.g.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Update="ProtoTests\Paginated\PaginatedResourceNames.cs">
@@ -70,10 +94,16 @@
     <Compile Update="ProtoTests\ResourceNames\ResourceNamesClient.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Update="ProtoTests\ResourceNames\ResourceNamesClientSnippets.g.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Update="ProtoTests\ResourceNames\ResourceNamesResourceNames.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Update="ProtoTests\ServerStreaming\ServerStreamingClient.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Update="ProtoTests\ServerStreaming\ServerStreamingClientSnippets.g.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Update="ProtoTests\ServerStreaming\ServerStreamingResourceNames.cs">

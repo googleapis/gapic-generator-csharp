@@ -42,22 +42,29 @@ namespace Google.Api.Generator
             var packageFileDescs = descriptors.Where(x => x.Package == package).ToList();
             foreach (var fileDesc in packageFileDescs)
             {
-                // Generate settings and client code for requested package.
                 var ns = fileDesc.CSharpNamespace();
                 foreach (var service in fileDesc.Services)
                 {
+                    // Generate settings and client code for requested package.
                     var serviceDetails = new ServiceDetails(catalog, ns, service);
-                    var ctx = new SourceFileContext(SourceFileContext.ImportStyle.FullyAliased);
+                    var ctx = SourceFileContext.Create(SourceFileContext.ImportStyle.FullyAliased);
                     var code = ServiceCodeGenerator.Generate(ctx, serviceDetails);
                     var formattedCode = CodeFormatter.Format(code);
                     var filename = $"{serviceDetails.ClientAbstractTyp.Name}.cs";
                     var content = Encoding.UTF8.GetBytes(formattedCode.ToFullString());
                     yield return new ResultFile(filename, content);
+                    // Generate snippets for the service
+                    var snippetCtx = SourceFileContext.Create(SourceFileContext.ImportStyle.Unaliased);
+                    var snippetCode = SnippetCodeGenerator.Generate(snippetCtx, serviceDetails);
+                    var snippetFormattedCode = CodeFormatter.Format(snippetCode);
+                    var snippetFilename = $"{serviceDetails.ClientAbstractTyp.Name}Snippets.g.cs";
+                    var snippetContent = Encoding.UTF8.GetBytes(snippetFormattedCode.ToFullString());
+                    yield return new ResultFile(snippetFilename, snippetContent);
                 }
                 // Generate resource-names for this proto file, if there are any.
                 if (catalog.GetResourceDefsByFile(fileDesc).Any())
                 {
-                    var resCtx = new SourceFileContext(SourceFileContext.ImportStyle.FullyAliased);
+                    var resCtx = SourceFileContext.Create(SourceFileContext.ImportStyle.FullyAliased);
                     var resCode = ResourceNamesGenerator.Generate(catalog, resCtx, fileDesc);
                     var formattedResCode = CodeFormatter.Format(resCode);
                     var resFilename = $"{Path.GetFileNameWithoutExtension(fileDesc.Name)}ResourceNames.cs";
