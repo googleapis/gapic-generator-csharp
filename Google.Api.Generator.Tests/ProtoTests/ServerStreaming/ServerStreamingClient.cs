@@ -16,10 +16,7 @@ namespace Testing.Serverstreaming
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The server stream.</returns>
         public virtual SignatureMethodStream SignatureMethod(string name, gaxgrpc::CallSettings callSettings = null) =>
-            SignatureMethod(new Request
-            {
-                Name = name ?? "",
-            }, callSettings);
+            SignatureMethod(new Request { Name = name ?? "", }, callSettings);
         // TEST_END
 
         public abstract class ResourcedMethodStream : gaxgrpc::ServerStreamingBase<Response> { }
@@ -34,10 +31,7 @@ namespace Testing.Serverstreaming
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The server stream.</returns>
         public virtual ResourcedMethodStream ResourcedMethod(string name, gaxgrpc::CallSettings callSettings = null) =>
-            ResourcedMethod(new ResourceRequest
-            {
-                Name = name ?? "",
-            }, callSettings);
+            ResourcedMethod(new ResourceRequest { Name = name ?? "", }, callSettings);
 
         /// <summary>
         /// Test a server-streaming RPC with a method signature and resource-name.
@@ -47,10 +41,7 @@ namespace Testing.Serverstreaming
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The server stream.</returns>
         public virtual ResourcedMethodStream ResourcedMethod(ResourceName name, gaxgrpc::CallSettings callSettings = null) =>
-            ResourcedMethod(new ResourceRequest
-            {
-                ResourceName = name,
-            }, callSettings);
+            ResourcedMethod(new ResourceRequest { ResourceName = name, }, callSettings);
         // TEST_END
     }
 }

@@ -23,10 +23,7 @@ namespace Testing.Resourcenames
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The RPC response.</returns>
         public virtual Response SimpleMethod(string name, gaxgrpc::CallSettings callSettings = null) =>
-            SimpleMethod(new SimpleResource
-            {
-                Name = name ?? "",
-            }, callSettings);
+            SimpleMethod(new SimpleResource { Name = name ?? "", }, callSettings);
 
         /// <summary>
         /// Test top-level resource definition.
@@ -36,10 +33,7 @@ namespace Testing.Resourcenames
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A Task containing the RPC response.</returns>
         public virtual stt::Task<Response> SimpleMethodAsync(string name, gaxgrpc::CallSettings callSettings = null) =>
-            SimpleMethodAsync(new SimpleResource
-            {
-                Name = name ?? "",
-            }, callSettings);
+            SimpleMethodAsync(new SimpleResource { Name = name ?? "", }, callSettings);
 
         /// <summary>
         /// Test top-level resource definition.
@@ -100,10 +94,7 @@ namespace Testing.Resourcenames
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The RPC response.</returns>
         public virtual Response SimpleInlineMethod(string name, gaxgrpc::CallSettings callSettings = null) =>
-            SimpleInlineMethod(new SimpleInlineResource
-            {
-                Name = name ?? "",
-            }, callSettings);
+            SimpleInlineMethod(new SimpleInlineResource { Name = name ?? "", }, callSettings);
 
         /// <summary>
         /// Test resource definition inlined in the proto message.
@@ -113,10 +104,7 @@ namespace Testing.Resourcenames
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A Task containing the RPC response.</returns>
         public virtual stt::Task<Response> SimpleInlineMethodAsync(string name, gaxgrpc::CallSettings callSettings = null) =>
-            SimpleInlineMethodAsync(new SimpleInlineResource
-            {
-                Name = name ?? "",
-            }, callSettings);
+            SimpleInlineMethodAsync(new SimpleInlineResource { Name = name ?? "", }, callSettings);
 
         /// <summary>
         /// Test resource definition inlined in the proto message.

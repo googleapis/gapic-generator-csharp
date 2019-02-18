@@ -325,14 +325,26 @@ namespace Google.Api.Generator.Formatting
 
         public override SyntaxNode VisitInitializerExpression(InitializerExpressionSyntax node)
         {
-            using (WithIndent())
+            // Do not call base; the contained expressions are visited in this method.
+            if (node.Span.Length < 20)
             {
+                // Crude <20 to only make short initializer expressions stay on a single line.
                 node = node.WithExpressions(SeparatedList(
-                    node.Expressions.Select(e => Visit(e).WithLeadingTrivia(_indentTrivia)),
-                    node.Expressions.Select(_ => Token(SyntaxKind.CommaToken).WithTrailingCrLf())));
+                    node.Expressions.Select(e => Visit(e)),
+                    node.Expressions.Select(_ => Token(SyntaxKind.CommaToken).WithTrailingSpace())));
+                node = node.WithOpenBraceToken(node.OpenBraceToken.WithLeadingSpace().WithTrailingSpace());
             }
-            node = node.WithOpenBraceToken(node.OpenBraceToken.WithLeadingTrivia(CarriageReturnLineFeed, _indentTrivia).WithTrailingCrLf());
-            node = node.WithCloseBraceToken(node.CloseBraceToken.WithLeadingTrivia(_indentTrivia));
+            else
+            {
+                using (WithIndent())
+                {
+                    node = node.WithExpressions(SeparatedList(
+                        node.Expressions.Select(e => Visit(e).WithLeadingTrivia(_indentTrivia)),
+                        node.Expressions.Select(_ => Token(SyntaxKind.CommaToken).WithTrailingCrLf())));
+                }
+                node = node.WithOpenBraceToken(node.OpenBraceToken.WithLeadingTrivia(CarriageReturnLineFeed, _indentTrivia).WithTrailingCrLf());
+                node = node.WithCloseBraceToken(node.CloseBraceToken.WithLeadingTrivia(_indentTrivia));
+            }
             return node;
         }
 

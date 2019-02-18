@@ -19,10 +19,7 @@ namespace Testing.Lro
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The RPC response.</returns>
         public virtual lro::Operation<LroResponse, LroMetadata> SignatureMethod(string name, gaxgrpc::CallSettings callSettings = null) =>
-            SignatureMethod(new Request
-            {
-                Name = name ?? "",
-            }, callSettings);
+            SignatureMethod(new Request { Name = name ?? "", }, callSettings);
 
         /// <summary>
         /// Test an LRO RPC with a method signature.
@@ -32,10 +29,7 @@ namespace Testing.Lro
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A Task containing the RPC response.</returns>
         public virtual stt::Task<lro::Operation<LroResponse, LroMetadata>> SignatureMethodAsync(string name, gaxgrpc::CallSettings callSettings = null) =>
-            SignatureMethodAsync(new Request
-            {
-                Name = name ?? "",
-            }, callSettings);
+            SignatureMethodAsync(new Request { Name = name ?? "", }, callSettings);
 
         /// <summary>
         /// Test an LRO RPC with a method signature.
@@ -60,10 +54,7 @@ namespace Testing.Lro
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The RPC response.</returns>
         public virtual lro::Operation<LroResponse, LroMetadata> ResourcedMethod(string name, gaxgrpc::CallSettings callSettings = null) =>
-            ResourcedMethod(new ResourceRequest
-            {
-                Name = name ?? "",
-            }, callSettings);
+            ResourcedMethod(new ResourceRequest { Name = name ?? "", }, callSettings);
 
         /// <summary>
         /// Test an LRO RPC with a method signature that contains resource-names.
@@ -73,10 +64,7 @@ namespace Testing.Lro
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A Task containing the RPC response.</returns>
         public virtual stt::Task<lro::Operation<LroResponse, LroMetadata>> ResourcedMethodAsync(string name, gaxgrpc::CallSettings callSettings = null) =>
-            ResourcedMethodAsync(new ResourceRequest
-            {
-                Name = name ?? "",
-            }, callSettings);
+            ResourcedMethodAsync(new ResourceRequest { Name = name ?? "", }, callSettings);
 
         /// <summary>
         /// Test an LRO RPC with a method signature that contains resource-names.
@@ -96,10 +84,7 @@ namespace Testing.Lro
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The RPC response.</returns>
         public virtual lro::Operation<LroResponse, LroMetadata> ResourcedMethod(ResourceName name, gaxgrpc::CallSettings callSettings = null) =>
-            ResourcedMethod(new ResourceRequest
-            {
-                ResourceName = name,
-            }, callSettings);
+            ResourcedMethod(new ResourceRequest { ResourceName = name, }, callSettings);
 
         /// <summary>
         /// Test an LRO RPC with a method signature that contains resource-names.
@@ -109,10 +94,7 @@ namespace Testing.Lro
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A Task containing the RPC response.</returns>
         public virtual stt::Task<lro::Operation<LroResponse, LroMetadata>> ResourcedMethodAsync(ResourceName name, gaxgrpc::CallSettings callSettings = null) =>
-            ResourcedMethodAsync(new ResourceRequest
-            {
-                ResourceName = name,
-            }, callSettings);
+            ResourcedMethodAsync(new ResourceRequest { ResourceName = name, }, callSettings);
 
         /// <summary>
         /// Test an LRO RPC with a method signature that contains resource-names.

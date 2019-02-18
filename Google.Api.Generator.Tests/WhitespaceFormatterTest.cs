@@ -113,12 +113,7 @@ namespace Google.Api.Generator.Tests
                 {
                     S = "Another_string",
                 },
-                List =
-                {
-                    1,
-                    2,
-                    3,
-                },
+                List = { 1, 2, 3, },
             };
 
             public void M1()
@@ -139,10 +134,7 @@ namespace Google.Api.Generator.Tests
             public string[] GetStringArrayWithSize() => new string[0];
 
             // Test `new` array without size, with initializer.
-            public string[] GetStringArrayWithInitializer() => new string[]
-            {
-                "one",
-            };
+            public string[] GetStringArrayWithInitializer() => new string[] { "one", };
 
             // Test expression containing `await`.
             // Test `if` and `else` statement.
@@ -181,10 +173,7 @@ namespace Google.Api.Generator.Tests
 
             // Test wrapping of long expression-bodied method, with correct multi-line indent.
             public object MethodWithLongNameSoTheExpressionBodyWillWrapToTheNextLine(string aParameter, string anotherParameter, string aThirdParameter) =>
-                new List<int>
-                {
-                    18,
-                };
+                new List<int> { 18, };
 
             // Test conditional operator.
             public int Conditional(bool b) => b ? 1 : 2;

@@ -89,11 +89,7 @@ namespace Testing.Basic
         /// <item><description>scope2</description></item>
         /// </list>
         /// </remarks>
-        public static scg::IReadOnlyList<string> DefaultScopes { get; } = new sco::ReadOnlyCollection<string>(new string[]
-        {
-            "scope1",
-            "scope2",
-        });
+        public static scg::IReadOnlyList<string> DefaultScopes { get; } = new sco::ReadOnlyCollection<string>(new string[] { "scope1", "scope2", });
 
         private static readonly gaxgrpc::ChannelPool s_channelPool = new gaxgrpc::ChannelPool(DefaultScopes);
 

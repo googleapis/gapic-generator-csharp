@@ -23,10 +23,7 @@ namespace Testing.Methodsignatures
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The RPC response.</returns>
         public virtual Response SimpleMethod(int aNumber, gaxgrpc::CallSettings callSettings = null) =>
-            SimpleMethod(new SimpleRequest
-            {
-                ANumber = aNumber,
-            }, callSettings);
+            SimpleMethod(new SimpleRequest { ANumber = aNumber, }, callSettings);
 
         /// <summary>
         /// </summary>
@@ -36,10 +33,7 @@ namespace Testing.Methodsignatures
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A Task containing the RPC response.</returns>
         public virtual stt::Task<Response> SimpleMethodAsync(int aNumber, gaxgrpc::CallSettings callSettings = null) =>
-            SimpleMethodAsync(new SimpleRequest
-            {
-                ANumber = aNumber,
-            }, callSettings);
+            SimpleMethodAsync(new SimpleRequest { ANumber = aNumber, }, callSettings);
 
         /// <summary>
         /// </summary>
