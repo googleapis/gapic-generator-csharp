@@ -93,23 +93,47 @@ namespace Google.Api.Generator.RoslynUtils
 
         public static IEnumerable<StatementSyntax> ToStatements(object o)
         {
-            switch (o)
+            if (o is IEnumerable en)
             {
-                // Order matters.
-                case null:
-                    return Enumerable.Empty<StatementSyntax>();
-                case string v:
-                    return new[] { ExpressionStatement(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(v))) };
-                case IEnumerable v:
-                    return v.Cast<object>().SelectMany(ToStatements);
-                case StatementSyntax v:
-                    return new[] { v };
-                case ExpressionSyntax v:
-                    return new[] { v.ToStatement() };
-                case FieldDeclarationSyntax field:
-                    return new[] { IdentifierName(field.Declaration.Variables[0].Identifier).ToStatement() };
-                default:
-                    throw new NotSupportedException($"Cannot handle ToStatement({o.GetType()})");
+                var result = new List<StatementSyntax>();
+                var preTrivia = new SyntaxTriviaList();
+                foreach (object item in en)
+                {
+                    var item1 = item is string s && s.StartsWith("// ") ? Comment(s) : item;
+                    if (item1 is SyntaxTrivia triv)
+                    {
+                        preTrivia = preTrivia.Add(triv);
+                    }
+                    else
+                    {
+                        var statements = ToStatements(item1).ToList();
+                        result.AddRange(statements.Take(1).Select(x => preTrivia.Any() ? x.WithLeadingTrivia(preTrivia) : x).Concat(statements.Skip(1)));
+                        preTrivia = new SyntaxTriviaList();
+                    }
+                }
+                if (preTrivia.Any())
+                {
+                    result[result.Count - 1] = result.Last().WithTrailingTrivia(preTrivia);
+                }
+                return result;
+            }
+            else
+            {
+                switch (o)
+                {
+                    case null:
+                        return Enumerable.Empty<StatementSyntax>();
+                    case string v:
+                        return new[] { ExpressionStatement(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(v))) };
+                    case StatementSyntax v:
+                        return new[] { v };
+                    case ExpressionSyntax v:
+                        return new[] { v.ToStatement() };
+                    case FieldDeclarationSyntax field:
+                        return new[] { IdentifierName(field.Declaration.Variables[0].Identifier).ToStatement() };
+                    default:
+                        throw new NotSupportedException($"Cannot handle ToStatement({o.GetType()})");
+                }
             }
         }
 

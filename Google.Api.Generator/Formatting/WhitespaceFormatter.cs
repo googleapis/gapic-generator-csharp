@@ -211,7 +211,11 @@ namespace Google.Api.Generator.Formatting
             using (WithIndent())
             {
                 node = node.WithStatements(List(node.Statements.Select(s =>
-                    Visit(s).WithLeadingTrivia(_indentTrivia).WithTrailingCrLf())));
+                {
+                    var preTrivia = s.GetLeadingTrivia().Where(x => !x.Span.IsEmpty).SelectMany(x => new[] { _indentTrivia, x, CarriageReturnLineFeed }).Append(_indentTrivia);
+                    var postTrivia = s.GetTrailingTrivia().Where(x => !x.Span.IsEmpty).SelectMany(x => new[] { _indentTrivia, x, CarriageReturnLineFeed }).Prepend(CarriageReturnLineFeed);
+                    return Visit(s).WithLeadingTrivia(preTrivia).WithTrailingTrivia(postTrivia);
+                })));
             }
             node = node.WithOpenBraceToken(node.OpenBraceToken.WithLeadingTrivia(CarriageReturnLineFeed, _indentTrivia).WithTrailingCrLf());
             node = node.WithCloseBraceToken(node.CloseBraceToken.WithLeadingTrivia(_indentTrivia).WithTrailingCrLf());

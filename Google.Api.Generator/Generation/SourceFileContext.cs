@@ -25,28 +25,126 @@ namespace Google.Api.Generator.Generation
     /// <summary>
     /// The context tracking the state for a single C# source file.
     /// </summary>
-    internal class SourceFileContext
+    internal abstract class SourceFileContext
     {
+        private sealed class FullyAliased : SourceFileContext
+        {
+            private static readonly IReadOnlyDictionary<string, string> s_wellknownNamespaceAliases = new Dictionary<string, string>
+            {
+                { typeof(System.Int32).Namespace, "sys" }, // Don't use "s"; one-letter aliases cause a compilation error!
+                { typeof(System.Collections.Generic.IEnumerable<>).Namespace, "scg" },
+                { typeof(System.Collections.ObjectModel.Collection<>).Namespace, "sco" },
+                { typeof(System.Linq.Enumerable).Namespace, "linq" },
+                { typeof(Google.Api.Gax.Expiration).Namespace, "gax" },
+                { typeof(Google.Api.Gax.Grpc.CallSettings).Namespace, "gaxgrpc" },
+                { typeof(Grpc.Core.CallCredentials).Namespace, "grpccore" },
+                { typeof(Grpc.Core.Interceptors.Interceptor).Namespace, "grpcinter" },
+                { typeof(Google.Protobuf.WellKnownTypes.Any).Namespace, "wkt" },
+                { typeof(Google.LongRunning.Operation).Namespace, "lro" },
+                { typeof(Google.Protobuf.ByteString).Namespace, "proto" },
+            };
+
+            // Namespace -> alias
+            private readonly Dictionary<string, string> _namespaceAliases = new Dictionary<string, string>();
+            private readonly HashSet<string> _namespaceAliasesOnly = new HashSet<string>();
+
+            public override TypeSyntax Type(Typ typ, bool forceFullyQualified)
+            {
+                var type = base.Type(typ, forceFullyQualified);
+                if (type != null)
+                {
+                    return type;
+                }
+                string namespaceAlias;
+                if (!forceFullyQualified && $"{Namespace}.".StartsWith($"{typ.Namespace}."))
+                {
+                    // Within the current namespace, no import required.
+                    namespaceAlias = null;
+                }
+                else if (!_namespaceAliases.TryGetValue(typ.Namespace, out namespaceAlias))
+                {
+                    // A namespace that hasn't been seen before. Create an alias for it.
+                    if (!s_wellknownNamespaceAliases.TryGetValue(typ.Namespace, out var rawAlias))
+                    {
+                        // If it's not a well-known namespace (e.g. "System"), then create an alias 
+                        // using the first character of each namespace part.
+                        rawAlias = typ.Namespace
+                            .Split('.', StringSplitOptions.RemoveEmptyEntries)
+                            .Select(x => char.ToLowerInvariant(x[0]))
+                            .Aggregate("", (a, c) => a + c);
+                    }
+                    // Make sure all aliases are unique by adding a numeric suffix if necessary.
+                    int index = 0;
+                    namespaceAlias = rawAlias;
+                    while (_namespaceAliasesOnly.Contains(namespaceAlias))
+                    {
+                        namespaceAlias = $"{rawAlias}{++index}";
+                    }
+                    // Record the alias for later.
+                    _namespaceAliases.Add(typ.Namespace, namespaceAlias);
+                    _namespaceAliasesOnly.Add(namespaceAlias);
+                }
+                var name = typ.Name;
+                // If in a nested typ, set the name correctly.
+                var declaringTyp = typ.DeclaringTyp;
+                while (declaringTyp != null && declaringTyp != CurrentTyp)
+                {
+                    name = $"{declaringTyp.Name}.{name}";
+                    declaringTyp = declaringTyp.DeclaringTyp;
+                }
+                SimpleNameSyntax result = IdentifierName(name);
+                if (typ.GenericArgTyps != null)
+                {
+                    // Generic typ, so return a generic name by recursively calling this method on all type args.
+                    result = GenericName(result.Identifier, TypeArgumentList(SeparatedList(typ.GenericArgTyps.Select(Type))));
+                }
+                // Return the final TypeSyntax, aliased or not as required.
+                return namespaceAlias == null ? (TypeSyntax)result : AliasQualifiedName(namespaceAlias, result);
+            }
+
+            public override CompilationUnitSyntax CreateCompilationUnit(NamespaceDeclarationSyntax ns)
+            {
+                var usings = _namespaceAliases
+                    .OrderBy(x => x.Key)
+                    .Select(x => UsingDirective(NameEquals(x.Value), IdentifierName(x.Key)));
+                return CompilationUnit().AddUsings(usings.ToArray()).AddMembers(ns);
+            }
+        }
+
+        private sealed class Unaliased : SourceFileContext
+        {
+            // TODO: Handle duplicate names.
+            // TODO: Handle nested types.
+
+            private readonly HashSet<string> _imports = new HashSet<string>();
+
+            public override TypeSyntax Type(Typ typ, bool forceFullyQualified)
+            {
+                var type = base.Type(typ, forceFullyQualified);
+                if (type != null)
+                {
+                    return type;
+                }
+                if (!$"{Namespace}.".StartsWith($"{typ.Namespace}."))
+                {
+                    _imports.Add(typ.Namespace);
+                }
+                SimpleNameSyntax result = IdentifierName(typ.Name);
+                return result;
+            }
+
+            public override CompilationUnitSyntax CreateCompilationUnit(NamespaceDeclarationSyntax ns)
+            {
+                var usings = _imports.OrderBy(x => x).Select(x => UsingDirective(IdentifierName(x)));
+                return CompilationUnit().AddUsings(usings.ToArray()).AddMembers(ns);
+            }
+        }
+
         public enum ImportStyle
         {
             FullyAliased,
-            // TODO: Unaliased
+            Unaliased,
         }
-
-        private static readonly IReadOnlyDictionary<string, string> s_wellknownNamespaceAliases = new Dictionary<string, string>
-        {
-            { typeof(System.Int32).Namespace, "sys" }, // Don't use "s"; one-letter aliases cause a compilation error!
-            { typeof(System.Collections.Generic.IEnumerable<>).Namespace, "scg" },
-            { typeof(System.Collections.ObjectModel.Collection<>).Namespace, "sco" },
-            { typeof(System.Linq.Enumerable).Namespace, "linq" },
-            { typeof(Google.Api.Gax.Expiration).Namespace, "gax" },
-            { typeof(Google.Api.Gax.Grpc.CallSettings).Namespace, "gaxgrpc" },
-            { typeof(Grpc.Core.CallCredentials).Namespace, "grpccore" },
-            { typeof(Grpc.Core.Interceptors.Interceptor).Namespace, "grpcinter" },
-            { typeof(Google.Protobuf.WellKnownTypes.Any).Namespace, "wkt" },
-            { typeof(Google.LongRunning.Operation).Namespace, "lro" },
-            { typeof(Google.Protobuf.ByteString).Namespace, "proto" },
-        };
 
         private static readonly IReadOnlyDictionary<string, TypeSyntax> s_predefinedTypes = new Dictionary<string, TypeSyntax>
         {
@@ -67,13 +165,18 @@ namespace Google.Api.Generator.Generation
             { typeof(object).FullName, PredefinedType(Token(SyntaxKind.ObjectKeyword)) },
         };
 
-        public SourceFileContext(ImportStyle importStyle) => _importStyle = importStyle;
-
-        private readonly ImportStyle _importStyle;
-
-        // Namespace -> alias
-        private readonly Dictionary<string, string> _namespaceAliases = new Dictionary<string, string>();
-        private readonly HashSet<string> _namespaceAliasesOnly = new HashSet<string>();
+        public static SourceFileContext New(ImportStyle importStyle)
+        {
+            switch (importStyle)
+            {
+                case ImportStyle.FullyAliased:
+                    return new FullyAliased();
+                case ImportStyle.Unaliased:
+                    return new Unaliased();
+                default:
+                    throw new NotImplementedException($"Unrecognised import style: {importStyle}");
+            }
+        }
 
         /// <summary>
         /// The current namespace. This will change depending on code location.
@@ -130,13 +233,9 @@ namespace Google.Api.Generator.Generation
         public TypeSyntax Type(System.Type type) => Type(Typ.Of(type));
 
         public TypeSyntax Type(Typ typ) => Type(typ, false);
-        public TypeSyntax Type(Typ typ, bool forceFullyQualified)
+
+        public virtual TypeSyntax Type(Typ typ, bool forceFullyQualified)
         {
-            if (_importStyle != ImportStyle.FullyAliased)
-            {
-                // TODO: Remove when other import style(s) are implemented.
-                throw new NotImplementedException();
-            }
             if (typ is Typ.Special special)
             {
                 // Handle special typ; e.g. `class` generic constraint.
@@ -157,51 +256,7 @@ namespace Google.Api.Generator.Generation
                 // Handle typs representing predefined C# types (e.g. `string`).
                 return predefinedType;
             }
-            string namespaceAlias;
-            if (!forceFullyQualified && $"{Namespace}.".StartsWith($"{typ.Namespace}."))
-            {
-                // Within the current namespace, no import required.
-                namespaceAlias = null;
-            }
-            else if (!_namespaceAliases.TryGetValue(typ.Namespace, out namespaceAlias))
-            {
-                // A namespace that hasn't been seen before. Create an alias for it.
-                if (!s_wellknownNamespaceAliases.TryGetValue(typ.Namespace, out var rawAlias))
-                {
-                    // If it's not a well-known namespace (e.g. "System"), then create an alias 
-                    // using the first character of each namespace part.
-                    rawAlias = typ.Namespace
-                        .Split('.', StringSplitOptions.RemoveEmptyEntries)
-                        .Select(x => char.ToLowerInvariant(x[0]))
-                        .Aggregate("", (a, c) => a + c);
-                }
-                // Make sure all aliases are unique by adding a numeric suffix if necessary.
-                int index = 0;
-                namespaceAlias = rawAlias;
-                while (_namespaceAliasesOnly.Contains(namespaceAlias))
-                {
-                    namespaceAlias = $"{rawAlias}{++index}";
-                }
-                // Record the alias for later.
-                _namespaceAliases.Add(typ.Namespace, namespaceAlias);
-                _namespaceAliasesOnly.Add(namespaceAlias);
-            }
-            var name = typ.Name;
-            // If in a nested typ, set the name correctly.
-            var declaringTyp = typ.DeclaringTyp;
-            while (declaringTyp != null && declaringTyp != CurrentTyp)
-            {
-                name = $"{declaringTyp.Name}.{name}";
-                declaringTyp = declaringTyp.DeclaringTyp;
-            }
-            SimpleNameSyntax result = IdentifierName(name);
-            if (typ.GenericArgTyps != null)
-            {
-                // Generic typ, so return a generic name by recursively calling this method on all type args.
-                result = GenericName(result.Identifier, TypeArgumentList(SeparatedList(typ.GenericArgTyps.Select(Type))));
-            }
-            // Return the final TypeSyntax, aliased or not as required.
-            return namespaceAlias == null ? (TypeSyntax)result : AliasQualifiedName(namespaceAlias, result);
+            return null;
         }
 
         public ArrayTypeSyntax ArrayType<T>(int? size = null)
@@ -217,18 +272,6 @@ namespace Google.Api.Generator.Generation
             return ((ArrayTypeSyntax)Type<T>()).WithRankSpecifiers(SingletonList(ArrayRankSpecifier()));
         }
 
-        public CompilationUnitSyntax CreateCompilationUnit(NamespaceDeclarationSyntax ns)
-        {
-            switch (_importStyle)
-            {
-                case ImportStyle.FullyAliased:
-                    var usings = _namespaceAliases
-                        .OrderBy(x => x.Key)
-                        .Select(x => UsingDirective(NameEquals(x.Value), IdentifierName(x.Key)));
-                    return CompilationUnit().AddUsings(usings.ToArray()).AddMembers(ns);
-                default:
-                    throw new InvalidOperationException();
-            }
-        }
+        public abstract CompilationUnitSyntax CreateCompilationUnit(NamespaceDeclarationSyntax ns);
     }
 }
