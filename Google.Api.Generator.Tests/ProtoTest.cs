@@ -202,5 +202,8 @@ namespace Google.Api.Generator.Tests
 
         [Fact]
         public void ServerStreaming0() => ProtoTestSingle("ServerStreaming");
+
+        [Fact]
+        public void Snippets() => ProtoTestSingle("Snippets");
     }
 }

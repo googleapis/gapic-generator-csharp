@@ -12,10 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Google.Api.Gax;
 using Google.Api.Gax.Grpc;
 using Google.Api.Generator.ProtoUtils;
 using Google.Api.Generator.RoslynUtils;
+using Google.Api.Generator.Utils;
+using Google.Protobuf;
+using Google.Protobuf.Reflection;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -84,14 +89,44 @@ namespace Google.Api.Generator.Generation
             foreach (var fieldDesc in method.RequestMessageDesc.Fields.InFieldNumberOrder())
             {
                 var resource = _svc.Catalog.GetResourceDetailsByField(fieldDesc);
-                // TODO: Correct values for each possible field type.
                 if (resource != null)
                 {
-                    yield return new ObjectInitExpr(resource.ResourcePropertyName, Null);
+                    // TODO: Resource-sets
+                    var one = resource.ResourceDefinition.One;
+                    object @default = one.IsWildcard ?
+                        New(_ctx.Type<UnknownResourceName>())("a/wildcard/resource") :
+                        New(_ctx.Type(one.ResourceNameTyp))(one.Template.ParameterNames.Select(x => $"[{x.ToUpperInvariant()}]"));
+                    yield return new ObjectInitExpr(resource.ResourcePropertyName, fieldDesc.IsRepeated ? CollectionInitializer(@default) : @default);
                 }
                 else
                 {
-                    yield return new ObjectInitExpr(fieldDesc.CSharpPropertyName(), Null);
+                    object @default;
+                    if (fieldDesc.IsMap)
+                    {
+                        throw new NotImplementedException("Map types not yet implemented.");
+                    }
+                    switch (fieldDesc.FieldType)
+                    {
+                        case FieldType.Double: @default = default(double); break;
+                        case FieldType.Float: @default = default(float); break;
+                        case FieldType.Int32: @default = default(int); break;
+                        case FieldType.Int64: @default = default(long); break;
+                        case FieldType.UInt32: @default = default(uint); break;
+                        case FieldType.UInt64: @default = default(ulong); break;
+                        case FieldType.SInt32: @default = default(int); break;
+                        case FieldType.SInt64: @default = default(long); break;
+                        case FieldType.Fixed32: @default = default(uint); break;
+                        case FieldType.Fixed64: @default = default(ulong); break;
+                        case FieldType.SFixed32: @default = default(int); break;
+                        case FieldType.SFixed64: @default = default(long); break;
+                        case FieldType.Bool: @default = default(bool); break;
+                        case FieldType.String: @default = ""; break;
+                        case FieldType.Bytes: @default = _ctx.Type<ByteString>().Access(nameof(ByteString.Empty)); break;
+                        case FieldType.Message: @default = New(_ctx.Type(Typ.Of(fieldDesc.MessageType)))(); break;
+                        default: throw new InvalidOperationException($"Cannot generate default for proto type: {fieldDesc.FieldType}");
+
+                    }
+                    yield return new ObjectInitExpr(fieldDesc.CSharpPropertyName(), fieldDesc.IsRepeated ? CollectionInitializer(@default) : @default);
                 }
             }
         }
