@@ -48,7 +48,7 @@ namespace Google.Api.Generator.Generation
         public ProtoCatalog Catalog { get; }
         public string Namespace { get; }
 
-        /// <summary>The name of this service to be used in documetation.</summary>
+        /// <summary>The name of this service to be used in documentation.</summary>
         public string DocumentationName { get; }
 
         /// <summary>The outer typ of the protoc-generated C# code.</summary>

@@ -165,7 +165,7 @@ namespace Google.Api.Generator.Generation
             { typeof(object).FullName, PredefinedType(Token(SyntaxKind.ObjectKeyword)) },
         };
 
-        public static SourceFileContext New(ImportStyle importStyle)
+        public static SourceFileContext Create(ImportStyle importStyle)
         {
             switch (importStyle)
             {

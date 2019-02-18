@@ -47,14 +47,14 @@ namespace Google.Api.Generator
                 {
                     // Generate settings and client code for requested package.
                     var serviceDetails = new ServiceDetails(catalog, ns, service);
-                    var ctx = SourceFileContext.New(SourceFileContext.ImportStyle.FullyAliased);
+                    var ctx = SourceFileContext.Create(SourceFileContext.ImportStyle.FullyAliased);
                     var code = ServiceCodeGenerator.Generate(ctx, serviceDetails);
                     var formattedCode = CodeFormatter.Format(code);
                     var filename = $"{serviceDetails.ClientAbstractTyp.Name}.cs";
                     var content = Encoding.UTF8.GetBytes(formattedCode.ToFullString());
                     yield return new ResultFile(filename, content);
                     // Generate snippets for the service
-                    var snippetCtx = SourceFileContext.New(SourceFileContext.ImportStyle.Unaliased);
+                    var snippetCtx = SourceFileContext.Create(SourceFileContext.ImportStyle.Unaliased);
                     var snippetCode = SnippetCodeGenerator.Generate(snippetCtx, serviceDetails);
                     var snippetFormattedCode = CodeFormatter.Format(snippetCode);
                     var snippetFilename = $"{serviceDetails.ClientAbstractTyp.Name}Snippets.g.cs";
@@ -64,7 +64,7 @@ namespace Google.Api.Generator
                 // Generate resource-names for this proto file, if there are any.
                 if (catalog.GetResourceDefsByFile(fileDesc).Any())
                 {
-                    var resCtx = SourceFileContext.New(SourceFileContext.ImportStyle.FullyAliased);
+                    var resCtx = SourceFileContext.Create(SourceFileContext.ImportStyle.FullyAliased);
                     var resCode = ResourceNamesGenerator.Generate(catalog, resCtx, fileDesc);
                     var formattedResCode = CodeFormatter.Format(resCode);
                     var resFilename = $"{Path.GetFileNameWithoutExtension(fileDesc.Name)}ResourceNames.cs";
