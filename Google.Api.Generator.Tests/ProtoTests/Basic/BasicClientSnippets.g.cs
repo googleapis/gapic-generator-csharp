@@ -1,7 +1,7 @@
-﻿using System.Threading.Tasks;
-
-namespace Testing.Basic
+﻿namespace Testing.Basic
 {
+    using System.Threading.Tasks;
+
     /// <summary>Generated snippets.</summary>
     public sealed class GeneratedBasicSnippets
     {

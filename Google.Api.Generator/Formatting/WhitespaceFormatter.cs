@@ -82,6 +82,10 @@ namespace Google.Api.Generator.Formatting
             using (WithIndent())
             {
                 node = (NamespaceDeclarationSyntax)base.VisitNamespaceDeclaration(node);
+                if (node.Usings.Any())
+                {
+                    node = node.WithUsings(List(node.Usings.SkipLast(1).Append(node.Usings.Last().WithTrailingTrivia(CarriageReturnLineFeed, CarriageReturnLineFeed))));
+                }
             }
             node = node.WithLeadingTrivia(_indentTrivia);
             node = node.WithNamespaceKeyword(node.NamespaceKeyword.WithTrailingSpace());
