@@ -35,8 +35,15 @@ namespace Testing.Snippets
         public ResourceNameKind Kind => throw new NotImplementedException();
     }
 
+    public class AnotherMessage : ProtoMsgFake<AnotherMessage> { }
+
     public class DefaultValuesRequest : ProtoMsgFake<DefaultValuesRequest>
     {
+        public static class Types
+        {
+            public class NestedMessage : ProtoMsgFake<NestedMessage> { }
+        }
+
         public double SingleDouble { get; set; }
         public float SingleFloat { get; set; }
         public int SingleInt32 { get; set; }
@@ -52,6 +59,8 @@ namespace Testing.Snippets
         public bool SingleBool { get; set; }
         public string SingleString { get; set; }
         public ByteString SingleBytes { get; set; }
+        public AnotherMessage SingleMessage { get; set; }
+        public Types.NestedMessage SingleNestedMessage { get; set; }
         public RepeatedField<double> RepeatedDouble { get; }
         public RepeatedField<float> RepeatedFloat { get; }
         public RepeatedField<int> RepeatedInt32 { get; }
@@ -67,6 +76,8 @@ namespace Testing.Snippets
         public RepeatedField<bool> RepeatedBool { get; }
         public RepeatedField<string> RepeatedString { get; }
         public RepeatedField<ByteString> RepeatedBytes { get; }
+        public RepeatedField<AnotherMessage> RepeatedMessage { get; }
+        public RepeatedField<Types.NestedMessage> RepeatedNestedMessage { get; }
         public string SingleResourceName { get; set; }
         public RepeatedField<string> RepeatedResourceName { get; }
         public string SingleWildcardResource { get; set; }

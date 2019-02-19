@@ -20,8 +20,14 @@ option (google.api.resource_definition) = {
   path: "*"
 };
 
+message AnotherMessage {
+}
+
 message DefaultValuesRequest {
-  // TODO: Enums, Messages
+  message NestedMessage {
+  }
+
+  // TODO: Enums
   double single_double = 1;
   float single_float = 2;
   int32 single_int32 = 3;
@@ -37,6 +43,8 @@ message DefaultValuesRequest {
   bool single_bool = 13;
   string single_string = 14;
   bytes single_bytes = 15;
+  AnotherMessage single_message = 16;
+  NestedMessage single_nested_message = 17;
   repeated double repeated_double = 21;
   repeated float repeated_float = 22;
   repeated int32 repeated_int32 = 23;
@@ -52,6 +60,8 @@ message DefaultValuesRequest {
   repeated bool repeated_bool = 33;
   repeated string repeated_string = 34;
   repeated bytes repeated_bytes = 35;
+  repeated AnotherMessage repeated_message = 36;
+  repeated NestedMessage repeated_nested_message = 37;
   string single_resource_name = 40 [(google.api.resource_reference) = "AResource"];
   repeated string repeated_resource_name = 41 [(google.api.resource_reference) = "AResource"];
   string single_wildcard_resource = 42 [(google.api.resource_reference) = "WildcardResource"];
