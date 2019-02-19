@@ -88,10 +88,7 @@ namespace Testing.Paginated
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A pageable sequence of <see cref="ResourceName"/> resources.</returns>
         public virtual gax::PagedEnumerable<ResourceResponse, ResourceName> ResourcedMethod(string name, gaxgrpc::CallSettings callSettings = null) =>
-            ResourcedMethod(new ResourceRequest
-            {
-                Name = name ?? "",
-            }, callSettings);
+            ResourcedMethod(new ResourceRequest { Name = name ?? "", }, callSettings);
 
         /// <summary>
         /// Test a paginated RPC with a method signature that contains resource-names
@@ -102,10 +99,7 @@ namespace Testing.Paginated
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A pageable asynchronous sequence of <see cref="ResourceName"/> resources.</returns>
         public virtual gax::PagedAsyncEnumerable<ResourceResponse, ResourceName> ResourcedMethodAsync(string name, gaxgrpc::CallSettings callSettings = null) =>
-            ResourcedMethodAsync(new ResourceRequest
-            {
-                Name = name ?? "",
-            }, callSettings);
+            ResourcedMethodAsync(new ResourceRequest { Name = name ?? "", }, callSettings);
 
         /// <summary>
         /// Test a paginated RPC with a method signature that contains resource-names
@@ -116,10 +110,7 @@ namespace Testing.Paginated
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A pageable sequence of <see cref="ResourceName"/> resources.</returns>
         public virtual gax::PagedEnumerable<ResourceResponse, ResourceName> ResourcedMethod(ResourceName name, gaxgrpc::CallSettings callSettings = null) =>
-            ResourcedMethod(new ResourceRequest
-            {
-                ResourceName = name,
-            }, callSettings);
+            ResourcedMethod(new ResourceRequest { ResourceName = name, }, callSettings);
 
         /// <summary>
         /// Test a paginated RPC with a method signature that contains resource-names
@@ -130,10 +121,7 @@ namespace Testing.Paginated
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A pageable asynchronous sequence of <see cref="ResourceName"/> resources.</returns>
         public virtual gax::PagedAsyncEnumerable<ResourceResponse, ResourceName> ResourcedMethodAsync(ResourceName name, gaxgrpc::CallSettings callSettings = null) =>
-            ResourcedMethodAsync(new ResourceRequest
-            {
-                ResourceName = name,
-            }, callSettings);
+            ResourcedMethodAsync(new ResourceRequest { ResourceName = name, }, callSettings);
         // TEST_END
     }
 

@@ -109,6 +109,15 @@
     <Compile Update="ProtoTests\ServerStreaming\ServerStreamingResourceNames.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Update="ProtoTests\Snippets\SnippetsClient.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Update="ProtoTests\Snippets\SnippetsClientSnippets.g.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Update="ProtoTests\Snippets\SnippetsResourceNames.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Update="WhitespaceFormatterTest.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
@@ -137,6 +146,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="ProtoTests\ServerStreaming\ServerStreaming.proto">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="ProtoTests\Snippets\Snippets.proto">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

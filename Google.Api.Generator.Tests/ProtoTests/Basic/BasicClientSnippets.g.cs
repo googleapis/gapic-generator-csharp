@@ -12,9 +12,7 @@ namespace Testing.Basic
             // Create client
             BasicClient basicClient = BasicClient.Create();
             // Initialize request argument(s)
-            Request request = new Request
-            {
-            };
+            Request request = new Request { };
             // Make the request
             Response response = basicClient.IdempotentMethod(request);
             // End snippet
@@ -28,9 +26,7 @@ namespace Testing.Basic
             // Create client
             BasicClient basicClient = await BasicClient.CreateAsync();
             // Initialize request argument(s)
-            Request request = new Request
-            {
-            };
+            Request request = new Request { };
             // Make the request
             Response response = await basicClient.IdempotentMethodAsync(request);
             // End snippet
@@ -43,9 +39,7 @@ namespace Testing.Basic
             // Create client
             BasicClient basicClient = BasicClient.Create();
             // Initialize request argument(s)
-            Request request = new Request
-            {
-            };
+            Request request = new Request { };
             // Make the request
             Response response = basicClient.NonIdempotentMethod(request);
             // End snippet
@@ -59,9 +53,7 @@ namespace Testing.Basic
             // Create client
             BasicClient basicClient = await BasicClient.CreateAsync();
             // Initialize request argument(s)
-            Request request = new Request
-            {
-            };
+            Request request = new Request { };
             // Make the request
             Response response = await basicClient.NonIdempotentMethodAsync(request);
             // End snippet

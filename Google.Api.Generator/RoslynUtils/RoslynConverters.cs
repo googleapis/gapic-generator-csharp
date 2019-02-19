@@ -54,6 +54,14 @@ namespace Google.Api.Generator.RoslynUtils
                     return new[] { LiteralExpression(value ? SyntaxKind.TrueLiteralExpression : SyntaxKind.FalseLiteralExpression) };
                 case double value:
                     return new[] { LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(value)) };
+                case float value:
+                    return new[] { LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(value)) };
+                case long value:
+                    return new[] { LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(value)) };
+                case uint value:
+                    return new[] { LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(value)) };
+                case ulong value:
+                    return new[] { LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(value)) };
                 default:
                     throw new NotSupportedException($"Cannot handle ToExpressions({o.GetType()})");
             }
