@@ -81,9 +81,9 @@ namespace Google.Api.Generator.Generation
                     throw new InvalidOperationException("LRO method must contain a `google.api.operation` option.");
                 }
                 ApiCallTyp = Typ.Generic(typeof(ApiCall<,>), RequestTyp, Typ.Of<Operation>());
-                SyncReturnTyp = Typ.Generic(typeof(Operation<,>),
-                    Typ.Of(svc.Catalog.GetMessageByName(lroData.ResponseType)),
-                    Typ.Of(svc.Catalog.GetMessageByName(lroData.MetadataType)));
+                OperationResponseTyp = Typ.Of(svc.Catalog.GetMessageByName(lroData.ResponseType));
+                OperationMetadataTyp = Typ.Of(svc.Catalog.GetMessageByName(lroData.MetadataType));
+                SyncReturnTyp = Typ.Generic(typeof(Operation<,>), OperationResponseTyp, OperationMetadataTyp);
                 LroSettingsName = $"{desc.Name}OperationsSettings";
                 LroClientName = $"{desc.Name}OperationsClient";
                 SyncPollMethodName = $"PollOnce{SyncMethodName}";
@@ -96,6 +96,8 @@ namespace Google.Api.Generator.Generation
             public string SyncPollMethodName { get; }
             public string AsyncPollMethodName { get; }
             public Typ OperationTyp => SyncReturnTyp;
+            public Typ OperationResponseTyp { get; }
+            public Typ OperationMetadataTyp { get; }
         }
 
         public sealed class BidiStreaming : MethodDetails

@@ -130,6 +130,11 @@ namespace Google.Api.Generator.Generation
                     _imports.Add(typ.Namespace);
                 }
                 SimpleNameSyntax result = IdentifierName(typ.Name);
+                if (typ.GenericArgTyps != null)
+                {
+                    // Generic typ, so return a generic name by recursively calling this method on all type args.
+                    result = GenericName(result.Identifier, TypeArgumentList(SeparatedList(typ.GenericArgTyps.Select(Type))));
+                }
                 return result;
             }
 

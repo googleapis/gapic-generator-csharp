@@ -49,6 +49,9 @@ namespace Testing.Basiclro
 
     public abstract class BasicLroClient
     {
+        public static BasicLroClient Create() => throw new sys::NotImplementedException();
+        public static stt::Task<BasicLroClient> CreateAsync() => throw new sys::NotImplementedException();
+
         // TEST_START
         /// <summary>
         /// </summary>

@@ -17,6 +17,7 @@ using Google.Api.Gax.Grpc;
 using Google.Api.Generator.ProtoUtils;
 using Google.Api.Generator.RoslynUtils;
 using Google.Api.Generator.Utils;
+using Google.LongRunning;
 using Google.Protobuf;
 using Google.Protobuf.Reflection;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -72,6 +73,9 @@ namespace Google.Api.Generator.Generation
                 {
                     case MethodDetails.Normal normal:
                         methods = GenerateNormalMethod(normal);
+                        break;
+                    case MethodDetails.Lro lro:
+                        methods = GenerateLroMethod(lro);
                         break;
                     default:
                         methods = Enumerable.Empty<MethodDeclarationSyntax>();
@@ -159,6 +163,73 @@ namespace Google.Api.Generator.Generation
                     request.WithInitializer(New(_ctx.Type(method.RequestTyp))().WithInitializer(InitRequest(method).ToArray())),
                     "// Make the request",
                     response.WithInitializer(Await(client.Call(method.AsyncMethodName)(request))),
+                    "// End snippet")
+                .WithXmlDoc(XmlDoc.Summary($"Snippet for {method.AsyncMethodName}"));
+        }
+
+        private IEnumerable<MethodDeclarationSyntax> GenerateLroMethod(MethodDetails.Lro method)
+        {
+            var client = Local(_ctx.Type(_svc.ClientAbstractTyp), _svc.SnippetsClientName);
+            var request = Local(_ctx.Type(method.RequestTyp), "request");
+            var response = Local(_ctx.Type(method.OperationTyp), "response");
+            var completedResponse = Local(_ctx.Type(method.OperationTyp), "completedResponse");
+            var result = Local(_ctx.Type(method.OperationResponseTyp), "result");
+            var operationName = Local(_ctx.Type<string>(), "operationName");
+            var retrievedResponse = Local(_ctx.Type(method.OperationTyp), "retrievedResponse");
+            var retrievedResult = Local(_ctx.Type(method.OperationResponseTyp), "retrievedResult");
+            // Sync request method
+            yield return Method(Public, VoidType, method.SyncSnippetMethodName)()
+                .WithBody(
+                    $"// Snippet: {method.SyncMethodName}({method.RequestTyp.Name}, {nameof(CallSettings)})",
+                    "// Create client",
+                    client.WithInitializer(_ctx.Type(_svc.ClientAbstractTyp).Call("Create")()),
+                    "// Initialize request argument(s)",
+                    request.WithInitializer(New(_ctx.Type(method.RequestTyp))().WithInitializer(InitRequest(method).ToArray())),
+                    "// Make the request",
+                    response.WithInitializer(client.Call(method.SyncMethodName)(request)),
+                    BlankLine,
+                    "// Poll until the returned long-running operation is complete",
+                    completedResponse.WithInitializer(response.Call(nameof(Operation<ProtoMsg, ProtoMsg>.PollUntilCompleted))()),
+                    "// Retrieve the operation result",
+                    result.WithInitializer(completedResponse.Access(nameof(Operation<ProtoMsg, ProtoMsg>.Result))),
+                    BlankLine,
+                    "// Or get the name of the operation",
+                    operationName.WithInitializer(response.Access(nameof(Operation<ProtoMsg,ProtoMsg>.Name))),
+                    "// This name can be stored, then the long-running operation retrieved later by name",
+                    retrievedResponse.WithInitializer(client.Call(method.SyncPollMethodName)(operationName)),
+                    "// Check if the retrieved long-running operation has completed",
+                    If(retrievedResponse.Access(nameof(Operation<ProtoMsg,ProtoMsg>.IsCompleted)))
+                        .Then(
+                            "// If it has completed, then access the result",
+                            retrievedResult.WithInitializer(retrievedResponse.Access(nameof(Operation<ProtoMsg,ProtoMsg>.Result)))),
+                    "// End snippet")
+                .WithXmlDoc(XmlDoc.Summary($"Snippet for {method.SyncMethodName}"));
+            // Async request method
+            yield return Method(Public | Async, _ctx.Type<Task>(), method.AsyncSnippetMethodName)()
+                .WithBody(
+                    $"// Snippet: {method.AsyncMethodName}({method.RequestTyp.Name}, {nameof(CallSettings)})",
+                    $"// Additional: {method.AsyncMethodName}({method.RequestTyp.Name}, {nameof(CancellationToken)})",
+                    "// Create client",
+                    client.WithInitializer(Await(_ctx.Type(_svc.ClientAbstractTyp).Call("CreateAsync")())),
+                    "// Initialize request argument(s)",
+                    request.WithInitializer(New(_ctx.Type(method.RequestTyp))().WithInitializer(InitRequest(method).ToArray())),
+                    "// Make the request",
+                    response.WithInitializer(Await(client.Call(method.AsyncMethodName)(request))),
+                    BlankLine,
+                    "// Poll until the returned long-running operation is complete",
+                    completedResponse.WithInitializer(Await(response.Call(nameof(Operation<ProtoMsg, ProtoMsg>.PollUntilCompletedAsync))())),
+                    "// Retrieve the operation result",
+                    result.WithInitializer(completedResponse.Access(nameof(Operation<ProtoMsg, ProtoMsg>.Result))),
+                    BlankLine,
+                    "// Or get the name of the operation",
+                    operationName.WithInitializer(response.Access(nameof(Operation<ProtoMsg, ProtoMsg>.Name))),
+                    "// This name can be stored, then the long-running operation retrieved later by name",
+                    retrievedResponse.WithInitializer(Await(client.Call(method.AsyncPollMethodName)(operationName))),
+                    "// Check if the retrieved long-running operation has completed",
+                    If(retrievedResponse.Access(nameof(Operation<ProtoMsg, ProtoMsg>.IsCompleted)))
+                        .Then(
+                            "// If it has completed, then access the result",
+                            retrievedResult.WithInitializer(retrievedResponse.Access(nameof(Operation<ProtoMsg, ProtoMsg>.Result)))),
                     "// End snippet")
                 .WithXmlDoc(XmlDoc.Summary($"Snippet for {method.AsyncMethodName}"));
         }

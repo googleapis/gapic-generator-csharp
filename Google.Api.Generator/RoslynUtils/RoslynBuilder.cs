@@ -172,5 +172,7 @@ namespace Google.Api.Generator.RoslynUtils
         public static ParenthesizedExpressionSyntax Parens(object expr) => ParenthesizedExpression(ToExpression(expr));
 
         public static ArgModifier Ref(object arg) => new ArgModifier(ArgModifier.Type.Ref, arg);
+
+        public static SyntaxTrivia BlankLine => CarriageReturnLineFeed;
     }
 }
