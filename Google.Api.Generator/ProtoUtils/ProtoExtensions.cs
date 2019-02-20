@@ -53,22 +53,26 @@ namespace Google.Api.Generator.ProtoUtils
 
         public static string CSharpFieldName(this FieldDescriptor field) => field.Name.ToLowerCamelCase();
 
-        public static string CSharpName(this EnumValueDescriptor desc)
+        internal static string RemoveEnumPrefix(string enumName, string valueName)
         {
             // Duplicate of code in:
             // https://github.com/protocolbuffers/protobuf/blob/3bf05b88eaf938526f7daee85ab6fb1efb0e809c/src/google/protobuf/compiler/csharp/csharp_helpers.cc#L270
-            var name = desc.Name.ToUpperCamelCase(forceAllChars: true);
-            var enumName = desc.EnumDescriptor.Name.ToUpperCamelCase(forceAllChars: true);
-            if (name.Length > enumName.Length && name.StartsWith(enumName))
+            enumName = enumName.ToUpperCamelCase(forceAllChars: true);
+            valueName = valueName.ToUpperCamelCase(forceAllChars: true);
+            if (valueName.Length > enumName.Length && valueName.ToLowerInvariant().StartsWith(enumName.ToLowerInvariant()))
             {
-                name = name.Substring(desc.EnumDescriptor.Name.Length);
+                // Final .ToUpperCamelCase() required as the first char may otherwise be lower.
+                // This call will only affect the first character.
+                valueName = valueName.Substring(enumName.Length).ToUpperCamelCase();
             }
-            if (char.IsDigit(name[0]))
+            if (char.IsDigit(valueName[0]))
             {
-                name = "_" + name;
+                valueName = "_" + valueName;
             }
-            return name;
+            return valueName;
         }
+
+        public static string CSharpName(this EnumValueDescriptor desc) => RemoveEnumPrefix(desc.EnumDescriptor.Name, desc.Name);
 
         private static IEnumerable<(ulong number, ByteString byteString)> GetRepeated(CustomOptions opts, int field)
         {
