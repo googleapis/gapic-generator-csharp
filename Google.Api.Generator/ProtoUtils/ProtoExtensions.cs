@@ -55,10 +55,17 @@ namespace Google.Api.Generator.ProtoUtils
 
         public static string CSharpName(this EnumValueDescriptor desc)
         {
+            // Duplicate of code in:
+            // https://github.com/protocolbuffers/protobuf/blob/3bf05b88eaf938526f7daee85ab6fb1efb0e809c/src/google/protobuf/compiler/csharp/csharp_helpers.cc#L270
             var name = desc.Name.ToUpperCamelCase(forceAllChars: true);
-            if (desc.Name.ToLowerInvariant().StartsWith(desc.EnumDescriptor.Name.ToLowerInvariant() + "_"))
+            var enumName = desc.EnumDescriptor.Name.ToUpperCamelCase(forceAllChars: true);
+            if (name.Length > enumName.Length && name.StartsWith(enumName))
             {
-                return name.Substring(desc.EnumDescriptor.Name.Length);
+                name = name.Substring(desc.EnumDescriptor.Name.Length);
+            }
+            if (char.IsDigit(name[0]))
+            {
+                name = "_" + name;
             }
             return name;
         }
