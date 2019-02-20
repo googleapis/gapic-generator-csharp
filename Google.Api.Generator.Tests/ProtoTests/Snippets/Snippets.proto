@@ -8,6 +8,16 @@ service Snippets {
   option (google.api.default_host) = "snippets.example.com";
 
   rpc MethodDefaultValues(DefaultValuesRequest) returns(Response);
+
+  rpc MethodOneSignature(SignatureRequest) returns(Response) {
+    option (google.api.method_signature) = { fields: ["a_string", "an_int", "a_bool"]};
+  }
+
+  rpc MethodThreeSignatures(SignatureRequest) returns(Response) {
+    option (google.api.method_signature) = { fields: ["a_string", "an_int", "a_bool"]};
+    option (google.api.method_signature) = { fields: ["a_string", "a_bool"]};
+    option (google.api.method_signature) = { fields: []};
+  }
 }
 
 option (google.api.resource_definition) = {
@@ -77,6 +87,12 @@ message DefaultValuesRequest {
   repeated string repeated_resource_name = 41 [(google.api.resource_reference) = "AResource"];
   string single_wildcard_resource = 42 [(google.api.resource_reference) = "WildcardResource"];
   repeated string repeated_wildcard_resource = 43 [(google.api.resource_reference) = "WildcardResource"];
+}
+
+message SignatureRequest {
+  string a_string = 1;
+  int32 an_int = 2;
+  bool a_bool = 3;
 }
 
 message Response {

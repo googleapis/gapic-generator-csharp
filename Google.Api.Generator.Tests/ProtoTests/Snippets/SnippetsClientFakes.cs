@@ -27,6 +27,20 @@ namespace Testing.Snippets
 
         public Response MethodDefaultValues(DefaultValuesRequest request) => throw new NotImplementedException();
         public Task<Response> MethodDefaultValuesAsync(DefaultValuesRequest request) => throw new NotImplementedException();
+
+        public Response MethodOneSignature(SignatureRequest request) => throw new NotImplementedException();
+        public Task<Response> MethodOneSignatureAsync(SignatureRequest request) => throw new NotImplementedException();
+        public Response MethodOneSignature(string aString, int anInt, bool aBool) => throw new NotImplementedException();
+        public Task<Response> MethodOneSignatureAsync(string aString, int anInt, bool aBool) => throw new NotImplementedException();
+
+        public Response MethodThreeSignatures(SignatureRequest request) => throw new NotImplementedException();
+        public Task<Response> MethodThreeSignaturesAsync(SignatureRequest request) => throw new NotImplementedException();
+        public Response MethodThreeSignatures(string aString, int anInt, bool aBool) => throw new NotImplementedException();
+        public Task<Response> MethodThreeSignaturesAsync(string aString, int anInt, bool aBool) => throw new NotImplementedException();
+        public Response MethodThreeSignatures(string aString, bool aBool) => throw new NotImplementedException();
+        public Task<Response> MethodThreeSignaturesAsync(string aString, bool aBool) => throw new NotImplementedException();
+        public Response MethodThreeSignatures() => throw new NotImplementedException();
+        public Task<Response> MethodThreeSignaturesAsync() => throw new NotImplementedException();
     }
 
     public class AResourceName : IResourceName
@@ -100,6 +114,13 @@ namespace Testing.Snippets
         public ResourceNameList<AResourceName> RepeatedResourceNameAsAResourceNames { get; }
         public IResourceName SingleWildcardResourceAsResourceName { get; set; }
         public ResourceNameList<IResourceName> RepeatedWildcardResourceAsResourceNames { get; }
+    }
+
+    public class SignatureRequest : ProtoMsgFake<SignatureRequest>
+    {
+        public string AString { get; set; }
+        public int AnInt { get; set; }
+        public bool ABool { get; set; }
     }
 
     public class Response : ProtoMsgFake<Response> { }

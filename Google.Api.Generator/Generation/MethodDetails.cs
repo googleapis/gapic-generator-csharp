@@ -140,20 +140,21 @@ namespace Google.Api.Generator.Generation
             {
                 public Field(ServiceDetails svc, MessageDescriptor msg, string fieldName)
                 {
-                    var desc = msg.FindFieldByName(fieldName);
-                    if (desc == null)
+                    Desc = msg.FindFieldByName(fieldName);
+                    if (Desc == null)
                     {
                         throw new InvalidOperationException($"Field '{fieldName}' doesn't exist in message: {msg.FullName}");
                     }
-                    Typ = Typ.Of(desc);
-                    IsRepeated = desc.IsRepeated;
-                    Required = desc.CustomOptions.TryGetRepeatedEnum<FieldBehavior>(ProtoConsts.FieldOption.FieldBehavior, out var behaviors) &&
+                    Typ = Typ.Of(Desc);
+                    IsRepeated = Desc.IsRepeated;
+                    Required = Desc.CustomOptions.TryGetRepeatedEnum<FieldBehavior>(ProtoConsts.FieldOption.FieldBehavior, out var behaviors) &&
                         behaviors.Any(x => x == FieldBehavior.Required);
-                    FieldName = desc.CSharpFieldName();
-                    PropertyName = desc.CSharpPropertyName();
-                    DocLines = desc.Declaration.DocLines();
-                    FieldResource = svc.Catalog.GetResourceDetailsByField(desc);
+                    FieldName = Desc.CSharpFieldName();
+                    PropertyName = Desc.CSharpPropertyName();
+                    DocLines = Desc.Declaration.DocLines();
+                    FieldResource = svc.Catalog.GetResourceDetailsByField(Desc);
                 }
+                public FieldDescriptor Desc { get; }
                 public Typ Typ { get; }
                 public bool IsRepeated { get; }
                 public bool Required { get; }
@@ -231,7 +232,7 @@ namespace Google.Api.Generator.Generation
                 ProtoConsts.MethodOption.HttpRule, out var http) ? !string.IsNullOrEmpty(http.Get) : false;
             DocLines = desc.Declaration.DocLines().ToList();
             Signatures = desc.CustomOptions.TryGetRepeatedMessage<MethodSignature>(ProtoConsts.MethodOption.MethodSignature, out var sigs) ?
-                sigs.Select(sig => new Signature(svc, desc.InputType, sig)).ToList() : Enumerable.Empty<Signature>();
+                sigs.Select(sig => new Signature(svc, desc.InputType, sig)).ToList() : (IReadOnlyList<Signature>)new Signature[0];
             RequestMessageDesc = desc.InputType;
         }
 
@@ -284,7 +285,7 @@ namespace Google.Api.Generator.Generation
         public IEnumerable<string> DocLines { get; }
 
         /// <summary>Method signatures.</summary>
-        public IEnumerable<Signature> Signatures { get; }
+        public IReadOnlyList<Signature> Signatures { get; }
 
         public MessageDescriptor RequestMessageDesc { get; }
     }
