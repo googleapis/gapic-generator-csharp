@@ -84,15 +84,7 @@ namespace Google.Api.Generator.Generation
                     _namespaceAliases.Add(typ.Namespace, namespaceAlias);
                     _namespaceAliasesOnly.Add(namespaceAlias);
                 }
-                var name = typ.Name;
-                // If in a nested typ, set the name correctly.
-                var declaringTyp = typ.DeclaringTyp;
-                while (declaringTyp != null && declaringTyp != CurrentTyp)
-                {
-                    name = $"{declaringTyp.Name}.{name}";
-                    declaringTyp = declaringTyp.DeclaringTyp;
-                }
-                SimpleNameSyntax result = IdentifierName(name);
+                SimpleNameSyntax result = IdentifierName(typ.Name);
                 if (typ.GenericArgTyps != null)
                 {
                     // Generic typ, so return a generic name by recursively calling this method on all type args.
@@ -251,10 +243,20 @@ namespace Google.Api.Generator.Generation
                 // Handle generic parameters.
                 return IdentifierName(typ.Name);
             }
-            if (typ.ElementTyp is Typ elementType)
+            if (typ.ElementTyp != null)
             {
                 // Handle array typs.
-                return SyntaxFactory.ArrayType(Type(elementType));
+                return SyntaxFactory.ArrayType(Type(typ.ElementTyp));
+            }
+            if (typ.DeclaringTyp != null)
+            {
+                // Handle nested typs.
+                if (!forceFullyQualified && typ.DeclaringTyp == CurrentTyp)
+                {
+                    return IdentifierName(typ.Name);
+                }
+                var outerType = Type(typ.DeclaringTyp);
+                return QualifiedName((NameSyntax)outerType, IdentifierName(typ.Name));
             }
             if (s_predefinedTypes.TryGetValue(typ.FullName, out var predefinedType))
             {

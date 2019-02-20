@@ -31,6 +31,8 @@ namespace Testing.Snippets
                 SingleBool = false,
                 SingleString = "",
                 SingleBytes = ByteString.Empty,
+                SingleMessage = new AnotherMessage(),
+                SingleNestedMessage = new DefaultValuesRequest.Types.NestedMessage(),
                 RepeatedDouble = { 0, },
                 RepeatedFloat = { 0F, },
                 RepeatedInt32 = { 0, },
@@ -46,6 +48,14 @@ namespace Testing.Snippets
                 RepeatedBool = { false, },
                 RepeatedString = { "", },
                 RepeatedBytes = { ByteString.Empty, },
+                RepeatedMessage =
+                {
+                    new AnotherMessage(),
+                },
+                RepeatedNestedMessage =
+                {
+                    new DefaultValuesRequest.Types.NestedMessage(),
+                },
                 SingleResourceNameAsAResourceName = new AResourceName("[ITEM_ID]", "[PART_ID]"),
                 RepeatedResourceNameAsAResourceNames =
                 {
