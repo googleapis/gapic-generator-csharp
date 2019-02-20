@@ -109,6 +109,8 @@ namespace Google.Api.Generator.Generation
                     {
                         throw new NotImplementedException("Map types not yet implemented.");
                     }
+                    // See https://developers.google.com/protocol-buffers/docs/proto3#scalar
+                    // Switch cases are ordered as in this doc. Please do not re-order.
                     switch (fieldDesc.FieldType)
                     {
                         case FieldType.Double: @default = default(double); break;
@@ -127,6 +129,7 @@ namespace Google.Api.Generator.Generation
                         case FieldType.String: @default = ""; break;
                         case FieldType.Bytes: @default = _ctx.Type<ByteString>().Access(nameof(ByteString.Empty)); break;
                         case FieldType.Message: @default = New(_ctx.Type(Typ.Of(fieldDesc.MessageType)))(); break;
+                        case FieldType.Enum: @default = _ctx.Type(Typ.Of(fieldDesc.EnumType)).Access(fieldDesc.EnumType.Values.First().CSharpName()); break;
                         default: throw new InvalidOperationException($"Cannot generate default for proto type: {fieldDesc.FieldType}");
 
                     }

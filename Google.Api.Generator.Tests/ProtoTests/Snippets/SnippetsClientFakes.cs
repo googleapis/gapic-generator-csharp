@@ -37,11 +37,20 @@ namespace Testing.Snippets
 
     public class AnotherMessage : ProtoMsgFake<AnotherMessage> { }
 
+    public enum Enum
+    {
+        Default = 0,
+    }
+
     public class DefaultValuesRequest : ProtoMsgFake<DefaultValuesRequest>
     {
         public static class Types
         {
             public class NestedMessage : ProtoMsgFake<NestedMessage> { }
+            public enum NestedEnum
+            {
+                DefaultValue = 0,
+            }
         }
 
         public double SingleDouble { get; set; }
@@ -61,6 +70,8 @@ namespace Testing.Snippets
         public ByteString SingleBytes { get; set; }
         public AnotherMessage SingleMessage { get; set; }
         public Types.NestedMessage SingleNestedMessage { get; set; }
+        public Enum SingleEnum { get; set; }
+        public Types.NestedEnum SingleNestedEnum { get; set; }
         public RepeatedField<double> RepeatedDouble { get; }
         public RepeatedField<float> RepeatedFloat { get; }
         public RepeatedField<int> RepeatedInt32 { get; }
@@ -78,6 +89,8 @@ namespace Testing.Snippets
         public RepeatedField<ByteString> RepeatedBytes { get; }
         public RepeatedField<AnotherMessage> RepeatedMessage { get; }
         public RepeatedField<Types.NestedMessage> RepeatedNestedMessage { get; }
+        public RepeatedField<Enum> RepeatedEnum { get; }
+        public RepeatedField<Types.NestedEnum> RepeatedNestedEnum { get; }
         public string SingleResourceName { get; set; }
         public RepeatedField<string> RepeatedResourceName { get; }
         public string SingleWildcardResource { get; set; }

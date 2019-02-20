@@ -22,12 +22,12 @@ namespace Google.Api.Generator.Utils
         private static char MaybeForceCase(char c, bool? toUpper) =>
             toUpper is bool upper ? upper ? char.ToUpperInvariant(c) : char.ToLowerInvariant(c) : c;
 
-        private static string Camelizer(string s, bool firstUpper) =>
-            s.Aggregate((upper: (bool?)firstUpper, sb: new StringBuilder()), (acc, c) =>
-                c == '_' ? (true, acc.sb) : ((bool?)null, acc.sb.Append(MaybeForceCase(c, acc.upper))),
+        private static string Camelizer(string s, bool firstUpper, bool forceAllChars) =>
+            s.Aggregate((upper: (bool?)firstUpper, prev: '\0', sb: new StringBuilder()), (acc, c) =>
+                c == '_' ? (true, c, acc.sb) : (forceAllChars ? (bool?)false : null, c, acc.sb.Append(MaybeForceCase(c, char.IsLower(acc.prev) && char.IsUpper(c) ? true : acc.upper))),
                 acc => acc.sb.ToString());
 
-        public static string ToLowerCamelCase(this string s) => Camelizer(s, firstUpper: false);
-        public static string ToUpperCamelCase(this string s) => Camelizer(s, firstUpper: true);
+        public static string ToLowerCamelCase(this string s) => Camelizer(s, firstUpper: false, forceAllChars: false);
+        public static string ToUpperCamelCase(this string s, bool forceAllChars = false) => Camelizer(s, firstUpper: true, forceAllChars);
     }
 }

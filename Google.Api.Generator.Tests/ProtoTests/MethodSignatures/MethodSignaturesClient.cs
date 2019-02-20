@@ -480,5 +480,79 @@ namespace Testing.Methodsignatures
         public virtual stt::Task<Response> MessageArgsAsync(MessageRequest.Types.Msg optional, MessageRequest.Types.Msg required, scg::IEnumerable<MessageRequest.Types.Msg> repeatedOptional, scg::IEnumerable<MessageRequest.Types.Msg> repeatedRequired, st::CancellationToken cancellationToken) =>
             MessageArgsAsync(optional, required, repeatedOptional, repeatedRequired, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
         // TEST_END
+
+        public virtual Response EnumArgs(EnumRequest request, gaxgrpc::CallSettings callSettings = null) => throw new sys::NotImplementedException();
+        public virtual stt::Task<Response> EnumArgsAsync(EnumRequest request, gaxgrpc::CallSettings callSettings = null) => throw new sys::NotImplementedException();
+
+        // TEST_START
+        /// <summary>
+        /// </summary>
+        /// <param name="optional">
+        /// </param>
+        /// <param name="required">
+        /// </param>
+        /// <param name="repeatedOptional">
+        /// </param>
+        /// <param name="repeatedRequired">
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>The RPC response.</returns>
+        public virtual Response EnumArgs(EnumRequest.Types.Enum optional, EnumRequest.Types.Enum required, scg::IEnumerable<EnumRequest.Types.Enum> repeatedOptional, scg::IEnumerable<EnumRequest.Types.Enum> repeatedRequired, gaxgrpc::CallSettings callSettings = null) =>
+            EnumArgs(new EnumRequest
+            {
+                Optional = optional,
+                Required = required,
+                RepeatedOptional =
+                {
+                    repeatedOptional ?? linq::Enumerable.Empty<EnumRequest.Types.Enum>(),
+                },
+                RepeatedRequired =
+                {
+                    gax::GaxPreconditions.CheckNotNull(repeatedRequired, nameof(repeatedRequired)),
+                },
+            }, callSettings);
+
+        /// <summary>
+        /// </summary>
+        /// <param name="optional">
+        /// </param>
+        /// <param name="required">
+        /// </param>
+        /// <param name="repeatedOptional">
+        /// </param>
+        /// <param name="repeatedRequired">
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<Response> EnumArgsAsync(EnumRequest.Types.Enum optional, EnumRequest.Types.Enum required, scg::IEnumerable<EnumRequest.Types.Enum> repeatedOptional, scg::IEnumerable<EnumRequest.Types.Enum> repeatedRequired, gaxgrpc::CallSettings callSettings = null) =>
+            EnumArgsAsync(new EnumRequest
+            {
+                Optional = optional,
+                Required = required,
+                RepeatedOptional =
+                {
+                    repeatedOptional ?? linq::Enumerable.Empty<EnumRequest.Types.Enum>(),
+                },
+                RepeatedRequired =
+                {
+                    gax::GaxPreconditions.CheckNotNull(repeatedRequired, nameof(repeatedRequired)),
+                },
+            }, callSettings);
+
+        /// <summary>
+        /// </summary>
+        /// <param name="optional">
+        /// </param>
+        /// <param name="required">
+        /// </param>
+        /// <param name="repeatedOptional">
+        /// </param>
+        /// <param name="repeatedRequired">
+        /// </param>
+        /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<Response> EnumArgsAsync(EnumRequest.Types.Enum optional, EnumRequest.Types.Enum required, scg::IEnumerable<EnumRequest.Types.Enum> repeatedOptional, scg::IEnumerable<EnumRequest.Types.Enum> repeatedRequired, st::CancellationToken cancellationToken) =>
+            EnumArgsAsync(optional, required, repeatedOptional, repeatedRequired, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+        // TEST_END
     }
 }

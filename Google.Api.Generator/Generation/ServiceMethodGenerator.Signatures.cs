@@ -56,7 +56,7 @@ namespace Google.Api.Generator.Generation
                 {
                     // Type                  | Single optional | Single required | Repeated optional | Repeated required
                     // ----------------------|-----------------|-----------------|-------------------|------------------
-                    // Primitive             | nothing to do   | nothing to do   | null -> empty     | check not null
+                    // Primitive & enum      | nothing to do   | nothing to do   | null -> empty     | check not null
                     // string                | null -> ""      | check not empty | null -> empty     | check not null
                     // bytes                 | null -> byte[0] | check not null  | null -> empty     | check not null
                     // message               | null ok         | check not null  | null -> empty     | check not null
@@ -102,7 +102,7 @@ namespace Google.Api.Generator.Generation
                                     (object)param;
                             }
                         }
-                        else if (field.Typ.IsPrimitive)
+                        else if (field.Typ.IsPrimitive || field.Typ.IsEnum)
                         {
                             code = param;
                         }

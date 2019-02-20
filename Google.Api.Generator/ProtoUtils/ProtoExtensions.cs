@@ -53,6 +53,27 @@ namespace Google.Api.Generator.ProtoUtils
 
         public static string CSharpFieldName(this FieldDescriptor field) => field.Name.ToLowerCamelCase();
 
+        internal static string RemoveEnumPrefix(string enumName, string valueName)
+        {
+            // Duplicate of code in:
+            // https://github.com/protocolbuffers/protobuf/blob/3bf05b88eaf938526f7daee85ab6fb1efb0e809c/src/google/protobuf/compiler/csharp/csharp_helpers.cc#L270
+            enumName = enumName.ToUpperCamelCase(forceAllChars: true);
+            valueName = valueName.ToUpperCamelCase(forceAllChars: true);
+            if (valueName.Length > enumName.Length && valueName.ToLowerInvariant().StartsWith(enumName.ToLowerInvariant()))
+            {
+                // Final .ToUpperCamelCase() required as the first char may otherwise be lower.
+                // This call will only affect the first character.
+                valueName = valueName.Substring(enumName.Length).ToUpperCamelCase();
+            }
+            if (char.IsDigit(valueName[0]))
+            {
+                valueName = "_" + valueName;
+            }
+            return valueName;
+        }
+
+        public static string CSharpName(this EnumValueDescriptor desc) => RemoveEnumPrefix(desc.EnumDescriptor.Name, desc.Name);
+
         private static IEnumerable<(ulong number, ByteString byteString)> GetRepeated(CustomOptions opts, int field)
         {
             // There is no way of reading a repeated custom option.
