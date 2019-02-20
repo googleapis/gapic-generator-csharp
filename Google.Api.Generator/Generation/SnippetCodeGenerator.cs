@@ -67,6 +67,11 @@ namespace Google.Api.Generator.Generation
                     case MethodDetails.Normal _:
                         yield return methodDef.SyncRequestMethod;
                         yield return methodDef.AsyncRequestMethod;
+                        foreach (var signature in methodDef.Signatures)
+                        {
+                            yield return signature.SyncMethod;
+                            yield return signature.AsyncMethod;
+                        }
                         break;
                     case MethodDetails.Lro _:
                         yield return methodDef.SyncLroRequestMethod;
@@ -96,54 +101,60 @@ namespace Google.Api.Generator.Generation
             private LocalDeclarationStatementSyntax LroRetrievedResponse => Local(Ctx.Type(MethodLro.OperationTyp), "retrievedResponse");
             private LocalDeclarationStatementSyntax LroRetrievedResult => Local(Ctx.Type(MethodLro.OperationResponseTyp), "retrievedResult");
 
+            private object DefaultValue(FieldDescriptor fieldDesc)
+            {
+                var resource = Svc.Catalog.GetResourceDetailsByField(fieldDesc);
+                if (resource != null)
+                {
+                    // TODO: Resource-sets
+                    var one = resource.ResourceDefinition.One;
+                    object @default = one.IsWildcard ?
+                        New(Ctx.Type<UnknownResourceName>())("a/wildcard/resource") :
+                        New(Ctx.Type(one.ResourceNameTyp))(one.Template.ParameterNames.Select(x => $"[{x.ToUpperInvariant()}]"));
+                    return fieldDesc.IsRepeated ? CollectionInitializer(@default) : @default;
+                }
+                else
+                {
+                    object @default;
+                    if (fieldDesc.IsMap)
+                    {
+                        throw new NotImplementedException("Map types not yet implemented.");
+                    }
+                    // See https://developers.google.com/protocol-buffers/docs/proto3#scalar
+                    // Switch cases are ordered as in this doc. Please do not re-order.
+                    switch (fieldDesc.FieldType)
+                    {
+                        case FieldType.Double: @default = default(double); break;
+                        case FieldType.Float: @default = default(float); break;
+                        case FieldType.Int32: @default = default(int); break;
+                        case FieldType.Int64: @default = default(long); break;
+                        case FieldType.UInt32: @default = default(uint); break;
+                        case FieldType.UInt64: @default = default(ulong); break;
+                        case FieldType.SInt32: @default = default(int); break;
+                        case FieldType.SInt64: @default = default(long); break;
+                        case FieldType.Fixed32: @default = default(uint); break;
+                        case FieldType.Fixed64: @default = default(ulong); break;
+                        case FieldType.SFixed32: @default = default(int); break;
+                        case FieldType.SFixed64: @default = default(long); break;
+                        case FieldType.Bool: @default = default(bool); break;
+                        case FieldType.String: @default = ""; break;
+                        case FieldType.Bytes: @default = Ctx.Type<ByteString>().Access(nameof(ByteString.Empty)); break;
+                        case FieldType.Message: @default = New(Ctx.Type(Typ.Of(fieldDesc.MessageType)))(); break;
+                        case FieldType.Enum: @default = Ctx.Type(Typ.Of(fieldDesc.EnumType)).Access(fieldDesc.EnumType.Values.First().CSharpName()); break;
+                        default: throw new InvalidOperationException($"Cannot generate default for proto type: {fieldDesc.FieldType}");
+
+                    }
+                    return fieldDesc.IsRepeated ? CollectionInitializer(@default) : @default;
+                }
+            }
 
             private IEnumerable<ObjectInitExpr> InitRequest()
             {
                 foreach (var fieldDesc in Method.RequestMessageDesc.Fields.InFieldNumberOrder())
                 {
-                    var resource = Svc.Catalog.GetResourceDetailsByField(fieldDesc);
-                    if (resource != null)
-                    {
-                        // TODO: Resource-sets
-                        var one = resource.ResourceDefinition.One;
-                        object @default = one.IsWildcard ?
-                            New(Ctx.Type<UnknownResourceName>())("a/wildcard/resource") :
-                            New(Ctx.Type(one.ResourceNameTyp))(one.Template.ParameterNames.Select(x => $"[{x.ToUpperInvariant()}]"));
-                        yield return new ObjectInitExpr(resource.ResourcePropertyName, fieldDesc.IsRepeated ? CollectionInitializer(@default) : @default);
-                    }
-                    else
-                    {
-                        object @default;
-                        if (fieldDesc.IsMap)
-                        {
-                            throw new NotImplementedException("Map types not yet implemented.");
-                        }
-                        // See https://developers.google.com/protocol-buffers/docs/proto3#scalar
-                        // Switch cases are ordered as in this doc. Please do not re-order.
-                        switch (fieldDesc.FieldType)
-                        {
-                            case FieldType.Double: @default = default(double); break;
-                            case FieldType.Float: @default = default(float); break;
-                            case FieldType.Int32: @default = default(int); break;
-                            case FieldType.Int64: @default = default(long); break;
-                            case FieldType.UInt32: @default = default(uint); break;
-                            case FieldType.UInt64: @default = default(ulong); break;
-                            case FieldType.SInt32: @default = default(int); break;
-                            case FieldType.SInt64: @default = default(long); break;
-                            case FieldType.Fixed32: @default = default(uint); break;
-                            case FieldType.Fixed64: @default = default(ulong); break;
-                            case FieldType.SFixed32: @default = default(int); break;
-                            case FieldType.SFixed64: @default = default(long); break;
-                            case FieldType.Bool: @default = default(bool); break;
-                            case FieldType.String: @default = ""; break;
-                            case FieldType.Bytes: @default = Ctx.Type<ByteString>().Access(nameof(ByteString.Empty)); break;
-                            case FieldType.Message: @default = New(Ctx.Type(Typ.Of(fieldDesc.MessageType)))(); break;
-                            case FieldType.Enum: @default = Ctx.Type(Typ.Of(fieldDesc.EnumType)).Access(fieldDesc.EnumType.Values.First().CSharpName()); break;
-                            default: throw new InvalidOperationException($"Cannot generate default for proto type: {fieldDesc.FieldType}");
-
-                        }
-                        yield return new ObjectInitExpr(fieldDesc.CSharpPropertyName(), fieldDesc.IsRepeated ? CollectionInitializer(@default) : @default);
-                    }
+                    yield return new ObjectInitExpr(
+                        Svc.Catalog.GetResourceDetailsByField(fieldDesc)?.ResourcePropertyName ?? fieldDesc.CSharpPropertyName(),
+                        DefaultValue(fieldDesc));
                 }
             }
 
@@ -230,6 +241,58 @@ namespace Google.Api.Generator.Generation
                                 LroRetrievedResult.WithInitializer(LroRetrievedResponse.Access(nameof(Operation<ProtoMsg, ProtoMsg>.Result)))),
                         "// End snippet")
                     .WithXmlDoc(XmlDoc.Summary($"Snippet for {Method.AsyncMethodName}"));
+
+
+            public class Signature
+            {
+                public Signature(MethodDef def, MethodDetails.Signature sig, int? index) => (_def, _sig, _index) = (def, sig, index);
+
+                private MethodDef _def;
+                private MethodDetails.Signature _sig;
+                private int? _index;
+
+                private ServiceDetails Svc => _def.Svc;
+                private SourceFileContext Ctx => _def.Ctx;
+                private MethodDetails Method => _def.Method;
+
+                private string SyncMethodName => Method.SyncMethodName + (_index is int index ? (index + 1).ToString() : "");
+                private string AsyncMethodName => Method.AsyncMethodName + (_index is int index ? (index + 1).ToString() : "");
+
+                private IEnumerable<LocalDeclarationStatementSyntax> InitRequestArgs =>
+                    _sig.Fields.Select(f => Local(Ctx.Type(f.Typ), f.FieldName).WithInitializer(_def.DefaultValue(f.Desc)));
+
+                private string SnippetCommentArgs => string.Join(", ", _sig.Fields.Select(f => f.Typ.Name)) + (_sig.Fields.Any() ? ", " : "");
+
+                public MethodDeclarationSyntax SyncMethod =>
+                    Method(Public, VoidType, SyncMethodName)()
+                        .WithBody(
+                            $"// Snippet: {Method.SyncMethodName}({SnippetCommentArgs}{nameof(CallSettings)})",
+                            "// Create client",
+                            _def.Client.WithInitializer(Ctx.Type(Svc.ClientAbstractTyp).Call("Create")()),
+                            _sig.Fields.Any() ? "// Initialize request argument(s)" : null,
+                            InitRequestArgs,
+                            "// Make the request",
+                            _def.Response.WithInitializer(_def.Client.Call(Method.SyncMethodName)(InitRequestArgs.ToArray())),
+                            "// End snippet")
+                        .WithXmlDoc(XmlDoc.Summary($"Snippet for {Method.SyncMethodName}"));
+
+                public MethodDeclarationSyntax AsyncMethod =>
+                    Method(Public | Async, Ctx.Type<Task>(), AsyncMethodName)()
+                        .WithBody(
+                            $"// Snippet: {Method.AsyncMethodName}({SnippetCommentArgs}{nameof(CallSettings)})",
+                            $"// Additional: {Method.AsyncMethodName}({SnippetCommentArgs}{nameof(CancellationToken)})",
+                            "// Create client",
+                            _def.Client.WithInitializer(Await(Ctx.Type(Svc.ClientAbstractTyp).Call("CreateAsync")())),
+                            _sig.Fields.Any() ? "// Initialize request argument(s)" : null,
+                            InitRequestArgs,
+                            "// Make the request",
+                            _def.Response.WithInitializer(Await(_def.Client.Call(Method.AsyncMethodName)(InitRequestArgs.ToArray()))),
+                            "// End snippet")
+                        .WithXmlDoc(XmlDoc.Summary($"Snippet for {Method.AsyncMethodName}"));
+
+            }
+
+            public IEnumerable<Signature> Signatures => Method.Signatures.Select((sig, i) => new Signature(this, sig, Method.Signatures.Count > 1 ? i : (int?)null));
         }
     }
 }

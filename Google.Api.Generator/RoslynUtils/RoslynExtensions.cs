@@ -104,21 +104,19 @@ namespace Google.Api.Generator.RoslynUtils
             }
             return obj.WithInitializer(InitializerExpression(SyntaxKind.ObjectInitializerExpression,
                 SeparatedList<ExpressionSyntax>(inits.Select(init =>
-                    AssignmentExpression(SyntaxKind.SimpleAssignmentExpression, ToSimpleName(init.PropertyName), ToExpressions(init.Code).Single())))));
+                    AssignmentExpression(SyntaxKind.SimpleAssignmentExpression, ToSimpleName(init.PropertyName), ToExpression(init.Code))))));
         }
 
         public static PropertyDeclarationSyntax WithInitializer(this PropertyDeclarationSyntax prop, object code) =>
-            prop.WithInitializer(EqualsValueClause(((ExpressionStatementSyntax)ToStatements(code).Single()).Expression)).WithSemicolonToken(s_semicolonToken);
+            prop.WithInitializer(EqualsValueClause(ToExpression(code))).WithSemicolonToken(s_semicolonToken);
 
         public static FieldDeclarationSyntax WithInitializer(this FieldDeclarationSyntax field, object code) =>
             field.WithDeclaration(field.Declaration.WithVariables(
-                SingletonSeparatedList(field.Declaration.Variables.Single().WithInitializer(
-                    EqualsValueClause(((ExpressionStatementSyntax)ToStatements(code).Single()).Expression)))));
+                SingletonSeparatedList(field.Declaration.Variables.Single().WithInitializer(EqualsValueClause(ToExpression(code))))));
 
         public static LocalDeclarationStatementSyntax WithInitializer(this LocalDeclarationStatementSyntax var, object code) =>
             var.WithDeclaration(var.Declaration.WithVariables(
-                SingletonSeparatedList(var.Declaration.Variables.Single().WithInitializer(
-                    EqualsValueClause(((ExpressionStatementSyntax)ToStatements(code).Single()).Expression)))));
+                SingletonSeparatedList(var.Declaration.Variables.Single().WithInitializer(EqualsValueClause(ToExpression(code))))));
 
         public static RoslynBuilder.ArgumentsFunc<InvocationExpressionSyntax> Call(
             this TypeSyntax type, object method, params TypeSyntax[] genericArgs) => args =>
