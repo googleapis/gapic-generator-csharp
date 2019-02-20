@@ -1,8 +1,8 @@
-﻿using Google.LongRunning;
-using System.Threading.Tasks;
-
-namespace Testing.Basiclro
+﻿namespace Testing.Basiclro
 {
+    using Google.LongRunning;
+    using System.Threading.Tasks;
+
     /// <summary>Generated snippets.</summary>
     public sealed class GeneratedBasicLroSnippets
     {
