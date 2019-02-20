@@ -20,13 +20,23 @@ namespace Google.Api.Generator.Tests
     public class ProtoExtensionsTest
     {
         [Theory]
-        [InlineData("enum", "not_the_same", "NotTheSame")]
-        [InlineData("enum", "enum", "Enum")]
-        [InlineData("enum", "enum_2", "_2")]
         [InlineData("enum_type", "enumtype_value", "Value")]
         [InlineData("enumtype", "enum_type_value", "Value")]
         [InlineData("enum_type", "ENUMTYPEVALUE", "Value")]
         [InlineData("enum_type", "ENUMTYPE_VALUE_2", "Value2")]
+        // Tests from https://github.com/protocolbuffers/protobuf/blob/d9ccd0c0e6bbda9bf4476088eeb46b02d7dcd327/src/google/protobuf/compiler/csharp/csharp_generator_unittest.cc
+        [InlineData("Foo", "BAR", "Bar")]
+        [InlineData("Foo", "BAR_BAZ", "BarBaz")]
+        [InlineData("Foo", "FOO_BAR", "Bar")]
+        [InlineData("Foo", "FOO__BAR", "Bar")]
+        [InlineData("Foo", "FOO_BAR_BAZ", "BarBaz")]
+        [InlineData("Foo", "Foo_BarBaz", "BarBaz")]
+        [InlineData("FO_O", "FOO_BAR", "Bar")]
+        [InlineData("FOO", "F_O_O_BAR", "Bar")]
+        [InlineData("Foo", "FOO", "Foo")]
+        [InlineData("Foo", "FOO___", "Foo")]
+        [InlineData("Foo", "FOO_2_BAR", "_2Bar")]
+        [InlineData("Foo", "FOO___2", "_2")]
         public void RemoveEnumPrefix(string enumName, string valueName, string expectedCSharpName) =>
             Assert.Equal(expectedCSharpName, ProtoExtensions.RemoveEnumPrefix(enumName, valueName));
     }
