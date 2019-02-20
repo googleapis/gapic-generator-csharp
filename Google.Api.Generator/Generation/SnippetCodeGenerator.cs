@@ -53,13 +53,6 @@ namespace Google.Api.Generator.Generation
                     cls = cls.AddMembers(GenerateMethods().ToArray());
                 }
                 ns = ns.AddMembers(cls);
-                //var settingsClass = ServiceSettingsCodeGenerator.Generate(ctx, svc);
-                //var abstractClientClass = ServiceAbstractClientClassCodeGenerator.Generate(ctx, svc);
-                //var implClientClass = ServiceImplClientClassGenerator.Generate(ctx, svc);
-                //ns = ns.AddMembers(settingsClass, abstractClientClass, implClientClass);
-
-                //ns = ns.AddMembers(PaginatedPartialClasses(ctx, svc).ToArray());
-                //ns = ns.AddMembers(LroPartialClasses(ctx, svc).ToArray());
             }
             return _ctx.CreateCompilationUnit(ns);
         }
@@ -68,173 +61,175 @@ namespace Google.Api.Generator.Generation
         {
             foreach (var method in _svc.Methods)
             {
-                IEnumerable<MethodDeclarationSyntax> methods;
+                var methodDef = new MethodDef(_ctx, _svc, method);
                 switch (method)
                 {
-                    case MethodDetails.Normal normal:
-                        methods = GenerateNormalMethod(normal);
+                    case MethodDetails.Normal _:
+                        yield return methodDef.SyncRequestMethod;
+                        yield return methodDef.AsyncRequestMethod;
                         break;
-                    case MethodDetails.Lro lro:
-                        methods = GenerateLroMethod(lro);
+                    case MethodDetails.Lro _:
+                        yield return methodDef.SyncLroRequestMethod;
+                        yield return methodDef.AsyncLroRequestMethod;
                         break;
-                    default:
-                        methods = Enumerable.Empty<MethodDeclarationSyntax>();
-                        break;
-                }
-                foreach (var methodDecl in methods)
-                {
-                    yield return methodDecl;
                 }
             }
         }
 
-        private IEnumerable<ObjectInitExpr> InitRequest(MethodDetails method)
+        private class MethodDef
         {
-            foreach (var fieldDesc in method.RequestMessageDesc.Fields.InFieldNumberOrder())
+            public MethodDef(SourceFileContext ctx, ServiceDetails svc, MethodDetails method) =>
+                (Ctx, Svc, Method) = (ctx, svc, method);
+
+            private SourceFileContext Ctx { get; }
+            private ServiceDetails Svc { get; }
+            private MethodDetails Method { get; }
+            private MethodDetails.Lro MethodLro => (MethodDetails.Lro)Method;
+
+            private LocalDeclarationStatementSyntax Client => Local(Ctx.Type(Svc.ClientAbstractTyp), Svc.SnippetsClientName);
+            private LocalDeclarationStatementSyntax Request => Local(Ctx.Type(Method.RequestTyp), "request");
+            private LocalDeclarationStatementSyntax Response => Local(Ctx.Type(Method.ResponseTyp), "response");
+            private LocalDeclarationStatementSyntax LroResponse => Local(Ctx.Type(MethodLro.OperationTyp), "response");
+            private LocalDeclarationStatementSyntax LroCompletedResponse => Local(Ctx.Type(MethodLro.OperationTyp), "completedResponse");
+            private LocalDeclarationStatementSyntax LroResult => Local(Ctx.Type(MethodLro.OperationResponseTyp), "result");
+            private LocalDeclarationStatementSyntax LroOperationName => Local(Ctx.Type<string>(), "operationName");
+            private LocalDeclarationStatementSyntax LroRetrievedResponse => Local(Ctx.Type(MethodLro.OperationTyp), "retrievedResponse");
+            private LocalDeclarationStatementSyntax LroRetrievedResult => Local(Ctx.Type(MethodLro.OperationResponseTyp), "retrievedResult");
+
+
+            private IEnumerable<ObjectInitExpr> InitRequest()
             {
-                var resource = _svc.Catalog.GetResourceDetailsByField(fieldDesc);
-                if (resource != null)
+                foreach (var fieldDesc in Method.RequestMessageDesc.Fields.InFieldNumberOrder())
                 {
-                    // TODO: Resource-sets
-                    var one = resource.ResourceDefinition.One;
-                    object @default = one.IsWildcard ?
-                        New(_ctx.Type<UnknownResourceName>())("a/wildcard/resource") :
-                        New(_ctx.Type(one.ResourceNameTyp))(one.Template.ParameterNames.Select(x => $"[{x.ToUpperInvariant()}]"));
-                    yield return new ObjectInitExpr(resource.ResourcePropertyName, fieldDesc.IsRepeated ? CollectionInitializer(@default) : @default);
-                }
-                else
-                {
-                    object @default;
-                    if (fieldDesc.IsMap)
+                    var resource = Svc.Catalog.GetResourceDetailsByField(fieldDesc);
+                    if (resource != null)
                     {
-                        throw new NotImplementedException("Map types not yet implemented.");
+                        // TODO: Resource-sets
+                        var one = resource.ResourceDefinition.One;
+                        object @default = one.IsWildcard ?
+                            New(Ctx.Type<UnknownResourceName>())("a/wildcard/resource") :
+                            New(Ctx.Type(one.ResourceNameTyp))(one.Template.ParameterNames.Select(x => $"[{x.ToUpperInvariant()}]"));
+                        yield return new ObjectInitExpr(resource.ResourcePropertyName, fieldDesc.IsRepeated ? CollectionInitializer(@default) : @default);
                     }
-                    // See https://developers.google.com/protocol-buffers/docs/proto3#scalar
-                    // Switch cases are ordered as in this doc. Please do not re-order.
-                    switch (fieldDesc.FieldType)
+                    else
                     {
-                        case FieldType.Double: @default = default(double); break;
-                        case FieldType.Float: @default = default(float); break;
-                        case FieldType.Int32: @default = default(int); break;
-                        case FieldType.Int64: @default = default(long); break;
-                        case FieldType.UInt32: @default = default(uint); break;
-                        case FieldType.UInt64: @default = default(ulong); break;
-                        case FieldType.SInt32: @default = default(int); break;
-                        case FieldType.SInt64: @default = default(long); break;
-                        case FieldType.Fixed32: @default = default(uint); break;
-                        case FieldType.Fixed64: @default = default(ulong); break;
-                        case FieldType.SFixed32: @default = default(int); break;
-                        case FieldType.SFixed64: @default = default(long); break;
-                        case FieldType.Bool: @default = default(bool); break;
-                        case FieldType.String: @default = ""; break;
-                        case FieldType.Bytes: @default = _ctx.Type<ByteString>().Access(nameof(ByteString.Empty)); break;
-                        case FieldType.Message: @default = New(_ctx.Type(Typ.Of(fieldDesc.MessageType)))(); break;
-                        case FieldType.Enum: @default = _ctx.Type(Typ.Of(fieldDesc.EnumType)).Access(fieldDesc.EnumType.Values.First().CSharpName()); break;
-                        default: throw new InvalidOperationException($"Cannot generate default for proto type: {fieldDesc.FieldType}");
+                        object @default;
+                        if (fieldDesc.IsMap)
+                        {
+                            throw new NotImplementedException("Map types not yet implemented.");
+                        }
+                        // See https://developers.google.com/protocol-buffers/docs/proto3#scalar
+                        // Switch cases are ordered as in this doc. Please do not re-order.
+                        switch (fieldDesc.FieldType)
+                        {
+                            case FieldType.Double: @default = default(double); break;
+                            case FieldType.Float: @default = default(float); break;
+                            case FieldType.Int32: @default = default(int); break;
+                            case FieldType.Int64: @default = default(long); break;
+                            case FieldType.UInt32: @default = default(uint); break;
+                            case FieldType.UInt64: @default = default(ulong); break;
+                            case FieldType.SInt32: @default = default(int); break;
+                            case FieldType.SInt64: @default = default(long); break;
+                            case FieldType.Fixed32: @default = default(uint); break;
+                            case FieldType.Fixed64: @default = default(ulong); break;
+                            case FieldType.SFixed32: @default = default(int); break;
+                            case FieldType.SFixed64: @default = default(long); break;
+                            case FieldType.Bool: @default = default(bool); break;
+                            case FieldType.String: @default = ""; break;
+                            case FieldType.Bytes: @default = Ctx.Type<ByteString>().Access(nameof(ByteString.Empty)); break;
+                            case FieldType.Message: @default = New(Ctx.Type(Typ.Of(fieldDesc.MessageType)))(); break;
+                            case FieldType.Enum: @default = Ctx.Type(Typ.Of(fieldDesc.EnumType)).Access(fieldDesc.EnumType.Values.First().CSharpName()); break;
+                            default: throw new InvalidOperationException($"Cannot generate default for proto type: {fieldDesc.FieldType}");
 
+                        }
+                        yield return new ObjectInitExpr(fieldDesc.CSharpPropertyName(), fieldDesc.IsRepeated ? CollectionInitializer(@default) : @default);
                     }
-                    yield return new ObjectInitExpr(fieldDesc.CSharpPropertyName(), fieldDesc.IsRepeated ? CollectionInitializer(@default) : @default);
                 }
             }
-        }
 
-        private IEnumerable<MethodDeclarationSyntax> GenerateNormalMethod(MethodDetails.Normal method)
-        {
-            var client = Local(_ctx.Type(_svc.ClientAbstractTyp), _svc.SnippetsClientName);
-            // Sync request method
-            var request = Local(_ctx.Type(method.RequestTyp), "request");
-            var response = Local(_ctx.Type(method.ResponseTyp), "response");
-            yield return Method(Public, VoidType, method.SyncSnippetMethodName)()
-                .WithBody(
-                    $"// Snippet: {method.SyncMethodName}({method.RequestTyp.Name}, {nameof(CallSettings)})",
-                    "// Create client",
-                    client.WithInitializer(_ctx.Type(_svc.ClientAbstractTyp).Call("Create")()),
-                    "// Initialize request argument(s)",
-                    request.WithInitializer(New(_ctx.Type(method.RequestTyp))().WithInitializer(InitRequest(method).ToArray())),
-                    "// Make the request",
-                    response.WithInitializer(client.Call(method.SyncMethodName)(request)),
-                    "// End snippet")
-                .WithXmlDoc(XmlDoc.Summary($"Snippet for {method.SyncMethodName}"));
-            // Async request method
-            yield return Method(Public | Async, _ctx.Type<Task>(), method.AsyncSnippetMethodName)()
-                .WithBody(
-                    $"// Snippet: {method.AsyncMethodName}({method.RequestTyp.Name}, {nameof(CallSettings)})",
-                    $"// Additional: {method.AsyncMethodName}({method.RequestTyp.Name}, {nameof(CancellationToken)})",
-                    "// Create client",
-                    client.WithInitializer(Await(_ctx.Type(_svc.ClientAbstractTyp).Call("CreateAsync")())),
-                    "// Initialize request argument(s)",
-                    request.WithInitializer(New(_ctx.Type(method.RequestTyp))().WithInitializer(InitRequest(method).ToArray())),
-                    "// Make the request",
-                    response.WithInitializer(Await(client.Call(method.AsyncMethodName)(request))),
-                    "// End snippet")
-                .WithXmlDoc(XmlDoc.Summary($"Snippet for {method.AsyncMethodName}"));
-        }
+            public MethodDeclarationSyntax SyncRequestMethod =>
+                Method(Public, VoidType, Method.SyncSnippetMethodName)()
+                    .WithBody(
+                        $"// Snippet: {Method.SyncMethodName}({Method.RequestTyp.Name}, {nameof(CallSettings)})",
+                        "// Create client",
+                        Client.WithInitializer(Ctx.Type(Svc.ClientAbstractTyp).Call("Create")()),
+                        "// Initialize request argument(s)",
+                        Request.WithInitializer(New(Ctx.Type(Method.RequestTyp))().WithInitializer(InitRequest().ToArray())),
+                        "// Make the request",
+                        Response.WithInitializer(Client.Call(Method.SyncMethodName)(Request)),
+                        "// End snippet")
+                    .WithXmlDoc(XmlDoc.Summary($"Snippet for {Method.SyncMethodName}"));
 
-        private IEnumerable<MethodDeclarationSyntax> GenerateLroMethod(MethodDetails.Lro method)
-        {
-            var client = Local(_ctx.Type(_svc.ClientAbstractTyp), _svc.SnippetsClientName);
-            var request = Local(_ctx.Type(method.RequestTyp), "request");
-            var response = Local(_ctx.Type(method.OperationTyp), "response");
-            var completedResponse = Local(_ctx.Type(method.OperationTyp), "completedResponse");
-            var result = Local(_ctx.Type(method.OperationResponseTyp), "result");
-            var operationName = Local(_ctx.Type<string>(), "operationName");
-            var retrievedResponse = Local(_ctx.Type(method.OperationTyp), "retrievedResponse");
-            var retrievedResult = Local(_ctx.Type(method.OperationResponseTyp), "retrievedResult");
-            // Sync request method
-            yield return Method(Public, VoidType, method.SyncSnippetMethodName)()
-                .WithBody(
-                    $"// Snippet: {method.SyncMethodName}({method.RequestTyp.Name}, {nameof(CallSettings)})",
-                    "// Create client",
-                    client.WithInitializer(_ctx.Type(_svc.ClientAbstractTyp).Call("Create")()),
-                    "// Initialize request argument(s)",
-                    request.WithInitializer(New(_ctx.Type(method.RequestTyp))().WithInitializer(InitRequest(method).ToArray())),
-                    "// Make the request",
-                    response.WithInitializer(client.Call(method.SyncMethodName)(request)),
-                    BlankLine,
-                    "// Poll until the returned long-running operation is complete",
-                    completedResponse.WithInitializer(response.Call(nameof(Operation<ProtoMsg, ProtoMsg>.PollUntilCompleted))()),
-                    "// Retrieve the operation result",
-                    result.WithInitializer(completedResponse.Access(nameof(Operation<ProtoMsg, ProtoMsg>.Result))),
-                    BlankLine,
-                    "// Or get the name of the operation",
-                    operationName.WithInitializer(response.Access(nameof(Operation<ProtoMsg,ProtoMsg>.Name))),
-                    "// This name can be stored, then the long-running operation retrieved later by name",
-                    retrievedResponse.WithInitializer(client.Call(method.SyncPollMethodName)(operationName)),
-                    "// Check if the retrieved long-running operation has completed",
-                    If(retrievedResponse.Access(nameof(Operation<ProtoMsg,ProtoMsg>.IsCompleted)))
-                        .Then(
-                            "// If it has completed, then access the result",
-                            retrievedResult.WithInitializer(retrievedResponse.Access(nameof(Operation<ProtoMsg,ProtoMsg>.Result)))),
-                    "// End snippet")
-                .WithXmlDoc(XmlDoc.Summary($"Snippet for {method.SyncMethodName}"));
-            // Async request method
-            yield return Method(Public | Async, _ctx.Type<Task>(), method.AsyncSnippetMethodName)()
-                .WithBody(
-                    $"// Snippet: {method.AsyncMethodName}({method.RequestTyp.Name}, {nameof(CallSettings)})",
-                    $"// Additional: {method.AsyncMethodName}({method.RequestTyp.Name}, {nameof(CancellationToken)})",
-                    "// Create client",
-                    client.WithInitializer(Await(_ctx.Type(_svc.ClientAbstractTyp).Call("CreateAsync")())),
-                    "// Initialize request argument(s)",
-                    request.WithInitializer(New(_ctx.Type(method.RequestTyp))().WithInitializer(InitRequest(method).ToArray())),
-                    "// Make the request",
-                    response.WithInitializer(Await(client.Call(method.AsyncMethodName)(request))),
-                    BlankLine,
-                    "// Poll until the returned long-running operation is complete",
-                    completedResponse.WithInitializer(Await(response.Call(nameof(Operation<ProtoMsg, ProtoMsg>.PollUntilCompletedAsync))())),
-                    "// Retrieve the operation result",
-                    result.WithInitializer(completedResponse.Access(nameof(Operation<ProtoMsg, ProtoMsg>.Result))),
-                    BlankLine,
-                    "// Or get the name of the operation",
-                    operationName.WithInitializer(response.Access(nameof(Operation<ProtoMsg, ProtoMsg>.Name))),
-                    "// This name can be stored, then the long-running operation retrieved later by name",
-                    retrievedResponse.WithInitializer(Await(client.Call(method.AsyncPollMethodName)(operationName))),
-                    "// Check if the retrieved long-running operation has completed",
-                    If(retrievedResponse.Access(nameof(Operation<ProtoMsg, ProtoMsg>.IsCompleted)))
-                        .Then(
-                            "// If it has completed, then access the result",
-                            retrievedResult.WithInitializer(retrievedResponse.Access(nameof(Operation<ProtoMsg, ProtoMsg>.Result)))),
-                    "// End snippet")
-                .WithXmlDoc(XmlDoc.Summary($"Snippet for {method.AsyncMethodName}"));
+            public MethodDeclarationSyntax AsyncRequestMethod =>
+                Method(Public | Async, Ctx.Type<Task>(), Method.AsyncSnippetMethodName)()
+                    .WithBody(
+                        $"// Snippet: {Method.AsyncMethodName}({Method.RequestTyp.Name}, {nameof(CallSettings)})",
+                        $"// Additional: {Method.AsyncMethodName}({Method.RequestTyp.Name}, {nameof(CancellationToken)})",
+                        "// Create client",
+                        Client.WithInitializer(Await(Ctx.Type(Svc.ClientAbstractTyp).Call("CreateAsync")())),
+                        "// Initialize request argument(s)",
+                        Request.WithInitializer(New(Ctx.Type(Method.RequestTyp))().WithInitializer(InitRequest().ToArray())),
+                        "// Make the request",
+                        Response.WithInitializer(Await(Client.Call(Method.AsyncMethodName)(Request))),
+                        "// End snippet")
+                    .WithXmlDoc(XmlDoc.Summary($"Snippet for {Method.AsyncMethodName}"));
+
+            public MethodDeclarationSyntax SyncLroRequestMethod =>
+                Method(Public, VoidType, Method.SyncSnippetMethodName)()
+                    .WithBody(
+                        $"// Snippet: {Method.SyncMethodName}({Method.RequestTyp.Name}, {nameof(CallSettings)})",
+                        "// Create client",
+                        Client.WithInitializer(Ctx.Type(Svc.ClientAbstractTyp).Call("Create")()),
+                        "// Initialize request argument(s)",
+                        Request.WithInitializer(New(Ctx.Type(Method.RequestTyp))().WithInitializer(InitRequest().ToArray())),
+                        "// Make the request",
+                        LroResponse.WithInitializer(Client.Call(Method.SyncMethodName)(Request)),
+                        BlankLine,
+                        "// Poll until the returned long-running operation is complete",
+                        LroCompletedResponse.WithInitializer(LroResponse.Call(nameof(Operation<ProtoMsg, ProtoMsg>.PollUntilCompleted))()),
+                        "// Retrieve the operation result",
+                        LroResult.WithInitializer(LroCompletedResponse.Access(nameof(Operation<ProtoMsg, ProtoMsg>.Result))),
+                        BlankLine,
+                        "// Or get the name of the operation",
+                        LroOperationName.WithInitializer(LroResponse.Access(nameof(Operation<ProtoMsg, ProtoMsg>.Name))),
+                        "// This name can be stored, then the long-running operation retrieved later by name",
+                        LroRetrievedResponse.WithInitializer(Client.Call(MethodLro.SyncPollMethodName)(LroOperationName)),
+                        "// Check if the retrieved long-running operation has completed",
+                        If(LroRetrievedResponse.Access(nameof(Operation<ProtoMsg, ProtoMsg>.IsCompleted)))
+                            .Then(
+                                "// If it has completed, then access the result",
+                                LroRetrievedResult.WithInitializer(LroRetrievedResponse.Access(nameof(Operation<ProtoMsg, ProtoMsg>.Result)))),
+                        "// End snippet")
+                    .WithXmlDoc(XmlDoc.Summary($"Snippet for {Method.SyncMethodName}"));
+
+            public MethodDeclarationSyntax AsyncLroRequestMethod =>
+                Method(Public | Async, Ctx.Type<Task>(), Method.AsyncSnippetMethodName)()
+                    .WithBody(
+                        $"// Snippet: {Method.AsyncMethodName}({Method.RequestTyp.Name}, {nameof(CallSettings)})",
+                        $"// Additional: {Method.AsyncMethodName}({Method.RequestTyp.Name}, {nameof(CancellationToken)})",
+                        "// Create client",
+                        Client.WithInitializer(Await(Ctx.Type(Svc.ClientAbstractTyp).Call("CreateAsync")())),
+                        "// Initialize request argument(s)",
+                        Request.WithInitializer(New(Ctx.Type(Method.RequestTyp))().WithInitializer(InitRequest().ToArray())),
+                        "// Make the request",
+                        LroResponse.WithInitializer(Await(Client.Call(Method.AsyncMethodName)(Request))),
+                        BlankLine,
+                        "// Poll until the returned long-running operation is complete",
+                        LroCompletedResponse.WithInitializer(Await(LroResponse.Call(nameof(Operation<ProtoMsg, ProtoMsg>.PollUntilCompletedAsync))())),
+                        "// Retrieve the operation result",
+                        LroResult.WithInitializer(LroCompletedResponse.Access(nameof(Operation<ProtoMsg, ProtoMsg>.Result))),
+                        BlankLine,
+                        "// Or get the name of the operation",
+                        LroOperationName.WithInitializer(LroResponse.Access(nameof(Operation<ProtoMsg, ProtoMsg>.Name))),
+                        "// This name can be stored, then the long-running operation retrieved later by name",
+                        LroRetrievedResponse.WithInitializer(Await(Client.Call(MethodLro.AsyncPollMethodName)(LroOperationName))),
+                        "// Check if the retrieved long-running operation has completed",
+                        If(LroRetrievedResponse.Access(nameof(Operation<ProtoMsg, ProtoMsg>.IsCompleted)))
+                            .Then(
+                                "// If it has completed, then access the result",
+                                LroRetrievedResult.WithInitializer(LroRetrievedResponse.Access(nameof(Operation<ProtoMsg, ProtoMsg>.Result)))),
+                        "// End snippet")
+                    .WithXmlDoc(XmlDoc.Summary($"Snippet for {Method.AsyncMethodName}"));
         }
     }
 }
