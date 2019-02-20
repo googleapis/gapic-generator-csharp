@@ -212,8 +212,10 @@ namespace Google.Api.Generator.Formatting
             {
                 node = node.WithStatements(List(node.Statements.Select(s =>
                 {
-                    var preTrivia = s.GetLeadingTrivia().Where(x => !x.Span.IsEmpty).SelectMany(x => new[] { _indentTrivia, x, CarriageReturnLineFeed }).Append(_indentTrivia);
-                    var postTrivia = s.GetTrailingTrivia().Where(x => !x.Span.IsEmpty).SelectMany(x => new[] { _indentTrivia, x, CarriageReturnLineFeed }).Prepend(CarriageReturnLineFeed);
+                    IEnumerable<SyntaxTrivia> AdjustTrivia(SyntaxTrivia triv) => triv.ToString().Trim() == ""
+                        ? new[] { CarriageReturnLineFeed } : new[] { _indentTrivia, triv, CarriageReturnLineFeed };
+                    var preTrivia = s.GetLeadingTrivia().Where(x => !x.Span.IsEmpty).SelectMany(AdjustTrivia).Append(_indentTrivia);
+                    var postTrivia = s.GetTrailingTrivia().Where(x => !x.Span.IsEmpty).SelectMany(AdjustTrivia).Prepend(CarriageReturnLineFeed);
                     return Visit(s).WithLeadingTrivia(preTrivia).WithTrailingTrivia(postTrivia);
                 })));
             }
