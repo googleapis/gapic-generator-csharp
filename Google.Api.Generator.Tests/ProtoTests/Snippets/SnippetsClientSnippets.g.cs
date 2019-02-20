@@ -273,7 +273,7 @@
         }
 
         /// <summary>Snippet for MethodThreeSignaturesAsync</summary>
-        public async Task MethodThreeSignaturesAsync1()
+        public async Task MethodThreeSignatures1Async()
         {
             // Snippet: MethodThreeSignaturesAsync(String, Int32, Boolean, CallSettings)
             // Additional: MethodThreeSignaturesAsync(String, Int32, Boolean, CancellationToken)
@@ -303,7 +303,7 @@
         }
 
         /// <summary>Snippet for MethodThreeSignaturesAsync</summary>
-        public async Task MethodThreeSignaturesAsync2()
+        public async Task MethodThreeSignatures2Async()
         {
             // Snippet: MethodThreeSignaturesAsync(String, Boolean, CallSettings)
             // Additional: MethodThreeSignaturesAsync(String, Boolean, CancellationToken)
@@ -329,7 +329,7 @@
         }
 
         /// <summary>Snippet for MethodThreeSignaturesAsync</summary>
-        public async Task MethodThreeSignaturesAsync3()
+        public async Task MethodThreeSignatures3Async()
         {
             // Snippet: MethodThreeSignaturesAsync(CallSettings)
             // Additional: MethodThreeSignaturesAsync(CancellationToken)
@@ -337,6 +337,159 @@
             SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
             // Make the request
             Response response = await snippetsClient.MethodThreeSignaturesAsync();
+            // End snippet
+        }
+
+        /// <summary>Snippet for MethodResourceSignature</summary>
+        public void MethodResourceSignature_RequestObject()
+        {
+            // Snippet: MethodResourceSignature(ResourceSignatureRequest, CallSettings)
+            // Create client
+            SnippetsClient snippetsClient = SnippetsClient.Create();
+            // Initialize request argument(s)
+            ResourceSignatureRequest request = new ResourceSignatureRequest
+            {
+                FirstNameAsSimpleResourceName = new SimpleResourceName("[ITEM_ID]"),
+                SecondNameAsSimpleResourceName = new SimpleResourceName("[ITEM_ID]"),
+                ThirdNameAsSimpleResourceName = new SimpleResourceName("[ITEM_ID]"),
+            };
+            // Make the request
+            Response response = snippetsClient.MethodResourceSignature(request);
+            // End snippet
+        }
+
+        /// <summary>Snippet for MethodResourceSignatureAsync</summary>
+        public async Task MethodResourceSignatureAsync_RequestObject()
+        {
+            // Snippet: MethodResourceSignatureAsync(ResourceSignatureRequest, CallSettings)
+            // Additional: MethodResourceSignatureAsync(ResourceSignatureRequest, CancellationToken)
+            // Create client
+            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            // Initialize request argument(s)
+            ResourceSignatureRequest request = new ResourceSignatureRequest
+            {
+                FirstNameAsSimpleResourceName = new SimpleResourceName("[ITEM_ID]"),
+                SecondNameAsSimpleResourceName = new SimpleResourceName("[ITEM_ID]"),
+                ThirdNameAsSimpleResourceName = new SimpleResourceName("[ITEM_ID]"),
+            };
+            // Make the request
+            Response response = await snippetsClient.MethodResourceSignatureAsync(request);
+            // End snippet
+        }
+
+        /// <summary>Snippet for MethodResourceSignature</summary>
+        public void MethodResourceSignature1()
+        {
+            // Snippet: MethodResourceSignature(String, String, String, CallSettings)
+            // Create client
+            SnippetsClient snippetsClient = SnippetsClient.Create();
+            // Initialize request argument(s)
+            string firstName = "items/[ITEM_ID]";
+            string secondName = "items/[ITEM_ID]";
+            string thirdName = "items/[ITEM_ID]";
+            // Make the request
+            Response response = snippetsClient.MethodResourceSignature(firstName, secondName, thirdName);
+            // End snippet
+        }
+
+        /// <summary>Snippet for MethodResourceSignatureAsync</summary>
+        public async Task MethodResourceSignature1Async()
+        {
+            // Snippet: MethodResourceSignatureAsync(String, String, String, CallSettings)
+            // Additional: MethodResourceSignatureAsync(String, String, String, CancellationToken)
+            // Create client
+            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            // Initialize request argument(s)
+            string firstName = "items/[ITEM_ID]";
+            string secondName = "items/[ITEM_ID]";
+            string thirdName = "items/[ITEM_ID]";
+            // Make the request
+            Response response = await snippetsClient.MethodResourceSignatureAsync(firstName, secondName, thirdName);
+            // End snippet
+        }
+
+        /// <summary>Snippet for MethodResourceSignature</summary>
+        public void MethodResourceSignature1_ResourceNames()
+        {
+            // Snippet: MethodResourceSignature(SimpleResourceName, SimpleResourceName, SimpleResourceName, CallSettings)
+            // Create client
+            SnippetsClient snippetsClient = SnippetsClient.Create();
+            // Initialize request argument(s)
+            SimpleResourceName firstName = new SimpleResourceName("[ITEM_ID]");
+            SimpleResourceName secondName = new SimpleResourceName("[ITEM_ID]");
+            SimpleResourceName thirdName = new SimpleResourceName("[ITEM_ID]");
+            // Make the request
+            Response response = snippetsClient.MethodResourceSignature(firstName, secondName, thirdName);
+            // End snippet
+        }
+
+        /// <summary>Snippet for MethodResourceSignatureAsync</summary>
+        public async Task MethodResourceSignature1Async_ResourceNames()
+        {
+            // Snippet: MethodResourceSignatureAsync(SimpleResourceName, SimpleResourceName, SimpleResourceName, CallSettings)
+            // Additional: MethodResourceSignatureAsync(SimpleResourceName, SimpleResourceName, SimpleResourceName, CancellationToken)
+            // Create client
+            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            // Initialize request argument(s)
+            SimpleResourceName firstName = new SimpleResourceName("[ITEM_ID]");
+            SimpleResourceName secondName = new SimpleResourceName("[ITEM_ID]");
+            SimpleResourceName thirdName = new SimpleResourceName("[ITEM_ID]");
+            // Make the request
+            Response response = await snippetsClient.MethodResourceSignatureAsync(firstName, secondName, thirdName);
+            // End snippet
+        }
+
+        /// <summary>Snippet for MethodResourceSignature</summary>
+        public void MethodResourceSignature2()
+        {
+            // Snippet: MethodResourceSignature(String, CallSettings)
+            // Create client
+            SnippetsClient snippetsClient = SnippetsClient.Create();
+            // Initialize request argument(s)
+            string firstName = "items/[ITEM_ID]";
+            // Make the request
+            Response response = snippetsClient.MethodResourceSignature(firstName);
+            // End snippet
+        }
+
+        /// <summary>Snippet for MethodResourceSignatureAsync</summary>
+        public async Task MethodResourceSignature2Async()
+        {
+            // Snippet: MethodResourceSignatureAsync(String, CallSettings)
+            // Additional: MethodResourceSignatureAsync(String, CancellationToken)
+            // Create client
+            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            // Initialize request argument(s)
+            string firstName = "items/[ITEM_ID]";
+            // Make the request
+            Response response = await snippetsClient.MethodResourceSignatureAsync(firstName);
+            // End snippet
+        }
+
+        /// <summary>Snippet for MethodResourceSignature</summary>
+        public void MethodResourceSignature2_ResourceNames()
+        {
+            // Snippet: MethodResourceSignature(SimpleResourceName, CallSettings)
+            // Create client
+            SnippetsClient snippetsClient = SnippetsClient.Create();
+            // Initialize request argument(s)
+            SimpleResourceName firstName = new SimpleResourceName("[ITEM_ID]");
+            // Make the request
+            Response response = snippetsClient.MethodResourceSignature(firstName);
+            // End snippet
+        }
+
+        /// <summary>Snippet for MethodResourceSignatureAsync</summary>
+        public async Task MethodResourceSignature2Async_ResourceNames()
+        {
+            // Snippet: MethodResourceSignatureAsync(SimpleResourceName, CallSettings)
+            // Additional: MethodResourceSignatureAsync(SimpleResourceName, CancellationToken)
+            // Create client
+            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            // Initialize request argument(s)
+            SimpleResourceName firstName = new SimpleResourceName("[ITEM_ID]");
+            // Make the request
+            Response response = await snippetsClient.MethodResourceSignatureAsync(firstName);
             // End snippet
         }
     }
