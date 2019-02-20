@@ -33,6 +33,8 @@
                 SingleBytes = ByteString.Empty,
                 SingleMessage = new AnotherMessage(),
                 SingleNestedMessage = new DefaultValuesRequest.Types.NestedMessage(),
+                SingleEnum = Enum.Default,
+                SingleNestedEnum = DefaultValuesRequest.Types.NestedEnum.DefaultValue,
                 RepeatedDouble = { 0, },
                 RepeatedFloat = { 0F, },
                 RepeatedInt32 = { 0, },
@@ -55,6 +57,11 @@
                 RepeatedNestedMessage =
                 {
                     new DefaultValuesRequest.Types.NestedMessage(),
+                },
+                RepeatedEnum = { Enum.Default, },
+                RepeatedNestedEnum =
+                {
+                    DefaultValuesRequest.Types.NestedEnum.DefaultValue,
                 },
                 SingleResourceNameAsAResourceName = new AResourceName("[ITEM_ID]", "[PART_ID]"),
                 RepeatedResourceNameAsAResourceNames =
@@ -99,6 +106,8 @@
                 SingleBytes = ByteString.Empty,
                 SingleMessage = new AnotherMessage(),
                 SingleNestedMessage = new DefaultValuesRequest.Types.NestedMessage(),
+                SingleEnum = Enum.Default,
+                SingleNestedEnum = DefaultValuesRequest.Types.NestedEnum.DefaultValue,
                 RepeatedDouble = { 0, },
                 RepeatedFloat = { 0F, },
                 RepeatedInt32 = { 0, },
@@ -121,6 +130,11 @@
                 RepeatedNestedMessage =
                 {
                     new DefaultValuesRequest.Types.NestedMessage(),
+                },
+                RepeatedEnum = { Enum.Default, },
+                RepeatedNestedEnum =
+                {
+                    DefaultValuesRequest.Types.NestedEnum.DefaultValue,
                 },
                 SingleResourceNameAsAResourceName = new AResourceName("[ITEM_ID]", "[PART_ID]"),
                 RepeatedResourceNameAsAResourceNames =

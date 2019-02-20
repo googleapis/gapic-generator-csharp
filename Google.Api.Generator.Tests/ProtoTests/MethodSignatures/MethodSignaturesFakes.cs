@@ -49,7 +49,7 @@ namespace Testing.Methodsignatures
 
     public class MessageRequest : ProtoMsgFake<MessageRequest>
     {
-        public class Types
+        public static class Types
         {
             public class Msg { }
         }
@@ -57,6 +57,21 @@ namespace Testing.Methodsignatures
         public Types.Msg Required { get; set; }
         public RepeatedField<Types.Msg> RepeatedOptional { get; }
         public RepeatedField<Types.Msg> RepeatedRequired { get; }
+    }
+
+    public class EnumRequest : ProtoMsgFake<EnumRequest>
+    {
+        public static class Types
+        {
+            public enum Enum
+            {
+                DEFAULT = 0,
+            }
+        }
+        public Types.Enum Optional { get; set; }
+        public Types.Enum Required { get; set; }
+        public RepeatedField<Types.Enum> RepeatedOptional { get; }
+        public RepeatedField<Types.Enum> RepeatedRequired { get; }
     }
 
     public class Response : ProtoMsgFake<Response> { }

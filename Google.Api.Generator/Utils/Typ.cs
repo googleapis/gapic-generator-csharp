@@ -45,24 +45,20 @@ namespace Google.Api.Generator.Utils
 
         private sealed class FromManual : Typ
         {
-            public FromManual(string fullName)
-            {
-                var dotIndex = fullName.LastIndexOf('.');
-                Namespace = dotIndex < 0 ? "" : fullName.Substring(0, dotIndex);
-                Name = dotIndex < 0 ? fullName : fullName.Substring(dotIndex + 1);
-            }
-            public FromManual(string ns, string name) => (Namespace, Name) = (ns, name);
+            public FromManual(string ns, string name, bool isEnum = false) => (Namespace, Name, IsEnum) = (ns, name, IsEnum);
             public override string Namespace { get; }
             public override string Name { get; }
+            public override bool IsEnum { get; }
         }
 
         private sealed class FromNested : Typ
         {
-            public FromNested(Typ declaringTyp, string name) => (DeclaringTyp, Name) = (declaringTyp, name);
+            public FromNested(Typ declaringTyp, string name, bool isEnum = false) => (DeclaringTyp, Name, IsEnum) = (declaringTyp, name, isEnum);
             public override string Namespace => DeclaringTyp.Namespace;
             public override string Name { get; }
             public override Typ DeclaringTyp { get; }
             public override string FullName => $"{DeclaringTyp.FullName}+{Name}";
+            public override bool IsEnum { get; }
         }
 
         private sealed class FromGeneric : Typ
@@ -101,10 +97,9 @@ namespace Google.Api.Generator.Utils
 
         public static Typ Of<T>() => Of(typeof(T));
         public static Typ Of(System.Type type) => new FromType(type);
-        public static Typ Manual(string ns, string name) => new FromManual(ns, name);
-        public static Typ Manual(string fullName) => new FromManual(fullName);
+        public static Typ Manual(string ns, string name, bool isEnum = false) => new FromManual(ns, name, isEnum);
         public static Typ Manual(string ns, ClassDeclarationSyntax cls) => new FromManual(ns, cls.Identifier.Text);
-        public static Typ Nested(Typ declaringTyp, string name) => new FromNested(declaringTyp, name);
+        public static Typ Nested(Typ declaringTyp, string name, bool isEnum = false) => new FromNested(declaringTyp, name, isEnum);
         public static Typ Generic(System.Type genericDef, params Typ[] typeArgs) => new FromGeneric(Of(genericDef), typeArgs);
         public static Typ.GenericParameter GenericParam(string name) => new Typ.GenericParameter(name);
         public static Typ.Special ClassConstraint { get; } = new Special(Special.Type.ClassConstraint);
@@ -121,6 +116,10 @@ namespace Google.Api.Generator.Utils
             return typ;
         }
 
+        public static Typ Of(EnumDescriptor desc) => desc.ContainingType == null ?
+            Manual(desc.File.CSharpNamespace(), desc.Name, isEnum: true) :
+            Nested(Nested(Of(desc.ContainingType), "Types"), desc.Name, isEnum: true);
+
         public static Typ Of(FieldDescriptor desc, bool? forceRepeated = null)
         {
             if (desc.IsMap)
@@ -128,63 +127,73 @@ namespace Google.Api.Generator.Utils
                 throw new NotSupportedException("Maps not yet supported");
             }
             // See https://developers.google.com/protocol-buffers/docs/proto3#scalar
+            // Switch cases are ordered as in this doc. Please do not re-order.
             if (forceRepeated ?? desc.IsRepeated)
             {
                 switch (desc.FieldType)
                 {
-                    case FieldType.Bool: return Of<IEnumerable<bool>>();
-                    case FieldType.Bytes: return Of<IEnumerable<ByteString>>();
                     case FieldType.Double: return Of<IEnumerable<double>>();
-                    case FieldType.Int32:
-                    case FieldType.SFixed32: return Of<IEnumerable<int>>();
-                    case FieldType.UInt32:
-                    case FieldType.Fixed32: return Of<IEnumerable<uint>>();
-                    case FieldType.Int64:
-                    case FieldType.SFixed64: return Of<IEnumerable<long>>();
-                    case FieldType.UInt64:
-                    case FieldType.Fixed64: return Of<IEnumerable<ulong>>();
                     case FieldType.Float: return Of<IEnumerable<float>>();
+                    case FieldType.Int32: return Of<IEnumerable<int>>();
+                    case FieldType.Int64: return Of<IEnumerable<long>>();
+                    case FieldType.UInt32: return Of<IEnumerable<uint>>();
+                    case FieldType.UInt64: return Of<IEnumerable<ulong>>();
+                    case FieldType.SInt32: return Of<IEnumerable<int>>();
+                    case FieldType.SInt64: return Of<IEnumerable<long>>();
+                    case FieldType.Fixed32: return Of<IEnumerable<uint>>();
+                    case FieldType.Fixed64: return Of<IEnumerable<ulong>>();
+                    case FieldType.SFixed32: return Of<IEnumerable<int>>();
+                    case FieldType.SFixed64: return Of<IEnumerable<long>>();
+                    case FieldType.Bool: return Of<IEnumerable<bool>>();
                     case FieldType.String: return Of<IEnumerable<string>>();
+                    case FieldType.Bytes: return Of<IEnumerable<ByteString>>();
                     case FieldType.Message: return Generic(typeof(IEnumerable<>), Of(desc.MessageType));
+                    case FieldType.Enum: return Generic(typeof(IEnumerable<>), Of(desc.EnumType));
                     default: throw new NotSupportedException($"Cannot get repeated Typ of: {desc.FieldType}");
                 }
             }
             switch (desc.FieldType)
             {
-                case FieldType.Bool: return Of<bool>();
-                case FieldType.Bytes: return Of<ByteString>();
                 case FieldType.Double: return Of<double>();
-                case FieldType.Int32:
-                case FieldType.SFixed32: return Of<int>();
-                case FieldType.UInt32:
-                case FieldType.Fixed32: return Of<uint>();
-                case FieldType.Int64:
-                case FieldType.SFixed64: return Of<long>();
-                case FieldType.UInt64:
-                case FieldType.Fixed64: return Of<ulong>();
                 case FieldType.Float: return Of<float>();
+                case FieldType.Int32: return Of<int>();
+                case FieldType.Int64: return Of<long>();
+                case FieldType.UInt32: return Of<uint>();
+                case FieldType.UInt64: return Of<ulong>();
+                case FieldType.SInt32: return Of<int>();
+                case FieldType.SInt64: return Of<long>();
+                case FieldType.Fixed32: return Of<uint>();
+                case FieldType.Fixed64: return Of<ulong>();
+                case FieldType.SFixed32: return Of<int>();
+                case FieldType.SFixed64: return Of<long>();
+                case FieldType.Bool: return Of<bool>();
                 case FieldType.String: return Of<string>();
+                case FieldType.Bytes: return Of<ByteString>();
                 case FieldType.Message: return Of(desc.MessageType);
+                case FieldType.Enum: return Of(desc.EnumType);
                 default: throw new NotSupportedException($"Cannot get Typ of: {desc.FieldType}");
             }
         }
 
-        /// <summary> the namespace of this typ. </summary>
+        /// <summary>The namespace of this typ.</summary>
         public abstract string Namespace { get; }
 
-        /// <summary> The name of this typ. </summary>
+        /// <summary>The name of this typ.</summary>
         public abstract string Name { get; }
 
-        /// <summary> Whether this typ is a primitive. </summary>
+        /// <summary>Whether this typ is a primitive.</summary>
         public virtual bool IsPrimitive => false;
 
-        /// <summary> The array element typ; or <c>null</c> if not an array. </summary>
+        /// <summary>Whether this typ is an enum.</summary>
+        public virtual bool IsEnum => false;
+
+        /// <summary>The array element typ; or <c>null</c> if not an array.</summary>
         public virtual Typ ElementTyp => null;
 
-        /// <summary> The declaring typ; or <c>null</c> if not nested. </summary>
+        /// <summary>The declaring typ; or <c>null</c> if not nested.</summary>
         public virtual Typ DeclaringTyp => null;
 
-        /// <summary> The generic arguments of this typ; or <c>null</c> if not a generic typ.  </summary>
+        /// <summary>The generic arguments of this typ; or <c>null</c> if not a generic typ.</summary>
         public virtual IEnumerable<Typ> GenericArgTyps => null;
 
         public virtual string FullName => $"{Namespace}.{Name}";

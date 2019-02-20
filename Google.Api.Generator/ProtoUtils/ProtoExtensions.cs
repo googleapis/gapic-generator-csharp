@@ -53,6 +53,16 @@ namespace Google.Api.Generator.ProtoUtils
 
         public static string CSharpFieldName(this FieldDescriptor field) => field.Name.ToLowerCamelCase();
 
+        public static string CSharpName(this EnumValueDescriptor desc)
+        {
+            var name = desc.Name.ToUpperCamelCase(forceAllChars: true);
+            if (desc.Name.ToLowerInvariant().StartsWith(desc.EnumDescriptor.Name.ToLowerInvariant() + "_"))
+            {
+                return name.Substring(desc.EnumDescriptor.Name.Length);
+            }
+            return name;
+        }
+
         private static IEnumerable<(ulong number, ByteString byteString)> GetRepeated(CustomOptions opts, int field)
         {
             // There is no way of reading a repeated custom option.
