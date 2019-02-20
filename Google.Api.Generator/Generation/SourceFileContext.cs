@@ -133,7 +133,7 @@ namespace Google.Api.Generator.Generation
             public override CompilationUnitSyntax CreateCompilationUnit(NamespaceDeclarationSyntax ns)
             {
                 var usings = _imports.OrderBy(x => x).Select(x => UsingDirective(IdentifierName(x)));
-                return CompilationUnit().AddUsings(usings.ToArray()).AddMembers(ns);
+                return CompilationUnit().AddMembers(ns.AddUsings(usings.ToArray()));
             }
         }
 
