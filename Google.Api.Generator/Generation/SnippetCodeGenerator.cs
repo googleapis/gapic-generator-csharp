@@ -71,6 +71,11 @@ namespace Google.Api.Generator.Generation
                         {
                             yield return signature.SyncMethod;
                             yield return signature.AsyncMethod;
+                            if (signature.HasResourceNames)
+                            {
+                                yield return signature.SyncMethodResourceNames;
+                                yield return signature.AsyncMethodResourceNames;
+                            }
                         }
                         break;
                     case MethodDetails.Lro _:
@@ -101,16 +106,26 @@ namespace Google.Api.Generator.Generation
             private LocalDeclarationStatementSyntax LroRetrievedResponse => Local(Ctx.Type(MethodLro.OperationTyp), "retrievedResponse");
             private LocalDeclarationStatementSyntax LroRetrievedResult => Local(Ctx.Type(MethodLro.OperationResponseTyp), "retrievedResult");
 
-            private object DefaultValue(FieldDescriptor fieldDesc)
+            private object DefaultValue(FieldDescriptor fieldDesc, bool resourceNameAsString = false)
             {
                 var resource = Svc.Catalog.GetResourceDetailsByField(fieldDesc);
                 if (resource != null)
                 {
                     // TODO: Resource-sets
                     var one = resource.ResourceDefinition.One;
-                    object @default = one.IsWildcard ?
-                        New(Ctx.Type<UnknownResourceName>())("a/wildcard/resource") :
-                        New(Ctx.Type(one.ResourceNameTyp))(one.Template.ParameterNames.Select(x => $"[{x.ToUpperInvariant()}]"));
+                    object @default;
+                    if (resourceNameAsString)
+                    {
+                        @default = one.IsWildcard ?
+                            "a/wildcard/resource" :
+                            one.Template.Expand(one.Template.ParameterNames.Select(x => $"[{x.ToUpperInvariant()}]").ToArray());
+                    }
+                    else
+                    {
+                        @default = one.IsWildcard ?
+                            New(Ctx.Type<UnknownResourceName>())("a/wildcard/resource") :
+                            New(Ctx.Type(one.ResourceNameTyp))(one.Template.ParameterNames.Select(x => $"[{x.ToUpperInvariant()}]"));
+                    }
                     return fieldDesc.IsRepeated ? CollectionInitializer(@default) : @default;
                 }
                 else
@@ -245,6 +260,8 @@ namespace Google.Api.Generator.Generation
 
             public class Signature
             {
+                // TODO: Support resource-sets.
+
                 public Signature(MethodDef def, MethodDetails.Signature sig, int? index) => (_def, _sig, _index) = (def, sig, index);
 
                 private MethodDef _def;
@@ -256,12 +273,22 @@ namespace Google.Api.Generator.Generation
                 private MethodDetails Method => _def.Method;
 
                 private string SyncMethodName => Method.SyncMethodName + (_index is int index ? (index + 1).ToString() : "");
-                private string AsyncMethodName => Method.AsyncMethodName + (_index is int index ? (index + 1).ToString() : "");
+                private string AsyncMethodName => $"{Method.AsyncMethodName.Substring(0, Method.AsyncMethodName.Length - 5)}{(_index is int index ? (index + 1).ToString() : "")}Async";
+                private string SyncResourceNameMethodName => $"{SyncMethodName}_ResourceNames";
+                private string AsyncResourceNameMethodName => $"{AsyncMethodName}_ResourceNames";
 
-                private IEnumerable<LocalDeclarationStatementSyntax> InitRequestArgs =>
-                    _sig.Fields.Select(f => Local(Ctx.Type(f.Typ), f.FieldName).WithInitializer(_def.DefaultValue(f.Desc)));
+                private IEnumerable<LocalDeclarationStatementSyntax> InitRequestArgs(bool resourceNameAsString) =>
+                    _sig.Fields.Select(f =>
+                        Local(Ctx.Type(resourceNameAsString ? f.Typ : f.FieldResource?.ResourceDefinition.One.ResourceNameTyp ?? f.Typ), f.FieldName)
+                        .WithInitializer(_def.DefaultValue(f.Desc, resourceNameAsString)));
+                private IEnumerable<LocalDeclarationStatementSyntax> InitRequestArgsNormal => InitRequestArgs(resourceNameAsString: true);
+                private IEnumerable<LocalDeclarationStatementSyntax> InitRequestArgsResourceNames => InitRequestArgs(resourceNameAsString: false);
 
                 private string SnippetCommentArgs => string.Join(", ", _sig.Fields.Select(f => f.Typ.Name)) + (_sig.Fields.Any() ? ", " : "");
+                private string SnippetCommentResourceNameArgs => string.Join(", ", _sig.Fields.Select(f =>
+                    (f.FieldResource?.ResourceDefinition.One.ResourceNameTyp ?? f.Typ).Name)) + (_sig.Fields.Any() ? ", " : "");
+
+                public bool HasResourceNames => _sig.Fields.Any(x => x.FieldResource != null);
 
                 public MethodDeclarationSyntax SyncMethod =>
                     Method(Public, VoidType, SyncMethodName)()
@@ -270,9 +297,9 @@ namespace Google.Api.Generator.Generation
                             "// Create client",
                             _def.Client.WithInitializer(Ctx.Type(Svc.ClientAbstractTyp).Call("Create")()),
                             _sig.Fields.Any() ? "// Initialize request argument(s)" : null,
-                            InitRequestArgs,
+                            InitRequestArgsNormal,
                             "// Make the request",
-                            _def.Response.WithInitializer(_def.Client.Call(Method.SyncMethodName)(InitRequestArgs.ToArray())),
+                            _def.Response.WithInitializer(_def.Client.Call(Method.SyncMethodName)(InitRequestArgsNormal.ToArray())),
                             "// End snippet")
                         .WithXmlDoc(XmlDoc.Summary($"Snippet for {Method.SyncMethodName}"));
 
@@ -284,12 +311,38 @@ namespace Google.Api.Generator.Generation
                             "// Create client",
                             _def.Client.WithInitializer(Await(Ctx.Type(Svc.ClientAbstractTyp).Call("CreateAsync")())),
                             _sig.Fields.Any() ? "// Initialize request argument(s)" : null,
-                            InitRequestArgs,
+                            InitRequestArgsNormal,
                             "// Make the request",
-                            _def.Response.WithInitializer(Await(_def.Client.Call(Method.AsyncMethodName)(InitRequestArgs.ToArray()))),
+                            _def.Response.WithInitializer(Await(_def.Client.Call(Method.AsyncMethodName)(InitRequestArgsNormal.ToArray()))),
                             "// End snippet")
                         .WithXmlDoc(XmlDoc.Summary($"Snippet for {Method.AsyncMethodName}"));
 
+                public MethodDeclarationSyntax SyncMethodResourceNames =>
+                    Method(Public, VoidType, SyncResourceNameMethodName)()
+                        .WithBody(
+                            $"// Snippet: {Method.SyncMethodName}({SnippetCommentResourceNameArgs}{nameof(CallSettings)})",
+                            "// Create client",
+                            _def.Client.WithInitializer(Ctx.Type(Svc.ClientAbstractTyp).Call("Create")()),
+                            _sig.Fields.Any() ? "// Initialize request argument(s)" : null,
+                            InitRequestArgsResourceNames,
+                            "// Make the request",
+                            _def.Response.WithInitializer(_def.Client.Call(Method.SyncMethodName)(InitRequestArgsResourceNames.ToArray())),
+                            "// End snippet")
+                        .WithXmlDoc(XmlDoc.Summary($"Snippet for {Method.SyncMethodName}"));
+
+                public MethodDeclarationSyntax AsyncMethodResourceNames =>
+                    Method(Public | Async, Ctx.Type<Task>(), AsyncResourceNameMethodName)()
+                        .WithBody(
+                            $"// Snippet: {Method.AsyncMethodName}({SnippetCommentResourceNameArgs}{nameof(CallSettings)})",
+                            $"// Additional: {Method.AsyncMethodName}({SnippetCommentResourceNameArgs}{nameof(CancellationToken)})",
+                            "// Create client",
+                            _def.Client.WithInitializer(Await(Ctx.Type(Svc.ClientAbstractTyp).Call("CreateAsync")())),
+                            _sig.Fields.Any() ? "// Initialize request argument(s)" : null,
+                            InitRequestArgsResourceNames,
+                            "// Make the request",
+                            _def.Response.WithInitializer(Await(_def.Client.Call(Method.AsyncMethodName)(InitRequestArgsResourceNames.ToArray()))),
+                            "// End snippet")
+                        .WithXmlDoc(XmlDoc.Summary($"Snippet for {Method.AsyncMethodName}"));
             }
 
             public IEnumerable<Signature> Signatures => Method.Signatures.Select((sig, i) => new Signature(this, sig, Method.Signatures.Count > 1 ? i : (int?)null));

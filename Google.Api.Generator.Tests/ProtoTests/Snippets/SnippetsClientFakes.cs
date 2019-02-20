@@ -41,6 +41,17 @@ namespace Testing.Snippets
         public Task<Response> MethodThreeSignaturesAsync(string aString, bool aBool) => throw new NotImplementedException();
         public Response MethodThreeSignatures() => throw new NotImplementedException();
         public Task<Response> MethodThreeSignaturesAsync() => throw new NotImplementedException();
+
+        public Response MethodResourceSignature(ResourceSignatureRequest request) => throw new NotImplementedException();
+        public Task<Response> MethodResourceSignatureAsync(ResourceSignatureRequest request) => throw new NotImplementedException();
+        public Response MethodResourceSignature(string firstName, string secondName, string thirdName) => throw new NotImplementedException();
+        public Task<Response> MethodResourceSignatureAsync(string firstName, string secondName, string thirdName) => throw new NotImplementedException();
+        public Response MethodResourceSignature(SimpleResourceName firstName, SimpleResourceName secondName, SimpleResourceName thirdName) => throw new NotImplementedException();
+        public Task<Response> MethodResourceSignatureAsync(SimpleResourceName firstName, SimpleResourceName secondName, SimpleResourceName thirdName) => throw new NotImplementedException();
+        public Response MethodResourceSignature(string firstName) => throw new NotImplementedException();
+        public Task<Response> MethodResourceSignatureAsync(string firstName) => throw new NotImplementedException();
+        public Response MethodResourceSignature(SimpleResourceName firstName) => throw new NotImplementedException();
+        public Task<Response> MethodResourceSignatureAsync(SimpleResourceName firstName) => throw new NotImplementedException();
     }
 
     public class AResourceName : IResourceName
@@ -121,6 +132,23 @@ namespace Testing.Snippets
         public string AString { get; set; }
         public int AnInt { get; set; }
         public bool ABool { get; set; }
+    }
+
+    public class SimpleResourceName : IResourceName
+    {
+        public SimpleResourceName(string itemId) => throw new NotImplementedException();
+        public ResourceNameKind Kind => throw new NotImplementedException();
+    }
+
+    public class ResourceSignatureRequest : ProtoMsgFake<ResourceSignatureRequest>
+    {
+        public string FirstName { get; set; }
+        public string SecondName { get; set; }
+        public string ThirdName { get; set; }
+
+        public SimpleResourceName FirstNameAsSimpleResourceName { get; set; }
+        public SimpleResourceName SecondNameAsSimpleResourceName { get; set; }
+        public SimpleResourceName ThirdNameAsSimpleResourceName { get; set; }
     }
 
     public class Response : ProtoMsgFake<Response> { }

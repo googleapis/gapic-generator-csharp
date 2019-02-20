@@ -18,6 +18,11 @@ service Snippets {
     option (google.api.method_signature) = { fields: ["a_string", "a_bool"]};
     option (google.api.method_signature) = { fields: []};
   }
+
+  rpc MethodResourceSignature(ResourceSignatureRequest) returns(Response) {
+    option (google.api.method_signature) = { fields: ["first_name", "second_name", "third_name"]};
+    option (google.api.method_signature) = { fields: ["first_name"]};
+  }
 }
 
 option (google.api.resource_definition) = {
@@ -93,6 +98,17 @@ message SignatureRequest {
   string a_string = 1;
   int32 an_int = 2;
   bool a_bool = 3;
+}
+
+option (google.api.resource_definition) = {
+  name: "SimpleResource",
+  path: "items/{item_id}"
+};
+
+message ResourceSignatureRequest {
+  string first_name = 1 [(google.api.resource_reference) = "SimpleResource"];
+  string second_name = 2 [(google.api.resource_reference) = "SimpleResource"];
+  string third_name = 3 [(google.api.resource_reference) = "SimpleResource"];
 }
 
 message Response {
