@@ -5,7 +5,7 @@ using sys = System;
 using scg = System.Collections.Generic;
 using stt = System.Threading.Tasks;
 
-namespace Testing.Basicbidistreaming
+namespace Testing.BasicBidiStreaming
 {
     public sealed partial class BasicBidiStreamingSettings : gaxgrpc::ServiceSettingsBase
     {

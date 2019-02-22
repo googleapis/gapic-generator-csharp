@@ -2,6 +2,8 @@
 
 package testing.basic;
 
+// csharp_namespace option not included; to test generating namespace from proto package.
+
 import "google/api/annotations.proto";
 
 service Basic {

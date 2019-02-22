@@ -4,7 +4,7 @@ using sys = System;
 using sc = System.Collections;
 using scg = System.Collections.Generic;
 
-namespace Testing.Basicpaginated
+namespace Testing.BasicPaginated
 {
     public abstract partial class BasicPaginatedClient
     {

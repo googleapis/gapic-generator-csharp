@@ -36,13 +36,14 @@ namespace Google.Api.Generator
 
         public static IEnumerable<ResultFile> Generate(byte[] descriptorBytes, string package)
         {
-            // TODO: Place the generated code in the correct directories.
             var descriptors = GetFileDescriptors(descriptorBytes);
             var catalog = new ProtoCatalog(package, descriptors);
             var packageFileDescs = descriptors.Where(x => x.Package == package).ToList();
             foreach (var fileDesc in packageFileDescs)
             {
                 var ns = fileDesc.CSharpNamespace();
+                var clientPathPrefix = $"{ns}{Path.DirectorySeparatorChar}";
+                var snippetsPathPrefix = $"{ns}.Snippets{Path.DirectorySeparatorChar}";
                 foreach (var service in fileDesc.Services)
                 {
                     // Generate settings and client code for requested package.
@@ -50,14 +51,14 @@ namespace Google.Api.Generator
                     var ctx = SourceFileContext.Create(SourceFileContext.ImportStyle.FullyAliased);
                     var code = ServiceCodeGenerator.Generate(ctx, serviceDetails);
                     var formattedCode = CodeFormatter.Format(code);
-                    var filename = $"{serviceDetails.ClientAbstractTyp.Name}.cs";
+                    var filename = $"{clientPathPrefix}{serviceDetails.ClientAbstractTyp.Name}.cs";
                     var content = Encoding.UTF8.GetBytes(formattedCode.ToFullString());
                     yield return new ResultFile(filename, content);
                     // Generate snippets for the service
                     var snippetCtx = SourceFileContext.Create(SourceFileContext.ImportStyle.Unaliased);
                     var snippetCode = SnippetCodeGenerator.Generate(snippetCtx, serviceDetails);
                     var snippetFormattedCode = CodeFormatter.Format(snippetCode);
-                    var snippetFilename = $"{serviceDetails.ClientAbstractTyp.Name}Snippets.g.cs";
+                    var snippetFilename = $"{snippetsPathPrefix}{serviceDetails.ClientAbstractTyp.Name}Snippets.g.cs";
                     var snippetContent = Encoding.UTF8.GetBytes(snippetFormattedCode.ToFullString());
                     yield return new ResultFile(snippetFilename, snippetContent);
                 }
@@ -67,12 +68,12 @@ namespace Google.Api.Generator
                     var resCtx = SourceFileContext.Create(SourceFileContext.ImportStyle.FullyAliased);
                     var resCode = ResourceNamesGenerator.Generate(catalog, resCtx, fileDesc);
                     var formattedResCode = CodeFormatter.Format(resCode);
-                    var resFilename = $"{Path.GetFileNameWithoutExtension(fileDesc.Name)}ResourceNames.cs";
+                    var resFilename = $"{clientPathPrefix}{Path.GetFileNameWithoutExtension(fileDesc.Name)}ResourceNames.cs";
                     var resContent = Encoding.UTF8.GetBytes(formattedResCode.ToFullString());
                     yield return new ResultFile(resFilename, resContent);
                 }
             }
-            // TODO: Generate csproj, tests, smoketests, integration tests, snippets, etc...
+            // TODO: Generate csproj, tests
         }
 
         private static IReadOnlyList<FileDescriptor> GetFileDescriptors(byte[] bytes)

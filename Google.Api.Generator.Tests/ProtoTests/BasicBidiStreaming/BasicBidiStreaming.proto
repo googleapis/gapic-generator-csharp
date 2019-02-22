@@ -2,6 +2,8 @@
 
 package testing.basicbidistreaming;
 
+option csharp_namespace = "Testing.BasicBidiStreaming";
+
 import "google/api/annotations.proto";
 
 service BasicBidiStreaming {

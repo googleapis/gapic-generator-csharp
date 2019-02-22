@@ -2,6 +2,8 @@
 
 package testing.basicpaginated;
 
+option csharp_namespace = "Testing.BasicPaginated";
+
 import "google/api/annotations.proto";
 
 service BasicPaginated {

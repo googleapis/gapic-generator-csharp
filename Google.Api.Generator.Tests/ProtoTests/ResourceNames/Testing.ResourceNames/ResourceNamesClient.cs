@@ -7,7 +7,7 @@ using st = System.Threading;
 using stt = System.Threading.Tasks;
 using sys = System;
 
-namespace Testing.Resourcenames
+namespace Testing.ResourceNames
 {
     public abstract class ResourceNamesClient
     {

@@ -15,7 +15,7 @@
 using Google.Protobuf.Collections;
 using System;
 
-namespace Testing.Basicpaginated
+namespace Testing.BasicPaginated
 {
     public partial class Request : ProtoMsgFake<Request>
     {

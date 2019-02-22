@@ -1,8 +1,8 @@
 ﻿using gax = Google.Api.Gax;
 using sys = System;
-using ts = Testing.Serverstreaming;
+using ts = Testing.ServerStreaming;
 
-namespace Testing.Serverstreaming
+namespace Testing.ServerStreaming
 {
     /// <summary>Resource name for the <c>Resource</c> resource</summary>
     public sealed partial class ResourceName : gax::IResourceName, sys::IEquatable<ResourceName>

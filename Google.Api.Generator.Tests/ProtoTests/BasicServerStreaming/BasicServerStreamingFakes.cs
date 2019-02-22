@@ -15,7 +15,7 @@
 using Grpc.Core;
 using System;
 
-namespace Testing.Basicserverstreaming
+namespace Testing.BasicServerStreaming
 {
     public class BasicServerStreaming
     {

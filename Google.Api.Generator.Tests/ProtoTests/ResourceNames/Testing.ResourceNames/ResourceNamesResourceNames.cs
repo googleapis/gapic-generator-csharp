@@ -1,8 +1,8 @@
 ﻿using gax = Google.Api.Gax;
 using sys = System;
-using tr = Testing.Resourcenames;
+using tr = Testing.ResourceNames;
 
-namespace Testing.Resourcenames
+namespace Testing.ResourceNames
 {
     /// <summary>Resource name for the <c>SimpleResource</c> resource</summary>
     public sealed partial class SimpleResourceName : gax::IResourceName, sys::IEquatable<SimpleResourceName>

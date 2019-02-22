@@ -15,7 +15,7 @@
 using Google.Protobuf;
 using Google.Protobuf.Collections;
 
-namespace Testing.Methodsignatures
+namespace Testing.MethodSignatures
 {
     public class SimpleRequest : ProtoMsgFake<SimpleRequest>
     {
