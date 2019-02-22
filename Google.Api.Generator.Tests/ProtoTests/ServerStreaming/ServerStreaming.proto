@@ -2,6 +2,8 @@
 
 package testing.serverstreaming;
 
+option csharp_namespace = "Testing.ServerStreaming";
+
 import "google/api/annotations.proto";
 
 service ServerStreaming {

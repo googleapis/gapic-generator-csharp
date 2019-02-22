@@ -2,6 +2,8 @@
 
 package testing.resourcenames;
 
+option csharp_namespace = "Testing.ResourceNames";
+
 import "google/api/annotations.proto";
 
 service ResourceNames {

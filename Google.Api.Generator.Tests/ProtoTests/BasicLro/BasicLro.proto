@@ -5,6 +5,8 @@ import "google/longrunning/operations.proto";
 
 package testing.basiclro;
 
+option csharp_namespace = "Testing.BasicLro";
+
 service BasicLro {
   option (google.api.default_host) = "lro.example.com";
   option (google.api.oauth) = {

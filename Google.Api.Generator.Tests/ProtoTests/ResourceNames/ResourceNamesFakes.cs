@@ -14,7 +14,7 @@
 
 using Google.Protobuf.Collections;
 
-namespace Testing.Resourcenames
+namespace Testing.ResourceNames
 {
     public partial class SimpleResource : ProtoMsgFake<SimpleResource>
     {

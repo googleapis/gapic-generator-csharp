@@ -7,7 +7,7 @@ using st = System.Threading;
 using stt = System.Threading.Tasks;
 using sys = System;
 
-namespace Testing.Methodsignatures
+namespace Testing.MethodSignatures
 {
     public abstract class MethodSignaturesClient
     {

@@ -4,7 +4,7 @@ using proto = Google.Protobuf;
 using scg = System.Collections.Generic;
 using sys = System;
 
-namespace Testing.Basicserverstreaming
+namespace Testing.BasicServerStreaming
 {
     public sealed class BasicServerStreamingSettings : gaxgrpc::ServiceSettingsBase
     {

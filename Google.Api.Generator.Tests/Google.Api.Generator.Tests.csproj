@@ -37,85 +37,85 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="ProtoTests\BasicBidiStreaming\BasicBidiStreamingClient.cs">
+    <Compile Update="ProtoTests\BasicBidiStreaming\Testing.BasicBidiStreaming\BasicBidiStreamingClient.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="ProtoTests\BasicBidiStreaming\BasicBidiStreamingClientSnippets.g.cs">
+    <Compile Update="ProtoTests\BasicBidiStreaming\Testing.BasicBidiStreaming.Snippets\BasicBidiStreamingClientSnippets.g.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="ProtoTests\BasicLro\BasicLroClientSnippets.g.cs">
+    <Compile Update="ProtoTests\BasicLro\Testing.BasicLro.Snippets\BasicLroClientSnippets.g.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="ProtoTests\BasicPaginated\BasicPaginatedClient.cs">
+    <Compile Update="ProtoTests\BasicPaginated\Testing.BasicPaginated\BasicPaginatedClient.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="ProtoTests\BasicPaginated\BasicPaginatedClientSnippets.g.cs">
+    <Compile Update="ProtoTests\BasicPaginated\Testing.BasicPaginated.Snippets\BasicPaginatedClientSnippets.g.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="ProtoTests\BasicServerStreaming\BasicServerStreamingClient.cs">
+    <Compile Update="ProtoTests\BasicServerStreaming\Testing.BasicServerStreaming\BasicServerStreamingClient.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="ProtoTests\BasicServerStreaming\BasicServerStreamingClientSnippets.g.cs">
+    <Compile Update="ProtoTests\BasicServerStreaming\Testing.BasicServerStreaming.Snippets\BasicServerStreamingClientSnippets.g.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="ProtoTests\Basic\BasicClient.cs">
+    <Compile Update="ProtoTests\Basic\Testing.Basic\BasicClient.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="ProtoTests\BasicLro\BasicLroClient.cs">
+    <Compile Update="ProtoTests\BasicLro\Testing.BasicLro\BasicLroClient.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="ProtoTests\Basic\BasicClientSnippets.g.cs">
+    <Compile Update="ProtoTests\Basic\Testing.Basic.Snippets\BasicClientSnippets.g.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="ProtoTests\Lro\LroClient.cs">
+    <Compile Update="ProtoTests\Lro\Testing.Lro\LroClient.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="ProtoTests\Lro\LroClientSnippets.g.cs">
+    <Compile Update="ProtoTests\Lro\Testing.Lro.Snippets\LroClientSnippets.g.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="ProtoTests\Lro\LroResourceNames.cs">
+    <Compile Update="ProtoTests\Lro\Testing.Lro\LroResourceNames.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="ProtoTests\MethodSignatures\MethodSignaturesClient.cs">
+    <Compile Update="ProtoTests\MethodSignatures\Testing.MethodSignatures\MethodSignaturesClient.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="ProtoTests\MethodSignatures\MethodSignaturesClientSnippets.g.cs">
+    <Compile Update="ProtoTests\MethodSignatures\Testing.MethodSignatures.Snippets\MethodSignaturesClientSnippets.g.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="ProtoTests\Paginated\PaginatedClient.cs">
+    <Compile Update="ProtoTests\Paginated\Testing.Paginated\PaginatedClient.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="ProtoTests\Paginated\PaginatedClientSnippets.g.cs">
+    <Compile Update="ProtoTests\Paginated\Testing.Paginated.Snippets\PaginatedClientSnippets.g.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="ProtoTests\Paginated\PaginatedResourceNames.cs">
+    <Compile Update="ProtoTests\Paginated\Testing.Paginated\PaginatedResourceNames.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="ProtoTests\ResourceNames\ResourceNamesClient.cs">
+    <Compile Update="ProtoTests\ResourceNames\Testing.ResourceNames\ResourceNamesClient.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="ProtoTests\ResourceNames\ResourceNamesClientSnippets.g.cs">
+    <Compile Update="ProtoTests\ResourceNames\Testing.ResourceNames.Snippets\ResourceNamesClientSnippets.g.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="ProtoTests\ResourceNames\ResourceNamesResourceNames.cs">
+    <Compile Update="ProtoTests\ResourceNames\Testing.ResourceNames\ResourceNamesResourceNames.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="ProtoTests\ServerStreaming\ServerStreamingClient.cs">
+    <Compile Update="ProtoTests\ServerStreaming\Testing.ServerStreaming\ServerStreamingClient.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="ProtoTests\ServerStreaming\ServerStreamingClientSnippets.g.cs">
+    <Compile Update="ProtoTests\ServerStreaming\Testing.ServerStreaming.Snippets\ServerStreamingClientSnippets.g.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="ProtoTests\ServerStreaming\ServerStreamingResourceNames.cs">
+    <Compile Update="ProtoTests\ServerStreaming\Testing.ServerStreaming\ServerStreamingResourceNames.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="ProtoTests\Snippets\SnippetsClient.cs">
+    <Compile Update="ProtoTests\Snippets\Testing.Snippets\SnippetsClient.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="ProtoTests\Snippets\SnippetsClientSnippets.g.cs">
+    <Compile Update="ProtoTests\Snippets\Testing.Snippets.Snippets\SnippetsClientSnippets.g.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="ProtoTests\Snippets\SnippetsResourceNames.cs">
+    <Compile Update="ProtoTests\Snippets\Testing.Snippets\SnippetsResourceNames.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Update="WhitespaceFormatterTest.cs">

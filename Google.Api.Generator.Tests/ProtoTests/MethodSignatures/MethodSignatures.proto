@@ -2,6 +2,8 @@
 
 package testing.methodsignatures;
 
+option csharp_namespace = "Testing.MethodSignatures";
+
 import "google/api/annotations.proto";
 
 service MethodSignatures {

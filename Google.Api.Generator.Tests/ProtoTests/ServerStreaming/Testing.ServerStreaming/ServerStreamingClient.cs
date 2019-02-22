@@ -1,6 +1,6 @@
 ﻿using gaxgrpc = Google.Api.Gax.Grpc;
 
-namespace Testing.Serverstreaming
+namespace Testing.ServerStreaming
 {
     public abstract class ServerStreamingClient
     {

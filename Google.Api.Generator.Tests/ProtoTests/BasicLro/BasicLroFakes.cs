@@ -15,7 +15,7 @@
 using Grpc.Core;
 using System;
 
-namespace Testing.Basiclro
+namespace Testing.BasicLro
 {
     // Fake gRPC client, to allow `BasicLroClient.cs` to compile.
     public static partial class BasicLro

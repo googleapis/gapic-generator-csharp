@@ -5,7 +5,7 @@ using sys = System;
 using st = System.Threading;
 using stt = System.Threading.Tasks;
 
-namespace Testing.Basiclro
+namespace Testing.BasicLro
 {
     /// <summary>Settings for a <see cref="BasicLroClient"/>.</summary>
     public sealed partial class BasicLroSettings : gaxgrpc::ServiceSettingsBase

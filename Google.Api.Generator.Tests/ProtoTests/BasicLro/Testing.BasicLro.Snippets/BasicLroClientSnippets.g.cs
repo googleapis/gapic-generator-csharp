@@ -1,4 +1,4 @@
-﻿namespace Testing.Basiclro
+﻿namespace Testing.BasicLro
 {
     using Google.LongRunning;
     using System.Threading.Tasks;

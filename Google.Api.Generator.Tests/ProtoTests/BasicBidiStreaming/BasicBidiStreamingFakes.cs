@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Testing.Basicbidistreaming
+namespace Testing.BasicBidiStreaming
 {
     public class Request : ProtoMsgFake<Request> { }
     public class Response : ProtoMsgFake<Response> { }
