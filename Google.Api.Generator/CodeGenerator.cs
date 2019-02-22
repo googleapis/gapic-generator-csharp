@@ -44,6 +44,7 @@ namespace Google.Api.Generator
                 var ns = fileDesc.CSharpNamespace();
                 var clientPathPrefix = $"{ns}{Path.DirectorySeparatorChar}";
                 var snippetsPathPrefix = $"{ns}.Snippets{Path.DirectorySeparatorChar}";
+                bool hasLro = false;
                 foreach (var service in fileDesc.Services)
                 {
                     // Generate settings and client code for requested package.
@@ -61,6 +62,8 @@ namespace Google.Api.Generator
                     var snippetFilename = $"{snippetsPathPrefix}{serviceDetails.ClientAbstractTyp.Name}Snippets.g.cs";
                     var snippetContent = Encoding.UTF8.GetBytes(snippetFormattedCode.ToFullString());
                     yield return new ResultFile(snippetFilename, snippetContent);
+                    // Record whether LRO is used.
+                    hasLro |= serviceDetails.Methods.Any(x => x is MethodDetails.Lro);
                 }
                 // Generate resource-names for this proto file, if there are any.
                 if (catalog.GetResourceDefsByFile(fileDesc).Any())
@@ -72,6 +75,10 @@ namespace Google.Api.Generator
                     var resContent = Encoding.UTF8.GetBytes(formattedResCode.ToFullString());
                     yield return new ResultFile(resFilename, resContent);
                 }
+                // Generate client csproj.
+                var csprojContent = Encoding.UTF8.GetBytes(CsProjGenerator.GenerateClient(hasLro));
+                var csprojFilename = $"{clientPathPrefix}{ns}.csproj";
+                yield return new ResultFile(csprojFilename, csprojContent);
             }
             // TODO: Generate csproj, tests
         }

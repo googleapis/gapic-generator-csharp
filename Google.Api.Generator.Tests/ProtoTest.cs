@@ -20,6 +20,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Sdk;
 
@@ -169,8 +170,45 @@ namespace Google.Api.Generator.Tests
             }
         }
 
-        // TODO: Consider using a single Theory for these.
-        // It's currently convenient having them separate, so they can easily be run individually.
+        private void BuildTest(string testName)
+        {
+            var testRootPath = Environment.CurrentDirectory;
+            while (!testRootPath.EndsWith("Google.Api.Generator.Tests"))
+            {
+                testRootPath = Path.GetFullPath(Path.Combine(testRootPath, ".."));
+            }
+            var testPath = Path.Combine(testRootPath, "ProtoTests", testName, $"Testing.{testName}");
+            Assert.True(Directory.Exists(testPath), $"Test directory doesn't exist: '{testPath}'");
+            // TODO: Use Roslyn directly, rather than invoking `dotnet`.
+            var processStart = new ProcessStartInfo("dotnet", "build")
+            {
+                WorkingDirectory = testPath,
+                // 'dotnet' doesn't use stderr, all output is to stdout.
+                RedirectStandardOutput = true,
+            };
+            var errors = new List<string>();
+            try
+            {
+                using (var process = Process.Start(processStart))
+                {
+                    process.OutputDataReceived += (sender, e) => errors.Add(e.Data);
+                    process.BeginOutputReadLine();
+                    process.WaitForExit(30_000);
+                    if (process.ExitCode != 0)
+                    {
+                        throw new XunitException($" 'dotnet build' failed:{Environment.NewLine}{string.Join(Environment.NewLine, errors)}");
+                    }
+                }
+            }
+            finally
+            {
+                Directory.Delete(Path.Combine(testPath, "obj"), recursive: true);
+                Directory.Delete(Path.Combine(testPath, "bin"), recursive: true);
+            }
+        }
+
+
+        // TODO: Test that the resulting projects build successfully.
 
         // `0` suffix so it's easier to run this test by itself!
         [Fact]
@@ -205,5 +243,11 @@ namespace Google.Api.Generator.Tests
 
         [Fact]
         public void Snippets() => ProtoTestSingle("Snippets");
+
+        [Fact]
+        public void BuildBasic() => BuildTest("Basic");
+
+        [Fact]
+        public void BuildLro() => BuildTest("Lro");
     }
 }

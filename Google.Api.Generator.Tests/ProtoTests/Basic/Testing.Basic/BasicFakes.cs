@@ -15,8 +15,24 @@
 using Grpc.Core;
 using System;
 
+// Disable warning: Missing XML comment on public members.
+// Required to successfully build this generated test project.
+#pragma warning disable 1591
+
 namespace Testing.Basic
 {
+    // (Re-)define this here; required to successfully build this generated test project.
+    public abstract class ProtoMsgFake<T> : Google.Protobuf.IMessage<T> where T : ProtoMsgFake<T>
+    {
+        public Google.Protobuf.Reflection.MessageDescriptor Descriptor => throw new NotImplementedException();
+        public int CalculateSize() => throw new NotImplementedException();
+        public T Clone() => throw new NotImplementedException();
+        public bool Equals(T other) => throw new NotImplementedException();
+        public void MergeFrom(T message) => throw new NotImplementedException();
+        public void MergeFrom(Google.Protobuf.CodedInputStream input) => throw new NotImplementedException();
+        public void WriteTo(Google.Protobuf.CodedOutputStream output) => throw new NotImplementedException();
+    }
+
     public class Basic
     {
         // Fake gRPC client, to allow `BasicClient.cs` to compile.
