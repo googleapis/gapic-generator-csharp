@@ -27,7 +27,22 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="ProtoTests\BasicBidiStreaming\Testing.BasicBidiStreaming.Snippets\Testing.BasicBidiStreaming.Snippets.csproj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="ProtoTests\BasicBidiStreaming\Testing.BasicBidiStreaming\Testing.BasicBidiStreaming.csproj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ProtoTests\BasicLro\Testing.BasicLro.Snippets\Testing.BasicLro.Snippets.csproj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ProtoTests\BasicPaginated\Testing.BasicPaginated.Snippets\Testing.BasicPaginated.Snippets.csproj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ProtoTests\BasicServerStreaming\Testing.BasicServerStreaming.Snippets\Testing.BasicServerStreaming.Snippets.csproj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ProtoTests\Basic\Testing.Basic.Snippets\Testing.Basic.Snippets.csproj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="ProtoTests\BasicLro\Testing.BasicLro\Testing.BasicLro.csproj">
@@ -42,19 +57,37 @@
     <None Include="ProtoTests\Basic\Testing.Basic\Testing.Basic.csproj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="ProtoTests\Lro\Testing.Lro.Snippets\Testing.Lro.Snippets.csproj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="ProtoTests\Lro\Testing.Lro\Testing.Lro.csproj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ProtoTests\MethodSignatures\Testing.MethodSignatures.Snippets\Testing.MethodSignatures.Snippets.csproj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="ProtoTests\MethodSignatures\Testing.MethodSignatures\Testing.MethodSignatures.csproj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="ProtoTests\Paginated\Testing.Paginated.Snippets\Testing.Paginated.Snippets.csproj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="ProtoTests\Paginated\Testing.Paginated\Testing.Paginated.csproj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ProtoTests\ResourceNames\Testing.ResourceNames.Snippets\Testing.ResourceNames.Snippets.csproj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="ProtoTests\ResourceNames\Testing.ResourceNames\Testing.ResourceNames.csproj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="ProtoTests\ServerStreaming\Testing.ServerStreaming.Snippets\Testing.ServerStreaming.Snippets.csproj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="ProtoTests\ServerStreaming\Testing.ServerStreaming\Testing.ServerStreaming.csproj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ProtoTests\Snippets\Testing.Snippets.Snippets\Testing.Snippets.Snippets.csproj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="ProtoTests\Snippets\Testing.Snippets\Testing.Snippets.csproj">

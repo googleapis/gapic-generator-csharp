@@ -79,6 +79,10 @@ namespace Google.Api.Generator
                 var csprojContent = Encoding.UTF8.GetBytes(CsProjGenerator.GenerateClient(hasLro));
                 var csprojFilename = $"{clientPathPrefix}{ns}.csproj";
                 yield return new ResultFile(csprojFilename, csprojContent);
+                // Generate snippets csproj.
+                var snippetsCsprojContent = Encoding.UTF8.GetBytes(CsProjGenerator.GenerateSnippets(ns));
+                var snippetsCsProjFilename = $"{snippetsPathPrefix}{ns}.Snippets.csproj";
+                yield return new ResultFile(snippetsCsProjFilename, snippetsCsprojContent);
             }
             // TODO: Generate csproj, tests
         }
