@@ -3,6 +3,7 @@
 package testing.snippets;
 
 import "google/api/annotations.proto";
+import "google/longrunning/operations.proto";
 
 service Snippets {
   option (google.api.default_host) = "snippets.example.com";
@@ -22,6 +23,22 @@ service Snippets {
   rpc MethodResourceSignature(ResourceSignatureRequest) returns(Response) {
     option (google.api.method_signature) = { fields: ["first_name", "second_name", "third_name"]};
     option (google.api.method_signature) = { fields: ["first_name"]};
+  }
+
+  rpc MethodLroSignatures(SignatureRequest) returns(google.longrunning.Operation) {
+    option (google.api.method_signature) = { fields: ["a_string", "an_int", "a_bool"]};
+    option (google.api.operation) = {
+      response_type: "LroResponse"
+      metadata_type: "LroMetadata"
+    };
+  }
+
+  rpc MethodLroResourceSignature(ResourceSignatureRequest) returns(google.longrunning.Operation) {
+    option (google.api.method_signature) = { fields: ["first_name", "second_name", "third_name"]};
+    option (google.api.operation) = {
+      response_type: "LroResponse"
+      metadata_type: "LroMetadata"
+    };
   }
 }
 
@@ -112,4 +129,10 @@ message ResourceSignatureRequest {
 }
 
 message Response {
+}
+
+message LroResponse {
+}
+
+message LroMetadata {
 }

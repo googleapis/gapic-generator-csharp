@@ -1,6 +1,7 @@
 ﻿namespace Testing.Snippets
 {
     using Google.Api.Gax;
+    using Google.LongRunning;
     using Google.Protobuf;
     using System.Threading.Tasks;
 
@@ -490,6 +491,333 @@
             SimpleResourceName firstName = new SimpleResourceName("[ITEM_ID]");
             // Make the request
             Response response = await snippetsClient.MethodResourceSignatureAsync(firstName);
+            // End snippet
+        }
+
+        /// <summary>Snippet for MethodLroSignatures</summary>
+        public void MethodLroSignatures_RequestObject()
+        {
+            // Snippet: MethodLroSignatures(SignatureRequest, CallSettings)
+            // Create client
+            SnippetsClient snippetsClient = SnippetsClient.Create();
+            // Initialize request argument(s)
+            SignatureRequest request = new SignatureRequest
+            {
+                AString = "",
+                AnInt = 0,
+                ABool = false,
+            };
+            // Make the request
+            Operation<LroResponse, LroMetadata> response = snippetsClient.MethodLroSignatures(request);
+
+            // Poll until the returned long-running operation is complete
+            Operation<LroResponse, LroMetadata> completedResponse = response.PollUntilCompleted();
+            // Retrieve the operation result
+            LroResponse result = completedResponse.Result;
+
+            // Or get the name of the operation
+            string operationName = response.Name;
+            // This name can be stored, then the long-running operation retrieved later by name
+            Operation<LroResponse, LroMetadata> retrievedResponse = snippetsClient.PollOnceMethodLroSignatures(operationName);
+            // Check if the retrieved long-running operation has completed
+            if (retrievedResponse.IsCompleted)
+            {
+                // If it has completed, then access the result
+                LroResponse retrievedResult = retrievedResponse.Result;
+            }
+            // End snippet
+        }
+
+        /// <summary>Snippet for MethodLroSignaturesAsync</summary>
+        public async Task MethodLroSignaturesAsync_RequestObject()
+        {
+            // Snippet: MethodLroSignaturesAsync(SignatureRequest, CallSettings)
+            // Additional: MethodLroSignaturesAsync(SignatureRequest, CancellationToken)
+            // Create client
+            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            // Initialize request argument(s)
+            SignatureRequest request = new SignatureRequest
+            {
+                AString = "",
+                AnInt = 0,
+                ABool = false,
+            };
+            // Make the request
+            Operation<LroResponse, LroMetadata> response = await snippetsClient.MethodLroSignaturesAsync(request);
+
+            // Poll until the returned long-running operation is complete
+            Operation<LroResponse, LroMetadata> completedResponse = await response.PollUntilCompletedAsync();
+            // Retrieve the operation result
+            LroResponse result = completedResponse.Result;
+
+            // Or get the name of the operation
+            string operationName = response.Name;
+            // This name can be stored, then the long-running operation retrieved later by name
+            Operation<LroResponse, LroMetadata> retrievedResponse = await snippetsClient.PollOnceMethodLroSignaturesAsync(operationName);
+            // Check if the retrieved long-running operation has completed
+            if (retrievedResponse.IsCompleted)
+            {
+                // If it has completed, then access the result
+                LroResponse retrievedResult = retrievedResponse.Result;
+            }
+            // End snippet
+        }
+
+        /// <summary>Snippet for MethodLroSignatures</summary>
+        public void MethodLroSignatures()
+        {
+            // Snippet: MethodLroSignatures(String, Int32, Boolean, CallSettings)
+            // Create client
+            SnippetsClient snippetsClient = SnippetsClient.Create();
+            // Initialize request argument(s)
+            string aString = "";
+            int anInt = 0;
+            bool aBool = false;
+            // Make the request
+            Operation<LroResponse, LroMetadata> response = snippetsClient.MethodLroSignatures(aString, anInt, aBool);
+
+            // Poll until the returned long-running operation is complete
+            Operation<LroResponse, LroMetadata> completedResponse = response.PollUntilCompleted();
+            // Retrieve the operation result
+            LroResponse result = completedResponse.Result;
+
+            // Or get the name of the operation
+            string operationName = response.Name;
+            // This name can be stored, then the long-running operation retrieved later by name
+            Operation<LroResponse, LroMetadata> retrievedResponse = snippetsClient.PollOnceMethodLroSignatures(operationName);
+            // Check if the retrieved long-running operation has completed
+            if (retrievedResponse.IsCompleted)
+            {
+                // If it has completed, then access the result
+                LroResponse retrievedResult = retrievedResponse.Result;
+            }
+            // End snippet
+        }
+
+        /// <summary>Snippet for MethodLroSignaturesAsync</summary>
+        public async Task MethodLroSignaturesAsync()
+        {
+            // Snippet: MethodLroSignaturesAsync(String, Int32, Boolean, CallSettings)
+            // Additional: MethodLroSignaturesAsync(String, Int32, Boolean, CancellationToken)
+            // Create client
+            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            // Initialize request argument(s)
+            string aString = "";
+            int anInt = 0;
+            bool aBool = false;
+            // Make the request
+            Operation<LroResponse, LroMetadata> response = await snippetsClient.MethodLroSignaturesAsync(aString, anInt, aBool);
+
+            // Poll until the returned long-running operation is complete
+            Operation<LroResponse, LroMetadata> completedResponse = await response.PollUntilCompletedAsync();
+            // Retrieve the operation result
+            LroResponse result = completedResponse.Result;
+
+            // Or get the name of the operation
+            string operationName = response.Name;
+            // This name can be stored, then the long-running operation retrieved later by name
+            Operation<LroResponse, LroMetadata> retrievedResponse = await snippetsClient.PollOnceMethodLroSignaturesAsync(operationName);
+            // Check if the retrieved long-running operation has completed
+            if (retrievedResponse.IsCompleted)
+            {
+                // If it has completed, then access the result
+                LroResponse retrievedResult = retrievedResponse.Result;
+            }
+            // End snippet
+        }
+
+        /// <summary>Snippet for MethodLroResourceSignature</summary>
+        public void MethodLroResourceSignature_RequestObject()
+        {
+            // Snippet: MethodLroResourceSignature(ResourceSignatureRequest, CallSettings)
+            // Create client
+            SnippetsClient snippetsClient = SnippetsClient.Create();
+            // Initialize request argument(s)
+            ResourceSignatureRequest request = new ResourceSignatureRequest
+            {
+                FirstNameAsSimpleResourceName = new SimpleResourceName("[ITEM_ID]"),
+                SecondNameAsSimpleResourceName = new SimpleResourceName("[ITEM_ID]"),
+                ThirdNameAsSimpleResourceName = new SimpleResourceName("[ITEM_ID]"),
+            };
+            // Make the request
+            Operation<LroResponse, LroMetadata> response = snippetsClient.MethodLroResourceSignature(request);
+
+            // Poll until the returned long-running operation is complete
+            Operation<LroResponse, LroMetadata> completedResponse = response.PollUntilCompleted();
+            // Retrieve the operation result
+            LroResponse result = completedResponse.Result;
+
+            // Or get the name of the operation
+            string operationName = response.Name;
+            // This name can be stored, then the long-running operation retrieved later by name
+            Operation<LroResponse, LroMetadata> retrievedResponse = snippetsClient.PollOnceMethodLroResourceSignature(operationName);
+            // Check if the retrieved long-running operation has completed
+            if (retrievedResponse.IsCompleted)
+            {
+                // If it has completed, then access the result
+                LroResponse retrievedResult = retrievedResponse.Result;
+            }
+            // End snippet
+        }
+
+        /// <summary>Snippet for MethodLroResourceSignatureAsync</summary>
+        public async Task MethodLroResourceSignatureAsync_RequestObject()
+        {
+            // Snippet: MethodLroResourceSignatureAsync(ResourceSignatureRequest, CallSettings)
+            // Additional: MethodLroResourceSignatureAsync(ResourceSignatureRequest, CancellationToken)
+            // Create client
+            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            // Initialize request argument(s)
+            ResourceSignatureRequest request = new ResourceSignatureRequest
+            {
+                FirstNameAsSimpleResourceName = new SimpleResourceName("[ITEM_ID]"),
+                SecondNameAsSimpleResourceName = new SimpleResourceName("[ITEM_ID]"),
+                ThirdNameAsSimpleResourceName = new SimpleResourceName("[ITEM_ID]"),
+            };
+            // Make the request
+            Operation<LroResponse, LroMetadata> response = await snippetsClient.MethodLroResourceSignatureAsync(request);
+
+            // Poll until the returned long-running operation is complete
+            Operation<LroResponse, LroMetadata> completedResponse = await response.PollUntilCompletedAsync();
+            // Retrieve the operation result
+            LroResponse result = completedResponse.Result;
+
+            // Or get the name of the operation
+            string operationName = response.Name;
+            // This name can be stored, then the long-running operation retrieved later by name
+            Operation<LroResponse, LroMetadata> retrievedResponse = await snippetsClient.PollOnceMethodLroResourceSignatureAsync(operationName);
+            // Check if the retrieved long-running operation has completed
+            if (retrievedResponse.IsCompleted)
+            {
+                // If it has completed, then access the result
+                LroResponse retrievedResult = retrievedResponse.Result;
+            }
+            // End snippet
+        }
+
+        /// <summary>Snippet for MethodLroResourceSignature</summary>
+        public void MethodLroResourceSignature()
+        {
+            // Snippet: MethodLroResourceSignature(String, String, String, CallSettings)
+            // Create client
+            SnippetsClient snippetsClient = SnippetsClient.Create();
+            // Initialize request argument(s)
+            string firstName = "items/[ITEM_ID]";
+            string secondName = "items/[ITEM_ID]";
+            string thirdName = "items/[ITEM_ID]";
+            // Make the request
+            Operation<LroResponse, LroMetadata> response = snippetsClient.MethodLroResourceSignature(firstName, secondName, thirdName);
+
+            // Poll until the returned long-running operation is complete
+            Operation<LroResponse, LroMetadata> completedResponse = response.PollUntilCompleted();
+            // Retrieve the operation result
+            LroResponse result = completedResponse.Result;
+
+            // Or get the name of the operation
+            string operationName = response.Name;
+            // This name can be stored, then the long-running operation retrieved later by name
+            Operation<LroResponse, LroMetadata> retrievedResponse = snippetsClient.PollOnceMethodLroResourceSignature(operationName);
+            // Check if the retrieved long-running operation has completed
+            if (retrievedResponse.IsCompleted)
+            {
+                // If it has completed, then access the result
+                LroResponse retrievedResult = retrievedResponse.Result;
+            }
+            // End snippet
+        }
+
+        /// <summary>Snippet for MethodLroResourceSignatureAsync</summary>
+        public async Task MethodLroResourceSignatureAsync()
+        {
+            // Snippet: MethodLroResourceSignatureAsync(String, String, String, CallSettings)
+            // Additional: MethodLroResourceSignatureAsync(String, String, String, CancellationToken)
+            // Create client
+            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            // Initialize request argument(s)
+            string firstName = "items/[ITEM_ID]";
+            string secondName = "items/[ITEM_ID]";
+            string thirdName = "items/[ITEM_ID]";
+            // Make the request
+            Operation<LroResponse, LroMetadata> response = await snippetsClient.MethodLroResourceSignatureAsync(firstName, secondName, thirdName);
+
+            // Poll until the returned long-running operation is complete
+            Operation<LroResponse, LroMetadata> completedResponse = await response.PollUntilCompletedAsync();
+            // Retrieve the operation result
+            LroResponse result = completedResponse.Result;
+
+            // Or get the name of the operation
+            string operationName = response.Name;
+            // This name can be stored, then the long-running operation retrieved later by name
+            Operation<LroResponse, LroMetadata> retrievedResponse = await snippetsClient.PollOnceMethodLroResourceSignatureAsync(operationName);
+            // Check if the retrieved long-running operation has completed
+            if (retrievedResponse.IsCompleted)
+            {
+                // If it has completed, then access the result
+                LroResponse retrievedResult = retrievedResponse.Result;
+            }
+            // End snippet
+        }
+
+        /// <summary>Snippet for MethodLroResourceSignature</summary>
+        public void MethodLroResourceSignature_ResourceNames()
+        {
+            // Snippet: MethodLroResourceSignature(SimpleResourceName, SimpleResourceName, SimpleResourceName, CallSettings)
+            // Create client
+            SnippetsClient snippetsClient = SnippetsClient.Create();
+            // Initialize request argument(s)
+            SimpleResourceName firstName = new SimpleResourceName("[ITEM_ID]");
+            SimpleResourceName secondName = new SimpleResourceName("[ITEM_ID]");
+            SimpleResourceName thirdName = new SimpleResourceName("[ITEM_ID]");
+            // Make the request
+            Operation<LroResponse, LroMetadata> response = snippetsClient.MethodLroResourceSignature(firstName, secondName, thirdName);
+
+            // Poll until the returned long-running operation is complete
+            Operation<LroResponse, LroMetadata> completedResponse = response.PollUntilCompleted();
+            // Retrieve the operation result
+            LroResponse result = completedResponse.Result;
+
+            // Or get the name of the operation
+            string operationName = response.Name;
+            // This name can be stored, then the long-running operation retrieved later by name
+            Operation<LroResponse, LroMetadata> retrievedResponse = snippetsClient.PollOnceMethodLroResourceSignature(operationName);
+            // Check if the retrieved long-running operation has completed
+            if (retrievedResponse.IsCompleted)
+            {
+                // If it has completed, then access the result
+                LroResponse retrievedResult = retrievedResponse.Result;
+            }
+            // End snippet
+        }
+
+        /// <summary>Snippet for MethodLroResourceSignatureAsync</summary>
+        public async Task MethodLroResourceSignatureAsync_ResourceNames()
+        {
+            // Snippet: MethodLroResourceSignatureAsync(SimpleResourceName, SimpleResourceName, SimpleResourceName, CallSettings)
+            // Additional: MethodLroResourceSignatureAsync(SimpleResourceName, SimpleResourceName, SimpleResourceName, CancellationToken)
+            // Create client
+            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            // Initialize request argument(s)
+            SimpleResourceName firstName = new SimpleResourceName("[ITEM_ID]");
+            SimpleResourceName secondName = new SimpleResourceName("[ITEM_ID]");
+            SimpleResourceName thirdName = new SimpleResourceName("[ITEM_ID]");
+            // Make the request
+            Operation<LroResponse, LroMetadata> response = await snippetsClient.MethodLroResourceSignatureAsync(firstName, secondName, thirdName);
+
+            // Poll until the returned long-running operation is complete
+            Operation<LroResponse, LroMetadata> completedResponse = await response.PollUntilCompletedAsync();
+            // Retrieve the operation result
+            LroResponse result = completedResponse.Result;
+
+            // Or get the name of the operation
+            string operationName = response.Name;
+            // This name can be stored, then the long-running operation retrieved later by name
+            Operation<LroResponse, LroMetadata> retrievedResponse = await snippetsClient.PollOnceMethodLroResourceSignatureAsync(operationName);
+            // Check if the retrieved long-running operation has completed
+            if (retrievedResponse.IsCompleted)
+            {
+                // If it has completed, then access the result
+                LroResponse retrievedResult = retrievedResponse.Result;
+            }
             // End snippet
         }
     }

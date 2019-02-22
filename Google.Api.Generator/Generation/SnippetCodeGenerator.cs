@@ -81,6 +81,16 @@ namespace Google.Api.Generator.Generation
                     case MethodDetails.Lro _:
                         yield return methodDef.SyncLroRequestMethod;
                         yield return methodDef.AsyncLroRequestMethod;
+                        foreach (var signature in methodDef.Signatures)
+                        {
+                            yield return signature.SyncLroMethod;
+                            yield return signature.AsyncLroMethod;
+                            if (signature.HasResourceNames)
+                            {
+                                yield return signature.SyncLroMethodResourceNames;
+                                yield return signature.AsyncLroMethodResourceNames;
+                            }
+                        }
                         break;
                 }
             }
@@ -173,43 +183,43 @@ namespace Google.Api.Generator.Generation
                 }
             }
 
-            public MethodDeclarationSyntax SyncRequestMethod =>
-                Method(Public, VoidType, Method.SyncSnippetMethodName)()
+            private MethodDeclarationSyntax Sync(string methodName, IEnumerable<Typ> snippetTyps, object initRequest, object makeRequest) =>
+                Method(Public, VoidType, methodName)()
                     .WithBody(
-                        $"// Snippet: {Method.SyncMethodName}({Method.RequestTyp.Name}, {nameof(CallSettings)})",
+                        $"// Snippet: {Method.SyncMethodName}({string.Join("", snippetTyps.Select(x => $"{x.Name}, "))}{nameof(CallSettings)})",
                         "// Create client",
                         Client.WithInitializer(Ctx.Type(Svc.ClientAbstractTyp).Call("Create")()),
-                        "// Initialize request argument(s)",
-                        Request.WithInitializer(New(Ctx.Type(Method.RequestTyp))().WithInitializer(InitRequest().ToArray())),
+                        snippetTyps.Any() ? "// Initialize request argument(s)" : null,
+                        initRequest,
                         "// Make the request",
-                        Response.WithInitializer(Client.Call(Method.SyncMethodName)(Request)),
+                        makeRequest,
                         "// End snippet")
                     .WithXmlDoc(XmlDoc.Summary($"Snippet for {Method.SyncMethodName}"));
 
-            public MethodDeclarationSyntax AsyncRequestMethod =>
-                Method(Public | Async, Ctx.Type<Task>(), Method.AsyncSnippetMethodName)()
+            private MethodDeclarationSyntax Async(string methodName, IEnumerable<Typ> snippetTyps, object initRequest, object makeRequest) =>
+                Method(Public | Modifier.Async, Ctx.Type<Task>(), methodName)()
                     .WithBody(
-                        $"// Snippet: {Method.AsyncMethodName}({Method.RequestTyp.Name}, {nameof(CallSettings)})",
-                        $"// Additional: {Method.AsyncMethodName}({Method.RequestTyp.Name}, {nameof(CancellationToken)})",
+                        $"// Snippet: {Method.AsyncMethodName}({string.Join("", snippetTyps.Select(x => $"{x.Name}, "))}{nameof(CallSettings)})",
+                        $"// Additional: {Method.AsyncMethodName}({string.Join("", snippetTyps.Select(x => $"{x.Name}, "))}{nameof(CancellationToken)})",
                         "// Create client",
                         Client.WithInitializer(Await(Ctx.Type(Svc.ClientAbstractTyp).Call("CreateAsync")())),
                         "// Initialize request argument(s)",
-                        Request.WithInitializer(New(Ctx.Type(Method.RequestTyp))().WithInitializer(InitRequest().ToArray())),
+                        initRequest,
                         "// Make the request",
-                        Response.WithInitializer(Await(Client.Call(Method.AsyncMethodName)(Request))),
+                        makeRequest,
                         "// End snippet")
                     .WithXmlDoc(XmlDoc.Summary($"Snippet for {Method.AsyncMethodName}"));
 
-            public MethodDeclarationSyntax SyncLroRequestMethod =>
-                Method(Public, VoidType, Method.SyncSnippetMethodName)()
+            private MethodDeclarationSyntax SyncLro(string methodName, IEnumerable<Typ> snippetTyps, object initRequest, object makeRequest) =>
+                Method(Public, VoidType, methodName)()
                     .WithBody(
-                        $"// Snippet: {Method.SyncMethodName}({Method.RequestTyp.Name}, {nameof(CallSettings)})",
+                        $"// Snippet: {Method.SyncMethodName}({string.Join("", snippetTyps.Select(x => $"{x.Name}, "))}{nameof(CallSettings)})",
                         "// Create client",
                         Client.WithInitializer(Ctx.Type(Svc.ClientAbstractTyp).Call("Create")()),
                         "// Initialize request argument(s)",
-                        Request.WithInitializer(New(Ctx.Type(Method.RequestTyp))().WithInitializer(InitRequest().ToArray())),
+                        initRequest,
                         "// Make the request",
-                        LroResponse.WithInitializer(Client.Call(Method.SyncMethodName)(Request)),
+                        makeRequest,
                         BlankLine,
                         "// Poll until the returned long-running operation is complete",
                         LroCompletedResponse.WithInitializer(LroResponse.Call(nameof(Operation<ProtoMsg, ProtoMsg>.PollUntilCompleted))()),
@@ -228,17 +238,17 @@ namespace Google.Api.Generator.Generation
                         "// End snippet")
                     .WithXmlDoc(XmlDoc.Summary($"Snippet for {Method.SyncMethodName}"));
 
-            public MethodDeclarationSyntax AsyncLroRequestMethod =>
-                Method(Public | Async, Ctx.Type<Task>(), Method.AsyncSnippetMethodName)()
+            private MethodDeclarationSyntax AsyncLro(string methodName, IEnumerable<Typ> snippetTyps, object initRequest, object makeRequest) =>
+                Method(Public | Modifier.Async, Ctx.Type<Task>(), methodName)()
                     .WithBody(
-                        $"// Snippet: {Method.AsyncMethodName}({Method.RequestTyp.Name}, {nameof(CallSettings)})",
-                        $"// Additional: {Method.AsyncMethodName}({Method.RequestTyp.Name}, {nameof(CancellationToken)})",
+                        $"// Snippet: {Method.AsyncMethodName}({string.Join("", snippetTyps.Select(x => $"{x.Name}, "))}{nameof(CallSettings)})",
+                        $"// Additional: {Method.AsyncMethodName}({string.Join("", snippetTyps.Select(x => $"{x.Name}, "))}{nameof(CancellationToken)})",
                         "// Create client",
                         Client.WithInitializer(Await(Ctx.Type(Svc.ClientAbstractTyp).Call("CreateAsync")())),
                         "// Initialize request argument(s)",
-                        Request.WithInitializer(New(Ctx.Type(Method.RequestTyp))().WithInitializer(InitRequest().ToArray())),
+                        initRequest,
                         "// Make the request",
-                        LroResponse.WithInitializer(Await(Client.Call(Method.AsyncMethodName)(Request))),
+                        makeRequest,
                         BlankLine,
                         "// Poll until the returned long-running operation is complete",
                         LroCompletedResponse.WithInitializer(Await(LroResponse.Call(nameof(Operation<ProtoMsg, ProtoMsg>.PollUntilCompletedAsync))())),
@@ -257,6 +267,21 @@ namespace Google.Api.Generator.Generation
                         "// End snippet")
                     .WithXmlDoc(XmlDoc.Summary($"Snippet for {Method.AsyncMethodName}"));
 
+            public MethodDeclarationSyntax SyncRequestMethod => Sync(Method.SyncSnippetMethodName, new[] { Method.RequestTyp },
+                Request.WithInitializer(New(Ctx.Type(Method.RequestTyp))().WithInitializer(InitRequest().ToArray())),
+                Response.WithInitializer(Client.Call(Method.SyncMethodName)(Request)));
+
+            public MethodDeclarationSyntax AsyncRequestMethod => Async(Method.AsyncSnippetMethodName, new[] { Method.RequestTyp },
+                Request.WithInitializer(New(Ctx.Type(Method.RequestTyp))().WithInitializer(InitRequest().ToArray())),
+                Response.WithInitializer(Await(Client.Call(Method.AsyncMethodName)(Request))));
+
+            public MethodDeclarationSyntax SyncLroRequestMethod => SyncLro(Method.SyncSnippetMethodName, new[] { Method.RequestTyp },
+                Request.WithInitializer(New(Ctx.Type(Method.RequestTyp))().WithInitializer(InitRequest().ToArray())),
+                LroResponse.WithInitializer(Client.Call(Method.SyncMethodName)(Request)));
+
+            public MethodDeclarationSyntax AsyncLroRequestMethod => AsyncLro(Method.AsyncSnippetMethodName, new[] { Method.RequestTyp },
+                Request.WithInitializer(New(Ctx.Type(Method.RequestTyp))().WithInitializer(InitRequest().ToArray())),
+                LroResponse.WithInitializer(Await(Client.Call(Method.AsyncMethodName)(Request))));
 
             public class Signature
             {
@@ -284,65 +309,33 @@ namespace Google.Api.Generator.Generation
                 private IEnumerable<LocalDeclarationStatementSyntax> InitRequestArgsNormal => InitRequestArgs(resourceNameAsString: true);
                 private IEnumerable<LocalDeclarationStatementSyntax> InitRequestArgsResourceNames => InitRequestArgs(resourceNameAsString: false);
 
-                private string SnippetCommentArgs => string.Join(", ", _sig.Fields.Select(f => f.Typ.Name)) + (_sig.Fields.Any() ? ", " : "");
-                private string SnippetCommentResourceNameArgs => string.Join(", ", _sig.Fields.Select(f =>
-                    (f.FieldResource?.ResourceDefinition.One.ResourceNameTyp ?? f.Typ).Name)) + (_sig.Fields.Any() ? ", " : "");
+                private IEnumerable<Typ> SnippetCommentResourceNameArgs => _sig.Fields.Select(f => f.FieldResource?.ResourceDefinition.One.ResourceNameTyp ?? f.Typ);
 
                 public bool HasResourceNames => _sig.Fields.Any(x => x.FieldResource != null);
 
-                public MethodDeclarationSyntax SyncMethod =>
-                    Method(Public, VoidType, SyncMethodName)()
-                        .WithBody(
-                            $"// Snippet: {Method.SyncMethodName}({SnippetCommentArgs}{nameof(CallSettings)})",
-                            "// Create client",
-                            _def.Client.WithInitializer(Ctx.Type(Svc.ClientAbstractTyp).Call("Create")()),
-                            _sig.Fields.Any() ? "// Initialize request argument(s)" : null,
-                            InitRequestArgsNormal,
-                            "// Make the request",
-                            _def.Response.WithInitializer(_def.Client.Call(Method.SyncMethodName)(InitRequestArgsNormal.ToArray())),
-                            "// End snippet")
-                        .WithXmlDoc(XmlDoc.Summary($"Snippet for {Method.SyncMethodName}"));
+                public MethodDeclarationSyntax SyncMethod => _def.Sync(SyncMethodName, _sig.Fields.Select(f => f.Typ),
+                    InitRequestArgsNormal, _def.Response.WithInitializer(_def.Client.Call(Method.SyncMethodName)(InitRequestArgsNormal.ToArray())));
 
-                public MethodDeclarationSyntax AsyncMethod =>
-                    Method(Public | Async, Ctx.Type<Task>(), AsyncMethodName)()
-                        .WithBody(
-                            $"// Snippet: {Method.AsyncMethodName}({SnippetCommentArgs}{nameof(CallSettings)})",
-                            $"// Additional: {Method.AsyncMethodName}({SnippetCommentArgs}{nameof(CancellationToken)})",
-                            "// Create client",
-                            _def.Client.WithInitializer(Await(Ctx.Type(Svc.ClientAbstractTyp).Call("CreateAsync")())),
-                            _sig.Fields.Any() ? "// Initialize request argument(s)" : null,
-                            InitRequestArgsNormal,
-                            "// Make the request",
-                            _def.Response.WithInitializer(Await(_def.Client.Call(Method.AsyncMethodName)(InitRequestArgsNormal.ToArray()))),
-                            "// End snippet")
-                        .WithXmlDoc(XmlDoc.Summary($"Snippet for {Method.AsyncMethodName}"));
+                public MethodDeclarationSyntax AsyncMethod => _def.Async(AsyncMethodName, _sig.Fields.Select(f => f.Typ),
+                    InitRequestArgsNormal, _def.Response.WithInitializer(Await(_def.Client.Call(Method.AsyncMethodName)(InitRequestArgsNormal.ToArray()))));
 
-                public MethodDeclarationSyntax SyncMethodResourceNames =>
-                    Method(Public, VoidType, SyncResourceNameMethodName)()
-                        .WithBody(
-                            $"// Snippet: {Method.SyncMethodName}({SnippetCommentResourceNameArgs}{nameof(CallSettings)})",
-                            "// Create client",
-                            _def.Client.WithInitializer(Ctx.Type(Svc.ClientAbstractTyp).Call("Create")()),
-                            _sig.Fields.Any() ? "// Initialize request argument(s)" : null,
-                            InitRequestArgsResourceNames,
-                            "// Make the request",
-                            _def.Response.WithInitializer(_def.Client.Call(Method.SyncMethodName)(InitRequestArgsResourceNames.ToArray())),
-                            "// End snippet")
-                        .WithXmlDoc(XmlDoc.Summary($"Snippet for {Method.SyncMethodName}"));
+                public MethodDeclarationSyntax SyncMethodResourceNames => _def.Sync(SyncResourceNameMethodName, SnippetCommentResourceNameArgs,
+                    InitRequestArgsResourceNames, _def.Response.WithInitializer(_def.Client.Call(Method.SyncMethodName)(InitRequestArgsResourceNames.ToArray())));
 
-                public MethodDeclarationSyntax AsyncMethodResourceNames =>
-                    Method(Public | Async, Ctx.Type<Task>(), AsyncResourceNameMethodName)()
-                        .WithBody(
-                            $"// Snippet: {Method.AsyncMethodName}({SnippetCommentResourceNameArgs}{nameof(CallSettings)})",
-                            $"// Additional: {Method.AsyncMethodName}({SnippetCommentResourceNameArgs}{nameof(CancellationToken)})",
-                            "// Create client",
-                            _def.Client.WithInitializer(Await(Ctx.Type(Svc.ClientAbstractTyp).Call("CreateAsync")())),
-                            _sig.Fields.Any() ? "// Initialize request argument(s)" : null,
-                            InitRequestArgsResourceNames,
-                            "// Make the request",
-                            _def.Response.WithInitializer(Await(_def.Client.Call(Method.AsyncMethodName)(InitRequestArgsResourceNames.ToArray()))),
-                            "// End snippet")
-                        .WithXmlDoc(XmlDoc.Summary($"Snippet for {Method.AsyncMethodName}"));
+                public MethodDeclarationSyntax AsyncMethodResourceNames => _def.Async(AsyncResourceNameMethodName, SnippetCommentResourceNameArgs,
+                    InitRequestArgsResourceNames, _def.Response.WithInitializer(Await(_def.Client.Call(Method.AsyncMethodName)(InitRequestArgsResourceNames.ToArray()))));
+
+                public MethodDeclarationSyntax SyncLroMethod => _def.SyncLro(SyncMethodName, _sig.Fields.Select(f => f.Typ),
+                    InitRequestArgsNormal, _def.LroResponse.WithInitializer(_def.Client.Call(Method.SyncMethodName)(InitRequestArgsNormal.ToArray())));
+
+                public MethodDeclarationSyntax AsyncLroMethod => _def.AsyncLro(AsyncMethodName, _sig.Fields.Select(f => f.Typ),
+                    InitRequestArgsNormal, _def.LroResponse.WithInitializer(Await(_def.Client.Call(Method.AsyncMethodName)(InitRequestArgsNormal.ToArray()))));
+
+                public MethodDeclarationSyntax SyncLroMethodResourceNames => _def.SyncLro(SyncResourceNameMethodName, SnippetCommentResourceNameArgs,
+                    InitRequestArgsResourceNames, _def.LroResponse.WithInitializer(_def.Client.Call(Method.SyncMethodName)(InitRequestArgsResourceNames.ToArray())));
+
+                public MethodDeclarationSyntax AsyncLroMethodResourceNames => _def.AsyncLro(AsyncResourceNameMethodName, SnippetCommentResourceNameArgs,
+                    InitRequestArgsResourceNames, _def.LroResponse.WithInitializer(Await(_def.Client.Call(Method.AsyncMethodName)(InitRequestArgsResourceNames.ToArray()))));
             }
 
             public IEnumerable<Signature> Signatures => Method.Signatures.Select((sig, i) => new Signature(this, sig, Method.Signatures.Count > 1 ? i : (int?)null));

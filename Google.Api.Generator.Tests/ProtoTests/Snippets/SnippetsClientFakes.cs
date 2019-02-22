@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Google.Api.Gax;
+using Google.LongRunning;
 using Google.Protobuf;
 using Google.Protobuf.Collections;
 using System;
@@ -52,6 +53,22 @@ namespace Testing.Snippets
         public Task<Response> MethodResourceSignatureAsync(string firstName) => throw new NotImplementedException();
         public Response MethodResourceSignature(SimpleResourceName firstName) => throw new NotImplementedException();
         public Task<Response> MethodResourceSignatureAsync(SimpleResourceName firstName) => throw new NotImplementedException();
+
+        public Operation<LroResponse, LroMetadata> MethodLroSignatures(SignatureRequest request) => throw new NotImplementedException();
+        public Task<Operation<LroResponse, LroMetadata>> MethodLroSignaturesAsync(SignatureRequest request) => throw new NotImplementedException();
+        public Operation<LroResponse, LroMetadata> MethodLroSignatures(string aString, int anInt, bool aBool) => throw new NotImplementedException();
+        public Task<Operation<LroResponse, LroMetadata>> MethodLroSignaturesAsync(string aString, int anInt, bool aBool) => throw new NotImplementedException();
+        public Operation<LroResponse, LroMetadata> PollOnceMethodLroSignatures(string operationName) => throw new NotImplementedException();
+        public Task<Operation<LroResponse, LroMetadata>> PollOnceMethodLroSignaturesAsync(string operationName) => throw new NotImplementedException();
+
+        public Operation<LroResponse, LroMetadata> MethodLroResourceSignature(ResourceSignatureRequest request) => throw new NotImplementedException();
+        public Task<Operation<LroResponse, LroMetadata>> MethodLroResourceSignatureAsync(ResourceSignatureRequest request) => throw new NotImplementedException();
+        public Operation<LroResponse, LroMetadata> MethodLroResourceSignature(string firstName, string secondName, string thirdName) => throw new NotImplementedException();
+        public Task<Operation<LroResponse, LroMetadata>> MethodLroResourceSignatureAsync(string firstName, string secondName, string thirdName) => throw new NotImplementedException();
+        public Operation<LroResponse, LroMetadata> MethodLroResourceSignature(SimpleResourceName firstName, SimpleResourceName secondName, SimpleResourceName thirdName) => throw new NotImplementedException();
+        public Task<Operation<LroResponse, LroMetadata>> MethodLroResourceSignatureAsync(SimpleResourceName firstName, SimpleResourceName secondName, SimpleResourceName thirdName) => throw new NotImplementedException();
+        public Operation<LroResponse, LroMetadata> PollOnceMethodLroResourceSignature(string operationName) => throw new NotImplementedException();
+        public Task<Operation<LroResponse, LroMetadata>> PollOnceMethodLroResourceSignatureAsync(string operationName) => throw new NotImplementedException();
     }
 
     public class AResourceName : IResourceName
@@ -152,4 +169,6 @@ namespace Testing.Snippets
     }
 
     public class Response : ProtoMsgFake<Response> { }
+    public class LroResponse : ProtoMsgFake<LroResponse> { }
+    public class LroMetadata : ProtoMsgFake<LroMetadata> { }
 }
