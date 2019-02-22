@@ -207,9 +207,6 @@ namespace Google.Api.Generator.Tests
             }
         }
 
-
-        // TODO: Test that the resulting projects build successfully.
-
         // `0` suffix so it's easier to run this test by itself!
         [Fact]
         public void Basic0() => ProtoTestSingle("Basic");
