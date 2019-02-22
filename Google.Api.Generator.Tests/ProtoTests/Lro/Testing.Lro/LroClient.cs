@@ -3,6 +3,10 @@ using lro = Google.LongRunning;
 using st = System.Threading;
 using stt = System.Threading.Tasks;
 
+// Disable warning: Missing XML comment on public members.
+// Required to successfully build this generated test project.
+#pragma warning disable 1591
+
 namespace Testing.Lro
 {
     public abstract class LroClient
