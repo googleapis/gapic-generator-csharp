@@ -58,12 +58,12 @@ namespace Google.Api.Generator.Generation
     <!--
       <AssemblyOriginatorKeyFile>...</AssemblyOriginatorKeyFile>
       <SignAssembly>true</SignAssembly>
-      <PublicSign Condition="" '$(OS)' != 'Windows_NT' "">true</PublicSign>
+      <PublicSign Condition=""'$(OS)' != 'Windows_NT'"">true</PublicSign>
     -->
 
     <!-- These items should not require editing -->
     <TargetFrameworks>netstandard1.5;net45</TargetFrameworks>
-    <TargetFrameworks Condition="" '$(OS)' != 'Windows_NT' "">netstandard1.5</TargetFrameworks>
+    <TargetFrameworks Condition=""'$(OS)' != 'Windows_NT'"">netstandard1.5</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Deterministic>true</Deterministic>
@@ -97,7 +97,7 @@ namespace Google.Api.Generator.Generation
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp2.2;net452</TargetFrameworks>
-    <TargetFrameworks Condition="" '$(OS)' != 'Windows_NT' "">netcoreapp2.2</TargetFrameworks>
+    <TargetFrameworks Condition=""'$(OS)' != 'Windows_NT'"">netcoreapp2.2</TargetFrameworks>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
