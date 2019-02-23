@@ -177,33 +177,55 @@ namespace Google.Api.Generator.Tests
             {
                 testRootPath = Path.GetFullPath(Path.Combine(testRootPath, ".."));
             }
-            var testPath = Path.Combine(testRootPath, "ProtoTests", testName, $"Testing.{testName}");
-            Assert.True(Directory.Exists(testPath), $"Test directory doesn't exist: '{testPath}'");
-            // TODO: Use Roslyn directly, rather than invoking `dotnet`.
-            var processStart = new ProcessStartInfo("dotnet", "build")
+            var baseTestPath = Path.Combine(testRootPath, "ProtoTests", testName);
+            var clientPath = Path.Combine(baseTestPath, $"Testing.{testName}");
+            // Test build client library.
+            Build(clientPath);
+            // Test build snippets.
+            Build(Path.Combine(baseTestPath, $"Testing.{testName}.Snippets"));
+
+            void Build(string path)
             {
-                WorkingDirectory = testPath,
-                // 'dotnet' doesn't use stderr, all output is to stdout.
-                RedirectStandardOutput = true,
-            };
-            var errors = new List<string>();
-            try
-            {
-                using (var process = Process.Start(processStart))
+                Assert.True(Directory.Exists(path), $"Test directory doesn't exist: '{path}'");
+                // TODO: Use Roslyn directly, rather than invoking `dotnet`.
+                var processStart = new ProcessStartInfo("dotnet", "build")
                 {
-                    process.OutputDataReceived += (sender, e) => errors.Add(e.Data);
-                    process.BeginOutputReadLine();
-                    process.WaitForExit(30_000);
-                    if (process.ExitCode != 0)
+                    WorkingDirectory = path,
+                    // 'dotnet' doesn't use stderr, all output is to stdout.
+                    RedirectStandardOutput = true,
+                };
+                var errors = new List<string>();
+                try
+                {
+                    using (var process = Process.Start(processStart))
                     {
-                        throw new XunitException($" 'dotnet build' failed:{Environment.NewLine}{string.Join(Environment.NewLine, errors)}");
+                        process.OutputDataReceived += (sender, e) => errors.Add(e.Data);
+                        process.BeginOutputReadLine();
+                        process.WaitForExit(30_000);
+                        if (process.ExitCode != 0)
+                        {
+                            throw new XunitException($" 'dotnet build {path}' failed:{Environment.NewLine}{string.Join(Environment.NewLine, errors)}");
+                        }
                     }
                 }
+                finally
+                {
+                    CleanUp(path);
+                    // Always clean up the client; this is built when any other project is built.
+                    CleanUp(clientPath);
+                }
             }
-            finally
+
+            void CleanUp(string path)
             {
-                Directory.Delete(Path.Combine(testPath, "obj"), recursive: true);
-                Directory.Delete(Path.Combine(testPath, "bin"), recursive: true);
+                try
+                {
+                    Directory.Delete(Path.Combine(path, "obj"), recursive: true);
+                    Directory.Delete(Path.Combine(path, "bin"), recursive: true);
+                }
+                catch
+                {
+                }
             }
         }
 

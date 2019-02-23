@@ -19,7 +19,7 @@ using System.Text;
 
 namespace Google.Api.Generator.Generation
 {
-    internal class CsProjGenerator
+    internal static class CsProjGenerator
     {
         private const string GaxGrpcVersion = "2.6.0";
         private const string GrpcCoreVersion = "1.18.0";
@@ -58,12 +58,12 @@ namespace Google.Api.Generator.Generation
     <!--
       <AssemblyOriginatorKeyFile>...</AssemblyOriginatorKeyFile>
       <SignAssembly>true</SignAssembly>
-      <PublicSign Condition="" '$(OS)' != 'Windows_NT' "">true</PublicSign>
+      <PublicSign Condition=""'$(OS)' != 'Windows_NT'"">true</PublicSign>
     -->
 
     <!-- These items should not require editing -->
     <TargetFrameworks>netstandard1.5;net45</TargetFrameworks>
-    <TargetFrameworks Condition="" '$(OS)' != 'Windows_NT' "">netstandard1.5</TargetFrameworks>
+    <TargetFrameworks Condition=""'$(OS)' != 'Windows_NT'"">netstandard1.5</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Deterministic>true</Deterministic>
@@ -87,6 +87,27 @@ namespace Google.Api.Generator.Generation
                     yield return $@"<PackageReference Include=""Google.LongRunning"" Version=""{LroVersion}"" />";
                 }
             }
+        }
+
+        public static string GenerateSnippets(string clientNamespace)
+        {
+            string content = $@"
+<?xml version=""1.0"" encoding=""utf-8""?>
+<Project Sdk=""Microsoft.NET.Sdk"">
+
+  <PropertyGroup>
+    <TargetFrameworks>netcoreapp2.2;net452</TargetFrameworks>
+    <TargetFrameworks Condition=""'$(OS)' != 'Windows_NT'"">netcoreapp2.2</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include=""../{clientNamespace}/{clientNamespace}.csproj"" />
+  </ItemGroup>
+
+</Project>
+";
+            return content.Trim();
         }
     }
 }
