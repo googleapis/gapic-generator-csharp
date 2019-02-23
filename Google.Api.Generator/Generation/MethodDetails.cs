@@ -46,7 +46,8 @@ namespace Google.Api.Generator.Generation
         /// </summary>
         public sealed class Paginated : MethodDetails
         {
-            public Paginated(ServiceDetails svc, MethodDescriptor desc, FieldDescriptor responseResourceField) : base(svc, desc)
+            public Paginated(ServiceDetails svc, MethodDescriptor desc,
+                FieldDescriptor responseResourceField, int pageSizeFieldNumber, int pageTokenFieldNumber) : base(svc, desc)
             {
                 // TODO: Handle resource-sets.
                 var resourceDetails = svc.Catalog.GetResourceDetailsByField(responseResourceField);
@@ -58,6 +59,8 @@ namespace Google.Api.Generator.Generation
                 AsyncGrpcType = Typ.Generic(typeof(GrpcPagedAsyncEnumerable<,,>), RequestTyp, ResponseTyp, ResourceTyp);
                 ResourcesFieldName = responseResourceField.CSharpPropertyName();
                 ResourcesFieldResourceName = svc.Catalog.GetResourceDetailsByField(responseResourceField);
+                PageSizeFieldNumber = pageSizeFieldNumber;
+                PageTokenFieldNumber = pageTokenFieldNumber;
             }
             public override Typ ApiCallTyp { get; }
             public override Typ SyncReturnTyp { get; }
@@ -67,6 +70,8 @@ namespace Google.Api.Generator.Generation
             public Typ AsyncGrpcType { get; }
             public string ResourcesFieldName { get; }
             public ResourceDetails.Field ResourcesFieldResourceName { get; }
+            public int PageSizeFieldNumber { get; }
+            public int PageTokenFieldNumber { get; }
         }
 
         /// <summary>
@@ -209,7 +214,7 @@ namespace Google.Api.Generator.Generation
                 {
                     throw new InvalidOperationException("Ambiguous item responces");
                 }
-                return new Paginated(svc, desc, items[0]);
+                return new Paginated(svc, desc, items[0], pageSize.FieldNumber, pageToken.FieldNumber);
             }
             return null;
         }

@@ -20,6 +20,8 @@ using Google.Api.Generator.Utils;
 using Google.LongRunning;
 using Google.Protobuf;
 using Google.Protobuf.Reflection;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
@@ -92,6 +94,15 @@ namespace Google.Api.Generator.Generation
                             }
                         }
                         break;
+                    case MethodDetails.Paginated _:
+                        yield return methodDef.SyncPaginatedRequestMethod;
+                        // TODO: Async snippets
+                        foreach (var signature in methodDef.Signatures)
+                        {
+                            yield return signature.SyncPaginationMethod;
+                            // TODO: Resourcename snippets
+                        }
+                        break;
                 }
             }
         }
@@ -105,16 +116,22 @@ namespace Google.Api.Generator.Generation
             private ServiceDetails Svc { get; }
             private MethodDetails Method { get; }
             private MethodDetails.Lro MethodLro => (MethodDetails.Lro)Method;
+            private MethodDetails.Paginated MethodPaginated => (MethodDetails.Paginated)Method;
 
             private LocalDeclarationStatementSyntax Client => Local(Ctx.Type(Svc.ClientAbstractTyp), Svc.SnippetsClientName);
             private LocalDeclarationStatementSyntax Request => Local(Ctx.Type(Method.RequestTyp), "request");
-            private LocalDeclarationStatementSyntax Response => Local(Ctx.Type(Method.ResponseTyp), "response");
-            private LocalDeclarationStatementSyntax LroResponse => Local(Ctx.Type(MethodLro.OperationTyp), "response");
+            private LocalDeclarationStatementSyntax Response => Local(Ctx.Type(Method.SyncReturnTyp), "response");
             private LocalDeclarationStatementSyntax LroCompletedResponse => Local(Ctx.Type(MethodLro.OperationTyp), "completedResponse");
             private LocalDeclarationStatementSyntax LroResult => Local(Ctx.Type(MethodLro.OperationResponseTyp), "result");
             private LocalDeclarationStatementSyntax LroOperationName => Local(Ctx.Type<string>(), "operationName");
             private LocalDeclarationStatementSyntax LroRetrievedResponse => Local(Ctx.Type(MethodLro.OperationTyp), "retrievedResponse");
             private LocalDeclarationStatementSyntax LroRetrievedResult => Local(Ctx.Type(MethodLro.OperationResponseTyp), "retrievedResult");
+            private LocalDeclarationStatementSyntax PageSize => Local(Ctx.Type<int>(), "pageSize");
+            private LocalDeclarationStatementSyntax SinglePage => Local(Ctx.Type(Typ.Generic(typeof(Page<>), MethodPaginated.ResourceTyp)), "singlePage");
+            private LocalDeclarationStatementSyntax NextPageToken => Local(Ctx.Type<string>(), "nextPageToken");
+
+            private SyntaxToken PaginatedItem = SyntaxFactory.Identifier("item");
+            private SyntaxToken PaginatedPage = SyntaxFactory.Identifier("page");
 
             private object DefaultValue(FieldDescriptor fieldDesc, bool resourceNameAsString = false)
             {
@@ -177,9 +194,15 @@ namespace Google.Api.Generator.Generation
             {
                 foreach (var fieldDesc in Method.RequestMessageDesc.Fields.InFieldNumberOrder())
                 {
-                    yield return new ObjectInitExpr(
-                        Svc.Catalog.GetResourceDetailsByField(fieldDesc)?.ResourcePropertyName ?? fieldDesc.CSharpPropertyName(),
-                        DefaultValue(fieldDesc));
+                    if (!IsPaginationField())
+                    {
+                        yield return new ObjectInitExpr(
+                            Svc.Catalog.GetResourceDetailsByField(fieldDesc)?.ResourcePropertyName ?? fieldDesc.CSharpPropertyName(),
+                            DefaultValue(fieldDesc));
+                    }
+
+                    bool IsPaginationField() => Method is MethodDetails.Paginated paged &&
+                        (fieldDesc.FieldNumber == paged.PageSizeFieldNumber || fieldDesc.FieldNumber == paged.PageTokenFieldNumber);
                 }
             }
 
@@ -222,12 +245,12 @@ namespace Google.Api.Generator.Generation
                         makeRequest,
                         BlankLine,
                         "// Poll until the returned long-running operation is complete",
-                        LroCompletedResponse.WithInitializer(LroResponse.Call(nameof(Operation<ProtoMsg, ProtoMsg>.PollUntilCompleted))()),
+                        LroCompletedResponse.WithInitializer(Response.Call(nameof(Operation<ProtoMsg, ProtoMsg>.PollUntilCompleted))()),
                         "// Retrieve the operation result",
                         LroResult.WithInitializer(LroCompletedResponse.Access(nameof(Operation<ProtoMsg, ProtoMsg>.Result))),
                         BlankLine,
                         "// Or get the name of the operation",
-                        LroOperationName.WithInitializer(LroResponse.Access(nameof(Operation<ProtoMsg, ProtoMsg>.Name))),
+                        LroOperationName.WithInitializer(Response.Access(nameof(Operation<ProtoMsg, ProtoMsg>.Name))),
                         "// This name can be stored, then the long-running operation retrieved later by name",
                         LroRetrievedResponse.WithInitializer(Client.Call(MethodLro.SyncPollMethodName)(LroOperationName)),
                         "// Check if the retrieved long-running operation has completed",
@@ -251,12 +274,12 @@ namespace Google.Api.Generator.Generation
                         makeRequest,
                         BlankLine,
                         "// Poll until the returned long-running operation is complete",
-                        LroCompletedResponse.WithInitializer(Await(LroResponse.Call(nameof(Operation<ProtoMsg, ProtoMsg>.PollUntilCompletedAsync))())),
+                        LroCompletedResponse.WithInitializer(Await(Response.Call(nameof(Operation<ProtoMsg, ProtoMsg>.PollUntilCompletedAsync))())),
                         "// Retrieve the operation result",
                         LroResult.WithInitializer(LroCompletedResponse.Access(nameof(Operation<ProtoMsg, ProtoMsg>.Result))),
                         BlankLine,
                         "// Or get the name of the operation",
-                        LroOperationName.WithInitializer(LroResponse.Access(nameof(Operation<ProtoMsg, ProtoMsg>.Name))),
+                        LroOperationName.WithInitializer(Response.Access(nameof(Operation<ProtoMsg, ProtoMsg>.Name))),
                         "// This name can be stored, then the long-running operation retrieved later by name",
                         LroRetrievedResponse.WithInitializer(Await(Client.Call(MethodLro.AsyncPollMethodName)(LroOperationName))),
                         "// Check if the retrieved long-running operation has completed",
@@ -267,21 +290,60 @@ namespace Google.Api.Generator.Generation
                         "// End snippet")
                     .WithXmlDoc(XmlDoc.Summary($"Snippet for {Method.AsyncMethodName}"));
 
+            private MethodDeclarationSyntax SyncPaginated(string methodName, IEnumerable<Typ> snippetTyps, object initRequest, object makeRequest) =>
+                Method(Public, VoidType, methodName)()
+                    .WithBody(
+                        $"// Snippet: {Method.SyncMethodName}({string.Join("", snippetTyps.Select(x => $"{x.Name}, "))}{nameof(CallSettings)})",
+                        "// Create client",
+                        Client.WithInitializer(Ctx.Type(Svc.ClientAbstractTyp).Call("Create")()),
+                        "// Initialize request argument(s)",
+                        initRequest,
+                        "// Make the request",
+                        makeRequest,
+                        BlankLine,
+                        "// Iterate over all response items, lazily performing RPCs as required",
+                        ForEach(Ctx.Type(MethodPaginated.ResourceTyp), PaginatedItem, Response)(
+                            "// Do something with each item",
+                            Ctx.Type(typeof(Console)).Call(nameof(Console.WriteLine))(PaginatedItem)),
+                        BlankLine,
+                        "// Or iterate over pages (of server-defined size), performing one RPC per page",
+                        ForEach(Ctx.Type(Method.ResponseTyp), PaginatedPage, Response.Call(nameof(PagedEnumerable<ProtoMsg, int>.AsRawResponses))())(
+                            "// Do something with each page of items",
+                            Ctx.Type(typeof(Console)).Call(nameof(Console.WriteLine))("A page of results:"),
+                            ForEach(Ctx.Type(MethodPaginated.ResourceTyp), PaginatedItem, PaginatedPage)(
+                                "// Do something with each item",
+                                Ctx.Type(typeof(Console)).Call(nameof(Console.WriteLine))(PaginatedItem))
+                            ),
+                        BlankLine,
+                        "// Or retrieve a single page of known size (unless it's the final page), performing as many RPCs as required",
+                        PageSize.WithInitializer(10),
+                        SinglePage.WithInitializer(Response.Call(nameof(PagedEnumerable<ProtoMsg, int>.ReadPage))(PageSize)),
+                        "// Do something with the page of items",
+                        Ctx.Type(typeof(Console)).Call(nameof(Console.WriteLine))(Dollar($"A page of {PageSize} results (unless it's the final page):")),
+                        ForEach(Ctx.Type(MethodPaginated.ResourceTyp), PaginatedItem, SinglePage)(
+                            "// Do something with each item",
+                            Ctx.Type(typeof(Console)).Call(nameof(Console.WriteLine))(PaginatedItem)),
+                        "// Store the pageToken, for when the next page is required.",
+                        NextPageToken.WithInitializer(SinglePage.Access(nameof(Page<int>.NextPageToken))),
+                        "// End snippet")
+                    .WithXmlDoc(XmlDoc.Summary($"Snippet for {Method.SyncMethodName}"));
+
+            private object InitRequestObject => Request.WithInitializer(New(Ctx.Type(Method.RequestTyp))().WithInitializer(InitRequest().ToArray()));
+
             public MethodDeclarationSyntax SyncRequestMethod => Sync(Method.SyncSnippetMethodName, new[] { Method.RequestTyp },
-                Request.WithInitializer(New(Ctx.Type(Method.RequestTyp))().WithInitializer(InitRequest().ToArray())),
-                Response.WithInitializer(Client.Call(Method.SyncMethodName)(Request)));
+                InitRequestObject, Response.WithInitializer(Client.Call(Method.SyncMethodName)(Request)));
 
             public MethodDeclarationSyntax AsyncRequestMethod => Async(Method.AsyncSnippetMethodName, new[] { Method.RequestTyp },
-                Request.WithInitializer(New(Ctx.Type(Method.RequestTyp))().WithInitializer(InitRequest().ToArray())),
-                Response.WithInitializer(Await(Client.Call(Method.AsyncMethodName)(Request))));
+                InitRequestObject, Response.WithInitializer(Await(Client.Call(Method.AsyncMethodName)(Request))));
 
             public MethodDeclarationSyntax SyncLroRequestMethod => SyncLro(Method.SyncSnippetMethodName, new[] { Method.RequestTyp },
-                Request.WithInitializer(New(Ctx.Type(Method.RequestTyp))().WithInitializer(InitRequest().ToArray())),
-                LroResponse.WithInitializer(Client.Call(Method.SyncMethodName)(Request)));
+                InitRequestObject, Response.WithInitializer(Client.Call(Method.SyncMethodName)(Request)));
 
             public MethodDeclarationSyntax AsyncLroRequestMethod => AsyncLro(Method.AsyncSnippetMethodName, new[] { Method.RequestTyp },
-                Request.WithInitializer(New(Ctx.Type(Method.RequestTyp))().WithInitializer(InitRequest().ToArray())),
-                LroResponse.WithInitializer(Await(Client.Call(Method.AsyncMethodName)(Request))));
+                InitRequestObject, Response.WithInitializer(Await(Client.Call(Method.AsyncMethodName)(Request))));
+
+            public MethodDeclarationSyntax SyncPaginatedRequestMethod => SyncPaginated(Method.SyncSnippetMethodName, new[] { Method.RequestTyp },
+                InitRequestObject, Response.WithInitializer(Client.Call(Method.SyncMethodName)(Request)));
 
             public class Signature
             {
@@ -326,16 +388,19 @@ namespace Google.Api.Generator.Generation
                     InitRequestArgsResourceNames, _def.Response.WithInitializer(Await(_def.Client.Call(Method.AsyncMethodName)(InitRequestArgsResourceNames.ToArray()))));
 
                 public MethodDeclarationSyntax SyncLroMethod => _def.SyncLro(SyncMethodName, _sig.Fields.Select(f => f.Typ),
-                    InitRequestArgsNormal, _def.LroResponse.WithInitializer(_def.Client.Call(Method.SyncMethodName)(InitRequestArgsNormal.ToArray())));
+                    InitRequestArgsNormal, _def.Response.WithInitializer(_def.Client.Call(Method.SyncMethodName)(InitRequestArgsNormal.ToArray())));
 
                 public MethodDeclarationSyntax AsyncLroMethod => _def.AsyncLro(AsyncMethodName, _sig.Fields.Select(f => f.Typ),
-                    InitRequestArgsNormal, _def.LroResponse.WithInitializer(Await(_def.Client.Call(Method.AsyncMethodName)(InitRequestArgsNormal.ToArray()))));
+                    InitRequestArgsNormal, _def.Response.WithInitializer(Await(_def.Client.Call(Method.AsyncMethodName)(InitRequestArgsNormal.ToArray()))));
 
                 public MethodDeclarationSyntax SyncLroMethodResourceNames => _def.SyncLro(SyncResourceNameMethodName, SnippetCommentResourceNameArgs,
-                    InitRequestArgsResourceNames, _def.LroResponse.WithInitializer(_def.Client.Call(Method.SyncMethodName)(InitRequestArgsResourceNames.ToArray())));
+                    InitRequestArgsResourceNames, _def.Response.WithInitializer(_def.Client.Call(Method.SyncMethodName)(InitRequestArgsResourceNames.ToArray())));
 
                 public MethodDeclarationSyntax AsyncLroMethodResourceNames => _def.AsyncLro(AsyncResourceNameMethodName, SnippetCommentResourceNameArgs,
-                    InitRequestArgsResourceNames, _def.LroResponse.WithInitializer(Await(_def.Client.Call(Method.AsyncMethodName)(InitRequestArgsResourceNames.ToArray()))));
+                    InitRequestArgsResourceNames, _def.Response.WithInitializer(Await(_def.Client.Call(Method.AsyncMethodName)(InitRequestArgsResourceNames.ToArray()))));
+
+                public MethodDeclarationSyntax SyncPaginationMethod => _def.SyncPaginated(SyncMethodName, _sig.Fields.Select(f => f.Typ),
+                    InitRequestArgsNormal, _def.Response.WithInitializer(_def.Client.Call(Method.SyncMethodName)(InitRequestArgsNormal.ToArray())));
             }
 
             public IEnumerable<Signature> Signatures => Method.Signatures.Select((sig, i) => new Signature(this, sig, Method.Signatures.Count > 1 ? i : (int?)null));

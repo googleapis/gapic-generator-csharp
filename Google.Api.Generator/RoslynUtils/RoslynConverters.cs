@@ -48,6 +48,8 @@ namespace Google.Api.Generator.RoslynUtils
                     return new[] { IdentifierName(param.Identifier) };
                 case LocalDeclarationStatementSyntax var:
                     return new[] { IdentifierName(var.Declaration.Variables.Single().Identifier) };
+                case SyntaxToken identifier:
+                    return new[] { IdentifierName(identifier) };
                 case int value:
                     return new[] { LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(value)) };
                 case bool value:
