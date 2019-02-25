@@ -399,8 +399,26 @@ namespace Google.Api.Generator.Generation
                 public MethodDeclarationSyntax AsyncLroMethodResourceNames => _def.AsyncLro(AsyncResourceNameMethodName, SnippetCommentResourceNameArgs,
                     InitRequestArgsResourceNames, _def.Response.WithInitializer(Await(_def.Client.Call(Method.AsyncMethodName)(InitRequestArgsResourceNames.ToArray()))));
 
+                private IEnumerable<object> PaginatedArgs(IEnumerable<LocalDeclarationStatementSyntax> args)
+                {
+                    if (_def.RequireFinalNamedArg(_sig))
+                    {
+                        var argN = args.Last();
+                        return args.Cast<object>().SkipLast(1).Append((argN.Declaration.Variables[0].Identifier.Text, argN));
+                    }
+                    return args;
+                }
+
                 public MethodDeclarationSyntax SyncPaginationMethod => _def.SyncPaginated(SyncMethodName, _sig.Fields.Select(f => f.Typ),
-                    InitRequestArgsNormal, _def.Response.WithInitializer(_def.Client.Call(Method.SyncMethodName)(InitRequestArgsNormal.ToArray())));
+                    InitRequestArgsNormal, _def.Response.WithInitializer(_def.Client.Call(Method.SyncMethodName)(PaginatedArgs(InitRequestArgsNormal).ToArray())));
+            }
+
+            bool RequireFinalNamedArg(MethodDetails.Signature sig)
+            {
+                // The last argument numst be named, if there is a signature with identical types and an extra string parameter.
+                var stringTyp = Typ.Of<string>();
+                var sigTyps = sig.Fields.Select(x => x.Typ).ToList();
+                return Method.Signatures.Any(s => s.Fields.Select(x => x.Typ).Append(stringTyp).SequenceEqual(sigTyps));
             }
 
             public IEnumerable<Signature> Signatures => Method.Signatures.Select((sig, i) => new Signature(this, sig, Method.Signatures.Count > 1 ? i : (int?)null));
