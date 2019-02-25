@@ -248,6 +248,11 @@ namespace Google.Api.Generator.Generation
                 // Handle array typs.
                 return SyntaxFactory.ArrayType(Type(typ.ElementTyp));
             }
+            if (typ.GenericArgTyps != null && $"{typ.FullName}`1" == typeof(Nullable<>).FullName)
+            {
+                // Handle nullable types
+                return NullableType(Type(typ.GenericArgTyps.First()));
+            }
             if (typ.DeclaringTyp != null)
             {
                 // Handle nested typs.

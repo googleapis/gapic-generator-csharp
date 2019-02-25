@@ -137,8 +137,20 @@ namespace Google.Api.Generator.Generation
                     return new ParameterInfo(parameter, initExpr, xmlDoc);
                 });
 
-                private IEnumerable<ParameterSyntax> ParametersWithCallSettings => Parameters.Select(x => x.Parameter).Append(_def.CallSettingsParam);
-                private IEnumerable<ParameterSyntax> ParametersWithCancellationToken => Parameters.Select(x => x.Parameter).Append(_def.CancellationTokenParam);
+                private IEnumerable<ParameterInfo> PaginatedParameters(IEnumerable<ParameterInfo> coreParameters)
+                {
+                    var pageTokenParameter = Parameter(Ctx.Type<string>(), "pageToken", @default: Null);
+                    var pageTokenInit = new ObjectInitExpr("PageToken", pageTokenParameter.NullCoalesce(""));
+                    var pageTokenXmlDoc = XmlDoc.Param(pageTokenParameter,
+                        "The token returned from the previous request. A value of ", null, " or an empty string retrieves the first page.");
+                    var pageSizeParameter = Parameter(Ctx.Type<int?>(), "pageSize", @default: Null);
+                    var pageSizeInit = new ObjectInitExpr("PageSize", pageSizeParameter.NullCoalesce(0));
+                    var pageSizeXmlDoc = XmlDoc.Param(pageSizeParameter,
+                        "The size of page to request. The response will not be larger than this, but may be smaller. A value of ", null, " or ", 0, " uses a server-defined page size.");
+                    return coreParameters
+                        .Append(new ParameterInfo(pageTokenParameter, pageTokenInit, pageTokenXmlDoc))
+                        .Append(new ParameterInfo(pageSizeParameter, pageSizeInit, pageSizeXmlDoc));
+                }
 
                 private MethodDeclarationSyntax AbstractRequestMethod(bool sync, bool callSettings, IEnumerable<ParameterInfo> parameters, DocumentationCommentTriviaSyntax returnsXmlDoc = null)
                 {
@@ -168,6 +180,9 @@ namespace Google.Api.Generator.Generation
                 public MethodDeclarationSyntax AbstractSyncRequestMethod => AbstractRequestMethod(true, true, Parameters);
                 public MethodDeclarationSyntax AbstractAsyncCallSettingsRequestMethod => AbstractRequestMethod(false, true, Parameters);
                 public MethodDeclarationSyntax AbstractAsyncCancellationTokenRequestMethod => AbstractRequestMethod(false, false, Parameters);
+
+                public MethodDeclarationSyntax AbstractSyncPaginatedRequestMethod => AbstractRequestMethod(true, true, PaginatedParameters(Parameters));
+                public MethodDeclarationSyntax AbstractAsyncPaginatedCallSettingsRequestMethod => AbstractRequestMethod(false, true, PaginatedParameters(Parameters));
 
                 public MethodDeclarationSyntax AbstractServerStreamSyncRequestMethod => AbstractRequestMethod(true, true, Parameters, _def.ReturnsServerStreamingXmlDoc);
 
@@ -228,6 +243,9 @@ namespace Google.Api.Generator.Generation
                     public MethodDeclarationSyntax AbstractSyncRequestMethod => _signature.AbstractRequestMethod(true, true, _parameters);
                     public MethodDeclarationSyntax AbstractAsyncCallSettingsRequestMethod => _signature.AbstractRequestMethod(false, true, _parameters);
                     public MethodDeclarationSyntax AbstractAsyncCancellationTokenRequestMethod => _signature.AbstractRequestMethod(false, false, _parameters);
+
+                    public MethodDeclarationSyntax AbstractSyncPaginatedRequestMethod => _signature.AbstractRequestMethod(true, true, _signature.PaginatedParameters(_parameters));
+                    public MethodDeclarationSyntax AbstractAsyncPaginatedCallSettingsRequestMethod => _signature.AbstractRequestMethod(false, true, _signature.PaginatedParameters(_parameters));
 
                     public MethodDeclarationSyntax AbstractServerStreamSyncRequestMethod => _signature.AbstractRequestMethod(true, true, _parameters, _signature._def.ReturnsServerStreamingXmlDoc);
                 }
