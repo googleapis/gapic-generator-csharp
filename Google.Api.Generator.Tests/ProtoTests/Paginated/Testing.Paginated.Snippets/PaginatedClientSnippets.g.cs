@@ -559,5 +559,95 @@
             string nextPageToken = singlePage.NextPageToken;
             // End snippet
         }
+
+        /// <summary>Snippet for ResourcedMethod</summary>
+        public void ResourcedMethod_ResourceNames()
+        {
+            // Snippet: ResourcedMethod(ResourceName, CallSettings)
+            // Create client
+            PaginatedClient paginatedClient = PaginatedClient.Create();
+            // Initialize request argument(s)
+            ResourceName name = new ResourceName("[ITEM_ID]");
+            // Make the request
+            PagedEnumerable<ResourceResponse, ResourceName> response = paginatedClient.ResourcedMethod(name);
+
+            // Iterate over all response items, lazily performing RPCs as required
+            foreach (ResourceName item in response)
+            {
+                // Do something with each item
+                Console.WriteLine(item);
+            }
+
+            // Or iterate over pages (of server-defined size), performing one RPC per page
+            foreach (ResourceResponse page in response.AsRawResponses())
+            {
+                // Do something with each page of items
+                Console.WriteLine("A page of results:");
+                foreach (ResourceName item in page)
+                {
+                    // Do something with each item
+                    Console.WriteLine(item);
+                }
+            }
+
+            // Or retrieve a single page of known size (unless it's the final page), performing as many RPCs as required
+            int pageSize = 10;
+            Page<ResourceName> singlePage = response.ReadPage(pageSize);
+            // Do something with the page of items
+            Console.WriteLine($"A page of {pageSize} results (unless it's the final page):");
+            foreach (ResourceName item in singlePage)
+            {
+                // Do something with each item
+                Console.WriteLine(item);
+            }
+            // Store the pageToken, for when the next page is required.
+            string nextPageToken = singlePage.NextPageToken;
+            // End snippet
+        }
+
+        /// <summary>Snippet for ResourcedMethod</summary>
+        public async Task ResourcedMethodAsync_ResourceNames()
+        {
+            // Snippet: ResourcedMethodAsync(ResourceName, CallSettings)
+            // Create client
+            PaginatedClient paginatedClient = await PaginatedClient.CreateAsync();
+            // Initialize request argument(s)
+            ResourceName name = new ResourceName("[ITEM_ID]");
+            // Make the request
+            PagedAsyncEnumerable<ResourceResponse, ResourceName> response = paginatedClient.ResourcedMethodAsync(name);
+
+            // Iterate over all response items, lazily performing RPCs as required
+            await response.ForEachAsync((ResourceName item) =>
+            {
+                // Do something with each item
+                Console.WriteLine(item);
+            });
+
+            // Or iterate over pages (of server-defined size), performing one RPC per page
+            await response.AsRawResponses().ForEachAsync((ResourceResponse page) =>
+            {
+                // Do something with each page of items
+                Console.WriteLine("A page of results:");
+                foreach (ResourceName item in page)
+                {
+                    // Do something with each item
+                    Console.WriteLine(item);
+                }
+            });
+
+            // Or retrieve a single page of known size (unless it's the final page), performing as many RPCs as required
+            int pageSize = 10;
+            Page<ResourceName> singlePage = await response.ReadPageAsync(pageSize);
+            // Do something with the page of items
+            Console.WriteLine($"A page of {pageSize} results (unless it's the final page):");
+            foreach (ResourceName item in singlePage)
+            {
+                // Do something with each item
+                Console.WriteLine(item);
+            }
+            // Store the pageToken, for when the next page is required.
+            string nextPageToken = singlePage.NextPageToken;
+            // End snippet
+        }
     }
 }

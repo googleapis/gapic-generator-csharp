@@ -101,7 +101,11 @@ namespace Google.Api.Generator.Generation
                         {
                             yield return signature.SyncPaginatedMethod;
                             yield return signature.AsyncPaginatedMethod;
-                            // TODO: Resourcename snippets
+                            if (signature.HasResourceNames)
+                            {
+                                yield return signature.SyncPaginatedMethodResourceNames;
+                                yield return signature.AsyncPaginatedMethodResourceNames;
+                            }
                         }
                         break;
                 }
@@ -457,6 +461,12 @@ namespace Google.Api.Generator.Generation
 
                 public MethodDeclarationSyntax AsyncPaginatedMethod => _def.AsyncPaginated(AsyncMethodName, _sig.Fields.Select(f => f.Typ),
                     InitRequestArgsNormal, _def.AsyncResponse.WithInitializer(_def.Client.Call(Method.AsyncMethodName)(PaginatedArgs(InitRequestArgsNormal).ToArray())));
+
+                public MethodDeclarationSyntax SyncPaginatedMethodResourceNames => _def.SyncPaginated(SyncResourceNameMethodName, SnippetCommentResourceNameArgs,
+                    InitRequestArgsResourceNames, _def.Response.WithInitializer(_def.Client.Call(Method.SyncMethodName)(InitRequestArgsResourceNames.ToArray())));
+
+                public MethodDeclarationSyntax AsyncPaginatedMethodResourceNames => _def.AsyncPaginated(AsyncResourceNameMethodName, SnippetCommentResourceNameArgs,
+                    InitRequestArgsResourceNames, _def.AsyncResponse.WithInitializer(_def.Client.Call(Method.AsyncMethodName)(InitRequestArgsResourceNames.ToArray())));
             }
 
             bool RequireFinalNamedArg(MethodDetails.Signature sig)
