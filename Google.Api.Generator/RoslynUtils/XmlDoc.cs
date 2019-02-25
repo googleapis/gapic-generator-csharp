@@ -42,6 +42,8 @@ namespace Google.Api.Generator.RoslynUtils
                     return C("true");
                 case false:
                     return C("false");
+                case int v:
+                    return C(v.ToString());
                 case string v:
                     return XmlText(v);
                 case XmlNodeSyntax v:
