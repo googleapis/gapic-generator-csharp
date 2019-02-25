@@ -17,6 +17,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
@@ -43,7 +44,7 @@ namespace Google.Api.Generator.RoslynUtils
                 case false:
                     return C("false");
                 case int v:
-                    return C(v.ToString());
+                    return C(v.ToString(CultureInfo.InvariantCulture));
                 case string v:
                     return XmlText(v);
                 case XmlNodeSyntax v:
