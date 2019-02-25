@@ -195,6 +195,15 @@ namespace Google.Api.Generator.Tests
 
             // Test a simple lambda expression.
             public IEnumerable<int> SimpleLambda() => new string[0].Select(x => x.Length);
+
+            // Test `foreach`
+            public void ForEach(IEnumerable<string> strings)
+            {
+                foreach (string s in strings)
+                {
+                    Console.WriteLine(s);
+                }
+            }
         }
 
         // Test base-list with one item.

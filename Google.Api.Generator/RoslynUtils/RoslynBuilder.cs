@@ -19,6 +19,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using static Google.Api.Generator.RoslynUtils.RoslynConverters;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
@@ -159,6 +160,9 @@ namespace Google.Api.Generator.RoslynUtils
             ArrayCreationExpression(arrayType)
                 .WithInitializer(InitializerExpression(SyntaxKind.ArrayInitializerExpression, SeparatedList(args.SelectMany(ToExpressions))));
 
+        public static CodeFunc<ForEachStatementSyntax> ForEach(TypeSyntax type, SyntaxToken varName, object expr) => code =>
+            ForEachStatement(type, varName, ToExpression(expr), Block(ToStatements(code)));
+
         public static AwaitExpressionSyntax Await(ExpressionSyntax expr) => AwaitExpression(expr);
 
         public static ReturnStatementSyntax Return(object expr) => ReturnStatement(ToExpression(expr));
@@ -174,5 +178,45 @@ namespace Google.Api.Generator.RoslynUtils
         public static ArgModifier Ref(object arg) => new ArgModifier(ArgModifier.Type.Ref, arg);
 
         public static SyntaxTrivia BlankLine => CarriageReturnLineFeed;
+
+        public static InterpolatedStringExpressionSyntax Dollar(FormattableString fs)
+        {
+            var parts = fs.Format.Aggregate((content: new StringBuilder(), inCode: false, result: new List<InterpolatedStringContentSyntax>()), (acc, c) =>
+            {
+                if (acc.inCode)
+                {
+                    if (c == '}')
+                    {
+                        var index = int.Parse(acc.content.ToString());
+                        acc.result.Add(Interpolation(ToExpression(fs.GetArgument(index))));
+                        return (acc.content.Clear(), false, acc.result);
+                    }
+                    return (acc.content.Append(c), true, acc.result);
+                }
+                else
+                {
+                    if (c == '{')
+                    {
+                        AppendString(acc.content, acc.result);
+                        return (acc.content.Clear(), true, acc.result);
+                    }
+                    return (acc.content.Append(c), false, acc.result);
+                }
+            }, acc =>
+            {
+                AppendString(acc.content, acc.result);
+                return acc.result;
+            });
+            return InterpolatedStringExpression(Token(SyntaxKind.InterpolatedStringStartToken), List(parts));
+
+            void AppendString(StringBuilder sb, List<InterpolatedStringContentSyntax> list)
+            {
+                if (sb.Length > 0)
+                {
+                    var s = sb.ToString();
+                    list.Add(InterpolatedStringText(Token(TriviaList(), SyntaxKind.InterpolatedStringTextToken, s, s, TriviaList())));
+                }
+            }
+        }
     }
 }

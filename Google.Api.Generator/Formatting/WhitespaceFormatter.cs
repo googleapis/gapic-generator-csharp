@@ -443,5 +443,14 @@ namespace Google.Api.Generator.Formatting
             node = node.WithArrowToken(node.ArrowToken.WithLeadingSpace().WithTrailingSpace());
             return node;
         }
+
+        public override SyntaxNode VisitForEachStatement(ForEachStatementSyntax node)
+        {
+            node = (ForEachStatementSyntax)base.VisitForEachStatement(node);
+            node = node.WithForEachKeyword(node.ForEachKeyword.WithTrailingSpace());
+            node = node.WithType(node.Type.WithTrailingSpace());
+            node = node.WithInKeyword(node.InKeyword.WithLeadingSpace().WithTrailingSpace());
+            return node;
+        }
     }
 }

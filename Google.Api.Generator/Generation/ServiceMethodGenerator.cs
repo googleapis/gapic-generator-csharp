@@ -76,6 +76,9 @@ namespace Google.Api.Generator.Generation
                         yield return method.AbstractAsyncCallSettingsRequestMethod;
                         foreach (var signature in method.Signatures)
                         {
+                            // TODO: Bugfix - paginated signature methods don't currently include the `pageToken` and `pageSize` parameters.
+                            // TODO: Test the edge-case where there are two signatures where one has one extra `string` parameter than the other.
+                            //       This causes an ambiguous overload problem, which is solved by using a named argument.
                             yield return signature.AbstractSyncRequestMethod;
                             yield return signature.AbstractAsyncCallSettingsRequestMethod;
                             foreach (var resourceName in signature.ResourceNames)

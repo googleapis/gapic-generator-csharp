@@ -8,6 +8,8 @@ namespace Testing.Paginated
 {
     public abstract class PaginatedClient
     {
+        public static PaginatedClient Create() => throw new sys::NotImplementedException();
+
         // TEST_START
         /// <summary>
         /// Test a paginated RPC with a method signature.
