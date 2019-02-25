@@ -9,8 +9,11 @@ service Paginated {
 
   // Test a paginated RPC with a method signature.
   rpc SignatureMethod(Request) returns(Response) {
-    option (google.api.method_signature) = {
-	  fields: ["a_string", "a_number"] };
+    option (google.api.method_signature) = { fields: ["a_string", "a_number"] };
+	// Following two signatures test a corner case in paginated snippet generation, where the snippet
+	// for the second of these methods including the `pageToken` parameter is ambiguous with the first method.
+    option (google.api.method_signature) = { fields: ["a_string"] };
+    option (google.api.method_signature) = { fields: [] };
   }
 
   // Test a paginated RPC with a method signature that contains resource-names

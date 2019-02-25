@@ -82,6 +82,92 @@ namespace Testing.Paginated
             }, callSettings);
 
         /// <summary>
+        /// Test a paginated RPC with a method signature.
+        /// </summary>
+        /// <param name="aString">
+        /// </param>
+        /// <param name="pageToken">
+        /// The token returned from the previous request. A value of <c>null</c> or an empty string retrieves the first
+        /// page.
+        /// </param>
+        /// <param name="pageSize">
+        /// The size of page to request. The response will not be larger than this, but may be smaller. A value of
+        /// <c>null</c> or <c>0</c> uses a server-defined page size.
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A pageable sequence of <see cref="string"/> resources.</returns>
+        public virtual gax::PagedEnumerable<Response, string> SignatureMethod(string aString, string pageToken = null, int? pageSize = null, gaxgrpc::CallSettings callSettings = null) =>
+            SignatureMethod(new Request
+            {
+                AString = aString ?? "",
+                PageToken = pageToken ?? "",
+                PageSize = pageSize ?? 0,
+            }, callSettings);
+
+        /// <summary>
+        /// Test a paginated RPC with a method signature.
+        /// </summary>
+        /// <param name="aString">
+        /// </param>
+        /// <param name="pageToken">
+        /// The token returned from the previous request. A value of <c>null</c> or an empty string retrieves the first
+        /// page.
+        /// </param>
+        /// <param name="pageSize">
+        /// The size of page to request. The response will not be larger than this, but may be smaller. A value of
+        /// <c>null</c> or <c>0</c> uses a server-defined page size.
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A pageable asynchronous sequence of <see cref="string"/> resources.</returns>
+        public virtual gax::PagedAsyncEnumerable<Response, string> SignatureMethodAsync(string aString, string pageToken = null, int? pageSize = null, gaxgrpc::CallSettings callSettings = null) =>
+            SignatureMethodAsync(new Request
+            {
+                AString = aString ?? "",
+                PageToken = pageToken ?? "",
+                PageSize = pageSize ?? 0,
+            }, callSettings);
+
+        /// <summary>
+        /// Test a paginated RPC with a method signature.
+        /// </summary>
+        /// <param name="pageToken">
+        /// The token returned from the previous request. A value of <c>null</c> or an empty string retrieves the first
+        /// page.
+        /// </param>
+        /// <param name="pageSize">
+        /// The size of page to request. The response will not be larger than this, but may be smaller. A value of
+        /// <c>null</c> or <c>0</c> uses a server-defined page size.
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A pageable sequence of <see cref="string"/> resources.</returns>
+        public virtual gax::PagedEnumerable<Response, string> SignatureMethod(string pageToken = null, int? pageSize = null, gaxgrpc::CallSettings callSettings = null) =>
+            SignatureMethod(new Request
+            {
+                PageToken = pageToken ?? "",
+                PageSize = pageSize ?? 0,
+            }, callSettings);
+
+        /// <summary>
+        /// Test a paginated RPC with a method signature.
+        /// </summary>
+        /// <param name="pageToken">
+        /// The token returned from the previous request. A value of <c>null</c> or an empty string retrieves the first
+        /// page.
+        /// </param>
+        /// <param name="pageSize">
+        /// The size of page to request. The response will not be larger than this, but may be smaller. A value of
+        /// <c>null</c> or <c>0</c> uses a server-defined page size.
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A pageable asynchronous sequence of <see cref="string"/> resources.</returns>
+        public virtual gax::PagedAsyncEnumerable<Response, string> SignatureMethodAsync(string pageToken = null, int? pageSize = null, gaxgrpc::CallSettings callSettings = null) =>
+            SignatureMethodAsync(new Request
+            {
+                PageToken = pageToken ?? "",
+                PageSize = pageSize ?? 0,
+            }, callSettings);
+
+        /// <summary>
         /// Test a paginated RPC with a method signature that contains resource-names
         /// in both the request and the response.
         /// </summary>
