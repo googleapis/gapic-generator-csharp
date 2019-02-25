@@ -2,6 +2,7 @@
 using gaxgrpc = Google.Api.Gax.Grpc;
 using sc = System.Collections;
 using scg = System.Collections.Generic;
+using stt = System.Threading.Tasks;
 using sys = System;
 
 namespace Testing.Paginated
@@ -9,6 +10,7 @@ namespace Testing.Paginated
     public abstract class PaginatedClient
     {
         public static PaginatedClient Create() => throw new sys::NotImplementedException();
+        public static stt::Task<PaginatedClient> CreateAsync() => throw new sys::NotImplementedException();
 
         // TEST_START
         /// <summary>

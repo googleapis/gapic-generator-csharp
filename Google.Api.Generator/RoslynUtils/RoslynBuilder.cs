@@ -140,8 +140,23 @@ namespace Google.Api.Generator.RoslynUtils
                 .AddAccessorListAccessors(accessors.ToArray());
         }
 
-        public static LambdaExpressionSyntax Lambda(ParameterSyntax parameter, object code) =>
-            SimpleLambdaExpression(parameter, ToExpression(code));
+        public static LambdaExpressionSyntax Lambda(ParameterSyntax parameter, params object[] code)
+        {
+            if (code.Length == 1)
+            {
+                return SimpleLambdaExpression(parameter, ToExpression(code));
+            }
+            return SimpleLambdaExpression(parameter, Block(ToStatements(code).ToArray()));
+        }
+
+        public static LambdaExpressionSyntax LambdaTyped(ParameterSyntax parameter, params object[] code)
+        {
+            if (code.Length == 1)
+            {
+                return ParenthesizedLambdaExpression(ParameterList(SingletonSeparatedList(parameter)), ToExpression(code));
+            }
+            return ParenthesizedLambdaExpression(ParameterList(SingletonSeparatedList(parameter)), Block(ToStatements(code).ToArray()));
+        }
 
         public static FieldDeclarationSyntax Field(Modifier modifiers, TypeSyntax type, string name) =>
             FieldDeclaration(VariableDeclaration(type, SingletonSeparatedList(VariableDeclarator(name)))).AddModifiers(modifiers.ToSyntaxTokens());

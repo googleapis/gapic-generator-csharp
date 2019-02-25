@@ -212,6 +212,7 @@ namespace Google.Api.Generator.Formatting
 
         public override SyntaxNode VisitBlock(BlockSyntax node)
         {
+            bool parentIsLambda = node.Parent is SimpleLambdaExpressionSyntax || node.Parent is ParenthesizedLambdaExpressionSyntax;
             using (WithIndent())
             {
                 node = node.WithStatements(List(node.Statements.Select(s =>
@@ -224,7 +225,14 @@ namespace Google.Api.Generator.Formatting
                 })));
             }
             node = node.WithOpenBraceToken(node.OpenBraceToken.WithLeadingTrivia(CarriageReturnLineFeed, _indentTrivia).WithTrailingCrLf());
-            node = node.WithCloseBraceToken(node.CloseBraceToken.WithLeadingTrivia(_indentTrivia).WithTrailingCrLf());
+            if (parentIsLambda)
+            {
+                node = node.WithCloseBraceToken(node.CloseBraceToken.WithLeadingTrivia(_indentTrivia));
+            }
+            else
+            {
+                node = node.WithCloseBraceToken(node.CloseBraceToken.WithLeadingTrivia(_indentTrivia).WithTrailingCrLf());
+            }
             return node;
         }
 
@@ -440,7 +448,28 @@ namespace Google.Api.Generator.Formatting
         public override SyntaxNode VisitSimpleLambdaExpression(SimpleLambdaExpressionSyntax node)
         {
             node = (SimpleLambdaExpressionSyntax)base.VisitSimpleLambdaExpression(node);
-            node = node.WithArrowToken(node.ArrowToken.WithLeadingSpace().WithTrailingSpace());
+            if (node.Body is BlockSyntax)
+            {
+                node = node.WithArrowToken(node.ArrowToken.WithLeadingSpace());
+            }
+            else
+            {
+                node = node.WithArrowToken(node.ArrowToken.WithLeadingSpace().WithTrailingSpace());
+            }
+            return node;
+        }
+
+        public override SyntaxNode VisitParenthesizedLambdaExpression(ParenthesizedLambdaExpressionSyntax node)
+        {
+            node = (ParenthesizedLambdaExpressionSyntax)base.VisitParenthesizedLambdaExpression(node);
+            if (node.Body is BlockSyntax)
+            {
+                node = node.WithArrowToken(node.ArrowToken.WithLeadingSpace());
+            }
+            else
+            {
+                node = node.WithArrowToken(node.ArrowToken.WithLeadingSpace().WithTrailingSpace());
+            }
             return node;
         }
 
