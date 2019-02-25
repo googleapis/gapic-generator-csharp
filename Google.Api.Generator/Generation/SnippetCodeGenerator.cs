@@ -96,10 +96,11 @@ namespace Google.Api.Generator.Generation
                         break;
                     case MethodDetails.Paginated _:
                         yield return methodDef.SyncPaginatedRequestMethod;
-                        // TODO: Async snippets
+                        yield return methodDef.AsyncPaginatedRequestMethod;
                         foreach (var signature in methodDef.Signatures)
                         {
-                            yield return signature.SyncPaginationMethod;
+                            yield return signature.SyncPaginatedMethod;
+                            yield return signature.AsyncPaginatedMethod;
                             // TODO: Resourcename snippets
                         }
                         break;
@@ -121,6 +122,7 @@ namespace Google.Api.Generator.Generation
             private LocalDeclarationStatementSyntax Client => Local(Ctx.Type(Svc.ClientAbstractTyp), Svc.SnippetsClientName);
             private LocalDeclarationStatementSyntax Request => Local(Ctx.Type(Method.RequestTyp), "request");
             private LocalDeclarationStatementSyntax Response => Local(Ctx.Type(Method.SyncReturnTyp), "response");
+            private LocalDeclarationStatementSyntax AsyncResponse => Local(Ctx.Type(Method.AsyncReturnTyp), "response");
             private LocalDeclarationStatementSyntax LroCompletedResponse => Local(Ctx.Type(MethodLro.OperationTyp), "completedResponse");
             private LocalDeclarationStatementSyntax LroResult => Local(Ctx.Type(MethodLro.OperationResponseTyp), "result");
             private LocalDeclarationStatementSyntax LroOperationName => Local(Ctx.Type<string>(), "operationName");
@@ -130,8 +132,8 @@ namespace Google.Api.Generator.Generation
             private LocalDeclarationStatementSyntax SinglePage => Local(Ctx.Type(Typ.Generic(typeof(Page<>), MethodPaginated.ResourceTyp)), "singlePage");
             private LocalDeclarationStatementSyntax NextPageToken => Local(Ctx.Type<string>(), "nextPageToken");
 
-            private SyntaxToken PaginatedItem = SyntaxFactory.Identifier("item");
-            private SyntaxToken PaginatedPage = SyntaxFactory.Identifier("page");
+            private ParameterSyntax PaginatedItem => Parameter(Ctx.Type(MethodPaginated.ResourceTyp), "item");
+            private ParameterSyntax PaginatedPage => Parameter(Ctx.Type(Method.ResponseTyp), "page");
 
             private object DefaultValue(FieldDescriptor fieldDesc, bool resourceNameAsString = false)
             {
@@ -302,15 +304,15 @@ namespace Google.Api.Generator.Generation
                         makeRequest,
                         BlankLine,
                         "// Iterate over all response items, lazily performing RPCs as required",
-                        ForEach(Ctx.Type(MethodPaginated.ResourceTyp), PaginatedItem, Response)(
+                        ForEach(Ctx.Type(MethodPaginated.ResourceTyp), PaginatedItem.Identifier, Response)(
                             "// Do something with each item",
                             Ctx.Type(typeof(Console)).Call(nameof(Console.WriteLine))(PaginatedItem)),
                         BlankLine,
                         "// Or iterate over pages (of server-defined size), performing one RPC per page",
-                        ForEach(Ctx.Type(Method.ResponseTyp), PaginatedPage, Response.Call(nameof(PagedEnumerable<ProtoMsg, int>.AsRawResponses))())(
+                        ForEach(Ctx.Type(Method.ResponseTyp), PaginatedPage.Identifier, Response.Call(nameof(PagedEnumerable<ProtoMsg, int>.AsRawResponses))())(
                             "// Do something with each page of items",
                             Ctx.Type(typeof(Console)).Call(nameof(Console.WriteLine))("A page of results:"),
-                            ForEach(Ctx.Type(MethodPaginated.ResourceTyp), PaginatedItem, PaginatedPage)(
+                            ForEach(Ctx.Type(MethodPaginated.ResourceTyp), PaginatedItem.Identifier, PaginatedPage)(
                                 "// Do something with each item",
                                 Ctx.Type(typeof(Console)).Call(nameof(Console.WriteLine))(PaginatedItem))
                             ),
@@ -320,7 +322,45 @@ namespace Google.Api.Generator.Generation
                         SinglePage.WithInitializer(Response.Call(nameof(PagedEnumerable<ProtoMsg, int>.ReadPage))(PageSize)),
                         "// Do something with the page of items",
                         Ctx.Type(typeof(Console)).Call(nameof(Console.WriteLine))(Dollar($"A page of {PageSize} results (unless it's the final page):")),
-                        ForEach(Ctx.Type(MethodPaginated.ResourceTyp), PaginatedItem, SinglePage)(
+                        ForEach(Ctx.Type(MethodPaginated.ResourceTyp), PaginatedItem.Identifier, SinglePage)(
+                            "// Do something with each item",
+                            Ctx.Type(typeof(Console)).Call(nameof(Console.WriteLine))(PaginatedItem)),
+                        "// Store the pageToken, for when the next page is required.",
+                        NextPageToken.WithInitializer(SinglePage.Access(nameof(Page<int>.NextPageToken))),
+                        "// End snippet")
+                    .WithXmlDoc(XmlDoc.Summary($"Snippet for {Method.SyncMethodName}"));
+
+            private MethodDeclarationSyntax AsyncPaginated(string methodName, IEnumerable<Typ> snippetTyps, object initRequest, object makeRequest) =>
+                Method(Public | Modifier.Async, Ctx.Type<Task>(), methodName)()
+                    .WithBody(
+                        $"// Snippet: {Method.AsyncMethodName}({string.Join("", snippetTyps.Select(x => $"{x.Name}, "))}{nameof(CallSettings)})",
+                        "// Create client",
+                        Client.WithInitializer(Await(Ctx.Type(Svc.ClientAbstractTyp).Call("CreateAsync")())),
+                        "// Initialize request argument(s)",
+                        initRequest,
+                        "// Make the request",
+                        makeRequest,
+                        BlankLine,
+                        "// Iterate over all response items, lazily performing RPCs as required",
+                        Await(AsyncResponse.Call(Ctx.Import(typeof(AsyncEnumerable), nameof(AsyncEnumerable.ForEachAsync)))(LambdaTyped(PaginatedItem,
+                            "// Do something with each item",
+                            Ctx.Type(typeof(Console)).Call(nameof(Console.WriteLine))(PaginatedItem)))),
+                        BlankLine,
+                        "// Or iterate over pages (of server-defined size), performing one RPC per page",
+                        Await(AsyncResponse.Call(nameof(PagedEnumerable<ProtoMsg, int>.AsRawResponses))().Call(nameof(AsyncEnumerable.ForEachAsync))(LambdaTyped(PaginatedPage,
+                            "// Do something with each page of items",
+                            Ctx.Type(typeof(Console)).Call(nameof(Console.WriteLine))("A page of results:"),
+                            ForEach(Ctx.Type(MethodPaginated.ResourceTyp), PaginatedItem.Identifier, PaginatedPage)(
+                                "// Do something with each item",
+                                Ctx.Type(typeof(Console)).Call(nameof(Console.WriteLine))(PaginatedItem))
+                            ))),
+                        BlankLine,
+                        "// Or retrieve a single page of known size (unless it's the final page), performing as many RPCs as required",
+                        PageSize.WithInitializer(10),
+                        SinglePage.WithInitializer(Await(AsyncResponse.Call(nameof(PagedAsyncEnumerable<ProtoMsg, int>.ReadPageAsync))(PageSize))),
+                        "// Do something with the page of items",
+                        Ctx.Type(typeof(Console)).Call(nameof(Console.WriteLine))(Dollar($"A page of {PageSize} results (unless it's the final page):")),
+                        ForEach(Ctx.Type(MethodPaginated.ResourceTyp), PaginatedItem.Identifier, SinglePage)(
                             "// Do something with each item",
                             Ctx.Type(typeof(Console)).Call(nameof(Console.WriteLine))(PaginatedItem)),
                         "// Store the pageToken, for when the next page is required.",
@@ -344,6 +384,9 @@ namespace Google.Api.Generator.Generation
 
             public MethodDeclarationSyntax SyncPaginatedRequestMethod => SyncPaginated(Method.SyncSnippetMethodName, new[] { Method.RequestTyp },
                 InitRequestObject, Response.WithInitializer(Client.Call(Method.SyncMethodName)(Request)));
+
+            public MethodDeclarationSyntax AsyncPaginatedRequestMethod => AsyncPaginated(Method.AsyncSnippetMethodName, new[] { Method.RequestTyp },
+                InitRequestObject, AsyncResponse.WithInitializer(Client.Call(Method.AsyncMethodName)(Request)));
 
             public class Signature
             {
@@ -409,8 +452,11 @@ namespace Google.Api.Generator.Generation
                     return args;
                 }
 
-                public MethodDeclarationSyntax SyncPaginationMethod => _def.SyncPaginated(SyncMethodName, _sig.Fields.Select(f => f.Typ),
+                public MethodDeclarationSyntax SyncPaginatedMethod => _def.SyncPaginated(SyncMethodName, _sig.Fields.Select(f => f.Typ),
                     InitRequestArgsNormal, _def.Response.WithInitializer(_def.Client.Call(Method.SyncMethodName)(PaginatedArgs(InitRequestArgsNormal).ToArray())));
+
+                public MethodDeclarationSyntax AsyncPaginatedMethod => _def.AsyncPaginated(AsyncMethodName, _sig.Fields.Select(f => f.Typ),
+                    InitRequestArgsNormal, _def.AsyncResponse.WithInitializer(_def.Client.Call(Method.AsyncMethodName)(PaginatedArgs(InitRequestArgsNormal).ToArray())));
             }
 
             bool RequireFinalNamedArg(MethodDetails.Signature sig)

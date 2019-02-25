@@ -130,6 +130,12 @@ namespace Google.Api.Generator.Generation
                 return result;
             }
 
+            public override T Import<T>(System.Type t, T o)
+            {
+                _imports.Add(Typ.Of(t).Namespace);
+                return o;
+            }
+
             public override CompilationUnitSyntax CreateCompilationUnit(NamespaceDeclarationSyntax ns)
             {
                 var usings = _imports.OrderBy(x => x).Select(x => UsingDirective(IdentifierName(x)));
@@ -283,6 +289,11 @@ namespace Google.Api.Generator.Generation
             }
             return ((ArrayTypeSyntax)Type<T>()).WithRankSpecifiers(SingletonList(ArrayRankSpecifier()));
         }
+
+        /// <summary>
+        /// Force an import of referenced type.
+        /// </summary>
+        public virtual T Import<T>(System.Type t, T o) => o;
 
         public abstract CompilationUnitSyntax CreateCompilationUnit(NamespaceDeclarationSyntax ns);
     }

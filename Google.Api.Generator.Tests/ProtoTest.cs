@@ -201,7 +201,7 @@ namespace Google.Api.Generator.Tests
                     {
                         process.OutputDataReceived += (sender, e) => errors.Add(e.Data);
                         process.BeginOutputReadLine();
-                        process.WaitForExit(30_000);
+                        process.WaitForExit(120_000);
                         if (process.ExitCode != 0)
                         {
                             throw new XunitException($" 'dotnet build {path}' failed:{Environment.NewLine}{string.Join(Environment.NewLine, errors)}");

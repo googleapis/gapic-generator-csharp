@@ -193,9 +193,6 @@ namespace Google.Api.Generator.Tests
 
             public override int GetHashCode() => 0;
 
-            // Test a simple lambda expression.
-            public IEnumerable<int> SimpleLambda() => new string[0].Select(x => x.Length);
-
             // Test `foreach`
             public void ForEach(IEnumerable<string> strings)
             {
@@ -204,6 +201,30 @@ namespace Google.Api.Generator.Tests
                     Console.WriteLine(s);
                 }
             }
+
+            // Test a simple lambda expression.
+            public IEnumerable<int> SimpleLambda() => new string[0].Select(x => x.Length);
+
+            // Test a typed lambda expression.
+            public IEnumerable<int> TypedLambda() => new string[0].Select((string x) => x.Length);
+
+            // Test block-bodied simple lambda method
+            // TODO: This formatting is not quite ideal. It doens't matter at the moment as there are no
+            //       generated methods that have this form.
+            public IEnumerable<int> SimpleBlockBodiedLambda1() =>
+                new string[0].Select(x =>
+                {
+                    int length = x.Length;
+                    return length;
+                });
+
+            // Test block-bodied typed lambda method
+            public IEnumerable<int> TypedBlockBodiedLambda2() =>
+                new string[0].Select((string x) =>
+                {
+                    int length = x.Length;
+                    return length;
+                });
         }
 
         // Test base-list with one item.
