@@ -292,7 +292,7 @@ namespace Google.Api.Generator.Generation
             {
                 var sb = new StringBuilder();
                 int i = 0;
-                while (true)
+                while (i < s.Length)
                 {
                     while (i < s.Length && s[i] != '{')
                     {
@@ -307,10 +307,6 @@ namespace Google.Api.Generator.Generation
                     {
                         yield return sb.ToString();
                         sb.Clear();
-                    }
-                    if (i >= s.Length)
-                    {
-                        break;
                     }
                 }
             }
