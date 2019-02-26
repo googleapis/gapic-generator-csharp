@@ -21,6 +21,8 @@ using Google.Protobuf.Reflection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Google.Api.Generator.Generation
@@ -176,6 +178,13 @@ namespace Google.Api.Generator.Generation
             public IEnumerable<Field> Fields { get; }
         }
 
+        public sealed class RoutingHeader
+        {
+            public RoutingHeader(string encodedName, IEnumerable<string> propertyNames) => (EncodedName, PropertyNames) = (encodedName, propertyNames);
+            public string EncodedName { get; }
+            public IEnumerable<string> PropertyNames { get; }
+        }
+
         public static MethodDetails Create(ServiceDetails svc, MethodDescriptor desc) =>
             DetectPagination(svc, desc) ?? (
             desc.IsClientStreaming && desc.IsServerStreaming ? new BidiStreaming(svc, desc) :
@@ -232,13 +241,75 @@ namespace Google.Api.Generator.Generation
             ApiCallFieldName = $"_call{desc.Name}";
             ModifyApiCallMethodName = $"Modify_{desc.Name}ApiCall";
             ModifyRequestMethodName = $"Modify_{RequestTyp.Name}";
+            desc.CustomOptions.TryGetMessage<HttpRule>(ProtoConsts.MethodOption.HttpRule, out var http);
             // Assume HTTP GET methods are idempotent; all others are non-idempotent.
-            IsIdempotent = desc.CustomOptions.TryGetMessage<HttpRule>(
-                ProtoConsts.MethodOption.HttpRule, out var http) ? !string.IsNullOrEmpty(http.Get) : false;
+            IsIdempotent = http != null ? !string.IsNullOrEmpty(http.Get) : false;
             DocLines = desc.Declaration.DocLines().ToList();
             Signatures = desc.CustomOptions.TryGetRepeatedMessage<MethodSignature>(ProtoConsts.MethodOption.MethodSignature, out var sigs) ?
                 sigs.Select(sig => new Signature(svc, desc.InputType, sig)).ToList() : (IReadOnlyList<Signature>)new Signature[0];
             RequestMessageDesc = desc.InputType;
+            RoutingHeaders = ReadRoutingHeaders(http, desc.InputType).ToList();
+        }
+
+        private IEnumerable<RoutingHeader> ReadRoutingHeaders(HttpRule http, MessageDescriptor requestDesc)
+        {
+            if (http != null)
+            {
+                // Read routing headers(s) from any of the http urls
+                var url =
+                    !string.IsNullOrEmpty(http.Get) ? http.Get :
+                    !string.IsNullOrEmpty(http.Post) ? http.Post :
+                    !string.IsNullOrEmpty(http.Put) ? http.Put :
+                    !string.IsNullOrEmpty(http.Patch) ? http.Patch :
+                    !string.IsNullOrEmpty(http.Delete) ? http.Delete : null;
+                if (url != null)
+                {
+                    foreach (var path in ExtractBracedPaths(url))
+                    {
+                        var desc = requestDesc;
+                        var propertyNames = new List<string>();
+                        FieldDescriptor finalField = null;
+                        foreach (var fieldName in path.Split('.'))
+                        {
+                            var field = finalField = desc.FindFieldByName(fieldName);
+                            desc = field.FieldType == FieldType.Message ? field.MessageType : null;
+                            if (field == null)
+                            {
+                                throw new InvalidOperationException($"Invalid path in http url: '{path}'. '{fieldName}' does not exist.");
+                            }
+                            propertyNames.Add(field.CSharpPropertyName());
+                        }
+                        if (finalField.FieldType != FieldType.String)
+                        {
+                            throw new InvalidOperationException($"Path in http url must resolve to a string field: '{path}'.");
+                        }
+                        yield return new RoutingHeader(WebUtility.UrlEncode(path), propertyNames);
+                    }
+                }
+            }
+
+            IEnumerable<string> ExtractBracedPaths(string s)
+            {
+                var sb = new StringBuilder();
+                int i = 0;
+                while (i < s.Length)
+                {
+                    while (i < s.Length && s[i] != '{')
+                    {
+                        i++;
+                    }
+                    i++;
+                    while (i < s.Length && s[i] != '=')
+                    {
+                        sb.Append(s[i++]);
+                    }
+                    if (sb.Length > 0)
+                    {
+                        yield return sb.ToString();
+                        sb.Clear();
+                    }
+                }
+            }
         }
 
         /// <summary>The service in which this method is defined.</summary>
@@ -292,6 +363,9 @@ namespace Google.Api.Generator.Generation
         /// <summary>Method signatures.</summary>
         public IReadOnlyList<Signature> Signatures { get; }
 
+        /// <summary>The proto descriptor of the request message.</summary>
         public MessageDescriptor RequestMessageDesc { get; }
+
+        public IEnumerable<RoutingHeader> RoutingHeaders { get; }
     }
 }

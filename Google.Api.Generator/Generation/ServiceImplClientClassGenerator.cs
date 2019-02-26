@@ -13,14 +13,17 @@
 // limitations under the License.
 
 using Google.Api.Gax.Grpc;
+using Google.Api.Generator.ProtoUtils;
 using Google.Api.Generator.RoslynUtils;
 using Google.Api.Generator.Utils;
 using Google.LongRunning;
 using Google.Protobuf;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using static Google.Api.Generator.RoslynUtils.Modifier;
 using static Google.Api.Generator.RoslynUtils.RoslynBuilder;
 
@@ -127,6 +130,22 @@ namespace Google.Api.Generator.Generation
                     default:
                         var fieldInit = clientHelper.Call(nameof(ClientHelper.BuildApiCall), _ctx.Type(method.RequestTyp), _ctx.Type(method.ResponseTyp))(
                             grpcClient.Access(method.AsyncMethodName), grpcClient.Access(method.SyncMethodName), effectiveSettings.Access(method.SettingsName));
+                        if (method.RoutingHeaders.Any())
+                        {
+                            var request = Parameter(_ctx.Type(method.RequestTyp), "request");
+                            var strings = method.RoutingHeaders.Select((header, i) =>
+                            {
+                                var access = request.Access(header.PropertyNames.First());
+                                foreach (var propertyName in header.PropertyNames.Skip(1))
+                                {
+                                    access = access.Access(propertyName);
+                                }
+                                var amp = i == 0 ? "" : "&";
+                                return (FormattableString)$"{amp:raw}{header.EncodedName:raw}={Parens(_ctx.Type(typeof(WebUtility)).Call(nameof(WebUtility.UrlEncode))(access))}";
+                            });
+                            fieldInit = fieldInit.Call(nameof(ApiCall<ProtoMsg, ProtoMsg>.WithCallSettingsOverlay))(
+                                Lambda(request, _ctx.Type<CallSettings>().Call(nameof(CallSettings.FromHeader))("x-goog-request-params", Dollar(strings.ToArray()))));
+                        }
                         yield return field.Assign(fieldInit);
                         break;
                 }

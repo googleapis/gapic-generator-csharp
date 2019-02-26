@@ -144,9 +144,9 @@ namespace Google.Api.Generator.RoslynUtils
         {
             if (code.Length == 1)
             {
-                return SimpleLambdaExpression(parameter, ToExpression(code));
+                return SimpleLambdaExpression(parameter.WithType(null), ToExpression(code));
             }
-            return SimpleLambdaExpression(parameter, Block(ToStatements(code).ToArray()));
+            return SimpleLambdaExpression(parameter.WithType(null), Block(ToStatements(code).ToArray()));
         }
 
         public static LambdaExpressionSyntax LambdaTyped(ParameterSyntax parameter, params object[] code)
@@ -194,41 +194,49 @@ namespace Google.Api.Generator.RoslynUtils
 
         public static SyntaxTrivia BlankLine => CarriageReturnLineFeed;
 
-        public static InterpolatedStringExpressionSyntax Dollar(FormattableString fs)
+        public static InterpolatedStringExpressionSyntax Dollar(params FormattableString[] fss)
         {
-            var parts = fs.Format.Aggregate((content: new StringBuilder(), inCode: false, result: new List<InterpolatedStringContentSyntax>()), (acc, c) =>
-            {
-                if (acc.inCode)
+            var parts = fss.SelectMany(fs =>
+                fs.Format.Aggregate((content: new StringBuilder(), inCode: false, result: new List<InterpolatedStringContentSyntax>()), (acc, c) =>
                 {
-                    if (c == '}')
+                    if (acc.inCode)
                     {
-                        var index = int.Parse(acc.content.ToString());
-                        acc.result.Add(Interpolation(ToExpression(fs.GetArgument(index))));
-                        return (acc.content.Clear(), false, acc.result);
+                        if (c == '}')
+                        {
+                            var indexParts = acc.content.ToString().Split(':');
+                            var arg = fs.GetArgument(int.Parse(indexParts[0]));
+                            if (indexParts.Length > 1 && indexParts[1] == "raw")
+                            {
+                                AppendString(arg.ToString(), acc.result);
+                            }
+                            else
+                            {
+                                acc.result.Add(Interpolation(ToExpression(arg)));
+                            }
+                            return (acc.content.Clear(), false, acc.result);
+                        }
+                        return (acc.content.Append(c), true, acc.result);
                     }
-                    return (acc.content.Append(c), true, acc.result);
-                }
-                else
+                    else
+                    {
+                        if (c == '{')
+                        {
+                            AppendString(acc.content.ToString(), acc.result);
+                            return (acc.content.Clear(), true, acc.result);
+                        }
+                        return (acc.content.Append(c), false, acc.result);
+                    }
+                }, acc =>
                 {
-                    if (c == '{')
-                    {
-                        AppendString(acc.content, acc.result);
-                        return (acc.content.Clear(), true, acc.result);
-                    }
-                    return (acc.content.Append(c), false, acc.result);
-                }
-            }, acc =>
-            {
-                AppendString(acc.content, acc.result);
-                return acc.result;
-            });
+                    AppendString(acc.content.ToString(), acc.result);
+                    return acc.result;
+                }));
             return InterpolatedStringExpression(Token(SyntaxKind.InterpolatedStringStartToken), List(parts));
 
-            void AppendString(StringBuilder sb, List<InterpolatedStringContentSyntax> list)
+            void AppendString(string s, List<InterpolatedStringContentSyntax> list)
             {
-                if (sb.Length > 0)
+                if (s.Length > 0)
                 {
-                    var s = sb.ToString();
                     list.Add(InterpolatedStringText(Token(TriviaList(), SyntaxKind.InterpolatedStringTextToken, s, s, TriviaList())));
                 }
             }
