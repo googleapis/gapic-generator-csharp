@@ -32,6 +32,7 @@ namespace Google.Api.Generator.Generation
             private static readonly IReadOnlyDictionary<string, string> s_wellknownNamespaceAliases = new Dictionary<string, string>
             {
                 { typeof(System.Int32).Namespace, "sys" }, // Don't use "s"; one-letter aliases cause a compilation error!
+                { typeof(System.Net.WebUtility).Namespace, "sysnet" },
                 { typeof(System.Collections.Generic.IEnumerable<>).Namespace, "scg" },
                 { typeof(System.Collections.ObjectModel.Collection<>).Namespace, "sco" },
                 { typeof(System.Linq.Enumerable).Namespace, "linq" },

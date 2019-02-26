@@ -1,0 +1,40 @@
+﻿syntax = "proto3";
+
+package testing.routingheaders;
+
+option csharp_namespace = "Testing.RoutingHeaders";
+
+import "google/api/annotations.proto";
+
+service RoutingHeaders {
+  option (google.api.default_host) = "routingheaders.example.com";
+
+  rpc NoUrlMethod(SimpleRequest) returns(Response);
+  rpc GetMethod(SimpleRequest) returns(Response) { option (google.api.http).get = "{name=items/*}/child"; };
+  rpc PostMethod(SimpleRequest) returns(Response) { option (google.api.http).post = "{name=items/*}/child"; };
+  rpc PutMethod(SimpleRequest) returns(Response) { option (google.api.http).put = "{name=items/*}/child"; };
+  rpc PatchMethod(SimpleRequest) returns(Response) { option (google.api.http).patch = "{name=items/*}/child"; };
+  rpc DeleteMethod(SimpleRequest) returns(Response) { option (google.api.http).delete = "{name=items/*}/child"; };
+
+  rpc NestedMultiMethod(NestedRequest) returns(Response) {
+    option (google.api.http).get = "{nest1.nest2.name=items/*}/child1/{name=items/*}/child2";
+  };
+}
+
+message SimpleRequest {
+  string name = 1;
+}
+
+message NestedRequest {
+  message Inner1 {
+    message Inner2 {
+      string name = 1;
+    }
+    Inner2 nest2 = 1;
+  }
+  Inner1 nest1 = 1;
+  string name = 2;
+}
+
+message Response {
+}

@@ -81,6 +81,12 @@
     <None Include="ProtoTests\ResourceNames\Testing.ResourceNames\Testing.ResourceNames.csproj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="ProtoTests\RoutingHeaders\Testing.RoutingHeaders.Snippets\Testing.RoutingHeaders.Snippets.csproj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ProtoTests\RoutingHeaders\Testing.RoutingHeaders\Testing.RoutingHeaders.csproj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="ProtoTests\ServerStreaming\Testing.ServerStreaming.Snippets\Testing.ServerStreaming.Snippets.csproj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -169,6 +175,12 @@
     <Compile Update="ProtoTests\ResourceNames\Testing.ResourceNames\ResourceNamesResourceNames.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Update="ProtoTests\RoutingHeaders\Testing.RoutingHeaders.Snippets\RoutingHeadersClientSnippets.g.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Update="ProtoTests\RoutingHeaders\Testing.RoutingHeaders\RoutingHeadersClient.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Update="ProtoTests\ServerStreaming\Testing.ServerStreaming\ServerStreamingClient.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
@@ -212,6 +224,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="ProtoTests\ResourceNames\ResourceNames.proto">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="ProtoTests\RoutingHeaders\RoutingHeaders.proto">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="ProtoTests\ServerStreaming\ServerStreaming.proto">

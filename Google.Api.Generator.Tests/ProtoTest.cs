@@ -264,6 +264,9 @@ namespace Google.Api.Generator.Tests
         public void Snippets() => ProtoTestSingle("Snippets");
 
         [Fact]
+        public void RoutingHeaders() => ProtoTestSingle("RoutingHeaders");
+
+        [Fact]
         public void BuildBasic() => BuildTest("Basic");
 
         [Fact]
