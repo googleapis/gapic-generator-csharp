@@ -27,31 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="ProtoTests\BasicBidiStreaming\Testing.BasicBidiStreaming.Snippets\Testing.BasicBidiStreaming.Snippets.csproj">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="ProtoTests\BasicBidiStreaming\Testing.BasicBidiStreaming\Testing.BasicBidiStreaming.csproj">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="ProtoTests\BasicLro\Testing.BasicLro.Snippets\Testing.BasicLro.Snippets.csproj">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="ProtoTests\BasicPaginated\Testing.BasicPaginated.Snippets\Testing.BasicPaginated.Snippets.csproj">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="ProtoTests\BasicServerStreaming\Testing.BasicServerStreaming.Snippets\Testing.BasicServerStreaming.Snippets.csproj">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="ProtoTests\Basic\Testing.Basic.Snippets\Testing.Basic.Snippets.csproj">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="ProtoTests\BasicLro\Testing.BasicLro\Testing.BasicLro.csproj">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="ProtoTests\BasicPaginated\Testing.BasicPaginated\Testing.BasicPaginated.csproj">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="ProtoTests\BasicServerStreaming\Testing.BasicServerStreaming\Testing.BasicServerStreaming.csproj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="ProtoTests\Basic\Testing.Basic\Testing.Basic.csproj">
@@ -61,42 +37,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="ProtoTests\Lro\Testing.Lro\Testing.Lro.csproj">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="ProtoTests\MethodSignatures\Testing.MethodSignatures.Snippets\Testing.MethodSignatures.Snippets.csproj">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="ProtoTests\MethodSignatures\Testing.MethodSignatures\Testing.MethodSignatures.csproj">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="ProtoTests\Paginated\Testing.Paginated.Snippets\Testing.Paginated.Snippets.csproj">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="ProtoTests\Paginated\Testing.Paginated\Testing.Paginated.csproj">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="ProtoTests\ResourceNames\Testing.ResourceNames.Snippets\Testing.ResourceNames.Snippets.csproj">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="ProtoTests\ResourceNames\Testing.ResourceNames\Testing.ResourceNames.csproj">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="ProtoTests\RoutingHeaders\Testing.RoutingHeaders.Snippets\Testing.RoutingHeaders.Snippets.csproj">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="ProtoTests\RoutingHeaders\Testing.RoutingHeaders\Testing.RoutingHeaders.csproj">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="ProtoTests\ServerStreaming\Testing.ServerStreaming.Snippets\Testing.ServerStreaming.Snippets.csproj">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="ProtoTests\ServerStreaming\Testing.ServerStreaming\Testing.ServerStreaming.csproj">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="ProtoTests\Snippets\Testing.Snippets.Snippets\Testing.Snippets.Snippets.csproj">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="ProtoTests\Snippets\Testing.Snippets\Testing.Snippets.csproj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -115,22 +55,13 @@
     <Compile Update="ProtoTests\BasicBidiStreaming\Testing.BasicBidiStreaming\BasicBidiStreamingClient.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="ProtoTests\BasicBidiStreaming\Testing.BasicBidiStreaming.Snippets\BasicBidiStreamingClientSnippets.g.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
     <Compile Update="ProtoTests\BasicLro\Testing.BasicLro.Snippets\BasicLroClientSnippets.g.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Update="ProtoTests\BasicPaginated\Testing.BasicPaginated\BasicPaginatedClient.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="ProtoTests\BasicPaginated\Testing.BasicPaginated.Snippets\BasicPaginatedClientSnippets.g.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
     <Compile Update="ProtoTests\BasicServerStreaming\Testing.BasicServerStreaming\BasicServerStreamingClient.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="ProtoTests\BasicServerStreaming\Testing.BasicServerStreaming.Snippets\BasicServerStreamingClientSnippets.g.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Update="ProtoTests\Basic\Testing.Basic\BasicClient.cs">
@@ -154,9 +85,6 @@
     <Compile Update="ProtoTests\MethodSignatures\Testing.MethodSignatures\MethodSignaturesClient.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="ProtoTests\MethodSignatures\Testing.MethodSignatures.Snippets\MethodSignaturesClientSnippets.g.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
     <Compile Update="ProtoTests\Paginated\Testing.Paginated\PaginatedClient.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
@@ -169,22 +97,13 @@
     <Compile Update="ProtoTests\ResourceNames\Testing.ResourceNames\ResourceNamesClient.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="ProtoTests\ResourceNames\Testing.ResourceNames.Snippets\ResourceNamesClientSnippets.g.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
     <Compile Update="ProtoTests\ResourceNames\Testing.ResourceNames\ResourceNamesResourceNames.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="ProtoTests\RoutingHeaders\Testing.RoutingHeaders.Snippets\RoutingHeadersClientSnippets.g.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Update="ProtoTests\RoutingHeaders\Testing.RoutingHeaders\RoutingHeadersClient.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Update="ProtoTests\ServerStreaming\Testing.ServerStreaming\ServerStreamingClient.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Update="ProtoTests\ServerStreaming\Testing.ServerStreaming.Snippets\ServerStreamingClientSnippets.g.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Update="ProtoTests\ServerStreaming\Testing.ServerStreaming\ServerStreamingResourceNames.cs">
