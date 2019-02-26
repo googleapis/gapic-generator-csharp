@@ -83,7 +83,7 @@ namespace Google.Api.Generator.Tests
             Run("ProtoTest.proto", "testing");
         }
 
-        private void ProtoTestSingle(string testProtoName)
+        private void ProtoTestSingle(string testProtoName, bool ignoreCsProj = false, bool ignoreSnippets = false)
         {
             // Confirm each generated file is idential to the expected output.
             // Use `// TEST_START` and `// TEST_END` lines in the expected file to test subsets of output files.
@@ -94,6 +94,14 @@ namespace Google.Api.Generator.Tests
             // Verify each output file.
             foreach (var file in files)
             {
+                if (ignoreCsProj && file.RelativePath.EndsWith(".csproj"))
+                {
+                    continue;
+                }
+                if (ignoreSnippets && file.RelativePath.Contains($".Snippets{Path.DirectorySeparatorChar}"))
+                {
+                    continue;
+                }
                 var expectedFilePath = Path.Combine("ProtoTests", testProtoName, file.RelativePath);
                 Assert.True(File.Exists(expectedFilePath), $"Expected file does not exist: '{expectedFilePath}'");
                 var expectedLines = File.ReadAllLines(expectedFilePath).Select(x => x.Trim('\r')).ToList();
@@ -234,37 +242,40 @@ namespace Google.Api.Generator.Tests
         public void Basic0() => ProtoTestSingle("Basic");
 
         [Fact]
-        public void BasicLro() => ProtoTestSingle("BasicLro");
+        public void BasicLro() => ProtoTestSingle("BasicLro", ignoreCsProj: true);
 
         [Fact]
-        public void BasicBidiStreaming() => ProtoTestSingle("BasicBidiStreaming");
+        public void BasicBidiStreaming() => ProtoTestSingle("BasicBidiStreaming", ignoreCsProj: true, ignoreSnippets: true);
 
         [Fact]
-        public void BasicServerStreaming() => ProtoTestSingle("BasicServerStreaming");
+        public void BasicServerStreaming() => ProtoTestSingle("BasicServerStreaming", ignoreCsProj: true, ignoreSnippets: true);
 
         [Fact]
-        public void BasicPaginated() => ProtoTestSingle("BasicPaginated");
+        public void BasicPaginated() => ProtoTestSingle("BasicPaginated", ignoreCsProj: true, ignoreSnippets: true);
 
         [Fact]
-        public void MethodSignatures() => ProtoTestSingle("MethodSignatures");
+        public void MethodSignatures() => ProtoTestSingle("MethodSignatures", ignoreCsProj: true, ignoreSnippets: true);
 
         [Fact]
-        public void ResourceNames() => ProtoTestSingle("ResourceNames");
+        public void ResourceNames() => ProtoTestSingle("ResourceNames", ignoreCsProj: true, ignoreSnippets: true);
 
         [Fact]
-        public void Paginated0() => ProtoTestSingle("Paginated");
+        public void Paginated0() => ProtoTestSingle("Paginated", ignoreCsProj: true);
 
         [Fact]
         public void Lro0() => ProtoTestSingle("Lro");
 
         [Fact]
-        public void ServerStreaming0() => ProtoTestSingle("ServerStreaming");
+        public void ServerStreaming0() => ProtoTestSingle("ServerStreaming", ignoreCsProj: true, ignoreSnippets: true);
 
         [Fact]
-        public void Snippets() => ProtoTestSingle("Snippets");
+        public void Snippets() => ProtoTestSingle("Snippets", ignoreCsProj: true);
 
         [Fact]
-        public void RoutingHeaders() => ProtoTestSingle("RoutingHeaders");
+        public void RoutingHeaders() => ProtoTestSingle("RoutingHeaders", ignoreCsProj: true, ignoreSnippets: true);
+
+        // Build tests are testing `csproj` file generation only.
+        // All other generated code is effectively "build tested" when this test project is built.
 
         [Fact]
         public void BuildBasic() => BuildTest("Basic");
