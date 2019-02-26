@@ -76,8 +76,6 @@ namespace Google.Api.Generator.Generation
                         yield return method.AbstractAsyncCallSettingsRequestMethod;
                         foreach (var signature in method.Signatures)
                         {
-                            // TODO: Test the edge-case where there are two signatures where one has one extra `string` parameter than the other.
-                            //       This causes an ambiguous overload problem, which is solved by using a named argument.
                             yield return signature.AbstractSyncPaginatedRequestMethod;
                             yield return signature.AbstractAsyncPaginatedCallSettingsRequestMethod;
                             foreach (var resourceName in signature.ResourceNames)
