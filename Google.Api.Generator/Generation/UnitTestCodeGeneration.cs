@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Google.Api.Gax;
+using Google.Api.Gax.Grpc;
 using Google.Api.Generator.ProtoUtils;
 using Google.Api.Generator.RoslynUtils;
 using Google.Api.Generator.Utils;
@@ -27,6 +28,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 using static Google.Api.Generator.RoslynUtils.Modifier;
@@ -92,6 +94,8 @@ namespace Google.Api.Generator.Generation
             private LocalDeclarationStatementSyntax Request => Local(Ctx.Type(Method.RequestTyp), "request");
             private LocalDeclarationStatementSyntax ExpectedResponse => Local(Ctx.Type(Method.ResponseTyp), "expectedResponse");
             private LocalDeclarationStatementSyntax Response => Local(Ctx.Type(Method.ResponseTyp), "response");
+            private LocalDeclarationStatementSyntax ResponseCallSettings => Local(Ctx.Type(Method.ResponseTyp), "responseCallSettings");
+            private LocalDeclarationStatementSyntax ResponseCancellationToken => Local(Ctx.Type(Method.ResponseTyp), "responseCancellationToken");
 
             private ParameterSyntax X => Parameter(null, "x");
 
@@ -208,8 +212,12 @@ namespace Google.Api.Generator.Generation
                             .Call(nameof(IReturns<string, int>.Returns))(New(Ctx.Type(Typ.Generic(typeof(AsyncUnaryCall<>), Method.ResponseTyp)))(
                                 Ctx.Type<Task>().Call(nameof(Task.FromResult))(ExpectedResponse), Null, Null, Null, Null)),
                         Client.WithInitializer(New(Ctx.Type(Svc.ClientImplTyp))(MockGrpcClient.Access(nameof(Mock.Object)), Null)),
-                        Response.WithInitializer(Await(Client.Call(Method.AsyncMethodName)(Request))),
-                        Ctx.Type<Assert>().Call(nameof(Assert.Same))(ExpectedResponse, Response),
+                        ResponseCallSettings.WithInitializer(Await(Client.Call(Method.AsyncMethodName)(Request,
+                            Ctx.Type<CallSettings>().Call(nameof(CallSettings.FromCancellationToken))(Ctx.Type<CancellationToken>().Access(nameof(CancellationToken.None)))))),
+                        Ctx.Type<Assert>().Call(nameof(Assert.Same))(ExpectedResponse, ResponseCallSettings),
+                        ResponseCancellationToken.WithInitializer(Await(Client.Call(Method.AsyncMethodName)(Request,
+                            Ctx.Type<CancellationToken>().Access(nameof(CancellationToken.None))))),
+                        Ctx.Type<Assert>().Call(nameof(Assert.Same))(ExpectedResponse, ResponseCancellationToken),
                         MockGrpcClient.Call(nameof(Mock.VerifyAll))()
                     );
         }

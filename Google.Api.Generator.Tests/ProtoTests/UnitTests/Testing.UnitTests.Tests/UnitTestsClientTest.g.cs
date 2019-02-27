@@ -1,7 +1,9 @@
 ﻿using gax = Google.Api.Gax;
+using gaxgrpc = Google.Api.Gax.Grpc;
 using proto = Google.Protobuf;
 using grpccore = Grpc.Core;
 using moq = Moq;
+using st = System.Threading;
 using stt = System.Threading.Tasks;
 using xunit = Xunit;
 
@@ -197,8 +199,10 @@ namespace Testing.UnitTests
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.MethodValuesAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
             UnitTestsClient client = new UnitTestsClientImpl(mockGrpcClient.Object, null);
-            Response response = await client.MethodValuesAsync(request);
-            xunit::Assert.Same(expectedResponse, response);
+            Response responseCallSettings = await client.MethodValuesAsync(request, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
+            xunit::Assert.Same(expectedResponse, responseCallSettings);
+            Response responseCancellationToken = await client.MethodValuesAsync(request, st::CancellationToken.None);
+            xunit::Assert.Same(expectedResponse, responseCancellationToken);
             mockGrpcClient.VerifyAll();
         }
     }
