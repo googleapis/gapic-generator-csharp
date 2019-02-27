@@ -1,0 +1,84 @@
+﻿syntax = "proto3";
+
+package testing.unittests;
+
+option csharp_namespace = "Testing.UnitTests";
+
+import "google/api/annotations.proto";
+
+service UnitTests {
+  option (google.api.default_host) = "unittests.example.com";
+
+  rpc MethodValues(ValuesRequest) returns(Response);
+}
+
+option (google.api.resource_definition) = {
+  name: "AResource",
+  path: "items/{item_id}/parts/{part_id}"
+};
+
+option (google.api.resource_definition) = {
+  name: "WildcardResource",
+  path: "*"
+};
+
+message AnotherMessage {
+}
+
+enum Enum {
+  DEFAULT = 0; // First value must be 0 and is the default
+}
+
+message ValuesRequest {
+  message NestedMessage {
+  }
+  enum NestedEnum {
+    DEFAULT = 0; // First value must be 0 and is the default
+  }
+
+  double single_double = 1;
+  float single_float = 2;
+  int32 single_int32 = 3;
+  int64 single_int64 = 4;
+  uint32 single_uint32 = 5;
+  uint64 single_uint64 = 6;
+  sint32 single_sint32 = 7;
+  sint64 single_sint64 = 8;
+  fixed32 single_fixed32 = 9;
+  fixed64 single_fixed64 = 10;
+  sfixed32 single_sfixed32 = 11;
+  sfixed64 single_sfixed64 = 12;
+  bool single_bool = 13;
+  string single_string = 14;
+  bytes single_bytes = 15;
+  AnotherMessage single_message = 16;
+  NestedMessage single_nested_message = 17;
+  Enum single_enum = 18;
+  NestedEnum single_nested_enum = 19;
+  repeated double repeated_double = 21;
+  repeated float repeated_float = 22;
+  repeated int32 repeated_int32 = 23;
+  repeated int64 repeated_int64 = 24;
+  repeated uint32 repeated_uint32 = 25;
+  repeated uint64 repeated_uint64 = 26;
+  repeated sint32 repeated_sint32 = 27;
+  repeated sint64 repeated_sint64 = 28;
+  repeated fixed32 repeated_fixed32 = 29;
+  repeated fixed64 repeated_fixed64 = 30;
+  repeated sfixed32 repeated_sfixed32 = 31;
+  repeated sfixed64 repeated_sfixed64 = 32;
+  repeated bool repeated_bool = 33;
+  repeated string repeated_string = 34;
+  repeated bytes repeated_bytes = 35;
+  repeated AnotherMessage repeated_message = 36;
+  repeated NestedMessage repeated_nested_message = 37;
+  repeated Enum repeated_enum = 38;
+  repeated NestedEnum repeated_nested_enum = 39;
+  string single_resource_name = 40 [(google.api.resource_reference) = "AResource"];
+  repeated string repeated_resource_name = 41 [(google.api.resource_reference) = "AResource"];
+  string single_wildcard_resource = 42 [(google.api.resource_reference) = "WildcardResource"];
+  repeated string repeated_wildcard_resource = 43 [(google.api.resource_reference) = "WildcardResource"];
+}
+
+message Response {
+}
