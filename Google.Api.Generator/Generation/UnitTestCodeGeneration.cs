@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Google.Api.Gax;
+using Google.Api.Gax.Grpc;
 using Google.Api.Generator.ProtoUtils;
 using Google.Api.Generator.RoslynUtils;
 using Google.Api.Generator.Utils;
@@ -27,6 +28,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 using static Google.Api.Generator.RoslynUtils.Modifier;
 using static Google.Api.Generator.RoslynUtils.RoslynBuilder;
@@ -68,7 +71,7 @@ namespace Google.Api.Generator.Generation
                 {
                     case MethodDetails.Normal _:
                         yield return methodDef.SyncRequestMethod;
-                        // TODO: Async test.
+                        yield return methodDef.AsyncRequestMethod;
                         // TODO: Test method signatures.
                         break;
                 }
@@ -91,6 +94,8 @@ namespace Google.Api.Generator.Generation
             private LocalDeclarationStatementSyntax Request => Local(Ctx.Type(Method.RequestTyp), "request");
             private LocalDeclarationStatementSyntax ExpectedResponse => Local(Ctx.Type(Method.ResponseTyp), "expectedResponse");
             private LocalDeclarationStatementSyntax Response => Local(Ctx.Type(Method.ResponseTyp), "response");
+            private LocalDeclarationStatementSyntax ResponseCallSettings => Local(Ctx.Type(Method.ResponseTyp), "responseCallSettings");
+            private LocalDeclarationStatementSyntax ResponseCancellationToken => Local(Ctx.Type(Method.ResponseTyp), "responseCancellationToken");
 
             private ParameterSyntax X => Parameter(null, "x");
 
@@ -191,6 +196,28 @@ namespace Google.Api.Generator.Generation
                         Client.WithInitializer(New(Ctx.Type(Svc.ClientImplTyp))(MockGrpcClient.Access(nameof(Mock.Object)), Null)),
                         Response.WithInitializer(Client.Call(Method.SyncMethodName)(Request)),
                         Ctx.Type<Assert>().Call(nameof(Assert.Same))(ExpectedResponse, Response),
+                        MockGrpcClient.Call(nameof(Mock.VerifyAll))()
+                    );
+
+            public MethodDeclarationSyntax AsyncRequestMethod =>
+                Method(Public | Async, Ctx.Type<Task>(), Method.AsyncTestMethodName)()
+                    .WithAttribute(Ctx.Type<FactAttribute>())
+                    .WithBody(
+                        MockGrpcClient.WithInitializer(New(Ctx.Type(Typ.Generic(typeof(Mock<>), Svc.GrpcClientTyp)))(Ctx.Type<MockBehavior>().Access(MockBehavior.Strict))),
+                        // TODO: Setup mock LRO clients.
+                        Request.WithInitializer(New(Ctx.Type(Method.RequestTyp))().WithInitializer(InitMessage(Method.RequestMessageDesc).ToArray())),
+                        ExpectedResponse.WithInitializer(New(Ctx.Type(Method.ResponseTyp))().WithInitializer(InitMessage(Method.ResponseMessageDesc).ToArray())),
+                        MockGrpcClient.Call(nameof(Mock<string>.Setup))(
+                            Lambda(X, X.Call(Method.AsyncMethodName)(Request, Ctx.Type(typeof(It)).Call(nameof(It.IsAny), Ctx.Type<CallOptions>())())))
+                            .Call(nameof(IReturns<string, int>.Returns))(New(Ctx.Type(Typ.Generic(typeof(AsyncUnaryCall<>), Method.ResponseTyp)))(
+                                Ctx.Type<Task>().Call(nameof(Task.FromResult))(ExpectedResponse), Null, Null, Null, Null)),
+                        Client.WithInitializer(New(Ctx.Type(Svc.ClientImplTyp))(MockGrpcClient.Access(nameof(Mock.Object)), Null)),
+                        ResponseCallSettings.WithInitializer(Await(Client.Call(Method.AsyncMethodName)(Request,
+                            Ctx.Type<CallSettings>().Call(nameof(CallSettings.FromCancellationToken))(Ctx.Type<CancellationToken>().Access(nameof(CancellationToken.None)))))),
+                        Ctx.Type<Assert>().Call(nameof(Assert.Same))(ExpectedResponse, ResponseCallSettings),
+                        ResponseCancellationToken.WithInitializer(Await(Client.Call(Method.AsyncMethodName)(Request,
+                            Ctx.Type<CancellationToken>().Access(nameof(CancellationToken.None))))),
+                        Ctx.Type<Assert>().Call(nameof(Assert.Same))(ExpectedResponse, ResponseCancellationToken),
                         MockGrpcClient.Call(nameof(Mock.VerifyAll))()
                     );
         }
