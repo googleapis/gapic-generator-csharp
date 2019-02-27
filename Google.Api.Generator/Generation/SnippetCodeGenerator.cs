@@ -201,6 +201,7 @@ namespace Google.Api.Generator.Generation
                 {
                     if (!IsPaginationField())
                     {
+                        // TODO: Support one-ofs properly; i.e. only set one of the fields.
                         yield return new ObjectInitExpr(
                             Svc.Catalog.GetResourceDetailsByField(fieldDesc)?.ResourcePropertyName ?? fieldDesc.CSharpPropertyName(),
                             DefaultValue(fieldDesc));
