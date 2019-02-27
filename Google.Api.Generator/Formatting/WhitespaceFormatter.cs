@@ -146,6 +146,17 @@ namespace Google.Api.Generator.Formatting
             return node;
         }
 
+        public override SyntaxNode VisitAttributeList(AttributeListSyntax node)
+        {
+            var lineBreak = node.Parent is MethodDeclarationSyntax || node.Parent is ClassDeclarationSyntax;
+            node = (AttributeListSyntax)base.VisitAttributeList(node);
+            if (lineBreak)
+            {
+                node = node.WithCloseBracketToken(node.CloseBracketToken.WithTrailingTrivia(CarriageReturnLineFeed, _indentTrivia));
+            }
+            return node;
+        }
+
         public override SyntaxNode VisitOperatorDeclaration(OperatorDeclarationSyntax node)
         {
             node = (OperatorDeclarationSyntax)base.VisitOperatorDeclaration(node);

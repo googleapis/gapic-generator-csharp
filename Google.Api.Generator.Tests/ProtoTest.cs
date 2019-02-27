@@ -83,7 +83,7 @@ namespace Google.Api.Generator.Tests
             Run("ProtoTest.proto", "testing");
         }
 
-        private void ProtoTestSingle(string testProtoName, bool ignoreCsProj = false, bool ignoreSnippets = false)
+        private void ProtoTestSingle(string testProtoName, bool ignoreCsProj = false, bool ignoreSnippets = false, bool ignoreUnitTests = false)
         {
             // Confirm each generated file is idential to the expected output.
             // Use `// TEST_START` and `// TEST_END` lines in the expected file to test subsets of output files.
@@ -94,11 +94,9 @@ namespace Google.Api.Generator.Tests
             // Verify each output file.
             foreach (var file in files)
             {
-                if (ignoreCsProj && file.RelativePath.EndsWith(".csproj"))
-                {
-                    continue;
-                }
-                if (ignoreSnippets && file.RelativePath.Contains($".Snippets{Path.DirectorySeparatorChar}"))
+                if (ignoreCsProj && file.RelativePath.EndsWith(".csproj") ||
+                    ignoreSnippets && file.RelativePath.Contains($".Snippets{Path.DirectorySeparatorChar}") ||
+                    ignoreUnitTests && file.RelativePath.Contains($".Tests{Path.DirectorySeparatorChar}"))
                 {
                     continue;
                 }
@@ -242,37 +240,39 @@ namespace Google.Api.Generator.Tests
         public void Basic0() => ProtoTestSingle("Basic");
 
         [Fact]
-        public void BasicLro() => ProtoTestSingle("BasicLro", ignoreCsProj: true);
+        public void BasicLro() => ProtoTestSingle("BasicLro", ignoreCsProj: true, ignoreUnitTests: true);
 
         [Fact]
-        public void BasicBidiStreaming() => ProtoTestSingle("BasicBidiStreaming", ignoreCsProj: true, ignoreSnippets: true);
+        public void BasicBidiStreaming() => ProtoTestSingle("BasicBidiStreaming", ignoreCsProj: true, ignoreSnippets: true, ignoreUnitTests: true);
 
         [Fact]
-        public void BasicServerStreaming() => ProtoTestSingle("BasicServerStreaming", ignoreCsProj: true, ignoreSnippets: true);
+        public void BasicServerStreaming() => ProtoTestSingle("BasicServerStreaming", ignoreCsProj: true, ignoreSnippets: true, ignoreUnitTests: true);
 
         [Fact]
-        public void BasicPaginated() => ProtoTestSingle("BasicPaginated", ignoreCsProj: true, ignoreSnippets: true);
+        public void BasicPaginated() => ProtoTestSingle("BasicPaginated", ignoreCsProj: true, ignoreSnippets: true, ignoreUnitTests: true);
 
         [Fact]
-        public void MethodSignatures() => ProtoTestSingle("MethodSignatures", ignoreCsProj: true, ignoreSnippets: true);
+        public void MethodSignatures() => ProtoTestSingle("MethodSignatures", ignoreCsProj: true, ignoreSnippets: true, ignoreUnitTests: true);
 
         [Fact]
-        public void ResourceNames() => ProtoTestSingle("ResourceNames", ignoreCsProj: true, ignoreSnippets: true);
+        public void ResourceNames() => ProtoTestSingle("ResourceNames", ignoreCsProj: true, ignoreSnippets: true, ignoreUnitTests: true);
 
         [Fact]
-        public void Paginated0() => ProtoTestSingle("Paginated", ignoreCsProj: true);
+        public void Paginated0() => ProtoTestSingle("Paginated", ignoreCsProj: true, ignoreUnitTests: true);
 
         [Fact]
-        public void Lro0() => ProtoTestSingle("Lro");
+        public void Lro0() => ProtoTestSingle("Lro", ignoreUnitTests: true);
 
         [Fact]
-        public void ServerStreaming0() => ProtoTestSingle("ServerStreaming", ignoreCsProj: true, ignoreSnippets: true);
+        public void ServerStreaming0() => ProtoTestSingle("ServerStreaming", ignoreCsProj: true, ignoreSnippets: true, ignoreUnitTests: true);
 
         [Fact]
-        public void Snippets() => ProtoTestSingle("Snippets", ignoreCsProj: true);
+        public void Snippets() => ProtoTestSingle("Snippets", ignoreCsProj: true, ignoreUnitTests: true);
 
         [Fact]
-        public void RoutingHeaders() => ProtoTestSingle("RoutingHeaders", ignoreCsProj: true, ignoreSnippets: true);
+        public void RoutingHeaders() => ProtoTestSingle("RoutingHeaders", ignoreCsProj: true, ignoreSnippets: true, ignoreUnitTests: true);
+
+        // TODO: Test for unit tests.
 
         // Build tests are testing `csproj` file generation only.
         // All other generated code is effectively "build tested" when this test project is built.

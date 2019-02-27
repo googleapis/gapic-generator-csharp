@@ -233,8 +233,10 @@ namespace Google.Api.Generator.Generation
             Svc = svc;
             SyncMethodName = desc.Name;
             SyncSnippetMethodName = $"{desc.Name}_RequestObject";
+            SyncTestMethodName = $"{desc.Name}RequestObject";
             AsyncMethodName = $"{desc.Name}Async";
             AsyncSnippetMethodName = $"{desc.Name}Async_RequestObject";
+            AsyncTestMethodName = $"{desc.Name}RequestObjectAsync";
             SettingsName = $"{desc.Name}Settings";
             RequestTyp = Typ.Of(desc.InputType);
             ResponseTyp = Typ.Of(desc.OutputType);
@@ -248,6 +250,7 @@ namespace Google.Api.Generator.Generation
             Signatures = desc.CustomOptions.TryGetRepeatedMessage<MethodSignature>(ProtoConsts.MethodOption.MethodSignature, out var sigs) ?
                 sigs.Select(sig => new Signature(svc, desc.InputType, sig)).ToList() : (IReadOnlyList<Signature>)new Signature[0];
             RequestMessageDesc = desc.InputType;
+            ResponseMessageDesc = desc.OutputType;
             RoutingHeaders = ReadRoutingHeaders(http, desc.InputType).ToList();
         }
 
@@ -321,11 +324,17 @@ namespace Google.Api.Generator.Generation
         /// <summary>The sync name for the snippet method.</summary>
         public string SyncSnippetMethodName { get; }
 
+        /// <summary>The sync name for the unit test method.</summary>
+        public string SyncTestMethodName { get; }
+
         /// <summary>The async name for this method.</summary>
         public string AsyncMethodName { get; }
 
         /// <summary>The async name for the snippet method.</summary>
         public string AsyncSnippetMethodName { get; }
+
+        /// <summary>The async name for the unit test method.</summary>
+        public string AsyncTestMethodName { get; }
 
         /// <summary>The per-method settings property name.</summary>
         public string SettingsName { get; }
@@ -365,6 +374,9 @@ namespace Google.Api.Generator.Generation
 
         /// <summary>The proto descriptor of the request message.</summary>
         public MessageDescriptor RequestMessageDesc { get; }
+
+        /// <summary>The proto descriptor of the response message.</summary>
+        public MessageDescriptor ResponseMessageDesc { get; }
 
         public IEnumerable<RoutingHeader> RoutingHeaders { get; }
     }

@@ -116,6 +116,8 @@ namespace Google.Api.Generator.Tests
                 List = { 1, 2, 3, },
             };
 
+            // Test attribute with no arguments on a method.
+            [Obsolete]
             public void M1()
             {
                 // Test named argument

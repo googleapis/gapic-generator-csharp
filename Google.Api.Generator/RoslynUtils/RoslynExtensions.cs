@@ -261,5 +261,8 @@ namespace Google.Api.Generator.RoslynUtils
                 return TypeConstraint(type);
             }
         }
+
+        public static MethodDeclarationSyntax WithAttribute(this MethodDeclarationSyntax method, TypeSyntax attrType) =>
+            method.WithAttributeLists(SingletonList(AttributeList(SingletonSeparatedList(Attribute((NameSyntax)attrType)))));
     }
 }

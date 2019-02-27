@@ -38,14 +38,15 @@ namespace Testing.Basic
         // Fake gRPC client, to allow `BasicClient.cs` to compile.
         public class BasicClient
         {
+            public BasicClient() { }
             public BasicClient(CallInvoker callInvoker) { }
-            public AsyncUnaryCall<Response> IdempotentMethodAsync(Request request, CallOptions options) =>
+            public virtual AsyncUnaryCall<Response> IdempotentMethodAsync(Request request, CallOptions options) =>
                 throw new NotImplementedException();
-            public Response IdempotentMethod(Request request, CallOptions options) =>
+            public virtual Response IdempotentMethod(Request request, CallOptions options) =>
                 throw new NotImplementedException();
-            public AsyncUnaryCall<Response> NonIdempotentMethodAsync(Request request, CallOptions options) =>
+            public virtual AsyncUnaryCall<Response> NonIdempotentMethodAsync(Request request, CallOptions options) =>
                 throw new NotImplementedException();
-            public Response NonIdempotentMethod(Request request, CallOptions options) =>
+            public virtual Response NonIdempotentMethod(Request request, CallOptions options) =>
                 throw new NotImplementedException();
         }
     }
