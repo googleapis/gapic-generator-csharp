@@ -34,8 +34,8 @@ namespace Google.Api.Generator.Generation
 <Project Sdk=""Microsoft.NET.Sdk"">
   <PropertyGroup>
 
-    <!-- TODO: Version defaults to 1.0.0, edit as required -->
-    <Version>1.0.0</Version>
+    <!-- TODO: Version defaults to 1.0.0-alpha01, edit as required -->
+    <Version>1.0.0-alpha01</Version>
 
     <!-- TODO: NuGet packaging options -->
     <!--
