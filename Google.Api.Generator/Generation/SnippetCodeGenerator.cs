@@ -21,7 +21,6 @@ using Google.LongRunning;
 using Google.Protobuf;
 using Google.Protobuf.Reflection;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;

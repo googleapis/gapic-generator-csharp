@@ -43,6 +43,7 @@ namespace Google.Api.Generator.Generation
             Methods = desc.Methods.Select(x => MethodDetails.Create(this, x)).ToList();
             SnippetsTyp = Typ.Manual(ns, $"Generated{desc.Name}Snippets");
             SnippetsClientName = $"{desc.Name.ToLowerCamelCase()}Client";
+            UnitTestsTyp = Typ.Manual(ns, $"Generated{desc.Name}Test");
         }
 
         public ProtoCatalog Catalog { get; }
@@ -83,5 +84,8 @@ namespace Google.Api.Generator.Generation
 
         /// <summary>The name of the variable to hold the client instance.</summary>
         public string SnippetsClientName { get; }
+
+        /// <summary>The typ of the unit test class for this service.</summary>
+        public Typ UnitTestsTyp { get; }
     }
 }

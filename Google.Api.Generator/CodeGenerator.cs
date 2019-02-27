@@ -44,6 +44,7 @@ namespace Google.Api.Generator
                 var ns = fileDesc.CSharpNamespace();
                 var clientPathPrefix = $"{ns}{Path.DirectorySeparatorChar}";
                 var snippetsPathPrefix = $"{ns}.Snippets{Path.DirectorySeparatorChar}";
+                var unitTestsPathPrefix = $"{ns}.Tests{Path.DirectorySeparatorChar}";
                 bool hasLro = false;
                 foreach (var service in fileDesc.Services)
                 {
@@ -62,6 +63,13 @@ namespace Google.Api.Generator
                     var snippetFilename = $"{snippetsPathPrefix}{serviceDetails.ClientAbstractTyp.Name}Snippets.g.cs";
                     var snippetContent = Encoding.UTF8.GetBytes(snippetFormattedCode.ToFullString());
                     yield return new ResultFile(snippetFilename, snippetContent);
+                    // Generate unit tests for the the service.
+                    var unitTestCtx = SourceFileContext.Create(SourceFileContext.ImportStyle.FullyAliased);
+                    var unitTestCode = UnitTestCodeGeneration.Generate(unitTestCtx, serviceDetails);
+                    var unitTestFormattedCode = CodeFormatter.Format(unitTestCode);
+                    var unitTestFilename = $"{unitTestsPathPrefix}{serviceDetails.ClientAbstractTyp.Name}Test.g.cs";
+                    var unitTestContent = Encoding.UTF8.GetBytes(unitTestFormattedCode.ToFullString());
+                    yield return new ResultFile(unitTestFilename, unitTestContent);
                     // Record whether LRO is used.
                     hasLro |= serviceDetails.Methods.Any(x => x is MethodDetails.Lro);
                 }
@@ -83,6 +91,7 @@ namespace Google.Api.Generator
                 var snippetsCsprojContent = Encoding.UTF8.GetBytes(CsProjGenerator.GenerateSnippets(ns));
                 var snippetsCsProjFilename = $"{snippetsPathPrefix}{ns}.Snippets.csproj";
                 yield return new ResultFile(snippetsCsProjFilename, snippetsCsprojContent);
+                // TODO: Generate unit test csproj.
             }
             // TODO: Generate csproj, tests
         }

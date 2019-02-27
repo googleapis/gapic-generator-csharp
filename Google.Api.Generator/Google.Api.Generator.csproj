@@ -15,6 +15,8 @@
     <PackageReference Include="Google.Api.Gax.Grpc" Version="2.5.0" />
     <PackageReference Include="Google.LongRunning" Version="1.0.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="2.10.0" />
+    <PackageReference Include="Moq" Version="4.10.1" />
+    <PackageReference Include="xunit" Version="2.4.1" />
   </ItemGroup>
 
 </Project>
