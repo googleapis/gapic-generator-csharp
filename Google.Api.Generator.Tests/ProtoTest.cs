@@ -143,8 +143,8 @@ namespace Google.Api.Generator.Tests
                     {
                         Console.WriteLine(string.Join(Environment.NewLine, actualLines));
                         throw new XunitException($"Failed to find expected line {missing.lineNumber + 1} in '{Path.GetFileName(file.RelativePath)}'\n" +
-                            $"  Expected line: '{missing.line}'\n" +
-                            $"  Actual line:   '{missingActualLine}'");
+                            $"  Expected line:  '{missing.line}'\n" +
+                            $"  Generated line: '{missingActualLine}'");
                     }
                 }
 
@@ -176,7 +176,7 @@ namespace Google.Api.Generator.Tests
             }
         }
 
-        private void BuildTest(string testName)
+        private void BuildTest(string testName, bool ignoreUnitTests = false)
         {
             var testRootPath = Environment.CurrentDirectory;
             while (!testRootPath.EndsWith("Google.Api.Generator.Tests"))
@@ -189,6 +189,11 @@ namespace Google.Api.Generator.Tests
             Build(clientPath);
             // Test build snippets.
             Build(Path.Combine(baseTestPath, $"Testing.{testName}.Snippets"));
+            if (!ignoreUnitTests)
+            {
+                // Test build unit-tests.
+                Build(Path.Combine(baseTestPath, $"Testing.{testName}.Tests"));
+            }
 
             void Build(string path)
             {
@@ -282,6 +287,6 @@ namespace Google.Api.Generator.Tests
         public void BuildBasic() => BuildTest("Basic");
 
         [Fact]
-        public void BuildLro() => BuildTest("Lro");
+        public void BuildLro() => BuildTest("Lro", ignoreUnitTests: true);
     }
 }

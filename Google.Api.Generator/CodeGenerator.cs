@@ -91,7 +91,10 @@ namespace Google.Api.Generator
                 var snippetsCsprojContent = Encoding.UTF8.GetBytes(CsProjGenerator.GenerateSnippets(ns));
                 var snippetsCsProjFilename = $"{snippetsPathPrefix}{ns}.Snippets.csproj";
                 yield return new ResultFile(snippetsCsProjFilename, snippetsCsprojContent);
-                // TODO: Generate unit test csproj.
+                // Generate unit-tests csproj.
+                var unitTestsCsprojContent = Encoding.UTF8.GetBytes(CsProjGenerator.GenerateUnitTests(ns));
+                var unitTestsCsprojFilename = $"{unitTestsPathPrefix}{ns}.Tests.csproj";
+                yield return new ResultFile(unitTestsCsprojFilename, unitTestsCsprojContent);
             }
             // TODO: Generate csproj, tests
         }
