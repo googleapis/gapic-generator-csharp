@@ -30,6 +30,9 @@
     <None Include="ProtoTests\Basic\Testing.Basic.Snippets\Testing.Basic.Snippets.csproj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="ProtoTests\Basic\Testing.Basic.Tests\Testing.Basic.Tests.csproj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="ProtoTests\Basic\Testing.Basic\Testing.Basic.csproj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
