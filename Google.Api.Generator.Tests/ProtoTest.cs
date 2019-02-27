@@ -94,9 +94,9 @@ namespace Google.Api.Generator.Tests
             // Verify each output file.
             foreach (var file in files)
             {
-                if (ignoreCsProj && file.RelativePath.EndsWith(".csproj") ||
-                    ignoreSnippets && file.RelativePath.Contains($".Snippets{Path.DirectorySeparatorChar}") ||
-                    ignoreUnitTests && file.RelativePath.Contains($".Tests{Path.DirectorySeparatorChar}"))
+                if ((ignoreCsProj && file.RelativePath.EndsWith(".csproj")) ||
+                    (ignoreSnippets && file.RelativePath.Contains($".Snippets{Path.DirectorySeparatorChar}")) ||
+                    (ignoreUnitTests && file.RelativePath.Contains($".Tests{Path.DirectorySeparatorChar}")))
                 {
                     continue;
                 }
