@@ -22,12 +22,12 @@ using Grpc.Core;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Moq;
 using Moq.Language;
-using Moq.Language.Flow;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
 using Xunit;
 using static Google.Api.Generator.RoslynUtils.Modifier;
 using static Google.Api.Generator.RoslynUtils.RoslynBuilder;
@@ -69,7 +69,7 @@ namespace Google.Api.Generator.Generation
                 {
                     case MethodDetails.Normal _:
                         yield return methodDef.SyncRequestMethod;
-                        // TODO: Async test.
+                        yield return methodDef.AsyncRequestMethod;
                         // TODO: Test method signatures.
                         break;
                 }
@@ -191,6 +191,24 @@ namespace Google.Api.Generator.Generation
                             .Call(nameof(IReturns<string, int>.Returns))(ExpectedResponse),
                         Client.WithInitializer(New(Ctx.Type(Svc.ClientImplTyp))(MockGrpcClient.Access(nameof(Mock.Object)), Null)),
                         Response.WithInitializer(Client.Call(Method.SyncMethodName)(Request)),
+                        Ctx.Type<Assert>().Call(nameof(Assert.Same))(ExpectedResponse, Response),
+                        MockGrpcClient.Call(nameof(Mock.VerifyAll))()
+                    );
+
+            public MethodDeclarationSyntax AsyncRequestMethod =>
+                Method(Public | Async, Ctx.Type<Task>(), Method.AsyncTestMethodName)()
+                    .WithAttribute(Ctx.Type<FactAttribute>())
+                    .WithBody(
+                        MockGrpcClient.WithInitializer(New(Ctx.Type(Typ.Generic(typeof(Mock<>), Svc.GrpcClientTyp)))(Ctx.Type<MockBehavior>().Access(MockBehavior.Strict))),
+                        // TODO: Setup mock LRO clients.
+                        Request.WithInitializer(New(Ctx.Type(Method.RequestTyp))().WithInitializer(InitMessage(Method.RequestMessageDesc).ToArray())),
+                        ExpectedResponse.WithInitializer(New(Ctx.Type(Method.ResponseTyp))().WithInitializer(InitMessage(Method.ResponseMessageDesc).ToArray())),
+                        MockGrpcClient.Call(nameof(Mock<string>.Setup))(
+                            Lambda(X, X.Call(Method.AsyncMethodName)(Request, Ctx.Type(typeof(It)).Call(nameof(It.IsAny), Ctx.Type<CallOptions>())())))
+                            .Call(nameof(IReturns<string, int>.Returns))(New(Ctx.Type(Typ.Generic(typeof(AsyncUnaryCall<>), Method.ResponseTyp)))(
+                                Ctx.Type<Task>().Call(nameof(Task.FromResult))(ExpectedResponse), Null, Null, Null, Null)),
+                        Client.WithInitializer(New(Ctx.Type(Svc.ClientImplTyp))(MockGrpcClient.Access(nameof(Mock.Object)), Null)),
+                        Response.WithInitializer(Await(Client.Call(Method.AsyncMethodName)(Request))),
                         Ctx.Type<Assert>().Call(nameof(Assert.Same))(ExpectedResponse, Response),
                         MockGrpcClient.Call(nameof(Mock.VerifyAll))()
                     );
