@@ -127,6 +127,15 @@
     <Compile Update="ProtoTests\Snippets\Testing.Snippets\SnippetsResourceNames.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Update="ProtoTests\UnitTests\Testing.UnitTests.Tests\UnitTestsClientTest.g.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Update="ProtoTests\UnitTests\Testing.UnitTests\UnitTestsClient.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Update="ProtoTests\UnitTests\Testing.UnitTests\UnitTestsResourceNames.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Update="WhitespaceFormatterTest.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
@@ -161,6 +170,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="ProtoTests\Snippets\Snippets.proto">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="ProtoTests\UnitTests\UnitTests.proto">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

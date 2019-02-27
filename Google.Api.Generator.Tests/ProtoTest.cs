@@ -272,7 +272,8 @@ namespace Google.Api.Generator.Tests
         [Fact]
         public void RoutingHeaders() => ProtoTestSingle("RoutingHeaders", ignoreCsProj: true, ignoreSnippets: true, ignoreUnitTests: true);
 
-        // TODO: Test for unit tests.
+        [Fact]
+        public void UnitTests() => ProtoTestSingle("UnitTests", ignoreCsProj: true, ignoreSnippets: true);
 
         // Build tests are testing `csproj` file generation only.
         // All other generated code is effectively "build tested" when this test project is built.
