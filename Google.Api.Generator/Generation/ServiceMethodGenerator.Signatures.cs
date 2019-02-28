@@ -224,7 +224,7 @@ namespace Google.Api.Generator.Generation
                                 var initExpr = signature.InitExpr(field, parameter, fieldResource != null, isSet);
                                 var xmlDoc = XmlDoc.ParamPreFormatted(parameter, field.DocLines);
                                 parameters.Add(new ParameterInfo(parameter, initExpr, xmlDoc));
-                                Typ MaybeRepeated(Typ typ) => field.IsRepeated ? Typ.Generic(typeof(IEnumerable<>), typ) : typ;
+                                Typ MaybeRepeated(Typ typ) => typ == null ? null : field.IsRepeated ? Typ.Generic(typeof(IEnumerable<>), typ) : typ;
                             }
                             yield return new ResourceName(signature, parameters);
                         }
