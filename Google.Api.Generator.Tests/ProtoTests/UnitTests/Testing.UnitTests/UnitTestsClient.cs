@@ -1,5 +1,6 @@
 ﻿using gax = Google.Api.Gax;
 using gaxgrpc = Google.Api.Gax.Grpc;
+using lro = Google.LongRunning;
 using proto = Google.Protobuf;
 using grpccore = Grpc.Core;
 using grpcinter = Grpc.Core.Interceptors;
@@ -27,6 +28,8 @@ namespace Testing.UnitTests
         {
             gax::GaxPreconditions.CheckNotNull(existing, nameof(existing));
             MethodValuesSettings = existing.MethodValuesSettings;
+            MethodLroSettings = existing.MethodLroSettings;
+            MethodLroOperationsSettings = existing.MethodLroOperationsSettings;
             OnCopy(existing);
         }
 
@@ -40,6 +43,31 @@ namespace Testing.UnitTests
         /// </summary>
         /// <remarks>By default, retry will not be attempted.</remarks>
         public gaxgrpc::CallSettings MethodValuesSettings { get; set; } = _defaultNonIdempotentCallSettings;
+
+        /// <summary>
+        /// <see cref="gaxgrpc::CallSettings"/> for synchronous and asynchronous calls to <c>UnitTestsClient.MethodLro</c>
+        ///  and <c>UnitTestsClient.MethodLroAsync</c>.
+        /// </summary>
+        /// <remarks>By default, retry will not be attempted.</remarks>
+        public gaxgrpc::CallSettings MethodLroSettings { get; set; } = _defaultNonIdempotentCallSettings;
+
+        /// <summary>
+        /// Long Running Operation settings for calls to <c>UnitTestsClient.MethodLro</c> and
+        /// <c>UnitTestsClient.MethodLroAsync</c>.
+        /// </summary>
+        /// <remarks>
+        /// Uses default <see cref="gax::PollSettings"/> of:
+        /// <list type="bullet">
+        /// <item><description>Initial delay: 20 seconds.</description></item>
+        /// <item><description>Delay multiplier: 1.5</description></item>
+        /// <item><description>Maximum delay: 45 seconds.</description></item>
+        /// <item><description>Total timeout: 24 hours.</description></item>
+        /// </list>
+        /// </remarks>
+        public lro::OperationsSettings MethodLroOperationsSettings { get; set; } = new lro::OperationsSettings
+        {
+            DefaultPollSettings = new gax::PollSettings(gax::Expiration.FromTimeout(sys::TimeSpan.FromHours(24)), sys::TimeSpan.FromSeconds(20), 1.5, sys::TimeSpan.FromSeconds(45)),
+        };
 
         /// <summary>Creates a deep clone of this object, with all the same property values.</summary>
         /// <returns>A deep clone of this <see cref="UnitTestsSettings"/> object.</returns>
@@ -213,12 +241,67 @@ namespace Testing.UnitTests
         /// <returns>A Task containing the RPC response.</returns>
         public virtual stt::Task<Response> MethodValuesAsync(ValuesRequest request, st::CancellationToken cancellationToken) =>
             MethodValuesAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+
+        /// <summary>
+        /// LRO method, to test the client mocking supports LRO.
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>The RPC response.</returns>
+        public virtual lro::Operation<LroResponse, LroMetadata> MethodLro(LroRequest request, gaxgrpc::CallSettings callSettings = null) =>
+            throw new sys::NotImplementedException();
+
+        /// <summary>
+        /// LRO method, to test the client mocking supports LRO.
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<lro::Operation<LroResponse, LroMetadata>> MethodLroAsync(LroRequest request, gaxgrpc::CallSettings callSettings = null) =>
+            throw new sys::NotImplementedException();
+
+        /// <summary>
+        /// LRO method, to test the client mocking supports LRO.
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<lro::Operation<LroResponse, LroMetadata>> MethodLroAsync(LroRequest request, st::CancellationToken cancellationToken) =>
+            MethodLroAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+
+        /// <summary>The long-running operations client for <c>MethodLro</c>.</summary>
+        public virtual lro::OperationsClient MethodLroOperationsClient => throw new sys::NotImplementedException();
+
+        /// <summary>
+        /// Poll an operation once, using an <c>operationName</c> from a previous invocation of <c>MethodLro</c>.
+        /// </summary>
+        /// <param name="operationName">
+        /// The name of a previously invoked operation. Must not be <c>null</c> or empty.
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>The result of polling the operation.</returns>
+        public virtual lro::Operation<LroResponse, LroMetadata> PollOnceMethodLro(string operationName, gaxgrpc::CallSettings callSettings = null) =>
+            lro::Operation<LroResponse, LroMetadata>.PollOnceFromName(gax::GaxPreconditions.CheckNotNullOrEmpty(operationName, nameof(operationName)), MethodLroOperationsClient, callSettings);
+
+        /// <summary>
+        /// Asynchronously poll an operation once, using an <c>operationName</c> from a previous invocation of
+        /// <c>MethodLro</c>.
+        /// </summary>
+        /// <param name="operationName">
+        /// The name of a previously invoked operation. Must not be <c>null</c> or empty.
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A task representing the result of polling the operation.</returns>
+        public virtual stt::Task<lro::Operation<LroResponse, LroMetadata>> PollOnceMethodLroAsync(string operationName, gaxgrpc::CallSettings callSettings = null) =>
+            lro::Operation<LroResponse, LroMetadata>.PollOnceFromNameAsync(gax::GaxPreconditions.CheckNotNullOrEmpty(operationName, nameof(operationName)), MethodLroOperationsClient, callSettings);
     }
 
     /// <summary>UnitTests client wrapper implementation, for convenient use.</summary>
     public sealed partial class UnitTestsClientImpl : UnitTestsClient
     {
         private readonly gaxgrpc::ApiCall<ValuesRequest, Response> _callMethodValues;
+
+        private readonly gaxgrpc::ApiCall<LroRequest, lro::Operation> _callMethodLro;
 
         /// <summary>
         /// Constructs a client wrapper for the UnitTests service, with the specified gRPC client and settings.
@@ -230,9 +313,13 @@ namespace Testing.UnitTests
             GrpcClient = grpcClient;
             UnitTestsSettings effectiveSettings = settings ?? UnitTestsSettings.GetDefault();
             gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings);
+            MethodLroOperationsClient = new lro::OperationsClientImpl(grpcClient.CreateOperationsClient(), effectiveSettings.MethodLroOperationsSettings);
             _callMethodValues = clientHelper.BuildApiCall<ValuesRequest, Response>(grpcClient.MethodValuesAsync, grpcClient.MethodValues, effectiveSettings.MethodValuesSettings);
             Modify_ApiCall(ref _callMethodValues);
             Modify_MethodValuesApiCall(ref _callMethodValues);
+            _callMethodLro = clientHelper.BuildApiCall<LroRequest, lro::Operation>(grpcClient.MethodLroAsync, grpcClient.MethodLro, effectiveSettings.MethodLroSettings);
+            Modify_ApiCall(ref _callMethodLro);
+            Modify_MethodLroApiCall(ref _callMethodLro);
             OnConstruction(grpcClient, effectiveSettings, clientHelper);
         }
 
@@ -240,12 +327,16 @@ namespace Testing.UnitTests
 
         partial void Modify_MethodValuesApiCall(ref gaxgrpc::ApiCall<ValuesRequest, Response> call);
 
+        partial void Modify_MethodLroApiCall(ref gaxgrpc::ApiCall<LroRequest, lro::Operation> call);
+
         partial void OnConstruction(UnitTests.UnitTestsClient grpcClient, UnitTestsSettings effectiveSettings, gaxgrpc::ClientHelper clientHelper);
 
         /// <summary>The underlying gRPC UnitTests client</summary>
         public override UnitTests.UnitTestsClient GrpcClient { get; }
 
         partial void Modify_ValuesRequest(ref ValuesRequest request, ref gaxgrpc::CallSettings settings);
+
+        partial void Modify_LroRequest(ref LroRequest request, ref gaxgrpc::CallSettings settings);
 
         /// <summary>
         /// </summary>
@@ -267,6 +358,47 @@ namespace Testing.UnitTests
         {
             Modify_ValuesRequest(ref request, ref callSettings);
             return _callMethodValues.Async(request, callSettings);
+        }
+
+        /// <summary>The long-running operations client for <c>MethodLro</c>.</summary>
+        public override lro::OperationsClient MethodLroOperationsClient { get; }
+
+        /// <summary>
+        /// LRO method, to test the client mocking supports LRO.
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>The RPC response.</returns>
+        public override lro::Operation<LroResponse, LroMetadata> MethodLro(LroRequest request, gaxgrpc::CallSettings callSettings = null)
+        {
+            Modify_LroRequest(ref request, ref callSettings);
+            return new lro::Operation<LroResponse, LroMetadata>(_callMethodLro.Sync(request, callSettings), MethodLroOperationsClient);
+        }
+
+        /// <summary>
+        /// LRO method, to test the client mocking supports LRO.
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public override async stt::Task<lro::Operation<LroResponse, LroMetadata>> MethodLroAsync(LroRequest request, gaxgrpc::CallSettings callSettings = null)
+        {
+            Modify_LroRequest(ref request, ref callSettings);
+            return new lro::Operation<LroResponse, LroMetadata>(await _callMethodLro.Async(request, callSettings).ConfigureAwait(false), MethodLroOperationsClient);
+        }
+    }
+
+    public static partial class UnitTests
+    {
+        public partial class UnitTestsClient
+        {
+            /// <summary>
+            /// Creates a new instance of <see cref="lro::Operations.OperationsClient"/> using the same call invoker as
+            /// this client.
+            /// </summary>
+            /// <returns>A new Operations client for the same target as this client.</returns>
+            public virtual lro::Operations.OperationsClient CreateOperationsClient() =>
+                new lro::Operations.OperationsClient(CallInvoker);
         }
     }
 }

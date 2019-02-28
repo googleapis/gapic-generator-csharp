@@ -17,6 +17,7 @@ using Google.Api.Gax.Grpc;
 using Google.Api.Generator.ProtoUtils;
 using Google.Api.Generator.RoslynUtils;
 using Google.Api.Generator.Utils;
+using Google.LongRunning;
 using Google.Protobuf;
 using Google.Protobuf.Reflection;
 using Grpc.Core;
@@ -182,12 +183,21 @@ namespace Google.Api.Generator.Generation
                 }
             }
 
+            private IEnumerable<object> LroSetup()
+            {
+                if (Svc.Methods.Any(x => x is MethodDetails.Lro))
+                {
+                    yield return MockGrpcClient.Call(nameof(Mock<string>.Setup))(Lambda(X, X.Call("CreateOperationsClient")()))
+                        .Call(nameof(IReturns<string, int>.Returns))(New(Ctx.Type<Mock<Operations.OperationsClient>>())().Access(nameof(Mock.Object)));
+                }
+            }
+
             public MethodDeclarationSyntax SyncRequestMethod =>
                 Method(Public, VoidType, Method.SyncTestMethodName)()
                     .WithAttribute(Ctx.Type<FactAttribute>())
                     .WithBody(
                         MockGrpcClient.WithInitializer(New(Ctx.Type(Typ.Generic(typeof(Mock<>), Svc.GrpcClientTyp)))(Ctx.Type<MockBehavior>().Access(MockBehavior.Strict))),
-                        // TODO: Setup mock LRO clients.
+                        LroSetup(),
                         Request.WithInitializer(New(Ctx.Type(Method.RequestTyp))().WithInitializer(InitMessage(Method.RequestMessageDesc).ToArray())),
                         ExpectedResponse.WithInitializer(New(Ctx.Type(Method.ResponseTyp))().WithInitializer(InitMessage(Method.ResponseMessageDesc).ToArray())),
                         MockGrpcClient.Call(nameof(Mock<string>.Setup))(
@@ -204,7 +214,7 @@ namespace Google.Api.Generator.Generation
                     .WithAttribute(Ctx.Type<FactAttribute>())
                     .WithBody(
                         MockGrpcClient.WithInitializer(New(Ctx.Type(Typ.Generic(typeof(Mock<>), Svc.GrpcClientTyp)))(Ctx.Type<MockBehavior>().Access(MockBehavior.Strict))),
-                        // TODO: Setup mock LRO clients.
+                        LroSetup(),
                         Request.WithInitializer(New(Ctx.Type(Method.RequestTyp))().WithInitializer(InitMessage(Method.RequestMessageDesc).ToArray())),
                         ExpectedResponse.WithInitializer(New(Ctx.Type(Method.ResponseTyp))().WithInitializer(InitMessage(Method.ResponseMessageDesc).ToArray())),
                         MockGrpcClient.Call(nameof(Mock<string>.Setup))(

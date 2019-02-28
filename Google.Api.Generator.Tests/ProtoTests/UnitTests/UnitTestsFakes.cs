@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Google.LongRunning;
 using Google.Protobuf;
 using Google.Protobuf.Collections;
 using Grpc.Core;
@@ -20,14 +21,17 @@ using System;
 namespace Testing.UnitTests
 {
     // gRPC fake.
-    public class UnitTests
+    public partial class UnitTests
     {
-        public class UnitTestsClient
+        public partial class UnitTestsClient
         {
             public UnitTestsClient() { }
             public UnitTestsClient(CallInvoker invoker) { }
+            public CallInvoker CallInvoker => throw new NotImplementedException();
             public virtual Response MethodValues(ValuesRequest request, CallOptions options) => throw new NotImplementedException();
             public virtual AsyncUnaryCall<Response> MethodValuesAsync(ValuesRequest request, CallOptions options) => throw new NotImplementedException();
+            public virtual Operation MethodLro(LroRequest request, CallOptions options) => throw new NotImplementedException();
+            public virtual AsyncUnaryCall<Operation> MethodLroAsync(LroRequest request, CallOptions options) => throw new NotImplementedException();
         }
     }
 
@@ -94,4 +98,8 @@ namespace Testing.UnitTests
     }
 
     public class Response : ProtoMsgFake<Response> { }
+
+    public class LroRequest : ProtoMsgFake<LroRequest> { }
+    public class LroResponse : ProtoMsgFake<LroResponse> { }
+    public class LroMetadata : ProtoMsgFake<LroMetadata> { }
 }
