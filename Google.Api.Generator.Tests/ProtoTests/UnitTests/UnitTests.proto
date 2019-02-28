@@ -10,7 +10,14 @@ import "google/longrunning/operations.proto";
 service UnitTests {
   option (google.api.default_host) = "unittests.example.com";
 
-  rpc MethodValues(ValuesRequest) returns(Response);
+  rpc MethodValues(ValuesRequest) returns(Response) {
+    option (google.api.method_signature) = {
+      fields: ["single_double"]
+    };
+    option (google.api.method_signature) = {
+      fields: ["single_double", "single_float", "single_int32", "single_int64", "repeated_bool", "repeated_bytes", "repeated_resource_name"]
+    };
+  }
 
   // LRO method, to test the client mocking supports LRO.
   rpc MethodLro(LroRequest) returns(google.longrunning.Operation) {

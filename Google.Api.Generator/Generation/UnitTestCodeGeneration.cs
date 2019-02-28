@@ -73,7 +73,12 @@ namespace Google.Api.Generator.Generation
                     case MethodDetails.Normal _:
                         yield return methodDef.SyncRequestMethod;
                         yield return methodDef.AsyncRequestMethod;
-                        // TODO: Test method signatures.
+                        foreach (var signature in methodDef.Signatures)
+                        {
+                            yield return signature.SyncMethod;
+                            yield return signature.AsyncMethod;
+                            // TODO: resource-names
+                        }
                         break;
                 }
             }
@@ -166,11 +171,12 @@ namespace Google.Api.Generator.Generation
                 string String() => $"{fieldDesc.Name}{Int():x8}";
             }
 
-            private IEnumerable<ObjectInitExpr> InitMessage(MessageDescriptor msgDesc)
+            private IEnumerable<ObjectInitExpr> InitMessage(MessageDescriptor msgDesc, IEnumerable<MethodDetails.Signature.Field> onlyFields)
             {
+                var onlyFieldsSet = onlyFields?.Select(x => x.Desc.FieldNumber).ToHashSet();
                 foreach (var fieldDesc in msgDesc.Fields.InFieldNumberOrder())
                 {
-                    if (!IsPaginationField())
+                    if (!IsPaginationField() && (onlyFieldsSet == null || onlyFieldsSet.Contains(fieldDesc.FieldNumber)))
                     {
                         // TODO: Support one-ofs properly; i.e. only set one of the fields.
                         yield return new ObjectInitExpr(
@@ -192,44 +198,70 @@ namespace Google.Api.Generator.Generation
                 }
             }
 
-            public MethodDeclarationSyntax SyncRequestMethod =>
-                Method(Public, VoidType, Method.SyncTestMethodName)()
+            private MethodDeclarationSyntax Sync(string methodName, IEnumerable<MethodDetails.Signature.Field> requestFields, object requestMethodArgs) =>
+                Method(Public, VoidType, methodName)()
                     .WithAttribute(Ctx.Type<FactAttribute>())
                     .WithBody(
                         MockGrpcClient.WithInitializer(New(Ctx.Type(Typ.Generic(typeof(Mock<>), Svc.GrpcClientTyp)))(Ctx.Type<MockBehavior>().Access(MockBehavior.Strict))),
                         LroSetup(),
-                        Request.WithInitializer(New(Ctx.Type(Method.RequestTyp))().WithInitializer(InitMessage(Method.RequestMessageDesc).ToArray())),
-                        ExpectedResponse.WithInitializer(New(Ctx.Type(Method.ResponseTyp))().WithInitializer(InitMessage(Method.ResponseMessageDesc).ToArray())),
+                        Request.WithInitializer(New(Ctx.Type(Method.RequestTyp))().WithInitializer(InitMessage(Method.RequestMessageDesc, requestFields).ToArray())),
+                        ExpectedResponse.WithInitializer(New(Ctx.Type(Method.ResponseTyp))().WithInitializer(InitMessage(Method.ResponseMessageDesc, null).ToArray())),
                         MockGrpcClient.Call(nameof(Mock<string>.Setup))(
                             Lambda(X, X.Call(Method.SyncMethodName)(Request, Ctx.Type(typeof(It)).Call(nameof(It.IsAny), Ctx.Type<CallOptions>())())))
                             .Call(nameof(IReturns<string, int>.Returns))(ExpectedResponse),
                         Client.WithInitializer(New(Ctx.Type(Svc.ClientImplTyp))(MockGrpcClient.Access(nameof(Mock.Object)), Null)),
-                        Response.WithInitializer(Client.Call(Method.SyncMethodName)(Request)),
+                        Response.WithInitializer(Client.Call(Method.SyncMethodName)(requestMethodArgs)),
                         Ctx.Type<Assert>().Call(nameof(Assert.Same))(ExpectedResponse, Response),
-                        MockGrpcClient.Call(nameof(Mock.VerifyAll))()
-                    );
+                        MockGrpcClient.Call(nameof(Mock.VerifyAll))());
 
-            public MethodDeclarationSyntax AsyncRequestMethod =>
-                Method(Public | Async, Ctx.Type<Task>(), Method.AsyncTestMethodName)()
+            private MethodDeclarationSyntax Async(string methodName, IEnumerable<MethodDetails.Signature.Field> requestFields, object requestMethodArgs) =>
+                Method(Public | Modifier.Async, Ctx.Type<Task>(), methodName)()
                     .WithAttribute(Ctx.Type<FactAttribute>())
                     .WithBody(
                         MockGrpcClient.WithInitializer(New(Ctx.Type(Typ.Generic(typeof(Mock<>), Svc.GrpcClientTyp)))(Ctx.Type<MockBehavior>().Access(MockBehavior.Strict))),
                         LroSetup(),
-                        Request.WithInitializer(New(Ctx.Type(Method.RequestTyp))().WithInitializer(InitMessage(Method.RequestMessageDesc).ToArray())),
-                        ExpectedResponse.WithInitializer(New(Ctx.Type(Method.ResponseTyp))().WithInitializer(InitMessage(Method.ResponseMessageDesc).ToArray())),
+                        Request.WithInitializer(New(Ctx.Type(Method.RequestTyp))().WithInitializer(InitMessage(Method.RequestMessageDesc, requestFields).ToArray())),
+                        ExpectedResponse.WithInitializer(New(Ctx.Type(Method.ResponseTyp))().WithInitializer(InitMessage(Method.ResponseMessageDesc, null).ToArray())),
                         MockGrpcClient.Call(nameof(Mock<string>.Setup))(
                             Lambda(X, X.Call(Method.AsyncMethodName)(Request, Ctx.Type(typeof(It)).Call(nameof(It.IsAny), Ctx.Type<CallOptions>())())))
                             .Call(nameof(IReturns<string, int>.Returns))(New(Ctx.Type(Typ.Generic(typeof(AsyncUnaryCall<>), Method.ResponseTyp)))(
                                 Ctx.Type<Task>().Call(nameof(Task.FromResult))(ExpectedResponse), Null, Null, Null, Null)),
                         Client.WithInitializer(New(Ctx.Type(Svc.ClientImplTyp))(MockGrpcClient.Access(nameof(Mock.Object)), Null)),
-                        ResponseCallSettings.WithInitializer(Await(Client.Call(Method.AsyncMethodName)(Request,
+                        ResponseCallSettings.WithInitializer(Await(Client.Call(Method.AsyncMethodName)(requestMethodArgs,
                             Ctx.Type<CallSettings>().Call(nameof(CallSettings.FromCancellationToken))(Ctx.Type<CancellationToken>().Access(nameof(CancellationToken.None)))))),
                         Ctx.Type<Assert>().Call(nameof(Assert.Same))(ExpectedResponse, ResponseCallSettings),
-                        ResponseCancellationToken.WithInitializer(Await(Client.Call(Method.AsyncMethodName)(Request,
+                        ResponseCancellationToken.WithInitializer(Await(Client.Call(Method.AsyncMethodName)(requestMethodArgs,
                             Ctx.Type<CancellationToken>().Access(nameof(CancellationToken.None))))),
                         Ctx.Type<Assert>().Call(nameof(Assert.Same))(ExpectedResponse, ResponseCancellationToken),
-                        MockGrpcClient.Call(nameof(Mock.VerifyAll))()
-                    );
+                        MockGrpcClient.Call(nameof(Mock.VerifyAll))());
+
+            public MethodDeclarationSyntax SyncRequestMethod => Sync(Method.SyncTestMethodName, null, Request);
+
+            public MethodDeclarationSyntax AsyncRequestMethod => Async(Method.AsyncTestMethodName, null, Request);
+
+            public class Signature
+            {
+                public Signature(MethodDef def, MethodDetails.Signature sig, int? index) => (_def, _sig, _index) = (def, sig, index);
+
+                private MethodDef _def;
+                private MethodDetails.Signature _sig;
+                private int? _index;
+
+                private ServiceDetails Svc => _def.Svc;
+                private SourceFileContext Ctx => _def.Ctx;
+                private MethodDetails Method => _def.Method;
+
+                private string SyncMethodName => Method.SyncMethodName + (_index is int index ? (index + 1).ToString() : "");
+                private string AsyncMethodName => $"{Method.AsyncMethodName.Substring(0, Method.AsyncMethodName.Length - 5)}{(_index is int index ? (index + 1).ToString() : "")}Async";
+
+                private IEnumerable<object> SigArgs => _sig.Fields.Select(field => _def.Request.Access(field.PropertyName));
+
+                public MethodDeclarationSyntax SyncMethod => _def.Sync(SyncMethodName, _sig.Fields, SigArgs);
+
+                public MethodDeclarationSyntax AsyncMethod => _def.Async(AsyncMethodName, _sig.Fields, SigArgs);
+            }
+
+            public IEnumerable<Signature> Signatures => Method.Signatures.Select((sig, i) => new Signature(this, sig, Method.Signatures.Count > 1 ? i : (int?)null));
         }
     }
 }
