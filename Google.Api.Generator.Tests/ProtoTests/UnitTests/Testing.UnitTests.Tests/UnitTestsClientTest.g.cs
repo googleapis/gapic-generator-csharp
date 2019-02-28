@@ -304,5 +304,65 @@ namespace Testing.UnitTests
             xunit::Assert.Same(expectedResponse, responseCancellationToken);
             mockGrpcClient.VerifyAll();
         }
+
+        [xunit::FactAttribute]
+        public void MethodValues2_ResourceNames()
+        {
+            moq::Mock<UnitTests.UnitTestsClient> mockGrpcClient = new moq::Mock<UnitTests.UnitTestsClient>(moq::MockBehavior.Strict);
+            mockGrpcClient.Setup(x => x.CreateOperationsClient()).Returns(new moq::Mock<lro::Operations.OperationsClient>().Object);
+            ValuesRequest request = new ValuesRequest
+            {
+                SingleDouble = -1.076317236333089E+18,
+                SingleFloat = 9.844708E+17F,
+                SingleInt32 = 1006714422,
+                SingleInt64 = 7588944567505710014L,
+                RepeatedBool = { true, },
+                RepeatedBytes =
+                {
+                    proto::ByteString.CopyFromUtf8("repeated_bytes6e9b8178"),
+                },
+                RepeatedResourceNameAsAResourceNames =
+                {
+                    new AResourceName("[ITEM_ID]", "[PART_ID]"),
+                },
+            };
+            Response expectedResponse = new Response { };
+            mockGrpcClient.Setup(x => x.MethodValues(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
+            UnitTestsClient client = new UnitTestsClientImpl(mockGrpcClient.Object, null);
+            Response response = client.MethodValues(request.SingleDouble, request.SingleFloat, request.SingleInt32, request.SingleInt64, request.RepeatedBool, request.RepeatedBytes, request.RepeatedResourceNameAsAResourceNames);
+            xunit::Assert.Same(expectedResponse, response);
+            mockGrpcClient.VerifyAll();
+        }
+
+        [xunit::FactAttribute]
+        public async stt::Task MethodValues2Async_ResourceNames()
+        {
+            moq::Mock<UnitTests.UnitTestsClient> mockGrpcClient = new moq::Mock<UnitTests.UnitTestsClient>(moq::MockBehavior.Strict);
+            mockGrpcClient.Setup(x => x.CreateOperationsClient()).Returns(new moq::Mock<lro::Operations.OperationsClient>().Object);
+            ValuesRequest request = new ValuesRequest
+            {
+                SingleDouble = -1.076317236333089E+18,
+                SingleFloat = 9.844708E+17F,
+                SingleInt32 = 1006714422,
+                SingleInt64 = 7588944567505710014L,
+                RepeatedBool = { true, },
+                RepeatedBytes =
+                {
+                    proto::ByteString.CopyFromUtf8("repeated_bytes6e9b8178"),
+                },
+                RepeatedResourceNameAsAResourceNames =
+                {
+                    new AResourceName("[ITEM_ID]", "[PART_ID]"),
+                },
+            };
+            Response expectedResponse = new Response { };
+            mockGrpcClient.Setup(x => x.MethodValuesAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
+            UnitTestsClient client = new UnitTestsClientImpl(mockGrpcClient.Object, null);
+            Response responseCallSettings = await client.MethodValuesAsync(request.SingleDouble, request.SingleFloat, request.SingleInt32, request.SingleInt64, request.RepeatedBool, request.RepeatedBytes, request.RepeatedResourceNameAsAResourceNames, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
+            xunit::Assert.Same(expectedResponse, responseCallSettings);
+            Response responseCancellationToken = await client.MethodValuesAsync(request.SingleDouble, request.SingleFloat, request.SingleInt32, request.SingleInt64, request.RepeatedBool, request.RepeatedBytes, request.RepeatedResourceNameAsAResourceNames, st::CancellationToken.None);
+            xunit::Assert.Same(expectedResponse, responseCancellationToken);
+            mockGrpcClient.VerifyAll();
+        }
     }
 }
