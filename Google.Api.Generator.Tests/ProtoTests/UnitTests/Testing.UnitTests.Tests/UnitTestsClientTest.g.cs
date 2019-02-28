@@ -1,5 +1,6 @@
 ﻿using gax = Google.Api.Gax;
 using gaxgrpc = Google.Api.Gax.Grpc;
+using lro = Google.LongRunning;
 using proto = Google.Protobuf;
 using grpccore = Grpc.Core;
 using moq = Moq;
@@ -16,6 +17,7 @@ namespace Testing.UnitTests
         public void MethodValuesRequestObject()
         {
             moq::Mock<UnitTests.UnitTestsClient> mockGrpcClient = new moq::Mock<UnitTests.UnitTestsClient>(moq::MockBehavior.Strict);
+            mockGrpcClient.Setup(x => x.CreateOperationsClient()).Returns(new moq::Mock<lro::Operations.OperationsClient>().Object);
             ValuesRequest request = new ValuesRequest
             {
                 SingleDouble = -1.076317236333089E+18,
@@ -112,6 +114,7 @@ namespace Testing.UnitTests
         public async stt::Task MethodValuesRequestObjectAsync()
         {
             moq::Mock<UnitTests.UnitTestsClient> mockGrpcClient = new moq::Mock<UnitTests.UnitTestsClient>(moq::MockBehavior.Strict);
+            mockGrpcClient.Setup(x => x.CreateOperationsClient()).Returns(new moq::Mock<lro::Operations.OperationsClient>().Object);
             ValuesRequest request = new ValuesRequest
             {
                 SingleDouble = -1.076317236333089E+18,

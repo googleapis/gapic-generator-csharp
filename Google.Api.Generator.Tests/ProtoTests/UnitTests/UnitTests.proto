@@ -5,11 +5,20 @@ package testing.unittests;
 option csharp_namespace = "Testing.UnitTests";
 
 import "google/api/annotations.proto";
+import "google/longrunning/operations.proto";
 
 service UnitTests {
   option (google.api.default_host) = "unittests.example.com";
 
   rpc MethodValues(ValuesRequest) returns(Response);
+
+  // LRO method, to test the client mocking supports LRO.
+  rpc MethodLro(LroRequest) returns(google.longrunning.Operation) {
+    option (google.api.operation) = {
+      response_type: "LroResponse"
+      metadata_type: "LroMetadata"
+    };
+  }
 }
 
 option (google.api.resource_definition) = {
@@ -81,4 +90,13 @@ message ValuesRequest {
 }
 
 message Response {
+}
+
+message LroRequest {
+}
+
+message LroResponse {
+}
+
+message LroMetadata {
 }
