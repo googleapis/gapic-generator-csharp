@@ -77,7 +77,11 @@ namespace Google.Api.Generator.Generation
                         {
                             yield return signature.SyncMethod;
                             yield return signature.AsyncMethod;
-                            // TODO: resource-names
+                            if (signature.HasResourceNames)
+                            {
+                                yield return signature.SyncMethodResourceNames;
+                                yield return signature.AsyncMethodResourceNames;
+                            }
                         }
                         break;
                 }
@@ -241,6 +245,8 @@ namespace Google.Api.Generator.Generation
 
             public class Signature
             {
+                // TODO: Support resource-sets.
+
                 public Signature(MethodDef def, MethodDetails.Signature sig, int? index) => (_def, _sig, _index) = (def, sig, index);
 
                 private MethodDef _def;
@@ -253,12 +259,22 @@ namespace Google.Api.Generator.Generation
 
                 private string SyncMethodName => Method.SyncMethodName + (_index is int index ? (index + 1).ToString() : "");
                 private string AsyncMethodName => $"{Method.AsyncMethodName.Substring(0, Method.AsyncMethodName.Length - 5)}{(_index is int index ? (index + 1).ToString() : "")}Async";
+                private string SyncResourceNameMethodName => $"{SyncMethodName}_ResourceNames";
+                private string AsyncResourceNameMethodName => $"{AsyncMethodName}_ResourceNames";
 
                 private IEnumerable<object> SigArgs => _sig.Fields.Select(field => _def.Request.Access(field.PropertyName));
+
+                private IEnumerable<object> SigResourceNameArgs => _sig.Fields.Select(field => _def.Request.Access(field.FieldResource?.ResourcePropertyName ?? field.PropertyName));
+
+                public bool HasResourceNames => _sig.Fields.Any(x => x.FieldResource != null);
 
                 public MethodDeclarationSyntax SyncMethod => _def.Sync(SyncMethodName, _sig.Fields, SigArgs);
 
                 public MethodDeclarationSyntax AsyncMethod => _def.Async(AsyncMethodName, _sig.Fields, SigArgs);
+
+                public MethodDeclarationSyntax SyncMethodResourceNames => _def.Sync(SyncResourceNameMethodName, _sig.Fields, SigResourceNameArgs);
+
+                public MethodDeclarationSyntax AsyncMethodResourceNames => _def.Async(AsyncResourceNameMethodName, _sig.Fields, SigResourceNameArgs);
             }
 
             public IEnumerable<Signature> Signatures => Method.Signatures.Select((sig, i) => new Signature(this, sig, Method.Signatures.Count > 1 ? i : (int?)null));
