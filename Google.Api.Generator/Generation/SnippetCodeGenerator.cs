@@ -112,7 +112,10 @@ namespace Google.Api.Generator.Generation
                         foreach (var signature in methodDef.Signatures)
                         {
                             yield return signature.ServerStreamingMethod;
-                            // TODO: Resource-name signatures.
+                            if (signature.HasResourceNames)
+                            {
+                                yield return signature.ServerStreamingMethodResourceNames;
+                            }
                         }
                         break;
                 }
@@ -504,6 +507,9 @@ namespace Google.Api.Generator.Generation
 
                 public MethodDeclarationSyntax ServerStreamingMethod => _def.ServerStreaming(SyncMethodName, _sig.Fields.Select(f => f.Typ),
                     InitRequestArgsNormal, _def.Response.WithInitializer(_def.Client.Call(Method.SyncMethodName)(InitRequestArgsNormal.ToArray())));
+
+                public MethodDeclarationSyntax ServerStreamingMethodResourceNames => _def.ServerStreaming(SyncResourceNameMethodName, SnippetCommentResourceNameArgs,
+                    InitRequestArgsResourceNames, _def.Response.WithInitializer(_def.Client.Call(Method.SyncMethodName)(InitRequestArgsResourceNames.ToArray())));
             }
 
             bool RequireFinalNamedArg(MethodDetails.Signature sig)
