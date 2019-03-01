@@ -73,6 +73,8 @@ namespace Testing.Snippets
 
         public class MethodServerStreamingStream : ServerStreamingBase<Response> { }
         public MethodServerStreamingStream MethodServerStreaming(SignatureRequest request) => throw new NotImplementedException();
+        public MethodServerStreamingStream MethodServerStreaming(string aString, bool aBool) => throw new NotImplementedException();
+        public MethodServerStreamingStream MethodServerStreaming() => throw new NotImplementedException();
     }
 
     public class AResourceName : IResourceName
