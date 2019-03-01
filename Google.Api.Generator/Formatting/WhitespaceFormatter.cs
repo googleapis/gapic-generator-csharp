@@ -492,5 +492,12 @@ namespace Google.Api.Generator.Formatting
             node = node.WithInKeyword(node.InKeyword.WithLeadingSpace().WithTrailingSpace());
             return node;
         }
+
+        public override SyntaxNode VisitWhileStatement(WhileStatementSyntax node)
+        {
+            node = (WhileStatementSyntax)base.VisitWhileStatement(node);
+            node = node.WithWhileKeyword(node.WhileKeyword.WithTrailingSpace());
+            return node;
+        }
     }
 }

@@ -202,6 +202,11 @@ namespace Google.Api.Generator.Tests
                 {
                     Console.WriteLine(s);
                 }
+                int i = 0;
+                while (i++ < 10)
+                {
+                    Console.WriteLine(i);
+                }
             }
 
             // Test a simple lambda expression.

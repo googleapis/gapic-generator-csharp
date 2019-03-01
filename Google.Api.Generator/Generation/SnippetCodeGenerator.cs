@@ -107,6 +107,10 @@ namespace Google.Api.Generator.Generation
                             }
                         }
                         break;
+                    case MethodDetails.ServerStreaming _:
+                        yield return methodDef.ServerStreamingRequestMethod;
+                        // TODO: Signature and resource methods.
+                        break;
                 }
             }
         }
@@ -121,6 +125,7 @@ namespace Google.Api.Generator.Generation
             private MethodDetails Method { get; }
             private MethodDetails.Lro MethodLro => (MethodDetails.Lro)Method;
             private MethodDetails.Paginated MethodPaginated => (MethodDetails.Paginated)Method;
+            private MethodDetails.ServerStreaming MethodServerStreaming => (MethodDetails.ServerStreaming)Method;
 
             private LocalDeclarationStatementSyntax Client => Local(Ctx.Type(Svc.ClientAbstractTyp), Svc.SnippetsClientName);
             private LocalDeclarationStatementSyntax Request => Local(Ctx.Type(Method.RequestTyp), "request");
@@ -134,6 +139,8 @@ namespace Google.Api.Generator.Generation
             private LocalDeclarationStatementSyntax PageSize => Local(Ctx.Type<int>(), "pageSize");
             private LocalDeclarationStatementSyntax SinglePage => Local(Ctx.Type(Typ.Generic(typeof(Page<>), MethodPaginated.ResourceTyp)), "singlePage");
             private LocalDeclarationStatementSyntax NextPageToken => Local(Ctx.Type<string>(), "nextPageToken");
+            private LocalDeclarationStatementSyntax ResponseStream => Local(Ctx.Type(MethodServerStreaming.AsyncEnumeratorTyp), "responseStream");
+            private LocalDeclarationStatementSyntax ResponseItem => Local(Ctx.Type(Method.ResponseTyp), "responseItem");
 
             private ParameterSyntax PaginatedItem => Parameter(Ctx.Type(MethodPaginated.ResourceTyp), "item");
             private ParameterSyntax PaginatedPage => Parameter(Ctx.Type(Method.ResponseTyp), "page");
@@ -372,6 +379,26 @@ namespace Google.Api.Generator.Generation
                         "// End snippet")
                     .WithXmlDoc(XmlDoc.Summary($"Snippet for {Method.SyncMethodName}"));
 
+            private MethodDeclarationSyntax ServerStreaming(string methodName, IEnumerable<Typ> snippetTyps, object initRequest, object makeRequest) =>
+                Method(Public | Modifier.Async, Ctx.Type<Task>(), methodName)()
+                    .WithBody(
+                        $"// Snippet: {Method.SyncMethodName}({string.Join("", snippetTyps.Select(x => $"{x.Name}, "))}{nameof(CallSettings)})",
+                        "// Create client",
+                        Client.WithInitializer(Ctx.Type(Svc.ClientAbstractTyp).Call("Create")()),
+                        snippetTyps.Any() ? "// Initialize request argument(s)" : null,
+                        initRequest,
+                        "// Make the request, returning a streaming response",
+                        makeRequest,
+                        BlankLine,
+                        "// Read streaming responses from server until complete",
+                        ResponseStream.WithInitializer(Response.Access(nameof(ServerStreamingBase<int>.ResponseStream))),
+                        While(Await(ResponseStream.Call(nameof(IAsyncEnumerator<int>.MoveNext))()))(
+                            ResponseItem.WithInitializer(ResponseStream.Access(nameof(IAsyncEnumerator<int>.Current))),
+                            "// Do something with streamed response"),
+                        "// The response stream has completed",
+                        "// End snippet")
+                    .WithXmlDoc(XmlDoc.Summary($"Snippet for {Method.SyncMethodName}"));
+
             private object InitRequestObject => Request.WithInitializer(New(Ctx.Type(Method.RequestTyp))().WithInitializer(InitRequest().ToArray()));
 
             public MethodDeclarationSyntax SyncRequestMethod => Sync(Method.SyncSnippetMethodName, new[] { Method.RequestTyp },
@@ -391,6 +418,9 @@ namespace Google.Api.Generator.Generation
 
             public MethodDeclarationSyntax AsyncPaginatedRequestMethod => AsyncPaginated(Method.AsyncSnippetMethodName, new[] { Method.RequestTyp },
                 InitRequestObject, AsyncResponse.WithInitializer(Client.Call(Method.AsyncMethodName)(Request)));
+
+            public MethodDeclarationSyntax ServerStreamingRequestMethod => ServerStreaming(Method.SyncSnippetMethodName, new[] { Method.RequestTyp },
+                InitRequestObject, Response.WithInitializer(Client.Call(Method.SyncMethodName)(Request)));
 
             public class Signature
             {

@@ -3,6 +3,7 @@
     using Google.Api.Gax;
     using Google.LongRunning;
     using Google.Protobuf;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     /// <summary>Generated snippets.</summary>
@@ -818,6 +819,33 @@
                 // If it has completed, then access the result
                 LroResponse retrievedResult = retrievedResponse.Result;
             }
+            // End snippet
+        }
+
+        /// <summary>Snippet for MethodServerStreaming</summary>
+        public async Task MethodServerStreaming_RequestObject()
+        {
+            // Snippet: MethodServerStreaming(SignatureRequest, CallSettings)
+            // Create client
+            SnippetsClient snippetsClient = SnippetsClient.Create();
+            // Initialize request argument(s)
+            SignatureRequest request = new SignatureRequest
+            {
+                AString = "",
+                AnInt = 0,
+                ABool = false,
+            };
+            // Make the request, returning a streaming response
+            SnippetsClient.MethodServerStreamingStream response = snippetsClient.MethodServerStreaming(request);
+
+            // Read streaming responses from server until complete
+            IAsyncEnumerator<Response> responseStream = response.ResponseStream;
+            while (await responseStream.MoveNext())
+            {
+                Response responseItem = responseStream.Current;
+                // Do something with streamed response
+            }
+            // The response stream has completed
             // End snippet
         }
     }

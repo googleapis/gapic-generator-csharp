@@ -178,6 +178,9 @@ namespace Google.Api.Generator.RoslynUtils
         public static CodeFunc<ForEachStatementSyntax> ForEach(TypeSyntax type, SyntaxToken varName, object expr) => code =>
             ForEachStatement(type, varName, ToExpression(expr), Block(ToStatements(code)));
 
+        public static CodeFunc<WhileStatementSyntax> While(object conditionExpr) => code =>
+            WhileStatement(ToExpression(conditionExpr), Block(ToStatements(code)));
+
         public static AwaitExpressionSyntax Await(ExpressionSyntax expr) => AwaitExpression(expr);
 
         public static ReturnStatementSyntax Return(object expr) => ReturnStatement(ToExpression(expr));
