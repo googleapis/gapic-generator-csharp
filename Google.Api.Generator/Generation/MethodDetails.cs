@@ -134,11 +134,13 @@ namespace Google.Api.Generator.Generation
                 ApiCallTyp = Typ.Generic(typeof(ApiServerStreamingCall<,>), RequestTyp, ResponseTyp);
                 AbstractStreamTyp = Typ.Nested(svc.ClientAbstractTyp, $"{SyncMethodName}Stream");
                 ImplStreamTyp = Typ.Nested(svc.ClientImplTyp, $"{SyncMethodName}StreamImpl");
+                AsyncEnumeratorTyp = Typ.Generic(typeof(IAsyncEnumerator<>), ResponseTyp);
             }
             public override Typ ApiCallTyp { get; }
             public override Typ SyncReturnTyp => AbstractStreamTyp;
             public Typ AbstractStreamTyp { get; }
             public Typ ImplStreamTyp { get; }
+            public Typ AsyncEnumeratorTyp { get; }
         }
 
         public sealed class Signature

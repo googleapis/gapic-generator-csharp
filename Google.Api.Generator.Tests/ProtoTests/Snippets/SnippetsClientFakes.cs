@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Google.Api.Gax;
+using Google.Api.Gax.Grpc;
 using Google.LongRunning;
 using Google.Protobuf;
 using Google.Protobuf.Collections;
@@ -69,6 +70,9 @@ namespace Testing.Snippets
         public Task<Operation<LroResponse, LroMetadata>> MethodLroResourceSignatureAsync(SimpleResourceName firstName, SimpleResourceName secondName, SimpleResourceName thirdName) => throw new NotImplementedException();
         public Operation<LroResponse, LroMetadata> PollOnceMethodLroResourceSignature(string operationName) => throw new NotImplementedException();
         public Task<Operation<LroResponse, LroMetadata>> PollOnceMethodLroResourceSignatureAsync(string operationName) => throw new NotImplementedException();
+
+        public class MethodServerStreamingStream : ServerStreamingBase<Response> { }
+        public MethodServerStreamingStream MethodServerStreaming(SignatureRequest request) => throw new NotImplementedException();
     }
 
     public class AResourceName : IResourceName
