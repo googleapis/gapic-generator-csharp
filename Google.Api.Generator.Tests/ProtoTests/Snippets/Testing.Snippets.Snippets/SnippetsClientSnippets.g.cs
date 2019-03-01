@@ -891,5 +891,80 @@
             // The response stream has completed
             // End snippet
         }
+
+        /// <summary>Snippet for MethodServerStreamingResources</summary>
+        public async Task MethodServerStreamingResources_RequestObject()
+        {
+            // Snippet: MethodServerStreamingResources(ResourceSignatureRequest, CallSettings)
+            // Create client
+            SnippetsClient snippetsClient = SnippetsClient.Create();
+            // Initialize request argument(s)
+            ResourceSignatureRequest request = new ResourceSignatureRequest
+            {
+                FirstNameAsSimpleResourceName = new SimpleResourceName("[ITEM_ID]"),
+                SecondNameAsSimpleResourceName = new SimpleResourceName("[ITEM_ID]"),
+                ThirdNameAsSimpleResourceName = new SimpleResourceName("[ITEM_ID]"),
+            };
+            // Make the request, returning a streaming response
+            SnippetsClient.MethodServerStreamingResourcesStream response = snippetsClient.MethodServerStreamingResources(request);
+
+            // Read streaming responses from server until complete
+            IAsyncEnumerator<Response> responseStream = response.ResponseStream;
+            while (await responseStream.MoveNext())
+            {
+                Response responseItem = responseStream.Current;
+                // Do something with streamed response
+            }
+            // The response stream has completed
+            // End snippet
+        }
+
+        /// <summary>Snippet for MethodServerStreamingResources</summary>
+        public async Task MethodServerStreamingResources()
+        {
+            // Snippet: MethodServerStreamingResources(String, String, String, CallSettings)
+            // Create client
+            SnippetsClient snippetsClient = SnippetsClient.Create();
+            // Initialize request argument(s)
+            string firstName = "items/[ITEM_ID]";
+            string secondName = "items/[ITEM_ID]";
+            string thirdName = "items/[ITEM_ID]";
+            // Make the request, returning a streaming response
+            SnippetsClient.MethodServerStreamingResourcesStream response = snippetsClient.MethodServerStreamingResources(firstName, secondName, thirdName);
+
+            // Read streaming responses from server until complete
+            IAsyncEnumerator<Response> responseStream = response.ResponseStream;
+            while (await responseStream.MoveNext())
+            {
+                Response responseItem = responseStream.Current;
+                // Do something with streamed response
+            }
+            // The response stream has completed
+            // End snippet
+        }
+
+        /// <summary>Snippet for MethodServerStreamingResources</summary>
+        public async Task MethodServerStreamingResources_ResourceNames()
+        {
+            // Snippet: MethodServerStreamingResources(SimpleResourceName, SimpleResourceName, SimpleResourceName, CallSettings)
+            // Create client
+            SnippetsClient snippetsClient = SnippetsClient.Create();
+            // Initialize request argument(s)
+            SimpleResourceName firstName = new SimpleResourceName("[ITEM_ID]");
+            SimpleResourceName secondName = new SimpleResourceName("[ITEM_ID]");
+            SimpleResourceName thirdName = new SimpleResourceName("[ITEM_ID]");
+            // Make the request, returning a streaming response
+            SnippetsClient.MethodServerStreamingResourcesStream response = snippetsClient.MethodServerStreamingResources(firstName, secondName, thirdName);
+
+            // Read streaming responses from server until complete
+            IAsyncEnumerator<Response> responseStream = response.ResponseStream;
+            while (await responseStream.MoveNext())
+            {
+                Response responseItem = responseStream.Current;
+                // Do something with streamed response
+            }
+            // The response stream has completed
+            // End snippet
+        }
     }
 }

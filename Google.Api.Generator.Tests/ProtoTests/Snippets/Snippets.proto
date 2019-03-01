@@ -45,6 +45,10 @@ service Snippets {
     option (google.api.method_signature) = { fields: ["a_string", "a_bool"]};
     option (google.api.method_signature) = { fields: []};
   }
+
+  rpc MethodServerStreamingResources(ResourceSignatureRequest) returns(stream Response) {
+    option (google.api.method_signature) = { fields: ["first_name", "second_name", "third_name"]};
+  }
 }
 
 option (google.api.resource_definition) = {
