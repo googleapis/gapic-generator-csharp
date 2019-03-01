@@ -4,6 +4,7 @@ namespace Testing.ServerStreaming
 {
     public abstract class ServerStreamingClient
     {
+        // Class generation is tested in `BasicServerStreaming`.
         public abstract class SignatureMethodStream : gaxgrpc::ServerStreamingBase<Response> { }
         public SignatureMethodStream SignatureMethod(Request request, gaxgrpc::CallSettings callSettings = null) => null;
 
