@@ -848,5 +848,48 @@
             // The response stream has completed
             // End snippet
         }
+
+        /// <summary>Snippet for MethodServerStreaming</summary>
+        public async Task MethodServerStreaming1()
+        {
+            // Snippet: MethodServerStreaming(String, Boolean, CallSettings)
+            // Create client
+            SnippetsClient snippetsClient = SnippetsClient.Create();
+            // Initialize request argument(s)
+            string aString = "";
+            bool aBool = false;
+            // Make the request, returning a streaming response
+            SnippetsClient.MethodServerStreamingStream response = snippetsClient.MethodServerStreaming(aString, aBool);
+
+            // Read streaming responses from server until complete
+            IAsyncEnumerator<Response> responseStream = response.ResponseStream;
+            while (await responseStream.MoveNext())
+            {
+                Response responseItem = responseStream.Current;
+                // Do something with streamed response
+            }
+            // The response stream has completed
+            // End snippet
+        }
+
+        /// <summary>Snippet for MethodServerStreaming</summary>
+        public async Task MethodServerStreaming2()
+        {
+            // Snippet: MethodServerStreaming(CallSettings)
+            // Create client
+            SnippetsClient snippetsClient = SnippetsClient.Create();
+            // Make the request, returning a streaming response
+            SnippetsClient.MethodServerStreamingStream response = snippetsClient.MethodServerStreaming();
+
+            // Read streaming responses from server until complete
+            IAsyncEnumerator<Response> responseStream = response.ResponseStream;
+            while (await responseStream.MoveNext())
+            {
+                Response responseItem = responseStream.Current;
+                // Do something with streamed response
+            }
+            // The response stream has completed
+            // End snippet
+        }
     }
 }

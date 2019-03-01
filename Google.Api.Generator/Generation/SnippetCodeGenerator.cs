@@ -109,7 +109,11 @@ namespace Google.Api.Generator.Generation
                         break;
                     case MethodDetails.ServerStreaming _:
                         yield return methodDef.ServerStreamingRequestMethod;
-                        // TODO: Signature and resource methods.
+                        foreach (var signature in methodDef.Signatures)
+                        {
+                            yield return signature.ServerStreamingMethod;
+                            // TODO: Resource-name signatures.
+                        }
                         break;
                 }
             }
@@ -497,6 +501,9 @@ namespace Google.Api.Generator.Generation
 
                 public MethodDeclarationSyntax AsyncPaginatedMethodResourceNames => _def.AsyncPaginated(AsyncResourceNameMethodName, SnippetCommentResourceNameArgs,
                     InitRequestArgsResourceNames, _def.AsyncResponse.WithInitializer(_def.Client.Call(Method.AsyncMethodName)(InitRequestArgsResourceNames.ToArray())));
+
+                public MethodDeclarationSyntax ServerStreamingMethod => _def.ServerStreaming(SyncMethodName, _sig.Fields.Select(f => f.Typ),
+                    InitRequestArgsNormal, _def.Response.WithInitializer(_def.Client.Call(Method.SyncMethodName)(InitRequestArgsNormal.ToArray())));
             }
 
             bool RequireFinalNamedArg(MethodDetails.Signature sig)
