@@ -241,11 +241,11 @@ namespace Google.Api.Generator.Generation
                                     object getter;
                                     if (one.IsWildcard)
                                     {
-                                        getter = New(_ctx.Type(repeatedTyp))(underlyingProperty, Lambda(s, _ctx.Type<UnknownResourceName>().Call(nameof(UnknownResourceName.Parse))(s)));
+                                        getter = New(_ctx.Type(repeatedTyp))(underlyingProperty, Lambda(s)(_ctx.Type<UnknownResourceName>().Call(nameof(UnknownResourceName.Parse))(s)));
                                     }
                                     else
                                     {
-                                        getter = New(_ctx.Type(repeatedTyp))(underlyingProperty, Lambda(s, _ctx.Type(one.ResourceNameTyp).Call("Parse")(s)));
+                                        getter = New(_ctx.Type(repeatedTyp))(underlyingProperty, Lambda(s)(_ctx.Type(one.ResourceNameTyp).Call("Parse")(s)));
                                     }
                                     resourceProperty = Property(Public, _ctx.Type(repeatedTyp), res.resDetails.ResourcePropertyName)
                                         .WithGetBody(getter)

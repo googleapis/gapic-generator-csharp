@@ -966,5 +966,53 @@
             // The response stream has completed
             // End snippet
         }
+
+        /// <summary>Snippet for MethodBidiStreaming</summary>
+        public async Task MethodBidiStreaming()
+        {
+            // Snippet: MethodBidiStreaming(CallSettings, BidirectionalStreamingSettings)
+            // Create client
+            SnippetsClient snippetsClient = SnippetsClient.Create();
+            // Initialize streaming call, retrieving the stream object
+            SnippetsClient.MethodBidiStreamingStream response = snippetsClient.MethodBidiStreaming();
+
+            // Sending requests and retrieving responses can be arbitrarily interleaved
+            // Exact sequence will depend on client/server behavior
+
+            // Create task to do something with responses from server
+            Task responseHandlerTask = Task.Run(async () =>
+            {
+                IAsyncEnumerator<Response> responseStream = response.ResponseStream;
+                while (await responseStream.MoveNext())
+                {
+                    Response responseItem = responseStream.Current;
+                    // Do something with streamed response
+                }
+                // The response stream has completed
+            });
+
+            // Send requests to the server
+            bool done = false;
+            while (!done)
+            {
+                // Initialize a request
+                SignatureRequest request = new SignatureRequest
+                {
+                    AString = "",
+                    AnInt = 0,
+                    ABool = false,
+                };
+                // Stream a request to the server
+                await response.WriteAsync(request);
+                // Set "done" to true when sending requests is complete
+            }
+
+            // Complete writing requests to the stream
+            await response.WriteCompleteAsync();
+            // Await the response handler
+            // This will complete once all server responses have been processed
+            await responseHandlerTask;
+            // End snippet
+        }
     }
 }

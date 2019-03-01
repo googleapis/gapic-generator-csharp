@@ -232,6 +232,11 @@ namespace Google.Api.Generator.Tests
                     int length = x.Length;
                     return length;
                 });
+
+            // Test async lambda
+            private void AsyncLambdaParam(Func<Task> fn) => throw new NotImplementedException();
+
+            public void AsyncLambda() => AsyncLambdaParam(async () => await Task.Yield());
         }
 
         // Test base-list with one item.

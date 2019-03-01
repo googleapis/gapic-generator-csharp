@@ -118,6 +118,9 @@ namespace Google.Api.Generator.Generation
                             }
                         }
                         break;
+                    case MethodDetails.BidiStreaming _:
+                        yield return methodDef.BidiStreamingMethod;
+                        break;
                 }
             }
         }
@@ -132,7 +135,7 @@ namespace Google.Api.Generator.Generation
             private MethodDetails Method { get; }
             private MethodDetails.Lro MethodLro => (MethodDetails.Lro)Method;
             private MethodDetails.Paginated MethodPaginated => (MethodDetails.Paginated)Method;
-            private MethodDetails.ServerStreaming MethodServerStreaming => (MethodDetails.ServerStreaming)Method;
+            private MethodDetails.IStreaming MethodStreaming => (MethodDetails.IStreaming)Method;
 
             private LocalDeclarationStatementSyntax Client => Local(Ctx.Type(Svc.ClientAbstractTyp), Svc.SnippetsClientName);
             private LocalDeclarationStatementSyntax Request => Local(Ctx.Type(Method.RequestTyp), "request");
@@ -146,8 +149,10 @@ namespace Google.Api.Generator.Generation
             private LocalDeclarationStatementSyntax PageSize => Local(Ctx.Type<int>(), "pageSize");
             private LocalDeclarationStatementSyntax SinglePage => Local(Ctx.Type(Typ.Generic(typeof(Page<>), MethodPaginated.ResourceTyp)), "singlePage");
             private LocalDeclarationStatementSyntax NextPageToken => Local(Ctx.Type<string>(), "nextPageToken");
-            private LocalDeclarationStatementSyntax ResponseStream => Local(Ctx.Type(MethodServerStreaming.AsyncEnumeratorTyp), "responseStream");
+            private LocalDeclarationStatementSyntax ResponseStream => Local(Ctx.Type(MethodStreaming.AsyncEnumeratorTyp), "responseStream");
             private LocalDeclarationStatementSyntax ResponseItem => Local(Ctx.Type(Method.ResponseTyp), "responseItem");
+            private LocalDeclarationStatementSyntax ResponseHandlerTask => Local(Ctx.Type<Task>(), "responseHandlerTask");
+            private LocalDeclarationStatementSyntax Done => Local(Ctx.Type<bool>(), "done");
 
             private ParameterSyntax PaginatedItem => Parameter(Ctx.Type(MethodPaginated.ResourceTyp), "item");
             private ParameterSyntax PaginatedPage => Parameter(Ctx.Type(Method.ResponseTyp), "page");
@@ -360,12 +365,12 @@ namespace Google.Api.Generator.Generation
                         makeRequest,
                         BlankLine,
                         "// Iterate over all response items, lazily performing RPCs as required",
-                        Await(AsyncResponse.Call(Ctx.Import(typeof(AsyncEnumerable), nameof(AsyncEnumerable.ForEachAsync)))(LambdaTyped(PaginatedItem,
+                        Await(AsyncResponse.Call(Ctx.Import(typeof(AsyncEnumerable), nameof(AsyncEnumerable.ForEachAsync)))(LambdaTyped(PaginatedItem)(
                             "// Do something with each item",
                             Ctx.Type(typeof(Console)).Call(nameof(Console.WriteLine))(PaginatedItem)))),
                         BlankLine,
                         "// Or iterate over pages (of server-defined size), performing one RPC per page",
-                        Await(AsyncResponse.Call(nameof(PagedEnumerable<ProtoMsg, int>.AsRawResponses))().Call(nameof(AsyncEnumerable.ForEachAsync))(LambdaTyped(PaginatedPage,
+                        Await(AsyncResponse.Call(nameof(PagedEnumerable<ProtoMsg, int>.AsRawResponses))().Call(nameof(AsyncEnumerable.ForEachAsync))(LambdaTyped(PaginatedPage)(
                             "// Do something with each page of items",
                             Ctx.Type(typeof(Console)).Call(nameof(Console.WriteLine))("A page of results:"),
                             ForEach(Ctx.Type(MethodPaginated.ResourceTyp), PaginatedItem.Identifier, PaginatedPage)(
@@ -428,6 +433,45 @@ namespace Google.Api.Generator.Generation
 
             public MethodDeclarationSyntax ServerStreamingRequestMethod => ServerStreaming(Method.SyncSnippetMethodName, new[] { Method.RequestTyp },
                 InitRequestObject, Response.WithInitializer(Client.Call(Method.SyncMethodName)(Request)));
+
+            public MethodDeclarationSyntax BidiStreamingMethod =>
+                Method(Public | Modifier.Async, Ctx.Type<Task>(), Method.SyncMethodName)()
+                    .WithBody(
+                        $"// Snippet: {Method.SyncMethodName}({nameof(CallSettings)}, {nameof(BidirectionalStreamingSettings)})",
+                        "// Create client",
+                        Client.WithInitializer(Ctx.Type(Svc.ClientAbstractTyp).Call("Create")()),
+                        "// Initialize streaming call, retrieving the stream object",
+                        Response.WithInitializer(Client.Call(Method.SyncMethodName)()),
+                        BlankLine,
+                        "// Sending requests and retrieving responses can be arbitrarily interleaved",
+                        "// Exact sequence will depend on client/server behavior",
+                        BlankLine,
+                        "// Create task to do something with responses from server",
+                        ResponseHandlerTask.WithInitializer(Ctx.Type<Task>().Call(nameof(Task.Run))(LambdaTyped(null, async: true)(
+                            ResponseStream.WithInitializer(Response.Access(nameof(ServerStreamingBase<int>.ResponseStream))),
+                            While(Await(ResponseStream.Call(nameof(IAsyncEnumerator<int>.MoveNext))()))(
+                                ResponseItem.WithInitializer(ResponseStream.Access(nameof(IAsyncEnumerator<int>.Current))),
+                                "// Do something with streamed response"
+                                ),
+                            "// The response stream has completed"
+                            ))),
+                        BlankLine,
+                        "// Send requests to the server",
+                        Done.WithInitializer(false),
+                        While(Not(Done))(
+                            "// Initialize a request",
+                            InitRequestObject,
+                            "// Stream a request to the server",
+                            Await(Response.Call(nameof(BidirectionalStreamingBase<int, int>.WriteAsync))(Request)),
+                            "// Set \"done\" to true when sending requests is complete"),
+                        BlankLine,
+                        "// Complete writing requests to the stream",
+                        Await(Response.Call(nameof(BidirectionalStreamingBase<int, int>.WriteCompleteAsync))()),
+                        "// Await the response handler",
+                        "// This will complete once all server responses have been processed",
+                        Await(ResponseHandlerTask),
+                        "// End snippet")
+                    .WithXmlDoc(XmlDoc.Summary($"Snippet for {Method.SyncMethodName}"));
 
             public class Signature
             {

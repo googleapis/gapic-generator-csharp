@@ -140,23 +140,31 @@ namespace Google.Api.Generator.RoslynUtils
                 .AddAccessorListAccessors(accessors.ToArray());
         }
 
-        public static LambdaExpressionSyntax Lambda(ParameterSyntax parameter, params object[] code)
+        public static CodeFunc<LambdaExpressionSyntax> Lambda(ParameterSyntax parameter, bool async = false) => code =>
         {
-            if (code.Length == 1)
+            var expr = code.Length == 1 ?
+                SimpleLambdaExpression(parameter.WithType(null), ToExpression(code)) :
+                SimpleLambdaExpression(parameter.WithType(null), Block(ToStatements(code).ToArray()));
+            if (async)
             {
-                return SimpleLambdaExpression(parameter.WithType(null), ToExpression(code));
+                expr = expr.WithAsyncKeyword(Token(SyntaxKind.AsyncKeyword));
             }
-            return SimpleLambdaExpression(parameter.WithType(null), Block(ToStatements(code).ToArray()));
-        }
+            return expr;
+        };
 
-        public static LambdaExpressionSyntax LambdaTyped(ParameterSyntax parameter, params object[] code)
+        public static CodeFunc<LambdaExpressionSyntax> LambdaTyped(ParameterSyntax parameter, bool async = false) => code =>
         {
-            if (code.Length == 1)
+            var expr = code.Length == 1 ?
+                ParenthesizedLambdaExpression(Params(), ToExpression(code)) :
+                ParenthesizedLambdaExpression(Params(), Block(ToStatements(code).ToArray()));
+            if (async)
             {
-                return ParenthesizedLambdaExpression(ParameterList(SingletonSeparatedList(parameter)), ToExpression(code));
+                expr = expr.WithAsyncKeyword(Token(SyntaxKind.AsyncKeyword));
             }
-            return ParenthesizedLambdaExpression(ParameterList(SingletonSeparatedList(parameter)), Block(ToStatements(code).ToArray()));
-        }
+            return expr;
+
+            ParameterListSyntax Params() => ParameterList(SeparatedList(Enumerable.Repeat(parameter, parameter == null ? 0 : 1)));
+        };
 
         public static FieldDeclarationSyntax Field(Modifier modifiers, TypeSyntax type, string name) =>
             FieldDeclaration(VariableDeclaration(type, SingletonSeparatedList(VariableDeclarator(name)))).AddModifiers(modifiers.ToSyntaxTokens());
@@ -181,7 +189,7 @@ namespace Google.Api.Generator.RoslynUtils
         public static CodeFunc<WhileStatementSyntax> While(object conditionExpr) => code =>
             WhileStatement(ToExpression(conditionExpr), Block(ToStatements(code)));
 
-        public static AwaitExpressionSyntax Await(ExpressionSyntax expr) => AwaitExpression(expr);
+        public static AwaitExpressionSyntax Await(object expr) => AwaitExpression(ToExpression(expr));
 
         public static ReturnStatementSyntax Return(object expr) => ReturnStatement(ToExpression(expr));
 

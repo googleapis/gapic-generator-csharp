@@ -107,7 +107,12 @@ namespace Google.Api.Generator.Generation
             public Typ OperationMetadataTyp { get; }
         }
 
-        public sealed class BidiStreaming : MethodDetails
+        public interface IStreaming
+        {
+            Typ AsyncEnumeratorTyp { get; }
+        }
+
+        public sealed class BidiStreaming : MethodDetails, IStreaming
         {
             public BidiStreaming(ServiceDetails svc, MethodDescriptor desc) : base(svc, desc)
             {
@@ -117,6 +122,7 @@ namespace Google.Api.Generator.Generation
                 StreamingSettingsName = $"{desc.Name}StreamingSettings";
                 ModifyStreamingCallSettingsMethodName = $"Modify_{RequestTyp.Name}CallSettings";
                 ModifyStreamingRequestMethodName = $"Modify_{RequestTyp.Name}Request";
+                AsyncEnumeratorTyp = Typ.Generic(typeof(IAsyncEnumerator<>), ResponseTyp);
             }
             public override Typ ApiCallTyp { get; }
             public override Typ SyncReturnTyp => AbstractStreamTyp;
@@ -125,9 +131,10 @@ namespace Google.Api.Generator.Generation
             public string StreamingSettingsName { get; }
             public string ModifyStreamingCallSettingsMethodName { get; }
             public string ModifyStreamingRequestMethodName { get; }
+            public Typ AsyncEnumeratorTyp { get; }
         }
 
-        public sealed class ServerStreaming : MethodDetails
+        public sealed class ServerStreaming : MethodDetails, IStreaming
         {
             public ServerStreaming(ServiceDetails svc, MethodDescriptor desc) : base(svc, desc)
             {

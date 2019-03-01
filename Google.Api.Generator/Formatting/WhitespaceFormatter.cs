@@ -459,6 +459,10 @@ namespace Google.Api.Generator.Formatting
         public override SyntaxNode VisitSimpleLambdaExpression(SimpleLambdaExpressionSyntax node)
         {
             node = (SimpleLambdaExpressionSyntax)base.VisitSimpleLambdaExpression(node);
+            if (node.AsyncKeyword != null)
+            {
+                node = node.WithAsyncKeyword(node.AsyncKeyword.WithTrailingSpace());
+            }
             if (node.Body is BlockSyntax)
             {
                 node = node.WithArrowToken(node.ArrowToken.WithLeadingSpace());
@@ -473,6 +477,10 @@ namespace Google.Api.Generator.Formatting
         public override SyntaxNode VisitParenthesizedLambdaExpression(ParenthesizedLambdaExpressionSyntax node)
         {
             node = (ParenthesizedLambdaExpressionSyntax)base.VisitParenthesizedLambdaExpression(node);
+            if (node.AsyncKeyword != null)
+            {
+                node = node.WithAsyncKeyword(node.AsyncKeyword.WithTrailingSpace());
+            }
             if (node.Body is BlockSyntax)
             {
                 node = node.WithArrowToken(node.ArrowToken.WithLeadingSpace());
