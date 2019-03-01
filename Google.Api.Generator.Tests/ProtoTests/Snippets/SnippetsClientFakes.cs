@@ -80,6 +80,9 @@ namespace Testing.Snippets
         public MethodServerStreamingResourcesStream MethodServerStreamingResources(ResourceSignatureRequest request) => throw new NotImplementedException();
         public MethodServerStreamingResourcesStream MethodServerStreamingResources(string firstName, string secondName, string thirdName) => throw new NotImplementedException();
         public MethodServerStreamingResourcesStream MethodServerStreamingResources(SimpleResourceName firstName, SimpleResourceName secondName, SimpleResourceName thirdName) => throw new NotImplementedException();
+
+        public class MethodBidiStreamingStream : BidirectionalStreamingBase<SignatureRequest, Response> { }
+        public MethodBidiStreamingStream MethodBidiStreaming() => throw new NotImplementedException();
     }
 
     public class AResourceName : IResourceName

@@ -144,7 +144,7 @@ namespace Google.Api.Generator.Generation
                                 return (FormattableString)$"{amp:raw}{header.EncodedName:raw}={Parens(_ctx.Type(typeof(WebUtility)).Call(nameof(WebUtility.UrlEncode))(access))}";
                             });
                             fieldInit = fieldInit.Call(nameof(ApiCall<ProtoMsg, ProtoMsg>.WithCallSettingsOverlay))(
-                                Lambda(request, _ctx.Type<CallSettings>().Call(nameof(CallSettings.FromHeader))("x-goog-request-params", Dollar(strings.ToArray()))));
+                                Lambda(request)(_ctx.Type<CallSettings>().Call(nameof(CallSettings.FromHeader))("x-goog-request-params", Dollar(strings.ToArray()))));
                         }
                         yield return field.Assign(fieldInit);
                         break;

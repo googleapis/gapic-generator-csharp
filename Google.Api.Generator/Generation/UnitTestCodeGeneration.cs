@@ -197,7 +197,7 @@ namespace Google.Api.Generator.Generation
             {
                 if (Svc.Methods.Any(x => x is MethodDetails.Lro))
                 {
-                    yield return MockGrpcClient.Call(nameof(Mock<string>.Setup))(Lambda(X, X.Call("CreateOperationsClient")()))
+                    yield return MockGrpcClient.Call(nameof(Mock<string>.Setup))(Lambda(X)(X.Call("CreateOperationsClient")()))
                         .Call(nameof(IReturns<string, int>.Returns))(New(Ctx.Type<Mock<Operations.OperationsClient>>())().Access(nameof(Mock.Object)));
                 }
             }
@@ -211,7 +211,7 @@ namespace Google.Api.Generator.Generation
                         Request.WithInitializer(New(Ctx.Type(Method.RequestTyp))().WithInitializer(InitMessage(Method.RequestMessageDesc, requestFields).ToArray())),
                         ExpectedResponse.WithInitializer(New(Ctx.Type(Method.ResponseTyp))().WithInitializer(InitMessage(Method.ResponseMessageDesc, null).ToArray())),
                         MockGrpcClient.Call(nameof(Mock<string>.Setup))(
-                            Lambda(X, X.Call(Method.SyncMethodName)(Request, Ctx.Type(typeof(It)).Call(nameof(It.IsAny), Ctx.Type<CallOptions>())())))
+                            Lambda(X)(X.Call(Method.SyncMethodName)(Request, Ctx.Type(typeof(It)).Call(nameof(It.IsAny), Ctx.Type<CallOptions>())())))
                             .Call(nameof(IReturns<string, int>.Returns))(ExpectedResponse),
                         Client.WithInitializer(New(Ctx.Type(Svc.ClientImplTyp))(MockGrpcClient.Access(nameof(Mock.Object)), Null)),
                         Response.WithInitializer(Client.Call(Method.SyncMethodName)(requestMethodArgs)),
@@ -227,7 +227,7 @@ namespace Google.Api.Generator.Generation
                         Request.WithInitializer(New(Ctx.Type(Method.RequestTyp))().WithInitializer(InitMessage(Method.RequestMessageDesc, requestFields).ToArray())),
                         ExpectedResponse.WithInitializer(New(Ctx.Type(Method.ResponseTyp))().WithInitializer(InitMessage(Method.ResponseMessageDesc, null).ToArray())),
                         MockGrpcClient.Call(nameof(Mock<string>.Setup))(
-                            Lambda(X, X.Call(Method.AsyncMethodName)(Request, Ctx.Type(typeof(It)).Call(nameof(It.IsAny), Ctx.Type<CallOptions>())())))
+                            Lambda(X)(X.Call(Method.AsyncMethodName)(Request, Ctx.Type(typeof(It)).Call(nameof(It.IsAny), Ctx.Type<CallOptions>())())))
                             .Call(nameof(IReturns<string, int>.Returns))(New(Ctx.Type(Typ.Generic(typeof(AsyncUnaryCall<>), Method.ResponseTyp)))(
                                 Ctx.Type<Task>().Call(nameof(Task.FromResult))(ExpectedResponse), Null, Null, Null, Null)),
                         Client.WithInitializer(New(Ctx.Type(Svc.ClientImplTyp))(MockGrpcClient.Access(nameof(Mock.Object)), Null)),
