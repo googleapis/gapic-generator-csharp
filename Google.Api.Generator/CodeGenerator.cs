@@ -37,6 +37,23 @@ namespace Google.Api.Generator
         public static IEnumerable<ResultFile> Generate(byte[] descriptorBytes, string package)
         {
             var descriptors = GetFileDescriptors(descriptorBytes);
+            var filesToGenerate = descriptors.Where(x => x.Package == package).Select(x => x.Name).ToList();
+            return Generate(descriptors, filesToGenerate);
+        }
+
+        public static IEnumerable<ResultFile> Generate(IReadOnlyList<FileDescriptor> descriptors, IEnumerable<string> filesToGenerate)
+        {
+            // TODO: Support multiple packages.
+            var packages = descriptors.Where(x => filesToGenerate.Contains(x.Name)).Select(x => x.Package).Distinct().ToList();
+            if (packages.Count == 0)
+            {
+                throw new InvalidOperationException("No packages specified to build.");
+            }
+            if (packages.Count > 1)
+            {
+                throw new InvalidOperationException($"More than one package specified to build: {string.Join(", ", packages)}");
+            }
+            var package = packages[0];
             var catalog = new ProtoCatalog(package, descriptors);
             var packageFileDescs = descriptors.Where(x => x.Package == package).ToList();
             foreach (var fileDesc in packageFileDescs)
@@ -96,20 +113,19 @@ namespace Google.Api.Generator
                 var unitTestsCsprojFilename = $"{unitTestsPathPrefix}{ns}.Tests.csproj";
                 yield return new ResultFile(unitTestsCsprojFilename, unitTestsCsprojContent);
             }
-            // TODO: Generate csproj, tests
         }
 
         private static IReadOnlyList<FileDescriptor> GetFileDescriptors(byte[] bytes)
         {
             // TODO: Remove this when equivalent is in Protobuf.
-            // Manually read repeated field of FileDescriptors.
+            // Manually read repeated field of `FileDescriptorProto` messages.
             int i = 0;
             var bss = new List<ByteString>();
             while (i < bytes.Length)
             {
                 if (bytes[i] != 0xa)
                 {
-                    throw new InvalidOperationException("Expected 0xa");
+                    throw new InvalidOperationException($"Expected 0xa at offset {i}");
                 }
                 i += 1;
                 int len = 0;
@@ -126,7 +142,7 @@ namespace Google.Api.Generator
                     }
                 }
                 bss.Add(ByteString.CopyFrom(bytes, i, len));
-                i += (int)len;
+                i += len;
             }
             return FileDescriptor.BuildFromByteStrings(bss);
         }

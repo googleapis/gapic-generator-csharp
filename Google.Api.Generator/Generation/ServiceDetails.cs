@@ -36,7 +36,7 @@ namespace Google.Api.Generator.Generation
             ClientAbstractTyp = Typ.Manual(ns, $"{desc.Name}Client");
             ClientImplTyp = Typ.Manual(ns, $"{desc.Name}ClientImpl");
             desc.CustomOptions.TryGetString(ProtoConsts.ServiceOption.DefaultHost, out var defaultHost);
-            DefaultHost = defaultHost;
+            DefaultHost = defaultHost ?? "";
             DefaultPort = 443; // Hardcoded; this is not specifiable by proto annotation.
             desc.CustomOptions.TryGetMessage<OAuth>(ProtoConsts.ServiceOption.OAuth, out var oauth);
             DefaultScopes = oauth?.Scopes ?? Enumerable.Empty<string>();

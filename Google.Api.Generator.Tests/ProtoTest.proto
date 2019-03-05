@@ -1,3 +1,9 @@
 ﻿syntax = "proto3";
 
 package testing;
+
+service Test {
+  rpc Method(Msg) returns(Msg);
+}
+
+message Msg { }
