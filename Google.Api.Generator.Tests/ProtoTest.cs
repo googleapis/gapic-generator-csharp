@@ -15,62 +15,25 @@
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 using Xunit.Sdk;
 
 namespace Google.Api.Generator.Tests
 {
-    // This is an initial proto-based test to ensure this works locally and on CI.
-    // TODO: Move this proto-base functionality into a helper method/class, and probably remove this test.
     public class ProtoTest
     {
         private IEnumerable<CodeGenerator.ResultFile> Run(string protoFilename, string package)
         {
-            var rootPath = Environment.CurrentDirectory;
-            while (!rootPath.EndsWith("Google.Api.Generator.Tests"))
+            var protoPath = Path.Combine(Invoker.GeneratorTestsDir, protoFilename);
+            using (var desc = Invoker.TempFile())
             {
-                rootPath = Path.GetFullPath(Path.Combine(rootPath, ".."));
-            }
-            rootPath = Path.GetFullPath(Path.Combine(rootPath, ".."));
-            var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-            var protocPath = Path.GetFullPath(Path.Combine(rootPath, "tools", isWindows ? "protoc.exe" : "protoc"));
-            var commonProtosPath = Path.GetFullPath(Path.Combine(rootPath, "api-common-protos"));
-            var protobufPath = Path.GetFullPath(Path.Combine(rootPath, "protobuf", "src"));
-            var descOutputPath = Path.GetTempFileName();
-            try
-            {
-                var protocArgs = $"-o {descOutputPath} --include_imports --include_source_info -I. -I{commonProtosPath} -I{protobufPath} {protoFilename}";
-                var processStart = new ProcessStartInfo(protocPath, protocArgs)
-                {
-                    RedirectStandardError = true
-                };
-                var protocErrors = new List<string>();
-                using (var protoProcess = Process.Start(processStart))
-                {
-                    protoProcess.ErrorDataReceived += (sender, e) => protocErrors.Add(e.Data);
-                    protoProcess.BeginErrorReadLine();
-                    protoProcess.WaitForExit(10_000);
-                    if (protoProcess.ExitCode != 0)
-                    {
-                        throw new XunitException($"protoc failed:\n{string.Join('\n', protocErrors)}");
-                    }
-                }
-                var descriptorBytes = File.ReadAllBytes(descOutputPath);
+                Invoker.Protoc($"-o {desc} --include_imports --include_source_info " +
+                    $"-I{Invoker.CommonProtosDir} -I{Invoker.ProtobufDir} -I{Invoker.GeneratorTestsDir} {protoPath}");
+                var descriptorBytes = File.ReadAllBytes(desc.Path);
                 return CodeGenerator.Generate(descriptorBytes, package);
-            }
-            catch (Exception e)
-            {
-                throw new XunitException($"Executing `protoc` failed: {e.Message}");
-            }
-            finally
-            {
-                File.Delete(descOutputPath);
             }
         }
 
@@ -79,7 +42,6 @@ namespace Google.Api.Generator.Tests
         {
             // Test that protoc executes successfully,
             // and the generator processes the descriptors without crashing!
-            // TODO: Remove this test.
             Run("ProtoTest.proto", "testing");
         }
 
@@ -100,7 +62,7 @@ namespace Google.Api.Generator.Tests
                 {
                     continue;
                 }
-                var expectedFilePath = Path.Combine("ProtoTests", testProtoName, file.RelativePath);
+                var expectedFilePath = Path.Combine(Invoker.GeneratorTestsDir, "ProtoTests", testProtoName, file.RelativePath);
                 Assert.True(File.Exists(expectedFilePath), $"Expected file does not exist: '{expectedFilePath}'");
                 var expectedLines = File.ReadAllLines(expectedFilePath).Select(x => x.Trim('\r')).ToList();
                 if (expectedLines.Any(line => line.Trim() == "// TEST_DISABLE"))
@@ -178,12 +140,7 @@ namespace Google.Api.Generator.Tests
 
         private void BuildTest(string testName, bool ignoreUnitTests = false)
         {
-            var testRootPath = Environment.CurrentDirectory;
-            while (!testRootPath.EndsWith("Google.Api.Generator.Tests"))
-            {
-                testRootPath = Path.GetFullPath(Path.Combine(testRootPath, ".."));
-            }
-            var baseTestPath = Path.Combine(testRootPath, "ProtoTests", testName);
+            var baseTestPath = Path.Combine(Invoker.GeneratorTestsDir, "ProtoTests", testName);
             var clientPath = Path.Combine(baseTestPath, $"Testing.{testName}");
             // Test build client library.
             Build(clientPath);
@@ -199,25 +156,10 @@ namespace Google.Api.Generator.Tests
             {
                 Assert.True(Directory.Exists(path), $"Test directory doesn't exist: '{path}'");
                 // TODO: Use Roslyn directly, rather than invoking `dotnet`.
-                var processStart = new ProcessStartInfo("dotnet", "build")
-                {
-                    WorkingDirectory = path,
-                    // 'dotnet' doesn't use stderr, all output is to stdout.
-                    RedirectStandardOutput = true,
-                };
                 var errors = new List<string>();
                 try
                 {
-                    using (var process = Process.Start(processStart))
-                    {
-                        process.OutputDataReceived += (sender, e) => errors.Add(e.Data);
-                        process.BeginOutputReadLine();
-                        process.WaitForExit(120_000);
-                        if (process.ExitCode != 0)
-                        {
-                            throw new XunitException($" 'dotnet build {path}' failed:{Environment.NewLine}{string.Join(Environment.NewLine, errors)}");
-                        }
-                    }
+                    Invoker.Dotnet("build", path);
                 }
                 finally
                 {
