@@ -114,6 +114,13 @@ namespace Google.Api.Generator.ProtoUtils
             return value != null;
         }
 
+        public static bool TryGetRepeatedString(this CustomOptions opts, int field, out IEnumerable<string> value)
+        {
+            var result = GetRepeated(opts, field)?.Select(fieldValue => fieldValue.byteString.ToStringUtf8()).ToList();
+            value = result == null || result.Count == 0 ? null : result;
+            return value != null;
+        }
+
         public static bool TryGetRepeatedEnum<T>(this CustomOptions opts, int field, out IEnumerable<T> value) where T : Enum
         {
             value = TryGetRepeatedInt32(opts, field, out var ints) ? ints.Select(x => (T)(object)x) : null;

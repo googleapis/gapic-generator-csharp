@@ -25,14 +25,17 @@ namespace Google.Api {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "Ch9nb29nbGUvYXBpL2ZpZWxkX2JlaGF2aW9yLnByb3RvEgpnb29nbGUuYXBp",
-            "KnsKDUZpZWxkQmVoYXZpb3ISHgoaRklFTERfQkVIQVZJT1JfVU5TUEVDSUZJ",
-            "RUQQABIMCghPUFRJT05BTBABEgwKCFJFUVVJUkVEEAISDwoLT1VUUFVUX09O",
-            "TFkQAxIOCgpJTlBVVF9PTkxZEAQSDQoJSU1NVVRBQkxFEAVCcAoOY29tLmdv",
-            "b2dsZS5hcGlCEkZpZWxkQmVoYXZpb3JQcm90b1ABWkFnb29nbGUuZ29sYW5n",
-            "Lm9yZy9nZW5wcm90by9nb29nbGVhcGlzL2FwaS9hbm5vdGF0aW9uczthbm5v",
-            "dGF0aW9uc6ICBEdBUEliBnByb3RvMw=="));
+            "GiBnb29nbGUvcHJvdG9idWYvZGVzY3JpcHRvci5wcm90byp7Cg1GaWVsZEJl",
+            "aGF2aW9yEh4KGkZJRUxEX0JFSEFWSU9SX1VOU1BFQ0lGSUVEEAASDAoIT1BU",
+            "SU9OQUwQARIMCghSRVFVSVJFRBACEg8KC09VVFBVVF9PTkxZEAMSDgoKSU5Q",
+            "VVRfT05MWRAEEg0KCUlNTVVUQUJMRRAFOlEKDmZpZWxkX2JlaGF2aW9yEh0u",
+            "Z29vZ2xlLnByb3RvYnVmLkZpZWxkT3B0aW9ucxicCCADKA4yGS5nb29nbGUu",
+            "YXBpLkZpZWxkQmVoYXZpb3JCcAoOY29tLmdvb2dsZS5hcGlCEkZpZWxkQmVo",
+            "YXZpb3JQcm90b1ABWkFnb29nbGUuZ29sYW5nLm9yZy9nZW5wcm90by9nb29n",
+            "bGVhcGlzL2FwaS9hbm5vdGF0aW9uczthbm5vdGF0aW9uc6ICBEdBUEliBnBy",
+            "b3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { },
+          new pbr::FileDescriptor[] { pbr::FileDescriptor.DescriptorProtoFileDescriptor, },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Google.Api.FieldBehavior), }, null));
     }
     #endregion
@@ -42,21 +45,25 @@ namespace Google.Api {
   /// <summary>
   /// An indicator of the behavior of a given field (for example, that a field
   /// is required in requests, or given as output but ignored as input).
-  /// This DOES NOT change the behavior in protocol buffers itself; it only
+  /// This **does not** change the behavior in protocol buffers itself; it only
   /// denotes the behavior and may affect how API tooling handles the field.
+  ///
+  /// Note: This enum **may** receive new values in the future.
   /// </summary>
   public enum FieldBehavior {
+    /// <summary>
+    /// Conventional default for enums. Do not use this.
+    /// </summary>
     [pbr::OriginalName("FIELD_BEHAVIOR_UNSPECIFIED")] Unspecified = 0,
     /// <summary>
     /// Specifically denotes a field as optional.
-    /// Because fields are optional by default, this annotation is unnecessary;
-    /// however, it may be provided if doing so is useful for humans reading
-    /// the file.
+    /// While all fields in protocol buffers are optional, this may be specified
+    /// for emphasis if appropriate.
     /// </summary>
     [pbr::OriginalName("OPTIONAL")] Optional = 1,
     /// <summary>
     /// Denotes a field as required.
-    /// This indicates that the field *must* be provided as part of the request,
+    /// This indicates that the field **must** be provided as part of the request,
     /// and failure to do so will cause an error (usually `INVALID_ARGUMENT`).
     /// </summary>
     [pbr::OriginalName("REQUIRED")] Required = 2,

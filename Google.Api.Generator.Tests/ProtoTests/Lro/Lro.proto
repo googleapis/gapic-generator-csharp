@@ -1,7 +1,8 @@
 ﻿syntax = "proto3";
 
-import "google/api/annotations.proto";
+import "google/api/client.proto";
 import "google/longrunning/operations.proto";
+import "google/api/resource.proto";
 
 package testing.lro;
 
@@ -10,24 +11,20 @@ service Lro {
 
   // Test an LRO RPC with a method signature.
   rpc SignatureMethod(Request) returns(google.longrunning.Operation) {
-    option (google.api.operation) = {
+    option (google.longrunning.operation_info) = {
       response_type: "LroResponse"
       metadata_type: "LroMetadata"
     };
-    option (google.api.method_signature) = {
-      fields: ["name"]
-    };
+    option (google.api.method_signature) = "name";
   }
 
   // Test an LRO RPC with a method signature that contains resource-names.
   rpc ResourcedMethod(ResourceRequest) returns(google.longrunning.Operation) {
-    option (google.api.operation) = {
+    option (google.longrunning.operation_info) = {
       response_type: "LroResponse"
       metadata_type: "LroMetadata"
     };
-    option (google.api.method_signature) = {
-      fields: ["name"]
-    };
+    option (google.api.method_signature) = "name";
   }
 }
 
@@ -36,8 +33,8 @@ message Request {
 }
 
 option (google.api.resource_definition) = {
-  name: "Resource",
-  path: "items/{item_id}"
+  symbol: "Resource",
+  pattern: "items/{item_id}"
 };
 
 message ResourceRequest {

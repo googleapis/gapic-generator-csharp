@@ -5,6 +5,7 @@ package testing.routingheaders;
 option csharp_namespace = "Testing.RoutingHeaders";
 
 import "google/api/annotations.proto";
+import "google/api/client.proto";
 
 service RoutingHeaders {
   option (google.api.default_host) = "routingheaders.example.com";

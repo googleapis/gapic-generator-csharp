@@ -25,12 +25,12 @@ namespace Google.Api.Generator.ProtoUtils
         public static class ServiceOption
         {
             public const int DefaultHost = 1049;
-            public const int OAuth = 1050;
+            public const int OAuthScopes = 1050;
         }
 
         public static class MethodOption
         {
-            public const int OperationTypes = 1049;
+            public const int OperationInfo = 1049;
             public const int MethodSignature = 1051;
             public const int HttpRule = 72295728;
         }

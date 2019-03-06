@@ -83,7 +83,7 @@ namespace Google.Api.Generator.Generation
         {
             public Lro(ServiceDetails svc, MethodDescriptor desc) : base(svc, desc)
             {
-                if (!desc.CustomOptions.TryGetMessage<OperationData>(ProtoConsts.MethodOption.OperationTypes, out var lroData))
+                if (!desc.CustomOptions.TryGetMessage<OperationInfo>(ProtoConsts.MethodOption.OperationInfo, out var lroData))
                 {
                     throw new InvalidOperationException("LRO method must contain a `google.api.operation` option.");
                 }
@@ -180,9 +180,9 @@ namespace Google.Api.Generator.Generation
                 /// <summary>Resource details if this field respresents a resource. Null if not a resource field.</summary>
                 public ResourceDetails.Field FieldResource { get; }
             }
-            public Signature(ServiceDetails svc, MessageDescriptor msg , MethodSignature sig)
+            public Signature(ServiceDetails svc, MessageDescriptor msg , string sig)
             {
-                Fields = sig.Fields.Select(fieldName => new Field(svc, msg, fieldName)).ToList();
+                Fields = sig.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(fieldName => new Field(svc, msg, fieldName)).ToList();
             }
             public IEnumerable<Field> Fields { get; }
         }
@@ -256,7 +256,7 @@ namespace Google.Api.Generator.Generation
             // Assume HTTP GET methods are idempotent; all others are non-idempotent.
             IsIdempotent = http != null ? !string.IsNullOrEmpty(http.Get) : false;
             DocLines = desc.Declaration.DocLines().ToList();
-            Signatures = desc.CustomOptions.TryGetRepeatedMessage<MethodSignature>(ProtoConsts.MethodOption.MethodSignature, out var sigs) ?
+            Signatures = desc.CustomOptions.TryGetRepeatedString(ProtoConsts.MethodOption.MethodSignature, out var sigs) ?
                 sigs.Select(sig => new Signature(svc, desc.InputType, sig)).ToList() : (IReadOnlyList<Signature>)new Signature[0];
             RequestMessageDesc = desc.InputType;
             ResponseMessageDesc = desc.OutputType;

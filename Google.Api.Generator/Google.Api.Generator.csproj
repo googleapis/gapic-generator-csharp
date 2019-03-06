@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Google.Api.CommonProtosExtra\Google.Api.CommonProtosExtra.csproj" />
+    <ProjectReference Include="..\Google.LongRunningExtra\Google.LongRunningExtra.csproj" />
     <ProjectReference Include="..\protobuf\csharp\src\Google.Protobuf\Google.Protobuf.csproj" />
   </ItemGroup>
 
