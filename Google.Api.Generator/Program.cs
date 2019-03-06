@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Google.Api.Generator
 {
@@ -61,9 +62,8 @@ namespace Google.Api.Generator
                 // Output `CodeGeneratorResponse` to stdout.
                 using (Stream stdin = Console.OpenStandardInput(), stdout = Console.OpenStandardOutput())
                 {
-                    GenerateFromProtoc(stdin, stdout);
+                    return GenerateFromProtoc(stdin, stdout);
                 }
-                return 0;
             }
             // Invoked manually, use options.
             var parsed = Parser.Default.ParseArguments<Options>(args);
@@ -82,9 +82,54 @@ namespace Google.Api.Generator
             }
         }
 
-        private static void GenerateFromProtoc(Stream stdin, Stream stdout)
+        private class TimeoutStream : Stream
         {
-            var codeGenRequest = CodeGeneratorRequest.Parser.ParseFrom(stdin);
+            public TimeoutStream(Stream underlying) => (_underlying) = (underlying);
+
+            private readonly Stream _underlying;
+
+            public override bool CanRead => _underlying.CanRead;
+            public override bool CanSeek => _underlying.CanSeek;
+            public override bool CanWrite => _underlying.CanWrite;
+            public override long Length => _underlying.Length;
+            public override long Position { get => _underlying.Position; set => _underlying.Position = value; }
+            public override void Flush() => _underlying.Flush();
+            public override long Seek(long offset, SeekOrigin origin) => _underlying.Seek(offset, origin);
+            public override void SetLength(long value) => _underlying.SetLength(value);
+
+            public override bool CanTimeout => true;
+            public override int ReadTimeout { get; set; }
+
+            public override int Read(byte[] buffer, int offset, int count)
+            {
+                var readTask = _underlying.ReadAsync(buffer, offset, count);
+                var timeoutTask = Task.Delay(ReadTimeout);
+                int index = Task.WaitAny(readTask, timeoutTask);
+                if (index == 0)
+                {
+                    return readTask.Result;
+                }
+                throw new TimeoutException("Read timed-out.");
+            }
+
+            public override void Write(byte[] buffer, int offset, int count) => throw new NotImplementedException();
+        }
+
+        private static int GenerateFromProtoc(Stream stdin, Stream stdout)
+        {
+            var stdinTimeout = new TimeoutStream(stdin) { ReadTimeout = 2_000 };
+            CodeGeneratorRequest codeGenRequest;
+            try
+            {
+                codeGenRequest = CodeGeneratorRequest.Parser.ParseFrom(stdinTimeout);
+            }
+            catch (TimeoutException)
+            {
+                // This has probably been called from the cmd-line, not from protoc,
+                // so output an error message to the console.
+                Parser.Default.ParseArguments<Options>(Enumerable.Empty<string>());
+                return 1;
+            }
             CodeGeneratorResponse codeGenResponse;
             try
             {
@@ -117,6 +162,7 @@ namespace Google.Api.Generator
             {
                 codeGenResponse.WriteTo(outputStream);
             }
+            return 0;
         }
 
         private static void GenerateFromArgs(Options options)
