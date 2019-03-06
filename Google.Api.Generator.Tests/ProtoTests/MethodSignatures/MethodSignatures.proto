@@ -4,36 +4,37 @@ package testing.methodsignatures;
 
 option csharp_namespace = "Testing.MethodSignatures";
 
-import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
 
 service MethodSignatures {
   option (google.api.default_host) = "methodsignatures.example.com";
 
   rpc SimpleMethod(SimpleRequest) returns(Response) {
-    option (google.api.method_signature) = { fields: ["a_number"] };
-    option (google.api.method_signature) = { fields: ["a_string"] };
-    option (google.api.method_signature) = { fields: ["a_number", "a_string"] };
-    option (google.api.method_signature) = { fields: ["a_string", "a_number"] };
+    option (google.api.method_signature) = "a_number";
+    option (google.api.method_signature) = "a_string";
+    option (google.api.method_signature) = "a_number,a_string";
+    option (google.api.method_signature) = "a_string,a_number";
   }
 
   rpc PrimitiveArgs(PrimitiveRequest) returns(Response) {
-    option (google.api.method_signature) = { fields: ["optional", "required", "repeated_optional", "repeated_required"]};
+    option (google.api.method_signature) = "optional,required,repeated_optional,repeated_required";
   }
 
   rpc StringArgs(StringRequest) returns(Response) {
-    option (google.api.method_signature) = { fields: ["optional", "required", "repeated_optional", "repeated_required"]};
+    option (google.api.method_signature) = "optional,required,repeated_optional,repeated_required";
   }
 
   rpc BytesArgs(BytesRequest) returns(Response) {
-    option (google.api.method_signature) = { fields: ["optional", "required", "repeated_optional", "repeated_required"]};
+    option (google.api.method_signature) = "optional,required,repeated_optional,repeated_required";
   }
 
   rpc MessageArgs(MessageRequest) returns(Response) {
-    option (google.api.method_signature) = { fields: ["optional", "required", "repeated_optional", "repeated_required"]};
+    option (google.api.method_signature) = "optional,required,repeated_optional,repeated_required";
   }
 
   rpc EnumArgs(EnumRequest) returns(Response) {
-    option (google.api.method_signature) = { fields: ["optional", "required", "repeated_optional", "repeated_required"]};
+    option (google.api.method_signature) = "optional,required,repeated_optional,repeated_required";
   }
 }
 

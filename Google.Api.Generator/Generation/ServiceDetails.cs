@@ -38,8 +38,8 @@ namespace Google.Api.Generator.Generation
             desc.CustomOptions.TryGetString(ProtoConsts.ServiceOption.DefaultHost, out var defaultHost);
             DefaultHost = defaultHost ?? "";
             DefaultPort = 443; // Hardcoded; this is not specifiable by proto annotation.
-            desc.CustomOptions.TryGetMessage<OAuth>(ProtoConsts.ServiceOption.OAuth, out var oauth);
-            DefaultScopes = oauth?.Scopes ?? Enumerable.Empty<string>();
+            desc.CustomOptions.TryGetString(ProtoConsts.ServiceOption.OAuthScopes, out var oauthScopes);
+            DefaultScopes = oauthScopes?.Split(',', ' ') ?? Enumerable.Empty<string>();
             Methods = desc.Methods.Select(x => MethodDetails.Create(this, x)).ToList();
             SnippetsTyp = Typ.Manual(ns, $"Generated{desc.Name}Snippets");
             SnippetsClientName = $"{desc.Name.ToLowerCamelCase()}Client";

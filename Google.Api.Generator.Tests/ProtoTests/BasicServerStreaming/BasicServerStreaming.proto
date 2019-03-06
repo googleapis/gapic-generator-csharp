@@ -4,13 +4,11 @@ package testing.basicserverstreaming;
 
 option csharp_namespace = "Testing.BasicServerStreaming";
 
-import "google/api/annotations.proto";
+import "google/api/client.proto";
 
 service BasicServerStreaming {
   option (google.api.default_host) = "serverstreaming.example.com";
-  option (google.api.oauth) = {
-    scopes: ["scope1", "scope2"]
-  };
+  option (google.api.oauth_scopes) = "scope1,scope2";
 
   rpc MethodServer(Request) returns(stream Response);
 }

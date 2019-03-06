@@ -29,9 +29,9 @@ namespace Google.Api.Generator.ProtoUtils
             {
                 public OneDef(Typ resourceNameTyp, Resource resource)
                 {
-                    Pattern = resource.Path;
+                    Pattern = resource.Pattern;
                     ResourceNameTyp = IsWildcard ? Typ.Of<IResourceName>() : resourceNameTyp;
-                    Template = IsWildcard ? null : new PathTemplate(resource.Path);
+                    Template = IsWildcard ? null : new PathTemplate(resource.Pattern);
                 }
                 /// <summary>The typ of the generated resource-name class.</summary>
                 public Typ ResourceNameTyp { get; }
@@ -115,14 +115,14 @@ namespace Google.Api.Generator.ProtoUtils
             // TODO: Resource sets.
             // Load file-level resource definitions.
             var resourcesBySymbol1 = fileDesc.CustomOptions.TryGetRepeatedMessage<Resource>(ProtoConsts.FileOption.ResourceDefinition, out var resources) ?
-                resources.Select(resource => (symbol: MakeFullSymbol(fileDesc, null, resource.Name), resource)).ToList() :
+                resources.Select(resource => (symbol: MakeFullSymbol(fileDesc, null, resource.Symbol), resource)).ToList() :
                 Enumerable.Empty<(string symbol, Resource resource)>();
             // Load message-level (shortcut) resource definitions.
             var resourcesBySymbol2 = fileDesc.MessageTypes.SelectMany(msg =>
                 msg.Fields.InFieldNumberOrder().Select(field =>
                     field.CustomOptions.TryGetMessage<Resource>(ProtoConsts.FieldOption.Resource, out var resource) ? resource : null)
                     .Where(x => x != null)
-                    .Select(resource => (symbol: MakeFullSymbol(null, msg, resource.Name), resource)))
+                    .Select(resource => (symbol: MakeFullSymbol(null, msg, resource.Symbol), resource)))
                 .ToList();
             // Check no duplicates.
             var duplicateSymbols = resourcesBySymbol1.Select(x => x.symbol).Concat(resourcesBySymbol2.Select(x => x.symbol))
@@ -147,7 +147,7 @@ namespace Google.Api.Generator.ProtoUtils
             string fullSymbol;
             if (hasResource)
             {
-                fullSymbol = MakeFullSymbol(null, msgDesc, resource.Name);
+                fullSymbol = MakeFullSymbol(null, msgDesc, resource.Symbol);
             }
             else if (hasResourceRef)
             {

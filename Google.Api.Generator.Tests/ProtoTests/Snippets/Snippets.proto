@@ -2,8 +2,9 @@
 
 package testing.snippets;
 
-import "google/api/annotations.proto";
+import "google/api/client.proto";
 import "google/longrunning/operations.proto";
+import "google/api/resource.proto";
 
 service Snippets {
   option (google.api.default_host) = "snippets.example.com";
@@ -11,56 +12,56 @@ service Snippets {
   rpc MethodDefaultValues(DefaultValuesRequest) returns(Response);
 
   rpc MethodOneSignature(SignatureRequest) returns(Response) {
-    option (google.api.method_signature) = { fields: ["a_string", "an_int", "a_bool"]};
+    option (google.api.method_signature) = "a_string,an_int,a_bool";
   }
 
   rpc MethodThreeSignatures(SignatureRequest) returns(Response) {
-    option (google.api.method_signature) = { fields: ["a_string", "an_int", "a_bool"]};
-    option (google.api.method_signature) = { fields: ["a_string", "a_bool"]};
-    option (google.api.method_signature) = { fields: []};
+    option (google.api.method_signature) = "a_string,an_int,a_bool";
+    option (google.api.method_signature) = "a_string,a_bool";
+    option (google.api.method_signature) = "";
   }
 
   rpc MethodResourceSignature(ResourceSignatureRequest) returns(Response) {
-    option (google.api.method_signature) = { fields: ["first_name", "second_name", "third_name"]};
-    option (google.api.method_signature) = { fields: ["first_name"]};
+    option (google.api.method_signature) = "first_name,second_name,third_name";
+    option (google.api.method_signature) = "first_name";
   }
 
   rpc MethodLroSignatures(SignatureRequest) returns(google.longrunning.Operation) {
-    option (google.api.method_signature) = { fields: ["a_string", "an_int", "a_bool"]};
-    option (google.api.operation) = {
+    option (google.api.method_signature) = "a_string,an_int,a_bool";
+    option (google.longrunning.operation_info) = {
       response_type: "LroResponse"
       metadata_type: "LroMetadata"
     };
   }
 
   rpc MethodLroResourceSignature(ResourceSignatureRequest) returns(google.longrunning.Operation) {
-    option (google.api.method_signature) = { fields: ["first_name", "second_name", "third_name"]};
-    option (google.api.operation) = {
+    option (google.api.method_signature) = "first_name,second_name,third_name";
+    option (google.longrunning.operation_info) = {
       response_type: "LroResponse"
       metadata_type: "LroMetadata"
     };
   }
 
   rpc MethodServerStreaming(SignatureRequest) returns(stream Response) {
-    option (google.api.method_signature) = { fields: ["a_string", "a_bool"]};
-    option (google.api.method_signature) = { fields: []};
+    option (google.api.method_signature) = "a_string,a_bool";
+    option (google.api.method_signature) = "";
   }
 
   rpc MethodServerStreamingResources(ResourceSignatureRequest) returns(stream Response) {
-    option (google.api.method_signature) = { fields: ["first_name", "second_name", "third_name"]};
+    option (google.api.method_signature) = "first_name,second_name,third_name";
   }
 
   rpc MethodBidiStreaming(stream SignatureRequest) returns (stream Response);
 }
 
 option (google.api.resource_definition) = {
-  name: "AResource",
-  path: "items/{item_id}/parts/{part_id}"
+  symbol: "AResource",
+  pattern: "items/{item_id}/parts/{part_id}"
 };
 
 option (google.api.resource_definition) = {
-  name: "WildcardResource",
-  path: "*"
+  symbol: "WildcardResource",
+  pattern: "*"
 };
 
 message AnotherMessage {
@@ -129,8 +130,8 @@ message SignatureRequest {
 }
 
 option (google.api.resource_definition) = {
-  name: "SimpleResource",
-  path: "items/{item_id}"
+  symbol: "SimpleResource",
+  pattern: "items/{item_id}"
 };
 
 message ResourceSignatureRequest {

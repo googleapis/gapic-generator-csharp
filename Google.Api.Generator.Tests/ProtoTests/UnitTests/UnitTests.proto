@@ -4,24 +4,21 @@ package testing.unittests;
 
 option csharp_namespace = "Testing.UnitTests";
 
-import "google/api/annotations.proto";
+import "google/api/client.proto";
 import "google/longrunning/operations.proto";
+import "google/api/resource.proto";
 
 service UnitTests {
   option (google.api.default_host) = "unittests.example.com";
 
   rpc MethodValues(ValuesRequest) returns(Response) {
-    option (google.api.method_signature) = {
-      fields: ["single_double"]
-    };
-    option (google.api.method_signature) = {
-      fields: ["single_double", "single_float", "single_int32", "single_int64", "repeated_bool", "repeated_bytes", "repeated_resource_name"]
-    };
+    option (google.api.method_signature) = "single_double";
+    option (google.api.method_signature) = "single_double,single_float,single_int32,single_int64,repeated_bool,repeated_bytes,repeated_resource_name";
   }
 
   // LRO method, to test the client mocking supports LRO.
   rpc MethodLro(LroRequest) returns(google.longrunning.Operation) {
-    option (google.api.operation) = {
+    option (google.longrunning.operation_info) = {
       response_type: "LroResponse"
       metadata_type: "LroMetadata"
     };
@@ -29,13 +26,13 @@ service UnitTests {
 }
 
 option (google.api.resource_definition) = {
-  name: "AResource",
-  path: "items/{item_id}/parts/{part_id}"
+  symbol: "AResource",
+  pattern: "items/{item_id}/parts/{part_id}"
 };
 
 option (google.api.resource_definition) = {
-  name: "WildcardResource",
-  path: "*"
+  symbol: "WildcardResource",
+  pattern: "*"
 };
 
 message AnotherMessage {

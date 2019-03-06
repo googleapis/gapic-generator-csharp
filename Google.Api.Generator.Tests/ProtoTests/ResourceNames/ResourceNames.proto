@@ -4,43 +4,45 @@ package testing.resourcenames;
 
 option csharp_namespace = "Testing.ResourceNames";
 
-import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/resource.proto";
+import "google/api/field_behavior.proto";
 
 service ResourceNames {
   option (google.api.default_host) = "resourcenames.example.com";
 
   // Test top-level resource definition.
   rpc SimpleMethod(SimpleResource) returns(Response) {
-    option (google.api.method_signature) = { fields: ["name"] };
+    option (google.api.method_signature) = "name";
   }
 
   // Test resource definition inlined in the proto message.
   rpc SimpleInlineMethod(SimpleInlineResource) returns(Response) {
-    option (google.api.method_signature) = { fields: ["name"] };
+    option (google.api.method_signature) = "name";
   }
 
   // Test repeated resource.
   rpc SimpleRepeatedMethod(SimpleRepeatedResource) returns(Response) {
-    option (google.api.method_signature) = { fields: ["names"] };
+    option (google.api.method_signature) = "names";
   }
 
   // Test wilcard resource.
   rpc WildcardMethod(WildcardResource) returns(Response) {
-    option (google.api.method_signature) = { fields: ["name", "names", "required_single", "required_repeated"] };
+    option (google.api.method_signature) = "name,names,required_single,required_repeated";
   }
 
   // Test multiple cases of resoure-names.
   // All combinations of optional/required and single/repeated.
   // Using field names that are not "name" or "names".
   rpc MultiCaseMethod(MultiCaseRequest) returns (Response) {
-    option (google.api.method_signature) = {
-	  fields: ["optional_single", "optional_repeated", "required_single", "required_repeated"] };
+    option (google.api.method_signature) =
+	  "optional_single,optional_repeated,required_single,required_repeated";
   }
 }
 
 option (google.api.resource_definition) = {
-  name: "SimpleResource",
-  path: "items/{item_id}"
+  symbol: "SimpleResource",
+  pattern: "items/{item_id}"
 };
 
 message SimpleResource {
@@ -48,7 +50,7 @@ message SimpleResource {
 }
 
 message SimpleInlineResource {
-  string name = 1 [(google.api.resource).path = "items1/{item1_id}/items2/{item2_id}"];
+  string name = 1 [(google.api.resource).pattern = "items1/{item1_id}/items2/{item2_id}"];
 }
 
 message SimpleRepeatedResource {
@@ -56,8 +58,8 @@ message SimpleRepeatedResource {
 }
 
 option (google.api.resource_definition) = {
-  name: "WildcardResource",
-  path: "*"
+  symbol: "WildcardResource",
+  pattern: "*"
 };
 
 message WildcardResource {
@@ -78,6 +80,6 @@ message Response {
 }
 
 option (google.api.resource_definition) = {
-  name: "CheckIdSuffixResource",
-  path: "with_suffix/{with_suffix_id}/no_suffix/{no_suffix}"
+  symbol: "CheckIdSuffixResource",
+  pattern: "with_suffix/{with_suffix_id}/no_suffix/{no_suffix}"
 };

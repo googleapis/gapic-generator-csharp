@@ -4,19 +4,20 @@ package testing.serverstreaming;
 
 option csharp_namespace = "Testing.ServerStreaming";
 
-import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/resource.proto";
 
 service ServerStreaming {
   option (google.api.default_host) = "serverstreaming.example.com";
 
   // Test a server-streaming RPC with a method signature.
   rpc SignatureMethod(Request) returns(stream Response) {
-    option (google.api.method_signature) = { fields: ["name"] };
+    option (google.api.method_signature) = "name";
   }
 
   // Test a server-streaming RPC with a method signature and resource-name.
   rpc ResourcedMethod(ResourceRequest) returns(stream Response) {
-    option (google.api.method_signature) = { fields: ["name"] };
+    option (google.api.method_signature) = "name";
   }
 }
 
@@ -25,8 +26,8 @@ message Request {
 }
 
 option (google.api.resource_definition) = {
-  name: "Resource",
-  path: "items/{item_id}"
+  symbol: "Resource",
+  pattern: "items/{item_id}"
 };
 
 message ResourceRequest {
