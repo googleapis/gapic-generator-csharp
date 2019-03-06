@@ -259,7 +259,8 @@ namespace Google.Api.Generator.Tests
             }
         }
 
-        private static string ThisFilename([CallerFilePath] string filePath = null) => Path.GetFileName(filePath);
+        private static string ThisFilename([CallerFilePath] string filePath = null) =>
+            Path.Combine(Invoker.GeneratorTestsDir, Path.GetFileName(filePath));
 
         [Fact]
         public void ThisSourceFile()

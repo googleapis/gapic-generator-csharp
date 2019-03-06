@@ -47,6 +47,8 @@ namespace Google.Api.Generator.Tests
             Runtime = isWindows ? "win-x64" : "linux-x64";
             PluginFile = Path.Combine(GeneratorDir, "bin", "Debug", "netcoreapp2.2", Runtime, "publish",
                 isWindows ? "Google.Api.Generator.exe" : "Google.Api.Generator");
+            CommonProtosDir = Path.Combine(RootDir, "api-common-protos");
+            ProtobufDir = Path.Combine(RootDir, "protobuf", "src");
         }
 
         /// <summary>Root path; where the .sln file is.</summary>
@@ -66,6 +68,12 @@ namespace Google.Api.Generator.Tests
 
         /// <summary>Path of the native executable to be used as the protoc plugin.</summary>
         public static string PluginFile { get; }
+
+        /// <summary>Path of directory containing common protos.</summary>
+        public static string CommonProtosDir { get; }
+
+        /// <summary>Path of directory containing protobuf protos.</summary>
+        public static string ProtobufDir { get; }
 
         private static void Execute(string executable, string args, string workingDirectory, TimeSpan timeout, int exitCode)
         {
@@ -94,10 +102,12 @@ namespace Google.Api.Generator.Tests
             }
         }
 
-        public static void Protoc(string args) => Execute(ProtocFile, args, null, TimeSpan.FromSeconds(15), 0);
+        // Generous timeouts, as travis can be slow sometimes, and many invocations may be executing concurrently.
+
+        public static void Protoc(string args) => Execute(ProtocFile, args, null, TimeSpan.FromSeconds(30), 0);
 
         public static void Dotnet(string args, string workingDirectory = null, int exitCode = 0) =>
-            Execute("dotnet", args, workingDirectory ?? GeneratorDir, TimeSpan.FromSeconds(90), exitCode);
+            Execute("dotnet", args, workingDirectory ?? GeneratorDir, TimeSpan.FromSeconds(120), exitCode);
 
         public static WithPath TempFile()
         {
