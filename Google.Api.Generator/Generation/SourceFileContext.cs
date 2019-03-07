@@ -280,18 +280,20 @@ namespace Google.Api.Generator.Generation
             return null;
         }
 
-        public ArrayTypeSyntax ArrayType<T>(int? size = null)
+        public ArrayTypeSyntax ArrayType(Typ arrayTyp, int? size = null)
         {
-            if (!typeof(T).IsArray)
+            if (arrayTyp.ElementTyp is null)
             {
-                throw new ArgumentException("Type argument must be an array.", nameof(T));
+                throw new ArgumentException("Type argument must be an array.", nameof(arrayTyp));
             }
             if (size != null)
             {
                 throw new ArgumentException("Array size specification not yet supported", nameof(size));
             }
-            return ((ArrayTypeSyntax)Type<T>()).WithRankSpecifiers(SingletonList(ArrayRankSpecifier()));
+            return ((ArrayTypeSyntax)Type(arrayTyp)).WithRankSpecifiers(SingletonList(ArrayRankSpecifier()));
         }
+
+        public ArrayTypeSyntax ArrayType<T>(int? size = null) => ArrayType(Typ.Of<T>(), size);
 
         /// <summary>
         /// Force an import of referenced type.

@@ -157,7 +157,7 @@ namespace Google.Api.Generator.Generation
             private ParameterSyntax PaginatedItem => Parameter(Ctx.Type(MethodPaginated.ResourceTyp), "item");
             private ParameterSyntax PaginatedPage => Parameter(Ctx.Type(Method.ResponseTyp), "page");
 
-            private object DefaultValue(FieldDescriptor fieldDesc, bool resourceNameAsString = false)
+            private object DefaultValue(FieldDescriptor fieldDesc, bool resourceNameAsString = false, bool topLevel = false)
             {
                 var resource = Svc.Catalog.GetResourceDetailsByField(fieldDesc);
                 if (resource != null)
@@ -177,7 +177,7 @@ namespace Google.Api.Generator.Generation
                             New(Ctx.Type<UnknownResourceName>())("a/wildcard/resource") :
                             New(Ctx.Type(one.ResourceNameTyp))(one.Template.ParameterNames.Select(x => $"[{x.ToUpperInvariant()}]"));
                     }
-                    return fieldDesc.IsRepeated ? CollectionInitializer(@default) : @default;
+                    return fieldDesc.IsRepeated ? Collection(@default, resourceNameAsString ? null : one.ResourceNameTyp) : @default;
                 }
                 else
                 {
@@ -210,8 +210,12 @@ namespace Google.Api.Generator.Generation
                         default: throw new InvalidOperationException($"Cannot generate default for proto type: {fieldDesc.FieldType}");
 
                     }
-                    return fieldDesc.IsRepeated ? CollectionInitializer(@default) : @default;
+                    return fieldDesc.IsRepeated ? Collection(@default, null) : @default;
                 }
+
+                object Collection(object value, Typ typ) => topLevel ?
+                    NewArray(Ctx.ArrayType(Typ.ArrayOf(typ ?? Typ.Of(fieldDesc).GenericArgTyps.First())))(value) :
+                    (object)CollectionInitializer(value);
             }
 
             private IEnumerable<ObjectInitExpr> InitRequest()
@@ -492,10 +496,11 @@ namespace Google.Api.Generator.Generation
                 private string SyncResourceNameMethodName => $"{SyncMethodName}_ResourceNames";
                 private string AsyncResourceNameMethodName => $"{AsyncMethodName}_ResourceNames";
 
+                private Typ MaybeEnumerable(bool repeated, Typ typ) => !repeated || typ == null ? typ : Typ.Generic(typeof(IEnumerable<>), typ);
                 private IEnumerable<LocalDeclarationStatementSyntax> InitRequestArgs(bool resourceNameAsString) =>
                     _sig.Fields.Select(f =>
-                        Local(Ctx.Type(resourceNameAsString ? f.Typ : f.FieldResource?.ResourceDefinition.One.ResourceNameTyp ?? f.Typ), f.FieldName)
-                        .WithInitializer(_def.DefaultValue(f.Desc, resourceNameAsString)));
+                        Local(Ctx.Type(resourceNameAsString ? f.Typ : MaybeEnumerable(f.IsRepeated, f.FieldResource?.ResourceDefinition.One.ResourceNameTyp) ?? f.Typ), f.FieldName)
+                        .WithInitializer(_def.DefaultValue(f.Desc, resourceNameAsString, topLevel: true)));
                 private IEnumerable<LocalDeclarationStatementSyntax> InitRequestArgsNormal => InitRequestArgs(resourceNameAsString: true);
                 private IEnumerable<LocalDeclarationStatementSyntax> InitRequestArgsResourceNames => InitRequestArgs(resourceNameAsString: false);
 
@@ -556,7 +561,7 @@ namespace Google.Api.Generator.Generation
                     InitRequestArgsResourceNames, _def.Response.WithInitializer(_def.Client.Call(Method.SyncMethodName)(InitRequestArgsResourceNames.ToArray())));
             }
 
-            bool RequireFinalNamedArg(MethodDetails.Signature sig)
+            private bool RequireFinalNamedArg(MethodDetails.Signature sig)
             {
                 // The last argument numst be named, if there is a signature with identical types and an extra string parameter.
                 var stringTyp = Typ.Of<string>();
