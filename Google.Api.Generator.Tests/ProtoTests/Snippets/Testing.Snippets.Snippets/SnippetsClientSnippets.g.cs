@@ -154,6 +154,92 @@
             // End snippet
         }
 
+        /// <summary>Snippet for MethodDefaultValues</summary>
+        public void MethodDefaultValues()
+        {
+            // Snippet: MethodDefaultValues(IEnumerable, IEnumerable, IEnumerable, CallSettings)
+            // Create client
+            SnippetsClient snippetsClient = SnippetsClient.Create();
+            // Initialize request argument(s)
+            IEnumerable<double> repeatedDouble = new double[] { 0, };
+            IEnumerable<DefaultValuesRequest.Types.NestedMessage> repeatedNestedMessage = new DefaultValuesRequest.Types.NestedMessage[]
+            {
+                new DefaultValuesRequest.Types.NestedMessage(),
+            };
+            IEnumerable<string> repeatedResourceName = new string[]
+            {
+                "items/[ITEM_ID]/parts/[PART_ID]",
+            };
+            // Make the request
+            Response response = snippetsClient.MethodDefaultValues(repeatedDouble, repeatedNestedMessage, repeatedResourceName);
+            // End snippet
+        }
+
+        /// <summary>Snippet for MethodDefaultValuesAsync</summary>
+        public async Task MethodDefaultValuesAsync()
+        {
+            // Snippet: MethodDefaultValuesAsync(IEnumerable, IEnumerable, IEnumerable, CallSettings)
+            // Additional: MethodDefaultValuesAsync(IEnumerable, IEnumerable, IEnumerable, CancellationToken)
+            // Create client
+            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            // Initialize request argument(s)
+            IEnumerable<double> repeatedDouble = new double[] { 0, };
+            IEnumerable<DefaultValuesRequest.Types.NestedMessage> repeatedNestedMessage = new DefaultValuesRequest.Types.NestedMessage[]
+            {
+                new DefaultValuesRequest.Types.NestedMessage(),
+            };
+            IEnumerable<string> repeatedResourceName = new string[]
+            {
+                "items/[ITEM_ID]/parts/[PART_ID]",
+            };
+            // Make the request
+            Response response = await snippetsClient.MethodDefaultValuesAsync(repeatedDouble, repeatedNestedMessage, repeatedResourceName);
+            // End snippet
+        }
+
+        /// <summary>Snippet for MethodDefaultValues</summary>
+        public void MethodDefaultValues_ResourceNames()
+        {
+            // Snippet: MethodDefaultValues(IEnumerable, IEnumerable, AResourceName, CallSettings)
+            // Create client
+            SnippetsClient snippetsClient = SnippetsClient.Create();
+            // Initialize request argument(s)
+            IEnumerable<double> repeatedDouble = new double[] { 0, };
+            IEnumerable<DefaultValuesRequest.Types.NestedMessage> repeatedNestedMessage = new DefaultValuesRequest.Types.NestedMessage[]
+            {
+                new DefaultValuesRequest.Types.NestedMessage(),
+            };
+            IEnumerable<AResourceName> repeatedResourceName = new AResourceName[]
+            {
+                new AResourceName("[ITEM_ID]", "[PART_ID]"),
+            };
+            // Make the request
+            Response response = snippetsClient.MethodDefaultValues(repeatedDouble, repeatedNestedMessage, repeatedResourceName);
+            // End snippet
+        }
+
+        /// <summary>Snippet for MethodDefaultValuesAsync</summary>
+        public async Task MethodDefaultValuesAsync_ResourceNames()
+        {
+            // Snippet: MethodDefaultValuesAsync(IEnumerable, IEnumerable, AResourceName, CallSettings)
+            // Additional: MethodDefaultValuesAsync(IEnumerable, IEnumerable, AResourceName, CancellationToken)
+            // Create client
+            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            // Initialize request argument(s)
+            IEnumerable<double> repeatedDouble = new double[] { 0, };
+            IEnumerable<DefaultValuesRequest.Types.NestedMessage> repeatedNestedMessage = new DefaultValuesRequest.Types.NestedMessage[]
+            {
+                new DefaultValuesRequest.Types.NestedMessage(),
+            };
+            IEnumerable<AResourceName> repeatedResourceName = new AResourceName[]
+            {
+                new AResourceName("[ITEM_ID]", "[PART_ID]"),
+            };
+            // Make the request
+            Response response = await snippetsClient.MethodDefaultValuesAsync(repeatedDouble, repeatedNestedMessage, repeatedResourceName);
+            // End snippet
+        }
+
         /// <summary>Snippet for MethodOneSignature</summary>
         public void MethodOneSignature_RequestObject()
         {

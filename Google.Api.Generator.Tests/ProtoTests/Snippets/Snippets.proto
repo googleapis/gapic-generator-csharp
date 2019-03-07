@@ -9,7 +9,10 @@ import "google/api/resource.proto";
 service Snippets {
   option (google.api.default_host) = "snippets.example.com";
 
-  rpc MethodDefaultValues(DefaultValuesRequest) returns(Response);
+  rpc MethodDefaultValues(DefaultValuesRequest) returns(Response) {
+    // Test snippet generation of signature that includes repeated fields.
+    option (google.api.method_signature) = "repeated_double,repeated_nested_message,repeated_resource_name";
+  }
 
   rpc MethodOneSignature(SignatureRequest) returns(Response) {
     option (google.api.method_signature) = "a_string,an_int,a_bool";

@@ -43,6 +43,14 @@ namespace Google.Api.Generator.Utils
             public override IEnumerable<Typ> GenericArgTyps => _type.IsGenericType ? _type.GetGenericArguments().Select(Of) : null;
         }
 
+        private sealed class Array : Typ
+        {
+            public Array(Typ elementTyp) => ElementTyp = elementTyp;
+            public override string Namespace => ElementTyp.Namespace;
+            public override string Name => ElementTyp.Name;
+            public override Typ ElementTyp { get; }
+        }
+
         private sealed class FromManual : Typ
         {
             public FromManual(string ns, string name, bool isEnum = false) => (Namespace, Name, IsEnum) = (ns, name, IsEnum);
@@ -97,6 +105,7 @@ namespace Google.Api.Generator.Utils
 
         public static Typ Of<T>() => Of(typeof(T));
         public static Typ Of(System.Type type) => new FromType(type);
+        public static Typ ArrayOf(Typ typ) => new Array(typ);
         public static Typ Manual(string ns, string name, bool isEnum = false) => new FromManual(ns, name, isEnum);
         public static Typ Manual(string ns, ClassDeclarationSyntax cls) => new FromManual(ns, cls.Identifier.Text);
         public static Typ Nested(Typ declaringTyp, string name, bool isEnum = false) => new FromNested(declaringTyp, name, isEnum);

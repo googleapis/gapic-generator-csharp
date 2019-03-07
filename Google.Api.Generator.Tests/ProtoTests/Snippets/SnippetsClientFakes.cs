@@ -18,6 +18,7 @@ using Google.LongRunning;
 using Google.Protobuf;
 using Google.Protobuf.Collections;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Testing.Snippets
@@ -29,6 +30,18 @@ namespace Testing.Snippets
 
         public Response MethodDefaultValues(DefaultValuesRequest request) => throw new NotImplementedException();
         public Task<Response> MethodDefaultValuesAsync(DefaultValuesRequest request) => throw new NotImplementedException();
+        public Response MethodDefaultValues(IEnumerable<double> repeatedDouble,
+            IEnumerable<DefaultValuesRequest.Types.NestedMessage> repeatedNestedMessage,
+            IEnumerable<string> repeatedResourceName) => throw new NotImplementedException();
+        public Task<Response> MethodDefaultValuesAsync(IEnumerable<double> repeatedDouble,
+            IEnumerable<DefaultValuesRequest.Types.NestedMessage> repeatedNestedMessage,
+            IEnumerable<string> repeatedResourceName) => throw new NotImplementedException();
+        public Response MethodDefaultValues(IEnumerable<double> repeatedDouble,
+            IEnumerable<DefaultValuesRequest.Types.NestedMessage> repeatedNestedMessage,
+            IEnumerable<AResourceName> repeatedResourceName) => throw new NotImplementedException();
+        public Task<Response> MethodDefaultValuesAsync(IEnumerable<double> repeatedDouble,
+            IEnumerable<DefaultValuesRequest.Types.NestedMessage> repeatedNestedMessage,
+            IEnumerable<AResourceName> repeatedResourceName) => throw new NotImplementedException();
 
         public Response MethodOneSignature(SignatureRequest request) => throw new NotImplementedException();
         public Task<Response> MethodOneSignatureAsync(SignatureRequest request) => throw new NotImplementedException();
