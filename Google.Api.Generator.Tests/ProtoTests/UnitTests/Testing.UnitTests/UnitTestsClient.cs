@@ -179,7 +179,7 @@ namespace Testing.UnitTests
         public static UnitTestsClient Create(grpccore::Channel channel, UnitTestsSettings settings = null)
         {
             gax::GaxPreconditions.CheckNotNull(channel, nameof(channel));
-            return Create(new grpccore::DefaultCallInvoker(channel));
+            return Create(new grpccore::DefaultCallInvoker(channel), settings);
         }
 
         /// <summary>

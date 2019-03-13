@@ -182,7 +182,7 @@ namespace Testing.Basic
         public static BasicClient Create(grpccore::Channel channel, BasicSettings settings = null)
         {
             gax::GaxPreconditions.CheckNotNull(channel, nameof(channel));
-            return Create(new grpccore::DefaultCallInvoker(channel));
+            return Create(new grpccore::DefaultCallInvoker(channel), settings);
         }
 
         /// <summary>
