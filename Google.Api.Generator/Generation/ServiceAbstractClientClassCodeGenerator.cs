@@ -154,7 +154,7 @@ namespace Google.Api.Generator.Generation
                             "ImageAnnotatorClient client = ImageAnnotatorClient.Create(channel);",
                             "...",
                             "// Shutdown the channel when it is no longer required.",
-                            "await channel.ShutdownAsync();")),
+                            "channel.ShutdownAsync().Wait();")),
                     XmlDoc.Param(endpoint, "Optional ", endpoint.Type, "."),
                     XmlDoc.Param(settings, "Optional ", settings.Type, "."),
                     XmlDoc.Returns("The created ", _ctx.CurrentType, "."));
