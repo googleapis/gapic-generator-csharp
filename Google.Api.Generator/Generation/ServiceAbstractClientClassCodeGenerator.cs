@@ -112,7 +112,7 @@ namespace Google.Api.Generator.Generation
             return Method(Public | Static, _ctx.CurrentType, "Create")(channel, settings)
                 .WithBody(
                     _ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(channel, Nameof(channel)),
-                    Return(This.Call(createFromCallInvoker)(New(_ctx.Type<DefaultCallInvoker>())(channel))))
+                    Return(This.Call(createFromCallInvoker)(New(_ctx.Type<DefaultCallInvoker>())(channel), settings)))
                 .WithXmlDoc(
                     XmlDoc.Summary("Creates a ", _ctx.CurrentType, " which uses the specified channel for remote operations."),
                     XmlDoc.Param(channel, "The ", channel.Type, " for remote operations. Must not be null."),
