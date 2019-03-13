@@ -71,14 +71,20 @@ namespace Google.Api.Generator.Formatting
 
         private IEnumerable<DocumentationCommentTriviaSyntax> SplitPreformatted(DocumentationCommentTriviaSyntax docComment)
         {
-            // TODO: This assumes it's for a summary element, which may not always be true in the future.
             // Already correct pre-formatted into lines; need to indent and add `/// `.
             foreach (var element in docComment.Content.OfType<XmlElementSyntax>())
             {
                 yield return OneLine(StartTag(element.StartTag.Name, element.StartTag.Attributes));
                 foreach (var node in element.Content)
                 {
-                    yield return OneLine(node);
+                    if (node is XmlTextSyntax text)
+                    {
+                        yield return OneLine(XmlText(string.Join("", text.GetText().Lines).TrimEnd()));
+                    }
+                    else
+                    {
+                        yield return OneLine(node);
+                    }
                 }
                 yield return OneLine(EndTag(element.EndTag.Name));
             }
@@ -100,7 +106,7 @@ namespace Google.Api.Generator.Formatting
                 else
                 {
                     var multi = Fit(node, Enumerable.Empty<XmlNodeSyntax>()).ToList();
-                    // Returun all none-empty lines.
+                    // Return all none-empty lines.
                     // TODO: This will probably remove pre-formatted empty lines (e.g. in a `code` element).
                     return multi
                         .Where(x => x != null && x.Any())
