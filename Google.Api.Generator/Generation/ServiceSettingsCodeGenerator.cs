@@ -62,6 +62,8 @@ namespace Google.Api.Generator.Generation
             delayMultiplier: 1.5,
             maxDelay: TimeSpan.FromSeconds(45));
 
+        private static readonly SyntaxAnnotation s_cloneSetting = new SyntaxAnnotation("cloneSetting");
+
         public static ClassDeclarationSyntax Generate(SourceFileContext ctx, ServiceDetails svc) =>
             new ServiceSettingsCodeGenerator(ctx, svc).Generate();
 
@@ -113,10 +115,16 @@ namespace Google.Api.Generator.Generation
                     // Check `existing` parameter value is not null.
                     _ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(existing, Nameof(existing)),
                     // Copy all the per-method settings.
-                    SettingsProperties().Select(p => p.Assign(existing.Access(p))),
+                    SettingsProperties().Select(CopySetting),
                     // Call the OnCopy() partial method.
                     This.Call("OnCopy")(existing)
                 );
+
+            object CopySetting(PropertyDeclarationSyntax property)
+            {
+                var assign = property.Assign(existing.Access(property));
+                return property.HasAnnotation(s_cloneSetting) ? assign.Call("Clone")() : (object)assign;
+            }
         }
 
         private FieldDeclarationSyntax DefaultIdempotentCallSettings =>
@@ -200,7 +208,8 @@ namespace Google.Api.Generator.Generation
                         $"Initial delay: {(int)s_lroDefaultPollSettings.Delay.TotalSeconds} seconds.",
                         $"Delay multiplier: {s_lroDefaultPollSettings.DelayMultiplier}",
                         $"Maximum delay: {(int)s_lroDefaultPollSettings.MaxDelay.TotalSeconds} seconds.",
-                        $"Total timeout: {(int)s_lroDefaultPollSettings.Expiration.Timeout.Value.TotalHours} hours.")));
+                        $"Total timeout: {(int)s_lroDefaultPollSettings.Expiration.Timeout.Value.TotalHours} hours.")))
+                .WithAdditionalAnnotations(s_cloneSetting);
 
         private PropertyDeclarationSyntax BidiSettingsProperty(MethodDetails.BidiStreaming method) =>
             AutoProperty(Public, _ctx.Type<BidirectionalStreamingSettings>(), method.StreamingSettingsName, hasSetter: true)

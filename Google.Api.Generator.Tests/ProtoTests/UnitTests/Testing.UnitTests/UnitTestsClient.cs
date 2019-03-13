@@ -30,7 +30,7 @@ namespace Testing.UnitTests
             gax::GaxPreconditions.CheckNotNull(existing, nameof(existing));
             MethodValuesSettings = existing.MethodValuesSettings;
             MethodLroSettings = existing.MethodLroSettings;
-            MethodLroOperationsSettings = existing.MethodLroOperationsSettings;
+            MethodLroOperationsSettings = existing.MethodLroOperationsSettings.Clone();
             OnCopy(existing);
         }
 
