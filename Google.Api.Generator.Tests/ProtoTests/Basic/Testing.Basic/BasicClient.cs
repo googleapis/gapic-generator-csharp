@@ -161,7 +161,7 @@ namespace Testing.Basic
         /// ImageAnnotatorClient client = ImageAnnotatorClient.Create(channel);
         /// ...
         /// // Shutdown the channel when it is no longer required.
-        /// await channel.ShutdownAsync();
+        /// channel.ShutdownAsync().Wait();
         /// </code>
         /// </example>
         /// <param name="endpoint">Optional <see cref="gaxgrpc::ServiceEndpoint"/>.</param>
