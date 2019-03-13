@@ -17,7 +17,7 @@ namespace Testing.BasicLro
         {
             gax::GaxPreconditions.CheckNotNull(existing, nameof(existing));
             Method1Settings = existing.Method1Settings;
-            Method1OperationsSettings = existing.Method1OperationsSettings;
+            Method1OperationsSettings = existing.Method1OperationsSettings.Clone();
             OnCopy(existing);
         }
         // TEST_END
