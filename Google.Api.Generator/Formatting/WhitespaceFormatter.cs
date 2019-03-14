@@ -53,10 +53,36 @@ namespace Google.Api.Generator.Formatting
         private SyntaxTriviaList FormatXmlDoc(SyntaxTriviaList trivList) =>
             XmlDocSplitter.Split(_indentTrivia, _maxLineLength, trivList);
 
+        private T HandleLeadingTrivia<T>(T node) where T : SyntaxNode
+        {
+            var trivia0 = node.GetLeadingTrivia();
+            if (trivia0.Span.IsEmpty)
+            {
+                // For some reason there is an empty piece of trivia prepended to all `using` directives.
+                // I don't understand why this is; but just get rid of it here for now.
+                // TODO: Understand where this empty leading trivia is coming from.
+                trivia0 = TriviaList();
+            }
+            var trivia1 = _indentTrivia.Span.IsEmpty ?
+                trivia0.SelectMany(x => new[] { x, CarriageReturnLineFeed }) :
+                trivia0.SelectMany(x => new[] { _indentTrivia, x, CarriageReturnLineFeed }).Append(_indentTrivia);
+            return node.WithLeadingTrivia(trivia1);
+        }
+
         public override SyntaxNode VisitCompilationUnit(CompilationUnitSyntax node)
         {
             node = (CompilationUnitSyntax)base.VisitCompilationUnit(node);
-            node = node.WithMembers(List(node.Members.Take(1).Select(m => m.WithLeadingCrLf())
+            node = node.WithMembers(List(node.Members.Take(1).Select(m =>
+            {
+                // If there's not already a blank line before the namespace, then add one.
+                var last2 = m.GetLeadingTrivia()
+                    .Where(x => !x.Span.IsEmpty)
+                    .TakeLast(2).ToList();
+                var hasBlankLine = last2.Count == 2 && last2.All(x => x.IsKind(SyntaxKind.EndOfLineTrivia));
+                return hasBlankLine ?
+                    m.WithLeadingTrivia(m.GetLeadingTrivia()) :
+                    m.WithLeadingTrivia(m.GetLeadingTrivia().Append(CarriageReturnLineFeed));
+            })
                 .Concat(node.Members.Skip(1))));
             return node;
         }
@@ -64,7 +90,7 @@ namespace Google.Api.Generator.Formatting
         public override SyntaxNode VisitUsingDirective(UsingDirectiveSyntax node)
         {
             node = (UsingDirectiveSyntax)base.VisitUsingDirective(node);
-            node = node.WithLeadingTrivia(_indentTrivia);
+            node = HandleLeadingTrivia(node);
             node = node.WithUsingKeyword(node.UsingKeyword.WithTrailingSpace());
             node = node.WithSemicolonToken(node.SemicolonToken.WithTrailingCrLf());
             return node;
@@ -87,7 +113,8 @@ namespace Google.Api.Generator.Formatting
                     node = node.WithUsings(List(node.Usings.SkipLast(1).Append(node.Usings.Last().WithTrailingTrivia(CarriageReturnLineFeed, CarriageReturnLineFeed))));
                 }
             }
-            node = node.WithLeadingTrivia(_indentTrivia);
+            //node = node.WithLeadingTrivia(_indentTrivia);
+            node = HandleLeadingTrivia(node);
             node = node.WithNamespaceKeyword(node.NamespaceKeyword.WithTrailingSpace());
             node = node.WithOpenBraceToken(node.OpenBraceToken.WithLeadingTrivia(CarriageReturnLineFeed, _indentTrivia).WithTrailingCrLf());
             node = node.WithCloseBraceToken(node.CloseBraceToken.WithLeadingTrivia(_indentTrivia).WithTrailingCrLf());

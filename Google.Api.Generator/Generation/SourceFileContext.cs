@@ -102,7 +102,7 @@ namespace Google.Api.Generator.Generation
                 var usings = _namespaceAliases
                     .OrderBy(x => x.Key)
                     .Select(x => UsingDirective(NameEquals(x.Value), IdentifierName(x.Key)));
-                return CompilationUnit().AddUsings(usings.ToArray()).AddMembers(ns);
+                return AddLicense(CompilationUnit().AddUsings(usings.ToArray()).AddMembers(ns));
             }
         }
 
@@ -142,7 +142,7 @@ namespace Google.Api.Generator.Generation
             public override CompilationUnitSyntax CreateCompilationUnit(NamespaceDeclarationSyntax ns)
             {
                 var usings = _imports.OrderBy(x => x).Select(x => UsingDirective(IdentifierName(x)));
-                return CompilationUnit().AddMembers(ns.AddUsings(usings.ToArray()));
+                return AddLicense(CompilationUnit().AddMembers(ns.AddUsings(usings.ToArray())));
             }
         }
 
@@ -301,5 +301,50 @@ namespace Google.Api.Generator.Generation
         public virtual T Import<T>(System.Type t, T o) => o;
 
         public abstract CompilationUnitSyntax CreateCompilationUnit(NamespaceDeclarationSyntax ns);
+
+        protected CompilationUnitSyntax AddLicense(CompilationUnitSyntax cu)
+        {
+            // TODO: POssibly allow customization of license? Is this required?
+            // TODO: How should the copyright year be dealt with. would it be correct to always use the current year?
+            string licenseText = @"
+// Copyright 2019 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the ""License"");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an ""AS IS"" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+// Generated code. DO NOT EDIT!
+".TrimStart();
+            var licenseTrivia = TriviaList(licenseText.Replace('\r', '\n').Replace("\n\n", "\n")
+                .Split('\n')
+                .Select(x => x.StartsWith("//") || x == "" ? Comment(x) : throw new InvalidOperationException("Invalid text in license.")));
+            if (cu.Usings.Any())
+            {
+                // Using directives present, so attach license to the first using directive.
+                var u0 = cu.Usings[0];
+                var u0Licensed = u0.WithUsingKeyword(u0.UsingKeyword.WithLeadingTrivia(licenseTrivia));
+                return cu.WithUsings(List(cu.Usings.Skip(1).Prepend(u0Licensed)));
+            }
+            else
+            {
+                // No using directives, attach license to first member (probably a namespace).
+                switch (cu.Members[0])
+                {
+                    case NamespaceDeclarationSyntax ns0:
+                        var ns0Licensed = ns0.WithNamespaceKeyword(ns0.NamespaceKeyword.WithLeadingTrivia(licenseTrivia));
+                        return cu.WithMembers(List(cu.Members.Skip(1).Prepend(ns0Licensed)));
+                    default:
+                        throw new InvalidOperationException("Cannot find an item to attach license to.");
+                }
+            }
+        }
     }
 }
