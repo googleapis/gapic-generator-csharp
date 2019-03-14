@@ -323,7 +323,7 @@ namespace Google.Api.Generator.Generation
 
 // Generated code. DO NOT EDIT!
 ".TrimStart();
-            var licenseTrivia = TriviaList(licenseText.Replace('\r', '\n').Replace("\n\n", "\n")
+            var licenseTrivia = TriviaList(licenseText.Replace("\r\n", "\n").Replace('\r', '\n')
                 .Split('\n')
                 .Select(x => x.StartsWith("//") || x == "" ? Comment(x) : throw new InvalidOperationException("Invalid text in license.")));
             if (cu.Usings.Any())
