@@ -70,7 +70,8 @@ namespace Google.Api.Generator.Tests
                     continue;
                 }
                 var actualLines = Encoding.UTF8.GetString(file.Content).Split('\n').Select(x => x.Trim('\r')).ToList();
-                var expectedBlocks = expectedLines.Any(x => x.Trim() == "// TEST_START") ? TestBlocks() : new[] { expectedLines.Select((s, i) => (i, s)).ToList() };
+                var fullFile = !expectedLines.Any(x => x.Trim() == "// TEST_START");
+                var expectedBlocks = fullFile ? new[] { expectedLines.Select((s, i) => (i, s)).ToList() } : TestBlocks();
                 // Check that all expected code blocks in the expected code exist in the generated (actual) code.
                 // The order of the test blocks is not enforced, only the content.
                 foreach (var block in expectedBlocks)
@@ -79,9 +80,9 @@ namespace Google.Api.Generator.Tests
                     (int lineNumber, string line) missing = default;
                     string missingActualLine = null;
                     int missingBestLength = -1;
-                    foreach (var actualLine in actualLines)
+                    foreach (var (actualLine, actualLineNumber) in actualLines.Select((line, i) => (line, i)))
                     {
-                        if (block[blockIndex].line == actualLine)
+                        if (block[blockIndex].line == actualLine && (!fullFile || block[blockIndex].lineNumber == actualLineNumber))
                         {
                             blockIndex += 1;
                             if (blockIndex == block.Count)
