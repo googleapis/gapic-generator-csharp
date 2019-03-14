@@ -14,6 +14,7 @@
 
 using CommandLine;
 using CommandLine.Text;
+using Google.Api.Gax;
 using Google.Protobuf;
 using Google.Protobuf.Compiler;
 using Google.Protobuf.Reflection;
@@ -136,7 +137,7 @@ namespace Google.Api.Generator
                 // Generate code.
                 // On success, send all generated files back to protoc.
                 var descriptors = FileDescriptor.BuildFromByteStrings(codeGenRequest.ProtoFile);
-                var results = CodeGenerator.Generate(descriptors, codeGenRequest.FileToGenerate);
+                var results = CodeGenerator.Generate(descriptors, codeGenRequest.FileToGenerate, SystemClock.Instance);
                 codeGenResponse = new CodeGeneratorResponse
                 {
                     File =
@@ -168,7 +169,7 @@ namespace Google.Api.Generator
         private static void GenerateFromArgs(Options options)
         {
             var descriptorBytes = File.ReadAllBytes(options.Descriptor);
-            var files = CodeGenerator.Generate(descriptorBytes, options.Package);
+            var files = CodeGenerator.Generate(descriptorBytes, options.Package, SystemClock.Instance);
             foreach (var file in files)
             {
                 var path = Path.Combine(options.Output, file.RelativePath);

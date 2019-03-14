@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Google.Api.Gax.Testing;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
@@ -27,13 +28,14 @@ namespace Google.Api.Generator.Tests
     {
         private IEnumerable<CodeGenerator.ResultFile> Run(string protoFilename, string package)
         {
+            var clock = new FakeClock(new DateTime(2019, 1, 1));
             var protoPath = Path.Combine(Invoker.GeneratorTestsDir, protoFilename);
             using (var desc = Invoker.TempFile())
             {
                 Invoker.Protoc($"-o {desc} --include_imports --include_source_info " +
                     $"-I{Invoker.CommonProtosDir} -I{Invoker.ProtobufDir} -I{Invoker.GeneratorTestsDir} {protoPath}");
                 var descriptorBytes = File.ReadAllBytes(desc.Path);
-                return CodeGenerator.Generate(descriptorBytes, package);
+                return CodeGenerator.Generate(descriptorBytes, package, clock);
             }
         }
 

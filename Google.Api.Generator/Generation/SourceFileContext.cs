@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Google.Api.Gax;
 using Google.Api.Generator.Utils;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -46,6 +47,8 @@ namespace Google.Api.Generator.Generation
                 { typeof(Moq.Mock).Namespace, "moq" },
                 { typeof(Xunit.Assert).Namespace, "xunit" },
             };
+
+            public FullyAliased(IClock clock) : base(clock) { }
 
             // Namespace -> alias
             private readonly Dictionary<string, string> _namespaceAliases = new Dictionary<string, string>();
@@ -111,6 +114,8 @@ namespace Google.Api.Generator.Generation
             // TODO: Handle duplicate names.
             // TODO: Handle nested types.
 
+            public Unaliased(IClock clock) : base(clock) { }
+
             private readonly HashSet<string> _imports = new HashSet<string>();
 
             public override TypeSyntax Type(Typ typ, bool forceFullyQualified)
@@ -171,18 +176,22 @@ namespace Google.Api.Generator.Generation
             { typeof(object).FullName, PredefinedType(Token(SyntaxKind.ObjectKeyword)) },
         };
 
-        public static SourceFileContext Create(ImportStyle importStyle)
+        public static SourceFileContext Create(ImportStyle importStyle, IClock clock)
         {
             switch (importStyle)
             {
                 case ImportStyle.FullyAliased:
-                    return new FullyAliased();
+                    return new FullyAliased(clock);
                 case ImportStyle.Unaliased:
-                    return new Unaliased();
+                    return new Unaliased(clock);
                 default:
                     throw new NotImplementedException($"Unrecognised import style: {importStyle}");
             }
         }
+
+        protected SourceFileContext(IClock clock) => _clock = clock;
+
+        private readonly IClock _clock;
 
         /// <summary>
         /// The current namespace. This will change depending on code location.
@@ -304,10 +313,9 @@ namespace Google.Api.Generator.Generation
 
         protected CompilationUnitSyntax AddLicense(CompilationUnitSyntax cu)
         {
-            // TODO: POssibly allow customization of license? Is this required?
-            // TODO: How should the copyright year be dealt with. would it be correct to always use the current year?
-            string licenseText = @"
-// Copyright 2019 Google LLC
+            // TODO: Possibly allow customization of license? Is this required?
+            string licenseText = $@"
+// Copyright {_clock.GetCurrentDateTimeUtc().Year} Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the ""License"");
 // you may not use this file except in compliance with the License.

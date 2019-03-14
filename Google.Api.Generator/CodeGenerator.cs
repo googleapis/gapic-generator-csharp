@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Google.Api.Gax;
 using Google.Api.Generator.Formatting;
 using Google.Api.Generator.Generation;
 using Google.Api.Generator.ProtoUtils;
@@ -34,14 +35,14 @@ namespace Google.Api.Generator
             public byte[] Content { get; }
         }
 
-        public static IEnumerable<ResultFile> Generate(byte[] descriptorBytes, string package)
+        public static IEnumerable<ResultFile> Generate(byte[] descriptorBytes, string package, IClock clock)
         {
             var descriptors = GetFileDescriptors(descriptorBytes);
             var filesToGenerate = descriptors.Where(x => x.Package == package).Select(x => x.Name).ToList();
-            return Generate(descriptors, filesToGenerate);
+            return Generate(descriptors, filesToGenerate, clock);
         }
 
-        public static IEnumerable<ResultFile> Generate(IReadOnlyList<FileDescriptor> descriptors, IEnumerable<string> filesToGenerate)
+        public static IEnumerable<ResultFile> Generate(IReadOnlyList<FileDescriptor> descriptors, IEnumerable<string> filesToGenerate, IClock clock)
         {
             // TODO: Support multiple packages.
             var packages = descriptors.Where(x => filesToGenerate.Contains(x.Name)).Select(x => x.Package).Distinct().ToList();
@@ -67,21 +68,21 @@ namespace Google.Api.Generator
                 {
                     // Generate settings and client code for requested package.
                     var serviceDetails = new ServiceDetails(catalog, ns, service);
-                    var ctx = SourceFileContext.Create(SourceFileContext.ImportStyle.FullyAliased);
+                    var ctx = SourceFileContext.Create(SourceFileContext.ImportStyle.FullyAliased, clock);
                     var code = ServiceCodeGenerator.Generate(ctx, serviceDetails);
                     var formattedCode = CodeFormatter.Format(code);
                     var filename = $"{clientPathPrefix}{serviceDetails.ClientAbstractTyp.Name}.cs";
                     var content = Encoding.UTF8.GetBytes(formattedCode.ToFullString());
                     yield return new ResultFile(filename, content);
                     // Generate snippets for the service
-                    var snippetCtx = SourceFileContext.Create(SourceFileContext.ImportStyle.Unaliased);
+                    var snippetCtx = SourceFileContext.Create(SourceFileContext.ImportStyle.Unaliased, clock);
                     var snippetCode = SnippetCodeGenerator.Generate(snippetCtx, serviceDetails);
                     var snippetFormattedCode = CodeFormatter.Format(snippetCode);
                     var snippetFilename = $"{snippetsPathPrefix}{serviceDetails.ClientAbstractTyp.Name}Snippets.g.cs";
                     var snippetContent = Encoding.UTF8.GetBytes(snippetFormattedCode.ToFullString());
                     yield return new ResultFile(snippetFilename, snippetContent);
                     // Generate unit tests for the the service.
-                    var unitTestCtx = SourceFileContext.Create(SourceFileContext.ImportStyle.FullyAliased);
+                    var unitTestCtx = SourceFileContext.Create(SourceFileContext.ImportStyle.FullyAliased, clock);
                     var unitTestCode = UnitTestCodeGeneration.Generate(unitTestCtx, serviceDetails);
                     var unitTestFormattedCode = CodeFormatter.Format(unitTestCode);
                     var unitTestFilename = $"{unitTestsPathPrefix}{serviceDetails.ClientAbstractTyp.Name}Test.g.cs";
@@ -93,7 +94,7 @@ namespace Google.Api.Generator
                 // Generate resource-names for this proto file, if there are any.
                 if (catalog.GetResourceDefsByFile(fileDesc).Any())
                 {
-                    var resCtx = SourceFileContext.Create(SourceFileContext.ImportStyle.FullyAliased);
+                    var resCtx = SourceFileContext.Create(SourceFileContext.ImportStyle.FullyAliased, clock);
                     var resCode = ResourceNamesGenerator.Generate(catalog, resCtx, fileDesc);
                     var formattedResCode = CodeFormatter.Format(resCode);
                     var resFilename = $"{clientPathPrefix}{Path.GetFileNameWithoutExtension(fileDesc.Name)}ResourceNames.cs";
