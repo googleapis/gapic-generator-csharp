@@ -44,26 +44,38 @@ namespace Google.Api.Generator
 
         public static IEnumerable<ResultFile> Generate(IReadOnlyList<FileDescriptor> descriptors, IEnumerable<string> filesToGenerate, IClock clock)
         {
-            // TODO: Support multiple packages.
-            var packages = descriptors.Where(x => filesToGenerate.Contains(x.Name)).Select(x => x.Package).Distinct().ToList();
-            if (packages.Count == 0)
+            // TODO: Multi-package support not tested.
+            var filesToGenerateSet = filesToGenerate.ToHashSet();
+            var byPackage = descriptors.Where(x => filesToGenerateSet.Contains(x.Name)).GroupBy(x => x.Package).ToList();
+            if (byPackage.Count == 0)
             {
                 throw new InvalidOperationException("No packages specified to build.");
             }
-            if (packages.Count > 1)
+            foreach (var singlePackageFileDescs in byPackage)
             {
-                throw new InvalidOperationException($"More than one package specified to build: {string.Join(", ", packages)}");
+                var namespaces = singlePackageFileDescs.Select(x => x.CSharpNamespace()).Distinct().ToList();
+                if (namespaces.Count > 1)
+                {
+                    throw new InvalidOperationException(
+                        "All files in the same package must have the same C# namespace. " +
+                        $"Found namespaces '{string.Join(", ", namespaces)}' in package '{singlePackageFileDescs.Key}'.");
+                }
+                var catalog = new ProtoCatalog(singlePackageFileDescs.Key, descriptors);
+                foreach (var resultFile in GeneratePackage(namespaces[0], singlePackageFileDescs, catalog, clock))
+                {
+                    yield return resultFile;
+                }
             }
-            var package = packages[0];
-            var catalog = new ProtoCatalog(package, descriptors);
-            var packageFileDescs = descriptors.Where(x => x.Package == package).ToList();
-            foreach (var fileDesc in packageFileDescs)
+        }
+
+        private static IEnumerable<ResultFile> GeneratePackage(string ns, IEnumerable<FileDescriptor> packageFileDescriptors, ProtoCatalog catalog, IClock clock)
+        {
+            var clientPathPrefix = $"{ns}{Path.DirectorySeparatorChar}";
+            var snippetsPathPrefix = $"{ns}.Snippets{Path.DirectorySeparatorChar}";
+            var unitTestsPathPrefix = $"{ns}.Tests{Path.DirectorySeparatorChar}";
+            bool hasLro = false;
+            foreach (var fileDesc in packageFileDescriptors)
             {
-                var ns = fileDesc.CSharpNamespace();
-                var clientPathPrefix = $"{ns}{Path.DirectorySeparatorChar}";
-                var snippetsPathPrefix = $"{ns}.Snippets{Path.DirectorySeparatorChar}";
-                var unitTestsPathPrefix = $"{ns}.Tests{Path.DirectorySeparatorChar}";
-                bool hasLro = false;
                 foreach (var service in fileDesc.Services)
                 {
                     // Generate settings and client code for requested package.
@@ -101,19 +113,19 @@ namespace Google.Api.Generator
                     var resContent = Encoding.UTF8.GetBytes(formattedResCode.ToFullString());
                     yield return new ResultFile(resFilename, resContent);
                 }
-                // Generate client csproj.
-                var csprojContent = Encoding.UTF8.GetBytes(CsProjGenerator.GenerateClient(hasLro));
-                var csprojFilename = $"{clientPathPrefix}{ns}.csproj";
-                yield return new ResultFile(csprojFilename, csprojContent);
-                // Generate snippets csproj.
-                var snippetsCsprojContent = Encoding.UTF8.GetBytes(CsProjGenerator.GenerateSnippets(ns));
-                var snippetsCsProjFilename = $"{snippetsPathPrefix}{ns}.Snippets.csproj";
-                yield return new ResultFile(snippetsCsProjFilename, snippetsCsprojContent);
-                // Generate unit-tests csproj.
-                var unitTestsCsprojContent = Encoding.UTF8.GetBytes(CsProjGenerator.GenerateUnitTests(ns));
-                var unitTestsCsprojFilename = $"{unitTestsPathPrefix}{ns}.Tests.csproj";
-                yield return new ResultFile(unitTestsCsprojFilename, unitTestsCsprojContent);
             }
+            // Generate client csproj.
+            var csprojContent = Encoding.UTF8.GetBytes(CsProjGenerator.GenerateClient(hasLro));
+            var csprojFilename = $"{clientPathPrefix}{ns}.csproj";
+            yield return new ResultFile(csprojFilename, csprojContent);
+            // Generate snippets csproj.
+            var snippetsCsprojContent = Encoding.UTF8.GetBytes(CsProjGenerator.GenerateSnippets(ns));
+            var snippetsCsProjFilename = $"{snippetsPathPrefix}{ns}.Snippets.csproj";
+            yield return new ResultFile(snippetsCsProjFilename, snippetsCsprojContent);
+            // Generate unit-tests csproj.
+            var unitTestsCsprojContent = Encoding.UTF8.GetBytes(CsProjGenerator.GenerateUnitTests(ns));
+            var unitTestsCsprojFilename = $"{unitTestsPathPrefix}{ns}.Tests.csproj";
+            yield return new ResultFile(unitTestsCsprojFilename, unitTestsCsprojContent);
         }
 
         private static IReadOnlyList<FileDescriptor> GetFileDescriptors(byte[] bytes)
