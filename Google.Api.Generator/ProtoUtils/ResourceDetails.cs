@@ -49,7 +49,7 @@ namespace Google.Api.Generator.ProtoUtils
                 public Typ ResourceNameTyp { get; }
             }
 
-            public Definition(string ns, string fullSymbol, Resource resource, ResourceSet resourceSet)
+            public Definition(string ns, string fullSymbol, Resource resource)
             {
                 FullSymbol = fullSymbol;
                 var symbolShortName = fullSymbol.Split('.').Last();
@@ -132,7 +132,7 @@ namespace Google.Api.Generator.ProtoUtils
                 throw new InvalidOperationException($"Duplicate resources: {string.Join(", ", duplicateSymbols)}");
             }
             // Final result.
-            return resourcesBySymbol1.Concat(resourcesBySymbol2).Select(x => new Definition(fileDesc.CSharpNamespace(), x.symbol, x.resource, null));
+            return resourcesBySymbol1.Concat(resourcesBySymbol2).Select(x => new Definition(fileDesc.CSharpNamespace(), x.symbol, x.resource));
         }
 
         public static Field LoadResourceReference(MessageDescriptor msgDesc, FieldDescriptor fieldDesc, IReadOnlyDictionary<string, Definition> resourcesByFullSymbol)
