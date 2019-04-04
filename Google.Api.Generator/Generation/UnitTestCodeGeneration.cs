@@ -177,7 +177,7 @@ namespace Google.Api.Generator.Generation
 
             private IEnumerable<ObjectInitExpr> InitMessage(MessageDescriptor msgDesc, IEnumerable<MethodDetails.Signature.Field> onlyFields)
             {
-                var onlyFieldsSet = onlyFields?.Select(x => x.Desc.FieldNumber).ToHashSet();
+                var onlyFieldsSet = onlyFields?.Select(x => x.Descs.Last().FieldNumber).ToHashSet();
                 foreach (var fieldDesc in msgDesc.Fields.InFieldNumberOrder())
                 {
                     if (!IsPaginationField() && (onlyFieldsSet == null || onlyFieldsSet.Contains(fieldDesc.FieldNumber)))
@@ -264,7 +264,8 @@ namespace Google.Api.Generator.Generation
 
                 private IEnumerable<object> SigArgs => _sig.Fields.Select(field => _def.Request.Access(field.PropertyName));
 
-                private IEnumerable<object> SigResourceNameArgs => _sig.Fields.Select(field => _def.Request.Access(field.FieldResource?.ResourcePropertyName ?? field.PropertyName));
+                private IEnumerable<object> SigResourceNameArgs =>
+                    _sig.Fields.Select(field => _def.Request.Access(field.FieldResource?.ResourcePropertyName ?? field.PropertyName));
 
                 public bool HasResourceNames => _sig.Fields.Any(x => x.FieldResource != null);
 

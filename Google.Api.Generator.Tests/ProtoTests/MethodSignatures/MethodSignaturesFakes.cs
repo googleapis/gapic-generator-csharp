@@ -74,5 +74,32 @@ namespace Testing.MethodSignatures
         public RepeatedField<Types.Enum> RepeatedRequired { get; }
     }
 
+    public class NestedOuter : ProtoMsgFake<NestedOuter>
+    {
+        public bool ABool { get; set; }
+    }
+    public class NestedRequest : ProtoMsgFake<NestedRequest>
+    {
+        public static class Types
+        {
+            public class Nest1 : ProtoMsgFake<Nest1>
+            {
+                public static class Types
+                {
+                    public class Nest2 : ProtoMsgFake<Nest2>
+                    {
+                        public int ANumber { get; set; }
+                        public int AnotherNumber { get; set; }
+                    }
+                }
+                public string AString { get; set; }
+                public Types.Nest2 Nest2 { get; set; }
+                public NestedOuter NestOuter { get; set; }
+            }
+        }
+        public Types.Nest1 Nest1 { get; set; }
+        public string TopLevelString { get; set; }
+    }
+
     public class Response : ProtoMsgFake<Response> { }
 }

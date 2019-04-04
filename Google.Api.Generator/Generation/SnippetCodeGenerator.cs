@@ -499,8 +499,9 @@ namespace Google.Api.Generator.Generation
                 private Typ MaybeEnumerable(bool repeated, Typ typ) => !repeated || typ == null ? typ : Typ.Generic(typeof(IEnumerable<>), typ);
                 private IEnumerable<LocalDeclarationStatementSyntax> InitRequestArgs(bool resourceNameAsString) =>
                     _sig.Fields.Select(f =>
-                        Local(Ctx.Type(resourceNameAsString ? f.Typ : MaybeEnumerable(f.IsRepeated, f.FieldResource?.ResourceDefinition.One.ResourceNameTyp) ?? f.Typ), f.FieldName)
-                        .WithInitializer(_def.DefaultValue(f.Desc, resourceNameAsString, topLevel: true)));
+                        Local(Ctx.Type(resourceNameAsString ? f.Typ : MaybeEnumerable(f.IsRepeated, f.FieldResource?.ResourceDefinition.One.ResourceNameTyp) ?? f.Typ),
+                            f.Descs.Last().CSharpFieldName())
+                        .WithInitializer(_def.DefaultValue(f.Descs.Last(), resourceNameAsString, topLevel: true)));
                 private IEnumerable<LocalDeclarationStatementSyntax> InitRequestArgsNormal => InitRequestArgs(resourceNameAsString: true);
                 private IEnumerable<LocalDeclarationStatementSyntax> InitRequestArgsResourceNames => InitRequestArgs(resourceNameAsString: false);
 
