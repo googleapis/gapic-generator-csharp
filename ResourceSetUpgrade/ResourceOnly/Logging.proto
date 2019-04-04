@@ -1,0 +1,100 @@
+﻿syntax = "proto3";
+
+package resourceupgradetest;
+
+option csharp_namespace = "ResourceUpgradeTest";
+
+import "google/api/annotations.proto";
+import "google/api/resource.proto";
+import "google/api/client.proto";
+
+service LoggingServiceV2 {
+  rpc DeleteLog(DeleteLogRequest) returns (Empty) {
+    option (google.api.http) = {
+      delete: "/v2/{log_name=projects/*/logs/*}"
+      additional_bindings { delete: "/v2/{log_name=organizations/*/logs/*}" }
+      additional_bindings { delete: "/v2/{log_name=folders/*/logs/*}" }
+      additional_bindings { delete: "/v2/{log_name=billingAccounts/*/logs/*}" }
+    };
+	option (google.api.method_signature) = "log_name";
+  }
+  
+  rpc ListLogs(ListLogsRequest) returns (ListLogsResponse) {
+    option (google.api.http) = {
+      get: "/v2/{parent=*/*}/logs"
+      additional_bindings { get: "/v2/{parent=projects/*}/logs" }
+      additional_bindings { get: "/v2/{parent=organizations/*}/logs" }
+      additional_bindings { get: "/v2/{parent=folders/*}/logs" }
+      additional_bindings { get: "/v2/{parent=billingAccounts/*}/logs" }
+    };
+	option (google.api.method_signature) = "parent";
+  }
+}
+
+// This will be added to upgrade the `log_name` field in `DeleteLogRequest` to become a resource-set.
+// Here the symbol is identical in both, so they are both referenced by the
+// resource_reference annotation in the `DeleteLogRequest` message.
+// Using identical names won't always be done, but needs to be supported.
+
+// option (google.api.resource_set_definition) = {
+//   symbol: "Log",
+//   resource_references: ["Log"], // refers to the non-set `Log` resource definition
+//   resource_definitions: [
+//     { symbol: "OrganizationLog", pattern: "organizations/{organization}/sinks/{sink}" },
+//     { symbol: "FolderLog", pattern: "folders/{folder}/logs/{log}" },
+//     { symbol: "BillingLog", pattern: "billingAccounts/{billing_account}/logs/{log}" }
+//   ]
+// };
+
+option (google.api.resource_definition) = {
+  symbol: "Log",
+  pattern: "projects/{project}/logs/{log}"
+};
+
+message DeleteLogRequest {
+  // Required. The resource name of the log to delete:
+  //     "projects/[PROJECT_ID]/logs/[LOG_ID]"
+  //     "organizations/[ORGANIZATION_ID]/logs/[LOG_ID]"
+  //     "billingAccounts/[BILLING_ACCOUNT_ID]/logs/[LOG_ID]"
+  //     "folders/[FOLDER_ID]/logs/[LOG_ID]"
+  string log_name = 1 [(google.api.resource_reference) = "Log"];
+}
+
+// This will be added to upgrade the `parent` field in `ListLogsRequest` to become a resource-set.
+// Here the symbols used are not identical, so an extra resource_reference annotation must be added to the `parent` field.
+
+// option (google.api.resource_set_definition) = {
+//   symbol: "Parent",
+//   resource_references: ["Project"], // refers to the non-set `Project` resource definition
+//   resource_definitions: [
+//     { symbol: "Organization", pattern: "organizations/{organization}" },
+//     { symbol: "Folder", pattern: "folders/{folder}" },
+//     { symbol: "Billing", pattern: "billingAccounts/{billing_account}" }
+//   ]
+// };
+
+option (google.api.resource_definition) = {
+  symbol: "Project",
+  pattern: "projects/{project}"
+};
+
+message ListLogsRequest {
+  // Required. The resource name that owns the logs:
+  //     "projects/[PROJECT_ID]"
+  //     "organizations/[ORGANIZATION_ID]"
+  //     "billingAccounts/[BILLING_ACCOUNT_ID]"
+  //     "folders/[FOLDER_ID]"
+  string parent = 1 [
+    (google.api.resource_reference) = "Project", // Original non-set resource, requied to maintain backward compatibility.
+    // (google.api.resource_reference) = "Parent" // set (oneof) resource.
+  ];
+  int32 page_size = 2;
+  string page_token = 3;
+}
+
+message ListLogsResponse {
+  repeated string log_names = 3;
+  string next_page_token = 2;
+}
+
+message Empty { }
