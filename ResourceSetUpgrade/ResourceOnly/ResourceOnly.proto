@@ -1,0 +1,41 @@
+﻿syntax = "proto3";
+
+package resourceupgradetest;
+
+option csharp_namespace = "ResourceUpgradeTest";
+
+import "google/api/resource.proto";
+import "google/api/client.proto";
+
+service Svc {
+  rpc M(Request) returns(Response) {
+    // Simple/usual case - one parameter with a resource upgraded to a resource-set.
+    option (google.api.method_signature) = "name,another_name";
+	// More complex case - two parameters both with a resource upgraded to a resource-set.
+    option (google.api.method_signature) = "name";
+  }
+}
+
+option (google.api.resource_definition) = {
+  symbol: "Request",
+  pattern: "items/{item_id}"
+};
+
+// This will be added to upgrade a the `Request` resource to become a resource-set.
+// Here the symbol is identical in both, so they are both referenced by the
+// resource_reference annotation in the `Request` message.
+// (this may or may not be the most suitable way to do this, but doing it this way
+// means the naming in the generated code all works out correctly.)
+
+// option (google.api.resource_set_definition) = {
+//   symbol: "Request",
+//   resource_references: ["Request", ...]
+// };
+
+message Request {
+  string name = 1 [(google.api.resource_reference) = "Request"];
+  string another_name = 2 [(google.api.resource_reference) = "Request"];
+}
+
+message Response {
+}
