@@ -37,7 +37,7 @@ service LoggingServiceV2 {
 // Using identical names won't always be done, but needs to be supported.
 
 // option (google.api.resource_set_definition) = {
-//   symbol: "Log",
+//   symbol: "LogOneof",
 //   resource_references: ["Log"], // refers to the non-set `Log` resource definition
 //   resource_definitions: [
 //     { symbol: "OrganizationLog", pattern: "organizations/{organization}/sinks/{sink}" },
@@ -57,14 +57,14 @@ message DeleteLogRequest {
   //     "organizations/[ORGANIZATION_ID]/logs/[LOG_ID]"
   //     "billingAccounts/[BILLING_ACCOUNT_ID]/logs/[LOG_ID]"
   //     "folders/[FOLDER_ID]/logs/[LOG_ID]"
-  string log_name = 1 [(google.api.resource_reference) = "Log"];
+  string log_name = 1 [(google.api.resource_reference) = "Log", (google.api.resource_reference) = "LogOneof"];
 }
 
 // This will be added to upgrade the `parent` field in `ListLogsRequest` to become a resource-set.
 // Here the symbols used are not identical, so an extra resource_reference annotation must be added to the `parent` field.
 
 // option (google.api.resource_set_definition) = {
-//   symbol: "Parent",
+//   symbol: "ParentOneof",
 //   resource_references: ["Project"], // refers to the non-set `Project` resource definition
 //   resource_definitions: [
 //     { symbol: "Organization", pattern: "organizations/{organization}" },
@@ -85,11 +85,36 @@ message ListLogsRequest {
   //     "billingAccounts/[BILLING_ACCOUNT_ID]"
   //     "folders/[FOLDER_ID]"
   string parent = 1 [
+    (google.api.resource_set) = [
+	  symbol: "ParentOneof",
+	  resource_definitions: [
+	    { symbol: "Organization", pattern: "organizations/{organization}" },
+        { symbol: "Folder", pattern: "folders/{folder}" },
+        { symbol: "Billing", pattern: "billingAccounts/{billing_account}" }
+	  ]
+	]
     (google.api.resource_reference) = "Project", // Original non-set resource, requied to maintain backward compatibility.
-    // (google.api.resource_reference) = "Parent" // set (oneof) resource.
+    // (google.api.resource_reference) = "ParentOneof" // set (oneof) resource.
   ];
   int32 page_size = 2;
   string page_token = 3;
+
+  string parent = 1 [ // Option 1
+    (google.api.resource_symbol) = { symbol = "Mysymbol", backwardcopmat = "Project" }
+    (google.api.resource_reference) = "Project",
+    (google.api.resource_reference) = "Organization",
+    (google.api.resource_reference) = "Folder",
+    (google.api.resource_reference) = "Billing",
+  ]
+
+  string parent = 1 [ // Option 2 - problems: name of generated class
+    (google.api.resource_reference) = "Project", // for backward compatibility
+    (google.api.resource_child_reference) = "LogOneof"
+	(google.api.resource_reference) = {
+	  child = "LogOneof",
+	  message = "Project"
+	}
+  ]
 }
 
 message ListLogsResponse {
