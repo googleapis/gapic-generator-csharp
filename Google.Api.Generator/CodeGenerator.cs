@@ -83,7 +83,7 @@ namespace Google.Api.Generator
                     var ctx = SourceFileContext.Create(SourceFileContext.ImportStyle.FullyAliased, clock);
                     var code = ServiceCodeGenerator.Generate(ctx, serviceDetails);
                     var formattedCode = CodeFormatter.Format(code);
-                    var filename = $"{clientPathPrefix}{serviceDetails.ClientAbstractTyp.Name}.cs";
+                    var filename = $"{clientPathPrefix}{serviceDetails.ClientAbstractTyp.Name}.g.cs";
                     var content = Encoding.UTF8.GetBytes(formattedCode.ToFullString());
                     yield return new ResultFile(filename, content);
                     // Generate snippets for the service
@@ -109,7 +109,7 @@ namespace Google.Api.Generator
                     var resCtx = SourceFileContext.Create(SourceFileContext.ImportStyle.FullyAliased, clock);
                     var resCode = ResourceNamesGenerator.Generate(catalog, resCtx, fileDesc);
                     var formattedResCode = CodeFormatter.Format(resCode);
-                    var resFilename = $"{clientPathPrefix}{Path.GetFileNameWithoutExtension(fileDesc.Name)}ResourceNames.cs";
+                    var resFilename = $"{clientPathPrefix}{Path.GetFileNameWithoutExtension(fileDesc.Name)}ResourceNames.g.cs";
                     var resContent = Encoding.UTF8.GetBytes(formattedResCode.ToFullString());
                     yield return new ResultFile(resFilename, resContent);
                 }
