@@ -177,11 +177,13 @@ namespace Google.Api.Generator.Tests
                 try
                 {
                     Directory.Delete(Path.Combine(path, "obj"), recursive: true);
+                }
+                catch { }
+                try
+                {
                     Directory.Delete(Path.Combine(path, "bin"), recursive: true);
                 }
-                catch
-                {
-                }
+                catch { }
             }
         }
 

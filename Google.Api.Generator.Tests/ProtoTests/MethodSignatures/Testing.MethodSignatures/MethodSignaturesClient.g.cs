@@ -164,8 +164,8 @@ namespace Testing.MethodSignatures
         public virtual Response SimpleMethod(string aString, int aNumber, gaxgrpc::CallSettings callSettings = null) =>
             SimpleMethod(new SimpleRequest
             {
-                AString = aString ?? "",
                 ANumber = aNumber,
+                AString = aString ?? "",
             }, callSettings);
 
         /// <summary>
@@ -182,8 +182,8 @@ namespace Testing.MethodSignatures
         public virtual stt::Task<Response> SimpleMethodAsync(string aString, int aNumber, gaxgrpc::CallSettings callSettings = null) =>
             SimpleMethodAsync(new SimpleRequest
             {
-                AString = aString ?? "",
                 ANumber = aNumber,
+                AString = aString ?? "",
             }, callSettings);
 
         /// <summary>
@@ -569,6 +569,88 @@ namespace Testing.MethodSignatures
         /// <returns>A Task containing the RPC response.</returns>
         public virtual stt::Task<Response> EnumArgsAsync(EnumRequest.Types.Enum optional, EnumRequest.Types.Enum required, scg::IEnumerable<EnumRequest.Types.Enum> repeatedOptional, scg::IEnumerable<EnumRequest.Types.Enum> repeatedRequired, st::CancellationToken cancellationToken) =>
             EnumArgsAsync(optional, required, repeatedOptional, repeatedRequired, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+        // TEST_END
+
+        public virtual Response NestedArgs(NestedRequest request, gaxgrpc::CallSettings callSettings = null) => throw new sys::NotImplementedException();
+        public virtual stt::Task<Response> NestedArgsAsync(NestedRequest request, gaxgrpc::CallSettings callSettings = null) => throw new sys::NotImplementedException();
+
+        // TEST_START
+        /// <summary>
+        /// </summary>
+        /// <param name="aString">
+        /// </param>
+        /// <param name="aNumber">
+        /// </param>
+        /// <param name="anotherNumber">
+        /// </param>
+        /// <param name="aBool">
+        /// </param>
+        /// <param name="topLevelString">
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>The RPC response.</returns>
+        public virtual Response NestedArgs(string aString, int aNumber, int anotherNumber, bool aBool, string topLevelString, gaxgrpc::CallSettings callSettings = null) =>
+            NestedArgs(new NestedRequest
+            {
+                TopLevelString = topLevelString ?? "",
+                Nest1 = new NestedRequest.Types.Nest1
+                {
+                    AString = aString ?? "",
+                    Nest2 = new NestedRequest.Types.Nest1.Types.Nest2
+                    {
+                        ANumber = aNumber,
+                        AnotherNumber = anotherNumber,
+                    },
+                    NestOuter = new NestedOuter { ABool = aBool, },
+                },
+            }, callSettings);
+
+        /// <summary>
+        /// </summary>
+        /// <param name="aString">
+        /// </param>
+        /// <param name="aNumber">
+        /// </param>
+        /// <param name="anotherNumber">
+        /// </param>
+        /// <param name="aBool">
+        /// </param>
+        /// <param name="topLevelString">
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<Response> NestedArgsAsync(string aString, int aNumber, int anotherNumber, bool aBool, string topLevelString, gaxgrpc::CallSettings callSettings = null) =>
+            NestedArgsAsync(new NestedRequest
+            {
+                TopLevelString = topLevelString ?? "",
+                Nest1 = new NestedRequest.Types.Nest1
+                {
+                    AString = aString ?? "",
+                    Nest2 = new NestedRequest.Types.Nest1.Types.Nest2
+                    {
+                        ANumber = aNumber,
+                        AnotherNumber = anotherNumber,
+                    },
+                    NestOuter = new NestedOuter { ABool = aBool, },
+                },
+            }, callSettings);
+
+        /// <summary>
+        /// </summary>
+        /// <param name="aString">
+        /// </param>
+        /// <param name="aNumber">
+        /// </param>
+        /// <param name="anotherNumber">
+        /// </param>
+        /// <param name="aBool">
+        /// </param>
+        /// <param name="topLevelString">
+        /// </param>
+        /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<Response> NestedArgsAsync(string aString, int aNumber, int anotherNumber, bool aBool, string topLevelString, st::CancellationToken cancellationToken) =>
+            NestedArgsAsync(aString, aNumber, anotherNumber, aBool, topLevelString, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
         // TEST_END
     }
 }

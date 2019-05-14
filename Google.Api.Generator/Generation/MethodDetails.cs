@@ -20,6 +20,7 @@ using Google.LongRunning;
 using Google.Protobuf.Reflection;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -156,25 +157,31 @@ namespace Google.Api.Generator.Generation
             {
                 public Field(ServiceDetails svc, MessageDescriptor msg, string fieldName)
                 {
-                    Desc = msg.FindFieldByName(fieldName);
-                    if (Desc == null)
+                    Descs = fieldName.Split('.').Aggregate((msg, result: ImmutableList<FieldDescriptor>.Empty), (acc, part) =>
                     {
-                        throw new InvalidOperationException($"Field '{fieldName}' doesn't exist in message: {msg.FullName}");
-                    }
-                    Typ = Typ.Of(Desc);
-                    IsRepeated = Desc.IsRepeated;
-                    Required = Desc.CustomOptions.TryGetRepeatedEnum<FieldBehavior>(ProtoConsts.FieldOption.FieldBehavior, out var behaviors) &&
+                        // TODO: Check nested fields aren't repeated.
+                        var fieldDesc = acc.msg.FindFieldByName(part);
+                        if (fieldDesc == null)
+                        {
+                            throw new InvalidOperationException($"Field '{part}' does not exist in message: {acc.msg.FullName}");
+                        }
+                        return (fieldDesc.FieldType == FieldType.Message ? fieldDesc.MessageType : null, acc.result.Add(fieldDesc));
+                    }, acc => acc.result);
+                    var lastDesc = Descs.Last();
+                    Typ = Typ.Of(lastDesc);
+                    IsRepeated = lastDesc.IsRepeated;
+                    Required = lastDesc.CustomOptions.TryGetRepeatedEnum<FieldBehavior>(ProtoConsts.FieldOption.FieldBehavior, out var behaviors) &&
                         behaviors.Any(x => x == FieldBehavior.Required);
-                    FieldName = Desc.CSharpFieldName();
-                    PropertyName = Desc.CSharpPropertyName();
-                    DocLines = Desc.Declaration.DocLines();
-                    FieldResource = svc.Catalog.GetResourceDetailsByField(Desc);
+                    ParameterName = lastDesc.CSharpFieldName();
+                    PropertyName = lastDesc.CSharpPropertyName();
+                    DocLines = lastDesc.Declaration.DocLines();
+                    FieldResource = svc.Catalog.GetResourceDetailsByField(lastDesc);
                 }
-                public FieldDescriptor Desc { get; }
+                public IReadOnlyList<FieldDescriptor> Descs { get; }
                 public Typ Typ { get; }
                 public bool IsRepeated { get; }
                 public bool Required { get; }
-                public string FieldName { get; }
+                public string ParameterName { get; }
                 public string PropertyName { get; }
                 public IEnumerable<string> DocLines { get; }
                 /// <summary>Resource details if this field respresents a resource. Null if not a resource field.</summary>

@@ -116,11 +116,17 @@ namespace Google.Api.Generator.Utils
         public static Typ Of(MessageDescriptor desc)
         {
             var ns = desc.File.CSharpNamespace();
-            var typ = Manual(ns, desc.Name);
-            while (desc.ContainingType != null)
+            var decls = new List<MessageDescriptor>();
+            do
             {
+                decls.Add(desc);
                 desc = desc.ContainingType;
-                typ = Nested(Nested(Manual(ns, desc.Name), "Types"), typ.Name);
+            } while (desc != null);
+            decls.Reverse();
+            var typ = Manual(ns, decls[0].Name);
+            foreach (var decl in decls.Skip(1))
+            {
+                typ = Nested(Nested(typ, "Types"), decl.Name);
             }
             return typ;
         }
