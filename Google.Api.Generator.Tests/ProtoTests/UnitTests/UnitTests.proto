@@ -25,15 +25,21 @@ service UnitTests {
   }
 }
 
-option (google.api.resource_definition) = {
-  symbol: "AResource",
-  pattern: "items/{item_id}/parts/{part_id}"
-};
+message AResource {
+  option (google.api.resource) = {
+    type: "unittests.example.com/AResource"
+    pattern: "items/{item_id}/parts/{part_id}"
+  };
+  string name = 1;
+}
 
-option (google.api.resource_definition) = {
-  symbol: "WildcardResource",
-  pattern: "*"
-};
+message WildcardResource {
+  option (google.api.resource) = {
+    type: "unittests.example.com/WildcardResource",
+    pattern: "*"
+  };
+  string name = 1;
+}
 
 message AnotherMessage {
 }
@@ -87,10 +93,10 @@ message ValuesRequest {
   repeated NestedMessage repeated_nested_message = 37;
   repeated Enum repeated_enum = 38;
   repeated NestedEnum repeated_nested_enum = 39;
-  string single_resource_name = 40 [(google.api.resource_reference) = "AResource"];
-  repeated string repeated_resource_name = 41 [(google.api.resource_reference) = "AResource"];
-  string single_wildcard_resource = 42 [(google.api.resource_reference) = "WildcardResource"];
-  repeated string repeated_wildcard_resource = 43 [(google.api.resource_reference) = "WildcardResource"];
+  string single_resource_name = 40 [(google.api.resource_reference).type = "unittests.example.com/AResource"];
+  repeated string repeated_resource_name = 41 [(google.api.resource_reference).type = "unittests.example.com/AResource"];
+  string single_wildcard_resource = 42 [(google.api.resource_reference).type = "unittests.example.com/WildcardResource"];
+  repeated string repeated_wildcard_resource = 43 [(google.api.resource_reference).type = "unittests.example.com/WildcardResource"];
 }
 
 message Response {

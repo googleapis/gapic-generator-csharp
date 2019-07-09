@@ -20,7 +20,7 @@ using tl = Testing.Lro;
 
 namespace Testing.Lro
 {
-    /// <summary>Resource name for the <c>Resource</c> resource</summary>
+    /// <summary>Resource name for the <c>Resource</c> resource.</summary>
     public sealed partial class ResourceName : gax::IResourceName, sys::IEquatable<ResourceName>
     {
         private static readonly gax::PathTemplate s_template = new gax::PathTemplate("items/{item_id}");

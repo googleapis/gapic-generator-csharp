@@ -32,13 +32,12 @@ message Request {
   string name = 1;
 }
 
-option (google.api.resource_definition) = {
-  symbol: "Resource",
-  pattern: "items/{item_id}"
-};
-
 message ResourceRequest {
-  string name = 1 [(google.api.resource_reference) = "Resource"];
+  option (google.api.resource) = {
+    type: "lro.example.com/Resource"
+    pattern: "items/{item_id}" 
+  };
+  string name = 1;
 }
 
 message LroResponse {

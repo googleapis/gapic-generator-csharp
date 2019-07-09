@@ -25,13 +25,16 @@ message Request {
   string name = 1;
 }
 
-option (google.api.resource_definition) = {
-  symbol: "Resource",
-  pattern: "items/{item_id}"
-};
+message Resource {
+  option (google.api.resource) = {
+    type: "serverstreaming.example.com/Resource"
+    pattern: "items/{item_id}"
+  };
+  string name = 1;
+}
 
 message ResourceRequest {
-  string name = 1 [(google.api.resource_reference) = "Resource"];
+  string name = 1 [(google.api.resource_reference).type = "serverstreaming.example.com/Resource"];
 }
 
 message Response {

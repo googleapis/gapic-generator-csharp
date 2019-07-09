@@ -36,18 +36,21 @@ message Response {
   repeated string results = 2;
 }
 
-option (google.api.resource_definition) = {
-  symbol: "Resource",
-  pattern: "items/{item_id}"
-};
+message Resource {
+  option (google.api.resource) = {
+    type: "paginated.example.com/Resource"
+    pattern: "items/{item_id}"
+  };
+  string name = 1;
+}
 
 message ResourceRequest {
-  string name = 1 [(google.api.resource_reference) = "Resource"];
+  string name = 1 [(google.api.resource_reference).type = "paginated.example.com/Resource"];
   int32 page_size = 2;
   string page_token = 3;
 }
 
 message ResourceResponse {
   string next_page_token = 1;
-  repeated string results = 2 [(google.api.resource_reference) = "Resource"];
+  repeated string results = 2 [(google.api.resource_reference).type = "paginated.example.com/Resource"];
 }
