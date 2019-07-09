@@ -29,5 +29,7 @@ namespace Google.Api.Generator.Utils
 
         public static string ToLowerCamelCase(this string s) => Camelizer(s, firstUpper: false, forceAllChars: false);
         public static string ToUpperCamelCase(this string s, bool forceAllChars = false) => Camelizer(s, firstUpper: true, forceAllChars);
+
+        public static string RemoveSuffix(this string s, string suffix) => s.EndsWith(suffix) ? s.Substring(0, s.Length - suffix.Length) : s;
     }
 }

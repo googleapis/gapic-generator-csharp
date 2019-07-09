@@ -163,19 +163,36 @@ namespace Google.Api.Generator.Generation
                 if (resource != null)
                 {
                     // TODO: Resource-sets
-                    var one = resource.ResourceDefinition.One;
+                    var one = resource.ResourceDefinition.Single;
+                    var multi = resource.ResourceDefinition.Multi;
                     object @default;
                     if (resourceNameAsString)
                     {
-                        @default = one.IsWildcard ?
-                            "a/wildcard/resource" :
-                            one.Template.Expand(one.Template.ParameterNames.Select(x => $"[{x.ToUpperInvariant()}]").ToArray());
+                        if (multi != null)
+                        {
+                            // TODO
+                            @default = "TODO!!!";
+                        }
+                        else
+                        {
+                            @default = one.IsWildcard ?
+                                "a/wildcard/resource" :
+                                one.Template.Expand(one.Template.ParameterNames.Select(x => $"[{x.ToUpperInvariant()}]").ToArray());
+                        }
                     }
                     else
                     {
-                        @default = one.IsWildcard ?
-                            New(Ctx.Type<UnknownResourceName>())("a/wildcard/resource") :
-                            New(Ctx.Type(one.ResourceNameTyp))(one.Template.ParameterNames.Select(x => $"[{x.ToUpperInvariant()}]"));
+                        if (multi != null)
+                        {
+                            // TODO
+                            @default = "TODO!!!";
+                        }
+                        else
+                        {
+                            @default = one.IsWildcard ?
+                                New(Ctx.Type<UnknownResourceName>())("a/wildcard/resource") :
+                                New(Ctx.Type(one.ResourceNameTyp))(one.Template.ParameterNames.Select(x => $"[{x.ToUpperInvariant()}]"));
+                        }
                     }
                     return fieldDesc.IsRepeated ? Collection(@default, resourceNameAsString ? null : one.ResourceNameTyp) : @default;
                 }
@@ -226,7 +243,7 @@ namespace Google.Api.Generator.Generation
                     {
                         // TODO: Support one-ofs properly; i.e. only set one of the fields.
                         yield return new ObjectInitExpr(
-                            Svc.Catalog.GetResourceDetailsByField(fieldDesc)?.ResourcePropertyName ?? fieldDesc.CSharpPropertyName(),
+                            Svc.Catalog.GetResourceDetailsByField(fieldDesc)?.SingleResourcePropertyName ?? fieldDesc.CSharpPropertyName(),
                             DefaultValue(fieldDesc));
                     }
 
@@ -499,13 +516,15 @@ namespace Google.Api.Generator.Generation
                 private Typ MaybeEnumerable(bool repeated, Typ typ) => !repeated || typ == null ? typ : Typ.Generic(typeof(IEnumerable<>), typ);
                 private IEnumerable<LocalDeclarationStatementSyntax> InitRequestArgs(bool resourceNameAsString) =>
                     _sig.Fields.Select(f =>
-                        Local(Ctx.Type(resourceNameAsString ? f.Typ : MaybeEnumerable(f.IsRepeated, f.FieldResource?.ResourceDefinition.One.ResourceNameTyp) ?? f.Typ),
+                        Local(Ctx.Type(resourceNameAsString ? f.Typ : MaybeEnumerable(f.IsRepeated,
+                            f.FieldResource?.ResourceDefinition.Multi?.ContainerTyp ?? f.FieldResource?.ResourceDefinition.Single.ResourceNameTyp) ?? f.Typ),
                             f.Descs.Last().CSharpFieldName())
                         .WithInitializer(_def.DefaultValue(f.Descs.Last(), resourceNameAsString, topLevel: true)));
                 private IEnumerable<LocalDeclarationStatementSyntax> InitRequestArgsNormal => InitRequestArgs(resourceNameAsString: true);
                 private IEnumerable<LocalDeclarationStatementSyntax> InitRequestArgsResourceNames => InitRequestArgs(resourceNameAsString: false);
 
-                private IEnumerable<Typ> SnippetCommentResourceNameArgs => _sig.Fields.Select(f => f.FieldResource?.ResourceDefinition.One.ResourceNameTyp ?? f.Typ);
+                private IEnumerable<Typ> SnippetCommentResourceNameArgs => _sig.Fields
+                    .Select(f => f.FieldResource?.ResourceDefinition.Multi?.ContainerTyp ?? f.FieldResource?.ResourceDefinition.Single.ResourceNameTyp ?? f.Typ);
 
                 public bool HasResourceNames => _sig.Fields.Any(x => x.FieldResource != null);
 

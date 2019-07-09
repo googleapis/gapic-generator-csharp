@@ -35,6 +35,8 @@ namespace Google.Api.Generator.RoslynUtils
         public delegate T ParametersFunc<T>(params ParameterSyntax[] parameters);
         public delegate T ArgumentsFunc<T>(params object[] args);
         public delegate T CodeFunc<T>(params object[] code);
+        public delegate EnumDeclarationSyntax EnumFunc(params EnumMemberDeclarationSyntax[] items);
+        public delegate SwitchStatementSyntax SwitchFunc(params (object caseLiteral, object code)[] cases);
 
         public static TypeSyntax VoidType { get; } = PredefinedType(Token(SyntaxKind.VoidKeyword));
         public static ExpressionSyntax Null { get; } = LiteralExpression(SyntaxKind.NullLiteralExpression);
@@ -42,6 +44,19 @@ namespace Google.Api.Generator.RoslynUtils
         public static ExpressionSyntax Value { get; } = IdentifierName("value");
 
         public static NamespaceDeclarationSyntax Namespace(string ns) => NamespaceDeclaration(IdentifierName(ns));
+
+        public static EnumFunc Enum(Modifier modifier, Typ typ) => items =>
+            EnumDeclaration(typ.Name).AddModifiers(modifier.ToSyntaxTokens()).WithMembers(SeparatedList(items));
+
+        public static EnumMemberDeclarationSyntax EnumMember(string identifier, int? value = null)
+        {
+            var enumMember = EnumMemberDeclaration(identifier);
+            if (value is int v)
+            {
+                enumMember = enumMember.WithEqualsValue(EqualsValueClause(LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(v))));
+            }
+            return enumMember;
+        }
 
         public static ClassDeclarationSyntax Class(Modifier modifier, Typ typ, params TypeSyntax[] baseTypes)
         {
@@ -114,6 +129,9 @@ namespace Google.Api.Generator.RoslynUtils
         }
 
         public static DeclarationExpressionSyntax ParameterOutVar(TypeSyntax type, string name) => DeclarationExpression(type, SingleVariableDesignation(Identifier(name)));
+
+        public static DeclarationExpressionSyntax ParameterOutVar(LocalDeclarationStatementSyntax local) =>
+            DeclarationExpression(local.Declaration.Type, SingleVariableDesignation(local.Declaration.Variables[0].Identifier));
 
         public static LocalDeclarationStatementSyntax Local(TypeSyntax type, string name)
         {
@@ -195,6 +213,8 @@ namespace Google.Api.Generator.RoslynUtils
 
         public static IfStatementSyntax If(ExpressionSyntax condition) => IfStatement(condition, Block());
 
+        public static IfStatementSyntax If(ParameterSyntax condition) => IfStatement(IdentifierName(condition.Identifier), Block());
+
         public static ThrowExpressionSyntax Throw(ExpressionSyntax obj) => ThrowExpression(obj);
 
         public static PrefixUnaryExpressionSyntax Not(object expr) => PrefixUnaryExpression(SyntaxKind.LogicalNotExpression, ToExpression(expr));
@@ -252,5 +272,14 @@ namespace Google.Api.Generator.RoslynUtils
                 }
             }
         }
+
+        public static SwitchFunc Switch(ExpressionSyntax expr) => cases => SwitchStatement(expr, List(
+            cases.Select(@case => SwitchSection(SingletonList<SwitchLabelSyntax>(CaseSwitchLabel(ToExpression(@case.caseLiteral))), List(ToStatements(@case.code))))));
+
+        public static SwitchFunc Switch(ParameterSyntax expr) => Switch(IdentifierName(expr.Identifier));
+
+        public static CastExpressionSyntax Cast(TypeSyntax type, ExpressionSyntax expr) => CastExpression(type, expr);
+
+        public static CastExpressionSyntax Cast(TypeSyntax type, PropertyDeclarationSyntax expr) => Cast(type, IdentifierName(expr.Identifier));
     }
 }

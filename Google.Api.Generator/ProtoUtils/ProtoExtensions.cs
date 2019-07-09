@@ -78,7 +78,7 @@ namespace Google.Api.Generator.ProtoUtils
             // There is no way of reading a repeated custom option.
             // The normal `TryGetMessage<T>()` method returns the single merged value of all repeated options.
             // See proto code for details for the members reflected over:
-            // https://github.com/protocolbuffers/protobuf/blob/45a723b40dc63ddf23ee0d45c1daca3e4eae5919/csharp/src/Google.Protobuf/Reflection/CustomOptions.cs
+            // https://github.com/protocolbuffers/protobuf/blob/3.8.x/csharp/src/Google.Protobuf/Reflection/CustomOptions.cs
             var valuesByField = typeof(CustomOptions).GetField("valuesByField", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(opts);
             // valuesByField is a Dictionary<int, List<CustomOptions.FieldValue>> - FieldValue is a private nested struct.
             var parameters = new object[] { field, null };

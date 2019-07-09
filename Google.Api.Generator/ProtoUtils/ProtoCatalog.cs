@@ -14,6 +14,7 @@
 
 using Google.Protobuf.Reflection;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 
 namespace Google.Api.Generator.ProtoUtils
@@ -28,24 +29,27 @@ namespace Google.Api.Generator.ProtoUtils
             _defaultPackage = defaultPackage;
             descs = descs.ToList();
             _msgs = descs.SelectMany(desc => desc.MessageTypes).ToDictionary(x => x.FullName);
-            _resourcesByFileName = descs.ToDictionary(x => x.Name, ResourceDetails.LoadResourceDefinitions);
-            var resourcesByFullSymbol = _resourcesByFileName.Values.SelectMany(x => x).ToDictionary(x => x.FullSymbol);
+            _resourcesByFileName = ResourceDetails.LoadResourceDefinitionsByFileName(descs).GroupBy(x => x.FileName)
+                .ToImmutableDictionary(x => x.Key, x => (IReadOnlyList<ResourceDetails.Definition>)x.ToImmutableList());
+            var resourcesByUrt = _resourcesByFileName.Values.SelectMany(x => x).ToDictionary(x => x.UnifiedResourceTypeName);
             _resourcesByFieldName = descs
                 .SelectMany(desc => desc.MessageTypes)
                 .SelectMany(msg => msg.Fields.InFieldNumberOrder().Select(field =>
-                    (field, res: ResourceDetails.LoadResourceReference(msg, field, resourcesByFullSymbol))).Where(x => x.res != null))
+                    (field, res: ResourceDetails.LoadResourceReference(msg, field, resourcesByUrt)))
+                    .Where(x => x.res != null))
                 .ToDictionary(x => x.field.FullName, x => x.res);
         }
 
         private readonly string _defaultPackage;
         private readonly IReadOnlyDictionary<string, MessageDescriptor> _msgs;
         private readonly IReadOnlyDictionary<string, ResourceDetails.Field> _resourcesByFieldName;
-        private readonly IReadOnlyDictionary<string, IEnumerable<ResourceDetails.Definition>> _resourcesByFileName;
+        private readonly IReadOnlyDictionary<string, IReadOnlyList<ResourceDetails.Definition>> _resourcesByFileName;
 
         public MessageDescriptor GetMessageByName(string name) => _msgs[name.Contains('.') ? name : $"{_defaultPackage}.{name}"];
 
         public ResourceDetails.Field GetResourceDetailsByField(FieldDescriptor fieldDesc) => _resourcesByFieldName.GetValueOrDefault(fieldDesc.FullName);
 
-        public IEnumerable<ResourceDetails.Definition> GetResourceDefsByFile(FileDescriptor fileDesc) => _resourcesByFileName.GetValueOrDefault(fileDesc.Name);
+        public IEnumerable<ResourceDetails.Definition> GetResourceDefsByFile(FileDescriptor fileDesc) =>
+            _resourcesByFileName.GetValueOrDefault(fileDesc.Name, ImmutableList<ResourceDetails.Definition>.Empty);
     }
 }

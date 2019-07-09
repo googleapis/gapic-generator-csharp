@@ -29,7 +29,7 @@ namespace Google.Api.Generator.Utils
     /// The name "Typ" is delibrately concise as this type is used extensively
     /// throughout the rest of the code.
     /// </summary>
-    internal abstract class Typ
+    internal abstract class Typ : IEquatable<Typ>
     {
         private sealed class FromType : Typ
         {
@@ -215,7 +215,8 @@ namespace Google.Api.Generator.Utils
 
         public override string ToString() => FullName;
         public override int GetHashCode() => FullName.GetHashCode();
-        public override bool Equals(object obj) => obj is Typ other && FullName == other.FullName;
+        public override bool Equals(object obj) => Equals(obj as Typ);
+        public bool Equals(Typ other) => ReferenceEquals(this, other) || FullName == other?.FullName;
 
         public static bool operator ==(Typ a, Typ b) => a?.FullName == b?.FullName;
         public static bool operator !=(Typ a, Typ b) => !(a == b);

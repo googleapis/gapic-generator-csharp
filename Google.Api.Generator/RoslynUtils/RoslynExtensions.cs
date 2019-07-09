@@ -36,7 +36,8 @@ namespace Google.Api.Generator.RoslynUtils
 
         public static SyntaxToken WithLeadingSpace(this SyntaxToken token) => token.WithLeadingTrivia(Space);
         public static SyntaxToken WithTrailingSpace(this SyntaxToken token) => token.WithTrailingTrivia(Space);
-        public static SyntaxToken WithTrailingCrLf(this SyntaxToken token) => token.WithTrailingTrivia(CarriageReturnLineFeed);
+        public static SyntaxToken WithTrailingCrLf(this SyntaxToken token, int count = 1) =>
+            token.WithTrailingTrivia(Enumerable.Repeat(CarriageReturnLineFeed, count));
 
         public static T WithXmlDoc<T>(this T node, params DocumentationCommentTriviaSyntax[] xmlDoc) where T : SyntaxNode =>
             node.WithLeadingTrivia(xmlDoc.Select(Trivia));
@@ -207,13 +208,16 @@ namespace Google.Api.Generator.RoslynUtils
                 BracketedArgumentList(SeparatedList(ToExpressions(element).Select(x => Argument(x)))));
 
         public static ExpressionSyntax NullCoalesce(this ExpressionSyntax lhs, object rhs) =>
-            BinaryExpression(SyntaxKind.CoalesceExpression, ToExpressions(lhs).Single(), ToExpressions(rhs).Single());
+            BinaryExpression(SyntaxKind.CoalesceExpression, ToExpression(lhs), ToExpression(rhs));
 
         public static ExpressionSyntax NullCoalesce(this ParameterSyntax lhs, object rhs) =>
-            BinaryExpression(SyntaxKind.CoalesceExpression, ToExpressions(lhs).Single(), ToExpressions(rhs).Single());
+            BinaryExpression(SyntaxKind.CoalesceExpression, ToExpression(lhs), ToExpression(rhs));
 
         public static ExpressionSyntax NotEqualTo(this LocalDeclarationStatementSyntax lhs, object rhs) =>
-            BinaryExpression(SyntaxKind.NotEqualsExpression, ToExpressions(lhs).Single(), ToExpressions(rhs).Single());
+            BinaryExpression(SyntaxKind.NotEqualsExpression, ToExpression(lhs), ToExpression(rhs));
+
+        public static ExpressionSyntax NotEqualTo(this PropertyDeclarationSyntax lhs, object rhs) =>
+            BinaryExpression(SyntaxKind.NotEqualsExpression, ToExpression(lhs), ToExpression(rhs));
 
         public static IfStatementSyntax Then(this IfStatementSyntax @if, params object[] code) =>
             WithBody(code, fnExpr: null, fnBlock: @if.WithStatement);
@@ -264,5 +268,12 @@ namespace Google.Api.Generator.RoslynUtils
 
         public static MethodDeclarationSyntax WithAttribute(this MethodDeclarationSyntax method, TypeSyntax attrType) =>
             method.WithAttributeLists(SingletonList(AttributeList(SingletonSeparatedList(Attribute((NameSyntax)attrType)))));
+
+        public static BinaryExpressionSyntax Is(this ExpressionSyntax expr, TypeSyntax type) => BinaryExpression(SyntaxKind.IsExpression, expr, type);
+
+        public static BinaryExpressionSyntax Is(this ParameterSyntax expr, TypeSyntax type) => IdentifierName(expr.Identifier).Is(type);
+
+        public static SwitchStatementSyntax WithDefault(this SwitchStatementSyntax @switch, object code) =>
+            @switch.AddSections(SwitchSection(SingletonList<SwitchLabelSyntax>(DefaultSwitchLabel()), List(ToStatements(code))));
     }
 }
