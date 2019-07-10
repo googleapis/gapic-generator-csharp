@@ -52,9 +52,21 @@ namespace Google.Api.Generator.Generation
             public Paginated(ServiceDetails svc, MethodDescriptor desc,
                 FieldDescriptor responseResourceField, int pageSizeFieldNumber, int pageTokenFieldNumber) : base(svc, desc)
             {
-                // TODO: Handle resource-sets.
                 var resourceDetails = svc.Catalog.GetResourceDetailsByField(responseResourceField);
-                ResourceTyp = resourceDetails?.ResourceDefinition.One.ResourceNameTyp ?? Typ.Of(responseResourceField, forceRepeated: false);
+                if (resourceDetails is null)
+                {
+                    ResourceTyp = Typ.Of(responseResourceField, forceRepeated: false);
+                }
+                else
+                {
+                    var resourceDef = resourceDetails.ResourceDefinition;
+                    if (resourceDef.Single != null && resourceDef.Multi != null)
+                    {
+                        // TODO: Figure out what to do in this situation.
+                        throw new InvalidOperationException("Cannot handle pagination when the resource type is both a single and multi resource-name.");
+                    }
+                    ResourceTyp = resourceDef.Single?.ResourceNameTyp ?? resourceDef.Multi.ContainerTyp;
+                }
                 ApiCallTyp = Typ.Generic(typeof(ApiCall<,>), RequestTyp, ResponseTyp);
                 SyncReturnTyp = Typ.Generic(typeof(PagedEnumerable<,>), ResponseTyp, ResourceTyp);
                 AsyncReturnTyp = Typ.Generic(typeof(PagedAsyncEnumerable<,>), ResponseTyp, ResourceTyp);

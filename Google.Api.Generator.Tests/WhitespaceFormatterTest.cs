@@ -237,12 +237,42 @@ namespace Google.Api.Generator.Tests
             private void AsyncLambdaParam(Func<Task> fn) => throw new NotImplementedException();
 
             public void AsyncLambda() => AsyncLambdaParam(async () => await Task.Yield());
+
+            // Test switch statement
+            public int Switch(int i)
+            {
+                switch (i)
+                {
+                    // Single-line case.
+                    case 0: return 1;
+                    case 1: return 0;
+                    // Multi-line case.
+                    case 1111:
+                        int j = Switch(0);
+                        return i + j;
+                    default: return i;
+                }
+            }
         }
 
         // Test base-list with one item.
         private class EmptyInner : List<string>
         {
             // Test class that has no members.
+        }
+
+        // Test enum.
+        public enum AnEnum
+        {
+            // Enum members with value.
+            A = 1,
+
+            B = 2,
+
+            // Enum members without value.
+            C,
+
+            D
         }
         // TEST_SOURCE_END
 

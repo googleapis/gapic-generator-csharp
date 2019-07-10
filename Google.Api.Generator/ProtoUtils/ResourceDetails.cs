@@ -17,6 +17,7 @@ using Google.Api.Generator.Utils;
 using Google.Protobuf.Reflection;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 
 namespace Google.Api.Generator.ProtoUtils
@@ -25,55 +26,141 @@ namespace Google.Api.Generator.ProtoUtils
     {
         public class Definition
         {
-            public class OneDef
+            public class SingleDef
             {
-                public OneDef(Typ resourceNameTyp, Resource resource)
+                public SingleDef(string ns, string shortName, string pattern)
                 {
-                    Pattern = resource.Pattern;
-                    ResourceNameTyp = IsWildcard ? Typ.Of<IResourceName>() : resourceNameTyp;
-                    Template = IsWildcard ? null : new PathTemplate(resource.Pattern);
+                    Pattern = pattern;
+                    if (IsWildcard)
+                    {
+                        ResourceNameTyp = Typ.Of<IResourceName>();
+                        Template = null;
+                    }
+                    else
+                    {
+                        ResourceNameTyp = Typ.Manual(ns, $"{shortName}Name");
+                        Template = new PathTemplate(Pattern);
+                    }
                 }
-                /// <summary>The typ of the generated resource-name class.</summary>
                 public Typ ResourceNameTyp { get; }
-                /// <summary>The resource pattern.</summary>
                 public string Pattern { get; }
-                /// <summary>Template built from pattern; null if wildcard.</summary>
                 public PathTemplate Template { get; }
                 public bool IsWildcard => Pattern == "*";
             }
 
-            public class SetDef
+            public class MultiDef
             {
-                // TODO: Set support.
-                /// <summary>The typ of the generated resource-set-name class.</summary>
-                public Typ ResourceNameTyp { get; }
+                public MultiDef(string ns, string shortName, IEnumerable<SingleDef> oneDefs)
+                {
+                    ContainerTyp = Typ.Manual(ns, $"{shortName}NameOneOf");
+                    Defs = oneDefs.ToList();
+                }
+                public Typ ContainerTyp { get; }
+                public IReadOnlyList<SingleDef> Defs { get; }
             }
 
-            public Definition(string ns, string fullSymbol, Resource resource)
+            //public Definition(string ns, ResourceDescriptor resourceDesc)
+            //{
+            //    if (resourceDesc.Pattern.Count == 0)
+            //    {
+            //        throw new InvalidOperationException("Resource must contain at least one pattern.");
+            //    }
+            //    _namespace = ns;
+            //    _resourceDesc = resourceDesc;
+            //    NameField = string.IsNullOrEmpty(resourceDesc.NameField) ? "name" : resourceDesc.NameField;
+            //    var typeNameParts = resourceDesc.Type.Split('/');
+            //    if (typeNameParts.Length != 2)
+            //    {
+            //        throw new InvalidOperationException($"Invalid unified resource name: '{resourceDesc.Type}'");
+            //    }
+            //    ShortName = typeNameParts[1];
+            //    FieldName = ShortName.ToLowerCamelCase();
+            //    DocName = ShortName;
+            //    bool futureMultiPattern = (resourceDesc.History & ResourceDescriptor.Types.History.FutureMultiPattern) != 0;
+            //    bool originallySinglePattern = (resourceDesc.History & ResourceDescriptor.Types.History.OriginallySinglePattern) != 0;
+            //    bool isMulti = resourceDesc.Pattern.Count > 1 || futureMultiPattern;
+            //    if (isMulti)
+            //    {
+            //        Multi = new MultiDef(ns, ShortName, resourceDesc.Pattern);
+            //    }
+            //    if (!isMulti || originallySinglePattern)
+            //    {
+            //        One = new OneDef(ns, ShortName, resourceDesc.Pattern[0]);
+            //    }
+            //    //FullSymbol = fullSymbol;
+            //    //var symbolShortName = fullSymbol.Split('.').Last();
+            //    //DocName = symbolShortName;
+            //    //FieldName = symbolShortName.ToLowerCamelCase();
+            //    //var oneResourceNameTyp = Typ.Manual(ns, $"{symbolShortName}Name");
+            //    //One = new OneDef(oneResourceNameTyp, resource);
+            //    //// TODO: Set support.
+            //}
+
+            public Definition(string fileName, ResourceDescriptor resourceDesc, SingleDef single, MultiDef multi)
             {
-                FullSymbol = fullSymbol;
-                var symbolShortName = fullSymbol.Split('.').Last();
-                DocName = symbolShortName;
-                FieldName = symbolShortName.ToLowerCamelCase();
-                var oneResourceNameTyp = Typ.Manual(ns, $"{symbolShortName}Name");
-                One = new OneDef(oneResourceNameTyp, resource);
-                // TODO: Set support.
+                FileName = fileName;
+                UnifiedResourceTypeName = resourceDesc.Type;
+                var typeNameParts = resourceDesc.Type.Split('/');
+                if (typeNameParts.Length != 2)
+                {
+                    throw new InvalidOperationException($"Invalid unified resource name: '{resourceDesc.Type}'");
+                }
+                ShortName = typeNameParts[1];
+                FieldName = ShortName.ToLowerCamelCase();
+                NameField = string.IsNullOrEmpty(resourceDesc.NameField) ? "name" : resourceDesc.NameField;
+                DocName = ShortName;
+                Single = single;
+                Multi = multi;
             }
 
-            /// <summary>The fully-package-qualified symbol name of the resource. E.g. `google.api.Project`.</summary>
-            public string FullSymbol { get; }
+            public string FileName { get; }
+
+            public string UnifiedResourceTypeName { get; }
+
+            public string ShortName { get; }
 
             /// <summary>The name of this resource, suitable for use as a C# field or parameter. I.e. lower-camel-cased.</summary>
             public string FieldName { get; }
 
+            /// <summary>The name of the proto field that contains this resource name.</summary>
+            public string NameField { get; }
+
             /// <summary>The name of this resource, as used in XmlDoc.</summary>
             public string DocName { get; }
 
-            /// <summary>Definition of resource that is not a set. Null if only a set.</summary>
-            public OneDef One { get; }
+            /// <summary>Definition of resource that is not a multi. Null if only a multi.</summary>
+            public SingleDef Single { get; }
 
-            /// <summary>Definition of resource that is a set. Null if not a set.</summary>
-            public SetDef Set { get; }
+            /// <summary>Definition of resource that is a multi. Null if not a multi.</summary>
+            public MultiDef Multi { get; }
+
+            //private Definition _parent;
+
+            //public Definition Parent()
+            //{
+            //    if (_parent == null)
+            //    {
+            //        var patterns = _resourceDesc.Pattern.Select(x =>
+            //        {
+            //            var lastIndex = x.LastIndexOf('}');
+            //            var last2Index = x.LastIndexOf('}', startIndex: Math.Max(lastIndex - 1, 0));
+            //            if (lastIndex < 0 || last2Index < 0)
+            //            {
+            //                throw new InvalidOperationException("Cannot create the parent of a single-piece resource name.");
+            //            }
+            //            return x.Substring(0, last2Index + 1);
+            //        });
+            //        var parentDesc = new ResourceDescriptor
+            //        {
+            //            Type = $"{UnifiedResourceTypeName}Parent",
+            //            NameField = NameField,
+            //            Pattern = { patterns },
+            //            History = _resourceDesc.History,
+            //        };
+            //        _parent = new Definition(_namespace, parentDesc);
+            //    }
+            //    return _parent;
+            //}
         }
 
         /// <summary>
@@ -81,92 +168,154 @@ namespace Google.Api.Generator.ProtoUtils
         /// </summary>
         public class Field
         {
-            public Field(FieldDescriptor fieldDesc, Definition resourceDefinition)
+            public Field(FieldDescriptor fieldDesc, Definition resourceDef)
             {
-                // TODO: Support resource-sets.
                 UnderlyingPropertyName = fieldDesc.CSharpPropertyName();
-                // This naming logic is copied directly from the Java generator.
-                // TODO: Make sure it's correct for all combinations - I'm not sure it is!
-                var typName = resourceDefinition.One.IsWildcard ? "ResourceName" : resourceDefinition.One.ResourceNameTyp.Name;
-                var requireIdentifier = !((fieldDesc.IsRepeated && fieldDesc.Name.ToLowerInvariant() == "names") ||
-                    (!fieldDesc.IsRepeated && fieldDesc.Name.ToLowerInvariant() == "name"));
-                var requireAs = requireIdentifier || resourceDefinition.One.IsWildcard;
-                var requirePlural = fieldDesc.IsRepeated;
-                var name = requireIdentifier ? UnderlyingPropertyName : "";
-                name += requireAs ? "As" : "";
-                name += typName;
-                name += requirePlural ? "s" : "";
-                ResourcePropertyName = name;
-                ResourceDefinition = resourceDefinition;
+                ResourceDefinition = resourceDef;
+                SingleResourcePropertyName = resourceDef.Single is null ? null : MakePropertyName(resourceDef.Single.ResourceNameTyp.Name, resourceDef.Single.IsWildcard);
+                MultiResourcePropertyName = resourceDef.Multi is null ? null : MakePropertyName(resourceDef.Multi.ContainerTyp.Name, false);
+
+                string MakePropertyName(string typName, bool isWildcard)
+                {
+                    // This naming logic is copied directly from the Java generator.
+                    // TODO: Make sure it's correct for all combinations - I'm not sure it is!
+                    var requireIdentifier = !((fieldDesc.IsRepeated && fieldDesc.Name.ToLowerInvariant() == "names") ||
+                        (!fieldDesc.IsRepeated && fieldDesc.Name.ToLowerInvariant() == "name"));
+                    var requireAs = requireIdentifier || isWildcard;
+                    var requirePlural = fieldDesc.IsRepeated;
+                    var name = requireIdentifier ? UnderlyingPropertyName : "";
+                    name += requireAs ? "As" : "";
+                    name += isWildcard ? "ResourceName" : typName;
+                    name += requirePlural ? "s" : "";
+                    return name;
+                }
             }
 
             /// <summary>The C# name of the string-typed property underlying this resource.</summary>
             public string UnderlyingPropertyName { get; }
 
-            /// <summary>The C# name of the resource property.</summary>
-            public string ResourcePropertyName { get; }
+            /// <summary>The C# name of the single-pattern resource property.</summary>
+            public string SingleResourcePropertyName { get; }
+
+            /// <summary>The C# name of the multi-pattern resource property.</summary>
+            public string MultiResourcePropertyName { get; }
 
             /// <summary>The resource definition for this field.</summary>
             public Definition ResourceDefinition { get; }
         }
 
-        public static IEnumerable<Definition> LoadResourceDefinitions(FileDescriptor fileDesc)
+        public static IReadOnlyList<Definition> LoadResourceDefinitionsByFileName(IEnumerable<FileDescriptor> descs)
         {
-            // TODO: Resource sets.
-            // Load file-level resource definitions.
-            var resourcesBySymbol1 = fileDesc.CustomOptions.TryGetRepeatedMessage<Resource>(ProtoConsts.FileOption.ResourceDefinition, out var resources) ?
-                resources.Select(resource => (symbol: MakeFullSymbol(fileDesc, null, resource.Symbol), resource)).ToList() :
-                Enumerable.Empty<(string symbol, Resource resource)>();
-            // Load message-level (shortcut) resource definitions.
-            var resourcesBySymbol2 = fileDesc.MessageTypes.SelectMany(msg =>
-                msg.Fields.InFieldNumberOrder().Select(field =>
-                    field.CustomOptions.TryGetMessage<Resource>(ProtoConsts.FieldOption.Resource, out var resource) ? resource : null)
-                    .Where(x => x != null)
-                    .Select(resource => (symbol: MakeFullSymbol(null, msg, resource.Symbol), resource)))
-                .ToList();
-            // Check no duplicates.
-            var duplicateSymbols = resourcesBySymbol1.Select(x => x.symbol).Concat(resourcesBySymbol2.Select(x => x.symbol))
-                .GroupBy(x => x).Where(x => x.Count() > 1).Select(x => x.Key).ToList();
-            if (duplicateSymbols.Any())
+            // Singles:
+            // Compatibility problems: none
+            //
+            // Multi: If pattern already exists, use it; otherwise create new single-def.
+            //        Create name as concatenation of all ID parts, without "Id" suffixes.
+            // Compatibility problems: Adding a new resource with the same pattern as one of a multi-pattern.
+            //
+            // Child: Find all children that need parents generating.
+            //        Single/Container-name generated as "{ShortName}Parent"; unless a single already exists with same pattern.
+            //        Multi-def parts constructed as in normal multis.
+            // Compatibility problems: Adding a new resource with the same pattern as a single-pattern parent.
+            //                         Adding a new resource with the same pattern as one of a multi-pattern parent.
+            var msgs = descs
+                .SelectMany(fileDesc => fileDesc.MessageTypes.Select(msg =>
+                    (fileDesc, msg, resDesc: msg.CustomOptions.TryGetMessage<ResourceDescriptor>(ProtoConsts.MessageOption.Resource, out var resDesc) ? resDesc : null)))
+                .Where(x => x.resDesc != null)
+                .Select(x => (x.fileDesc, x.msg, x.resDesc, shortName: GetShortName(x.resDesc)))
+                .ToImmutableList();
+            var msgsByType = msgs.ToImmutableDictionary(x => x.resDesc.Type);
+            // Load Singles.
+            var singlesByType = msgs.Where(x => HasSingle(x.resDesc))
+                .ToImmutableDictionary(x => x.resDesc.Type, x => (x.resDesc, single: new Definition.SingleDef(x.fileDesc.CSharpNamespace(), x.shortName, x.resDesc.Pattern[0])));
+            var singlesByPattern = singlesByType.Values.ToImmutableDictionary(x => x.single.Pattern);
+            // Load Multis.
+            var multisByType = msgs.Where(x => HasMulti(x.resDesc)).Select(msg =>
             {
-                throw new InvalidOperationException($"Duplicate resources: {string.Join(", ", duplicateSymbols)}");
+                var innerDefs = msg.resDesc.Pattern.Select(pattern =>
+                {
+                    if (singlesByPattern.TryGetValue(pattern, out var def))
+                    {
+                        return def.single;
+                    }
+                    var shortName = string.Join("", new PathTemplate(pattern).ParameterNames.Select(x => x.ToUpperCamelCase().RemoveSuffix("Id")));
+                    return new Definition.SingleDef(msg.fileDesc.CSharpNamespace(), shortName, pattern);
+                }).ToList();
+                var multi = new Definition.MultiDef(msg.fileDesc.CSharpNamespace(), msg.shortName, innerDefs);
+                return (msg.resDesc, multi);
+            }).ToImmutableDictionary(x => x.resDesc.Type);
+            // Load Parents.
+            // TODO
+
+            // Build return value.
+            var fileNamesByType = msgs.ToImmutableDictionary(x => x.resDesc.Type, x => x.fileDesc.Name);
+            return msgs.Select(x =>
+            {
+                var single = singlesByType.GetValueOrDefault(x.resDesc.Type).single;
+                var multi = multisByType.GetValueOrDefault(x.resDesc.Type).multi;
+                return new Definition(fileNamesByType[x.resDesc.Type], x.resDesc, single, multi);
+            }).ToList();
+
+            bool HasSingle(ResourceDescriptor resDesc) =>
+                (resDesc.History & ResourceDescriptor.Types.History.FutureMultiPattern) == 0 &&
+                    (resDesc.Pattern.Count == 1 || (resDesc.History & ResourceDescriptor.Types.History.OriginallySinglePattern) != 0);
+
+            bool HasMulti(ResourceDescriptor resDesc) =>
+                resDesc.Pattern.Count > 1 || (resDesc.History & ResourceDescriptor.Types.History.FutureMultiPattern) != 0;
+
+            string GetShortName(ResourceDescriptor resDesc)
+            {
+                var typeParts = resDesc.Type.Split('/');
+                if (typeParts.Length != 2)
+                {
+                    throw new InvalidOperationException($"Invalid Unified Resource Type: '{resDesc.Type}'");
+                }
+                return typeParts[1];
             }
-            // Final result.
-            return resourcesBySymbol1.Concat(resourcesBySymbol2).Select(x => new Definition(fileDesc.CSharpNamespace(), x.symbol, x.resource));
+
+            // TOOD: This will be used when child_type is handled.
+            //string ParentPattern(string pattern)
+            //{
+            //    var lastIndex = pattern.LastIndexOf('}');
+            //    var last2Index = pattern.LastIndexOf('}', startIndex: Math.Max(lastIndex - 1, 0));
+            //    if (lastIndex < 0 || last2Index < 0)
+            //    {
+            //        throw new InvalidOperationException("Cannot create the parent of a single-piece resource name.");
+            //    }
+            //    return pattern.Substring(0, last2Index + 1);
+            //}
         }
 
-        public static Field LoadResourceReference(MessageDescriptor msgDesc, FieldDescriptor fieldDesc, IReadOnlyDictionary<string, Definition> resourcesByFullSymbol)
+        public static Field LoadResourceReference(MessageDescriptor msgDesc, FieldDescriptor fieldDesc, IReadOnlyDictionary<string, Definition> resourcesByUrt)
         {
-            // TODO: Resource sets.
-            var hasResource = fieldDesc.CustomOptions.TryGetMessage<Resource>(ProtoConsts.FieldOption.Resource, out var resource);
-            var hasResourceRef = fieldDesc.CustomOptions.TryGetString(ProtoConsts.FieldOption.ResourceReference, out var resourceRef);
-            if (hasResource && hasResourceRef)
+            // Is this field the name-field of a resource descriptor?
+            if (msgDesc.CustomOptions.TryGetMessage<ResourceDescriptor>(ProtoConsts.MessageOption.Resource, out var resourceDesc))
             {
-                throw new InvalidOperationException($"Cannot have both `resource` and `resource_reference` options on field: {fieldDesc.FullName}");
+                var def = resourcesByUrt[resourceDesc.Type];
+                if (fieldDesc.Name == def.NameField)
+                {
+                    return new Field(fieldDesc, def);
+                }
             }
-            string fullSymbol;
-            if (hasResource)
-            {
-                fullSymbol = MakeFullSymbol(null, msgDesc, resource.Symbol);
-            }
-            else if (hasResourceRef)
-            {
-                fullSymbol = MakeFullSymbol(msgDesc.File, null, resourceRef);
-            }
-            else
+            // Is this field a resource reference?
+            if (!fieldDesc.CustomOptions.TryGetMessage<ResourceReference>(ProtoConsts.FieldOption.ResourceReference, out var resourceRef))
             {
                 return null;
             }
-            if (!resourcesByFullSymbol.TryGetValue(fullSymbol, out var resourceDefinition))
+            if (!string.IsNullOrEmpty(resourceRef.Type))
             {
-                throw new InvalidOperationException($"Invalid reference to non-existant resource: {fullSymbol}");
+                if (!resourcesByUrt.TryGetValue(resourceRef.Type, out var def))
+                {
+                    throw new InvalidOperationException($"No resource type with name: '{resourceRef.Type}'");
+                }
+                return new Field(fieldDesc, def);
             }
-            return new Field(fieldDesc, resourceDefinition);
+            else if (!string.IsNullOrEmpty(resourceRef.ChildType))
+            {
+                // TODO
+                throw new NotImplementedException();
+            }
+            throw new InvalidOperationException("type or child_type must be set.");
         }
-
-        private static string MakeFullSymbol(FileDescriptor file, MessageDescriptor msg, string symbol) =>
-            string.IsNullOrEmpty(symbol) ?
-                msg?.FullName ?? throw new InvalidOperationException("Symbol must be set in a file-level resource") :
-                symbol.Contains('.') ? symbol : $"{(file ?? msg.File).Package}.{symbol}";
     }
 }

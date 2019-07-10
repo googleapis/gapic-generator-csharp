@@ -14,7 +14,12 @@
 
 namespace Testing.ServerStreaming
 {
-    public class Request : ProtoMsgFake<Request>
+    public partial class Resource : ProtoMsgFake<Resource>
+    {
+        public string Name { get; set; }
+    }
+
+    public partial class Request : ProtoMsgFake<Request>
     {
         public string Name { get; set; }
     }

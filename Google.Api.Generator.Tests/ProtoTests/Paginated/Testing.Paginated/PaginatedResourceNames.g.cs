@@ -20,7 +20,7 @@ using tp = Testing.Paginated;
 
 namespace Testing.Paginated
 {
-    /// <summary>Resource name for the <c>Resource</c> resource</summary>
+    /// <summary>Resource name for the <c>Resource</c> resource.</summary>
     public sealed partial class ResourceName : gax::IResourceName, sys::IEquatable<ResourceName>
     {
         private static readonly gax::PathTemplate s_template = new gax::PathTemplate("items/{item_id}");
@@ -95,6 +95,18 @@ namespace Testing.Paginated
 
         /// <inheritdoc/>
         public static bool operator !=(ResourceName a, ResourceName b) => !(a == b);
+    }
+
+    public partial class Resource
+    {
+        /// <summary>
+        /// <see cref="tp::ResourceName"/>-typed view over the <see cref="Name"/> resource name property.
+        /// </summary>
+        public ResourceName ResourceName
+        {
+            get => string.IsNullOrEmpty(Name) ? null : ResourceName.Parse(Name);
+            set => Name = value?.ToString() ?? "";
+        }
     }
 
     public partial class ResourceRequest

@@ -97,6 +97,16 @@ namespace Testing.UnitTests
         public RepeatedField<string> RepeatedWildcardResource { get; } = new RepeatedField<string>();
     }
 
+    public partial class AResource : ProtoMsgFake<AResource>
+    {
+        public string Name { get; set; }
+    }
+
+    public partial class WildcardResource : ProtoMsgFake<WildcardResource>
+    {
+        public string Name { get; set; }
+    }
+
     public class Response : ProtoMsgFake<Response> { }
 
     public class LroRequest : ProtoMsgFake<LroRequest> { }

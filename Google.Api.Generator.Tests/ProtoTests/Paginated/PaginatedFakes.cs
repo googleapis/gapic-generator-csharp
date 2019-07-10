@@ -16,6 +16,11 @@ using Google.Protobuf.Collections;
 
 namespace Testing.Paginated
 {
+    public partial class Resource : ProtoMsgFake<Resource>
+    {
+        public string Name { get; set; }
+    }
+
     public partial class Request : ProtoMsgFake<Request>
     {
         public string AString { get; set; }

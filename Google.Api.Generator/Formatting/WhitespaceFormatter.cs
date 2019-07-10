@@ -113,7 +113,6 @@ namespace Google.Api.Generator.Formatting
                     node = node.WithUsings(List(node.Usings.SkipLast(1).Append(node.Usings.Last().WithTrailingTrivia(CarriageReturnLineFeed, CarriageReturnLineFeed))));
                 }
             }
-            //node = node.WithLeadingTrivia(_indentTrivia);
             node = HandleLeadingTrivia(node);
             node = node.WithNamespaceKeyword(node.NamespaceKeyword.WithTrailingSpace());
             node = node.WithOpenBraceToken(node.OpenBraceToken.WithLeadingTrivia(CarriageReturnLineFeed, _indentTrivia).WithTrailingCrLf());
@@ -532,6 +531,71 @@ namespace Google.Api.Generator.Formatting
         {
             node = (WhileStatementSyntax)base.VisitWhileStatement(node);
             node = node.WithWhileKeyword(node.WhileKeyword.WithTrailingSpace());
+            return node;
+        }
+
+        public override SyntaxNode VisitEnumDeclaration(EnumDeclarationSyntax node)
+        {
+            using (WithIndent())
+            {
+                node = (EnumDeclarationSyntax)base.VisitEnumDeclaration(node);
+            }
+            node = node.WithLeadingTrivia(FormatXmlDoc(node.GetLeadingTrivia()).Append(_indentTrivia));
+            node = node.WithModifiers(TokenList(node.Modifiers.Select(m => m.WithTrailingSpace())));
+            node = node.WithEnumKeyword(node.EnumKeyword.WithTrailingSpace());
+            node = node.WithOpenBraceToken(node.OpenBraceToken.WithLeadingTrivia(CarriageReturnLineFeed, _indentTrivia).WithTrailingCrLf());
+            node = node.WithCloseBraceToken(node.CloseBraceToken.WithLeadingTrivia(_indentTrivia).WithTrailingCrLf());
+            node = node.WithMembers(SeparatedList(
+                node.Members.SkipLast(1).Concat(node.Members.TakeLast(1).Select(x => x.WithTrailingCrLf())),
+                node.Members.SkipLast(1).Select(_ => Token(SyntaxKind.CommaToken).WithTrailingCrLf(count: 2))));
+            return node;
+        }
+
+        public override SyntaxNode VisitEnumMemberDeclaration(EnumMemberDeclarationSyntax node)
+        {
+            node = (EnumMemberDeclarationSyntax)base.VisitEnumMemberDeclaration(node);
+            node = node.WithLeadingTrivia(FormatXmlDoc(node.GetLeadingTrivia()).Append(_indentTrivia));
+            return node;
+        }
+
+        public override SyntaxNode VisitSwitchStatement(SwitchStatementSyntax node)
+        {
+            using (WithIndent())
+            {
+                node = (SwitchStatementSyntax)base.VisitSwitchStatement(node);
+            }
+            node = node.WithSwitchKeyword(node.SwitchKeyword.WithTrailingSpace());
+            node = node.WithCloseParenToken(node.CloseParenToken.WithTrailingCrLf());
+            node = node.WithOpenBraceToken(node.OpenBraceToken.WithLeadingTrivia(_indentTrivia).WithTrailingCrLf());
+            node = node.WithCloseBraceToken(node.CloseBraceToken.WithLeadingTrivia(_indentTrivia).WithTrailingCrLf());
+            return node;
+        }
+
+        public override SyntaxNode VisitSwitchSection(SwitchSectionSyntax node)
+        {
+            node = (SwitchSectionSyntax)base.VisitSwitchSection(node);
+            var label = node.Labels.Single();
+            var keywordTrailingTriv = label is DefaultSwitchLabelSyntax ? new SyntaxTrivia[] { } : new[] { Space };
+            if (node.Statements.Count == 1)
+            {
+                node = node.WithLabels(SingletonList(label
+                    .WithKeyword(label.Keyword.WithLeadingTrivia(_indentTrivia).WithTrailingTrivia(keywordTrailingTriv))
+                    .WithColonToken(label.ColonToken.WithTrailingSpace())));
+                node = node.WithStatements(List(node.Statements.Select(x => x.WithTrailingCrLf())));
+            }
+            else
+            {
+                node = node.WithLabels(SingletonList(label
+                    .WithKeyword(label.Keyword.WithLeadingTrivia(_indentTrivia).WithTrailingTrivia(keywordTrailingTriv))
+                    .WithColonToken(label.ColonToken.WithTrailingCrLf())));
+                using (WithIndent())
+                {
+                    node = node.WithStatements(List(node.Statements.Select(s =>
+                    {
+                        return s.WithLeadingTrivia(_indentTrivia).WithTrailingCrLf();
+                    })));
+                }
+            }
             return node;
         }
     }

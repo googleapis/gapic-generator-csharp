@@ -116,19 +116,36 @@ namespace Google.Api.Generator.Generation
                 if (resource != null)
                 {
                     // TODO: Resource-sets
-                    var one = resource.ResourceDefinition.One;
+                    var one = resource.ResourceDefinition.Single;
+                    var multi = resource.ResourceDefinition.Multi;
                     object value;
                     if (resourceNameAsString)
                     {
-                        value = one.IsWildcard ?
-                            "a/wildcard/resource" :
-                            one.Template.Expand(one.Template.ParameterNames.Select(x => $"[{x.ToUpperInvariant()}]").ToArray());
+                        if (multi != null)
+                        {
+                            // TODO
+                            value = "TODO!!!";
+                        }
+                        else
+                        {
+                            value = one.IsWildcard ?
+                                "a/wildcard/resource" :
+                                one.Template.Expand(one.Template.ParameterNames.Select(x => $"[{x.ToUpperInvariant()}]").ToArray());
+                        }
                     }
                     else
                     {
-                        value = one.IsWildcard ?
+                        if (multi != null)
+                        {
+                            // TODO
+                            value = "TODO!!!";
+                        }
+                        else
+                        {
+                            value = one.IsWildcard ?
                             New(Ctx.Type<UnknownResourceName>())("a/wildcard/resource") :
                             New(Ctx.Type(one.ResourceNameTyp))(one.Template.ParameterNames.Select(x => $"[{x.ToUpperInvariant()}]"));
+                        }
                     }
                     return fieldDesc.IsRepeated ? CollectionInitializer(value) : value;
                 }
@@ -184,7 +201,7 @@ namespace Google.Api.Generator.Generation
                     {
                         // TODO: Support one-ofs properly; i.e. only set one of the fields.
                         yield return new ObjectInitExpr(
-                            Svc.Catalog.GetResourceDetailsByField(fieldDesc)?.ResourcePropertyName ?? fieldDesc.CSharpPropertyName(),
+                            Svc.Catalog.GetResourceDetailsByField(fieldDesc)?.SingleResourcePropertyName ?? fieldDesc.CSharpPropertyName(),
                             TestValue(fieldDesc));
                     }
 
@@ -264,8 +281,9 @@ namespace Google.Api.Generator.Generation
 
                 private IEnumerable<object> SigArgs => _sig.Fields.Select(field => _def.Request.Access(field.PropertyName));
 
+                // TODO: Multi-resource-names.
                 private IEnumerable<object> SigResourceNameArgs =>
-                    _sig.Fields.Select(field => _def.Request.Access(field.FieldResource?.ResourcePropertyName ?? field.PropertyName));
+                    _sig.Fields.Select(field => _def.Request.Access(field.FieldResource?.SingleResourcePropertyName ?? field.PropertyName));
 
                 public bool HasResourceNames => _sig.Fields.Any(x => x.FieldResource != null);
 

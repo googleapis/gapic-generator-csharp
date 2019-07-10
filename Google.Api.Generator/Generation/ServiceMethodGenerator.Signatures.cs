@@ -39,12 +39,17 @@ namespace Google.Api.Generator.Generation
                 private class ParameterInfo
                 {
                     public ParameterInfo(IReadOnlyList<FieldDescriptor> fieldDescs, ParameterSyntax parameter, object initExpr,
-                        ResourceDetails.Field resourceField, DocumentationCommentTriviaSyntax xmlDoc) =>
-                        (FieldDescs, Parameter, InitExpr, ResourceField, XmlDoc) = (fieldDescs, parameter, initExpr, resourceField, xmlDoc);
+                        ResourceDetails.Field resourceField, bool isMultiResource, DocumentationCommentTriviaSyntax xmlDoc) =>
+                        (FieldDescs, Parameter, InitExpr, ResourceField, IsMultiResource, XmlDoc) =
+                        (fieldDescs, parameter, initExpr, resourceField, isMultiResource, xmlDoc);
+                    /// <summary>Nesting fields; null if none.</summary>
                     public IReadOnlyList<FieldDescriptor> FieldDescs { get; }
                     public ParameterSyntax Parameter { get; }
                     public object InitExpr { get; }
+                    /// <summary>Not null if a resource-name field.</summary>
                     public ResourceDetails.Field ResourceField { get; }
+                    /// <summary>If a resource-name field, is this a single or multi resource.</summary>
+                    public bool IsMultiResource { get; }
                     public DocumentationCommentTriviaSyntax XmlDoc { get; }
                 }
 
@@ -56,7 +61,7 @@ namespace Google.Api.Generator.Generation
                 private SourceFileContext Ctx => _def.Ctx;
                 private MethodDetails MethodDetails => _def.MethodDetails;
 
-                private object InitExpr(MethodDetails.Signature.Field field, ParameterSyntax param, bool treatAsResource = false, bool isResourceSet = false)
+                private object InitExpr(MethodDetails.Signature.Field field, ParameterSyntax param, bool treatAsResource = false, bool isMultiResource = false)
                 {
                     // Type                  | Single optional | Single required | Repeated optional | Repeated required
                     // ----------------------|-----------------|-----------------|-------------------|------------------
@@ -70,7 +75,7 @@ namespace Google.Api.Generator.Generation
                     {
                         if (treatAsResource)
                         {
-                            if (isResourceSet)
+                            if (isMultiResource)
                             {
                                 throw new NotImplementedException(); // TODO: Resource sets.
                             }
@@ -79,7 +84,7 @@ namespace Google.Api.Generator.Generation
                                 return CollectionInitializer(field.Required ?
                                     Ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(param, Nameof(param)) :
                                     param.NullCoalesce(Ctx.Type(typeof(Enumerable)).Call(
-                                        nameof(Enumerable.Empty), Ctx.Type(field.FieldResource.ResourceDefinition.One.ResourceNameTyp))()));
+                                        nameof(Enumerable.Empty), Ctx.Type(field.FieldResource.ResourceDefinition.Single.ResourceNameTyp))()));
                             }
                         }
                         else
@@ -93,9 +98,11 @@ namespace Google.Api.Generator.Generation
                     {
                         if (treatAsResource)
                         {
-                            if (isResourceSet)
+                            if (isMultiResource)
                             {
-                                throw new NotImplementedException(); // TODO: Resource set.
+                                return field.Required ?
+                                    Ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(param, Nameof(param)) :
+                                    (object)param;
                             }
                             else
                             {
@@ -134,7 +141,7 @@ namespace Google.Api.Generator.Generation
                     var parameter = Parameter(Ctx.Type(field.Typ), field.ParameterName);
                     var initExpr = InitExpr(field, parameter);
                     var xmlDoc = XmlDoc.ParamPreFormatted(parameter, field.DocLines);
-                    return new ParameterInfo(field.Descs, parameter, initExpr, null, xmlDoc);
+                    return new ParameterInfo(field.Descs, parameter, initExpr, null, false, xmlDoc);
                 });
 
                 private IEnumerable<ParameterInfo> PaginatedParameters(IEnumerable<ParameterInfo> coreParameters)
@@ -148,8 +155,8 @@ namespace Google.Api.Generator.Generation
                     var pageSizeXmlDoc = XmlDoc.Param(pageSizeParameter,
                         "The size of page to request. The response will not be larger than this, but may be smaller. A value of ", null, " or ", 0, " uses a server-defined page size.");
                     return coreParameters
-                        .Append(new ParameterInfo(null, pageTokenParameter, pageTokenInit, null, pageTokenXmlDoc))
-                        .Append(new ParameterInfo(null, pageSizeParameter, pageSizeInit, null, pageSizeXmlDoc));
+                        .Append(new ParameterInfo(null, pageTokenParameter, pageTokenInit, null, false, pageTokenXmlDoc))
+                        .Append(new ParameterInfo(null, pageSizeParameter, pageSizeInit, null, false, pageSizeXmlDoc));
                 }
 
                 private MethodDeclarationSyntax AbstractRequestMethod(bool sync, bool callSettings, IEnumerable<ParameterInfo> parameters, DocumentationCommentTriviaSyntax returnsXmlDoc = null)
@@ -179,7 +186,8 @@ namespace Google.Api.Generator.Generation
                                     foreach (var param in f.OrderBy(x => x.FieldDescs?.Last().Index ?? int.MaxValue))
                                     {
                                         yield return (param.InitExpr as ObjectInitExpr) ??
-                                            new ObjectInitExpr(param.ResourceField?.ResourcePropertyName ?? param.FieldDescs.Last().CSharpPropertyName(), param.InitExpr);
+                                            new ObjectInitExpr((param.IsMultiResource ? param.ResourceField?.MultiResourcePropertyName : param.ResourceField?.SingleResourcePropertyName) ??
+                                                param.FieldDescs.Last().CSharpPropertyName(), param.InitExpr);
                                     }
                                 }
                                 else
@@ -219,10 +227,10 @@ namespace Google.Api.Generator.Generation
                         {
                             yield break;
                         }
-                        var bothCount = fields.Count(f => f.FieldResource?.ResourceDefinition.One != null && f.FieldResource?.ResourceDefinition.Set != null);
+                        var bothCount = fields.Count(f => f.FieldResource?.ResourceDefinition.Single != null && f.FieldResource?.ResourceDefinition.Multi != null);
                         if (bothCount > 4)
                         {
-                            throw new InvalidOperationException($"Cannot generate >16 overloads for resource/resourceset method signature: '{signature._def.MethodDetails.SyncMethodName}'");
+                            throw new InvalidOperationException($"Cannot generate >16 overloads for single/multi method signature: '{signature._def.MethodDetails.SyncMethodName}'");
                         }
                         var overloadCount = 1 << bothCount;
                         for (int i = 0; i < overloadCount; i++)
@@ -232,22 +240,22 @@ namespace Google.Api.Generator.Generation
                             foreach (var field in fields)
                             {
                                 var fieldResource = field.FieldResource;
-                                var oneDef = fieldResource?.ResourceDefinition.One;
-                                var setDef = fieldResource?.ResourceDefinition.Set;
-                                bool isSet = false;
-                                if (oneDef != null && setDef != null)
+                                var oneDef = fieldResource?.ResourceDefinition.Single;
+                                var multiDef = fieldResource?.ResourceDefinition.Multi;
+                                bool isMulti = false;
+                                if (oneDef != null && multiDef != null)
                                 {
-                                    isSet = (i & mask) != 0;
+                                    isMulti = (i & mask) != 0;
                                     mask <<= 1;
                                 }
                                 else
                                 {
-                                    isSet = setDef != null;
+                                    isMulti = multiDef != null;
                                 }
-                                var parameter = Parameter(ctx.Type(MaybeRepeated(isSet ? setDef?.ResourceNameTyp : oneDef?.ResourceNameTyp) ?? field.Typ), field.ParameterName);
-                                var initExpr = signature.InitExpr(field, parameter, fieldResource != null, isSet);
+                                var parameter = Parameter(ctx.Type(MaybeRepeated(isMulti ? multiDef.ContainerTyp : oneDef?.ResourceNameTyp) ?? field.Typ), field.ParameterName);
+                                var initExpr = signature.InitExpr(field, parameter, fieldResource != null, isMulti);
                                 var xmlDoc = XmlDoc.ParamPreFormatted(parameter, field.DocLines);
-                                parameters.Add(new ParameterInfo(field.Descs, parameter, initExpr, field.FieldResource, xmlDoc));
+                                parameters.Add(new ParameterInfo(field.Descs, parameter, initExpr, field.FieldResource, isMulti, xmlDoc));
                                 Typ MaybeRepeated(Typ typ) => typ == null ? null : field.IsRepeated ? Typ.Generic(typeof(IEnumerable<>), typ) : typ;
                             }
                             yield return new ResourceName(signature, parameters);

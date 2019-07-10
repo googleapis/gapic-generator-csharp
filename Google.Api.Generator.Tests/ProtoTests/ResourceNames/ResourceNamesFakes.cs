@@ -16,35 +16,40 @@ using Google.Protobuf.Collections;
 
 namespace Testing.ResourceNames
 {
-    public partial class SimpleResource : ProtoMsgFake<SimpleResource>
+    public partial class SingleResource : ProtoMsgFake<SingleResource>
     {
         public string Name { get; set; }
     }
 
-    public partial class SimpleInlineResource : ProtoMsgFake<SimpleInlineResource>
+    public partial class SingleResourceRef : ProtoMsgFake<SingleResourceRef>
+    {
+        public string SingleResource { get; set; }
+    }
+
+    public partial class MultiResource : ProtoMsgFake<MultiResource>
     {
         public string Name { get; set; }
     }
 
-    public partial class SimpleRepeatedResource : ProtoMsgFake<SimpleRepeatedResource>
+    public partial class MultiResourceRef : ProtoMsgFake<MultiResourceRef>
     {
-        public RepeatedField<string> Names { get; }
+        public string MultiResource { get; set; }
     }
 
-    public partial class WildcardResource : ProtoMsgFake<WildcardResource>
+    public partial class FutureMultiResource : ProtoMsgFake<FutureMultiResource>
     {
         public string Name { get; set; }
-        public RepeatedField<string> Names { get; }
-        public string RequiredSingle { get; set; }
-        public RepeatedField<string> RequiredRepeated { get; set; }
     }
 
-    public partial class MultiCaseRequest : ProtoMsgFake<MultiCaseRequest>
+    public partial class OriginallySingleResource : ProtoMsgFake<OriginallySingleResource>
     {
-        public string OptionalSingle { get; set; }
-        public RepeatedField<string> OptionalRepeated { get; }
-        public string RequiredSingle { get; set; }
-        public RepeatedField<string> RequiredRepeated { get; }
+        public string Name { get; set; }
+    }
+
+    public partial class OriginallySingleResourceRef : ProtoMsgFake<OriginallySingleResourceRef>
+    {
+        public string Resource1 { get; set; }
+        public string Resource2 { get; set; }
     }
 
     public class Response : ProtoMsgFake<Response> { }

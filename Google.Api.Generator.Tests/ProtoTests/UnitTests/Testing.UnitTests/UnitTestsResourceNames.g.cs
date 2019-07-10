@@ -16,10 +16,11 @@
 
 using gax = Google.Api.Gax;
 using sys = System;
+using tu = Testing.UnitTests;
 
 namespace Testing.UnitTests
 {
-    /// <summary>Resource name for the <c>AResource</c> resource</summary>
+    /// <summary>Resource name for the <c>AResource</c> resource.</summary>
     public sealed partial class AResourceName : gax::IResourceName, sys::IEquatable<AResourceName>
     {
         private static readonly gax::PathTemplate s_template = new gax::PathTemplate("items/{item_id}/parts/{part_id}");
@@ -102,6 +103,30 @@ namespace Testing.UnitTests
 
         /// <inheritdoc/>
         public static bool operator !=(AResourceName a, AResourceName b) => !(a == b);
+    }
+
+    public partial class AResource
+    {
+        /// <summary>
+        /// <see cref="tu::AResourceName"/>-typed view over the <see cref="Name"/> resource name property.
+        /// </summary>
+        public AResourceName AResourceName
+        {
+            get => string.IsNullOrEmpty(Name) ? null : AResourceName.Parse(Name);
+            set => Name = value?.ToString() ?? "";
+        }
+    }
+
+    public partial class WildcardResource
+    {
+        /// <summary>
+        /// <see cref="gax::IResourceName"/>-typed view over the <see cref="Name"/> resource name property.
+        /// </summary>
+        public gax::IResourceName AsResourceName
+        {
+            get => string.IsNullOrEmpty(Name) ? null : gax::UnknownResourceName.Parse(Name);
+            set => Name = value?.ToString() ?? "";
+        }
     }
 
     public partial class ValuesRequest
