@@ -146,8 +146,7 @@ namespace Google.Api.Generator.Generation
                             ", as this would usually indicate a programming error rather than a data error."),
                         XmlDoc.Param(name, "The ", XmlDoc.C(_docName), " resource name in string form. Must not be ", null, "."),
                         XmlDoc.Param(result, "When this method returns, the parsed ", _ctx.Type(_def.ResourceNameTyp), ", or ", null, " if parsing fails."),
-                        XmlDoc.Returns(true, " if the name was parsed successfully; ", false, " otherwise.")
-                    );
+                        XmlDoc.Returns(true, " if the name was parsed successfully; ", false, " otherwise."));
             }
 
             private ConstructorDeclarationSyntax Constructor(ClassDeclarationSyntax cls, IEnumerable<ParamProperty> paramProperties) =>
@@ -344,8 +343,7 @@ namespace Google.Api.Generator.Generation
                     ((object)_ctx.Type(OneOfTypeEnumTyp).Access(single.ResourceNameTyp.Name), (object)Return(name.Is(_ctx.Type(single.ResourceNameTyp)))));
                 return Method(Private | Static, _ctx.Type<bool>(), "IsValid")(type, name)
                     .WithBody(
-                        Switch(type)(cases.Prepend((_ctx.Type(OneOfTypeEnumTyp).Access("Unknown"), Return(true))).ToArray()).WithDefault(Return(false))
-                    );
+                        Switch(type)(cases.Prepend((_ctx.Type(OneOfTypeEnumTyp).Access("Unknown"), Return(true))).ToArray()).WithDefault(Return(false)));
             }
 
             private ConstructorDeclarationSyntax Ctor0(ClassDeclarationSyntax cls,
@@ -358,8 +356,7 @@ namespace Google.Api.Generator.Generation
                         typeProp.Assign(_ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckEnumValue), _ctx.Type(OneOfTypeEnumTyp))(type, Nameof(type))),
                         nameProp.Assign(_ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(name, Nameof(name))),
                         If(Not(This.Call(isValid)(type, name))).Then(
-                            Throw(New(_ctx.Type<ArgumentException>())(Dollar($"Mismatched OneofType '{type}' and resource name '{name}'"))))
-                    )
+                            Throw(New(_ctx.Type<ArgumentException>())(Dollar($"Mismatched OneofType '{type}' and resource name '{name}'")))))
                     .WithXmlDoc();
             }
 

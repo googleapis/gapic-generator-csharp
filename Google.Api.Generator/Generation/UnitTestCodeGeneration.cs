@@ -143,8 +143,8 @@ namespace Google.Api.Generator.Generation
                         else
                         {
                             value = one.IsWildcard ?
-                            New(Ctx.Type<UnknownResourceName>())("a/wildcard/resource") :
-                            New(Ctx.Type(one.ResourceNameTyp))(one.Template.ParameterNames.Select(x => $"[{x.ToUpperInvariant()}]"));
+                                New(Ctx.Type<UnknownResourceName>())("a/wildcard/resource") :
+                                New(Ctx.Type(one.ResourceNameTyp))(one.Template.ParameterNames.Select(x => $"[{x.ToUpperInvariant()}]"));
                         }
                     }
                     return fieldDesc.IsRepeated ? CollectionInitializer(value) : value;
