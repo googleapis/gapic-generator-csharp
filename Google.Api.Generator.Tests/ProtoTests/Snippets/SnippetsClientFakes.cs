@@ -104,6 +104,18 @@ namespace Testing.Snippets
         public ResourceNameKind Kind => throw new NotImplementedException();
     }
 
+    public class RootAItemName : IResourceName
+    {
+        public RootAItemName(string rootId, string itemId) => throw new NotImplementedException();
+        public ResourceNameKind Kind => throw new NotImplementedException();
+    }
+
+    public class MultiPatternResourceNameOneOf : IResourceName
+    {
+        public static MultiPatternResourceNameOneOf From(RootAItemName item) => throw new NotImplementedException();
+        public ResourceNameKind Kind => throw new NotImplementedException();
+    }
+
     public class AnotherMessage : ProtoMsgFake<AnotherMessage> { }
 
     public enum Enum
@@ -164,11 +176,15 @@ namespace Testing.Snippets
         public RepeatedField<string> RepeatedResourceName { get; }
         public string SingleWildcardResource { get; set; }
         public RepeatedField<string> RepeatedWildcardResource { get; }
+        public string MultiPatternResourceName { get; set; }
+        public RepeatedField<string> RepeatedMultiPatternResourceName { get; }
 
         public AResourceName SingleResourceNameAsAResourceName { get; set; }
         public ResourceNameList<AResourceName> RepeatedResourceNameAsAResourceNames { get; }
         public IResourceName SingleWildcardResourceAsResourceName { get; set; }
         public ResourceNameList<IResourceName> RepeatedWildcardResourceAsResourceNames { get; }
+        public MultiPatternResourceNameOneOf MultiPatternResourceNameAsMultiPatternResourceNameOneOf { get; set; }
+        public ResourceNameList<MultiPatternResourceNameOneOf> RepeatedMultiPatternResourceNameAsMultiPatternResourceNameOneOfs { get; }
     }
 
     public class SignatureRequest : ProtoMsgFake<SignatureRequest>

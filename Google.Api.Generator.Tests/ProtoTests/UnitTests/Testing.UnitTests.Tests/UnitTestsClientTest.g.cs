@@ -117,6 +117,11 @@ namespace Testing.UnitTests
                 {
                     new gax::UnknownResourceName("a/wildcard/resource"),
                 },
+                MultiPatternResourceNameAsMultiPatternResourceNameOneOf = MultiPatternResourceNameOneOf.From(new RootAItemName("[ROOT_A_ID]", "[ITEM_ID]")),
+                RepeatedMultiPatternResourceNameAsMultiPatternResourceNameOneOfs =
+                {
+                    MultiPatternResourceNameOneOf.From(new RootAItemName("[ROOT_A_ID]", "[ITEM_ID]")),
+                },
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.MethodValues(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
@@ -213,6 +218,11 @@ namespace Testing.UnitTests
                 RepeatedWildcardResourceAsResourceNames =
                 {
                     new gax::UnknownResourceName("a/wildcard/resource"),
+                },
+                MultiPatternResourceNameAsMultiPatternResourceNameOneOf = MultiPatternResourceNameOneOf.From(new RootAItemName("[ROOT_A_ID]", "[ITEM_ID]")),
+                RepeatedMultiPatternResourceNameAsMultiPatternResourceNameOneOfs =
+                {
+                    MultiPatternResourceNameOneOf.From(new RootAItemName("[ROOT_A_ID]", "[ITEM_ID]")),
                 },
             };
             Response expectedResponse = new Response { };

@@ -91,6 +91,11 @@ namespace Testing.Snippets
                 {
                     new UnknownResourceName("a/wildcard/resource"),
                 },
+                MultiPatternResourceNameAsMultiPatternResourceNameOneOf = MultiPatternResourceNameOneOf.From(new RootAItemName("[ROOT_A_ID]", "[ITEM_ID]")),
+                RepeatedMultiPatternResourceNameAsMultiPatternResourceNameOneOfs =
+                {
+                    MultiPatternResourceNameOneOf.From(new RootAItemName("[ROOT_A_ID]", "[ITEM_ID]")),
+                },
             };
             // Make the request
             Response response = snippetsClient.MethodDefaultValues(request);
@@ -163,6 +168,11 @@ namespace Testing.Snippets
                 RepeatedWildcardResourceAsResourceNames =
                 {
                     new UnknownResourceName("a/wildcard/resource"),
+                },
+                MultiPatternResourceNameAsMultiPatternResourceNameOneOf = MultiPatternResourceNameOneOf.From(new RootAItemName("[ROOT_A_ID]", "[ITEM_ID]")),
+                RepeatedMultiPatternResourceNameAsMultiPatternResourceNameOneOfs =
+                {
+                    MultiPatternResourceNameOneOf.From(new RootAItemName("[ROOT_A_ID]", "[ITEM_ID]")),
                 },
             };
             // Make the request
