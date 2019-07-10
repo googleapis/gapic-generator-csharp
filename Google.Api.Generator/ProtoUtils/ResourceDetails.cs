@@ -206,8 +206,8 @@ namespace Google.Api.Generator.ProtoUtils
 
         public static IReadOnlyList<Definition> LoadResourceDefinitionsByFileName(IEnumerable<FileDescriptor> descs)
         {
-            // Singles.
-            // Compatilibity problems: none
+            // Singles:
+            // Compatibility problems: none
             //
             // Multi: If pattern already exists, use it; otherwise create new single-def.
             //        Create name as concatenation of all ID parts, without "Id" suffixes.

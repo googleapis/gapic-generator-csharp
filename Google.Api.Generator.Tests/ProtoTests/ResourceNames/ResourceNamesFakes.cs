@@ -16,14 +16,14 @@ using Google.Protobuf.Collections;
 
 namespace Testing.ResourceNames
 {
-    public partial class SimpleResource : ProtoMsgFake<SimpleResource>
+    public partial class SingleResource : ProtoMsgFake<SingleResource>
     {
         public string Name { get; set; }
     }
 
-    public partial class SimpleResourceRef : ProtoMsgFake<SimpleResourceRef>
+    public partial class SingleResourceRef : ProtoMsgFake<SingleResourceRef>
     {
-        public string SimpleResource { get; set; }
+        public string SingleResource { get; set; }
     }
 
     public partial class MultiResource : ProtoMsgFake<MultiResource>

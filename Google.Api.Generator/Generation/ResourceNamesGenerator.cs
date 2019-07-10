@@ -329,7 +329,7 @@ namespace Google.Api.Generator.Generation
                     yield return Method(Public | Static, _ctx.Type(_def.ContainerTyp), "From")(name)
                         .WithBody(New(_ctx.Type(_def.ContainerTyp))(_ctx.Type(OneOfTypeEnumTyp).Access(single.ResourceNameTyp.Name), name))
                         .WithXmlDoc(
-                            XmlDoc.Summary("Construct a new instance of ", _ctx.Type(_def.ContainerTyp), " from the provided ", _ctx.Type(single.ResourceNameTyp), "."),
+                            XmlDoc.Summary("Constructs a new instance of ", _ctx.Type(_def.ContainerTyp), " from the provided ", _ctx.Type(single.ResourceNameTyp), "."),
                             XmlDoc.Param(name, "The ", _ctx.Type(single.ResourceNameTyp), " to be contained within the returned ", _ctx.Type(_def.ContainerTyp), ".",
                                 " Must not be ", null),
                             XmlDoc.Returns("A new ", _ctx.Type(_def.ContainerTyp), ", containing ", name, "."));

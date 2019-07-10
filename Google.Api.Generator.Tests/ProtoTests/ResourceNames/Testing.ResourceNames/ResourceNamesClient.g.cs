@@ -27,152 +27,152 @@ namespace Testing.ResourceNames
 {
     public abstract class ResourceNamesClient
     {
-        public Response SimpleMethod(SimpleResource request, gaxgrpc::CallSettings callSettings) => throw new sys::NotImplementedException();
-        public stt::Task<Response> SimpleMethodAsync(SimpleResource request, gaxgrpc::CallSettings callSettings) => throw new sys::NotImplementedException();
+        public Response SingleMethod(SingleResource request, gaxgrpc::CallSettings callSettings) => throw new sys::NotImplementedException();
+        public stt::Task<Response> SingleMethodAsync(SingleResource request, gaxgrpc::CallSettings callSettings) => throw new sys::NotImplementedException();
 
         // TEST_START
         /// <summary>
-        /// Test simple resource definition.
+        /// Test single resource definition.
         /// </summary>
         /// <param name="name">
         /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The RPC response.</returns>
-        public virtual Response SimpleMethod(string name, gaxgrpc::CallSettings callSettings = null) =>
-            SimpleMethod(new SimpleResource { Name = name ?? "", }, callSettings);
+        public virtual Response SingleMethod(string name, gaxgrpc::CallSettings callSettings = null) =>
+            SingleMethod(new SingleResource { Name = name ?? "", }, callSettings);
 
         /// <summary>
-        /// Test simple resource definition.
+        /// Test single resource definition.
         /// </summary>
         /// <param name="name">
         /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<Response> SimpleMethodAsync(string name, gaxgrpc::CallSettings callSettings = null) =>
-            SimpleMethodAsync(new SimpleResource { Name = name ?? "", }, callSettings);
+        public virtual stt::Task<Response> SingleMethodAsync(string name, gaxgrpc::CallSettings callSettings = null) =>
+            SingleMethodAsync(new SingleResource { Name = name ?? "", }, callSettings);
 
         /// <summary>
-        /// Test simple resource definition.
+        /// Test single resource definition.
         /// </summary>
         /// <param name="name">
         /// </param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
         /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<Response> SimpleMethodAsync(string name, st::CancellationToken cancellationToken) =>
-            SimpleMethodAsync(name, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+        public virtual stt::Task<Response> SingleMethodAsync(string name, st::CancellationToken cancellationToken) =>
+            SingleMethodAsync(name, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
-        /// Test simple resource definition.
+        /// Test single resource definition.
         /// </summary>
         /// <param name="name">
         /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The RPC response.</returns>
-        public virtual Response SimpleMethod(SimpleResourceName name, gaxgrpc::CallSettings callSettings = null) =>
-            SimpleMethod(new SimpleResource
+        public virtual Response SingleMethod(SingleResourceName name, gaxgrpc::CallSettings callSettings = null) =>
+            SingleMethod(new SingleResource
             {
-                SimpleResourceName = name,
+                SingleResourceName = name,
             }, callSettings);
 
         /// <summary>
-        /// Test simple resource definition.
+        /// Test single resource definition.
         /// </summary>
         /// <param name="name">
         /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<Response> SimpleMethodAsync(SimpleResourceName name, gaxgrpc::CallSettings callSettings = null) =>
-            SimpleMethodAsync(new SimpleResource
+        public virtual stt::Task<Response> SingleMethodAsync(SingleResourceName name, gaxgrpc::CallSettings callSettings = null) =>
+            SingleMethodAsync(new SingleResource
             {
-                SimpleResourceName = name,
+                SingleResourceName = name,
             }, callSettings);
 
         /// <summary>
-        /// Test simple resource definition.
+        /// Test single resource definition.
         /// </summary>
         /// <param name="name">
         /// </param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
         /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<Response> SimpleMethodAsync(SimpleResourceName name, st::CancellationToken cancellationToken) =>
-            SimpleMethodAsync(name, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+        public virtual stt::Task<Response> SingleMethodAsync(SingleResourceName name, st::CancellationToken cancellationToken) =>
+            SingleMethodAsync(name, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
         // TEST_END
 
-        public Response SimpleMethodRef(SimpleResourceRef request, gaxgrpc::CallSettings callSettings) => throw new sys::NotImplementedException();
-        public stt::Task<Response> SimpleMethodRefAsync(SimpleResourceRef request, gaxgrpc::CallSettings callSettings) => throw new sys::NotImplementedException();
+        public Response SingleMethodRef(SingleResourceRef request, gaxgrpc::CallSettings callSettings) => throw new sys::NotImplementedException();
+        public stt::Task<Response> SingleMethodRefAsync(SingleResourceRef request, gaxgrpc::CallSettings callSettings) => throw new sys::NotImplementedException();
 
         // TEST_START
         /// <summary>
-        /// Test simple resource reference.
+        /// Test single resource reference.
         /// </summary>
-        /// <param name="simpleResource">
+        /// <param name="singleResource">
         /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The RPC response.</returns>
-        public virtual Response SimpleMethodRef(string simpleResource, gaxgrpc::CallSettings callSettings = null) =>
-            SimpleMethodRef(new SimpleResourceRef
+        public virtual Response SingleMethodRef(string singleResource, gaxgrpc::CallSettings callSettings = null) =>
+            SingleMethodRef(new SingleResourceRef
             {
-                SimpleResource = simpleResource ?? "",
+                SingleResource = singleResource ?? "",
             }, callSettings);
 
         /// <summary>
-        /// Test simple resource reference.
+        /// Test single resource reference.
         /// </summary>
-        /// <param name="simpleResource">
+        /// <param name="singleResource">
         /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<Response> SimpleMethodRefAsync(string simpleResource, gaxgrpc::CallSettings callSettings = null) =>
-            SimpleMethodRefAsync(new SimpleResourceRef
+        public virtual stt::Task<Response> SingleMethodRefAsync(string singleResource, gaxgrpc::CallSettings callSettings = null) =>
+            SingleMethodRefAsync(new SingleResourceRef
             {
-                SimpleResource = simpleResource ?? "",
+                SingleResource = singleResource ?? "",
             }, callSettings);
 
         /// <summary>
-        /// Test simple resource reference.
+        /// Test single resource reference.
         /// </summary>
-        /// <param name="simpleResource">
+        /// <param name="singleResource">
         /// </param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
         /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<Response> SimpleMethodRefAsync(string simpleResource, st::CancellationToken cancellationToken) =>
-            SimpleMethodRefAsync(simpleResource, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+        public virtual stt::Task<Response> SingleMethodRefAsync(string singleResource, st::CancellationToken cancellationToken) =>
+            SingleMethodRefAsync(singleResource, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
-        /// Test simple resource reference.
+        /// Test single resource reference.
         /// </summary>
-        /// <param name="simpleResource">
+        /// <param name="singleResource">
         /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The RPC response.</returns>
-        public virtual Response SimpleMethodRef(SimpleResourceName simpleResource, gaxgrpc::CallSettings callSettings = null) =>
-            SimpleMethodRef(new SimpleResourceRef
+        public virtual Response SingleMethodRef(SingleResourceName singleResource, gaxgrpc::CallSettings callSettings = null) =>
+            SingleMethodRef(new SingleResourceRef
             {
-                SimpleResourceAsSimpleResourceName = simpleResource,
+                SingleResourceAsSingleResourceName = singleResource,
             }, callSettings);
 
         /// <summary>
-        /// Test simple resource reference.
+        /// Test single resource reference.
         /// </summary>
-        /// <param name="simpleResource">
+        /// <param name="singleResource">
         /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<Response> SimpleMethodRefAsync(SimpleResourceName simpleResource, gaxgrpc::CallSettings callSettings = null) =>
-            SimpleMethodRefAsync(new SimpleResourceRef
+        public virtual stt::Task<Response> SingleMethodRefAsync(SingleResourceName singleResource, gaxgrpc::CallSettings callSettings = null) =>
+            SingleMethodRefAsync(new SingleResourceRef
             {
-                SimpleResourceAsSimpleResourceName = simpleResource,
+                SingleResourceAsSingleResourceName = singleResource,
             }, callSettings);
 
         /// <summary>
-        /// Test simple resource reference.
+        /// Test single resource reference.
         /// </summary>
-        /// <param name="simpleResource">
+        /// <param name="singleResource">
         /// </param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
         /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<Response> SimpleMethodRefAsync(SimpleResourceName simpleResource, st::CancellationToken cancellationToken) =>
-            SimpleMethodRefAsync(simpleResource, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+        public virtual stt::Task<Response> SingleMethodRefAsync(SingleResourceName singleResource, st::CancellationToken cancellationToken) =>
+            SingleMethodRefAsync(singleResource, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
         // TEST_END
 
         public Response MultiMethod(MultiResource request, gaxgrpc::CallSettings callSettings) => throw new sys::NotImplementedException();
@@ -428,6 +428,77 @@ namespace Testing.ResourceNames
         /// <returns>A Task containing the RPC response.</returns>
         public virtual stt::Task<Response> OriginallySingleMethodAsync(OriginallySingleResourceNameOneOf name, st::CancellationToken cancellationToken) =>
             OriginallySingleMethodAsync(name, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+        // TEST_END
+
+        public Response FutureMultiMethod(FutureMultiResource request, gaxgrpc::CallSettings callSettings) => throw new sys::NotImplementedException();
+        public stt::Task<Response> FutureMultiMethodAsync(FutureMultiResource request, gaxgrpc::CallSettings callSettings) => throw new sys::NotImplementedException();
+
+        // TEST_START
+        /// <summary>
+        /// Test future multi resource (FUTURE_MULTI_PATTERN).
+        /// </summary>
+        /// <param name="name">
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>The RPC response.</returns>
+        public virtual Response FutureMultiMethod(string name, gaxgrpc::CallSettings callSettings = null) =>
+            FutureMultiMethod(new FutureMultiResource { Name = name ?? "", }, callSettings);
+
+        /// <summary>
+        /// Test future multi resource (FUTURE_MULTI_PATTERN).
+        /// </summary>
+        /// <param name="name">
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<Response> FutureMultiMethodAsync(string name, gaxgrpc::CallSettings callSettings = null) =>
+            FutureMultiMethodAsync(new FutureMultiResource { Name = name ?? "", }, callSettings);
+
+        /// <summary>
+        /// Test future multi resource (FUTURE_MULTI_PATTERN).
+        /// </summary>
+        /// <param name="name">
+        /// </param>
+        /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<Response> FutureMultiMethodAsync(string name, st::CancellationToken cancellationToken) =>
+            FutureMultiMethodAsync(name, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+
+        /// <summary>
+        /// Test future multi resource (FUTURE_MULTI_PATTERN).
+        /// </summary>
+        /// <param name="name">
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>The RPC response.</returns>
+        public virtual Response FutureMultiMethod(FutureMultiResourceNameOneOf name, gaxgrpc::CallSettings callSettings = null) =>
+            FutureMultiMethod(new FutureMultiResource
+            {
+                FutureMultiResourceNameOneOf = name,
+            }, callSettings);
+
+        /// <summary>
+        /// Test future multi resource (FUTURE_MULTI_PATTERN).
+        /// </summary>
+        /// <param name="name">
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<Response> FutureMultiMethodAsync(FutureMultiResourceNameOneOf name, gaxgrpc::CallSettings callSettings = null) =>
+            FutureMultiMethodAsync(new FutureMultiResource
+            {
+                FutureMultiResourceNameOneOf = name,
+            }, callSettings);
+
+        /// <summary>
+        /// Test future multi resource (FUTURE_MULTI_PATTERN).
+        /// </summary>
+        /// <param name="name">
+        /// </param>
+        /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<Response> FutureMultiMethodAsync(FutureMultiResourceNameOneOf name, st::CancellationToken cancellationToken) =>
+            FutureMultiMethodAsync(name, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
         // TEST_END
 
         public Response OriginallySingleMethodRef(OriginallySingleResourceRef request, gaxgrpc::CallSettings callSettings = null) => throw new sys::NotImplementedException();

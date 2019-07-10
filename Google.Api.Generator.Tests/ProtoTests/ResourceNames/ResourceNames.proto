@@ -11,14 +11,14 @@ import "google/api/field_behavior.proto";
 service ResourceNames {
   option (google.api.default_host) = "resourcenames.example.com";
 
-  // Test simple resource definition.
-  rpc SimpleMethod(SimpleResource) returns(Response) {
+  // Test single resource definition.
+  rpc SingleMethod(SingleResource) returns(Response) {
     option (google.api.method_signature) = "name";
   }
 
-  // Test simple resource reference.
-  rpc SimpleMethodRef(SimpleResourceRef) returns(Response) {
-    option (google.api.method_signature) = "simple_resource";
+  // Test single resource reference.
+  rpc SingleMethodRef(SingleResourceRef) returns(Response) {
+    option (google.api.method_signature) = "single_resource";
   }
 
   // Test multi resource definition.
@@ -48,16 +48,16 @@ service ResourceNames {
   }
 }
 
-message SimpleResource {
+message SingleResource {
   option (google.api.resource) = {
-    type: "resourcenames.example.com/SimpleResource"
+    type: "resourcenames.example.com/SingleResource"
 	pattern: "items/{item_id}"
   };
   string name = 1;
 }
 
-message SimpleResourceRef {
-  string simple_resource = 1 [(google.api.resource_reference).type = "resourcenames.example.com/SimpleResource"];
+message SingleResourceRef {
+  string single_resource = 1 [(google.api.resource_reference).type = "resourcenames.example.com/SingleResource"];
 }
 
 message MultiResource {

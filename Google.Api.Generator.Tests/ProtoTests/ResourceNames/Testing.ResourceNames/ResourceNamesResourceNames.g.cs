@@ -20,47 +20,47 @@ using tr = Testing.ResourceNames;
 
 namespace Testing.ResourceNames
 {
-    /// <summary>Resource name for the <c>SimpleResource</c> resource.</summary>
-    public sealed partial class SimpleResourceName : gax::IResourceName, sys::IEquatable<SimpleResourceName>
+    /// <summary>Resource name for the <c>SingleResource</c> resource.</summary>
+    public sealed partial class SingleResourceName : gax::IResourceName, sys::IEquatable<SingleResourceName>
     {
         private static readonly gax::PathTemplate s_template = new gax::PathTemplate("items/{item_id}");
 
         /// <summary>
-        /// Parses the given <c>SimpleResource</c> resource name in string form into a new
-        /// <see cref="SimpleResourceName"/> instance.
+        /// Parses the given <c>SingleResource</c> resource name in string form into a new
+        /// <see cref="SingleResourceName"/> instance.
         /// </summary>
-        /// <param name="simpleResource">
-        /// The <c>SimpleResource</c> resource name in string form. Must not be <c>null</c>.
+        /// <param name="singleResource">
+        /// The <c>SingleResource</c> resource name in string form. Must not be <c>null</c>.
         /// </param>
-        /// <returns>The parsed <see cref="SimpleResourceName"/> if successful.</returns>
-        public static SimpleResourceName Parse(string simpleResource)
+        /// <returns>The parsed <see cref="SingleResourceName"/> if successful.</returns>
+        public static SingleResourceName Parse(string singleResource)
         {
-            gax::GaxPreconditions.CheckNotNull(simpleResource, nameof(simpleResource));
-            gax::TemplatedResourceName resourceName = s_template.ParseName(simpleResource);
-            return new SimpleResourceName(resourceName[0]);
+            gax::GaxPreconditions.CheckNotNull(singleResource, nameof(singleResource));
+            gax::TemplatedResourceName resourceName = s_template.ParseName(singleResource);
+            return new SingleResourceName(resourceName[0]);
         }
 
         /// <summary>
-        /// Tries to parse the given session resource name in string form into a new <see cref="SimpleResourceName"/>
+        /// Tries to parse the given session resource name in string form into a new <see cref="SingleResourceName"/>
         /// instance.
         /// </summary>
         /// <remarks>
-        /// This method still throws <see cref="sys::ArgumentNullException"/> if <paramref name="simpleResource"/> is
+        /// This method still throws <see cref="sys::ArgumentNullException"/> if <paramref name="singleResource"/> is
         /// <c>null</c>, as this would usually indicate a programming error rather than a data error.
         /// </remarks>
-        /// <param name="simpleResource">
-        /// The <c>SimpleResource</c> resource name in string form. Must not be <c>null</c>.
+        /// <param name="singleResource">
+        /// The <c>SingleResource</c> resource name in string form. Must not be <c>null</c>.
         /// </param>
         /// <param name="result">
-        /// When this method returns, the parsed <see cref="SimpleResourceName"/>, or <c>null</c> if parsing fails.
+        /// When this method returns, the parsed <see cref="SingleResourceName"/>, or <c>null</c> if parsing fails.
         /// </param>
         /// <returns><c>true</c> if the name was parsed successfully; <c>false</c> otherwise.</returns>
-        public static bool TryParse(string simpleResource, out SimpleResourceName result)
+        public static bool TryParse(string singleResource, out SingleResourceName result)
         {
-            gax::GaxPreconditions.CheckNotNull(simpleResource, nameof(simpleResource));
-            if (s_template.TryParseName(simpleResource, out gax::TemplatedResourceName resourceName))
+            gax::GaxPreconditions.CheckNotNull(singleResource, nameof(singleResource));
+            if (s_template.TryParseName(singleResource, out gax::TemplatedResourceName resourceName))
             {
-                result = new SimpleResourceName(resourceName[0]);
+                result = new SingleResourceName(resourceName[0]);
                 return true;
             }
             else
@@ -71,11 +71,11 @@ namespace Testing.ResourceNames
         }
 
         /// <summary>
-        /// Constructs a new instance of the <see cref="SimpleResourceName"/> resource name class from its component
+        /// Constructs a new instance of the <see cref="SingleResourceName"/> resource name class from its component
         /// parts.
         /// </summary>
         /// <param name="itemId">The <c>Item</c> ID. Must not be <c>null</c>.</param>
-        public SimpleResourceName(string itemId) => ItemId = gax::GaxPreconditions.CheckNotNull(itemId, nameof(itemId));
+        public SingleResourceName(string itemId) => ItemId = gax::GaxPreconditions.CheckNotNull(itemId, nameof(itemId));
 
         /// <summary>The <c>Item</c> ID. Never <c>null</c>.</summary>
         public string ItemId { get; }
@@ -90,16 +90,16 @@ namespace Testing.ResourceNames
         public override int GetHashCode() => ToString().GetHashCode();
 
         /// <inheritdoc/>
-        public override bool Equals(object obj) => Equals(obj as SimpleResourceName);
+        public override bool Equals(object obj) => Equals(obj as SingleResourceName);
 
         /// <inheritdoc/>
-        public bool Equals(SimpleResourceName other) => ToString() == other?.ToString();
+        public bool Equals(SingleResourceName other) => ToString() == other?.ToString();
 
         /// <inheritdoc/>
-        public static bool operator ==(SimpleResourceName a, SimpleResourceName b) => ReferenceEquals(a, b) || (a?.Equals(b) ?? false);
+        public static bool operator ==(SingleResourceName a, SingleResourceName b) => ReferenceEquals(a, b) || (a?.Equals(b) ?? false);
 
         /// <inheritdoc/>
-        public static bool operator !=(SimpleResourceName a, SimpleResourceName b) => !(a == b);
+        public static bool operator !=(SingleResourceName a, SingleResourceName b) => !(a == b);
     }
 
     /// <summary>Resource name for the <c>RootAMulti</c> resource.</summary>
@@ -377,7 +377,7 @@ namespace Testing.ResourceNames
         }
 
         /// <summary>
-        /// Construct a new instance of <see cref="MultiResourceNameOneOf"/> from the provided
+        /// Constructs a new instance of <see cref="MultiResourceNameOneOf"/> from the provided
         /// <see cref="RootAMultiName"/>.
         /// </summary>
         /// <param name="rootAMultiName">
@@ -389,7 +389,7 @@ namespace Testing.ResourceNames
             new MultiResourceNameOneOf(OneofType.RootAMultiName, rootAMultiName);
 
         /// <summary>
-        /// Construct a new instance of <see cref="MultiResourceNameOneOf"/> from the provided
+        /// Constructs a new instance of <see cref="MultiResourceNameOneOf"/> from the provided
         /// <see cref="RootBMultiName"/>.
         /// </summary>
         /// <param name="rootBMultiName">
@@ -650,7 +650,7 @@ namespace Testing.ResourceNames
         }
 
         /// <summary>
-        /// Construct a new instance of <see cref="FutureMultiResourceNameOneOf"/> from the provided
+        /// Constructs a new instance of <see cref="FutureMultiResourceNameOneOf"/> from the provided
         /// <see cref="RootAFutureMultiName"/>.
         /// </summary>
         /// <param name="rootAFutureMultiName">
@@ -1010,7 +1010,7 @@ namespace Testing.ResourceNames
         }
 
         /// <summary>
-        /// Construct a new instance of <see cref="OriginallySingleResourceNameOneOf"/> from the provided
+        /// Constructs a new instance of <see cref="OriginallySingleResourceNameOneOf"/> from the provided
         /// <see cref="OriginallySingleResourceName"/>.
         /// </summary>
         /// <param name="originallySingleResourceName">
@@ -1025,7 +1025,7 @@ namespace Testing.ResourceNames
             new OriginallySingleResourceNameOneOf(OneofType.OriginallySingleResourceName, originallySingleResourceName);
 
         /// <summary>
-        /// Construct a new instance of <see cref="OriginallySingleResourceNameOneOf"/> from the provided
+        /// Constructs a new instance of <see cref="OriginallySingleResourceNameOneOf"/> from the provided
         /// <see cref="RootBOriginallySingleMultiName"/>.
         /// </summary>
         /// <param name="rootBOriginallySingleMultiName">
@@ -1115,27 +1115,27 @@ namespace Testing.ResourceNames
         public static bool operator !=(OriginallySingleResourceNameOneOf a, OriginallySingleResourceNameOneOf b) => !(a == b);
     }
 
-    public partial class SimpleResource
+    public partial class SingleResource
     {
         /// <summary>
-        /// <see cref="tr::SimpleResourceName"/>-typed view over the <see cref="Name"/> resource name property.
+        /// <see cref="tr::SingleResourceName"/>-typed view over the <see cref="Name"/> resource name property.
         /// </summary>
-        public SimpleResourceName SimpleResourceName
+        public SingleResourceName SingleResourceName
         {
-            get => string.IsNullOrEmpty(Name) ? null : SimpleResourceName.Parse(Name);
+            get => string.IsNullOrEmpty(Name) ? null : SingleResourceName.Parse(Name);
             set => Name = value?.ToString() ?? "";
         }
     }
 
-    public partial class SimpleResourceRef
+    public partial class SingleResourceRef
     {
         /// <summary>
-        /// <see cref="SimpleResourceName"/>-typed view over the <see cref="SimpleResource"/> resource name property.
+        /// <see cref="SingleResourceName"/>-typed view over the <see cref="SingleResource"/> resource name property.
         /// </summary>
-        public SimpleResourceName SimpleResourceAsSimpleResourceName
+        public SingleResourceName SingleResourceAsSingleResourceName
         {
-            get => string.IsNullOrEmpty(SimpleResource) ? null : SimpleResourceName.Parse(SimpleResource);
-            set => SimpleResource = value?.ToString() ?? "";
+            get => string.IsNullOrEmpty(SingleResource) ? null : SingleResourceName.Parse(SingleResource);
+            set => SingleResource = value?.ToString() ?? "";
         }
     }
 
