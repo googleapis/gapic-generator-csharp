@@ -59,43 +59,6 @@ namespace Google.Api.Generator.ProtoUtils
                 public IReadOnlyList<SingleDef> Defs { get; }
             }
 
-            //public Definition(string ns, ResourceDescriptor resourceDesc)
-            //{
-            //    if (resourceDesc.Pattern.Count == 0)
-            //    {
-            //        throw new InvalidOperationException("Resource must contain at least one pattern.");
-            //    }
-            //    _namespace = ns;
-            //    _resourceDesc = resourceDesc;
-            //    NameField = string.IsNullOrEmpty(resourceDesc.NameField) ? "name" : resourceDesc.NameField;
-            //    var typeNameParts = resourceDesc.Type.Split('/');
-            //    if (typeNameParts.Length != 2)
-            //    {
-            //        throw new InvalidOperationException($"Invalid unified resource name: '{resourceDesc.Type}'");
-            //    }
-            //    ShortName = typeNameParts[1];
-            //    FieldName = ShortName.ToLowerCamelCase();
-            //    DocName = ShortName;
-            //    bool futureMultiPattern = (resourceDesc.History & ResourceDescriptor.Types.History.FutureMultiPattern) != 0;
-            //    bool originallySinglePattern = (resourceDesc.History & ResourceDescriptor.Types.History.OriginallySinglePattern) != 0;
-            //    bool isMulti = resourceDesc.Pattern.Count > 1 || futureMultiPattern;
-            //    if (isMulti)
-            //    {
-            //        Multi = new MultiDef(ns, ShortName, resourceDesc.Pattern);
-            //    }
-            //    if (!isMulti || originallySinglePattern)
-            //    {
-            //        One = new OneDef(ns, ShortName, resourceDesc.Pattern[0]);
-            //    }
-            //    //FullSymbol = fullSymbol;
-            //    //var symbolShortName = fullSymbol.Split('.').Last();
-            //    //DocName = symbolShortName;
-            //    //FieldName = symbolShortName.ToLowerCamelCase();
-            //    //var oneResourceNameTyp = Typ.Manual(ns, $"{symbolShortName}Name");
-            //    //One = new OneDef(oneResourceNameTyp, resource);
-            //    //// TODO: Set support.
-            //}
-
             public Definition(string fileName, ResourceDescriptor resourceDesc, SingleDef single, MultiDef multi)
             {
                 FileName = fileName;
@@ -133,34 +96,6 @@ namespace Google.Api.Generator.ProtoUtils
 
             /// <summary>Definition of resource that is a multi. Null if not a multi.</summary>
             public MultiDef Multi { get; }
-
-            //private Definition _parent;
-
-            //public Definition Parent()
-            //{
-            //    if (_parent == null)
-            //    {
-            //        var patterns = _resourceDesc.Pattern.Select(x =>
-            //        {
-            //            var lastIndex = x.LastIndexOf('}');
-            //            var last2Index = x.LastIndexOf('}', startIndex: Math.Max(lastIndex - 1, 0));
-            //            if (lastIndex < 0 || last2Index < 0)
-            //            {
-            //                throw new InvalidOperationException("Cannot create the parent of a single-piece resource name.");
-            //            }
-            //            return x.Substring(0, last2Index + 1);
-            //        });
-            //        var parentDesc = new ResourceDescriptor
-            //        {
-            //            Type = $"{UnifiedResourceTypeName}Parent",
-            //            NameField = NameField,
-            //            Pattern = { patterns },
-            //            History = _resourceDesc.History,
-            //        };
-            //        _parent = new Definition(_namespace, parentDesc);
-            //    }
-            //    return _parent;
-            //}
         }
 
         /// <summary>
