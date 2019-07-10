@@ -105,6 +105,374 @@ namespace Testing.UnitTests
         public static bool operator !=(AResourceName a, AResourceName b) => !(a == b);
     }
 
+    /// <summary>Resource name for the <c>RootAItem</c> resource.</summary>
+    public sealed partial class RootAItemName : gax::IResourceName, sys::IEquatable<RootAItemName>
+    {
+        private static readonly gax::PathTemplate s_template = new gax::PathTemplate("root/{root_a_id}/items/{item_id}");
+
+        /// <summary>
+        /// Parses the given <c>RootAItem</c> resource name in string form into a new <see cref="RootAItemName"/>
+        /// instance.
+        /// </summary>
+        /// <param name="rootAItem">The <c>RootAItem</c> resource name in string form. Must not be <c>null</c>.</param>
+        /// <returns>The parsed <see cref="RootAItemName"/> if successful.</returns>
+        public static RootAItemName Parse(string rootAItem)
+        {
+            gax::GaxPreconditions.CheckNotNull(rootAItem, nameof(rootAItem));
+            gax::TemplatedResourceName resourceName = s_template.ParseName(rootAItem);
+            return new RootAItemName(resourceName[0], resourceName[1]);
+        }
+
+        /// <summary>
+        /// Tries to parse the given session resource name in string form into a new <see cref="RootAItemName"/>
+        /// instance.
+        /// </summary>
+        /// <remarks>
+        /// This method still throws <see cref="sys::ArgumentNullException"/> if <paramref name="rootAItem"/> is <c>null</c>
+        /// , as this would usually indicate a programming error rather than a data error.
+        /// </remarks>
+        /// <param name="rootAItem">The <c>RootAItem</c> resource name in string form. Must not be <c>null</c>.</param>
+        /// <param name="result">
+        /// When this method returns, the parsed <see cref="RootAItemName"/>, or <c>null</c> if parsing fails.
+        /// </param>
+        /// <returns><c>true</c> if the name was parsed successfully; <c>false</c> otherwise.</returns>
+        public static bool TryParse(string rootAItem, out RootAItemName result)
+        {
+            gax::GaxPreconditions.CheckNotNull(rootAItem, nameof(rootAItem));
+            if (s_template.TryParseName(rootAItem, out gax::TemplatedResourceName resourceName))
+            {
+                result = new RootAItemName(resourceName[0], resourceName[1]);
+                return true;
+            }
+            else
+            {
+                result = null;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Constructs a new instance of the <see cref="RootAItemName"/> resource name class from its component parts.
+        /// </summary>
+        /// <param name="rootAId">The <c>RootA</c> ID. Must not be <c>null</c>.</param>
+        /// <param name="itemId">The <c>Item</c> ID. Must not be <c>null</c>.</param>
+        public RootAItemName(string rootAId, string itemId)
+        {
+            RootAId = gax::GaxPreconditions.CheckNotNull(rootAId, nameof(rootAId));
+            ItemId = gax::GaxPreconditions.CheckNotNull(itemId, nameof(itemId));
+        }
+
+        /// <summary>The <c>RootA</c> ID. Never <c>null</c>.</summary>
+        public string RootAId { get; }
+
+        /// <summary>The <c>Item</c> ID. Never <c>null</c>.</summary>
+        public string ItemId { get; }
+
+        /// <inheritdoc/>
+        public gax::ResourceNameKind Kind => gax::ResourceNameKind.Simple;
+
+        /// <inheritdoc/>
+        public override string ToString() => s_template.Expand(RootAId, ItemId);
+
+        /// <inheritdoc/>
+        public override int GetHashCode() => ToString().GetHashCode();
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj) => Equals(obj as RootAItemName);
+
+        /// <inheritdoc/>
+        public bool Equals(RootAItemName other) => ToString() == other?.ToString();
+
+        /// <inheritdoc/>
+        public static bool operator ==(RootAItemName a, RootAItemName b) => ReferenceEquals(a, b) || (a?.Equals(b) ?? false);
+
+        /// <inheritdoc/>
+        public static bool operator !=(RootAItemName a, RootAItemName b) => !(a == b);
+    }
+
+    /// <summary>Resource name for the <c>RootBItem</c> resource.</summary>
+    public sealed partial class RootBItemName : gax::IResourceName, sys::IEquatable<RootBItemName>
+    {
+        private static readonly gax::PathTemplate s_template = new gax::PathTemplate("root/{root_b_id}/items/{item_id}");
+
+        /// <summary>
+        /// Parses the given <c>RootBItem</c> resource name in string form into a new <see cref="RootBItemName"/>
+        /// instance.
+        /// </summary>
+        /// <param name="rootBItem">The <c>RootBItem</c> resource name in string form. Must not be <c>null</c>.</param>
+        /// <returns>The parsed <see cref="RootBItemName"/> if successful.</returns>
+        public static RootBItemName Parse(string rootBItem)
+        {
+            gax::GaxPreconditions.CheckNotNull(rootBItem, nameof(rootBItem));
+            gax::TemplatedResourceName resourceName = s_template.ParseName(rootBItem);
+            return new RootBItemName(resourceName[0], resourceName[1]);
+        }
+
+        /// <summary>
+        /// Tries to parse the given session resource name in string form into a new <see cref="RootBItemName"/>
+        /// instance.
+        /// </summary>
+        /// <remarks>
+        /// This method still throws <see cref="sys::ArgumentNullException"/> if <paramref name="rootBItem"/> is <c>null</c>
+        /// , as this would usually indicate a programming error rather than a data error.
+        /// </remarks>
+        /// <param name="rootBItem">The <c>RootBItem</c> resource name in string form. Must not be <c>null</c>.</param>
+        /// <param name="result">
+        /// When this method returns, the parsed <see cref="RootBItemName"/>, or <c>null</c> if parsing fails.
+        /// </param>
+        /// <returns><c>true</c> if the name was parsed successfully; <c>false</c> otherwise.</returns>
+        public static bool TryParse(string rootBItem, out RootBItemName result)
+        {
+            gax::GaxPreconditions.CheckNotNull(rootBItem, nameof(rootBItem));
+            if (s_template.TryParseName(rootBItem, out gax::TemplatedResourceName resourceName))
+            {
+                result = new RootBItemName(resourceName[0], resourceName[1]);
+                return true;
+            }
+            else
+            {
+                result = null;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Constructs a new instance of the <see cref="RootBItemName"/> resource name class from its component parts.
+        /// </summary>
+        /// <param name="rootBId">The <c>RootB</c> ID. Must not be <c>null</c>.</param>
+        /// <param name="itemId">The <c>Item</c> ID. Must not be <c>null</c>.</param>
+        public RootBItemName(string rootBId, string itemId)
+        {
+            RootBId = gax::GaxPreconditions.CheckNotNull(rootBId, nameof(rootBId));
+            ItemId = gax::GaxPreconditions.CheckNotNull(itemId, nameof(itemId));
+        }
+
+        /// <summary>The <c>RootB</c> ID. Never <c>null</c>.</summary>
+        public string RootBId { get; }
+
+        /// <summary>The <c>Item</c> ID. Never <c>null</c>.</summary>
+        public string ItemId { get; }
+
+        /// <inheritdoc/>
+        public gax::ResourceNameKind Kind => gax::ResourceNameKind.Simple;
+
+        /// <inheritdoc/>
+        public override string ToString() => s_template.Expand(RootBId, ItemId);
+
+        /// <inheritdoc/>
+        public override int GetHashCode() => ToString().GetHashCode();
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj) => Equals(obj as RootBItemName);
+
+        /// <inheritdoc/>
+        public bool Equals(RootBItemName other) => ToString() == other?.ToString();
+
+        /// <inheritdoc/>
+        public static bool operator ==(RootBItemName a, RootBItemName b) => ReferenceEquals(a, b) || (a?.Equals(b) ?? false);
+
+        /// <inheritdoc/>
+        public static bool operator !=(RootBItemName a, RootBItemName b) => !(a == b);
+    }
+
+    /// <summary>Resource name which will contain one of a choice of resource names.</summary>
+    /// <remarks>
+    /// This resource name will contain one of the following:
+    /// <list type="bullet">
+    /// <item><description>RootAItemName: A resource of type 'root_a'.</description></item>
+    /// <item><description>RootBItemName: A resource of type 'root_b'.</description></item>
+    /// </list>
+    /// </remarks>
+    public sealed partial class MultiPatternResourceNameOneOf : gax::IResourceName, sys::IEquatable<MultiPatternResourceNameOneOf>
+    {
+        /// <summary>The possible contents of <see cref="MultiPatternResourceNameOneOf"/>.</summary>
+        public enum OneofType
+        {
+            /// <summary>A resource of an unknown type.</summary>
+            Unknown = 0,
+
+            /// <summary>A resource of type 'root_a'</summary>
+            RootAItemName = 1,
+
+            /// <summary>A resource of type 'root_b'</summary>
+            RootBItemName = 2
+        }
+
+        /// <summary>
+        /// Parses the given <c>MultiPatternResource</c> resource name in string form into a new
+        /// <see cref="MultiPatternResourceNameOneOf"/> instance.
+        /// </summary>
+        /// <remarks>
+        /// To parse successfully the resource name must be one of the following:
+        /// <list type="bullet">
+        /// <item><description>RootAItemName: A resource of type 'root_a'.</description></item>
+        /// <item><description>RootBItemName: A resource of type 'root_b'.</description></item>
+        /// </list>
+        /// Or an <see cref="gax::UnknownResourceName"/> if <paramref name="allowUnknown"/> is <c>true</c>
+        /// </remarks>
+        /// <param name="name">The resource name in string form. Must not be <c>null</c>.</param>
+        /// <param name="allowUnknown">
+        /// If <c>true</c>, will successfully parse an unknown resource name into an
+        /// <see cref="gax::UnknownResourceName"/>; otherwise will throw an<see cref="sys::ArgumentException"/> if an
+        /// unknown resource name is given.
+        /// </param>
+        /// <returns>The parsed <see cref="MultiPatternResourceNameOneOf"/> if successful.</returns>
+        public static MultiPatternResourceNameOneOf Parse(string name, bool allowUnknown)
+        {
+            if (TryParse(name, allowUnknown, out MultiPatternResourceNameOneOf result))
+            {
+                return result;
+            }
+            throw new sys::ArgumentException("Invalid name", nameof(name));
+        }
+
+        /// <summary>
+        /// Tries to parse a resource name in string form into a new <see cref="MultiPatternResourceNameOneOf"/>
+        /// instance.
+        /// </summary>
+        /// <remarks>
+        /// To parse successfully the resource name must be one of the following:
+        /// <list type="bullet">
+        /// <item><description>RootAItemName: A resource of type 'root_a'.</description></item>
+        /// <item><description>RootBItemName: A resource of type 'root_b'.</description></item>
+        /// </list>
+        /// Or an <see cref="gax::UnknownResourceName"/> if <paramref name="allowUnknown"/> is <c>true</c>
+        /// </remarks>
+        /// <param name="name">The resource name in string form. Must not be <c>null</c>.</param>
+        /// <param name="allowUnknown">
+        /// If <c>true</c>, will successfully parse an unknown resource name into an
+        /// <see cref="gax::UnknownResourceName"/>.
+        /// </param>
+        /// <param name="result">
+        /// When this method returns, the parsed <see cref="MultiPatternResourceNameOneOf"/>, or <c>null</c> if parsing
+        /// fails.
+        /// </param>
+        /// <returns><c>true</c> if the name was parsed succssfully; othrewise <c>false</c></returns>
+        public static bool TryParse(string name, bool allowUnknown, out MultiPatternResourceNameOneOf result)
+        {
+            gax::GaxPreconditions.CheckNotNull(name, nameof(name));
+            if (RootAItemName.TryParse(name, out RootAItemName rootAItemName))
+            {
+                result = new MultiPatternResourceNameOneOf(OneofType.RootAItemName, rootAItemName);
+                return true;
+            }
+            if (RootBItemName.TryParse(name, out RootBItemName rootBItemName))
+            {
+                result = new MultiPatternResourceNameOneOf(OneofType.RootBItemName, rootBItemName);
+                return true;
+            }
+            if (allowUnknown)
+            {
+                if (gax::UnknownResourceName.TryParse(name, out gax::UnknownResourceName unknownResourceName))
+                {
+                    result = new MultiPatternResourceNameOneOf(OneofType.Unknown, unknownResourceName);
+                    return true;
+                }
+            }
+            result = null;
+            return false;
+        }
+
+        /// <summary>
+        /// Constructs a new instance of <see cref="MultiPatternResourceNameOneOf"/> from the provided
+        /// <see cref="RootAItemName"/>.
+        /// </summary>
+        /// <param name="rootAItemName">
+        /// The <see cref="RootAItemName"/> to be contained within the returned
+        /// <see cref="MultiPatternResourceNameOneOf"/>. Must not be <c>null</c>
+        /// </param>
+        /// <returns>
+        /// A new <see cref="MultiPatternResourceNameOneOf"/>, containing <paramref name="rootAItemName"/>.
+        /// </returns>
+        public static MultiPatternResourceNameOneOf From(RootAItemName rootAItemName) =>
+            new MultiPatternResourceNameOneOf(OneofType.RootAItemName, rootAItemName);
+
+        /// <summary>
+        /// Constructs a new instance of <see cref="MultiPatternResourceNameOneOf"/> from the provided
+        /// <see cref="RootBItemName"/>.
+        /// </summary>
+        /// <param name="rootBItemName">
+        /// The <see cref="RootBItemName"/> to be contained within the returned
+        /// <see cref="MultiPatternResourceNameOneOf"/>. Must not be <c>null</c>
+        /// </param>
+        /// <returns>
+        /// A new <see cref="MultiPatternResourceNameOneOf"/>, containing <paramref name="rootBItemName"/>.
+        /// </returns>
+        public static MultiPatternResourceNameOneOf From(RootBItemName rootBItemName) =>
+            new MultiPatternResourceNameOneOf(OneofType.RootBItemName, rootBItemName);
+
+        private static bool IsValid(OneofType type, gax::IResourceName name)
+        {
+            switch (type)
+            {
+                case OneofType.Unknown: return true;
+                case OneofType.RootAItemName: return name is RootAItemName;
+                case OneofType.RootBItemName: return name is RootBItemName;
+                default: return false;
+            }
+        }
+
+        public MultiPatternResourceNameOneOf(OneofType type, gax::IResourceName name)
+        {
+            Type = gax::GaxPreconditions.CheckEnumValue<OneofType>(type, nameof(type));
+            Name = gax::GaxPreconditions.CheckNotNull(name, nameof(name));
+            if (!IsValid(type, name))
+            {
+                throw new sys::ArgumentException($"Mismatched OneofType '{type}' and resource name '{name}'");
+            }
+        }
+
+        /// <summary>The <see cref="OneofType"/> of the Name contained in this instance.</summary>
+        public OneofType Type { get; }
+
+        /// <summary>The <see cref="gax::IResourceName"/> contained in this instance.</summary>
+        public gax::IResourceName Name { get; }
+
+        private T CheckAndReturn<T>(OneofType type)
+        {
+            if (Type != type)
+            {
+                throw new sys::InvalidOperationException($"Requested type {type}, but this one-of contains type {Type}");
+            }
+            return (T)Name;
+        }
+
+        /// <summary>Get the contained <see cref="gax::IResourceName"/> as <see cref="RootAItemName"/>.</summary>
+        /// <remarks>
+        /// An <see cref="sys::InvalidOperationException"/> will be thrown is this does not contain an instance of
+        /// <see cref="RootAItemName"/>.
+        /// </remarks>
+        public RootAItemName RootAItemName => CheckAndReturn<RootAItemName>(OneofType.RootAItemName);
+
+        /// <summary>Get the contained <see cref="gax::IResourceName"/> as <see cref="RootBItemName"/>.</summary>
+        /// <remarks>
+        /// An <see cref="sys::InvalidOperationException"/> will be thrown is this does not contain an instance of
+        /// <see cref="RootBItemName"/>.
+        /// </remarks>
+        public RootBItemName RootBItemName => CheckAndReturn<RootBItemName>(OneofType.RootBItemName);
+
+        /// <inheritdoc/>
+        public gax::ResourceNameKind Kind => gax::ResourceNameKind.Oneof;
+
+        /// <inheritdoc/>
+        public override string ToString() => this.Name.ToString();
+
+        /// <inheritdoc/>
+        public override int GetHashCode() => ToString().GetHashCode();
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj) => Equals(obj as MultiPatternResourceNameOneOf);
+
+        /// <inheritdoc/>
+        public bool Equals(MultiPatternResourceNameOneOf other) => ToString() == other?.ToString();
+
+        /// <inheritdoc/>
+        public static bool operator ==(MultiPatternResourceNameOneOf a, MultiPatternResourceNameOneOf b) => ReferenceEquals(a, b) || (a?.Equals(b) ?? false);
+
+        /// <inheritdoc/>
+        public static bool operator !=(MultiPatternResourceNameOneOf a, MultiPatternResourceNameOneOf b) => !(a == b);
+    }
+
     public partial class AResource
     {
         /// <summary>
@@ -125,6 +493,19 @@ namespace Testing.UnitTests
         public gax::IResourceName AsResourceName
         {
             get => string.IsNullOrEmpty(Name) ? null : gax::UnknownResourceName.Parse(Name);
+            set => Name = value?.ToString() ?? "";
+        }
+    }
+
+    public partial class MultiPatternResource
+    {
+        /// <summary>
+        /// <see cref="tu::MultiPatternResourceNameOneOf"/>-typed view over the <see cref="Name"/> resource name
+        /// property.
+        /// </summary>
+        public MultiPatternResourceNameOneOf MultiPatternResourceNameOneOf
+        {
+            get => string.IsNullOrEmpty(Name) ? null : MultiPatternResourceNameOneOf.Parse(Name, true);
             set => Name = value?.ToString() ?? "";
         }
     }
@@ -160,5 +541,21 @@ namespace Testing.UnitTests
         /// property.
         /// </summary>
         public gax::ResourceNameList<gax::IResourceName> RepeatedWildcardResourceAsResourceNames => new gax::ResourceNameList<gax::IResourceName>(RepeatedWildcardResource, s => gax::UnknownResourceName.Parse(s));
+
+        /// <summary>
+        /// <see cref="MultiPatternResourceNameOneOf"/>-typed view over the <see cref="MultiPatternResourceName"/>
+        /// resource name property.
+        /// </summary>
+        public MultiPatternResourceNameOneOf MultiPatternResourceNameAsMultiPatternResourceNameOneOf
+        {
+            get => string.IsNullOrEmpty(MultiPatternResourceName) ? null : MultiPatternResourceNameOneOf.Parse(MultiPatternResourceName, true);
+            set => MultiPatternResourceName = value?.ToString() ?? "";
+        }
+
+        /// <summary>
+        /// <see cref="MultiPatternResourceNameOneOf"/>-typed view over the
+        /// <see cref="RepeatedMultiPatternResourceName"/> resource name property.
+        /// </summary>
+        public gax::ResourceNameList<MultiPatternResourceNameOneOf> RepeatedMultiPatternResourceNameAsMultiPatternResourceNameOneOfs => new gax::ResourceNameList<MultiPatternResourceNameOneOf>(RepeatedMultiPatternResourceName, s => MultiPatternResourceNameOneOf.Parse(s, true));
     }
 }

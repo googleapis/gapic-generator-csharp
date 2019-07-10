@@ -95,6 +95,8 @@ namespace Testing.UnitTests
         public RepeatedField<string> RepeatedResourceName { get; } = new RepeatedField<string>();
         public string SingleWildcardResource { get; set; }
         public RepeatedField<string> RepeatedWildcardResource { get; } = new RepeatedField<string>();
+        public string MultiPatternResourceName { get; set; }
+        public RepeatedField<string> RepeatedMultiPatternResourceName { get; set; } = new RepeatedField<string>();
     }
 
     public partial class AResource : ProtoMsgFake<AResource>
@@ -103,6 +105,11 @@ namespace Testing.UnitTests
     }
 
     public partial class WildcardResource : ProtoMsgFake<WildcardResource>
+    {
+        public string Name { get; set; }
+    }
+
+    public partial class MultiPatternResource : ProtoMsgFake<MultiPatternResource>
     {
         public string Name { get; set; }
     }

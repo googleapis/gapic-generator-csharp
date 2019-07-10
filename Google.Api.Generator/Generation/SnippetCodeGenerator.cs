@@ -162,39 +162,42 @@ namespace Google.Api.Generator.Generation
                 var resource = Svc.Catalog.GetResourceDetailsByField(fieldDesc);
                 if (resource != null)
                 {
-                    // TODO: Resource-sets
-                    var one = resource.ResourceDefinition.Single;
+                    var single = resource.ResourceDefinition.Single;
                     var multi = resource.ResourceDefinition.Multi;
                     object @default;
+                    Typ resourceNameTyp = null;
                     if (resourceNameAsString)
                     {
                         if (multi != null)
                         {
-                            // TODO
-                            @default = "TODO!!!";
+                            var def0 = multi.Defs[0];
+                            @default = def0.Template.Expand(def0.Template.ParameterNames.Select(x => $"[{x.ToUpperInvariant()}]").ToArray());
                         }
                         else
                         {
-                            @default = one.IsWildcard ?
+                            @default = single.IsWildcard ?
                                 "a/wildcard/resource" :
-                                one.Template.Expand(one.Template.ParameterNames.Select(x => $"[{x.ToUpperInvariant()}]").ToArray());
+                                single.Template.Expand(single.Template.ParameterNames.Select(x => $"[{x.ToUpperInvariant()}]").ToArray());
                         }
                     }
                     else
                     {
                         if (multi != null)
                         {
-                            // TODO
-                            @default = "TODO!!!";
+                            var def0 = multi.Defs[0];
+                            @default = Ctx.Type(multi.ContainerTyp).Call("From")(New(Ctx.Type(def0.ResourceNameTyp))(
+                                def0.Template.ParameterNames.Select(x => $"[{x.ToUpperInvariant()}]")));
+                            resourceNameTyp = multi.ContainerTyp;
                         }
                         else
                         {
-                            @default = one.IsWildcard ?
+                            @default = single.IsWildcard ?
                                 New(Ctx.Type<UnknownResourceName>())("a/wildcard/resource") :
-                                New(Ctx.Type(one.ResourceNameTyp))(one.Template.ParameterNames.Select(x => $"[{x.ToUpperInvariant()}]"));
+                                New(Ctx.Type(single.ResourceNameTyp))(single.Template.ParameterNames.Select(x => $"[{x.ToUpperInvariant()}]"));
+                            resourceNameTyp = single.ResourceNameTyp;
                         }
                     }
-                    return fieldDesc.IsRepeated ? Collection(@default, resourceNameAsString ? null : one.ResourceNameTyp) : @default;
+                    return fieldDesc.IsRepeated ? Collection(@default, resourceNameTyp) : @default;
                 }
                 else
                 {
@@ -241,9 +244,9 @@ namespace Google.Api.Generator.Generation
                 {
                     if (!IsPaginationField())
                     {
-                        // TODO: Support one-ofs properly; i.e. only set one of the fields.
+                        var resourceField = Svc.Catalog.GetResourceDetailsByField(fieldDesc);
                         yield return new ObjectInitExpr(
-                            Svc.Catalog.GetResourceDetailsByField(fieldDesc)?.SingleResourcePropertyName ?? fieldDesc.CSharpPropertyName(),
+                            resourceField?.MultiResourcePropertyName ?? resourceField?.SingleResourcePropertyName ?? fieldDesc.CSharpPropertyName(),
                             DefaultValue(fieldDesc));
                     }
 

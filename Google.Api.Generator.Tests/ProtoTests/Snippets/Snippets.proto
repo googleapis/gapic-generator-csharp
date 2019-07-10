@@ -73,6 +73,15 @@ message WildcardResource {
   string name = 1;
 }
 
+message MultiPatternResource {
+  option (google.api.resource) = {
+    type: "unittests.example.com/MultiPatternResource"
+    pattern: "root/{root_a_id}/items/{item_id}"
+    pattern: "root/{root_b_id}/items/{item_id}"
+  };
+  string name = 1;
+}
+
 message AnotherMessage {
 }
 
@@ -130,6 +139,8 @@ message DefaultValuesRequest {
   repeated string repeated_resource_name = 41 [(google.api.resource_reference).type = "snippets.example.com/AResource"];
   string single_wildcard_resource = 42 [(google.api.resource_reference).type = "snippets.example.com/WildcardResource"];
   repeated string repeated_wildcard_resource = 43 [(google.api.resource_reference).type = "snippets.example.com/WildcardResource"];
+  string multi_pattern_resource_name = 44 [(google.api.resource_reference).type = "unittests.example.com/MultiPatternResource"];
+  repeated string repeated_multi_pattern_resource_name = 45 [(google.api.resource_reference).type = "unittests.example.com/MultiPatternResource"];
 }
 
 message SignatureRequest {
