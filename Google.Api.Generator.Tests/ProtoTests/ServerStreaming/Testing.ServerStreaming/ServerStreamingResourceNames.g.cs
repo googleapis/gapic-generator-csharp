@@ -66,6 +66,12 @@ namespace Testing.ServerStreaming
             }
         }
 
+        /// <summary>Formats the IDs into the string representation of the <see cref="ResourceName"/>.</summary>
+        /// <param name="itemId">The <c>Item</c> ID. Must not be <c>null</c>.</param>
+        /// <returns>The string representation of the <see cref="ResourceName"/>.</returns>
+        public static string Format(string itemId) =>
+            s_template.Expand(gax::GaxPreconditions.CheckNotNull(itemId, nameof(itemId)));
+
         /// <summary>
         /// Constructs a new instance of the <see cref="ResourceName"/> resource name class from its component parts.
         /// </summary>

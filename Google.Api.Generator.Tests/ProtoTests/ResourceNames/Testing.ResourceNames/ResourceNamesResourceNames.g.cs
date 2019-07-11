@@ -70,6 +70,12 @@ namespace Testing.ResourceNames
             }
         }
 
+        /// <summary>Formats the IDs into the string representation of the <see cref="SingleResourceName"/>.</summary>
+        /// <param name="itemId">The <c>Item</c> ID. Must not be <c>null</c>.</param>
+        /// <returns>The string representation of the <see cref="SingleResourceName"/>.</returns>
+        public static string Format(string itemId) =>
+            s_template.Expand(gax::GaxPreconditions.CheckNotNull(itemId, nameof(itemId)));
+
         /// <summary>
         /// Constructs a new instance of the <see cref="SingleResourceName"/> resource name class from its component
         /// parts.
@@ -151,6 +157,13 @@ namespace Testing.ResourceNames
                 return false;
             }
         }
+
+        /// <summary>Formats the IDs into the string representation of the <see cref="RootAMultiName"/>.</summary>
+        /// <param name="rootAId">The <c>RootA</c> ID. Must not be <c>null</c>.</param>
+        /// <param name="multiId">The <c>Multi</c> ID. Must not be <c>null</c>.</param>
+        /// <returns>The string representation of the <see cref="RootAMultiName"/>.</returns>
+        public static string Format(string rootAId, string multiId) =>
+            s_template.Expand(gax::GaxPreconditions.CheckNotNull(rootAId, nameof(rootAId)), gax::GaxPreconditions.CheckNotNull(multiId, nameof(multiId)));
 
         /// <summary>
         /// Constructs a new instance of the <see cref="RootAMultiName"/> resource name class from its component parts.
@@ -240,6 +253,13 @@ namespace Testing.ResourceNames
                 return false;
             }
         }
+
+        /// <summary>Formats the IDs into the string representation of the <see cref="RootBMultiName"/>.</summary>
+        /// <param name="rootBId">The <c>RootB</c> ID. Must not be <c>null</c>.</param>
+        /// <param name="multiId">The <c>Multi</c> ID. Must not be <c>null</c>.</param>
+        /// <returns>The string representation of the <see cref="RootBMultiName"/>.</returns>
+        public static string Format(string rootBId, string multiId) =>
+            s_template.Expand(gax::GaxPreconditions.CheckNotNull(rootBId, nameof(rootBId)), gax::GaxPreconditions.CheckNotNull(multiId, nameof(multiId)));
 
         /// <summary>
         /// Constructs a new instance of the <see cref="RootBMultiName"/> resource name class from its component parts.
@@ -522,6 +542,13 @@ namespace Testing.ResourceNames
             }
         }
 
+        /// <summary>Formats the IDs into the string representation of the <see cref="RootAFutureMultiName"/>.</summary>
+        /// <param name="rootAId">The <c>RootA</c> ID. Must not be <c>null</c>.</param>
+        /// <param name="futureMultiId">The <c>FutureMulti</c> ID. Must not be <c>null</c>.</param>
+        /// <returns>The string representation of the <see cref="RootAFutureMultiName"/>.</returns>
+        public static string Format(string rootAId, string futureMultiId) =>
+            s_template.Expand(gax::GaxPreconditions.CheckNotNull(rootAId, nameof(rootAId)), gax::GaxPreconditions.CheckNotNull(futureMultiId, nameof(futureMultiId)));
+
         /// <summary>
         /// Constructs a new instance of the <see cref="RootAFutureMultiName"/> resource name class from its component
         /// parts.
@@ -780,6 +807,15 @@ namespace Testing.ResourceNames
         }
 
         /// <summary>
+        /// Formats the IDs into the string representation of the <see cref="OriginallySingleResourceName"/>.
+        /// </summary>
+        /// <param name="rootAId">The <c>RootA</c> ID. Must not be <c>null</c>.</param>
+        /// <param name="originallySingleMultiId">The <c>OriginallySingleMulti</c> ID. Must not be <c>null</c>.</param>
+        /// <returns>The string representation of the <see cref="OriginallySingleResourceName"/>.</returns>
+        public static string Format(string rootAId, string originallySingleMultiId) =>
+            s_template.Expand(gax::GaxPreconditions.CheckNotNull(rootAId, nameof(rootAId)), gax::GaxPreconditions.CheckNotNull(originallySingleMultiId, nameof(originallySingleMultiId)));
+
+        /// <summary>
         /// Constructs a new instance of the <see cref="OriginallySingleResourceName"/> resource name class from its
         /// component parts.
         /// </summary>
@@ -870,6 +906,15 @@ namespace Testing.ResourceNames
                 return false;
             }
         }
+
+        /// <summary>
+        /// Formats the IDs into the string representation of the <see cref="RootBOriginallySingleMultiName"/>.
+        /// </summary>
+        /// <param name="rootBId">The <c>RootB</c> ID. Must not be <c>null</c>.</param>
+        /// <param name="originallySingleMultiId">The <c>OriginallySingleMulti</c> ID. Must not be <c>null</c>.</param>
+        /// <returns>The string representation of the <see cref="RootBOriginallySingleMultiName"/>.</returns>
+        public static string Format(string rootBId, string originallySingleMultiId) =>
+            s_template.Expand(gax::GaxPreconditions.CheckNotNull(rootBId, nameof(rootBId)), gax::GaxPreconditions.CheckNotNull(originallySingleMultiId, nameof(originallySingleMultiId)));
 
         /// <summary>
         /// Constructs a new instance of the <see cref="RootBOriginallySingleMultiName"/> resource name class from its

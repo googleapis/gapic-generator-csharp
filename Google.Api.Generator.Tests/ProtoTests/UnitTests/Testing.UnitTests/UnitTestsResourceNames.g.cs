@@ -66,6 +66,13 @@ namespace Testing.UnitTests
             }
         }
 
+        /// <summary>Formats the IDs into the string representation of the <see cref="AResourceName"/>.</summary>
+        /// <param name="itemId">The <c>Item</c> ID. Must not be <c>null</c>.</param>
+        /// <param name="partId">The <c>Part</c> ID. Must not be <c>null</c>.</param>
+        /// <returns>The string representation of the <see cref="AResourceName"/>.</returns>
+        public static string Format(string itemId, string partId) =>
+            s_template.Expand(gax::GaxPreconditions.CheckNotNull(itemId, nameof(itemId)), gax::GaxPreconditions.CheckNotNull(partId, nameof(partId)));
+
         /// <summary>
         /// Constructs a new instance of the <see cref="AResourceName"/> resource name class from its component parts.
         /// </summary>
@@ -151,6 +158,13 @@ namespace Testing.UnitTests
             }
         }
 
+        /// <summary>Formats the IDs into the string representation of the <see cref="RootAItemName"/>.</summary>
+        /// <param name="rootAId">The <c>RootA</c> ID. Must not be <c>null</c>.</param>
+        /// <param name="itemId">The <c>Item</c> ID. Must not be <c>null</c>.</param>
+        /// <returns>The string representation of the <see cref="RootAItemName"/>.</returns>
+        public static string Format(string rootAId, string itemId) =>
+            s_template.Expand(gax::GaxPreconditions.CheckNotNull(rootAId, nameof(rootAId)), gax::GaxPreconditions.CheckNotNull(itemId, nameof(itemId)));
+
         /// <summary>
         /// Constructs a new instance of the <see cref="RootAItemName"/> resource name class from its component parts.
         /// </summary>
@@ -235,6 +249,13 @@ namespace Testing.UnitTests
                 return false;
             }
         }
+
+        /// <summary>Formats the IDs into the string representation of the <see cref="RootBItemName"/>.</summary>
+        /// <param name="rootBId">The <c>RootB</c> ID. Must not be <c>null</c>.</param>
+        /// <param name="itemId">The <c>Item</c> ID. Must not be <c>null</c>.</param>
+        /// <returns>The string representation of the <see cref="RootBItemName"/>.</returns>
+        public static string Format(string rootBId, string itemId) =>
+            s_template.Expand(gax::GaxPreconditions.CheckNotNull(rootBId, nameof(rootBId)), gax::GaxPreconditions.CheckNotNull(itemId, nameof(itemId)));
 
         /// <summary>
         /// Constructs a new instance of the <see cref="RootBItemName"/> resource name class from its component parts.
