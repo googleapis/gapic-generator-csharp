@@ -85,7 +85,7 @@ namespace Google.Api.Generator
 
         private class TimeoutStream : Stream
         {
-            public TimeoutStream(Stream underlying) => (_underlying) = (underlying);
+            public TimeoutStream(Stream underlying) => _underlying = underlying;
 
             private readonly Stream _underlying;
 
@@ -103,9 +103,8 @@ namespace Google.Api.Generator
 
             public override int Read(byte[] buffer, int offset, int count)
             {
-                var readTask = _underlying.ReadAsync(buffer, offset, count);
-                var timeoutTask = Task.Delay(ReadTimeout);
-                int index = Task.WaitAny(readTask, timeoutTask);
+                var readTask = _underlying.ReadAsync(buffer, offset, count); // CancellationToken passed here is ignored.
+                var index = Task.WaitAny(new[] { readTask }, millisecondsTimeout: ReadTimeout);
                 if (index == 0)
                 {
                     return readTask.Result;
