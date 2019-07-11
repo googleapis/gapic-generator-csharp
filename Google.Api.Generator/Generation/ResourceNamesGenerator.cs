@@ -92,6 +92,7 @@ namespace Google.Api.Generator.Generation
                         templateField,
                         Parse(templateField),
                         TryParse(templateField),
+                        Format(templateField, paramProperties),
                         Constructor(cls, paramProperties));
                     cls = cls.AddMembers(PartProperties(paramProperties).ToArray());
                     var toString = ToString(templateField, paramProperties);
@@ -147,6 +148,18 @@ namespace Google.Api.Generator.Generation
                         XmlDoc.Param(name, "The ", XmlDoc.C(_docName), " resource name in string form. Must not be ", null, "."),
                         XmlDoc.Param(result, "When this method returns, the parsed ", _ctx.Type(_def.ResourceNameTyp), ", or ", null, " if parsing fails."),
                         XmlDoc.Returns(true, " if the name was parsed successfully; ", false, " otherwise."));
+            }
+
+            private MethodDeclarationSyntax Format(FieldDeclarationSyntax templateField, IEnumerable<ParamProperty> paramProperties)
+            {
+                return Method(Public | Static, _ctx.Type<string>(), "Format")(paramProperties.Select(x => x.Parameter).ToArray())
+                    .WithBody(templateField.Call(nameof(PathTemplate.Expand))(paramProperties.Select(x =>
+                        _ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(x.Parameter, Nameof(x.Parameter)))))
+                    .WithXmlDoc(
+                        paramProperties.Select(x => x.ParameterXmlDoc)
+                        .Prepend(XmlDoc.Summary("Formats the IDs into the string representation of the ", _ctx.Type(_def.ResourceNameTyp), " resource."))
+                        .Append(XmlDoc.Returns("The string representation of the ", _ctx.Type(_def.ResourceNameTyp), " resource."))
+                        .ToArray());
             }
 
             private ConstructorDeclarationSyntax Constructor(ClassDeclarationSyntax cls, IEnumerable<ParamProperty> paramProperties) =>
