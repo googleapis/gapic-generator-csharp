@@ -157,8 +157,8 @@ namespace Google.Api.Generator.Generation
                         _ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(x.Parameter, Nameof(x.Parameter)))))
                     .WithXmlDoc(
                         paramProperties.Select(x => x.ParameterXmlDoc)
-                        .Prepend(XmlDoc.Summary("Formats the IDs into the string representation of the ", _ctx.Type(_def.ResourceNameTyp), " resource."))
-                        .Append(XmlDoc.Returns("The string representation of the ", _ctx.Type(_def.ResourceNameTyp), " resource."))
+                        .Prepend(XmlDoc.Summary("Formats the IDs into the string representation of the ", _ctx.Type(_def.ResourceNameTyp), "."))
+                        .Append(XmlDoc.Returns("The string representation of the ", _ctx.Type(_def.ResourceNameTyp), "."))
                         .ToArray());
             }
 
