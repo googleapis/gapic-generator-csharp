@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Google.LongRunningExtra\Google.LongRunningExtra.csproj" />
     <ProjectReference Include="..\protobuf\csharp\src\Google.Protobuf\Google.Protobuf.csproj" />
   </ItemGroup>
 
@@ -15,7 +14,7 @@
     <PackageReference Include="CommandLineParser" Version="2.5.0" />
     <PackageReference Include="Google.Api.CommonProtos" Version="1.7.0" />
     <PackageReference Include="Google.Api.Gax.Grpc" Version="2.9.0" />
-    <PackageReference Include="Google.LongRunning" Version="1.1.0" />
+    <PackageReference Include="Google.LongRunning" Version="1.2.0-beta01" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="2.10.0" />
     <PackageReference Include="Moq" Version="4.12.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
