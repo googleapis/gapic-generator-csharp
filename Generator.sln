@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Google.Protobuf", "protobuf
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Google.LongRunningExtra", "Google.LongRunningExtra\Google.LongRunningExtra.csproj", "{AF3E2DBE-F741-40B2-BC30-5506B08BCF2F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Google.Api.CommonProtos", "Google.Api.CommonProtos\Google.Api.CommonProtos.csproj", "{B1783821-7A7F-456A-B552-F4EEE00FB80F}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,10 +33,6 @@ Global
 		{AF3E2DBE-F741-40B2-BC30-5506B08BCF2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF3E2DBE-F741-40B2-BC30-5506B08BCF2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF3E2DBE-F741-40B2-BC30-5506B08BCF2F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B1783821-7A7F-456A-B552-F4EEE00FB80F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B1783821-7A7F-456A-B552-F4EEE00FB80F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B1783821-7A7F-456A-B552-F4EEE00FB80F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B1783821-7A7F-456A-B552-F4EEE00FB80F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
