@@ -27,57 +27,29 @@ namespace Testing.Basic
     public sealed class GeneratedBasicTest
     {
         [xunit::FactAttribute]
-        public void IdempotentMethodRequestObject()
+        public void AMethodRequestObject()
         {
             moq::Mock<Basic.BasicClient> mockGrpcClient = new moq::Mock<Basic.BasicClient>(moq::MockBehavior.Strict);
             Request request = new Request { };
             Response expectedResponse = new Response { };
-            mockGrpcClient.Setup(x => x.IdempotentMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
+            mockGrpcClient.Setup(x => x.AMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
             BasicClient client = new BasicClientImpl(mockGrpcClient.Object, null);
-            Response response = client.IdempotentMethod(request);
+            Response response = client.AMethod(request);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
         }
 
         [xunit::FactAttribute]
-        public async stt::Task IdempotentMethodRequestObjectAsync()
+        public async stt::Task AMethodRequestObjectAsync()
         {
             moq::Mock<Basic.BasicClient> mockGrpcClient = new moq::Mock<Basic.BasicClient>(moq::MockBehavior.Strict);
             Request request = new Request { };
             Response expectedResponse = new Response { };
-            mockGrpcClient.Setup(x => x.IdempotentMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
+            mockGrpcClient.Setup(x => x.AMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
             BasicClient client = new BasicClientImpl(mockGrpcClient.Object, null);
-            Response responseCallSettings = await client.IdempotentMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
+            Response responseCallSettings = await client.AMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
-            Response responseCancellationToken = await client.IdempotentMethodAsync(request, st::CancellationToken.None);
-            xunit::Assert.Same(expectedResponse, responseCancellationToken);
-            mockGrpcClient.VerifyAll();
-        }
-
-        [xunit::FactAttribute]
-        public void NonIdempotentMethodRequestObject()
-        {
-            moq::Mock<Basic.BasicClient> mockGrpcClient = new moq::Mock<Basic.BasicClient>(moq::MockBehavior.Strict);
-            Request request = new Request { };
-            Response expectedResponse = new Response { };
-            mockGrpcClient.Setup(x => x.NonIdempotentMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            BasicClient client = new BasicClientImpl(mockGrpcClient.Object, null);
-            Response response = client.NonIdempotentMethod(request);
-            xunit::Assert.Same(expectedResponse, response);
-            mockGrpcClient.VerifyAll();
-        }
-
-        [xunit::FactAttribute]
-        public async stt::Task NonIdempotentMethodRequestObjectAsync()
-        {
-            moq::Mock<Basic.BasicClient> mockGrpcClient = new moq::Mock<Basic.BasicClient>(moq::MockBehavior.Strict);
-            Request request = new Request { };
-            Response expectedResponse = new Response { };
-            mockGrpcClient.Setup(x => x.NonIdempotentMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            BasicClient client = new BasicClientImpl(mockGrpcClient.Object, null);
-            Response responseCallSettings = await client.NonIdempotentMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
-            xunit::Assert.Same(expectedResponse, responseCallSettings);
-            Response responseCancellationToken = await client.NonIdempotentMethodAsync(request, st::CancellationToken.None);
+            Response responseCancellationToken = await client.AMethodAsync(request, st::CancellationToken.None);
             xunit::Assert.Same(expectedResponse, responseCancellationToken);
             mockGrpcClient.VerifyAll();
         }

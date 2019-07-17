@@ -15,7 +15,9 @@
 using Google.Api.Generator.ProtoUtils;
 using Google.Api.Generator.Utils;
 using Google.Protobuf.Reflection;
+using Grpc.ServiceConfig;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 
 namespace Google.Api.Generator.Generation
@@ -25,10 +27,17 @@ namespace Google.Api.Generator.Generation
     /// </summary>
     internal class ServiceDetails
     {
-        public ServiceDetails(ProtoCatalog catalog, string ns, ServiceDescriptor desc)
+        public ServiceDetails(ProtoCatalog catalog, string ns, ServiceDescriptor desc, ServiceConfig grpcServiceConfig)
         {
             Catalog = catalog;
             Namespace = ns;
+            // Must come early; used by `MethodDetails.Create()`
+            MethodGrpcConfigsByName = grpcServiceConfig?.MethodConfig
+                .SelectMany(conf => conf.Name.Select(name => (name, conf)))
+                .Where(x => x.name.Service == desc.FullName && x.conf.RetryOrHedgingPolicyCase == MethodConfig.RetryOrHedgingPolicyOneofCase.RetryPolicy)
+                .ToImmutableDictionary(x => $"{x.name.Service}/{x.name.Method}", x => x.conf) ??
+                ImmutableDictionary<string, MethodConfig>.Empty;
+            ServiceFullName = desc.FullName;
             DocumentationName = desc.Name; // TODO: There may be a more suitable name than this.
             ProtoTyp = Typ.Manual(ns, desc.Name);
             GrpcClientTyp = Typ.Nested(ProtoTyp, $"{desc.Name}Client");
@@ -48,6 +57,9 @@ namespace Google.Api.Generator.Generation
 
         public ProtoCatalog Catalog { get; }
         public string Namespace { get; }
+
+        /// <summary>The service full name (package name plus service name).</summary>
+        public string ServiceFullName { get; }
 
         /// <summary>The name of this service to be used in documentation.</summary>
         public string DocumentationName { get; }
@@ -87,5 +99,8 @@ namespace Google.Api.Generator.Generation
 
         /// <summary>The typ of the unit test class for this service.</summary>
         public Typ UnitTestsTyp { get; }
+
+        /// <summary>Grpc Service-Config Method configs, includes both service-level and method-level.</summary>
+        public IReadOnlyDictionary<string, MethodConfig> MethodGrpcConfigsByName { get; }
     }
 }

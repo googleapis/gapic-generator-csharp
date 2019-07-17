@@ -40,14 +40,8 @@ namespace Testing.Basic
         {
             public BasicClient() { }
             public BasicClient(CallInvoker callInvoker) { }
-            public virtual AsyncUnaryCall<Response> IdempotentMethodAsync(Request request, CallOptions options) =>
-                throw new NotImplementedException();
-            public virtual Response IdempotentMethod(Request request, CallOptions options) =>
-                throw new NotImplementedException();
-            public virtual AsyncUnaryCall<Response> NonIdempotentMethodAsync(Request request, CallOptions options) =>
-                throw new NotImplementedException();
-            public virtual Response NonIdempotentMethod(Request request, CallOptions options) =>
-                throw new NotImplementedException();
+            public virtual AsyncUnaryCall<Response> AMethodAsync(Request request, CallOptions options) => throw new NotImplementedException();
+            public virtual Response AMethod(Request request, CallOptions options) => throw new NotImplementedException();
         }
     }
 

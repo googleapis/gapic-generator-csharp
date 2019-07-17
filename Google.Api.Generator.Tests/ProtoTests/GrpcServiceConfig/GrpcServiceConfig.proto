@@ -1,0 +1,27 @@
+﻿syntax = "proto3";
+
+package testing.grpcserviceconfig;
+
+option csharp_namespace = "Testing.GrpcServiceConfig";
+
+import "google/api/client.proto";
+
+service GrpcServiceConfigNoRetry {
+  option (google.api.default_host) = "grpcserviceconfig.example.com";
+
+  rpc NoRetryMethod(Request) returns(Response);
+}
+
+service GrpcServiceConfig {
+  option (google.api.default_host) = "grpcserviceconfig.example.com";
+
+  rpc ServiceLevelRetryMethod(Request) returns(Response);
+
+  rpc MethodLevelRetryMethod(Request) returns(Response);
+}
+
+message Request {
+}
+
+message Response {
+}

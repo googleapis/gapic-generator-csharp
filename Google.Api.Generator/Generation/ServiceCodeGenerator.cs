@@ -16,6 +16,7 @@ using Google.Api.Gax.Grpc;
 using Google.Api.Generator.RoslynUtils;
 using Google.Api.Generator.Utils;
 using Google.LongRunning;
+using Grpc.ServiceConfig;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections;

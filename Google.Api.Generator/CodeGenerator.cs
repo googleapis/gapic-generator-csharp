@@ -18,6 +18,7 @@ using Google.Api.Generator.Generation;
 using Google.Api.Generator.ProtoUtils;
 using Google.Protobuf;
 using Google.Protobuf.Reflection;
+using Grpc.ServiceConfig;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -35,15 +36,19 @@ namespace Google.Api.Generator
             public byte[] Content { get; }
         }
 
-        public static IEnumerable<ResultFile> Generate(byte[] descriptorBytes, string package, IClock clock)
+        public static IEnumerable<ResultFile> Generate(byte[] descriptorBytes, string package, IClock clock,
+            string grpcServiceConfigPath)
         {
             var descriptors = GetFileDescriptors(descriptorBytes);
             var filesToGenerate = descriptors.Where(x => x.Package == package).Select(x => x.Name).ToList();
-            return Generate(descriptors, filesToGenerate, clock);
+            return Generate(descriptors, filesToGenerate, clock, grpcServiceConfigPath);
         }
 
-        public static IEnumerable<ResultFile> Generate(IReadOnlyList<FileDescriptor> descriptors, IEnumerable<string> filesToGenerate, IClock clock)
+        public static IEnumerable<ResultFile> Generate(IReadOnlyList<FileDescriptor> descriptors, IEnumerable<string> filesToGenerate, IClock clock,
+            string grpcServiceConfigPath)
         {
+            // Load gRPC service config.
+            var grpcServiceConfig = grpcServiceConfigPath != null ? ServiceConfig.Parser.ParseJson(File.ReadAllText(grpcServiceConfigPath)) : null;
             // TODO: Multi-package support not tested.
             var filesToGenerateSet = filesToGenerate.ToHashSet();
             var byPackage = descriptors.Where(x => filesToGenerateSet.Contains(x.Name)).GroupBy(x => x.Package).ToList();
@@ -61,14 +66,15 @@ namespace Google.Api.Generator
                         $"Found namespaces '{string.Join(", ", namespaces)}' in package '{singlePackageFileDescs.Key}'.");
                 }
                 var catalog = new ProtoCatalog(singlePackageFileDescs.Key, descriptors);
-                foreach (var resultFile in GeneratePackage(namespaces[0], singlePackageFileDescs, catalog, clock))
+                foreach (var resultFile in GeneratePackage(namespaces[0], singlePackageFileDescs, catalog, clock, grpcServiceConfig))
                 {
                     yield return resultFile;
                 }
             }
         }
 
-        private static IEnumerable<ResultFile> GeneratePackage(string ns, IEnumerable<FileDescriptor> packageFileDescriptors, ProtoCatalog catalog, IClock clock)
+        private static IEnumerable<ResultFile> GeneratePackage(string ns, IEnumerable<FileDescriptor> packageFileDescriptors, ProtoCatalog catalog, IClock clock,
+            ServiceConfig grpcServiceConfig)
         {
             var clientPathPrefix = $"{ns}{Path.DirectorySeparatorChar}";
             var snippetsPathPrefix = $"{ns}.Snippets{Path.DirectorySeparatorChar}";
@@ -79,7 +85,7 @@ namespace Google.Api.Generator
                 foreach (var service in fileDesc.Services)
                 {
                     // Generate settings and client code for requested package.
-                    var serviceDetails = new ServiceDetails(catalog, ns, service);
+                    var serviceDetails = new ServiceDetails(catalog, ns, service, grpcServiceConfig);
                     var ctx = SourceFileContext.Create(SourceFileContext.ImportStyle.FullyAliased, clock);
                     var code = ServiceCodeGenerator.Generate(ctx, serviceDetails);
                     var formattedCode = CodeFormatter.Format(code);
