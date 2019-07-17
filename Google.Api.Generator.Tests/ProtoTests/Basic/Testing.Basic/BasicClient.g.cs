@@ -27,7 +27,7 @@ using stt = System.Threading.Tasks;
 
 namespace Testing.Basic
 {
-    /// <summary>Settings for a <see cref="BasicClient"/>.</summary>
+    /// <summary>Settings for <see cref="BasicClient"/> instances.</summary>
     public sealed partial class BasicSettings : gaxgrpc::ServiceSettingsBase
     {
         /// <summary>Get a new instance of the default <see cref="BasicSettings"/>.</summary>
