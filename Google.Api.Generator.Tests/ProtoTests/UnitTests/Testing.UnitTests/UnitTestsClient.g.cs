@@ -29,7 +29,7 @@ using stt = System.Threading.Tasks;
 
 namespace Testing.UnitTests
 {
-    /// <summary>Settings for a <see cref="UnitTestsClient"/>.</summary>
+    /// <summary>Settings for <see cref="UnitTestsClient"/> instances.</summary>
     public sealed partial class UnitTestsSettings : gaxgrpc::ServiceSettingsBase
     {
         /// <summary>Get a new instance of the default <see cref="UnitTestsSettings"/>.</summary>
