@@ -230,52 +230,8 @@ namespace Google.Api.Generator.Tests
         public void UnitTests() => ProtoTestSingle("UnitTests", ignoreCsProj: true, ignoreSnippets: true);
 
         [Fact]
-        public void GrpcServiceConfig()
-        {
-            using (var grpcServiceConfig = Invoker.TempFile())
-            {
-                // JSON representation of a `ServiceConfig` proto msg.
-                // https://github.com/grpc/grpc-proto/blob/5ce8e3e598b805a1e0372062913f24b0715fdefc/grpc/service_config/service_config.proto
-                const string grpcServiceConfigText = @"
-{
-  ""method_config"": [
-    {
-      ""name"": [
-        {
-          ""service"": ""testing.grpcserviceconfig.GrpcServiceConfig""
-        }
-      ],
-      ""timeout"": ""20s"",
-      ""retry_policy"": {
-        ""initial_backoff"": ""0.5s"",
-        ""max_backoff"": ""5s"",
-        ""backoff_multiplier"": 2.0,
-        ""retryable_status_codes"": [ ""DEADLINE_EXCEEDED"", ""RESOURCE_EXHAUSTED"" ]
-      }
-    },
-    {
-      ""name"": [
-        {
-          ""service"": ""testing.grpcserviceconfig.GrpcServiceConfig"",
-          ""method"": ""MethodLevelRetryMethod""
-        }
-      ],
-      ""timeout"": ""60s"",
-      ""retry_policy"": {
-        ""initial_backoff"": ""1s"",
-        ""max_backoff"": ""10s"",
-        ""backoff_multiplier"": 3.0,
-        ""retryable_status_codes"": [ ""UNAVAILABLE"" ]
-      }
-    }
-  ]
-}
-            ";
-                File.WriteAllText(grpcServiceConfig.Path, grpcServiceConfigText);
-                ProtoTestSingle("GrpcServiceConfig", ignoreCsProj: true, ignoreSnippets: true, ignoreUnitTests: true,
-                    grpcServiceConfigPath: grpcServiceConfig.Path);
-            }
-        }
+        public void GrpcServiceConfig() => ProtoTestSingle("GrpcServiceConfig", ignoreCsProj: true, ignoreSnippets: true, ignoreUnitTests: true,
+                grpcServiceConfigPath: Path.Combine(Invoker.GeneratorTestsDir, "ProtoTests", "GrpcServiceConfig", "GrpcServiceConfig.json"));
 
         // Build tests are testing `csproj` file generation only.
         // All other generated code is effectively "build tested" when this test project is built.
