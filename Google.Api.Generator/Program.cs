@@ -40,6 +40,9 @@ namespace Google.Api.Generator
             [Option("output", Required = true, HelpText = " The output directory.")]
             public string Output { get; private set; }
 
+            [Option("grpc-service-config", Required = false, HelpText ="Client-side gRPC service config path.")]
+            public string GrpcServiceConfig { get; private set; }
+
             [Usage]
             public static IEnumerable<Example> Examples => new[]
             {
@@ -117,6 +120,8 @@ namespace Google.Api.Generator
 
         private static int GenerateFromProtoc(Stream stdin, Stream stdout)
         {
+            const string nameGrpcServiceConfig = "grpc-service-config";
+
             var stdinTimeout = new TimeoutStream(stdin) { ReadTimeout = 2_000 };
             CodeGeneratorRequest codeGenRequest;
             try
@@ -133,10 +138,13 @@ namespace Google.Api.Generator
             CodeGeneratorResponse codeGenResponse;
             try
             {
+                // Parse additional parameters.
+                var extraParams = ParseExtraParameters(codeGenRequest.Parameter);
                 // Generate code.
                 // On success, send all generated files back to protoc.
                 var descriptors = FileDescriptor.BuildFromByteStrings(codeGenRequest.ProtoFile);
-                var results = CodeGenerator.Generate(descriptors, codeGenRequest.FileToGenerate, SystemClock.Instance);
+                var results = CodeGenerator.Generate(descriptors, codeGenRequest.FileToGenerate, SystemClock.Instance,
+                    extraParams.GetValueOrDefault(nameGrpcServiceConfig));
                 codeGenResponse = new CodeGeneratorResponse
                 {
                     File =
@@ -163,12 +171,35 @@ namespace Google.Api.Generator
                 codeGenResponse.WriteTo(outputStream);
             }
             return 0;
+
+            IReadOnlyDictionary<string, string> ParseExtraParameters(string paramsString)
+            {
+                var validKeys = new HashSet<string>
+                {
+                    nameGrpcServiceConfig
+                };
+                // Multiple parameters to protoc use a comma separater.
+                var ps = paramsString.Split(',', StringSplitOptions.RemoveEmptyEntries);
+                return ps.Select(param =>
+                {
+                    var parts = param.Split('=');
+                    if (parts.Length != 2)
+                    {
+                        throw new InvalidOperationException($"Invalid parameter: '{param}'");
+                    }
+                    if (!validKeys.Contains(parts[0]))
+                    {
+                        throw new InvalidOperationException($"Invalid parameter name: '{param}'");
+                    }
+                    return parts;
+                }).ToDictionary(x => x[0], x => x[1]);
+            }
         }
 
         private static void GenerateFromArgs(Options options)
         {
             var descriptorBytes = File.ReadAllBytes(options.Descriptor);
-            var files = CodeGenerator.Generate(descriptorBytes, options.Package, SystemClock.Instance);
+            var files = CodeGenerator.Generate(descriptorBytes, options.Package, SystemClock.Instance, options.GrpcServiceConfig);
             foreach (var file in files)
             {
                 var path = Path.Combine(options.Output, file.RelativePath);

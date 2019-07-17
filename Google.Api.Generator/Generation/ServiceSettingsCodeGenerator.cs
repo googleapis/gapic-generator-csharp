@@ -32,30 +32,6 @@ namespace Google.Api.Generator.Generation
     /// </summary>
     internal class ServiceSettingsCodeGenerator
     {
-        private static readonly RetrySettings s_defaultIdempotentRetry = new RetrySettings(
-            retryBackoff: new BackoffSettings(
-                delay: TimeSpan.FromMilliseconds(100),
-                maxDelay: TimeSpan.FromSeconds(60),
-                delayMultiplier: 1.3),
-            timeoutBackoff: new BackoffSettings(
-                delay: TimeSpan.FromSeconds(20),
-                maxDelay: TimeSpan.FromSeconds(20)),
-            totalExpiration: Expiration.FromTimeout(TimeSpan.FromSeconds(20)));
-
-        private static readonly IEnumerable<StatusCode> s_defaultIdempotentRetryCodes =
-            new[] { StatusCode.Internal, StatusCode.Unavailable };
-
-        private static readonly CallTiming s_defaultNonIdempotentRetry = CallTiming.FromTimeout(TimeSpan.FromSeconds(20));
-
-        private static readonly XmlNodeSyntax _methodSettingsXmlDocUl = XmlDoc.UL(
-            $"Initial retry delay: {(int)s_defaultIdempotentRetry.RetryBackoff.Delay.TotalMilliseconds} milliseconds.",
-            $"Retry delay multiplier: {s_defaultIdempotentRetry.RetryBackoff.DelayMultiplier}",
-            $"Retry maximum delay: {(int)s_defaultIdempotentRetry.RetryBackoff.MaxDelay.TotalSeconds} seconds.",
-            $"Initial timeout: {(int)s_defaultIdempotentRetry.TimeoutBackoff.Delay.TotalSeconds} seconds.",
-            $"Timeout multiplier: {s_defaultIdempotentRetry.TimeoutBackoff.DelayMultiplier}",
-            $"Timeout maximum delay: {(int)s_defaultIdempotentRetry.TimeoutBackoff.MaxDelay.TotalSeconds} seconds.",
-            $"Total timeout: {(int)s_defaultIdempotentRetry.TotalExpiration.Timeout.Value.TotalSeconds} seconds.");
-
         private static readonly PollSettings s_lroDefaultPollSettings = new PollSettings(
             expiration: Expiration.FromTimeout(TimeSpan.FromHours(24)),
             delay: TimeSpan.FromSeconds(20),
@@ -84,8 +60,6 @@ namespace Google.Api.Generator.Generation
                 cls = cls.AddMembers(ParameterlessCtor());
                 cls = cls.AddMembers(CopyCtor());
                 cls = cls.AddMembers(OnCopyPartial());
-                cls = _svc.Methods.Any(m => m.IsIdempotent) ? cls.AddMembers(DefaultIdempotentCallSettings) : cls;
-                cls = _svc.Methods.Any(m => !m.IsIdempotent) ? cls.AddMembers(DefaultNonIdempotentCallSettings) : cls;
                 cls = cls.AddMembers(SettingsProperties().ToArray());
                 cls = cls.AddMembers(Clone());
             }
@@ -127,34 +101,6 @@ namespace Google.Api.Generator.Generation
             }
         }
 
-        private FieldDeclarationSyntax DefaultIdempotentCallSettings =>
-            Field(Private | Static | Readonly, _ctx.Type<CallSettings>(), "_defaultIdempotentCallSettings")
-                .WithInitializer(
-                    _ctx.Type<CallSettings>().Call(nameof(CallSettings.FromCallTiming))(
-                        _ctx.Type<CallTiming>().Call(nameof(CallTiming.FromRetry))(
-                            New(_ctx.Type<RetrySettings>())(
-                                ("retryBackoff", New(_ctx.Type<BackoffSettings>())(
-                                    ("delay", _ctx.Type<TimeSpan>().Call(nameof(TimeSpan.FromMilliseconds))((int)s_defaultIdempotentRetry.RetryBackoff.Delay.TotalMilliseconds)),
-                                    ("maxDelay", _ctx.Type<TimeSpan>().Call(nameof(TimeSpan.FromSeconds))((int)s_defaultIdempotentRetry.RetryBackoff.MaxDelay.TotalSeconds)),
-                                    ("delayMultiplier", s_defaultIdempotentRetry.RetryBackoff.DelayMultiplier)
-                                )),
-                                ("timeoutBackoff", New(_ctx.Type<BackoffSettings>())(
-                                    ("delay", _ctx.Type<TimeSpan>().Call(nameof(TimeSpan.FromSeconds))((int)s_defaultIdempotentRetry.TimeoutBackoff.Delay.TotalSeconds)),
-                                    ("maxDelay", _ctx.Type<TimeSpan>().Call(nameof(TimeSpan.FromSeconds))((int)s_defaultIdempotentRetry.TimeoutBackoff.MaxDelay.TotalSeconds)),
-                                    ("delayMultiplier", s_defaultIdempotentRetry.TimeoutBackoff.DelayMultiplier)
-                                )),
-                                ("totalExpiration", _ctx.Type<Expiration>().Call(nameof(Expiration.FromTimeout))(
-                                    _ctx.Type<TimeSpan>().Call(nameof(TimeSpan.FromSeconds))((int)s_defaultIdempotentRetry.TotalExpiration.Timeout.Value.TotalSeconds))),
-                                ("retryFilter", _ctx.Type<RetrySettings>().Call(nameof(RetrySettings.FilterForStatusCodes))(
-                                    s_defaultIdempotentRetryCodes.Select(x => _ctx.Type<StatusCode>().Access(x))))))));
-
-        private FieldDeclarationSyntax DefaultNonIdempotentCallSettings =>
-            Field(Private | Static | Readonly, _ctx.Type<CallSettings>(), "_defaultNonIdempotentCallSettings")
-                .WithInitializer(
-                    _ctx.Type<CallSettings>().Call(nameof(CallSettings.FromCallTiming))(
-                        _ctx.Type<CallTiming>().Call(nameof(CallTiming.FromTimeout))(_ctx.Type<TimeSpan>().Call(nameof(TimeSpan.FromSeconds))(
-                            (int)s_defaultNonIdempotentRetry.Expiration.Timeout.Value.TotalSeconds))));
-
         private IEnumerable<PropertyDeclarationSyntax> SettingsProperties()
         {
             return _svc.Methods.SelectMany(PerMethod);
@@ -163,17 +109,47 @@ namespace Google.Api.Generator.Generation
                 var cSync = XmlDoc.C($"{_svc.ClientAbstractTyp.Name}.{method.SyncMethodName}");
                 var cAsync = XmlDoc.C($"{_svc.ClientAbstractTyp.Name}.{method.AsyncMethodName}");
                 // Add the general per-method settings property.
-                var property = AutoProperty(Public, _ctx.Type<CallSettings>(), method.SettingsName, hasSetter: true)
-                    .WithInitializer(method.IsIdempotent ? DefaultIdempotentCallSettings : DefaultNonIdempotentCallSettings)
-                    .WithXmlDoc(
-                        XmlDoc.Summary(_ctx.Type<CallSettings>(), " for synchronous and asynchronous calls to ", cSync, " and ", cAsync, "."),
-                        XmlDocRemarks());
-                // TODO: Initialization.
+                var property = AutoProperty(Public, _ctx.Type<CallSettings>(), method.SettingsName, hasSetter: true);
+                var xmlSummary = XmlDoc.Summary(_ctx.Type<CallSettings>(), " for synchronous and asynchronous calls to ", cSync, " and ", cAsync, ".");
+                if (method.MethodRetry != null)
+                {
+                    var rb = method.MethodRetry.RetryBackoff;
+                    var tb = method.MethodRetry.TimeoutBackoff;
+                    property = property.WithInitializer(
+                        _ctx.Type<CallSettings>().Call(nameof(CallSettings.FromCallTiming))(
+                            _ctx.Type<CallTiming>().Call(nameof(CallTiming.FromRetry))(
+                                New(_ctx.Type<RetrySettings>())(
+                                    ("retryBackoff", New(_ctx.Type<BackoffSettings>())(
+                                        ("delay", _ctx.Type<TimeSpan>().Call(nameof(TimeSpan.FromMilliseconds))((int)rb.Delay.TotalMilliseconds)),
+                                        ("maxDelay", _ctx.Type<TimeSpan>().Call(nameof(TimeSpan.FromMilliseconds))((int)rb.MaxDelay.TotalMilliseconds)),
+                                        ("delayMultiplier", rb.DelayMultiplier))),
+                                    ("timeoutBackoff", New(_ctx.Type<BackoffSettings>())(
+                                        ("delay", _ctx.Type<TimeSpan>().Call(nameof(TimeSpan.FromMilliseconds))((int)tb.Delay.TotalMilliseconds)),
+                                        ("maxDelay", _ctx.Type<TimeSpan>().Call(nameof(TimeSpan.FromMilliseconds))((int)tb.MaxDelay.TotalMilliseconds)),
+                                        ("delayMultiplier", tb.DelayMultiplier))),
+                                    ("totalExpiration", _ctx.Type<Expiration>().Call(nameof(Expiration.FromTimeout))(
+                                        _ctx.Type<TimeSpan>().Call(nameof(TimeSpan.FromMilliseconds))((int)method.MethodRetry.TotalExpiration.Timeout.Value.TotalMilliseconds))),
+                                    ("retryFilter", _ctx.Type<RetrySettings>().Call(nameof(RetrySettings.FilterForStatusCodes))(
+                                        method.MethodRetryStatusCodes.Select(x => _ctx.Type<StatusCode>().Access(x))))))))
+                        .WithXmlDoc(xmlSummary,
+                            XmlDoc.Remarks(
+                                XmlDoc.UL(
+                                    $"Initial retry delay: {(int)rb.Delay.TotalMilliseconds} milliseconds.",
+                                    $"Retry delay multiplier: {rb.DelayMultiplier}",
+                                    $"Retry maximum delay: {(int)rb.MaxDelay.TotalMilliseconds} milliseconds.",
+                                    $"Initial timeout: {(int)tb.Delay.TotalMilliseconds} milliseconds.",
+                                    $"Timeout multiplier: {tb.DelayMultiplier}",
+                                    $"Timeout maximum delay: {(int)tb.MaxDelay.TotalMilliseconds} milliseconds.",
+                                    $"Total timeout: {(int)method.MethodRetry.TotalExpiration.Timeout.Value.TotalSeconds} seconds.")));
+                }
+                else
+                {
+                    property = property.WithXmlDoc(xmlSummary, XmlDoc.Remarks("By default, retry will not be attempted."));
+                }
                 yield return property;
                 // Add extra properties as required for special call types.
                 switch (method)
                 {
-                    // TODO: Extra properties for streaming methods.
                     case MethodDetails.Lro lro:
                         yield return LroSettingsProperty(lro);
                         break;
@@ -181,14 +157,6 @@ namespace Google.Api.Generator.Generation
                         yield return BidiSettingsProperty(bidi);
                         break;
                 }
-
-                DocumentationCommentTriviaSyntax XmlDocRemarks() => method.IsIdempotent ?
-                    XmlDoc.Remarks(
-                        "The default ", cSync, " and ", cAsync, " ", _ctx.Type<RetrySettings>(), " are:",
-                        _methodSettingsXmlDocUl,
-                        "By default retry will be attempted on the following response status codes:",
-                        XmlDoc.UL(s_defaultIdempotentRetryCodes.Select(x => _ctx.Type<StatusCode>().Access(x)))) :
-                    XmlDoc.Remarks("By default, retry will not be attempted.");
             }
         }
 

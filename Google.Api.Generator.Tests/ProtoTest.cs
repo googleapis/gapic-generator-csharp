@@ -26,7 +26,7 @@ namespace Google.Api.Generator.Tests
 {
     public class ProtoTest
     {
-        private IEnumerable<CodeGenerator.ResultFile> Run(string protoFilename, string package)
+        private IEnumerable<CodeGenerator.ResultFile> Run(string protoFilename, string package, string grpcServiceConfigPath)
         {
             var clock = new FakeClock(new DateTime(2019, 1, 1));
             var protoPath = Path.Combine(Invoker.GeneratorTestsDir, protoFilename);
@@ -35,7 +35,7 @@ namespace Google.Api.Generator.Tests
                 Invoker.Protoc($"-o {desc} --include_imports --include_source_info " +
                     $"-I{Invoker.CommonProtosDir} -I{Invoker.ProtobufDir} -I{Invoker.GeneratorTestsDir} {protoPath}");
                 var descriptorBytes = File.ReadAllBytes(desc.Path);
-                return CodeGenerator.Generate(descriptorBytes, package, clock);
+                return CodeGenerator.Generate(descriptorBytes, package, clock, grpcServiceConfigPath);
             }
         }
 
@@ -44,15 +44,17 @@ namespace Google.Api.Generator.Tests
         {
             // Test that protoc executes successfully,
             // and the generator processes the descriptors without crashing!
-            Run("ProtoTest.proto", "testing");
+            Run("ProtoTest.proto", "testing", null);
         }
 
-        private void ProtoTestSingle(string testProtoName, bool ignoreCsProj = false, bool ignoreSnippets = false, bool ignoreUnitTests = false)
+        private void ProtoTestSingle(string testProtoName, bool ignoreCsProj = false, bool ignoreSnippets = false, bool ignoreUnitTests = false,
+            string grpcServiceConfigPath = null)
         {
             // Confirm each generated file is idential to the expected output.
             // Use `// TEST_START` and `// TEST_END` lines in the expected file to test subsets of output files.
             // Or include `// TEST_DISABLE` to disable testing of the entire file.
-            var files = Run(Path.Combine("ProtoTests", testProtoName, $"{testProtoName}.proto"), $"testing.{testProtoName.ToLowerInvariant()}");
+            var files = Run(Path.Combine("ProtoTests", testProtoName, $"{testProtoName}.proto"), $"testing.{testProtoName.ToLowerInvariant()}",
+                grpcServiceConfigPath);
             // Check output is present.
             Assert.NotEmpty(files);
             // Verify each output file.
@@ -226,6 +228,54 @@ namespace Google.Api.Generator.Tests
 
         [Fact]
         public void UnitTests() => ProtoTestSingle("UnitTests", ignoreCsProj: true, ignoreSnippets: true);
+
+        [Fact]
+        public void GrpcServiceConfig()
+        {
+            using (var grpcServiceConfig = Invoker.TempFile())
+            {
+                // JSON representation of a `ServiceConfig` proto msg.
+                // https://github.com/grpc/grpc-proto/blob/5ce8e3e598b805a1e0372062913f24b0715fdefc/grpc/service_config/service_config.proto
+                const string grpcServiceConfigText = @"
+{
+  ""method_config"": [
+    {
+      ""name"": [
+        {
+          ""service"": ""testing.grpcserviceconfig.GrpcServiceConfig""
+        }
+      ],
+      ""timeout"": ""20s"",
+      ""retry_policy"": {
+        ""initial_backoff"": ""0.5s"",
+        ""max_backoff"": ""5s"",
+        ""backoff_multiplier"": 2.0,
+        ""retryable_status_codes"": [ ""DEADLINE_EXCEEDED"", ""RESOURCE_EXHAUSTED"" ]
+      }
+    },
+    {
+      ""name"": [
+        {
+          ""service"": ""testing.grpcserviceconfig.GrpcServiceConfig"",
+          ""method"": ""MethodLevelRetryMethod""
+        }
+      ],
+      ""timeout"": ""60s"",
+      ""retry_policy"": {
+        ""initial_backoff"": ""1s"",
+        ""max_backoff"": ""10s"",
+        ""backoff_multiplier"": 3.0,
+        ""retryable_status_codes"": [ ""UNAVAILABLE"" ]
+      }
+    }
+  ]
+}
+            ";
+                File.WriteAllText(grpcServiceConfig.Path, grpcServiceConfigText);
+                ProtoTestSingle("GrpcServiceConfig", ignoreCsProj: true, ignoreSnippets: true, ignoreUnitTests: true,
+                    grpcServiceConfigPath: grpcServiceConfig.Path);
+            }
+        }
 
         // Build tests are testing `csproj` file generation only.
         // All other generated code is effectively "build tested" when this test project is built.

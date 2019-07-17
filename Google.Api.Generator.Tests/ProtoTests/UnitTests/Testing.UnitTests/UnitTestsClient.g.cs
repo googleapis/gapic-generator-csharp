@@ -52,21 +52,19 @@ namespace Testing.UnitTests
 
         partial void OnCopy(UnitTestsSettings existing);
 
-        private static readonly gaxgrpc::CallSettings _defaultNonIdempotentCallSettings = gaxgrpc::CallSettings.FromCallTiming(gaxgrpc::CallTiming.FromTimeout(sys::TimeSpan.FromSeconds(20)));
-
         /// <summary>
         /// <see cref="gaxgrpc::CallSettings"/> for synchronous and asynchronous calls to
         /// <c>UnitTestsClient.MethodValues</c> and <c>UnitTestsClient.MethodValuesAsync</c>.
         /// </summary>
         /// <remarks>By default, retry will not be attempted.</remarks>
-        public gaxgrpc::CallSettings MethodValuesSettings { get; set; } = _defaultNonIdempotentCallSettings;
+        public gaxgrpc::CallSettings MethodValuesSettings { get; set; }
 
         /// <summary>
         /// <see cref="gaxgrpc::CallSettings"/> for synchronous and asynchronous calls to <c>UnitTestsClient.MethodLro</c>
         ///  and <c>UnitTestsClient.MethodLroAsync</c>.
         /// </summary>
         /// <remarks>By default, retry will not be attempted.</remarks>
-        public gaxgrpc::CallSettings MethodLroSettings { get; set; } = _defaultNonIdempotentCallSettings;
+        public gaxgrpc::CallSettings MethodLroSettings { get; set; }
 
         /// <summary>
         /// Long Running Operation settings for calls to <c>UnitTestsClient.MethodLro</c> and

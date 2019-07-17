@@ -18,6 +18,7 @@ using Google.Api.Generator.ProtoUtils;
 using Google.Api.Generator.Utils;
 using Google.LongRunning;
 using Google.Protobuf.Reflection;
+using Grpc.Core;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -271,15 +272,32 @@ namespace Google.Api.Generator.Generation
             ApiCallFieldName = $"_call{desc.Name}";
             ModifyApiCallMethodName = $"Modify_{desc.Name}ApiCall";
             ModifyRequestMethodName = $"Modify_{RequestTyp.Name}";
-            desc.CustomOptions.TryGetMessage<HttpRule>(ProtoConsts.MethodOption.HttpRule, out var http);
-            // Assume HTTP GET methods are idempotent; all others are non-idempotent.
-            IsIdempotent = http != null ? !string.IsNullOrEmpty(http.Get) : false;
             DocLines = desc.Declaration.DocLines().ToList();
             Signatures = desc.CustomOptions.TryGetRepeatedString(ProtoConsts.MethodOption.MethodSignature, out var sigs) ?
                 sigs.Select(sig => new Signature(svc, desc.InputType, sig)).ToList() : (IReadOnlyList<Signature>)new Signature[0];
             RequestMessageDesc = desc.InputType;
             ResponseMessageDesc = desc.OutputType;
+            desc.CustomOptions.TryGetMessage<HttpRule>(ProtoConsts.MethodOption.HttpRule, out var http);
             RoutingHeaders = ReadRoutingHeaders(http, desc.InputType).ToList();
+            (MethodRetry, MethodRetryStatusCodes) = LoadRetry(svc, desc);
+        }
+
+        private (RetrySettings, IEnumerable<StatusCode>) LoadRetry(ServiceDetails svc, MethodDescriptor desc)
+        {
+            var config = svc.MethodGrpcConfigsByName.GetValueOrDefault($"{svc.ServiceFullName}/{desc.Name}") ??
+                svc.MethodGrpcConfigsByName.GetValueOrDefault($"{svc.ServiceFullName}/");
+            if (config == null)
+            {
+                return default;
+            }
+            var rp = config.RetryPolicy;
+            var retry = new BackoffSettings(config.Timeout.ToTimeSpan(), config.Timeout.ToTimeSpan(), 1.0);
+            var timeout = new BackoffSettings(rp.InitialBackoff.ToTimeSpan(), rp.MaxBackoff.ToTimeSpan(), rp.BackoffMultiplier);
+            var totalExpiration = Expiration.FromTimeout(config.Timeout.ToTimeSpan());
+            // `Google.Rpc.Code` and `Grpc.Core.StatusCode` enums are identically defined.
+            var statusCodes = rp.RetryableStatusCodes.Select(x => (StatusCode)x).ToList();
+            var retrySettings = new RetrySettings(retry, timeout, totalExpiration);
+            return (retrySettings, statusCodes);
         }
 
         private IEnumerable<RoutingHeader> ReadRoutingHeaders(HttpRule http, MessageDescriptor requestDesc)
@@ -391,9 +409,6 @@ namespace Google.Api.Generator.Generation
         /// <summary>The name of the per-request-type partial method to modify the request.</summary>
         public string ModifyRequestMethodName { get; }
 
-        /// <summary>Is this method idempotent?</summary>
-        public bool IsIdempotent { get; }
-
         /// <summary>The lines of method documentation from the proto.</summary>
         public IEnumerable<string> DocLines { get; }
 
@@ -406,6 +421,13 @@ namespace Google.Api.Generator.Generation
         /// <summary>The proto descriptor of the response message.</summary>
         public MessageDescriptor ResponseMessageDesc { get; }
 
+        /// <summary>Routing headers extracted from http annotation.</summary>
         public IEnumerable<RoutingHeader> RoutingHeaders { get; }
+
+        /// <summary>Retry settings for this method; null if no retry settings available.</summary>
+        public RetrySettings MethodRetry { get; }
+
+        /// <summary>If retry is specified, the status codes on which to retry.</summary>
+        public IEnumerable<StatusCode> MethodRetryStatusCodes { get; }
     }
 }

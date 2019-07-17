@@ -4,21 +4,14 @@ package testing.basic;
 
 // csharp_namespace option not included; to test generating namespace from proto package.
 
-import "google/api/annotations.proto";
 import "google/api/client.proto";
 
 service Basic {
   option (google.api.default_host) = "basic.example.com";
   option (google.api.oauth_scopes) = "scope1,scope2";
 
-  // Test summary text for IdempotentMethod
-  rpc IdempotentMethod(Request) returns(Response) {
-    // A method with a non-empty http.get option is assumed to be idempotent.
-    option (google.api.http).get = "/path/here";
-  };
-
-  // Test summary text for NonIdempotentMethod
-  rpc NonIdempotentMethod(Request) returns(Response);
+  // Test summary text for AMethod
+  rpc AMethod(Request) returns(Response);
 }
 
 message Request {

@@ -42,47 +42,18 @@ namespace Testing.Basic
         private BasicSettings(BasicSettings existing) : base(existing)
         {
             gax::GaxPreconditions.CheckNotNull(existing, nameof(existing));
-            IdempotentMethodSettings = existing.IdempotentMethodSettings;
-            NonIdempotentMethodSettings = existing.NonIdempotentMethodSettings;
+            AMethodSettings = existing.AMethodSettings;
             OnCopy(existing);
         }
 
         partial void OnCopy(BasicSettings existing);
 
-        private static readonly gaxgrpc::CallSettings _defaultIdempotentCallSettings = gaxgrpc::CallSettings.FromCallTiming(gaxgrpc::CallTiming.FromRetry(new gaxgrpc::RetrySettings(retryBackoff: new gaxgrpc::BackoffSettings(delay: sys::TimeSpan.FromMilliseconds(100), maxDelay: sys::TimeSpan.FromSeconds(60), delayMultiplier: 1.3), timeoutBackoff: new gaxgrpc::BackoffSettings(delay: sys::TimeSpan.FromSeconds(20), maxDelay: sys::TimeSpan.FromSeconds(20), delayMultiplier: 1), totalExpiration: gax::Expiration.FromTimeout(sys::TimeSpan.FromSeconds(20)), retryFilter: gaxgrpc::RetrySettings.FilterForStatusCodes(grpccore::StatusCode.Internal, grpccore::StatusCode.Unavailable))));
-
-        private static readonly gaxgrpc::CallSettings _defaultNonIdempotentCallSettings = gaxgrpc::CallSettings.FromCallTiming(gaxgrpc::CallTiming.FromTimeout(sys::TimeSpan.FromSeconds(20)));
-
         /// <summary>
-        /// <see cref="gaxgrpc::CallSettings"/> for synchronous and asynchronous calls to
-        /// <c>BasicClient.IdempotentMethod</c> and <c>BasicClient.IdempotentMethodAsync</c>.
-        /// </summary>
-        /// <remarks>
-        /// The default <c>BasicClient.IdempotentMethod</c> and <c>BasicClient.IdempotentMethodAsync</c>
-        /// <see cref="gaxgrpc::RetrySettings"/> are:
-        /// <list type="bullet">
-        /// <item><description>Initial retry delay: 100 milliseconds.</description></item>
-        /// <item><description>Retry delay multiplier: 1.3</description></item>
-        /// <item><description>Retry maximum delay: 60 seconds.</description></item>
-        /// <item><description>Initial timeout: 20 seconds.</description></item>
-        /// <item><description>Timeout multiplier: 1</description></item>
-        /// <item><description>Timeout maximum delay: 20 seconds.</description></item>
-        /// <item><description>Total timeout: 20 seconds.</description></item>
-        /// </list>
-        /// By default retry will be attempted on the following response status codes:
-        /// <list type="bullet">
-        /// <item><description><see cref="grpccore::StatusCode.Internal"/></description></item>
-        /// <item><description><see cref="grpccore::StatusCode.Unavailable"/></description></item>
-        /// </list>
-        /// </remarks>
-        public gaxgrpc::CallSettings IdempotentMethodSettings { get; set; } = _defaultIdempotentCallSettings;
-
-        /// <summary>
-        /// <see cref="gaxgrpc::CallSettings"/> for synchronous and asynchronous calls to
-        /// <c>BasicClient.NonIdempotentMethod</c> and <c>BasicClient.NonIdempotentMethodAsync</c>.
+        /// <see cref="gaxgrpc::CallSettings"/> for synchronous and asynchronous calls to <c>BasicClient.AMethod</c> and
+        /// <c>BasicClient.AMethodAsync</c>.
         /// </summary>
         /// <remarks>By default, retry will not be attempted.</remarks>
-        public gaxgrpc::CallSettings NonIdempotentMethodSettings { get; set; } = _defaultNonIdempotentCallSettings;
+        public gaxgrpc::CallSettings AMethodSettings { get; set; }
 
         /// <summary>Creates a deep clone of this object, with all the same property values.</summary>
         /// <returns>A deep clone of this <see cref="BasicSettings"/> object.</returns>
@@ -238,66 +209,37 @@ namespace Testing.Basic
         public virtual Basic.BasicClient GrpcClient => throw new sys::NotImplementedException();
 
         /// <summary>
-        /// Test summary text for IdempotentMethod
+        /// Test summary text for AMethod
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The RPC response.</returns>
-        public virtual Response IdempotentMethod(Request request, gaxgrpc::CallSettings callSettings = null) =>
+        public virtual Response AMethod(Request request, gaxgrpc::CallSettings callSettings = null) =>
             throw new sys::NotImplementedException();
 
         /// <summary>
-        /// Test summary text for IdempotentMethod
+        /// Test summary text for AMethod
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<Response> IdempotentMethodAsync(Request request, gaxgrpc::CallSettings callSettings = null) =>
+        public virtual stt::Task<Response> AMethodAsync(Request request, gaxgrpc::CallSettings callSettings = null) =>
             throw new sys::NotImplementedException();
 
         /// <summary>
-        /// Test summary text for IdempotentMethod
+        /// Test summary text for AMethod
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
         /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<Response> IdempotentMethodAsync(Request request, st::CancellationToken cancellationToken) =>
-            IdempotentMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
-
-        /// <summary>
-        /// Test summary text for NonIdempotentMethod
-        /// </summary>
-        /// <param name="request">The request object containing all of the parameters for the API call.</param>
-        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
-        /// <returns>The RPC response.</returns>
-        public virtual Response NonIdempotentMethod(Request request, gaxgrpc::CallSettings callSettings = null) =>
-            throw new sys::NotImplementedException();
-
-        /// <summary>
-        /// Test summary text for NonIdempotentMethod
-        /// </summary>
-        /// <param name="request">The request object containing all of the parameters for the API call.</param>
-        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
-        /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<Response> NonIdempotentMethodAsync(Request request, gaxgrpc::CallSettings callSettings = null) =>
-            throw new sys::NotImplementedException();
-
-        /// <summary>
-        /// Test summary text for NonIdempotentMethod
-        /// </summary>
-        /// <param name="request">The request object containing all of the parameters for the API call.</param>
-        /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
-        /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<Response> NonIdempotentMethodAsync(Request request, st::CancellationToken cancellationToken) =>
-            NonIdempotentMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+        public virtual stt::Task<Response> AMethodAsync(Request request, st::CancellationToken cancellationToken) =>
+            AMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
     }
 
     /// <summary>Basic client wrapper implementation, for convenient use.</summary>
     public sealed partial class BasicClientImpl : BasicClient
     {
-        private readonly gaxgrpc::ApiCall<Request, Response> _callIdempotentMethod;
-
-        private readonly gaxgrpc::ApiCall<Request, Response> _callNonIdempotentMethod;
+        private readonly gaxgrpc::ApiCall<Request, Response> _callAMethod;
 
         /// <summary>
         /// Constructs a client wrapper for the Basic service, with the specified gRPC client and settings.
@@ -309,20 +251,15 @@ namespace Testing.Basic
             GrpcClient = grpcClient;
             BasicSettings effectiveSettings = settings ?? BasicSettings.GetDefault();
             gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings);
-            _callIdempotentMethod = clientHelper.BuildApiCall<Request, Response>(grpcClient.IdempotentMethodAsync, grpcClient.IdempotentMethod, effectiveSettings.IdempotentMethodSettings);
-            Modify_ApiCall(ref _callIdempotentMethod);
-            Modify_IdempotentMethodApiCall(ref _callIdempotentMethod);
-            _callNonIdempotentMethod = clientHelper.BuildApiCall<Request, Response>(grpcClient.NonIdempotentMethodAsync, grpcClient.NonIdempotentMethod, effectiveSettings.NonIdempotentMethodSettings);
-            Modify_ApiCall(ref _callNonIdempotentMethod);
-            Modify_NonIdempotentMethodApiCall(ref _callNonIdempotentMethod);
+            _callAMethod = clientHelper.BuildApiCall<Request, Response>(grpcClient.AMethodAsync, grpcClient.AMethod, effectiveSettings.AMethodSettings);
+            Modify_ApiCall(ref _callAMethod);
+            Modify_AMethodApiCall(ref _callAMethod);
             OnConstruction(grpcClient, effectiveSettings, clientHelper);
         }
 
         partial void Modify_ApiCall<TRequest, TResponse>(ref gaxgrpc::ApiCall<TRequest, TResponse> call) where TRequest : class, proto::IMessage<TRequest> where TResponse : class, proto::IMessage<TResponse>;
 
-        partial void Modify_IdempotentMethodApiCall(ref gaxgrpc::ApiCall<Request, Response> call);
-
-        partial void Modify_NonIdempotentMethodApiCall(ref gaxgrpc::ApiCall<Request, Response> call);
+        partial void Modify_AMethodApiCall(ref gaxgrpc::ApiCall<Request, Response> call);
 
         partial void OnConstruction(Basic.BasicClient grpcClient, BasicSettings effectiveSettings, gaxgrpc::ClientHelper clientHelper);
 
@@ -332,51 +269,27 @@ namespace Testing.Basic
         partial void Modify_Request(ref Request request, ref gaxgrpc::CallSettings settings);
 
         /// <summary>
-        /// Test summary text for IdempotentMethod
+        /// Test summary text for AMethod
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The RPC response.</returns>
-        public override Response IdempotentMethod(Request request, gaxgrpc::CallSettings callSettings = null)
+        public override Response AMethod(Request request, gaxgrpc::CallSettings callSettings = null)
         {
             Modify_Request(ref request, ref callSettings);
-            return _callIdempotentMethod.Sync(request, callSettings);
+            return _callAMethod.Sync(request, callSettings);
         }
 
         /// <summary>
-        /// Test summary text for IdempotentMethod
+        /// Test summary text for AMethod
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A Task containing the RPC response.</returns>
-        public override stt::Task<Response> IdempotentMethodAsync(Request request, gaxgrpc::CallSettings callSettings = null)
+        public override stt::Task<Response> AMethodAsync(Request request, gaxgrpc::CallSettings callSettings = null)
         {
             Modify_Request(ref request, ref callSettings);
-            return _callIdempotentMethod.Async(request, callSettings);
-        }
-
-        /// <summary>
-        /// Test summary text for NonIdempotentMethod
-        /// </summary>
-        /// <param name="request">The request object containing all of the parameters for the API call.</param>
-        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
-        /// <returns>The RPC response.</returns>
-        public override Response NonIdempotentMethod(Request request, gaxgrpc::CallSettings callSettings = null)
-        {
-            Modify_Request(ref request, ref callSettings);
-            return _callNonIdempotentMethod.Sync(request, callSettings);
-        }
-
-        /// <summary>
-        /// Test summary text for NonIdempotentMethod
-        /// </summary>
-        /// <param name="request">The request object containing all of the parameters for the API call.</param>
-        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
-        /// <returns>A Task containing the RPC response.</returns>
-        public override stt::Task<Response> NonIdempotentMethodAsync(Request request, gaxgrpc::CallSettings callSettings = null)
-        {
-            Modify_Request(ref request, ref callSettings);
-            return _callNonIdempotentMethod.Async(request, callSettings);
+            return _callAMethod.Async(request, callSettings);
         }
     }
 }
