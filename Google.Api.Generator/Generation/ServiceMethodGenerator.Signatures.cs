@@ -118,14 +118,22 @@ namespace Google.Api.Generator.Generation
                         else if (field.Typ.FullName == typeof(string).FullName)
                         {
                             return field.Required ?
-                                Ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNullOrEmpty))(param, Nameof(param)) :
-                                param.NullCoalesce("");
+                                Ctx.Type(typeof(GaxPreconditions)).Call(
+                                    field.IsWellKnownType ? nameof(GaxPreconditions.CheckNotNull) : nameof(GaxPreconditions.CheckNotNullOrEmpty))(
+                                    param, Nameof(param)) :
+                                field.IsWellKnownType ? param : (object)param.NullCoalesce("");
                         }
                         else if (field.Typ.FullName == typeof(ByteString).FullName)
                         {
                             return field.Required ?
                                 Ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(param, Nameof(param)) :
-                                param.NullCoalesce(Ctx.Type<ByteString>().Access(nameof(ByteString.Empty)));
+                                field.IsWellKnownType ? param : (object)param.NullCoalesce(Ctx.Type<ByteString>().Access(nameof(ByteString.Empty)));
+                        }
+                        else if (field.IsWellKnownType)
+                        {
+                            return field.Required ?
+                                param.NullCoalesce(Throw(New(Ctx.Type<ArgumentNullException>())(Nameof(param)))) :
+                                (object)param;
                         }
                         else
                         {

@@ -6,6 +6,7 @@ option csharp_namespace = "Testing.MethodSignatures";
 
 import "google/api/client.proto";
 import "google/api/field_behavior.proto";
+import "google/protobuf/wrappers.proto";
 
 service MethodSignatures {
   option (google.api.default_host) = "methodsignatures.example.com";
@@ -39,6 +40,10 @@ service MethodSignatures {
 
   rpc NestedArgs(NestedRequest) returns(Response) {
     option (google.api.method_signature) = "nest1.a_string,nest1.nest2.a_number,nest1.nest2.another_number,nest1.nest_outer.a_bool,top_level_string";
+  }
+
+  rpc WktArgs(WktRequest) returns (Response) {
+    option (google.api.method_signature) = "optional_int32,required_int32,repeated_optional_int32,repeated_required_int32,optional_string,required_string,repeated_optional_string,repeated_required_string";
   }
 }
 
@@ -105,6 +110,17 @@ message NestedRequest {
   }
   Nest1 nest1 = 1;
   string top_level_string = 2;
+}
+
+message WktRequest {
+  google.protobuf.Int32Value optional_int32 = 1;
+  google.protobuf.Int32Value required_int32 = 2 [(google.api.field_behavior) = REQUIRED];
+  repeated google.protobuf.Int32Value repeated_optional_int32 = 3;
+  repeated google.protobuf.Int32Value repeated_required_int32 = 4 [(google.api.field_behavior) = REQUIRED];
+  google.protobuf.StringValue optional_string = 5;
+  google.protobuf.StringValue required_string = 6 [(google.api.field_behavior) = REQUIRED];
+  repeated google.protobuf.StringValue repeated_optional_string = 7;
+  repeated google.protobuf.StringValue repeated_required_string = 8 [(google.api.field_behavior) = REQUIRED];
 }
 
 message Response {
