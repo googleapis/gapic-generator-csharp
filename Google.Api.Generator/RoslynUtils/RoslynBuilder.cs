@@ -194,6 +194,10 @@ namespace Google.Api.Generator.RoslynUtils
         public static InitializerExpressionSyntax CollectionInitializer(params object[] exprs) =>
             InitializerExpression(SyntaxKind.CollectionInitializerExpression, SeparatedList(ToExpressions(exprs)));
 
+        public static InitializerExpressionSyntax ComplexElementInitializer(params object[] exprs) =>
+            InitializerExpression(SyntaxKind.ComplexElementInitializerExpression, SeparatedList<ExpressionSyntax>(
+                exprs.SelectMany(x => ToExpressions(x)).SelectMany(x => new SyntaxNodeOrToken[] { Token(SyntaxKind.CommaToken), x }).Skip(1)));
+
         public static ArgumentsFunc<ObjectCreationExpressionSyntax> New(TypeSyntax type) => args =>
             ObjectCreationExpression(type).WithArgumentList(RoslynConverters.CreateArgList(args));
 

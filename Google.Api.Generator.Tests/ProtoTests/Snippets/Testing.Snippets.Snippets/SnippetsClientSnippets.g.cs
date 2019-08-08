@@ -96,6 +96,7 @@ namespace Testing.Snippets
                 {
                     MultiPatternResourceNameOneOf.From(new RootAItemName("[ROOT_A_ID]", "[ITEM_ID]")),
                 },
+                MapIntString = { { 0, "" }, },
             };
             // Make the request
             Response response = snippetsClient.MethodDefaultValues(request);
@@ -174,6 +175,7 @@ namespace Testing.Snippets
                 {
                     MultiPatternResourceNameOneOf.From(new RootAItemName("[ROOT_A_ID]", "[ITEM_ID]")),
                 },
+                MapIntString = { { 0, "" }, },
             };
             // Make the request
             Response response = await snippetsClient.MethodDefaultValuesAsync(request);
