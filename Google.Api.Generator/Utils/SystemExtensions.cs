@@ -24,7 +24,10 @@ namespace Google.Api.Generator.Utils
 
         private static string Camelizer(string s, bool firstUpper, bool forceAllChars) =>
             s.Aggregate((upper: (bool?)firstUpper, prev: '\0', sb: new StringBuilder()), (acc, c) =>
-                c == '_' ? (true, c, acc.sb) : (forceAllChars ? (bool?)false : null, c, acc.sb.Append(MaybeForceCase(c, char.IsLower(acc.prev) && char.IsUpper(c) ? true : acc.upper))),
+                c == '_' ?
+                    (true, c, acc.sb) :
+                    (char.IsDigit(c) ? true : forceAllChars ? (bool?)false : null, c,
+                        acc.sb.Append(MaybeForceCase(c, char.IsLower(acc.prev) && char.IsUpper(c) ? true : acc.upper))),
                 acc => acc.sb.ToString());
 
         public static string ToLowerCamelCase(this string s) => Camelizer(s, firstUpper: false, forceAllChars: false);
