@@ -377,21 +377,31 @@ namespace Google.Api.Generator.Formatting
         public override SyntaxNode VisitInitializerExpression(InitializerExpressionSyntax node)
         {
             // Do not call base; the contained expressions are visited in this method.
+            var isComplex = node.Kind() == SyntaxKind.ComplexElementInitializerExpression;
+            var nodeExprs = node.Expressions.Select(Visit);
             if (node.Span.Length < 20)
             {
                 // Crude <20 to only make short initializer expressions stay on a single line.
-                node = node.WithExpressions(SeparatedList(
-                    node.Expressions.Select(e => Visit(e)),
-                    node.Expressions.Select(_ => Token(SyntaxKind.CommaToken).WithTrailingSpace())));
-                node = node.WithOpenBraceToken(node.OpenBraceToken.WithLeadingSpace().WithTrailingSpace());
+                node = node.WithExpressions(SeparatedList<SyntaxNode>(nodeExprs
+                    .SelectMany(x => new SyntaxNodeOrToken[] { x.WithLeadingSpace(), Token(SyntaxKind.CommaToken) }).SkipLast(isComplex ? 1 : 0)));
+                node = node.WithOpenBraceToken(node.OpenBraceToken.WithLeadingSpace());
+                node = node.WithCloseBraceToken(node.CloseBraceToken.WithLeadingSpace());
             }
             else
             {
                 using (WithIndent())
                 {
-                    node = node.WithExpressions(SeparatedList(
-                        node.Expressions.Select(e => Visit(e).WithLeadingTrivia(_indentTrivia)),
-                        node.Expressions.Select(_ => Token(SyntaxKind.CommaToken).WithTrailingCrLf())));
+                    var items = nodeExprs.SelectMany(x => new SyntaxNodeOrToken[]
+                    {
+                        x.WithLeadingTrivia(_indentTrivia),
+                        Token(SyntaxKind.CommaToken).WithTrailingCrLf()
+                    }).ToList();
+                    if (isComplex)
+                    {
+                        items = items.SkipLast(2).Concat(items
+                            .TakeLast(2).Take(1).Select(x => x.WithTrailingTrivia(CarriageReturnLineFeed))).ToList();
+                    }
+                    node = node.WithExpressions(SeparatedList<SyntaxNode>(items));
                 }
                 node = node.WithOpenBraceToken(node.OpenBraceToken.WithLeadingTrivia(CarriageReturnLineFeed, _indentTrivia).WithTrailingCrLf());
                 node = node.WithCloseBraceToken(node.CloseBraceToken.WithLeadingTrivia(_indentTrivia));
