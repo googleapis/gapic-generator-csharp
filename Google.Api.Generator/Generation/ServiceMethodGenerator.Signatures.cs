@@ -81,7 +81,7 @@ namespace Google.Api.Generator.Generation
                             }
                             else
                             {
-                                return CollectionInitializer(field.Required ?
+                                return CollectionInitializer(field.IsRequired ?
                                     Ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(param, Nameof(param)) :
                                     param.NullCoalesce(Ctx.Type(typeof(Enumerable)).Call(
                                         nameof(Enumerable.Empty), Ctx.Type(field.FieldResource.ResourceDefinition.Single.ResourceNameTyp))()));
@@ -89,7 +89,7 @@ namespace Google.Api.Generator.Generation
                         }
                         else
                         {
-                            return CollectionInitializer(field.Required ?
+                            return CollectionInitializer(field.IsRequired ?
                                 Ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(param, Nameof(param)) :
                                 param.NullCoalesce(Ctx.Type(typeof(Enumerable)).Call(nameof(Enumerable.Empty), Ctx.Type(field.Typ.GenericArgTyps.First()))()));
                         }
@@ -100,13 +100,13 @@ namespace Google.Api.Generator.Generation
                         {
                             if (isMultiResource)
                             {
-                                return field.Required ?
+                                return field.IsRequired ?
                                     Ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(param, Nameof(param)) :
                                     (object)param;
                             }
                             else
                             {
-                                return field.Required ?
+                                return field.IsRequired ?
                                     Ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(param, Nameof(param)) :
                                     (object)param;
                             }
@@ -117,7 +117,7 @@ namespace Google.Api.Generator.Generation
                         }
                         else if (field.Typ.FullName == typeof(string).FullName)
                         {
-                            return field.Required ?
+                            return field.IsRequired ?
                                 Ctx.Type(typeof(GaxPreconditions)).Call(
                                     field.IsWrapperType ? nameof(GaxPreconditions.CheckNotNull) : nameof(GaxPreconditions.CheckNotNullOrEmpty))(
                                     param, Nameof(param)) :
@@ -125,19 +125,19 @@ namespace Google.Api.Generator.Generation
                         }
                         else if (field.Typ.FullName == typeof(ByteString).FullName)
                         {
-                            return field.Required ?
+                            return field.IsRequired ?
                                 Ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(param, Nameof(param)) :
                                 field.IsWrapperType ? param : (object)param.NullCoalesce(Ctx.Type<ByteString>().Access(nameof(ByteString.Empty)));
                         }
                         else if (field.IsWrapperType)
                         {
-                            return field.Required ?
+                            return field.IsRequired ?
                                 param.NullCoalesce(Throw(New(Ctx.Type<ArgumentNullException>())(Nameof(param)))) :
                                 (object)param;
                         }
                         else
                         {
-                            return field.Required ?
+                            return field.IsRequired ?
                                 Ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(param, Nameof(param)) :
                                 (object)param;
                         }
