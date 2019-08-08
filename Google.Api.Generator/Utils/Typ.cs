@@ -103,7 +103,7 @@ namespace Google.Api.Generator.Utils
             public override string Name => throw new InvalidOperationException();
         }
 
-        private static IReadOnlyDictionary<string, Typ> s_wellKnownTypes = new Dictionary<string, Typ>
+        private static IReadOnlyDictionary<string, Typ> s_wrapperTypes = new Dictionary<string, Typ>
         {
             { "google.protobuf.BoolValue", Of<bool?>() },
             { "google.protobuf.Int32Value", Of<int?>() },
@@ -114,15 +114,14 @@ namespace Google.Api.Generator.Utils
             { "google.protobuf.DoubleValue", Of<double?>() },
             { "google.protobuf.StringValue", Of<string>() },
             { "google.protobuf.BytesValue", Of<ByteString>() },
-            // TODO: Other well-known types may need mapping.
         };
 
-        public static bool IsWellKnownType(FieldDescriptor field)
+        public static bool IsWrapperType(FieldDescriptor field)
         {
             switch (field.FieldType)
             {
                 case FieldType.Message:
-                    return s_wellKnownTypes.ContainsKey(field.MessageType.FullName);
+                    return s_wrapperTypes.ContainsKey(field.MessageType.FullName);
                 default:
                     return false;
             }
@@ -140,7 +139,7 @@ namespace Google.Api.Generator.Utils
 
         public static Typ Of(MessageDescriptor desc)
         {
-            if (s_wellKnownTypes.TryGetValue(desc.FullName, out var wkt))
+            if (s_wrapperTypes.TryGetValue(desc.FullName, out var wkt))
             {
                 return wkt;
             }
