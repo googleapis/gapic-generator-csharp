@@ -16,6 +16,7 @@ using Google.Api.Gax;
 using Google.Api.Generator.Formatting;
 using Google.Api.Generator.Generation;
 using Google.Api.Generator.ProtoUtils;
+using Google.Api.Generator.Utils;
 using Google.Protobuf;
 using Google.Protobuf.Reflection;
 using Grpc.ServiceConfig;
@@ -115,7 +116,8 @@ namespace Google.Api.Generator
                     var resCtx = SourceFileContext.Create(SourceFileContext.ImportStyle.FullyAliased, clock);
                     var resCode = ResourceNamesGenerator.Generate(catalog, resCtx, fileDesc);
                     var formattedResCode = CodeFormatter.Format(resCode);
-                    var resFilename = $"{clientPathPrefix}{Path.GetFileNameWithoutExtension(fileDesc.Name)}ResourceNames.g.cs";
+                    var filenamePrefix = Path.GetFileNameWithoutExtension(fileDesc.Name).ToUpperCamelCase();
+                    var resFilename = $"{clientPathPrefix}{filenamePrefix}ResourceNames.g.cs";
                     var resContent = Encoding.UTF8.GetBytes(formattedResCode.ToFullString());
                     yield return new ResultFile(resFilename, resContent);
                 }
