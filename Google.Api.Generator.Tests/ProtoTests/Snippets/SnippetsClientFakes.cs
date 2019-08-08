@@ -185,6 +185,8 @@ namespace Testing.Snippets
         public ResourceNameList<IResourceName> RepeatedWildcardResourceAsResourceNames { get; }
         public MultiPatternResourceNameOneOf MultiPatternResourceNameAsMultiPatternResourceNameOneOf { get; set; }
         public ResourceNameList<MultiPatternResourceNameOneOf> RepeatedMultiPatternResourceNameAsMultiPatternResourceNameOneOfs { get; }
+
+        public MapField<int, string> MapIntString { get; }
     }
 
     public class SignatureRequest : ProtoMsgFake<SignatureRequest>

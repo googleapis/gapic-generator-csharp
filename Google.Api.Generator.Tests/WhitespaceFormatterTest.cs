@@ -102,6 +102,10 @@ namespace Google.Api.Generator.Tests
                 public ObjectWithProperties O { get; set; }
 
                 public List<int> List { get; }
+
+                public Dictionary<int, string> Dict { get; }
+
+                public Dictionary<string, string> Dict2 { get; }
             }
 
             // Test property with initializer using nested object initialization.
@@ -114,6 +118,15 @@ namespace Google.Api.Generator.Tests
                     S = "Another_string",
                 },
                 List = { 1, 2, 3, },
+                Dict = { { 0, "0" }, { 1, "1" }, },
+                Dict2 =
+                {
+                    { "a_string", "" },
+                    {
+                        "A_really_long_key_string,_to_make_sure_the_key_and_value_end_up_on_different_lines",
+                        "A_similarly_long_value_string,_to_test_the_key/value_strings_end_up_formatted_correctly."
+                    },
+                },
             };
 
             // Test attribute with no arguments on a method.

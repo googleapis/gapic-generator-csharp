@@ -54,6 +54,10 @@ message SimpleRequest {
   // Another number with some test (preformatted) documetation
   // that spans more than one line.
   string a_string = 2; // Not marked as required, so optional
+
+  // A map that is not used in a method signature.
+  // This should be handled transparently by the generator.
+  map<string, string> a_map = 3;
 }
 
 message PrimitiveRequest {

@@ -201,11 +201,15 @@ namespace Google.Api.Generator.Generation
                 }
                 else
                 {
-                    object @default;
                     if (fieldDesc.IsMap)
                     {
-                        throw new NotImplementedException("Map types not yet implemented.");
+                        // A map is modelled as a repeated message containing key/value fields.
+                        var parts = fieldDesc.MessageType.Fields.InFieldNumberOrder();
+                        var keyValue = DefaultValue(parts[0]);
+                        var valueValue = DefaultValue(parts[1]);
+                        return CollectionInitializer(ComplexElementInitializer(keyValue, valueValue));
                     }
+                    object @default;
                     // See https://developers.google.com/protocol-buffers/docs/proto3#scalar
                     // Switch cases are ordered as in this doc. Please do not re-order.
                     switch (fieldDesc.FieldType)

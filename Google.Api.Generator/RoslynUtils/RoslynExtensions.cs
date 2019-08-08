@@ -29,6 +29,7 @@ namespace Google.Api.Generator.RoslynUtils
     {
         private static readonly SyntaxToken s_semicolonToken = Token(SyntaxKind.SemicolonToken);
 
+        public static T WithLeadingSpace<T>(this T node) where T : SyntaxNode => node.WithLeadingTrivia(Space);
         public static T WithTrailingSpace<T>(this T node) where T : SyntaxNode => node.WithTrailingTrivia(Space);
         public static T WithLeadingCrLf<T>(this T node) where T : SyntaxNode => node.WithLeadingTrivia(CarriageReturnLineFeed);
         public static T WithTrailingCrLf<T>(this T node, int count = 1) where T : SyntaxNode =>

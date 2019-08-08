@@ -122,6 +122,13 @@ namespace Testing.UnitTests
                 {
                     MultiPatternResourceNameOneOf.From(new RootAItemName("[ROOT_A_ID]", "[ITEM_ID]")),
                 },
+                MapIntString =
+                {
+                    {
+                        -1978962372,
+                        "value60c16320"
+                    },
+                },
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.MethodValues(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
@@ -223,6 +230,13 @@ namespace Testing.UnitTests
                 RepeatedMultiPatternResourceNameAsMultiPatternResourceNameOneOfs =
                 {
                     MultiPatternResourceNameOneOf.From(new RootAItemName("[ROOT_A_ID]", "[ITEM_ID]")),
+                },
+                MapIntString =
+                {
+                    {
+                        -1978962372,
+                        "value60c16320"
+                    },
                 },
             };
             Response expectedResponse = new Response { };
