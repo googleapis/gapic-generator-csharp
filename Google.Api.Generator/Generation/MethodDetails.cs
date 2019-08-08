@@ -252,7 +252,7 @@ namespace Google.Api.Generator.Generation
                 }
                 if (items.Count > 1)
                 {
-                    throw new InvalidOperationException("Ambiguous item responces");
+                    throw new InvalidOperationException("Ambiguous item responses");
                 }
                 return new Paginated(svc, desc, items[0], pageSize.FieldNumber, pageToken.FieldNumber);
             }
