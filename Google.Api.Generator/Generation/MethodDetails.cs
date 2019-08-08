@@ -231,32 +231,32 @@ namespace Google.Api.Generator.Generation
             var pageSize = input.FindFieldByName("page_size");
             var pageToken = input.FindFieldByName("page_token");
             var nextPageToken = output.FindFieldByName("next_page_token");
-            var items = output.Fields.InDeclarationOrder().Where(field =>
+            var itemsByDeclOrder = output.Fields.InDeclarationOrder().Where(IsCandidateField).ToList();
+            var itemsByNumOrder = output.Fields.InFieldNumberOrder().Where(IsCandidateField).ToList();
+            if (pageSize != null && pageToken != null && nextPageToken != null && itemsByDeclOrder.Count > 0)
             {
-                // TODO: Add support for "items" annotation when it is available
-                return field.IsRepeated;
-            }).ToList();
-            if (pageSize != null && pageToken != null && nextPageToken != null && items.Count > 0)
-            {
-                if (pageSize.FieldType != FieldType.Int32)
+                if (pageSize.FieldType != FieldType.Int32 || pageSize.IsRepeated)
                 {
                     throw new InvalidOperationException("page_size must be of type int32");
                 }
-                if (pageToken.FieldType != FieldType.String)
+                if (pageToken.FieldType != FieldType.String || pageToken.IsRepeated)
                 {
                     throw new InvalidOperationException("page_token must be of type string");
                 }
-                if (nextPageToken.FieldType != FieldType.String)
+                if (nextPageToken.FieldType != FieldType.String || nextPageToken.IsRepeated)
                 {
                     throw new InvalidOperationException("next_page_token must be of type string");
                 }
-                if (items.Count > 1)
+                if (itemsByDeclOrder[0] != itemsByNumOrder[0])
                 {
-                    throw new InvalidOperationException("Ambiguous item responses");
+                    throw new InvalidOperationException("Item response field must be first by declaration and field-number order.");
                 }
-                return new Paginated(svc, desc, items[0], pageSize.FieldNumber, pageToken.FieldNumber);
+                return new Paginated(svc, desc, itemsByDeclOrder[0], pageSize.FieldNumber, pageToken.FieldNumber);
             }
             return null;
+
+            bool IsCandidateField(FieldDescriptor field) =>
+                field.IsRepeated && !field.IsMap && (field.FieldType == FieldType.Message || field.FieldType == FieldType.String);
         }
 
         private MethodDetails(ServiceDetails svc, MethodDescriptor desc)
