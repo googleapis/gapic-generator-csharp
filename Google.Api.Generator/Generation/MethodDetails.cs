@@ -184,7 +184,7 @@ namespace Google.Api.Generator.Generation
                     Typ = Typ.Of(lastDesc);
                     IsRepeated = lastDesc.IsRepeated;
                     IsWrapperType = Typ.IsWrapperType(lastDesc);
-                    Required = lastDesc.CustomOptions.TryGetRepeatedEnum<FieldBehavior>(ProtoConsts.FieldOption.FieldBehavior, out var behaviors) &&
+                    IsRequired = lastDesc.CustomOptions.TryGetRepeatedEnum<FieldBehavior>(ProtoConsts.FieldOption.FieldBehavior, out var behaviors) &&
                         behaviors.Any(x => x == FieldBehavior.Required);
                     ParameterName = lastDesc.CSharpFieldName();
                     PropertyName = lastDesc.CSharpPropertyName();
@@ -194,7 +194,7 @@ namespace Google.Api.Generator.Generation
                 public IReadOnlyList<FieldDescriptor> Descs { get; }
                 public Typ Typ { get; }
                 public bool IsRepeated { get; }
-                public bool Required { get; }
+                public bool IsRequired { get; }
                 public bool IsWrapperType { get; }
                 public string ParameterName { get; }
                 public string PropertyName { get; }
