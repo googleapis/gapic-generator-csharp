@@ -652,5 +652,123 @@ namespace Testing.MethodSignatures
         public virtual stt::Task<Response> NestedArgsAsync(string aString, int aNumber, int anotherNumber, bool aBool, string topLevelString, st::CancellationToken cancellationToken) =>
             NestedArgsAsync(aString, aNumber, anotherNumber, aBool, topLevelString, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
         // TEST_END
+
+        public virtual Response WktArgs(WktRequest request, gaxgrpc::CallSettings callSettings = null) => throw new sys::NotImplementedException();
+        public virtual stt::Task<Response> WktArgsAsync(WktRequest request, gaxgrpc::CallSettings callSettings = null) => throw new sys::NotImplementedException();
+
+        // TEST_START
+        /// <summary>
+        /// </summary>
+        /// <param name="optionalInt32">
+        /// </param>
+        /// <param name="requiredInt32">
+        /// </param>
+        /// <param name="repeatedOptionalInt32">
+        /// </param>
+        /// <param name="repeatedRequiredInt32">
+        /// </param>
+        /// <param name="optionalString">
+        /// </param>
+        /// <param name="requiredString">
+        /// </param>
+        /// <param name="repeatedOptionalString">
+        /// </param>
+        /// <param name="repeatedRequiredString">
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>The RPC response.</returns>
+        public virtual Response WktArgs(int? optionalInt32, int? requiredInt32, scg::IEnumerable<int?> repeatedOptionalInt32, scg::IEnumerable<int?> repeatedRequiredInt32, string optionalString, string requiredString, scg::IEnumerable<string> repeatedOptionalString, scg::IEnumerable<string> repeatedRequiredString, gaxgrpc::CallSettings callSettings = null) =>
+            WktArgs(new WktRequest
+            {
+                OptionalInt32 = optionalInt32,
+                RequiredInt32 = requiredInt32 ?? throw new sys::ArgumentNullException(nameof(requiredInt32)),
+                RepeatedOptionalInt32 =
+                {
+                    repeatedOptionalInt32 ?? linq::Enumerable.Empty<int?>(),
+                },
+                RepeatedRequiredInt32 =
+                {
+                    gax::GaxPreconditions.CheckNotNull(repeatedRequiredInt32, nameof(repeatedRequiredInt32)),
+                },
+                OptionalString = optionalString,
+                RequiredString = gax::GaxPreconditions.CheckNotNull(requiredString, nameof(requiredString)),
+                RepeatedOptionalString =
+                {
+                    repeatedOptionalString ?? linq::Enumerable.Empty<string>(),
+                },
+                RepeatedRequiredString =
+                {
+                    gax::GaxPreconditions.CheckNotNull(repeatedRequiredString, nameof(repeatedRequiredString)),
+                },
+            }, callSettings);
+
+        /// <summary>
+        /// </summary>
+        /// <param name="optionalInt32">
+        /// </param>
+        /// <param name="requiredInt32">
+        /// </param>
+        /// <param name="repeatedOptionalInt32">
+        /// </param>
+        /// <param name="repeatedRequiredInt32">
+        /// </param>
+        /// <param name="optionalString">
+        /// </param>
+        /// <param name="requiredString">
+        /// </param>
+        /// <param name="repeatedOptionalString">
+        /// </param>
+        /// <param name="repeatedRequiredString">
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<Response> WktArgsAsync(int? optionalInt32, int? requiredInt32, scg::IEnumerable<int?> repeatedOptionalInt32, scg::IEnumerable<int?> repeatedRequiredInt32, string optionalString, string requiredString, scg::IEnumerable<string> repeatedOptionalString, scg::IEnumerable<string> repeatedRequiredString, gaxgrpc::CallSettings callSettings = null) =>
+            WktArgsAsync(new WktRequest
+            {
+                OptionalInt32 = optionalInt32,
+                RequiredInt32 = requiredInt32 ?? throw new sys::ArgumentNullException(nameof(requiredInt32)),
+                RepeatedOptionalInt32 =
+                {
+                    repeatedOptionalInt32 ?? linq::Enumerable.Empty<int?>(),
+                },
+                RepeatedRequiredInt32 =
+                {
+                    gax::GaxPreconditions.CheckNotNull(repeatedRequiredInt32, nameof(repeatedRequiredInt32)),
+                },
+                OptionalString = optionalString,
+                RequiredString = gax::GaxPreconditions.CheckNotNull(requiredString, nameof(requiredString)),
+                RepeatedOptionalString =
+                {
+                    repeatedOptionalString ?? linq::Enumerable.Empty<string>(),
+                },
+                RepeatedRequiredString =
+                {
+                    gax::GaxPreconditions.CheckNotNull(repeatedRequiredString, nameof(repeatedRequiredString)),
+                },
+            }, callSettings);
+
+        /// <summary>
+        /// </summary>
+        /// <param name="optionalInt32">
+        /// </param>
+        /// <param name="requiredInt32">
+        /// </param>
+        /// <param name="repeatedOptionalInt32">
+        /// </param>
+        /// <param name="repeatedRequiredInt32">
+        /// </param>
+        /// <param name="optionalString">
+        /// </param>
+        /// <param name="requiredString">
+        /// </param>
+        /// <param name="repeatedOptionalString">
+        /// </param>
+        /// <param name="repeatedRequiredString">
+        /// </param>
+        /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<Response> WktArgsAsync(int? optionalInt32, int? requiredInt32, scg::IEnumerable<int?> repeatedOptionalInt32, scg::IEnumerable<int?> repeatedRequiredInt32, string optionalString, string requiredString, scg::IEnumerable<string> repeatedOptionalString, scg::IEnumerable<string> repeatedRequiredString, st::CancellationToken cancellationToken) =>
+            WktArgsAsync(optionalInt32, requiredInt32, repeatedOptionalInt32, repeatedRequiredInt32, optionalString, requiredString, repeatedOptionalString, repeatedRequiredString, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+        // TEST_END
     }
 }

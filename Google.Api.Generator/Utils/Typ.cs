@@ -103,6 +103,30 @@ namespace Google.Api.Generator.Utils
             public override string Name => throw new InvalidOperationException();
         }
 
+        private static IReadOnlyDictionary<string, Typ> s_wrapperTypes = new Dictionary<string, Typ>
+        {
+            { "google.protobuf.BoolValue", Of<bool?>() },
+            { "google.protobuf.Int32Value", Of<int?>() },
+            { "google.protobuf.UInt32Value", Of<uint?>() },
+            { "google.protobuf.Int64Value", Of<long?>() },
+            { "google.protobuf.UInt64Value", Of<ulong?>() },
+            { "google.protobuf.FloatValue", Of<float?>() },
+            { "google.protobuf.DoubleValue", Of<double?>() },
+            { "google.protobuf.StringValue", Of<string>() },
+            { "google.protobuf.BytesValue", Of<ByteString>() },
+        };
+
+        public static bool IsWrapperType(FieldDescriptor field)
+        {
+            switch (field.FieldType)
+            {
+                case FieldType.Message:
+                    return s_wrapperTypes.ContainsKey(field.MessageType.FullName);
+                default:
+                    return false;
+            }
+        }
+
         public static Typ Of<T>() => Of(typeof(T));
         public static Typ Of(System.Type type) => new FromType(type);
         public static Typ ArrayOf(Typ typ) => new Array(typ);
@@ -115,6 +139,10 @@ namespace Google.Api.Generator.Utils
 
         public static Typ Of(MessageDescriptor desc)
         {
+            if (s_wrapperTypes.TryGetValue(desc.FullName, out var wkt))
+            {
+                return wkt;
+            }
             var ns = desc.File.CSharpNamespace();
             var decls = new List<MessageDescriptor>();
             do

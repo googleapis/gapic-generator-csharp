@@ -101,5 +101,17 @@ namespace Testing.MethodSignatures
         public string TopLevelString { get; set; }
     }
 
+    public class WktRequest : ProtoMsgFake<WktRequest>
+    {
+        public int? OptionalInt32 { get; set; }
+        public int? RequiredInt32 { get; set; }
+        public RepeatedField<int?> RepeatedOptionalInt32 { get; }
+        public RepeatedField<int?> RepeatedRequiredInt32 { get; }
+        public string OptionalString { get; set; }
+        public string RequiredString { get; set; }
+        public RepeatedField<string> RepeatedOptionalString { get; }
+        public RepeatedField<string> RepeatedRequiredString { get; }
+    }
+
     public class Response : ProtoMsgFake<Response> { }
 }
