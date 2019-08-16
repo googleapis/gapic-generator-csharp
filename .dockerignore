@@ -1,0 +1,6 @@
+.git
+.gitignore
+bin
+obj
+Google.Api.Generator.Tests
+tools

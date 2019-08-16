@@ -1,6 +1,7 @@
 .vs
 *.pyc
 *.user
+*~
 obj
 bin
 project.lock.json
