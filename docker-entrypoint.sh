@@ -19,4 +19,4 @@
 protoc --proto_path=/protos/ --proto_path=/in/ \
   --plugin=protoc-gen-csharpgapic=/usr/src/gapic-generator-csharp/Google.Api.Generator/bin/Release/netcoreapp2.2/linux-x64/publish/Google.Api.Generator \
   --csharpgapic_out=/out/ \
-  `find /in/ -name *.proto`
+  $(find /in/ -name '*.proto')
