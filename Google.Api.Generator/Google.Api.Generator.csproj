@@ -24,4 +24,9 @@
     <Folder Include="Google.Protobuf.Compiler\" />
   </ItemGroup>
 
+  <!-- Invariant mode reduces docker image size, and allows docker image to not have ICU support. -->
+  <ItemGroup>
+    <RuntimeHostConfigurationOption Include="System.Globalization.Invariant" Value="true" />
+  </ItemGroup>
+
 </Project>

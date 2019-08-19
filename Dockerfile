@@ -9,7 +9,7 @@ RUN cd /usr/src/gapic-generator-csharp/Google.Api.Generator; \
     chmod 0777 bin/Release/netcoreapp2.2/linux-x64/publish/Google.Api.Generator
 
 # Build smaller runtime image (does not require the sdk)
-FROM mcr.microsoft.com/dotnet/core/runtime:2.2
+FROM debian:stable-slim
 
 # Add protoc and our common protos.
 COPY --from=gcr.io/gapic-images/api-common-protos:0.1.0 /usr/local/bin/protoc /usr/local/bin/protoc
