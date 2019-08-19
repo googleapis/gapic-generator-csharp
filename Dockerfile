@@ -8,7 +8,7 @@ RUN cd /usr/src/gapic-generator-csharp/Google.Api.Generator; \
     dotnet publish -c Release --self-contained --runtime linux-x64; \
     chmod 0777 bin/Release/netcoreapp2.2/linux-x64/publish/Google.Api.Generator
 
-# Build smaller runtime image (does not require the sdk)
+# Build smaller runtime image (does not require dotnet runtime)
 FROM debian:stable-slim
 
 # Add protoc and our common protos.
