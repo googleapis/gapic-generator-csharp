@@ -38,18 +38,19 @@ namespace Google.Api.Generator
         }
 
         public static IEnumerable<ResultFile> Generate(byte[] descriptorBytes, string package, IClock clock,
-            string grpcServiceConfigPath)
+            string grpcServiceConfigPath, string commonResourcesConfigPath)
         {
             var descriptors = GetFileDescriptors(descriptorBytes);
             var filesToGenerate = descriptors.Where(x => x.Package == package).Select(x => x.Name).ToList();
-            return Generate(descriptors, filesToGenerate, clock, grpcServiceConfigPath);
+            return Generate(descriptors, filesToGenerate, clock, grpcServiceConfigPath, commonResourcesConfigPath);
         }
 
         public static IEnumerable<ResultFile> Generate(IReadOnlyList<FileDescriptor> descriptors, IEnumerable<string> filesToGenerate, IClock clock,
-            string grpcServiceConfigPath)
+            string grpcServiceConfigPath, string commonResourcesConfigPath)
         {
-            // Load gRPC service config.
+            // Load side-loaded configurations; both optional.
             var grpcServiceConfig = grpcServiceConfigPath != null ? ServiceConfig.Parser.ParseJson(File.ReadAllText(grpcServiceConfigPath)) : null;
+            var commonResourcesConfig = commonResourcesConfigPath != null ? CommonResources.Parser.ParseJson(File.ReadAllText(commonResourcesConfigPath)) : null;
             // TODO: Multi-package support not tested.
             var filesToGenerateSet = filesToGenerate.ToHashSet();
             var byPackage = descriptors.Where(x => filesToGenerateSet.Contains(x.Name)).GroupBy(x => x.Package).ToList();
@@ -66,7 +67,7 @@ namespace Google.Api.Generator
                         "All files in the same package must have the same C# namespace. " +
                         $"Found namespaces '{string.Join(", ", namespaces)}' in package '{singlePackageFileDescs.Key}'.");
                 }
-                var catalog = new ProtoCatalog(singlePackageFileDescs.Key, descriptors);
+                var catalog = new ProtoCatalog(singlePackageFileDescs.Key, descriptors, commonResourcesConfig);
                 foreach (var resultFile in GeneratePackage(namespaces[0], singlePackageFileDescs, catalog, clock, grpcServiceConfig))
                 {
                     yield return resultFile;
@@ -110,7 +111,7 @@ namespace Google.Api.Generator
                     // Record whether LRO is used.
                     hasLro |= serviceDetails.Methods.Any(x => x is MethodDetails.Lro);
                 }
-                // Generate resource-names for this proto file, if there are any.
+                // Generate resource-names for this proto file, if there are any. Only local (non-common) resource-names will be generated.
                 if (catalog.GetResourceDefsByFile(fileDesc).Any())
                 {
                     var resCtx = SourceFileContext.Create(SourceFileContext.ImportStyle.FullyAliased, clock);

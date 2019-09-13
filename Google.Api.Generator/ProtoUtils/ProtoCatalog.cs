@@ -24,12 +24,12 @@ namespace Google.Api.Generator.ProtoUtils
     /// </summary>
     internal class ProtoCatalog
     {
-        public ProtoCatalog(string defaultPackage, IEnumerable<FileDescriptor> descs)
+        public ProtoCatalog(string defaultPackage, IEnumerable<FileDescriptor> descs, CommonResources commonResourcesConfig)
         {
             _defaultPackage = defaultPackage;
             descs = descs.ToList();
             _msgs = descs.SelectMany(desc => desc.MessageTypes).ToDictionary(x => x.FullName);
-            _resourcesByFileName = ResourceDetails.LoadResourceDefinitionsByFileName(descs).GroupBy(x => x.FileName)
+            _resourcesByFileName = ResourceDetails.LoadResourceDefinitionsByFileName(descs, commonResourcesConfig).GroupBy(x => x.FileName)
                 .ToImmutableDictionary(x => x.Key, x => (IReadOnlyList<ResourceDetails.Definition>)x.ToImmutableList());
             var resourcesByUrt = _resourcesByFileName.Values.SelectMany(x => x).ToDictionary(x => x.UnifiedResourceTypeName);
             _resourcesByFieldName = descs
@@ -38,12 +38,14 @@ namespace Google.Api.Generator.ProtoUtils
                     (field, res: ResourceDetails.LoadResourceReference(msg, field, resourcesByUrt)))
                     .Where(x => x.res != null))
                 .ToDictionary(x => x.field.FullName, x => x.res);
+            _commonUrts = resourcesByUrt.Values.Where(x => x.IsCommon).Select(x => x.UnifiedResourceTypeName).ToImmutableHashSet();
         }
 
         private readonly string _defaultPackage;
         private readonly IReadOnlyDictionary<string, MessageDescriptor> _msgs;
         private readonly IReadOnlyDictionary<string, ResourceDetails.Field> _resourcesByFieldName;
         private readonly IReadOnlyDictionary<string, IReadOnlyList<ResourceDetails.Definition>> _resourcesByFileName;
+        private readonly IImmutableSet<string> _commonUrts;
 
         public MessageDescriptor GetMessageByName(string name) => _msgs[name.Contains('.') ? name : $"{_defaultPackage}.{name}"];
 
@@ -51,5 +53,7 @@ namespace Google.Api.Generator.ProtoUtils
 
         public IEnumerable<ResourceDetails.Definition> GetResourceDefsByFile(FileDescriptor fileDesc) =>
             _resourcesByFileName.GetValueOrDefault(fileDesc.Name, ImmutableList<ResourceDetails.Definition>.Empty);
+
+        public bool IsCommonUrt(string type) => _commonUrts.Contains(type);
     }
 }

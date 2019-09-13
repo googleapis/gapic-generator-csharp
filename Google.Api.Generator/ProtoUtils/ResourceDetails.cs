@@ -28,24 +28,21 @@ namespace Google.Api.Generator.ProtoUtils
         {
             public class SingleDef
             {
-                public SingleDef(string ns, string shortName, string pattern)
-                {
-                    Pattern = pattern;
-                    if (IsWildcard)
-                    {
-                        ResourceNameTyp = Typ.Of<IResourceName>();
-                        Template = null;
-                    }
-                    else
-                    {
-                        ResourceNameTyp = Typ.Manual(ns, $"{shortName}Name");
-                        Template = new PathTemplate(Pattern);
-                    }
-                }
+                public static SingleDef Local(string ns, string shortName, string pattern) =>
+                    pattern == "*" ?
+                        new SingleDef(Typ.Of<IResourceName>(), pattern, null, true, false) :
+                        new SingleDef(Typ.Manual(ns, $"{shortName}Name"), pattern, new PathTemplate(pattern), false, false);
+
+                public static SingleDef Common(string ns, string name, string pattern) =>
+                    new SingleDef(Typ.Manual(ns, name), pattern, new PathTemplate(pattern), false, true);
+
+                private SingleDef(Typ resourceNameTyp, string pattern, PathTemplate template, bool isWildcard, bool isCommon) =>
+                    (ResourceNameTyp, Pattern, Template, IsWildcard, IsCommon) = (resourceNameTyp, pattern, template, isWildcard, isCommon);
                 public Typ ResourceNameTyp { get; }
                 public string Pattern { get; }
                 public PathTemplate Template { get; }
-                public bool IsWildcard => Pattern == "*";
+                public bool IsWildcard { get; }
+                public bool IsCommon { get; }
             }
 
             public class MultiDef
@@ -59,18 +56,18 @@ namespace Google.Api.Generator.ProtoUtils
                 public IReadOnlyList<SingleDef> Defs { get; }
             }
 
-            public Definition(string fileName, ResourceDescriptor resourceDesc, SingleDef single, MultiDef multi)
+            public Definition(string fileName, string type, string nameField, SingleDef single, MultiDef multi)
             {
                 FileName = fileName;
-                UnifiedResourceTypeName = resourceDesc.Type;
-                var typeNameParts = resourceDesc.Type.Split('/');
+                UnifiedResourceTypeName = type;
+                var typeNameParts = type.Split('/');
                 if (typeNameParts.Length != 2)
                 {
-                    throw new InvalidOperationException($"Invalid unified resource name: '{resourceDesc.Type}'");
+                    throw new InvalidOperationException($"Invalid unified resource name: '{type}'");
                 }
                 ShortName = typeNameParts[1];
                 FieldName = ShortName.ToLowerCamelCase();
-                NameField = string.IsNullOrEmpty(resourceDesc.NameField) ? "name" : resourceDesc.NameField;
+                NameField = string.IsNullOrEmpty(nameField) ? "name" : nameField;
                 DocName = ShortName;
                 Single = single;
                 Multi = multi;
@@ -96,6 +93,9 @@ namespace Google.Api.Generator.ProtoUtils
 
             /// <summary>Definition of resource that is a multi. Null if not a multi.</summary>
             public MultiDef Multi { get; }
+
+            /// <summary>Is this a common definition? I.e. it's already defined elsewhere.</summary>
+            public bool IsCommon => Single?.IsCommon ?? false;
         }
 
         /// <summary>
@@ -139,8 +139,10 @@ namespace Google.Api.Generator.ProtoUtils
             public Definition ResourceDefinition { get; }
         }
 
-        public static IReadOnlyList<Definition> LoadResourceDefinitionsByFileName(IEnumerable<FileDescriptor> descs)
+        public static IReadOnlyList<Definition> LoadResourceDefinitionsByFileName(IEnumerable<FileDescriptor> descs, CommonResources commonResourcesConfig)
         {
+            var commonsByType = commonResourcesConfig?.CommonResources_.ToImmutableDictionary(x => x.Type) ??
+                ImmutableDictionary<string, CommonResource>.Empty;
             // Singles:
             // Compatibility problems: none
             //
@@ -153,6 +155,7 @@ namespace Google.Api.Generator.ProtoUtils
             //        Multi-def parts constructed as in normal multis.
             // Compatibility problems: Adding a new resource with the same pattern as a single-pattern parent.
             //                         Adding a new resource with the same pattern as one of a multi-pattern parent.
+            // TODO: Support new (Sept 2019) `name_descriptor` way of specifying resource-names.
             var msgs = descs
                 .SelectMany(fileDesc => fileDesc.MessageTypes.Select(msg =>
                     (fileDesc, msg, resDesc: msg.CustomOptions.TryGetMessage<ResourceDescriptor>(ProtoConsts.MessageOption.Resource, out var resDesc) ? resDesc : null)))
@@ -162,9 +165,17 @@ namespace Google.Api.Generator.ProtoUtils
             var msgsByType = msgs.ToImmutableDictionary(x => x.resDesc.Type);
             // Load Singles.
             var singlesByType = msgs.Where(x => HasSingle(x.resDesc))
-                .ToImmutableDictionary(x => x.resDesc.Type, x => (x.resDesc, single: new Definition.SingleDef(x.fileDesc.CSharpNamespace(), x.shortName, x.resDesc.Pattern[0])));
+                .ToImmutableDictionary(x => x.resDesc.Type, x =>
+                {
+                    var hasCommon = commonsByType.TryGetValue(x.resDesc.Type, out var common);
+                    var single = hasCommon ?
+                        Definition.SingleDef.Common(common.CsharpNamespace, common.CsharpClassName, x.resDesc.Pattern[0]) :
+                        Definition.SingleDef.Local(x.fileDesc.CSharpNamespace(), x.shortName, x.resDesc.Pattern[0]);
+                    return (x.resDesc, single);
+                });
             var singlesByPattern = singlesByType.Values.ToImmutableDictionary(x => x.single.Pattern);
             // Load Multis.
+            // TODO: Consider how common resource-names and multi-defs interact.
             var multisByType = msgs.Where(x => HasMulti(x.resDesc)).Select(msg =>
             {
                 var innerDefs = msg.resDesc.Pattern.Select(pattern =>
@@ -174,7 +185,7 @@ namespace Google.Api.Generator.ProtoUtils
                         return def.single;
                     }
                     var shortName = string.Join("", new PathTemplate(pattern).ParameterNames.Select(x => x.ToUpperCamelCase().RemoveSuffix("Id")));
-                    return new Definition.SingleDef(msg.fileDesc.CSharpNamespace(), shortName, pattern);
+                    return Definition.SingleDef.Local(msg.fileDesc.CSharpNamespace(), shortName, pattern);
                 }).ToList();
                 var multi = new Definition.MultiDef(msg.fileDesc.CSharpNamespace(), msg.shortName, innerDefs);
                 return (msg.resDesc, multi);
@@ -188,7 +199,7 @@ namespace Google.Api.Generator.ProtoUtils
             {
                 var single = singlesByType.GetValueOrDefault(x.resDesc.Type).single;
                 var multi = multisByType.GetValueOrDefault(x.resDesc.Type).multi;
-                return new Definition(fileNamesByType[x.resDesc.Type], x.resDesc, single, multi);
+                return new Definition(fileNamesByType[x.resDesc.Type], x.resDesc.Type, x.resDesc.NameField, single, multi);
             }).ToList();
 
             bool HasSingle(ResourceDescriptor resDesc) =>
