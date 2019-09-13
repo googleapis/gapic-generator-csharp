@@ -54,6 +54,6 @@ namespace Google.Api.Generator.ProtoUtils
         public IEnumerable<ResourceDetails.Definition> GetResourceDefsByFile(FileDescriptor fileDesc) =>
             _resourcesByFileName.GetValueOrDefault(fileDesc.Name, ImmutableList<ResourceDetails.Definition>.Empty);
 
-        public bool IsCommonUrt(string type) => _commonUrts.Contains(type);
+        public bool IsCommonResourceType(string type) => _commonUrts.Contains(type);
     }
 }

@@ -489,7 +489,7 @@ namespace Google.Api.Generator.Generation
             {
                 if (msg.CustomOptions.TryGetMessage<ResourceDescriptor>(ProtoConsts.MessageOption.Resource, out var resDesc))
                 {
-                    if (_catalog.IsCommonUrt(resDesc.Type))
+                    if (_catalog.IsCommonResourceType(resDesc.Type))
                     {
                         continue;
                     }

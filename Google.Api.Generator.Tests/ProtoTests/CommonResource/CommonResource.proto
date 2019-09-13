@@ -15,7 +15,7 @@ service CommonResource {
   }
 }
 
-// This is defined as a common reosurce for C#, so will not have a class generated for it.
+// This is defined as a common resource for C#, so will not have a class generated for it.
 // See CommonResourceConfig.json
 message Project {
   option (google.api.resource) = {
