@@ -1,0 +1,33 @@
+﻿syntax = "proto3";
+
+package testing.commonresource;
+
+option csharp_namespace = "Testing.CommonResource";
+
+import "google/api/client.proto";
+import "google/api/resource.proto";
+
+service CommonResource {
+  option (google.api.default_host) = "commonresource.example.com";
+
+  rpc MethodWithCommonResource(Request) returns(Response) {
+  	option (google.api.method_signature) = "project_name";
+  }
+}
+
+// This is defined as a common resource for C#, so will not have a class generated for it.
+// See CommonResourceConfig.json
+message Project {
+  option (google.api.resource) = {
+    type: "commonresource.example.com/Project",
+	pattern: "projects/{project}"
+  };
+  string name = 1;
+}
+
+message Request {
+  string project_name = 1 [(google.api.resource_reference).type = "commonresource.example.com/Project"];
+}
+
+message Response {
+}

@@ -26,7 +26,8 @@ namespace Google.Api.Generator.Tests
 {
     public class ProtoTest
     {
-        private IEnumerable<CodeGenerator.ResultFile> Run(string protoFilename, string package, string grpcServiceConfigPath)
+        private IEnumerable<CodeGenerator.ResultFile> Run(string protoFilename, string package,
+            string grpcServiceConfigPath, string commonResourcesConfigPath)
         {
             var clock = new FakeClock(new DateTime(2019, 1, 1));
             var protoPath = Path.Combine(Invoker.GeneratorTestsDir, protoFilename);
@@ -35,7 +36,7 @@ namespace Google.Api.Generator.Tests
                 Invoker.Protoc($"-o {desc} --include_imports --include_source_info " +
                     $"-I{Invoker.CommonProtosDir} -I{Invoker.ProtobufDir} -I{Invoker.GeneratorTestsDir} {protoPath}");
                 var descriptorBytes = File.ReadAllBytes(desc.Path);
-                return CodeGenerator.Generate(descriptorBytes, package, clock, grpcServiceConfigPath);
+                return CodeGenerator.Generate(descriptorBytes, package, clock, grpcServiceConfigPath, commonResourcesConfigPath);
             }
         }
 
@@ -44,17 +45,17 @@ namespace Google.Api.Generator.Tests
         {
             // Test that protoc executes successfully,
             // and the generator processes the descriptors without crashing!
-            Run("ProtoTest.proto", "testing", null);
+            Run("ProtoTest.proto", "testing", null, null);
         }
 
         private void ProtoTestSingle(string testProtoName, bool ignoreCsProj = false, bool ignoreSnippets = false, bool ignoreUnitTests = false,
-            string grpcServiceConfigPath = null)
+            string grpcServiceConfigPath = null, string commonResourcesConfigPath = null)
         {
             // Confirm each generated file is idential to the expected output.
             // Use `// TEST_START` and `// TEST_END` lines in the expected file to test subsets of output files.
             // Or include `// TEST_DISABLE` to disable testing of the entire file.
             var files = Run(Path.Combine("ProtoTests", testProtoName, $"{testProtoName}.proto"), $"testing.{testProtoName.ToLowerInvariant()}",
-                grpcServiceConfigPath);
+                grpcServiceConfigPath, commonResourcesConfigPath);
             // Check output is present.
             Assert.NotEmpty(files);
             // Verify each output file.
@@ -232,6 +233,10 @@ namespace Google.Api.Generator.Tests
         [Fact]
         public void GrpcServiceConfig() => ProtoTestSingle("GrpcServiceConfig", ignoreCsProj: true, ignoreSnippets: true, ignoreUnitTests: true,
                 grpcServiceConfigPath: Path.Combine(Invoker.GeneratorTestsDir, "ProtoTests", "GrpcServiceConfig", "GrpcServiceConfig.json"));
+
+        [Fact]
+        public void CommonResource() => ProtoTestSingle("CommonResource", ignoreCsProj: true, ignoreSnippets: true, ignoreUnitTests: true,
+            commonResourcesConfigPath: Path.Combine(Invoker.GeneratorTestsDir, "ProtoTests", "CommonResource", "CommonResourceConfig.json"));
 
         // Build tests are testing `csproj` file generation only.
         // All other generated code is effectively "build tested" when this test project is built.

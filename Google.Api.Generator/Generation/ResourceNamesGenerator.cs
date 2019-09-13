@@ -459,10 +459,11 @@ namespace Google.Api.Generator.Generation
             var seenTyps = new HashSet<Typ>();
             foreach (var def in defs)
             {
-                if (def.Single != null && !def.Single.IsWildcard && seenTyps.Add(def.Single.ResourceNameTyp))
+                if (def.Single != null && !def.Single.IsWildcard && !def.Single.IsCommon && seenTyps.Add(def.Single.ResourceNameTyp))
                 {
                     // Generate single (ie not a set) resource-name class.
-                    // But not for wildcard resources. They don't have a generated class, but use the `UnknownResourceName` class in gax.
+                    // Not for wildcard resources. They don't have a generated class, but use the `UnknownResourceName` class in gax.
+                    // Not for common resources. These already exist somewhere else.
                     yield return new ResourceClassBuilder(_ctx, def.FieldName, def.Single, def.DocName).Generate();
                 }
 
@@ -486,6 +487,13 @@ namespace Google.Api.Generator.Generation
             // The optionalness of a field is only relevant within a method signature (flattening).
             foreach (var msg in _fileDesc.MessageTypes)
             {
+                if (msg.CustomOptions.TryGetMessage<ResourceDescriptor>(ProtoConsts.MessageOption.Resource, out var resDesc))
+                {
+                    if (_catalog.IsCommonResourceType(resDesc.Type))
+                    {
+                        continue;
+                    }
+                }
                 var resources = msg.Fields.InFieldNumberOrder()
                     .Select(field => (field, resDetails: _catalog.GetResourceDetailsByField(field)))
                     .Where(x => x.resDetails != null)
@@ -498,11 +506,11 @@ namespace Google.Api.Generator.Generation
                         foreach (var res in resources)
                         {
                             var underlyingProperty = Property(DontCare, _ctx.TypeDontCare, res.resDetails.UnderlyingPropertyName);
-                            var one = res.resDetails.ResourceDefinition.Single;
+                            var single = res.resDetails.ResourceDefinition.Single;
                             var multi = res.resDetails.ResourceDefinition.Multi;
-                            if (one != null)
+                            if (single != null)
                             {
-                                cls = cls.AddMembers(ResourceProperty(one.ResourceNameTyp, res.resDetails.SingleResourcePropertyName, one.IsWildcard, false));
+                                cls = cls.AddMembers(ResourceProperty(single.ResourceNameTyp, res.resDetails.SingleResourcePropertyName, single.IsWildcard, false));
                             }
                             if (multi != null)
                             {

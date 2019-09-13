@@ -29,6 +29,9 @@ namespace Google.Api.Generator
 {
     public static class Program
     {
+        const string nameGrpcServiceConfig = "grpc-service-config";
+        const string nameCommonResourcesConfig = "common-resources-config";
+
         public class Options
         {
             [Option("descriptor", Required = true, HelpText = "The path on disk to a file containing a serialized `FileDescriptorSet`.")]
@@ -40,8 +43,11 @@ namespace Google.Api.Generator
             [Option("output", Required = true, HelpText = " The output directory.")]
             public string Output { get; private set; }
 
-            [Option("grpc-service-config", Required = false, HelpText ="Client-side gRPC service config path.")]
+            [Option(nameGrpcServiceConfig, Required = false, HelpText = "Client-side gRPC service config path. JSON proto of type ServiceConfig.")]
             public string GrpcServiceConfig { get; private set; }
+
+            [Option(nameCommonResourcesConfig, Required = false, HelpText = "Common resources config path. JSON proto of type CommonResources.")]
+            public string CommonResourcesConfig { get; private set; }
 
             [Usage]
             public static IEnumerable<Example> Examples => new[]
@@ -120,8 +126,6 @@ namespace Google.Api.Generator
 
         private static int GenerateFromProtoc(Stream stdin, Stream stdout)
         {
-            const string nameGrpcServiceConfig = "grpc-service-config";
-
             var stdinTimeout = new TimeoutStream(stdin) { ReadTimeout = 2_000 };
             CodeGeneratorRequest codeGenRequest;
             try
@@ -144,7 +148,7 @@ namespace Google.Api.Generator
                 // On success, send all generated files back to protoc.
                 var descriptors = FileDescriptor.BuildFromByteStrings(codeGenRequest.ProtoFile);
                 var results = CodeGenerator.Generate(descriptors, codeGenRequest.FileToGenerate, SystemClock.Instance,
-                    extraParams.GetValueOrDefault(nameGrpcServiceConfig));
+                    extraParams.GetValueOrDefault(nameGrpcServiceConfig), extraParams.GetValueOrDefault(nameCommonResourcesConfig));
                 codeGenResponse = new CodeGeneratorResponse
                 {
                     File =
@@ -199,7 +203,7 @@ namespace Google.Api.Generator
         private static void GenerateFromArgs(Options options)
         {
             var descriptorBytes = File.ReadAllBytes(options.Descriptor);
-            var files = CodeGenerator.Generate(descriptorBytes, options.Package, SystemClock.Instance, options.GrpcServiceConfig);
+            var files = CodeGenerator.Generate(descriptorBytes, options.Package, SystemClock.Instance, options.GrpcServiceConfig, options.CommonResourcesConfig);
             foreach (var file in files)
             {
                 var path = Path.Combine(options.Output, file.RelativePath);

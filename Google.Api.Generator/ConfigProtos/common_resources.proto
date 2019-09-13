@@ -1,0 +1,14 @@
+﻿syntax = "proto3";
+
+package google.api.generator;
+
+message CommonResource {
+  string type = 1;
+  string csharp_package_name = 2;
+  string csharp_namespace = 3;
+  string csharp_class_name = 4;
+}
+
+message CommonResources {
+  repeated CommonResource common_resources = 1;
+}
