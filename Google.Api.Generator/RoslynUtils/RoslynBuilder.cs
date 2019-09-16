@@ -42,6 +42,7 @@ namespace Google.Api.Generator.RoslynUtils
         public static ExpressionSyntax Null { get; } = LiteralExpression(SyntaxKind.NullLiteralExpression);
         public static ExpressionSyntax This { get; } = ThisExpression();
         public static ExpressionSyntax Value { get; } = IdentifierName("value");
+        public static ExpressionSyntax Default { get; } = LiteralExpression(SyntaxKind.DefaultLiteralExpression);
 
         public static NamespaceDeclarationSyntax Namespace(string ns) => NamespaceDeclaration(IdentifierName(ns));
 

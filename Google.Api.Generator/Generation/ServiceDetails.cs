@@ -42,6 +42,7 @@ namespace Google.Api.Generator.Generation
             ProtoTyp = Typ.Manual(ns, desc.Name);
             GrpcClientTyp = Typ.Nested(ProtoTyp, $"{desc.Name}Client");
             SettingsTyp = Typ.Manual(ns, $"{desc.Name}Settings");
+            BuilderTyp = Typ.Manual(ns, $"{desc.Name}ClientBuilder");
             ClientAbstractTyp = Typ.Manual(ns, $"{desc.Name}Client");
             ClientImplTyp = Typ.Manual(ns, $"{desc.Name}ClientImpl");
             desc.CustomOptions.TryGetString(ProtoConsts.ServiceOption.DefaultHost, out var defaultHost);
@@ -72,6 +73,9 @@ namespace Google.Api.Generator.Generation
 
         /// <summary>The typ of the GAPIC settings class for this service.</summary>
         public Typ SettingsTyp { get; }
+
+        /// <summary>The typ of the builder class for this service.</summary>
+        public Typ BuilderTyp { get; }
 
         /// <summary>The typ of the GAPIC abstract client for this service.</summary>
         public Typ ClientAbstractTyp { get; }

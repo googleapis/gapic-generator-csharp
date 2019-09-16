@@ -36,6 +36,7 @@ namespace Google.Api.Generator.RoslynUtils
         Virtual = 0x100,
         Override = 0x200,
         Internal = 0x400,
+        Protected = 0x800,
     }
 
     internal static class ModifierExtensions
@@ -51,6 +52,7 @@ namespace Google.Api.Generator.RoslynUtils
         private static readonly SyntaxToken s_virtualToken = SyntaxFactory.Token(SyntaxKind.VirtualKeyword);
         private static readonly SyntaxToken s_overrideToken = SyntaxFactory.Token(SyntaxKind.OverrideKeyword);
         private static readonly SyntaxToken s_internalToken = SyntaxFactory.Token(SyntaxKind.InternalKeyword);
+        private static readonly SyntaxToken s_protectedToken = SyntaxFactory.Token(SyntaxKind.ProtectedKeyword);
 
         public static SyntaxToken[] ToSyntaxTokens(this Modifier m)
         {
@@ -58,6 +60,7 @@ namespace Google.Api.Generator.RoslynUtils
             // Order here matters; it's the order in which the modifiers will be placed in the generated source.
             if ((m & Modifier.Public) != 0) result.Add(s_publicToken);
             if ((m & Modifier.Private) != 0) result.Add(s_privateToken);
+            if ((m & Modifier.Protected) != 0) result.Add(s_protectedToken);
             if ((m & Modifier.Internal) != 0) result.Add(s_internalToken);
             if ((m & Modifier.Abstract) != 0) result.Add(s_abstractToken);
             if ((m & Modifier.Virtual) != 0) result.Add(s_virtualToken);

@@ -60,6 +60,40 @@ namespace Testing.Basic
         public BasicSettings Clone() => new BasicSettings(this);
     }
 
+    /// <summary>
+    /// Builder class for <see cref="BasicClient"/> to provide simple configuration of credentials, endpoint etc.
+    /// </summary>
+    public sealed partial class BasicClientBuilder : gaxgrpc::ClientBuilderBase<BasicClient>
+    {
+        /// <summary>The settings to use for RPCs, or <c>null</c> for the default settings.</summary>
+        public BasicSettings Settings { get; set; }
+
+        /// <inheritdoc/>
+        public override BasicClient Build()
+        {
+            Validate();
+            grpccore::CallInvoker callInvoker = CreateCallInvoker();
+            return BasicClient.Create(callInvoker, Settings);
+        }
+
+        /// <inheritdoc/>
+        public override async stt::Task<BasicClient> BuildAsync(st::CancellationToken cancellationToken = default)
+        {
+            Validate();
+            grpccore::CallInvoker callInvoker = await CreateCallInvokerAsync(cancellationToken).ConfigureAwait(false);
+            return BasicClient.Create(callInvoker, Settings);
+        }
+
+        /// <inheritdoc/>
+        protected override gaxgrpc::ServiceEndpoint GetDefaultEndpoint() => BasicClient.DefaultEndpoint;
+
+        /// <inheritdoc/>
+        protected override scg::IReadOnlyList<string> GetDefaultScopes() => BasicClient.DefaultScopes;
+
+        /// <inheritdoc/>
+        protected override gaxgrpc::ChannelPool GetChannelPool() => BasicClient.ChannelPool;
+    }
+
     /// <summary>Basic client wrapper, for convenient use.</summary>
     public abstract partial class BasicClient
     {
@@ -78,7 +112,7 @@ namespace Testing.Basic
         /// </remarks>
         public static scg::IReadOnlyList<string> DefaultScopes { get; } = new sco::ReadOnlyCollection<string>(new string[] { "scope1", "scope2", });
 
-        private static readonly gaxgrpc::ChannelPool s_channelPool = new gaxgrpc::ChannelPool(DefaultScopes);
+        internal static gaxgrpc::ChannelPool ChannelPool { get; } = new gaxgrpc::ChannelPool(DefaultScopes);
 
         /// <summary>
         /// Asynchronously creates a <see cref="BasicClient"/>, applying defaults for all unspecified settings, and
@@ -116,7 +150,7 @@ namespace Testing.Basic
         /// <returns>The task representing the created <see cref="BasicClient"/>.</returns>
         public static async stt::Task<BasicClient> CreateAsync(gaxgrpc::ServiceEndpoint endpoint = null, BasicSettings settings = null)
         {
-            grpccore::Channel channel = await s_channelPool.GetChannelAsync(endpoint ?? DefaultEndpoint).ConfigureAwait(false);
+            grpccore::Channel channel = await ChannelPool.GetChannelAsync(endpoint ?? DefaultEndpoint).ConfigureAwait(false);
             return Create(channel, settings);
         }
 
@@ -156,7 +190,7 @@ namespace Testing.Basic
         /// <returns>The created <see cref="BasicClient"/>.</returns>
         public static BasicClient Create(gaxgrpc::ServiceEndpoint endpoint = null, BasicSettings settings = null)
         {
-            grpccore::Channel channel = s_channelPool.GetChannel(endpoint ?? DefaultEndpoint);
+            grpccore::Channel channel = ChannelPool.GetChannel(endpoint ?? DefaultEndpoint);
             return Create(channel, settings);
         }
 
@@ -203,7 +237,7 @@ namespace Testing.Basic
         /// turn be shut down by another call to this method.
         /// </remarks>
         /// <returns>A task representing the asynchronous shutdown operation.</returns>
-        public static stt::Task ShutdownDefaultChannelsAsync() => s_channelPool.ShutdownChannelsAsync();
+        public static stt::Task ShutdownDefaultChannelsAsync() => ChannelPool.ShutdownChannelsAsync();
 
         /// <summary>The underlying gRPC Basic client</summary>
         public virtual Basic.BasicClient GrpcClient => throw new sys::NotImplementedException();

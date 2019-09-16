@@ -48,15 +48,15 @@ namespace Google.Api.Generator.Generation
             {
                 var defaultEndpoint = DefaultEndpoint();
                 var defaultScopes = DefaultScopes();
-                var sChannelPool = SChannelPool(defaultScopes);
+                var channelPool = ChannelPool(defaultScopes);
                 var createFromCallInvoker = CreateFromCallInvoker();
                 var createFromChannel = CreateFromChannel(createFromCallInvoker);
-                var createFromEndPoint = CreateFromEndpoint(sChannelPool, defaultEndpoint, createFromChannel);
-                var createAsync = CreateAsync(sChannelPool, defaultEndpoint, createFromChannel);
-                var shutdown = ShutdownDefaultChannelsAsync(sChannelPool, createFromCallInvoker, createAsync);
+                var createFromEndPoint = CreateFromEndpoint(channelPool, defaultEndpoint, createFromChannel);
+                var createAsync = CreateAsync(channelPool, defaultEndpoint, createFromChannel);
+                var shutdown = ShutdownDefaultChannelsAsync(channelPool, createFromCallInvoker, createAsync);
                 var grpcClient = GrpcClient();
                 cls = cls.AddMembers(
-                    defaultEndpoint, defaultScopes, sChannelPool,
+                    defaultEndpoint, defaultScopes, channelPool,
                     createAsync, createFromEndPoint, createFromChannel, createFromCallInvoker,
                     shutdown, grpcClient);
                 var methods = ServiceMethodGenerator.Generate(_ctx, _svc, inAbstract: true);
@@ -79,8 +79,8 @@ namespace Google.Api.Generator.Generation
                     XmlDoc.Summary($"The default {_svc.DocumentationName} scopes."),
                     XmlDoc.Remarks($"The default {_svc.DocumentationName} scopes are:", XmlDoc.UL(_svc.DefaultScopes)));
 
-        private FieldDeclarationSyntax SChannelPool(PropertyDeclarationSyntax defaultScopes) =>
-            Field(Private | Static | Readonly, _ctx.Type<ChannelPool>(), "s_channelPool")
+        private PropertyDeclarationSyntax ChannelPool(PropertyDeclarationSyntax defaultScopes) =>
+            AutoProperty(Internal | Static, _ctx.Type<ChannelPool>(), "ChannelPool")
                 .WithInitializer(New(_ctx.Type<ChannelPool>())(defaultScopes));
 
         private MethodDeclarationSyntax CreateFromCallInvoker()
@@ -120,7 +120,7 @@ namespace Google.Api.Generator.Generation
                     XmlDoc.Returns("The created ", _ctx.CurrentType, "."));
         }
 
-        private MethodDeclarationSyntax CreateFromEndpoint(FieldDeclarationSyntax channelPool, MemberDeclarationSyntax defaultEndpoint, MethodDeclarationSyntax createFromChannel)
+        private MethodDeclarationSyntax CreateFromEndpoint(PropertyDeclarationSyntax channelPool, MemberDeclarationSyntax defaultEndpoint, MethodDeclarationSyntax createFromChannel)
         {
             var endpoint = Parameter(_ctx.Type<ServiceEndpoint>(), "endpoint", @default: Null);
             var settings = Parameter(_ctx.Type(_svc.SettingsTyp), "settings", @default: Null);
@@ -160,7 +160,7 @@ namespace Google.Api.Generator.Generation
                     XmlDoc.Returns("The created ", _ctx.CurrentType, "."));
         }
 
-        private MethodDeclarationSyntax CreateAsync(FieldDeclarationSyntax channelPool, PropertyDeclarationSyntax defaultEndpoint, MethodDeclarationSyntax createFromChannel)
+        private MethodDeclarationSyntax CreateAsync(PropertyDeclarationSyntax channelPool, PropertyDeclarationSyntax defaultEndpoint, MethodDeclarationSyntax createFromChannel)
         {
             var returnType = Typ.Generic(typeof(Task<>), _ctx.CurrentTyp);
             var endpoint = Parameter(_ctx.Type<ServiceEndpoint>(), "endpoint", @default: Null);
@@ -168,7 +168,7 @@ namespace Google.Api.Generator.Generation
             var channel = Local(_ctx.Type<Channel>(), "channel");
             return Method(Public | Static | Async, _ctx.Type(returnType), "CreateAsync")(endpoint, settings)
                 .WithBody(
-                    channel.WithInitializer(Await(channelPool.Call(nameof(ChannelPool.GetChannelAsync))(endpoint.NullCoalesce(defaultEndpoint)).ConfigureAwait())),
+                    channel.WithInitializer(Await(channelPool.Call(nameof(Google.Api.Gax.Grpc.ChannelPool.GetChannelAsync))(endpoint.NullCoalesce(defaultEndpoint)).ConfigureAwait())),
                     Return(This.Call(createFromChannel)(channel, settings)))
                 .WithXmlDoc(
                     XmlDoc.Summary("Asynchronously creates a ", _ctx.CurrentType, ", applying defaults for all unspecified settings, ",
@@ -201,10 +201,10 @@ namespace Google.Api.Generator.Generation
                     XmlDoc.Returns("The task representing the created ", _ctx.CurrentType, "."));
         }
 
-        private MemberDeclarationSyntax ShutdownDefaultChannelsAsync(FieldDeclarationSyntax channelPool, MethodDeclarationSyntax create, MethodDeclarationSyntax createAsync) =>
+        private MemberDeclarationSyntax ShutdownDefaultChannelsAsync(PropertyDeclarationSyntax channelPool, MethodDeclarationSyntax create, MethodDeclarationSyntax createAsync) =>
             Method(Public | Static, _ctx.Type<Task>(), "ShutdownDefaultChannelsAsync")()
                 .WithBody(
-                    channelPool.Call(nameof(ChannelPool.ShutdownChannelsAsync))())
+                    channelPool.Call(nameof(Google.Api.Gax.Grpc.ChannelPool.ShutdownChannelsAsync))())
                 .WithXmlDoc(
                     XmlDoc.Summary("Shuts down any channels automatically created by ", create, " and ", createAsync, ".",
                         " Channels which weren't automatically created are not affected."),

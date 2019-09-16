@@ -89,6 +89,40 @@ namespace Testing.UnitTests
         public UnitTestsSettings Clone() => new UnitTestsSettings(this);
     }
 
+    /// <summary>
+    /// Builder class for <see cref="UnitTestsClient"/> to provide simple configuration of credentials, endpoint etc.
+    /// </summary>
+    public sealed partial class UnitTestsClientBuilder : gaxgrpc::ClientBuilderBase<UnitTestsClient>
+    {
+        /// <summary>The settings to use for RPCs, or <c>null</c> for the default settings.</summary>
+        public UnitTestsSettings Settings { get; set; }
+
+        /// <inheritdoc/>
+        public override UnitTestsClient Build()
+        {
+            Validate();
+            grpccore::CallInvoker callInvoker = CreateCallInvoker();
+            return UnitTestsClient.Create(callInvoker, Settings);
+        }
+
+        /// <inheritdoc/>
+        public override async stt::Task<UnitTestsClient> BuildAsync(st::CancellationToken cancellationToken = default)
+        {
+            Validate();
+            grpccore::CallInvoker callInvoker = await CreateCallInvokerAsync(cancellationToken).ConfigureAwait(false);
+            return UnitTestsClient.Create(callInvoker, Settings);
+        }
+
+        /// <inheritdoc/>
+        protected override gaxgrpc::ServiceEndpoint GetDefaultEndpoint() => UnitTestsClient.DefaultEndpoint;
+
+        /// <inheritdoc/>
+        protected override scg::IReadOnlyList<string> GetDefaultScopes() => UnitTestsClient.DefaultScopes;
+
+        /// <inheritdoc/>
+        protected override gaxgrpc::ChannelPool GetChannelPool() => UnitTestsClient.ChannelPool;
+    }
+
     /// <summary>UnitTests client wrapper, for convenient use.</summary>
     public abstract partial class UnitTestsClient
     {
@@ -102,7 +136,7 @@ namespace Testing.UnitTests
         /// <remarks>The default UnitTests scopes are:<list type="bullet"></list></remarks>
         public static scg::IReadOnlyList<string> DefaultScopes { get; } = new sco::ReadOnlyCollection<string>(new string[] { });
 
-        private static readonly gaxgrpc::ChannelPool s_channelPool = new gaxgrpc::ChannelPool(DefaultScopes);
+        internal static gaxgrpc::ChannelPool ChannelPool { get; } = new gaxgrpc::ChannelPool(DefaultScopes);
 
         /// <summary>
         /// Asynchronously creates a <see cref="UnitTestsClient"/>, applying defaults for all unspecified settings, and
@@ -140,7 +174,7 @@ namespace Testing.UnitTests
         /// <returns>The task representing the created <see cref="UnitTestsClient"/>.</returns>
         public static async stt::Task<UnitTestsClient> CreateAsync(gaxgrpc::ServiceEndpoint endpoint = null, UnitTestsSettings settings = null)
         {
-            grpccore::Channel channel = await s_channelPool.GetChannelAsync(endpoint ?? DefaultEndpoint).ConfigureAwait(false);
+            grpccore::Channel channel = await ChannelPool.GetChannelAsync(endpoint ?? DefaultEndpoint).ConfigureAwait(false);
             return Create(channel, settings);
         }
 
@@ -180,7 +214,7 @@ namespace Testing.UnitTests
         /// <returns>The created <see cref="UnitTestsClient"/>.</returns>
         public static UnitTestsClient Create(gaxgrpc::ServiceEndpoint endpoint = null, UnitTestsSettings settings = null)
         {
-            grpccore::Channel channel = s_channelPool.GetChannel(endpoint ?? DefaultEndpoint);
+            grpccore::Channel channel = ChannelPool.GetChannel(endpoint ?? DefaultEndpoint);
             return Create(channel, settings);
         }
 
@@ -228,7 +262,7 @@ namespace Testing.UnitTests
         /// could in turn be shut down by another call to this method.
         /// </remarks>
         /// <returns>A task representing the asynchronous shutdown operation.</returns>
-        public static stt::Task ShutdownDefaultChannelsAsync() => s_channelPool.ShutdownChannelsAsync();
+        public static stt::Task ShutdownDefaultChannelsAsync() => ChannelPool.ShutdownChannelsAsync();
 
         /// <summary>The underlying gRPC UnitTests client</summary>
         public virtual UnitTests.UnitTestsClient GrpcClient => throw new sys::NotImplementedException();
