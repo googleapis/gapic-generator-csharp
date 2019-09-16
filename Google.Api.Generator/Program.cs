@@ -20,6 +20,7 @@ using Google.Protobuf.Compiler;
 using Google.Protobuf.Reflection;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -29,8 +30,12 @@ namespace Google.Api.Generator
 {
     public static class Program
     {
-        const string nameGrpcServiceConfig = "grpc-service-config";
-        const string nameCommonResourcesConfig = "common-resources-config";
+        private const string nameGrpcServiceConfig = "grpc-service-config";
+        private const string nameCommonResourcesConfig = "common-resources-config";
+
+        private static IImmutableSet<string> s_validParameters = ImmutableHashSet.Create(
+            nameGrpcServiceConfig,
+            nameCommonResourcesConfig);
 
         public class Options
         {
@@ -178,20 +183,16 @@ namespace Google.Api.Generator
 
             IReadOnlyDictionary<string, string> ParseExtraParameters(string paramsString)
             {
-                var validKeys = new HashSet<string>
-                {
-                    nameGrpcServiceConfig
-                };
                 // Multiple parameters to protoc use a comma separater.
                 var ps = paramsString.Split(',', StringSplitOptions.RemoveEmptyEntries);
                 return ps.Select(param =>
                 {
-                    var parts = param.Split('=');
+                    var parts = param.Split('=').Select(x => x.Trim()).ToArray();
                     if (parts.Length != 2)
                     {
                         throw new InvalidOperationException($"Invalid parameter: '{param}'");
                     }
-                    if (!validKeys.Contains(parts[0]))
+                    if (!s_validParameters.Contains(parts[0]))
                     {
                         throw new InvalidOperationException($"Invalid parameter name: '{param}'");
                     }
