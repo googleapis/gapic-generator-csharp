@@ -20,8 +20,8 @@ namespace Google.Api.Generator.Generation
 {
     internal static class CsProjGenerator
     {
-        private const string GaxGrpcVersion = "2.6.0";
-        private const string GrpcCoreVersion = "1.18.0";
+        private const string GaxGrpcVersion = "2.9.0";
+        private const string GrpcCoreVersion = "1.22.1";
         private const string LroVersion = "1.0.0";
 
         public static string GenerateClient(bool hasLro)

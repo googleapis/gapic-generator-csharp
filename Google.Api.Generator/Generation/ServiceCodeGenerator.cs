@@ -38,9 +38,10 @@ namespace Google.Api.Generator.Generation
             using (ctx.InNamespace(ns))
             {
                 var settingsClass = ServiceSettingsCodeGenerator.Generate(ctx, svc);
+                var builderClass = ServiceBuilderCodeGenerator.Generate(ctx, svc);
                 var abstractClientClass = ServiceAbstractClientClassCodeGenerator.Generate(ctx, svc);
                 var implClientClass = ServiceImplClientClassGenerator.Generate(ctx, svc);
-                ns = ns.AddMembers(settingsClass, abstractClientClass, implClientClass);
+                ns = ns.AddMembers(settingsClass, builderClass, abstractClientClass, implClientClass);
 
                 ns = ns.AddMembers(PaginatedPartialClasses(ctx, svc).ToArray());
                 ns = ns.AddMembers(LroPartialClasses(ctx, svc).ToArray());
