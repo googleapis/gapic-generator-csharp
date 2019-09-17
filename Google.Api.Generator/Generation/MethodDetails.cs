@@ -293,8 +293,10 @@ namespace Google.Api.Generator.Generation
                 return default;
             }
             var rp = config.RetryPolicy;
-            var retry = new BackoffSettings(config.Timeout.ToTimeSpan(), config.Timeout.ToTimeSpan(), 1.0);
-            var timeout = new BackoffSettings(rp.InitialBackoff.ToTimeSpan(), rp.MaxBackoff.ToTimeSpan(), rp.BackoffMultiplier);
+            // `retry` is the delay duration between calls.
+            var retry = new BackoffSettings(rp.InitialBackoff.ToTimeSpan(), rp.MaxBackoff.ToTimeSpan(), rp.BackoffMultiplier);
+            // `timeout` is the timeout duration of a single RPC.
+            var timeout = new BackoffSettings(config.Timeout.ToTimeSpan(), config.Timeout.ToTimeSpan(), 1.0); 
             var totalExpiration = Expiration.FromTimeout(config.Timeout.ToTimeSpan());
             // `Google.Rpc.Code` and `Grpc.Core.StatusCode` enums are identically defined.
             var statusCodes = rp.RetryableStatusCodes.Select(x => (StatusCode)x).ToList();
