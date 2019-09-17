@@ -14,12 +14,12 @@
 
 // Generated code. DO NOT EDIT!
 
-namespace Testing.Basic
+namespace Testing.Basic.Snippets
 {
     using System.Threading.Tasks;
 
     /// <summary>Generated snippets.</summary>
-    public sealed class GeneratedBasicSnippets
+    public sealed class GeneratedBasicClientSnippets
     {
         /// <summary>Snippet for AMethod</summary>
         public void AMethod_RequestObject()

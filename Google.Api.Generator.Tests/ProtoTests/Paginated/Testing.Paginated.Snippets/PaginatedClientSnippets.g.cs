@@ -14,7 +14,7 @@
 
 // Generated code. DO NOT EDIT!
 
-namespace Testing.Paginated
+namespace Testing.Paginated.Snippets
 {
     using Google.Api.Gax;
     using System;
@@ -22,7 +22,7 @@ namespace Testing.Paginated
     using System.Threading.Tasks;
 
     /// <summary>Generated snippets.</summary>
-    public sealed class GeneratedPaginatedSnippets
+    public sealed class GeneratedPaginatedClientSnippets
     {
         /// <summary>Snippet for SignatureMethod</summary>
         public void SignatureMethod_RequestObject()

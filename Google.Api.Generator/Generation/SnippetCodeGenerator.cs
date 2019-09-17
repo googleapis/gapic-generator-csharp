@@ -44,7 +44,7 @@ namespace Google.Api.Generator.Generation
 
         private CompilationUnitSyntax Generate()
         {
-            var ns = Namespace(_svc.Namespace);
+            var ns = Namespace(_svc.SnippetsNamespace);
             using (_ctx.InNamespace(ns))
             {
                 var cls = Class(Public | Sealed, _svc.SnippetsTyp)

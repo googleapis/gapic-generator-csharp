@@ -24,10 +24,10 @@ using st = System.Threading;
 using stt = System.Threading.Tasks;
 using xunit = Xunit;
 
-namespace Testing.UnitTests
+namespace Testing.UnitTests.Tests
 {
     /// <summary>Generated unit tests.</summary>
-    public sealed class GeneratedUnitTestsTest
+    public sealed class GeneratedUnitTestsClientTest
     {
         [xunit::FactAttribute]
         public void MethodValuesRequestObject()

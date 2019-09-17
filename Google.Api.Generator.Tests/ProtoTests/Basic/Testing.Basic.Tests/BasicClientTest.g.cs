@@ -21,10 +21,10 @@ using st = System.Threading;
 using stt = System.Threading.Tasks;
 using xunit = Xunit;
 
-namespace Testing.Basic
+namespace Testing.Basic.Tests
 {
     /// <summary>Generated unit tests.</summary>
-    public sealed class GeneratedBasicTest
+    public sealed class GeneratedBasicClientTest
     {
         [xunit::FactAttribute]
         public void AMethodRequestObject()

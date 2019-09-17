@@ -14,13 +14,13 @@
 
 // Generated code. DO NOT EDIT!
 
-namespace Testing.BasicLro
+namespace Testing.BasicLro.Snippets
 {
     using Google.LongRunning;
     using System.Threading.Tasks;
 
     /// <summary>Generated snippets.</summary>
-    public sealed class GeneratedBasicLroSnippets
+    public sealed class GeneratedBasicLroClientSnippets
     {
         /// <summary>Snippet for Method1</summary>
         public void Method1_RequestObject()
