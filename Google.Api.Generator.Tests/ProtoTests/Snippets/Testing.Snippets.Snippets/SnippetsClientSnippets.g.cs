@@ -14,7 +14,7 @@
 
 // Generated code. DO NOT EDIT!
 
-namespace Testing.Snippets
+namespace Testing.Snippets.Snippets
 {
     using Google.Api.Gax;
     using Google.LongRunning;
@@ -23,7 +23,7 @@ namespace Testing.Snippets
     using System.Threading.Tasks;
 
     /// <summary>Generated snippets.</summary>
-    public sealed class GeneratedSnippetsSnippets
+    public sealed class GeneratedSnippetsClientSnippets
     {
         /// <summary>Snippet for MethodDefaultValues</summary>
         public void MethodDefaultValues_RequestObject()

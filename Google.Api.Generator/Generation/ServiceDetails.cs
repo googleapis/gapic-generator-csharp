@@ -31,6 +31,8 @@ namespace Google.Api.Generator.Generation
         {
             Catalog = catalog;
             Namespace = ns;
+            SnippetsNamespace = $"{ns}.Snippets";
+            UnitTestsNamespace = $"{ns}.Tests";
             // Must come early; used by `MethodDetails.Create()`
             MethodGrpcConfigsByName = grpcServiceConfig?.MethodConfig
                 .SelectMany(conf => conf.Name.Select(name => (name, conf)))
@@ -51,13 +53,15 @@ namespace Google.Api.Generator.Generation
             desc.CustomOptions.TryGetString(ProtoConsts.ServiceOption.OAuthScopes, out var oauthScopes);
             DefaultScopes = oauthScopes?.Split(',', ' ') ?? Enumerable.Empty<string>();
             Methods = desc.Methods.Select(x => MethodDetails.Create(this, x)).ToList();
-            SnippetsTyp = Typ.Manual(ns, $"Generated{desc.Name}Snippets");
+            SnippetsTyp = Typ.Manual(SnippetsNamespace, $"Generated{desc.Name}ClientSnippets");
             SnippetsClientName = $"{desc.Name.ToLowerCamelCase()}Client";
-            UnitTestsTyp = Typ.Manual(ns, $"Generated{desc.Name}Test");
+            UnitTestsTyp = Typ.Manual(UnitTestsNamespace, $"Generated{desc.Name}ClientTest");
         }
 
         public ProtoCatalog Catalog { get; }
         public string Namespace { get; }
+        public string SnippetsNamespace { get; }
+        public string UnitTestsNamespace { get; }
 
         /// <summary>The service full name (package name plus service name).</summary>
         public string ServiceFullName { get; }
