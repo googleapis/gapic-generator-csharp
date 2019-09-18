@@ -26,7 +26,7 @@ namespace Google.Api.Generator.Formatting
 {
     internal static class WhitespaceFormatterNewLine
     {
-        public static SyntaxTrivia NewLine { get; } = SyntaxTrivia(SyntaxKind.WhitespaceTrivia, Environment.NewLine);
+        public static SyntaxTrivia NewLine { get; } = SyntaxTrivia(SyntaxKind.EndOfLineTrivia, Environment.NewLine);
 
         public static T WithTrailingNewLine<T>(this T node, int count = 1) where T : SyntaxNode =>
             node.WithTrailingTrivia(Enumerable.Repeat(NewLine, count));
