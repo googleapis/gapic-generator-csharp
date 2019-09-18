@@ -26,23 +26,7 @@ namespace Google.Api.Generator.Formatting
 {
     internal static class WhitespaceFormatterNewLine
     {
-        static WhitespaceFormatterNewLine()
-        {
-            switch (Environment.NewLine)
-            {
-                case "\r\n":
-                    NewLine = CarriageReturnLineFeed;
-                    break;
-                case "\n":
-                    NewLine = LineFeed;
-                    break;
-                default:
-                    var hexNewLine = string.Join(" ", Environment.NewLine.Select(c => $"0x{(int)c:x2}"));
-                    throw new InvalidOperationException($"Unexpected environment NewLine: {hexNewLine}");
-            }
-        }
-
-        public static SyntaxTrivia NewLine { get; }
+        public static SyntaxTrivia NewLine { get; } = SyntaxTrivia(SyntaxKind.WhitespaceTrivia, Environment.NewLine);
 
         public static T WithTrailingNewLine<T>(this T node, int count = 1) where T : SyntaxNode =>
             node.WithTrailingTrivia(Enumerable.Repeat(NewLine, count));
