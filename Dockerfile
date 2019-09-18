@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:2.2 as sdk
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2.104 as sdk
 
 # Add dotnet (C#) generator source.
 COPY . /usr/src/gapic-generator-csharp/

@@ -1,6 +1,6 @@
 language: csharp
 mono: none
-dotnet: 2.2.401
+dotnet: 2.2.104
 dist: xenial
 
 script:
