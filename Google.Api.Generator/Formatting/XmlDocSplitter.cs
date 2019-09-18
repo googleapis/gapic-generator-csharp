@@ -67,7 +67,7 @@ namespace Google.Api.Generator.Formatting
         private DocumentationCommentTriviaSyntax OneLine(IEnumerable<XmlNodeSyntax> xmlNodes) => OneLine(List(xmlNodes.Where(x => x != null)));
         private DocumentationCommentTriviaSyntax OneLine(SyntaxList<XmlNodeSyntax> xmlNodes) =>
             DocumentationCommentTrivia(SyntaxKind.SingleLineDocumentationCommentTrivia, xmlNodes)
-                .WithLeadingTrivia(_preTrivia).WithTrailingTrivia(CarriageReturnLineFeed);
+                .WithLeadingTrivia(_preTrivia).WithTrailingTrivia(WhitespaceFormatterNewLine.NewLine);
 
         private IEnumerable<DocumentationCommentTriviaSyntax> SplitPreformatted(DocumentationCommentTriviaSyntax docComment)
         {

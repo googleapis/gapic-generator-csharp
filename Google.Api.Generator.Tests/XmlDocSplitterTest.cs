@@ -16,6 +16,7 @@ using Google.Api.Generator.Formatting;
 using Google.Api.Generator.RoslynUtils;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
 using Xunit;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
@@ -24,6 +25,7 @@ namespace Google.Api.Generator.Tests
     public class XmlDocSplitterTest
     {
         private static readonly SyntaxTrivia s_indent4 = Whitespace("    ");
+        private static readonly string s_nl = Environment.NewLine;
 
         private SyntaxTriviaList TrivList(DocumentationCommentTriviaSyntax triv) => TriviaList(Trivia(triv));
 
@@ -31,14 +33,14 @@ namespace Google.Api.Generator.Tests
         public void SingleLine()
         {
             var s = XmlDocSplitter.Split(s_indent4, 40, TrivList(XmlDoc.Summary("Short line"))).ToFullString();
-            Assert.Equal("    /// <summary>Short line</summary>\r\n", s);
+            Assert.Equal($"    /// <summary>Short line</summary>{s_nl}", s);
         }
 
         [Fact]
         public void MultiLine()
         {
             var s = XmlDocSplitter.Split(s_indent4, 40, TrivList(XmlDoc.Summary("A slightly longer line to go over 40 chars"))).ToFullString();
-            Assert.Equal("    /// <summary>\r\n    /// A slightly longer line to go\r\n    /// over 40 chars\r\n    /// </summary>\r\n", s);
+            Assert.Equal($"    /// <summary>{s_nl}    /// A slightly longer line to go{s_nl}    /// over 40 chars{s_nl}    /// </summary>{s_nl}", s);
         }
 
         [Fact]
@@ -46,7 +48,7 @@ namespace Google.Api.Generator.Tests
         {
             // Whitespace around " Line 2 " is delibrate, to test extra whitespace removal at end of lines only.
             var s = XmlDocSplitter.Split(s_indent4, 40, TrivList(XmlDoc.SummaryPreFormatted(new[] { "Line 1", " Line 2 " }))).ToFullString();
-            Assert.Equal("    /// <summary>\r\n    /// Line 1\r\n    ///  Line 2\r\n    /// </summary>\r\n", s);
+            Assert.Equal($"    /// <summary>{s_nl}    /// Line 1{s_nl}    ///  Line 2{s_nl}    /// </summary>{s_nl}", s);
         }
     }
 }
