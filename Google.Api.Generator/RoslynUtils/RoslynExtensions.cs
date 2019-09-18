@@ -31,14 +31,9 @@ namespace Google.Api.Generator.RoslynUtils
 
         public static T WithLeadingSpace<T>(this T node) where T : SyntaxNode => node.WithLeadingTrivia(Space);
         public static T WithTrailingSpace<T>(this T node) where T : SyntaxNode => node.WithTrailingTrivia(Space);
-        public static T WithLeadingCrLf<T>(this T node) where T : SyntaxNode => node.WithLeadingTrivia(CarriageReturnLineFeed);
-        public static T WithTrailingCrLf<T>(this T node, int count = 1) where T : SyntaxNode =>
-            node.WithTrailingTrivia(Enumerable.Repeat(CarriageReturnLineFeed, count));
 
         public static SyntaxToken WithLeadingSpace(this SyntaxToken token) => token.WithLeadingTrivia(Space);
         public static SyntaxToken WithTrailingSpace(this SyntaxToken token) => token.WithTrailingTrivia(Space);
-        public static SyntaxToken WithTrailingCrLf(this SyntaxToken token, int count = 1) =>
-            token.WithTrailingTrivia(Enumerable.Repeat(CarriageReturnLineFeed, count));
 
         public static T WithXmlDoc<T>(this T node, params DocumentationCommentTriviaSyntax[] xmlDoc) where T : SyntaxNode =>
             node.WithLeadingTrivia(xmlDoc.Select(Trivia));
