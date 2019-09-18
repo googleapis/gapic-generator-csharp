@@ -321,7 +321,7 @@ namespace Google.Api.Generator.Tests
                 }
                 return (ignoring ?? acc.ignoring, acc.lines);
             });
-            var testSource = string.Join("\r\n", testSourceLines.lines);
+            var testSource = string.Join(WhitespaceFormatterNewLine.NewLine.ToFullString(), testSourceLines.lines);
             // Parse source using Roslyn.
             var root = CSharpSyntaxTree.ParseText(testSource).GetCompilationUnitRoot();
             // Remove all trivia (including whitespace) from Roslyn tree.

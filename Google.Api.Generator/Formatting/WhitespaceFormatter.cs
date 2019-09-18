@@ -24,11 +24,39 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace Google.Api.Generator.Formatting
 {
+    internal static class WhitespaceFormatterNewLine
+    {
+        static WhitespaceFormatterNewLine()
+        {
+            switch (Environment.NewLine)
+            {
+                case "\r\n":
+                    NewLine = CarriageReturnLineFeed;
+                    break;
+                case "\n":
+                    NewLine = LineFeed;
+                    break;
+                default:
+                    var hexNewLine = string.Join(" ", Environment.NewLine.Select(c => $"0x{(int)c:x2}"));
+                    throw new InvalidOperationException($"Unexpected environment NewLine: {hexNewLine}");
+            }
+        }
+
+        public static SyntaxTrivia NewLine { get; }
+
+        public static T WithTrailingNewLine<T>(this T node, int count = 1) where T : SyntaxNode =>
+            node.WithTrailingTrivia(Enumerable.Repeat(NewLine, count));
+
+        public static SyntaxToken WithTrailingNewLine(this SyntaxToken token, int count = 1) =>
+            token.WithTrailingTrivia(Enumerable.Repeat(NewLine, count));
+    }
+
     internal class WhitespaceFormatter : CSharpSyntaxRewriter
     {
         private static readonly SyntaxToken s_commaSpace = Token(SyntaxKind.CommaToken).WithTrailingSpace();
         private static IEnumerable<SyntaxToken> CommaSpaces(int count) => Enumerable.Repeat(s_commaSpace, Math.Max(0, count));
         private static readonly SyntaxTrivia s_singleIndentTrivia = SyntaxTrivia(SyntaxKind.WhitespaceTrivia, "    ");
+        private static SyntaxTrivia NewLine => WhitespaceFormatterNewLine.NewLine;
 
         public WhitespaceFormatter(int maxLineLength) : base(visitIntoStructuredTrivia: false) =>
             _maxLineLength = maxLineLength;
@@ -64,8 +92,8 @@ namespace Google.Api.Generator.Formatting
                 trivia0 = TriviaList();
             }
             var trivia1 = _indentTrivia.Span.IsEmpty ?
-                trivia0.SelectMany(x => new[] { x, CarriageReturnLineFeed }) :
-                trivia0.SelectMany(x => new[] { _indentTrivia, x, CarriageReturnLineFeed }).Append(_indentTrivia);
+                trivia0.SelectMany(x => new[] { x, NewLine }) :
+                trivia0.SelectMany(x => new[] { _indentTrivia, x, NewLine }).Append(_indentTrivia);
             return node.WithLeadingTrivia(trivia1);
         }
 
@@ -81,7 +109,7 @@ namespace Google.Api.Generator.Formatting
                 var hasBlankLine = last2.Count == 2 && last2.All(x => x.IsKind(SyntaxKind.EndOfLineTrivia));
                 return hasBlankLine ?
                     m.WithLeadingTrivia(m.GetLeadingTrivia()) :
-                    m.WithLeadingTrivia(m.GetLeadingTrivia().Append(CarriageReturnLineFeed));
+                    m.WithLeadingTrivia(m.GetLeadingTrivia().Append(NewLine));
             })
                 .Concat(node.Members.Skip(1))));
             return node;
@@ -92,7 +120,7 @@ namespace Google.Api.Generator.Formatting
             node = (UsingDirectiveSyntax)base.VisitUsingDirective(node);
             node = HandleLeadingTrivia(node);
             node = node.WithUsingKeyword(node.UsingKeyword.WithTrailingSpace());
-            node = node.WithSemicolonToken(node.SemicolonToken.WithTrailingCrLf());
+            node = node.WithSemicolonToken(node.SemicolonToken.WithTrailingNewLine());
             return node;
         }
 
@@ -110,16 +138,16 @@ namespace Google.Api.Generator.Formatting
                 node = (NamespaceDeclarationSyntax)base.VisitNamespaceDeclaration(node);
                 if (node.Usings.Any())
                 {
-                    node = node.WithUsings(List(node.Usings.SkipLast(1).Append(node.Usings.Last().WithTrailingTrivia(CarriageReturnLineFeed, CarriageReturnLineFeed))));
+                    node = node.WithUsings(List(node.Usings.SkipLast(1).Append(node.Usings.Last().WithTrailingTrivia(NewLine, NewLine))));
                 }
             }
             node = HandleLeadingTrivia(node);
             node = node.WithNamespaceKeyword(node.NamespaceKeyword.WithTrailingSpace());
-            node = node.WithOpenBraceToken(node.OpenBraceToken.WithLeadingTrivia(CarriageReturnLineFeed, _indentTrivia).WithTrailingCrLf());
-            node = node.WithCloseBraceToken(node.CloseBraceToken.WithLeadingTrivia(_indentTrivia).WithTrailingCrLf());
+            node = node.WithOpenBraceToken(node.OpenBraceToken.WithLeadingTrivia(NewLine, _indentTrivia).WithTrailingNewLine());
+            node = node.WithCloseBraceToken(node.CloseBraceToken.WithLeadingTrivia(_indentTrivia).WithTrailingNewLine());
             node = node.WithMembers(List(
-                node.Members.SkipLast(1).Select(m => m.WithTrailingCrLf(count: 2))
-                    .Concat(node.Members.TakeLast(1).Select(m => m.WithTrailingCrLf(count: 1)))));
+                node.Members.SkipLast(1).Select(m => m.WithTrailingNewLine(count: 2))
+                    .Concat(node.Members.TakeLast(1).Select(m => m.WithTrailingNewLine(count: 1)))));
             return node;
         }
 
@@ -132,11 +160,11 @@ namespace Google.Api.Generator.Formatting
             node = node.WithLeadingTrivia(FormatXmlDoc(node.GetLeadingTrivia()).Append(_indentTrivia));
             node = node.WithModifiers(TokenList(node.Modifiers.Select(m => m.WithTrailingSpace())));
             node = node.WithKeyword(node.Keyword.WithTrailingSpace());
-            node = node.WithOpenBraceToken(node.OpenBraceToken.WithLeadingTrivia(CarriageReturnLineFeed, _indentTrivia).WithTrailingCrLf());
-            node = node.WithCloseBraceToken(node.CloseBraceToken.WithLeadingTrivia(_indentTrivia).WithTrailingCrLf());
+            node = node.WithOpenBraceToken(node.OpenBraceToken.WithLeadingTrivia(NewLine, _indentTrivia).WithTrailingNewLine());
+            node = node.WithCloseBraceToken(node.CloseBraceToken.WithLeadingTrivia(_indentTrivia).WithTrailingNewLine());
             node = node.WithMembers(List(
-                node.Members.SkipLast(1).Select(m => m.WithTrailingCrLf(count: 2))
-                    .Concat(node.Members.TakeLast(1).Select(m => m.WithTrailingCrLf(count: 1)))));
+                node.Members.SkipLast(1).Select(m => m.WithTrailingNewLine(count: 2))
+                    .Concat(node.Members.TakeLast(1).Select(m => m.WithTrailingNewLine(count: 1)))));
             return node;
         }
 
@@ -178,7 +206,7 @@ namespace Google.Api.Generator.Formatting
             node = (AttributeListSyntax)base.VisitAttributeList(node);
             if (lineBreak)
             {
-                node = node.WithCloseBracketToken(node.CloseBracketToken.WithTrailingTrivia(CarriageReturnLineFeed, _indentTrivia));
+                node = node.WithCloseBracketToken(node.CloseBracketToken.WithTrailingTrivia(NewLine, _indentTrivia));
             }
             return node;
         }
@@ -238,7 +266,7 @@ namespace Google.Api.Generator.Formatting
         public override SyntaxNode VisitArrowExpressionClause(ArrowExpressionClauseSyntax node)
         {
             var lineSplit = node.Parent is MethodDeclarationSyntax method && method.Span.Length + _indentTrivia.Span.Length > _maxLineLength;
-            var postTrivia = lineSplit ? TriviaList(CarriageReturnLineFeed, _indentTrivia, s_singleIndentTrivia) : TriviaList(Space);
+            var postTrivia = lineSplit ? TriviaList(NewLine, _indentTrivia, s_singleIndentTrivia) : TriviaList(Space);
             using (WithIndent(lineSplit))
             {
                 node = (ArrowExpressionClauseSyntax)base.VisitArrowExpressionClause(node);
@@ -255,20 +283,20 @@ namespace Google.Api.Generator.Formatting
                 node = node.WithStatements(List(node.Statements.Select(s =>
                 {
                     IEnumerable<SyntaxTrivia> AdjustTrivia(SyntaxTrivia triv) => triv.ToString().Trim() == ""
-                        ? new[] { CarriageReturnLineFeed } : new[] { _indentTrivia, triv, CarriageReturnLineFeed };
+                        ? new[] { NewLine } : new[] { _indentTrivia, triv, NewLine };
                     var preTrivia = s.GetLeadingTrivia().Where(x => !x.Span.IsEmpty).SelectMany(AdjustTrivia).Append(_indentTrivia);
-                    var postTrivia = s.GetTrailingTrivia().Where(x => !x.Span.IsEmpty).SelectMany(AdjustTrivia).Prepend(CarriageReturnLineFeed);
+                    var postTrivia = s.GetTrailingTrivia().Where(x => !x.Span.IsEmpty).SelectMany(AdjustTrivia).Prepend(NewLine);
                     return Visit(s).WithLeadingTrivia(preTrivia).WithTrailingTrivia(postTrivia);
                 })));
             }
-            node = node.WithOpenBraceToken(node.OpenBraceToken.WithLeadingTrivia(CarriageReturnLineFeed, _indentTrivia).WithTrailingCrLf());
+            node = node.WithOpenBraceToken(node.OpenBraceToken.WithLeadingTrivia(NewLine, _indentTrivia).WithTrailingNewLine());
             if (parentIsLambda)
             {
                 node = node.WithCloseBraceToken(node.CloseBraceToken.WithLeadingTrivia(_indentTrivia));
             }
             else
             {
-                node = node.WithCloseBraceToken(node.CloseBraceToken.WithLeadingTrivia(_indentTrivia).WithTrailingCrLf());
+                node = node.WithCloseBraceToken(node.CloseBraceToken.WithLeadingTrivia(_indentTrivia).WithTrailingNewLine());
             }
             return node;
         }
@@ -329,7 +357,7 @@ namespace Google.Api.Generator.Formatting
                 {
                     node = (AccessorListSyntax)base.VisitAccessorList(node);
                 }
-                node = node.WithOpenBraceToken(node.OpenBraceToken.WithLeadingTrivia(CarriageReturnLineFeed, _indentTrivia).WithTrailingCrLf());
+                node = node.WithOpenBraceToken(node.OpenBraceToken.WithLeadingTrivia(NewLine, _indentTrivia).WithTrailingNewLine());
                 node = node.WithCloseBraceToken(node.CloseBraceToken.WithLeadingTrivia(_indentTrivia));
             }
             else
@@ -351,7 +379,7 @@ namespace Google.Api.Generator.Formatting
             else if (node.ExpressionBody != null)
             {
                 node = node.WithKeyword(node.Keyword.WithLeadingTrivia(_indentTrivia));
-                node = node.WithSemicolonToken(node.SemicolonToken.WithTrailingCrLf());
+                node = node.WithSemicolonToken(node.SemicolonToken.WithTrailingNewLine());
             }
             else
             {
@@ -394,16 +422,16 @@ namespace Google.Api.Generator.Formatting
                     var items = nodeExprs.SelectMany(x => new SyntaxNodeOrToken[]
                     {
                         x.WithLeadingTrivia(_indentTrivia),
-                        Token(SyntaxKind.CommaToken).WithTrailingCrLf()
+                        Token(SyntaxKind.CommaToken).WithTrailingNewLine()
                     }).ToList();
                     if (isComplex)
                     {
                         items = items.SkipLast(2).Concat(items
-                            .TakeLast(2).Take(1).Select(x => x.WithTrailingTrivia(CarriageReturnLineFeed))).ToList();
+                            .TakeLast(2).Take(1).Select(x => x.WithTrailingTrivia(NewLine))).ToList();
                     }
                     node = node.WithExpressions(SeparatedList<SyntaxNode>(items));
                 }
-                node = node.WithOpenBraceToken(node.OpenBraceToken.WithLeadingTrivia(CarriageReturnLineFeed, _indentTrivia).WithTrailingCrLf());
+                node = node.WithOpenBraceToken(node.OpenBraceToken.WithLeadingTrivia(NewLine, _indentTrivia).WithTrailingNewLine());
                 node = node.WithCloseBraceToken(node.CloseBraceToken.WithLeadingTrivia(_indentTrivia));
             }
             return node;
@@ -553,11 +581,11 @@ namespace Google.Api.Generator.Formatting
             node = node.WithLeadingTrivia(FormatXmlDoc(node.GetLeadingTrivia()).Append(_indentTrivia));
             node = node.WithModifiers(TokenList(node.Modifiers.Select(m => m.WithTrailingSpace())));
             node = node.WithEnumKeyword(node.EnumKeyword.WithTrailingSpace());
-            node = node.WithOpenBraceToken(node.OpenBraceToken.WithLeadingTrivia(CarriageReturnLineFeed, _indentTrivia).WithTrailingCrLf());
-            node = node.WithCloseBraceToken(node.CloseBraceToken.WithLeadingTrivia(_indentTrivia).WithTrailingCrLf());
+            node = node.WithOpenBraceToken(node.OpenBraceToken.WithLeadingTrivia(NewLine, _indentTrivia).WithTrailingNewLine());
+            node = node.WithCloseBraceToken(node.CloseBraceToken.WithLeadingTrivia(_indentTrivia).WithTrailingNewLine());
             node = node.WithMembers(SeparatedList(
-                node.Members.SkipLast(1).Concat(node.Members.TakeLast(1).Select(x => x.WithTrailingCrLf())),
-                node.Members.SkipLast(1).Select(_ => Token(SyntaxKind.CommaToken).WithTrailingCrLf(count: 2))));
+                node.Members.SkipLast(1).Concat(node.Members.TakeLast(1).Select(x => x.WithTrailingNewLine())),
+                node.Members.SkipLast(1).Select(_ => Token(SyntaxKind.CommaToken).WithTrailingNewLine(count: 2))));
             return node;
         }
 
@@ -575,9 +603,9 @@ namespace Google.Api.Generator.Formatting
                 node = (SwitchStatementSyntax)base.VisitSwitchStatement(node);
             }
             node = node.WithSwitchKeyword(node.SwitchKeyword.WithTrailingSpace());
-            node = node.WithCloseParenToken(node.CloseParenToken.WithTrailingCrLf());
-            node = node.WithOpenBraceToken(node.OpenBraceToken.WithLeadingTrivia(_indentTrivia).WithTrailingCrLf());
-            node = node.WithCloseBraceToken(node.CloseBraceToken.WithLeadingTrivia(_indentTrivia).WithTrailingCrLf());
+            node = node.WithCloseParenToken(node.CloseParenToken.WithTrailingNewLine());
+            node = node.WithOpenBraceToken(node.OpenBraceToken.WithLeadingTrivia(_indentTrivia).WithTrailingNewLine());
+            node = node.WithCloseBraceToken(node.CloseBraceToken.WithLeadingTrivia(_indentTrivia).WithTrailingNewLine());
             return node;
         }
 
@@ -591,18 +619,18 @@ namespace Google.Api.Generator.Formatting
                 node = node.WithLabels(SingletonList(label
                     .WithKeyword(label.Keyword.WithLeadingTrivia(_indentTrivia).WithTrailingTrivia(keywordTrailingTriv))
                     .WithColonToken(label.ColonToken.WithTrailingSpace())));
-                node = node.WithStatements(List(node.Statements.Select(x => x.WithTrailingCrLf())));
+                node = node.WithStatements(List(node.Statements.Select(x => x.WithTrailingNewLine())));
             }
             else
             {
                 node = node.WithLabels(SingletonList(label
                     .WithKeyword(label.Keyword.WithLeadingTrivia(_indentTrivia).WithTrailingTrivia(keywordTrailingTriv))
-                    .WithColonToken(label.ColonToken.WithTrailingCrLf())));
+                    .WithColonToken(label.ColonToken.WithTrailingNewLine())));
                 using (WithIndent())
                 {
                     node = node.WithStatements(List(node.Statements.Select(s =>
                     {
-                        return s.WithLeadingTrivia(_indentTrivia).WithTrailingCrLf();
+                        return s.WithLeadingTrivia(_indentTrivia).WithTrailingNewLine();
                     })));
                 }
             }
