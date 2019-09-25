@@ -10,7 +10,11 @@ RUN cd /usr/src/gapic-generator-csharp/Google.Api.Generator; \
 
 # Build smaller runtime image.
 # The generator executable just built is stand-alone, so dotnet is not required in the OS image.
-FROM debian:stable-slim
+# Cannot use latest debian, as libssl is the wrong version.
+FROM debian:jessie-slim
+
+RUN apt-get -y update
+RUN apt-get -y install openssl
 
 # Add protoc and our common protos.
 COPY --from=gcr.io/gapic-images/api-common-protos:0.1.0 /usr/local/bin/protoc /usr/local/bin/protoc

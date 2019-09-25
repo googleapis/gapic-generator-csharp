@@ -16,7 +16,26 @@
 #
 # THIS SCRIPT IS MEANT ONLY TO BE USED IN THE GAPIC-GENERATOR-CSHARP DOCKER IMAGE
 
-protoc --proto_path=/protos/ --proto_path=/in/ \
+GRPC_SERVICE_CONFIG=
+
+# enable extended globbing for flag pattern matching
+shopt -s extglob
+
+# Parse options.
+while true; do
+  case "$1" in
+    --grpc-service-config ) GRPC_SERVICE_CONFIG="grpc-service-config=/conf/$2"; shift 2;;
+    --* | +([[:word:][:punct:]]) ) shift ;;
+    * ) break ;;
+  esac
+done
+
+#export CLR_OPENSSL_VERSION_OVERRIDE="1.1"
+
+protoc \
+  --proto_path=/protos/ \
+  --proto_path=/in/ \
   --plugin=protoc-gen-csharp_gapic=/usr/src/gapic-generator-csharp/Google.Api.Generator/bin/Release/netcoreapp2.2/linux-x64/publish/Google.Api.Generator \
   --csharp_gapic_out=/out/ \
+  --csharp_gapic_opt="$GRPC_SERVICE_CONFIG" \
   $(find /in/ -name '*.proto')
