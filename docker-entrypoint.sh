@@ -30,8 +30,6 @@ while true; do
   esac
 done
 
-#export CLR_OPENSSL_VERSION_OVERRIDE="1.1"
-
 protoc \
   --proto_path=/protos/ \
   --proto_path=/in/ \
