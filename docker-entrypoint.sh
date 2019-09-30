@@ -17,6 +17,7 @@
 # THIS SCRIPT IS MEANT ONLY TO BE USED IN THE GAPIC-GENERATOR-CSHARP DOCKER IMAGE
 
 GRPC_SERVICE_CONFIG=
+COMMON_RESOURCES_CONFIG=
 
 # enable extended globbing for flag pattern matching
 shopt -s extglob
@@ -25,6 +26,7 @@ shopt -s extglob
 while true; do
   case "$1" in
     --grpc-service-config ) GRPC_SERVICE_CONFIG="grpc-service-config=/conf/$2"; shift 2;;
+    --common-resources-config ) COMMON_RESOURCES_CONFIG="common-resources-config=/conf/$2"; shift 2;;
     --* | +([[:word:][:punct:]]) ) shift ;;
     * ) break ;;
   esac
@@ -36,4 +38,5 @@ protoc \
   --plugin=protoc-gen-csharp_gapic=/usr/src/gapic-generator-csharp/Google.Api.Generator/bin/Release/netcoreapp2.2/linux-x64/publish/Google.Api.Generator \
   --csharp_gapic_out=/out/ \
   --csharp_gapic_opt="$GRPC_SERVICE_CONFIG" \
+  --csharp_gapic_opt="$COMMON_RESOURCES_CONFIG" \
   $(find /in/ -name '*.proto')
