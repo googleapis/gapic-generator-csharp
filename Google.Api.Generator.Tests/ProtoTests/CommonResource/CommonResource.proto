@@ -15,15 +15,11 @@ service CommonResource {
   }
 }
 
-// This is defined as a common resource for C#, so will not have a class generated for it.
-// See CommonResourceConfig.json
-message Project {
-  option (google.api.resource) = {
-    type: "commonresource.example.com/Project",
-	pattern: "projects/{project}"
-  };
-  string name = 1;
-}
+// Also defined as a common resource in CommonResourceConfig.json
+option (google.api.resource_definition) = {
+  type: "commonresource.example.com/Project",
+  pattern: "projects/{project}"
+};
 
 message Request {
   string project_name = 1 [(google.api.resource_reference).type = "commonresource.example.com/Project"];
