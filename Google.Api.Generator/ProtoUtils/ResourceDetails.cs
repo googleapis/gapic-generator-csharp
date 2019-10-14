@@ -156,13 +156,17 @@ namespace Google.Api.Generator.ProtoUtils
             // Compatibility problems: Adding a new resource with the same pattern as a single-pattern parent.
             //                         Adding a new resource with the same pattern as one of a multi-pattern parent.
             // TODO: Support new (Sept 2019) `name_descriptor` way of specifying resource-names.
-            var msgs = descs
+            var msgsFromProtoMsgs = descs
                 .SelectMany(fileDesc => fileDesc.MessageTypes.Select(msg =>
-                    (fileDesc, msg, resDesc: msg.CustomOptions.TryGetMessage<ResourceDescriptor>(ProtoConsts.MessageOption.Resource, out var resDesc) ? resDesc : null)))
+                    (fileDesc, resDesc: msg.CustomOptions.TryGetMessage<ResourceDescriptor>(ProtoConsts.MessageOption.Resource, out var resDesc) ? resDesc : null)))
                 .Where(x => x.resDesc != null)
-                .Select(x => (x.fileDesc, x.msg, x.resDesc, shortName: GetShortName(x.resDesc)))
-                .ToImmutableList();
-            var msgsByType = msgs.ToImmutableDictionary(x => x.resDesc.Type);
+                .Select(x => (x.fileDesc, x.resDesc, shortName: GetShortName(x.resDesc)));
+            var msgsFromFileAnnotation = descs
+                .SelectMany(fileDesc =>
+                    (fileDesc.CustomOptions.TryGetRepeatedMessage<ResourceDescriptor>(ProtoConsts.FileOption.ResourceDefinition, out var resDesc0) ?
+                        resDesc0 : Enumerable.Empty<ResourceDescriptor>())
+                            .Select(resDesc => (fileDesc, resDesc, shortName: GetShortName(resDesc))));
+            var msgs = msgsFromProtoMsgs.Concat(msgsFromFileAnnotation).ToImmutableList();
             // Load Singles.
             var singlesByType = msgs.Where(x => HasSingle(x.resDesc))
                 .ToImmutableDictionary(x => x.resDesc.Type, x =>
