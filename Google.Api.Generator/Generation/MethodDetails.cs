@@ -204,7 +204,7 @@ namespace Google.Api.Generator.Generation
             }
             public Signature(ServiceDetails svc, MessageDescriptor msg , string sig)
             {
-                Fields = sig.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(fieldName => new Field(svc, msg, fieldName)).ToList();
+                Fields = sig.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(fieldName => new Field(svc, msg, fieldName.Trim())).ToList();
             }
             public IEnumerable<Field> Fields { get; }
         }
