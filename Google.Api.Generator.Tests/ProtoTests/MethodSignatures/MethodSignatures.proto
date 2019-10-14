@@ -14,7 +14,7 @@ service MethodSignatures {
   rpc SimpleMethod(SimpleRequest) returns(Response) {
     option (google.api.method_signature) = "a_number";
     option (google.api.method_signature) = "a_string";
-    option (google.api.method_signature) = "a_number,a_string";
+    option (google.api.method_signature) = "a_number , a_string"; // Test spaces within the signature.
     option (google.api.method_signature) = "a_string,a_number";
   }
 
