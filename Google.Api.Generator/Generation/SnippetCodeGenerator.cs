@@ -540,16 +540,24 @@ namespace Google.Api.Generator.Generation
                 public bool HasResourceNames => _sig.Fields.Any(x => x.FieldResource != null);
 
                 public MethodDeclarationSyntax SyncMethod => _def.Sync(SyncMethodName, _sig.Fields.Select(f => f.Typ),
-                    InitRequestArgsNormal, _def.Response.WithInitializer(_def.Client.Call(Method.SyncMethodName)(InitRequestArgsNormal.ToArray())));
+                    InitRequestArgsNormal, Method.SyncReturnTyp is Typ.VoidTyp ?
+                        (object)_def.Client.Call(Method.SyncMethodName)(InitRequestArgsNormal.ToArray()) :
+                        _def.Response.WithInitializer(_def.Client.Call(Method.SyncMethodName)(InitRequestArgsNormal.ToArray())));
 
                 public MethodDeclarationSyntax AsyncMethod => _def.Async(AsyncMethodName, _sig.Fields.Select(f => f.Typ),
-                    InitRequestArgsNormal, _def.Response.WithInitializer(Await(_def.Client.Call(Method.AsyncMethodName)(InitRequestArgsNormal.ToArray()))));
+                    InitRequestArgsNormal, Method.SyncReturnTyp is Typ.VoidTyp ?
+                        (object)Await(_def.Client.Call(Method.AsyncMethodName)(InitRequestArgsNormal.ToArray())) :
+                        _def.Response.WithInitializer(Await(_def.Client.Call(Method.AsyncMethodName)(InitRequestArgsNormal.ToArray()))));
 
                 public MethodDeclarationSyntax SyncMethodResourceNames => _def.Sync(SyncResourceNameMethodName, SnippetCommentResourceNameArgs,
-                    InitRequestArgsResourceNames, _def.Response.WithInitializer(_def.Client.Call(Method.SyncMethodName)(InitRequestArgsResourceNames.ToArray())));
+                    InitRequestArgsResourceNames, Method.SyncReturnTyp is Typ.VoidTyp ?
+                        (object)_def.Client.Call(Method.SyncMethodName)(InitRequestArgsResourceNames.ToArray()) :
+                        _def.Response.WithInitializer(_def.Client.Call(Method.SyncMethodName)(InitRequestArgsResourceNames.ToArray())));
 
                 public MethodDeclarationSyntax AsyncMethodResourceNames => _def.Async(AsyncResourceNameMethodName, SnippetCommentResourceNameArgs,
-                    InitRequestArgsResourceNames, _def.Response.WithInitializer(Await(_def.Client.Call(Method.AsyncMethodName)(InitRequestArgsResourceNames.ToArray()))));
+                    InitRequestArgsResourceNames, Method.SyncReturnTyp is Typ.VoidTyp ? 
+                        (object)Await(_def.Client.Call(Method.AsyncMethodName)(InitRequestArgsResourceNames.ToArray())) :
+                        _def.Response.WithInitializer(Await(_def.Client.Call(Method.AsyncMethodName)(InitRequestArgsResourceNames.ToArray()))));
 
                 public MethodDeclarationSyntax SyncLroMethod => _def.SyncLro(SyncMethodName, _sig.Fields.Select(f => f.Typ),
                     InitRequestArgsNormal, _def.Response.WithInitializer(_def.Client.Call(Method.SyncMethodName)(InitRequestArgsNormal.ToArray())));

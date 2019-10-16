@@ -1,0 +1,24 @@
+﻿syntax = "proto3";
+
+package testing.voidreturn;
+
+option csharp_namespace = "Testing.VoidReturn";
+
+import "google/api/client.proto";
+import "google/api/resource.proto";
+import "google/protobuf/empty.proto";
+
+service VoidReturn {
+  // Test returning `void`, with request methods and a method signature (flattening).
+  rpc VoidMethod(Request) returns(google.protobuf.Empty) {
+    option (google.api.method_signature) = "name";
+  }
+}
+
+message Request {
+  option (google.api.resource) = {
+    type: "voidreturn.example.com/Resource"
+	pattern: "items/{item_id}"
+  };
+  string name = 1;
+}

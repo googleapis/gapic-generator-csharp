@@ -15,7 +15,6 @@
 // Generated code. DO NOT EDIT!
 
 using gaxgrpc = Google.Api.Gax.Grpc;
-using wkt = Google.Protobuf.WellKnownTypes;
 using grpccore = Grpc.Core;
 using moq = Moq;
 using st = System.Threading;
@@ -52,31 +51,6 @@ namespace Testing.Basic.Tests
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.AMethodAsync(request, st::CancellationToken.None);
             xunit::Assert.Same(expectedResponse, responseCancellationToken);
-            mockGrpcClient.VerifyAll();
-        }
-
-        [xunit::FactAttribute]
-        public void VoidMethodRequestObject()
-        {
-            moq::Mock<Basic.BasicClient> mockGrpcClient = new moq::Mock<Basic.BasicClient>(moq::MockBehavior.Strict);
-            Request request = new Request { };
-            wkt::Empty expectedResponse = new wkt::Empty { };
-            mockGrpcClient.Setup(x => x.VoidMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            BasicClient client = new BasicClientImpl(mockGrpcClient.Object, null);
-            client.VoidMethod(request);
-            mockGrpcClient.VerifyAll();
-        }
-
-        [xunit::FactAttribute]
-        public async stt::Task VoidMethodRequestObjectAsync()
-        {
-            moq::Mock<Basic.BasicClient> mockGrpcClient = new moq::Mock<Basic.BasicClient>(moq::MockBehavior.Strict);
-            Request request = new Request { };
-            wkt::Empty expectedResponse = new wkt::Empty { };
-            mockGrpcClient.Setup(x => x.VoidMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<wkt::Empty>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            BasicClient client = new BasicClientImpl(mockGrpcClient.Object, null);
-            await client.VoidMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
-            await client.VoidMethodAsync(request, st::CancellationToken.None);
             mockGrpcClient.VerifyAll();
         }
     }
