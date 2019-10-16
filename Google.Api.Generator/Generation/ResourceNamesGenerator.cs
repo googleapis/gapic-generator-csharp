@@ -73,7 +73,7 @@ namespace Google.Api.Generator.Generation
         private class ResourceClassBuilder
         {
             public ResourceClassBuilder(SourceFileContext ctx, string fieldName, ResourceDetails.Definition.SingleDef def, string docName) =>
-                (_ctx, _fieldName, _def, _docName) = (ctx, fieldName, def, docName);
+                (_ctx, _fieldName, _def, _docName) = (ctx, $"{fieldName}Name", def, docName);
 
             private SourceFileContext _ctx;
             private string _fieldName;
@@ -113,7 +113,7 @@ namespace Google.Api.Generator.Generation
             private MethodDeclarationSyntax Parse(FieldDeclarationSyntax templateField)
             {
                 var name = Parameter(_ctx.Type<string>(), _fieldName);
-                var resourceName = Local(_ctx.Type<TemplatedResourceName>(), "resourceName");
+                var resourceName = Local(_ctx.Type<TemplatedResourceName>(), _fieldName != "resourceName" ? "resourceName" : "resourceName2");
                 return Method(Public | Static, _ctx.Type(_def.ResourceNameTyp), "Parse")(name)
                     .WithBody(
                         _ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(name, Nameof(name)),
@@ -130,7 +130,7 @@ namespace Google.Api.Generator.Generation
             {
                 var name = Parameter(_ctx.Type<string>(), _fieldName);
                 var result = Parameter(_ctx.Type(_def.ResourceNameTyp), "result").Out();
-                var resourceName = ParameterOutVar(_ctx.Type<TemplatedResourceName>(), "resourceName");
+                var resourceName = ParameterOutVar(_ctx.Type<TemplatedResourceName>(), _fieldName != "resourceName" ? "resourceName" : "resourceName2");
                 return Method(Public | Static, _ctx.Type<bool>(), "TryParse")(name, result)
                     .WithBody(
                         _ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(name, Nameof(name)),

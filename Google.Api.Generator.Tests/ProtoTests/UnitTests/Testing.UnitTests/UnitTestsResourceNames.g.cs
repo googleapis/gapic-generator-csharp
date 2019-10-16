@@ -29,12 +29,14 @@ namespace Testing.UnitTests
         /// Parses the given <c>AResource</c> resource name in string form into a new <see cref="AResourceName"/>
         /// instance.
         /// </summary>
-        /// <param name="aResource">The <c>AResource</c> resource name in string form. Must not be <c>null</c>.</param>
+        /// <param name="aResourceName">
+        /// The <c>AResource</c> resource name in string form. Must not be <c>null</c>.
+        /// </param>
         /// <returns>The parsed <see cref="AResourceName"/> if successful.</returns>
-        public static AResourceName Parse(string aResource)
+        public static AResourceName Parse(string aResourceName)
         {
-            gax::GaxPreconditions.CheckNotNull(aResource, nameof(aResource));
-            gax::TemplatedResourceName resourceName = s_template.ParseName(aResource);
+            gax::GaxPreconditions.CheckNotNull(aResourceName, nameof(aResourceName));
+            gax::TemplatedResourceName resourceName = s_template.ParseName(aResourceName);
             return new AResourceName(resourceName[0], resourceName[1]);
         }
 
@@ -43,18 +45,20 @@ namespace Testing.UnitTests
         /// instance.
         /// </summary>
         /// <remarks>
-        /// This method still throws <see cref="sys::ArgumentNullException"/> if <paramref name="aResource"/> is <c>null</c>
-        /// , as this would usually indicate a programming error rather than a data error.
+        /// This method still throws <see cref="sys::ArgumentNullException"/> if <paramref name="aResourceName"/> is
+        /// <c>null</c>, as this would usually indicate a programming error rather than a data error.
         /// </remarks>
-        /// <param name="aResource">The <c>AResource</c> resource name in string form. Must not be <c>null</c>.</param>
+        /// <param name="aResourceName">
+        /// The <c>AResource</c> resource name in string form. Must not be <c>null</c>.
+        /// </param>
         /// <param name="result">
         /// When this method returns, the parsed <see cref="AResourceName"/>, or <c>null</c> if parsing fails.
         /// </param>
         /// <returns><c>true</c> if the name was parsed successfully; <c>false</c> otherwise.</returns>
-        public static bool TryParse(string aResource, out AResourceName result)
+        public static bool TryParse(string aResourceName, out AResourceName result)
         {
-            gax::GaxPreconditions.CheckNotNull(aResource, nameof(aResource));
-            if (s_template.TryParseName(aResource, out gax::TemplatedResourceName resourceName))
+            gax::GaxPreconditions.CheckNotNull(aResourceName, nameof(aResourceName));
+            if (s_template.TryParseName(aResourceName, out gax::TemplatedResourceName resourceName))
             {
                 result = new AResourceName(resourceName[0], resourceName[1]);
                 return true;
@@ -121,12 +125,14 @@ namespace Testing.UnitTests
         /// Parses the given <c>RootAItem</c> resource name in string form into a new <see cref="RootAItemName"/>
         /// instance.
         /// </summary>
-        /// <param name="rootAItem">The <c>RootAItem</c> resource name in string form. Must not be <c>null</c>.</param>
+        /// <param name="rootAItemName">
+        /// The <c>RootAItem</c> resource name in string form. Must not be <c>null</c>.
+        /// </param>
         /// <returns>The parsed <see cref="RootAItemName"/> if successful.</returns>
-        public static RootAItemName Parse(string rootAItem)
+        public static RootAItemName Parse(string rootAItemName)
         {
-            gax::GaxPreconditions.CheckNotNull(rootAItem, nameof(rootAItem));
-            gax::TemplatedResourceName resourceName = s_template.ParseName(rootAItem);
+            gax::GaxPreconditions.CheckNotNull(rootAItemName, nameof(rootAItemName));
+            gax::TemplatedResourceName resourceName = s_template.ParseName(rootAItemName);
             return new RootAItemName(resourceName[0], resourceName[1]);
         }
 
@@ -135,18 +141,20 @@ namespace Testing.UnitTests
         /// instance.
         /// </summary>
         /// <remarks>
-        /// This method still throws <see cref="sys::ArgumentNullException"/> if <paramref name="rootAItem"/> is <c>null</c>
-        /// , as this would usually indicate a programming error rather than a data error.
+        /// This method still throws <see cref="sys::ArgumentNullException"/> if <paramref name="rootAItemName"/> is
+        /// <c>null</c>, as this would usually indicate a programming error rather than a data error.
         /// </remarks>
-        /// <param name="rootAItem">The <c>RootAItem</c> resource name in string form. Must not be <c>null</c>.</param>
+        /// <param name="rootAItemName">
+        /// The <c>RootAItem</c> resource name in string form. Must not be <c>null</c>.
+        /// </param>
         /// <param name="result">
         /// When this method returns, the parsed <see cref="RootAItemName"/>, or <c>null</c> if parsing fails.
         /// </param>
         /// <returns><c>true</c> if the name was parsed successfully; <c>false</c> otherwise.</returns>
-        public static bool TryParse(string rootAItem, out RootAItemName result)
+        public static bool TryParse(string rootAItemName, out RootAItemName result)
         {
-            gax::GaxPreconditions.CheckNotNull(rootAItem, nameof(rootAItem));
-            if (s_template.TryParseName(rootAItem, out gax::TemplatedResourceName resourceName))
+            gax::GaxPreconditions.CheckNotNull(rootAItemName, nameof(rootAItemName));
+            if (s_template.TryParseName(rootAItemName, out gax::TemplatedResourceName resourceName))
             {
                 result = new RootAItemName(resourceName[0], resourceName[1]);
                 return true;
@@ -213,12 +221,14 @@ namespace Testing.UnitTests
         /// Parses the given <c>RootBItem</c> resource name in string form into a new <see cref="RootBItemName"/>
         /// instance.
         /// </summary>
-        /// <param name="rootBItem">The <c>RootBItem</c> resource name in string form. Must not be <c>null</c>.</param>
+        /// <param name="rootBItemName">
+        /// The <c>RootBItem</c> resource name in string form. Must not be <c>null</c>.
+        /// </param>
         /// <returns>The parsed <see cref="RootBItemName"/> if successful.</returns>
-        public static RootBItemName Parse(string rootBItem)
+        public static RootBItemName Parse(string rootBItemName)
         {
-            gax::GaxPreconditions.CheckNotNull(rootBItem, nameof(rootBItem));
-            gax::TemplatedResourceName resourceName = s_template.ParseName(rootBItem);
+            gax::GaxPreconditions.CheckNotNull(rootBItemName, nameof(rootBItemName));
+            gax::TemplatedResourceName resourceName = s_template.ParseName(rootBItemName);
             return new RootBItemName(resourceName[0], resourceName[1]);
         }
 
@@ -227,18 +237,20 @@ namespace Testing.UnitTests
         /// instance.
         /// </summary>
         /// <remarks>
-        /// This method still throws <see cref="sys::ArgumentNullException"/> if <paramref name="rootBItem"/> is <c>null</c>
-        /// , as this would usually indicate a programming error rather than a data error.
+        /// This method still throws <see cref="sys::ArgumentNullException"/> if <paramref name="rootBItemName"/> is
+        /// <c>null</c>, as this would usually indicate a programming error rather than a data error.
         /// </remarks>
-        /// <param name="rootBItem">The <c>RootBItem</c> resource name in string form. Must not be <c>null</c>.</param>
+        /// <param name="rootBItemName">
+        /// The <c>RootBItem</c> resource name in string form. Must not be <c>null</c>.
+        /// </param>
         /// <param name="result">
         /// When this method returns, the parsed <see cref="RootBItemName"/>, or <c>null</c> if parsing fails.
         /// </param>
         /// <returns><c>true</c> if the name was parsed successfully; <c>false</c> otherwise.</returns>
-        public static bool TryParse(string rootBItem, out RootBItemName result)
+        public static bool TryParse(string rootBItemName, out RootBItemName result)
         {
-            gax::GaxPreconditions.CheckNotNull(rootBItem, nameof(rootBItem));
-            if (s_template.TryParseName(rootBItem, out gax::TemplatedResourceName resourceName))
+            gax::GaxPreconditions.CheckNotNull(rootBItemName, nameof(rootBItemName));
+            if (s_template.TryParseName(rootBItemName, out gax::TemplatedResourceName resourceName))
             {
                 result = new RootBItemName(resourceName[0], resourceName[1]);
                 return true;
