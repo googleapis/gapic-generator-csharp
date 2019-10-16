@@ -29,14 +29,14 @@ namespace Testing.ResourceNames
         /// Parses the given <c>SingleResource</c> resource name in string form into a new
         /// <see cref="SingleResourceName"/> instance.
         /// </summary>
-        /// <param name="singleResource">
+        /// <param name="singleResourceName">
         /// The <c>SingleResource</c> resource name in string form. Must not be <c>null</c>.
         /// </param>
         /// <returns>The parsed <see cref="SingleResourceName"/> if successful.</returns>
-        public static SingleResourceName Parse(string singleResource)
+        public static SingleResourceName Parse(string singleResourceName)
         {
-            gax::GaxPreconditions.CheckNotNull(singleResource, nameof(singleResource));
-            gax::TemplatedResourceName resourceName = s_template.ParseName(singleResource);
+            gax::GaxPreconditions.CheckNotNull(singleResourceName, nameof(singleResourceName));
+            gax::TemplatedResourceName resourceName = s_template.ParseName(singleResourceName);
             return new SingleResourceName(resourceName[0]);
         }
 
@@ -45,20 +45,20 @@ namespace Testing.ResourceNames
         /// instance.
         /// </summary>
         /// <remarks>
-        /// This method still throws <see cref="sys::ArgumentNullException"/> if <paramref name="singleResource"/> is
-        /// <c>null</c>, as this would usually indicate a programming error rather than a data error.
+        /// This method still throws <see cref="sys::ArgumentNullException"/> if <paramref name="singleResourceName"/>
+        /// is <c>null</c>, as this would usually indicate a programming error rather than a data error.
         /// </remarks>
-        /// <param name="singleResource">
+        /// <param name="singleResourceName">
         /// The <c>SingleResource</c> resource name in string form. Must not be <c>null</c>.
         /// </param>
         /// <param name="result">
         /// When this method returns, the parsed <see cref="SingleResourceName"/>, or <c>null</c> if parsing fails.
         /// </param>
         /// <returns><c>true</c> if the name was parsed successfully; <c>false</c> otherwise.</returns>
-        public static bool TryParse(string singleResource, out SingleResourceName result)
+        public static bool TryParse(string singleResourceName, out SingleResourceName result)
         {
-            gax::GaxPreconditions.CheckNotNull(singleResource, nameof(singleResource));
-            if (s_template.TryParseName(singleResource, out gax::TemplatedResourceName resourceName))
+            gax::GaxPreconditions.CheckNotNull(singleResourceName, nameof(singleResourceName));
+            if (s_template.TryParseName(singleResourceName, out gax::TemplatedResourceName resourceName))
             {
                 result = new SingleResourceName(resourceName[0]);
                 return true;
@@ -117,14 +117,14 @@ namespace Testing.ResourceNames
         /// Parses the given <c>RootAMulti</c> resource name in string form into a new <see cref="RootAMultiName"/>
         /// instance.
         /// </summary>
-        /// <param name="rootAMulti">
+        /// <param name="rootAMultiName">
         /// The <c>RootAMulti</c> resource name in string form. Must not be <c>null</c>.
         /// </param>
         /// <returns>The parsed <see cref="RootAMultiName"/> if successful.</returns>
-        public static RootAMultiName Parse(string rootAMulti)
+        public static RootAMultiName Parse(string rootAMultiName)
         {
-            gax::GaxPreconditions.CheckNotNull(rootAMulti, nameof(rootAMulti));
-            gax::TemplatedResourceName resourceName = s_template.ParseName(rootAMulti);
+            gax::GaxPreconditions.CheckNotNull(rootAMultiName, nameof(rootAMultiName));
+            gax::TemplatedResourceName resourceName = s_template.ParseName(rootAMultiName);
             return new RootAMultiName(resourceName[0], resourceName[1]);
         }
 
@@ -133,20 +133,20 @@ namespace Testing.ResourceNames
         /// instance.
         /// </summary>
         /// <remarks>
-        /// This method still throws <see cref="sys::ArgumentNullException"/> if <paramref name="rootAMulti"/> is
+        /// This method still throws <see cref="sys::ArgumentNullException"/> if <paramref name="rootAMultiName"/> is
         /// <c>null</c>, as this would usually indicate a programming error rather than a data error.
         /// </remarks>
-        /// <param name="rootAMulti">
+        /// <param name="rootAMultiName">
         /// The <c>RootAMulti</c> resource name in string form. Must not be <c>null</c>.
         /// </param>
         /// <param name="result">
         /// When this method returns, the parsed <see cref="RootAMultiName"/>, or <c>null</c> if parsing fails.
         /// </param>
         /// <returns><c>true</c> if the name was parsed successfully; <c>false</c> otherwise.</returns>
-        public static bool TryParse(string rootAMulti, out RootAMultiName result)
+        public static bool TryParse(string rootAMultiName, out RootAMultiName result)
         {
-            gax::GaxPreconditions.CheckNotNull(rootAMulti, nameof(rootAMulti));
-            if (s_template.TryParseName(rootAMulti, out gax::TemplatedResourceName resourceName))
+            gax::GaxPreconditions.CheckNotNull(rootAMultiName, nameof(rootAMultiName));
+            if (s_template.TryParseName(rootAMultiName, out gax::TemplatedResourceName resourceName))
             {
                 result = new RootAMultiName(resourceName[0], resourceName[1]);
                 return true;
@@ -213,14 +213,14 @@ namespace Testing.ResourceNames
         /// Parses the given <c>RootBMulti</c> resource name in string form into a new <see cref="RootBMultiName"/>
         /// instance.
         /// </summary>
-        /// <param name="rootBMulti">
+        /// <param name="rootBMultiName">
         /// The <c>RootBMulti</c> resource name in string form. Must not be <c>null</c>.
         /// </param>
         /// <returns>The parsed <see cref="RootBMultiName"/> if successful.</returns>
-        public static RootBMultiName Parse(string rootBMulti)
+        public static RootBMultiName Parse(string rootBMultiName)
         {
-            gax::GaxPreconditions.CheckNotNull(rootBMulti, nameof(rootBMulti));
-            gax::TemplatedResourceName resourceName = s_template.ParseName(rootBMulti);
+            gax::GaxPreconditions.CheckNotNull(rootBMultiName, nameof(rootBMultiName));
+            gax::TemplatedResourceName resourceName = s_template.ParseName(rootBMultiName);
             return new RootBMultiName(resourceName[0], resourceName[1]);
         }
 
@@ -229,20 +229,20 @@ namespace Testing.ResourceNames
         /// instance.
         /// </summary>
         /// <remarks>
-        /// This method still throws <see cref="sys::ArgumentNullException"/> if <paramref name="rootBMulti"/> is
+        /// This method still throws <see cref="sys::ArgumentNullException"/> if <paramref name="rootBMultiName"/> is
         /// <c>null</c>, as this would usually indicate a programming error rather than a data error.
         /// </remarks>
-        /// <param name="rootBMulti">
+        /// <param name="rootBMultiName">
         /// The <c>RootBMulti</c> resource name in string form. Must not be <c>null</c>.
         /// </param>
         /// <param name="result">
         /// When this method returns, the parsed <see cref="RootBMultiName"/>, or <c>null</c> if parsing fails.
         /// </param>
         /// <returns><c>true</c> if the name was parsed successfully; <c>false</c> otherwise.</returns>
-        public static bool TryParse(string rootBMulti, out RootBMultiName result)
+        public static bool TryParse(string rootBMultiName, out RootBMultiName result)
         {
-            gax::GaxPreconditions.CheckNotNull(rootBMulti, nameof(rootBMulti));
-            if (s_template.TryParseName(rootBMulti, out gax::TemplatedResourceName resourceName))
+            gax::GaxPreconditions.CheckNotNull(rootBMultiName, nameof(rootBMultiName));
+            if (s_template.TryParseName(rootBMultiName, out gax::TemplatedResourceName resourceName))
             {
                 result = new RootBMultiName(resourceName[0], resourceName[1]);
                 return true;
@@ -501,14 +501,14 @@ namespace Testing.ResourceNames
         /// Parses the given <c>RootAFutureMulti</c> resource name in string form into a new
         /// <see cref="RootAFutureMultiName"/> instance.
         /// </summary>
-        /// <param name="rootAFutureMulti">
+        /// <param name="rootAFutureMultiName">
         /// The <c>RootAFutureMulti</c> resource name in string form. Must not be <c>null</c>.
         /// </param>
         /// <returns>The parsed <see cref="RootAFutureMultiName"/> if successful.</returns>
-        public static RootAFutureMultiName Parse(string rootAFutureMulti)
+        public static RootAFutureMultiName Parse(string rootAFutureMultiName)
         {
-            gax::GaxPreconditions.CheckNotNull(rootAFutureMulti, nameof(rootAFutureMulti));
-            gax::TemplatedResourceName resourceName = s_template.ParseName(rootAFutureMulti);
+            gax::GaxPreconditions.CheckNotNull(rootAFutureMultiName, nameof(rootAFutureMultiName));
+            gax::TemplatedResourceName resourceName = s_template.ParseName(rootAFutureMultiName);
             return new RootAFutureMultiName(resourceName[0], resourceName[1]);
         }
 
@@ -517,20 +517,20 @@ namespace Testing.ResourceNames
         /// instance.
         /// </summary>
         /// <remarks>
-        /// This method still throws <see cref="sys::ArgumentNullException"/> if <paramref name="rootAFutureMulti"/> is
-        /// <c>null</c>, as this would usually indicate a programming error rather than a data error.
+        /// This method still throws <see cref="sys::ArgumentNullException"/> if <paramref name="rootAFutureMultiName"/>
+        /// is <c>null</c>, as this would usually indicate a programming error rather than a data error.
         /// </remarks>
-        /// <param name="rootAFutureMulti">
+        /// <param name="rootAFutureMultiName">
         /// The <c>RootAFutureMulti</c> resource name in string form. Must not be <c>null</c>.
         /// </param>
         /// <param name="result">
         /// When this method returns, the parsed <see cref="RootAFutureMultiName"/>, or <c>null</c> if parsing fails.
         /// </param>
         /// <returns><c>true</c> if the name was parsed successfully; <c>false</c> otherwise.</returns>
-        public static bool TryParse(string rootAFutureMulti, out RootAFutureMultiName result)
+        public static bool TryParse(string rootAFutureMultiName, out RootAFutureMultiName result)
         {
-            gax::GaxPreconditions.CheckNotNull(rootAFutureMulti, nameof(rootAFutureMulti));
-            if (s_template.TryParseName(rootAFutureMulti, out gax::TemplatedResourceName resourceName))
+            gax::GaxPreconditions.CheckNotNull(rootAFutureMultiName, nameof(rootAFutureMultiName));
+            if (s_template.TryParseName(rootAFutureMultiName, out gax::TemplatedResourceName resourceName))
             {
                 result = new RootAFutureMultiName(resourceName[0], resourceName[1]);
                 return true;
@@ -763,14 +763,14 @@ namespace Testing.ResourceNames
         /// Parses the given <c>OriginallySingleResource</c> resource name in string form into a new
         /// <see cref="OriginallySingleResourceName"/> instance.
         /// </summary>
-        /// <param name="originallySingleResource">
+        /// <param name="originallySingleResourceName">
         /// The <c>OriginallySingleResource</c> resource name in string form. Must not be <c>null</c>.
         /// </param>
         /// <returns>The parsed <see cref="OriginallySingleResourceName"/> if successful.</returns>
-        public static OriginallySingleResourceName Parse(string originallySingleResource)
+        public static OriginallySingleResourceName Parse(string originallySingleResourceName)
         {
-            gax::GaxPreconditions.CheckNotNull(originallySingleResource, nameof(originallySingleResource));
-            gax::TemplatedResourceName resourceName = s_template.ParseName(originallySingleResource);
+            gax::GaxPreconditions.CheckNotNull(originallySingleResourceName, nameof(originallySingleResourceName));
+            gax::TemplatedResourceName resourceName = s_template.ParseName(originallySingleResourceName);
             return new OriginallySingleResourceName(resourceName[0], resourceName[1]);
         }
 
@@ -780,10 +780,10 @@ namespace Testing.ResourceNames
         /// </summary>
         /// <remarks>
         /// This method still throws <see cref="sys::ArgumentNullException"/> if
-        /// <paramref name="originallySingleResource"/> is <c>null</c>, as this would usually indicate a programming
+        /// <paramref name="originallySingleResourceName"/> is <c>null</c>, as this would usually indicate a programming
         /// error rather than a data error.
         /// </remarks>
-        /// <param name="originallySingleResource">
+        /// <param name="originallySingleResourceName">
         /// The <c>OriginallySingleResource</c> resource name in string form. Must not be <c>null</c>.
         /// </param>
         /// <param name="result">
@@ -791,10 +791,10 @@ namespace Testing.ResourceNames
         /// fails.
         /// </param>
         /// <returns><c>true</c> if the name was parsed successfully; <c>false</c> otherwise.</returns>
-        public static bool TryParse(string originallySingleResource, out OriginallySingleResourceName result)
+        public static bool TryParse(string originallySingleResourceName, out OriginallySingleResourceName result)
         {
-            gax::GaxPreconditions.CheckNotNull(originallySingleResource, nameof(originallySingleResource));
-            if (s_template.TryParseName(originallySingleResource, out gax::TemplatedResourceName resourceName))
+            gax::GaxPreconditions.CheckNotNull(originallySingleResourceName, nameof(originallySingleResourceName));
+            if (s_template.TryParseName(originallySingleResourceName, out gax::TemplatedResourceName resourceName))
             {
                 result = new OriginallySingleResourceName(resourceName[0], resourceName[1]);
                 return true;
@@ -864,14 +864,14 @@ namespace Testing.ResourceNames
         /// Parses the given <c>RootBOriginallySingleMulti</c> resource name in string form into a new
         /// <see cref="RootBOriginallySingleMultiName"/> instance.
         /// </summary>
-        /// <param name="rootBOriginallySingleMulti">
+        /// <param name="rootBOriginallySingleMultiName">
         /// The <c>RootBOriginallySingleMulti</c> resource name in string form. Must not be <c>null</c>.
         /// </param>
         /// <returns>The parsed <see cref="RootBOriginallySingleMultiName"/> if successful.</returns>
-        public static RootBOriginallySingleMultiName Parse(string rootBOriginallySingleMulti)
+        public static RootBOriginallySingleMultiName Parse(string rootBOriginallySingleMultiName)
         {
-            gax::GaxPreconditions.CheckNotNull(rootBOriginallySingleMulti, nameof(rootBOriginallySingleMulti));
-            gax::TemplatedResourceName resourceName = s_template.ParseName(rootBOriginallySingleMulti);
+            gax::GaxPreconditions.CheckNotNull(rootBOriginallySingleMultiName, nameof(rootBOriginallySingleMultiName));
+            gax::TemplatedResourceName resourceName = s_template.ParseName(rootBOriginallySingleMultiName);
             return new RootBOriginallySingleMultiName(resourceName[0], resourceName[1]);
         }
 
@@ -881,10 +881,10 @@ namespace Testing.ResourceNames
         /// </summary>
         /// <remarks>
         /// This method still throws <see cref="sys::ArgumentNullException"/> if
-        /// <paramref name="rootBOriginallySingleMulti"/> is <c>null</c>, as this would usually indicate a programming
-        /// error rather than a data error.
+        /// <paramref name="rootBOriginallySingleMultiName"/> is <c>null</c>, as this would usually indicate a
+        /// programming error rather than a data error.
         /// </remarks>
-        /// <param name="rootBOriginallySingleMulti">
+        /// <param name="rootBOriginallySingleMultiName">
         /// The <c>RootBOriginallySingleMulti</c> resource name in string form. Must not be <c>null</c>.
         /// </param>
         /// <param name="result">
@@ -892,10 +892,10 @@ namespace Testing.ResourceNames
         /// fails.
         /// </param>
         /// <returns><c>true</c> if the name was parsed successfully; <c>false</c> otherwise.</returns>
-        public static bool TryParse(string rootBOriginallySingleMulti, out RootBOriginallySingleMultiName result)
+        public static bool TryParse(string rootBOriginallySingleMultiName, out RootBOriginallySingleMultiName result)
         {
-            gax::GaxPreconditions.CheckNotNull(rootBOriginallySingleMulti, nameof(rootBOriginallySingleMulti));
-            if (s_template.TryParseName(rootBOriginallySingleMulti, out gax::TemplatedResourceName resourceName))
+            gax::GaxPreconditions.CheckNotNull(rootBOriginallySingleMultiName, nameof(rootBOriginallySingleMultiName));
+            if (s_template.TryParseName(rootBOriginallySingleMultiName, out gax::TemplatedResourceName resourceName))
             {
                 result = new RootBOriginallySingleMultiName(resourceName[0], resourceName[1]);
                 return true;

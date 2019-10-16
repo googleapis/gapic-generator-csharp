@@ -29,13 +29,15 @@ namespace Testing.Lro
         /// Parses the given <c>Resource</c> resource name in string form into a new <see cref="ResourceName"/>
         /// instance.
         /// </summary>
-        /// <param name="resource">The <c>Resource</c> resource name in string form. Must not be <c>null</c>.</param>
+        /// <param name="resourceName">
+        /// The <c>Resource</c> resource name in string form. Must not be <c>null</c>.
+        /// </param>
         /// <returns>The parsed <see cref="ResourceName"/> if successful.</returns>
-        public static ResourceName Parse(string resource)
+        public static ResourceName Parse(string resourceName)
         {
-            gax::GaxPreconditions.CheckNotNull(resource, nameof(resource));
-            gax::TemplatedResourceName resourceName = s_template.ParseName(resource);
-            return new ResourceName(resourceName[0]);
+            gax::GaxPreconditions.CheckNotNull(resourceName, nameof(resourceName));
+            gax::TemplatedResourceName resourceName2 = s_template.ParseName(resourceName);
+            return new ResourceName(resourceName2[0]);
         }
 
         /// <summary>
@@ -43,20 +45,22 @@ namespace Testing.Lro
         /// instance.
         /// </summary>
         /// <remarks>
-        /// This method still throws <see cref="sys::ArgumentNullException"/> if <paramref name="resource"/> is <c>null</c>
-        /// , as this would usually indicate a programming error rather than a data error.
+        /// This method still throws <see cref="sys::ArgumentNullException"/> if <paramref name="resourceName"/> is
+        /// <c>null</c>, as this would usually indicate a programming error rather than a data error.
         /// </remarks>
-        /// <param name="resource">The <c>Resource</c> resource name in string form. Must not be <c>null</c>.</param>
+        /// <param name="resourceName">
+        /// The <c>Resource</c> resource name in string form. Must not be <c>null</c>.
+        /// </param>
         /// <param name="result">
         /// When this method returns, the parsed <see cref="ResourceName"/>, or <c>null</c> if parsing fails.
         /// </param>
         /// <returns><c>true</c> if the name was parsed successfully; <c>false</c> otherwise.</returns>
-        public static bool TryParse(string resource, out ResourceName result)
+        public static bool TryParse(string resourceName, out ResourceName result)
         {
-            gax::GaxPreconditions.CheckNotNull(resource, nameof(resource));
-            if (s_template.TryParseName(resource, out gax::TemplatedResourceName resourceName))
+            gax::GaxPreconditions.CheckNotNull(resourceName, nameof(resourceName));
+            if (s_template.TryParseName(resourceName, out gax::TemplatedResourceName resourceName2))
             {
-                result = new ResourceName(resourceName[0]);
+                result = new ResourceName(resourceName2[0]);
                 return true;
             }
             else
