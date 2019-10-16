@@ -5,6 +5,7 @@ package testing.basic;
 // csharp_namespace option not included; to test generating namespace from proto package.
 
 import "google/api/client.proto";
+import "google/protobuf/empty.proto";
 
 service Basic {
   option (google.api.default_host) = "basic.example.com";
@@ -12,6 +13,9 @@ service Basic {
 
   // Test summary text for AMethod
   rpc AMethod(Request) returns(Response);
+
+  // Test returning `void`
+  rpc VoidMethod(Request) returns(google.protobuf.Empty);
 }
 
 message Request {

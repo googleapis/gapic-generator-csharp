@@ -18,6 +18,7 @@ using Google.Api.Generator.ProtoUtils;
 using Google.Api.Generator.Utils;
 using Google.LongRunning;
 using Google.Protobuf.Reflection;
+using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using System;
 using System.Collections.Generic;
@@ -39,9 +40,12 @@ namespace Google.Api.Generator.Generation
         /// </summary>
         public sealed class Normal : MethodDetails
         {
-            public Normal(ServiceDetails svc, MethodDescriptor desc) : base(svc, desc) =>
+            public Normal(ServiceDetails svc, MethodDescriptor desc) : base(svc, desc)
+            {
                 ApiCallTyp = Typ.Generic(typeof(ApiCall<,>), RequestTyp, ResponseTyp);
-            public override Typ SyncReturnTyp => ResponseTyp;
+                SyncReturnTyp = ResponseTyp.FullName == typeof(Empty).FullName ? Typ.Void : ResponseTyp;
+            }
+            public override Typ SyncReturnTyp { get; }
             public override Typ ApiCallTyp { get; }
         }
 
@@ -399,7 +403,7 @@ namespace Google.Api.Generator.Generation
         public abstract Typ SyncReturnTyp { get; }
 
         /// <summary>The async return typ for this method.</summary>
-        public virtual Typ AsyncReturnTyp => Typ.Generic(typeof(Task<>), SyncReturnTyp);
+        public virtual Typ AsyncReturnTyp => SyncReturnTyp is Typ.VoidTyp ? Typ.Of<Task>() : Typ.Generic(typeof(Task<>), SyncReturnTyp);
 
         /// <summary>The Gax ApiCall<> typ for this method.</summary>
         public abstract Typ ApiCallTyp { get; }

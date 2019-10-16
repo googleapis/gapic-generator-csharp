@@ -222,8 +222,19 @@ namespace Google.Api.Generator.Generation
                 }
             }
 
-            private MethodDeclarationSyntax Sync(string methodName, IEnumerable<MethodDetails.Signature.Field> requestFields, object requestMethodArgs) =>
-                Method(Public, VoidType, methodName)()
+            private MethodDeclarationSyntax Sync(string methodName, IEnumerable<MethodDetails.Signature.Field> requestFields, object requestMethodArgs)
+            {
+                var callAndVerify = Method.SyncReturnTyp is Typ.VoidTyp ?
+                    new object[]
+                    {
+                        Client.Call(Method.SyncMethodName)(requestMethodArgs),
+                    } :
+                    new object[]
+                    {
+                        Response.WithInitializer(Client.Call(Method.SyncMethodName)(requestMethodArgs)),
+                        Ctx.Type<Assert>().Call(nameof(Assert.Same))(ExpectedResponse, Response),
+                    };
+                return Method(Public, VoidType, methodName)()
                     .WithAttribute(Ctx.Type<FactAttribute>())
                     .WithBody(
                         MockGrpcClient.WithInitializer(New(Ctx.Type(Typ.Generic(typeof(Mock<>), Svc.GrpcClientTyp)))(Ctx.Type<MockBehavior>().Access(MockBehavior.Strict))),
@@ -234,12 +245,31 @@ namespace Google.Api.Generator.Generation
                             Lambda(X)(X.Call(Method.SyncMethodName)(Request, Ctx.Type(typeof(It)).Call(nameof(It.IsAny), Ctx.Type<CallOptions>())())))
                             .Call(nameof(IReturns<string, int>.Returns))(ExpectedResponse),
                         Client.WithInitializer(New(Ctx.Type(Svc.ClientImplTyp))(MockGrpcClient.Access(nameof(Mock.Object)), Null)),
-                        Response.WithInitializer(Client.Call(Method.SyncMethodName)(requestMethodArgs)),
-                        Ctx.Type<Assert>().Call(nameof(Assert.Same))(ExpectedResponse, Response),
-                        MockGrpcClient.Call(nameof(Mock.VerifyAll))());
+                        callAndVerify,
+                        MockGrpcClient.Call(nameof(Mock.VerifyAll))()
+                    );
+            }
 
-            private MethodDeclarationSyntax Async(string methodName, IEnumerable<MethodDetails.Signature.Field> requestFields, object requestMethodArgs) =>
-                Method(Public | Modifier.Async, Ctx.Type<Task>(), methodName)()
+            private MethodDeclarationSyntax Async(string methodName, IEnumerable<MethodDetails.Signature.Field> requestFields, object requestMethodArgs)
+            {
+                var callAndVerify = Method.SyncReturnTyp is Typ.VoidTyp ?
+                    new object[]
+                    {
+                        Await(Client.Call(Method.AsyncMethodName)(requestMethodArgs,
+                            Ctx.Type<CallSettings>().Call(nameof(CallSettings.FromCancellationToken))(Ctx.Type<CancellationToken>().Access(nameof(CancellationToken.None))))),
+                        Await(Client.Call(Method.AsyncMethodName)(requestMethodArgs,
+                            Ctx.Type<CancellationToken>().Access(nameof(CancellationToken.None)))),
+                    } :
+                    new object[]
+                    {
+                        ResponseCallSettings.WithInitializer(Await(Client.Call(Method.AsyncMethodName)(requestMethodArgs,
+                            Ctx.Type<CallSettings>().Call(nameof(CallSettings.FromCancellationToken))(Ctx.Type<CancellationToken>().Access(nameof(CancellationToken.None)))))),
+                        Ctx.Type<Assert>().Call(nameof(Assert.Same))(ExpectedResponse, ResponseCallSettings),
+                        ResponseCancellationToken.WithInitializer(Await(Client.Call(Method.AsyncMethodName)(requestMethodArgs,
+                            Ctx.Type<CancellationToken>().Access(nameof(CancellationToken.None))))),
+                        Ctx.Type<Assert>().Call(nameof(Assert.Same))(ExpectedResponse, ResponseCancellationToken),
+                    };
+                return Method(Public | Modifier.Async, Ctx.Type<Task>(), methodName)()
                     .WithAttribute(Ctx.Type<FactAttribute>())
                     .WithBody(
                         MockGrpcClient.WithInitializer(New(Ctx.Type(Typ.Generic(typeof(Mock<>), Svc.GrpcClientTyp)))(Ctx.Type<MockBehavior>().Access(MockBehavior.Strict))),
@@ -251,13 +281,10 @@ namespace Google.Api.Generator.Generation
                             .Call(nameof(IReturns<string, int>.Returns))(New(Ctx.Type(Typ.Generic(typeof(AsyncUnaryCall<>), Method.ResponseTyp)))(
                                 Ctx.Type<Task>().Call(nameof(Task.FromResult))(ExpectedResponse), Null, Null, Null, Null)),
                         Client.WithInitializer(New(Ctx.Type(Svc.ClientImplTyp))(MockGrpcClient.Access(nameof(Mock.Object)), Null)),
-                        ResponseCallSettings.WithInitializer(Await(Client.Call(Method.AsyncMethodName)(requestMethodArgs,
-                            Ctx.Type<CallSettings>().Call(nameof(CallSettings.FromCancellationToken))(Ctx.Type<CancellationToken>().Access(nameof(CancellationToken.None)))))),
-                        Ctx.Type<Assert>().Call(nameof(Assert.Same))(ExpectedResponse, ResponseCallSettings),
-                        ResponseCancellationToken.WithInitializer(Await(Client.Call(Method.AsyncMethodName)(requestMethodArgs,
-                            Ctx.Type<CancellationToken>().Access(nameof(CancellationToken.None))))),
-                        Ctx.Type<Assert>().Call(nameof(Assert.Same))(ExpectedResponse, ResponseCancellationToken),
-                        MockGrpcClient.Call(nameof(Mock.VerifyAll))());
+                        callAndVerify,
+                        MockGrpcClient.Call(nameof(Mock.VerifyAll))()
+                    );
+            }
 
             public MethodDeclarationSyntax SyncRequestMethod => Sync(Method.SyncTestMethodName, null, Request);
 

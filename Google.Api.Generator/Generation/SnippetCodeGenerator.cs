@@ -442,10 +442,14 @@ namespace Google.Api.Generator.Generation
             private object InitRequestObject => Request.WithInitializer(New(Ctx.Type(Method.RequestTyp))().WithInitializer(InitRequest().ToArray()));
 
             public MethodDeclarationSyntax SyncRequestMethod => Sync(Method.SyncSnippetMethodName, new[] { Method.RequestTyp },
-                InitRequestObject, Response.WithInitializer(Client.Call(Method.SyncMethodName)(Request)));
+                InitRequestObject, Method.SyncReturnTyp is Typ.VoidTyp ?
+                    (object)Client.Call(Method.SyncMethodName)(Request) :
+                    Response.WithInitializer(Client.Call(Method.SyncMethodName)(Request)));
 
             public MethodDeclarationSyntax AsyncRequestMethod => Async(Method.AsyncSnippetMethodName, new[] { Method.RequestTyp },
-                InitRequestObject, Response.WithInitializer(Await(Client.Call(Method.AsyncMethodName)(Request))));
+                InitRequestObject, Method.SyncReturnTyp is Typ.VoidTyp ?
+                    (object)Await(Client.Call(Method.AsyncMethodName)(Request)) :
+                    Response.WithInitializer(Await(Client.Call(Method.AsyncMethodName)(Request))));
 
             public MethodDeclarationSyntax SyncLroRequestMethod => SyncLro(Method.SyncSnippetMethodName, new[] { Method.RequestTyp },
                 InitRequestObject, Response.WithInitializer(Client.Call(Method.SyncMethodName)(Request)));
