@@ -47,5 +47,32 @@ namespace Testing.Basic.Snippets
             Response response = await basicClient.AMethodAsync(request);
             // End snippet
         }
+
+        /// <summary>Snippet for VoidMethod</summary>
+        public void VoidMethod_RequestObject()
+        {
+            // Snippet: VoidMethod(Request, CallSettings)
+            // Create client
+            BasicClient basicClient = BasicClient.Create();
+            // Initialize request argument(s)
+            Request request = new Request { };
+            // Make the request
+            basicClient.VoidMethod(request);
+            // End snippet
+        }
+
+        /// <summary>Snippet for VoidMethodAsync</summary>
+        public async Task VoidMethodAsync_RequestObject()
+        {
+            // Snippet: VoidMethodAsync(Request, CallSettings)
+            // Additional: VoidMethodAsync(Request, CancellationToken)
+            // Create client
+            BasicClient basicClient = await BasicClient.CreateAsync();
+            // Initialize request argument(s)
+            Request request = new Request { };
+            // Make the request
+            await basicClient.VoidMethodAsync(request);
+            // End snippet
+        }
     }
 }

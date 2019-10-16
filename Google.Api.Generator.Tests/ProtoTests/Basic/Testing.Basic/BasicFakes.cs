@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using System;
 
@@ -42,6 +43,8 @@ namespace Testing.Basic
             public BasicClient(CallInvoker callInvoker) { }
             public virtual AsyncUnaryCall<Response> AMethodAsync(Request request, CallOptions options) => throw new NotImplementedException();
             public virtual Response AMethod(Request request, CallOptions options) => throw new NotImplementedException();
+            public virtual AsyncUnaryCall<Empty> VoidMethodAsync(Request request, CallOptions options) => throw new NotImplementedException();
+            public virtual Empty VoidMethod(Request request, CallOptions options) => throw new NotImplementedException();
         }
     }
 

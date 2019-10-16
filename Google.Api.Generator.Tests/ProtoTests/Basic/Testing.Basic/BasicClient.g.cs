@@ -17,6 +17,7 @@
 using gax = Google.Api.Gax;
 using gaxgrpc = Google.Api.Gax.Grpc;
 using proto = Google.Protobuf;
+using wkt = Google.Protobuf.WellKnownTypes;
 using grpccore = Grpc.Core;
 using grpcinter = Grpc.Core.Interceptors;
 using sys = System;
@@ -43,6 +44,7 @@ namespace Testing.Basic
         {
             gax::GaxPreconditions.CheckNotNull(existing, nameof(existing));
             AMethodSettings = existing.AMethodSettings;
+            VoidMethodSettings = existing.VoidMethodSettings;
             OnCopy(existing);
         }
 
@@ -54,6 +56,13 @@ namespace Testing.Basic
         /// </summary>
         /// <remarks>By default, retry will not be attempted.</remarks>
         public gaxgrpc::CallSettings AMethodSettings { get; set; }
+
+        /// <summary>
+        /// <see cref="gaxgrpc::CallSettings"/> for synchronous and asynchronous calls to <c>BasicClient.VoidMethod</c>
+        /// and <c>BasicClient.VoidMethodAsync</c>.
+        /// </summary>
+        /// <remarks>By default, retry will not be attempted.</remarks>
+        public gaxgrpc::CallSettings VoidMethodSettings { get; set; }
 
         /// <summary>Creates a deep clone of this object, with all the same property values.</summary>
         /// <returns>A deep clone of this <see cref="BasicSettings"/> object.</returns>
@@ -268,12 +277,41 @@ namespace Testing.Basic
         /// <returns>A Task containing the RPC response.</returns>
         public virtual stt::Task<Response> AMethodAsync(Request request, st::CancellationToken cancellationToken) =>
             AMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+
+        /// <summary>
+        /// Test returning `void`
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>The RPC response.</returns>
+        public virtual void VoidMethod(Request request, gaxgrpc::CallSettings callSettings = null) =>
+            throw new sys::NotImplementedException();
+
+        /// <summary>
+        /// Test returning `void`
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task VoidMethodAsync(Request request, gaxgrpc::CallSettings callSettings = null) =>
+            throw new sys::NotImplementedException();
+
+        /// <summary>
+        /// Test returning `void`
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task VoidMethodAsync(Request request, st::CancellationToken cancellationToken) =>
+            VoidMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
     }
 
     /// <summary>Basic client wrapper implementation, for convenient use.</summary>
     public sealed partial class BasicClientImpl : BasicClient
     {
         private readonly gaxgrpc::ApiCall<Request, Response> _callAMethod;
+
+        private readonly gaxgrpc::ApiCall<Request, wkt::Empty> _callVoidMethod;
 
         /// <summary>
         /// Constructs a client wrapper for the Basic service, with the specified gRPC client and settings.
@@ -288,12 +326,17 @@ namespace Testing.Basic
             _callAMethod = clientHelper.BuildApiCall<Request, Response>(grpcClient.AMethodAsync, grpcClient.AMethod, effectiveSettings.AMethodSettings);
             Modify_ApiCall(ref _callAMethod);
             Modify_AMethodApiCall(ref _callAMethod);
+            _callVoidMethod = clientHelper.BuildApiCall<Request, wkt::Empty>(grpcClient.VoidMethodAsync, grpcClient.VoidMethod, effectiveSettings.VoidMethodSettings);
+            Modify_ApiCall(ref _callVoidMethod);
+            Modify_VoidMethodApiCall(ref _callVoidMethod);
             OnConstruction(grpcClient, effectiveSettings, clientHelper);
         }
 
         partial void Modify_ApiCall<TRequest, TResponse>(ref gaxgrpc::ApiCall<TRequest, TResponse> call) where TRequest : class, proto::IMessage<TRequest> where TResponse : class, proto::IMessage<TResponse>;
 
         partial void Modify_AMethodApiCall(ref gaxgrpc::ApiCall<Request, Response> call);
+
+        partial void Modify_VoidMethodApiCall(ref gaxgrpc::ApiCall<Request, wkt::Empty> call);
 
         partial void OnConstruction(Basic.BasicClient grpcClient, BasicSettings effectiveSettings, gaxgrpc::ClientHelper clientHelper);
 
@@ -324,6 +367,30 @@ namespace Testing.Basic
         {
             Modify_Request(ref request, ref callSettings);
             return _callAMethod.Async(request, callSettings);
+        }
+
+        /// <summary>
+        /// Test returning `void`
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>The RPC response.</returns>
+        public override void VoidMethod(Request request, gaxgrpc::CallSettings callSettings = null)
+        {
+            Modify_Request(ref request, ref callSettings);
+            _callVoidMethod.Sync(request, callSettings);
+        }
+
+        /// <summary>
+        /// Test returning `void`
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public override stt::Task VoidMethodAsync(Request request, gaxgrpc::CallSettings callSettings = null)
+        {
+            Modify_Request(ref request, ref callSettings);
+            return _callVoidMethod.Async(request, callSettings);
         }
     }
 }

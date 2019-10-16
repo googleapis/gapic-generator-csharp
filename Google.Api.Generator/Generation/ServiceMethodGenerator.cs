@@ -217,7 +217,9 @@ namespace Google.Api.Generator.Generation
                 Method(Public | Override, Ctx.Type(MethodDetails.SyncReturnTyp), MethodDetails.SyncMethodName)(RequestParam, CallSettingsParam)
                         .WithBody(
                             This.Call(ModifyRequestMethod)(Ref(RequestParam), Ref(CallSettingsParam)),
-                            Return(ApiCallField.Call(ApiCallSyncName)(RequestParam, CallSettingsParam)))
+                            MethodDetails.SyncReturnTyp is Typ.VoidTyp ?
+                                (object)ApiCallField.Call(ApiCallSyncName)(RequestParam, CallSettingsParam) :
+                                Return(ApiCallField.Call(ApiCallSyncName)(RequestParam, CallSettingsParam)))
                         .WithXmlDoc(SummaryXmlDoc, RequestXmlDoc, CallSettingsXmlDoc, ReturnsSyncXmlDoc);
 
             public MethodDeclarationSyntax ImplAsyncCallSettingsRequestMethod =>

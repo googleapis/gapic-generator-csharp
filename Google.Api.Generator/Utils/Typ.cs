@@ -31,6 +31,12 @@ namespace Google.Api.Generator.Utils
     /// </summary>
     internal abstract class Typ : IEquatable<Typ>
     {
+        public sealed class VoidTyp : Typ
+        {
+            public override string Namespace => null;
+            public override string Name => "void";
+        }
+
         private sealed class FromType : Typ
         {
             public FromType(System.Type type) => _type = type;
@@ -126,6 +132,8 @@ namespace Google.Api.Generator.Utils
                     return false;
             }
         }
+
+        public static Typ Void { get; } = new VoidTyp();
 
         public static Typ Of<T>() => Of(typeof(T));
         public static Typ Of(System.Type type) => new FromType(type);

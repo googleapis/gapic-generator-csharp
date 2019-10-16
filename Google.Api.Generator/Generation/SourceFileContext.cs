@@ -261,6 +261,10 @@ namespace Google.Api.Generator.Generation
                 // Handle generic parameters.
                 return IdentifierName(typ.Name);
             }
+            if (typ is Typ.VoidTyp)
+            {
+                return PredefinedType(Token(SyntaxKind.VoidKeyword));
+            }
             if (typ.ElementTyp != null)
             {
                 // Handle array typs.
