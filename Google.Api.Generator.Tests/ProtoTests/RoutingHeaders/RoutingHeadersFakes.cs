@@ -33,6 +33,8 @@ namespace Testing.RoutingHeaders
             public AsyncUnaryCall<Response> PatchMethodAsync(SimpleRequest request, CallOptions options) => throw new NotImplementedException();
             public Response DeleteMethod(SimpleRequest request, CallOptions options) => throw new NotImplementedException();
             public AsyncUnaryCall<Response> DeleteMethodAsync(SimpleRequest request, CallOptions options) => throw new NotImplementedException();
+            public Response GetNoTemplateMethod(SimpleRequest request, CallOptions options) => throw new NotImplementedException();
+            public AsyncUnaryCall<Response> GetNoTemplateMethodAsync(SimpleRequest request, CallOptions options) => throw new NotImplementedException();
             public Response NestedMultiMethod(NestedRequest request, CallOptions options) => throw new NotImplementedException();
             public AsyncUnaryCall<Response> NestedMultiMethodAsync(NestedRequest request, CallOptions options) => throw new NotImplementedException();
         }

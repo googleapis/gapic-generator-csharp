@@ -352,7 +352,7 @@ namespace Google.Api.Generator.Generation
                         i++;
                     }
                     i++;
-                    while (i < s.Length && s[i] != '=')
+                    while (i < s.Length && s[i] != '=' && s[i] != '}')
                     {
                         sb.Append(s[i++]);
                     }
