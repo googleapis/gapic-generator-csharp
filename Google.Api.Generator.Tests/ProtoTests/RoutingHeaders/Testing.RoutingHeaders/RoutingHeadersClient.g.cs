@@ -30,6 +30,7 @@ namespace Testing.RoutingHeaders
         public gaxgrpc::CallSettings PutMethodSettings => throw new sys::NotImplementedException();
         public gaxgrpc::CallSettings PatchMethodSettings => throw new sys::NotImplementedException();
         public gaxgrpc::CallSettings DeleteMethodSettings => throw new sys::NotImplementedException();
+        public gaxgrpc::CallSettings GetNoTemplateMethodSettings => throw new sys::NotImplementedException();
         public gaxgrpc::CallSettings NestedMultiMethodSettings => throw new sys::NotImplementedException();
     }
 
@@ -46,6 +47,7 @@ namespace Testing.RoutingHeaders
         private readonly gaxgrpc::ApiCall<SimpleRequest, Response> _callPutMethod;
         private readonly gaxgrpc::ApiCall<SimpleRequest, Response> _callPatchMethod;
         private readonly gaxgrpc::ApiCall<SimpleRequest, Response> _callDeleteMethod;
+        private readonly gaxgrpc::ApiCall<SimpleRequest, Response> _callGetNoTemplateMethod;
         private readonly gaxgrpc::ApiCall<NestedRequest, Response> _callNestedMultiMethod;
 
 
@@ -73,6 +75,9 @@ namespace Testing.RoutingHeaders
             _callDeleteMethod = clientHelper.BuildApiCall<SimpleRequest, Response>(grpcClient.DeleteMethodAsync, grpcClient.DeleteMethod, effectiveSettings.DeleteMethodSettings).WithCallSettingsOverlay(request => gaxgrpc::CallSettings.FromHeader("x-goog-request-params", $"name={(sysnet::WebUtility.UrlEncode(request.Name))}"));
             Modify_ApiCall(ref _callDeleteMethod);
             Modify_DeleteMethodApiCall(ref _callDeleteMethod);
+            _callGetNoTemplateMethod = clientHelper.BuildApiCall<SimpleRequest, Response>(grpcClient.GetNoTemplateMethodAsync, grpcClient.GetNoTemplateMethod, effectiveSettings.GetNoTemplateMethodSettings).WithCallSettingsOverlay(request => gaxgrpc::CallSettings.FromHeader("x-goog-request-params", $"name={(sysnet::WebUtility.UrlEncode(request.Name))}"));
+            Modify_ApiCall(ref _callGetNoTemplateMethod);
+            Modify_GetNoTemplateMethodApiCall(ref _callGetNoTemplateMethod);
             _callNestedMultiMethod = clientHelper.BuildApiCall<NestedRequest, Response>(grpcClient.NestedMultiMethodAsync, grpcClient.NestedMultiMethod, effectiveSettings.NestedMultiMethodSettings).WithCallSettingsOverlay(request => gaxgrpc::CallSettings.FromHeader("x-goog-request-params", $"nest1.nest2.name={(sysnet::WebUtility.UrlEncode(request.Nest1.Nest2.Name))}&name={(sysnet::WebUtility.UrlEncode(request.Name))}"));
             Modify_ApiCall(ref _callNestedMultiMethod);
             Modify_NestedMultiMethodApiCall(ref _callNestedMultiMethod);
@@ -87,6 +92,7 @@ namespace Testing.RoutingHeaders
         partial void Modify_PutMethodApiCall(ref gaxgrpc::ApiCall<SimpleRequest, Response> call);
         partial void Modify_PatchMethodApiCall(ref gaxgrpc::ApiCall<SimpleRequest, Response> call);
         partial void Modify_DeleteMethodApiCall(ref gaxgrpc::ApiCall<SimpleRequest, Response> call);
+        partial void Modify_GetNoTemplateMethodApiCall(ref gaxgrpc::ApiCall<SimpleRequest, Response> call);
         partial void Modify_NestedMultiMethodApiCall(ref gaxgrpc::ApiCall<NestedRequest, Response> call);
         partial void OnConstruction(RoutingHeaders.RoutingHeadersClient grpcClient, RoutingHeadersSettings settings, gaxgrpc::ClientHelper clientHelper);
 
