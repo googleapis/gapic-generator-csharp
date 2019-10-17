@@ -90,8 +90,8 @@ message MessageRequest {
 }
 
 enum TopLevelEnum {
-	DEFAULT = 0;
-	NOT_DEFAULT = 1;
+  DEFAULT = 0;
+  NOT_DEFAULT = 1;
 }
 
 message EnumRequest {
