@@ -15,11 +15,7 @@ service CommonResource {
   }
 }
 
-// Also defined as a common resource in CommonResourceConfig.json
-option (google.api.resource_definition) = {
-  type: "commonresource.example.com/Project",
-  pattern: "projects/{project}"
-};
+// Resource `commonresource.example.com/Project` defined in CommonResourceDef.proto
 
 message Request {
   string project_name = 1 [(google.api.resource_reference).type = "commonresource.example.com/Project"];
