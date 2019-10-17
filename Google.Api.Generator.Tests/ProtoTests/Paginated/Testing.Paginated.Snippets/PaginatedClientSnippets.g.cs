@@ -125,7 +125,7 @@ namespace Testing.Paginated.Snippets
         /// <summary>Snippet for SignatureMethod</summary>
         public void SignatureMethod1()
         {
-            // Snippet: SignatureMethod(String, Int32, CallSettings)
+            // Snippet: SignatureMethod(string, int, CallSettings)
             // Create client
             PaginatedClient paginatedClient = PaginatedClient.Create();
             // Initialize request argument(s)
@@ -171,7 +171,7 @@ namespace Testing.Paginated.Snippets
         /// <summary>Snippet for SignatureMethod</summary>
         public async Task SignatureMethod1Async()
         {
-            // Snippet: SignatureMethodAsync(String, Int32, CallSettings)
+            // Snippet: SignatureMethodAsync(string, int, CallSettings)
             // Create client
             PaginatedClient paginatedClient = await PaginatedClient.CreateAsync();
             // Initialize request argument(s)
@@ -217,7 +217,7 @@ namespace Testing.Paginated.Snippets
         /// <summary>Snippet for SignatureMethod</summary>
         public void SignatureMethod2()
         {
-            // Snippet: SignatureMethod(String, CallSettings)
+            // Snippet: SignatureMethod(string, CallSettings)
             // Create client
             PaginatedClient paginatedClient = PaginatedClient.Create();
             // Initialize request argument(s)
@@ -262,7 +262,7 @@ namespace Testing.Paginated.Snippets
         /// <summary>Snippet for SignatureMethod</summary>
         public async Task SignatureMethod2Async()
         {
-            // Snippet: SignatureMethodAsync(String, CallSettings)
+            // Snippet: SignatureMethodAsync(string, CallSettings)
             // Create client
             PaginatedClient paginatedClient = await PaginatedClient.CreateAsync();
             // Initialize request argument(s)
@@ -489,7 +489,7 @@ namespace Testing.Paginated.Snippets
         /// <summary>Snippet for ResourcedMethod</summary>
         public void ResourcedMethod()
         {
-            // Snippet: ResourcedMethod(String, CallSettings)
+            // Snippet: ResourcedMethod(string, CallSettings)
             // Create client
             PaginatedClient paginatedClient = PaginatedClient.Create();
             // Initialize request argument(s)
@@ -534,7 +534,7 @@ namespace Testing.Paginated.Snippets
         /// <summary>Snippet for ResourcedMethod</summary>
         public async Task ResourcedMethodAsync()
         {
-            // Snippet: ResourcedMethodAsync(String, CallSettings)
+            // Snippet: ResourcedMethodAsync(string, CallSettings)
             // Create client
             PaginatedClient paginatedClient = await PaginatedClient.CreateAsync();
             // Initialize request argument(s)

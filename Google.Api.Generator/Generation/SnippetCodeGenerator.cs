@@ -259,10 +259,12 @@ namespace Google.Api.Generator.Generation
                 }
             }
 
+            private string SnippetTypes(IEnumerable<Typ> typs) => string.Join("", typs.Select(t => $"{Ctx.Type(t).ToString()}, "));
+
             private MethodDeclarationSyntax Sync(string methodName, IEnumerable<Typ> snippetTyps, object initRequest, object makeRequest) =>
                 Method(Public, VoidType, methodName)()
                     .WithBody(
-                        $"// Snippet: {Method.SyncMethodName}({string.Join("", snippetTyps.Select(x => $"{x.Name}, "))}{nameof(CallSettings)})",
+                        $"// Snippet: {Method.SyncMethodName}({SnippetTypes(snippetTyps)}{nameof(CallSettings)})",
                         "// Create client",
                         Client.WithInitializer(Ctx.Type(Svc.ClientAbstractTyp).Call("Create")()),
                         snippetTyps.Any() ? "// Initialize request argument(s)" : null,
@@ -275,8 +277,8 @@ namespace Google.Api.Generator.Generation
             private MethodDeclarationSyntax Async(string methodName, IEnumerable<Typ> snippetTyps, object initRequest, object makeRequest) =>
                 Method(Public | Modifier.Async, Ctx.Type<Task>(), methodName)()
                     .WithBody(
-                        $"// Snippet: {Method.AsyncMethodName}({string.Join("", snippetTyps.Select(x => $"{x.Name}, "))}{nameof(CallSettings)})",
-                        $"// Additional: {Method.AsyncMethodName}({string.Join("", snippetTyps.Select(x => $"{x.Name}, "))}{nameof(CancellationToken)})",
+                        $"// Snippet: {Method.AsyncMethodName}({SnippetTypes(snippetTyps)}{nameof(CallSettings)})",
+                        $"// Additional: {Method.AsyncMethodName}({SnippetTypes(snippetTyps)}{nameof(CancellationToken)})",
                         "// Create client",
                         Client.WithInitializer(Await(Ctx.Type(Svc.ClientAbstractTyp).Call("CreateAsync")())),
                         "// Initialize request argument(s)",
@@ -289,7 +291,7 @@ namespace Google.Api.Generator.Generation
             private MethodDeclarationSyntax SyncLro(string methodName, IEnumerable<Typ> snippetTyps, object initRequest, object makeRequest) =>
                 Method(Public, VoidType, methodName)()
                     .WithBody(
-                        $"// Snippet: {Method.SyncMethodName}({string.Join("", snippetTyps.Select(x => $"{x.Name}, "))}{nameof(CallSettings)})",
+                        $"// Snippet: {Method.SyncMethodName}({SnippetTypes(snippetTyps)}{nameof(CallSettings)})",
                         "// Create client",
                         Client.WithInitializer(Ctx.Type(Svc.ClientAbstractTyp).Call("Create")()),
                         "// Initialize request argument(s)",
@@ -317,8 +319,8 @@ namespace Google.Api.Generator.Generation
             private MethodDeclarationSyntax AsyncLro(string methodName, IEnumerable<Typ> snippetTyps, object initRequest, object makeRequest) =>
                 Method(Public | Modifier.Async, Ctx.Type<Task>(), methodName)()
                     .WithBody(
-                        $"// Snippet: {Method.AsyncMethodName}({string.Join("", snippetTyps.Select(x => $"{x.Name}, "))}{nameof(CallSettings)})",
-                        $"// Additional: {Method.AsyncMethodName}({string.Join("", snippetTyps.Select(x => $"{x.Name}, "))}{nameof(CancellationToken)})",
+                        $"// Snippet: {Method.AsyncMethodName}({SnippetTypes(snippetTyps)}{nameof(CallSettings)})",
+                        $"// Additional: {Method.AsyncMethodName}({SnippetTypes(snippetTyps)}{nameof(CancellationToken)})",
                         "// Create client",
                         Client.WithInitializer(Await(Ctx.Type(Svc.ClientAbstractTyp).Call("CreateAsync")())),
                         "// Initialize request argument(s)",
@@ -346,7 +348,7 @@ namespace Google.Api.Generator.Generation
             private MethodDeclarationSyntax SyncPaginated(string methodName, IEnumerable<Typ> snippetTyps, object initRequest, object makeRequest) =>
                 Method(Public, VoidType, methodName)()
                     .WithBody(
-                        $"// Snippet: {Method.SyncMethodName}({string.Join("", snippetTyps.Select(x => $"{x.Name}, "))}{nameof(CallSettings)})",
+                        $"// Snippet: {Method.SyncMethodName}({SnippetTypes(snippetTyps)}{nameof(CallSettings)})",
                         "// Create client",
                         Client.WithInitializer(Ctx.Type(Svc.ClientAbstractTyp).Call("Create")()),
                         "// Initialize request argument(s)",
@@ -384,7 +386,7 @@ namespace Google.Api.Generator.Generation
             private MethodDeclarationSyntax AsyncPaginated(string methodName, IEnumerable<Typ> snippetTyps, object initRequest, object makeRequest) =>
                 Method(Public | Modifier.Async, Ctx.Type<Task>(), methodName)()
                     .WithBody(
-                        $"// Snippet: {Method.AsyncMethodName}({string.Join("", snippetTyps.Select(x => $"{x.Name}, "))}{nameof(CallSettings)})",
+                        $"// Snippet: {Method.AsyncMethodName}({SnippetTypes(snippetTyps)}{nameof(CallSettings)})",
                         "// Create client",
                         Client.WithInitializer(Await(Ctx.Type(Svc.ClientAbstractTyp).Call("CreateAsync")())),
                         "// Initialize request argument(s)",
@@ -422,7 +424,7 @@ namespace Google.Api.Generator.Generation
             private MethodDeclarationSyntax ServerStreaming(string methodName, IEnumerable<Typ> snippetTyps, object initRequest, object makeRequest) =>
                 Method(Public | Modifier.Async, Ctx.Type<Task>(), methodName)()
                     .WithBody(
-                        $"// Snippet: {Method.SyncMethodName}({string.Join("", snippetTyps.Select(x => $"{x.Name}, "))}{nameof(CallSettings)})",
+                        $"// Snippet: {Method.SyncMethodName}({SnippetTypes(snippetTyps)}{nameof(CallSettings)})",
                         "// Create client",
                         Client.WithInitializer(Ctx.Type(Svc.ClientAbstractTyp).Call("Create")()),
                         snippetTyps.Any() ? "// Initialize request argument(s)" : null,
