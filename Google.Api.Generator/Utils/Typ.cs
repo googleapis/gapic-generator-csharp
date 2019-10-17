@@ -59,7 +59,7 @@ namespace Google.Api.Generator.Utils
 
         private sealed class FromManual : Typ
         {
-            public FromManual(string ns, string name, bool isEnum = false) => (Namespace, Name, IsEnum) = (ns, name, IsEnum);
+            public FromManual(string ns, string name, bool isEnum = false) => (Namespace, Name, IsEnum) = (ns, name, isEnum);
             public override string Namespace { get; }
             public override string Name { get; }
             public override bool IsEnum { get; }

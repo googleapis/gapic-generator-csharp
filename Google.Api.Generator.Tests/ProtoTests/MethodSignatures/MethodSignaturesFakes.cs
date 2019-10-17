@@ -59,6 +59,12 @@ namespace Testing.MethodSignatures
         public RepeatedField<Types.Msg> RepeatedRequired { get; }
     }
 
+    public enum TopLevelEnum
+    {
+        DEFAULT = 0,
+        NOT_DEFAULT = 1,
+    }
+
     public class EnumRequest : ProtoMsgFake<EnumRequest>
     {
         public static class Types
@@ -72,6 +78,10 @@ namespace Testing.MethodSignatures
         public Types.Enum Required { get; set; }
         public RepeatedField<Types.Enum> RepeatedOptional { get; }
         public RepeatedField<Types.Enum> RepeatedRequired { get; }
+        public TopLevelEnum TopLevelOptional { get; set; }
+        public TopLevelEnum TopLevelRequired { get; set; }
+        public RepeatedField<TopLevelEnum> RepeatedTopLevelOptional { get; }
+        public RepeatedField<TopLevelEnum> RepeatedTopLevelRequired { get; }
     }
 
     public class NestedOuter : ProtoMsgFake<NestedOuter>
