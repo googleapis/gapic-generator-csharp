@@ -1,0 +1,13 @@
+﻿syntax = "proto3";
+
+package testing.commonresource;
+
+option csharp_namespace = "Testing.CommonResource";
+
+import "google/api/resource.proto";
+
+// Also defined as a common resource in CommonResourceConfig.json
+option (google.api.resource_definition) = {
+  type: "commonresource.example.com/Project",
+  pattern: "projects/{project}"
+};

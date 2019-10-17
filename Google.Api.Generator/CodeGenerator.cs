@@ -111,8 +111,11 @@ namespace Google.Api.Generator
                     // Record whether LRO is used.
                     hasLro |= serviceDetails.Methods.Any(x => x is MethodDetails.Lro);
                 }
-                // Generate resource-names for this proto file, if there are any. Only local (non-common) resource-names will be generated.
-                if (catalog.GetResourceDefsByFile(fileDesc).Any())
+                // Generate locally-defined resource-names types and message partial classes for this proto file.
+                // This will only be done if there are any to generate.
+                bool anyLocalResourceDefs = catalog.GetResourceDefsByFile(fileDesc).Any(def => !def.IsCommon);
+                bool anyPartialClasses = fileDesc.MessageTypes.SelectMany(x => x.Fields.InDeclarationOrder()).Any(x => catalog.GetResourceDetailsByField(x) != null);
+                if (anyLocalResourceDefs || anyPartialClasses)
                 {
                     var resCtx = SourceFileContext.Create(SourceFileContext.ImportStyle.FullyAliased, clock);
                     var resCode = ResourceNamesGenerator.Generate(catalog, resCtx, fileDesc);
