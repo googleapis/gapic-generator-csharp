@@ -35,7 +35,7 @@ service MethodSignatures {
   }
 
   rpc EnumArgs(EnumRequest) returns(Response) {
-    option (google.api.method_signature) = "optional,required,repeated_optional,repeated_required";
+    option (google.api.method_signature) = "optional,required,repeated_optional,repeated_required,top_level_optional,top_level_required,repeated_top_level_optional,repeated_top_level_required";
   }
 
   rpc NestedArgs(NestedRequest) returns(Response) {
@@ -89,6 +89,11 @@ message MessageRequest {
   repeated Msg repeated_required = 4 [(google.api.field_behavior) = REQUIRED];
 }
 
+enum TopLevelEnum {
+  DEFAULT = 0;
+  NOT_DEFAULT = 1;
+}
+
 message EnumRequest {
   enum Enum {
     DEFAULT = 0; // First value must be 0 and is the default
@@ -97,6 +102,10 @@ message EnumRequest {
   Enum required = 2 [(google.api.field_behavior) = REQUIRED];
   repeated Enum repeated_optional = 3;
   repeated Enum repeated_required = 4 [(google.api.field_behavior) = REQUIRED];
+  TopLevelEnum top_level_optional = 5;
+  TopLevelEnum top_level_required = 6 [(google.api.field_behavior) = REQUIRED];
+  repeated TopLevelEnum repeated_top_level_optional = 7;
+  repeated TopLevelEnum repeated_top_level_required = 8 [(google.api.field_behavior) = REQUIRED];
 }
 
 message NestedOuter {

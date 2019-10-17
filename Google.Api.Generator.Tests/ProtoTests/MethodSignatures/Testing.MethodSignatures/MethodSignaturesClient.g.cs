@@ -511,9 +511,17 @@ namespace Testing.MethodSignatures
         /// </param>
         /// <param name="repeatedRequired">
         /// </param>
+        /// <param name="topLevelOptional">
+        /// </param>
+        /// <param name="topLevelRequired">
+        /// </param>
+        /// <param name="repeatedTopLevelOptional">
+        /// </param>
+        /// <param name="repeatedTopLevelRequired">
+        /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The RPC response.</returns>
-        public virtual Response EnumArgs(EnumRequest.Types.Enum optional, EnumRequest.Types.Enum required, scg::IEnumerable<EnumRequest.Types.Enum> repeatedOptional, scg::IEnumerable<EnumRequest.Types.Enum> repeatedRequired, gaxgrpc::CallSettings callSettings = null) =>
+        public virtual Response EnumArgs(EnumRequest.Types.Enum optional, EnumRequest.Types.Enum required, scg::IEnumerable<EnumRequest.Types.Enum> repeatedOptional, scg::IEnumerable<EnumRequest.Types.Enum> repeatedRequired, TopLevelEnum topLevelOptional, TopLevelEnum topLevelRequired, scg::IEnumerable<TopLevelEnum> repeatedTopLevelOptional, scg::IEnumerable<TopLevelEnum> repeatedTopLevelRequired, gaxgrpc::CallSettings callSettings = null) =>
             EnumArgs(new EnumRequest
             {
                 Optional = optional,
@@ -526,6 +534,16 @@ namespace Testing.MethodSignatures
                 {
                     gax::GaxPreconditions.CheckNotNull(repeatedRequired, nameof(repeatedRequired)),
                 },
+                TopLevelOptional = topLevelOptional,
+                TopLevelRequired = topLevelRequired,
+                RepeatedTopLevelOptional =
+                {
+                    repeatedTopLevelOptional ?? linq::Enumerable.Empty<TopLevelEnum>(),
+                },
+                RepeatedTopLevelRequired =
+                {
+                    gax::GaxPreconditions.CheckNotNull(repeatedTopLevelRequired, nameof(repeatedTopLevelRequired)),
+                },
             }, callSettings);
 
         /// <summary>
@@ -538,9 +556,17 @@ namespace Testing.MethodSignatures
         /// </param>
         /// <param name="repeatedRequired">
         /// </param>
+        /// <param name="topLevelOptional">
+        /// </param>
+        /// <param name="topLevelRequired">
+        /// </param>
+        /// <param name="repeatedTopLevelOptional">
+        /// </param>
+        /// <param name="repeatedTopLevelRequired">
+        /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<Response> EnumArgsAsync(EnumRequest.Types.Enum optional, EnumRequest.Types.Enum required, scg::IEnumerable<EnumRequest.Types.Enum> repeatedOptional, scg::IEnumerable<EnumRequest.Types.Enum> repeatedRequired, gaxgrpc::CallSettings callSettings = null) =>
+        public virtual stt::Task<Response> EnumArgsAsync(EnumRequest.Types.Enum optional, EnumRequest.Types.Enum required, scg::IEnumerable<EnumRequest.Types.Enum> repeatedOptional, scg::IEnumerable<EnumRequest.Types.Enum> repeatedRequired, TopLevelEnum topLevelOptional, TopLevelEnum topLevelRequired, scg::IEnumerable<TopLevelEnum> repeatedTopLevelOptional, scg::IEnumerable<TopLevelEnum> repeatedTopLevelRequired, gaxgrpc::CallSettings callSettings = null) =>
             EnumArgsAsync(new EnumRequest
             {
                 Optional = optional,
@@ -553,6 +579,16 @@ namespace Testing.MethodSignatures
                 {
                     gax::GaxPreconditions.CheckNotNull(repeatedRequired, nameof(repeatedRequired)),
                 },
+                TopLevelOptional = topLevelOptional,
+                TopLevelRequired = topLevelRequired,
+                RepeatedTopLevelOptional =
+                {
+                    repeatedTopLevelOptional ?? linq::Enumerable.Empty<TopLevelEnum>(),
+                },
+                RepeatedTopLevelRequired =
+                {
+                    gax::GaxPreconditions.CheckNotNull(repeatedTopLevelRequired, nameof(repeatedTopLevelRequired)),
+                },
             }, callSettings);
 
         /// <summary>
@@ -565,10 +601,18 @@ namespace Testing.MethodSignatures
         /// </param>
         /// <param name="repeatedRequired">
         /// </param>
+        /// <param name="topLevelOptional">
+        /// </param>
+        /// <param name="topLevelRequired">
+        /// </param>
+        /// <param name="repeatedTopLevelOptional">
+        /// </param>
+        /// <param name="repeatedTopLevelRequired">
+        /// </param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
         /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<Response> EnumArgsAsync(EnumRequest.Types.Enum optional, EnumRequest.Types.Enum required, scg::IEnumerable<EnumRequest.Types.Enum> repeatedOptional, scg::IEnumerable<EnumRequest.Types.Enum> repeatedRequired, st::CancellationToken cancellationToken) =>
-            EnumArgsAsync(optional, required, repeatedOptional, repeatedRequired, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+        public virtual stt::Task<Response> EnumArgsAsync(EnumRequest.Types.Enum optional, EnumRequest.Types.Enum required, scg::IEnumerable<EnumRequest.Types.Enum> repeatedOptional, scg::IEnumerable<EnumRequest.Types.Enum> repeatedRequired, TopLevelEnum topLevelOptional, TopLevelEnum topLevelRequired, scg::IEnumerable<TopLevelEnum> repeatedTopLevelOptional, scg::IEnumerable<TopLevelEnum> repeatedTopLevelRequired, st::CancellationToken cancellationToken) =>
+            EnumArgsAsync(optional, required, repeatedOptional, repeatedRequired, topLevelOptional, topLevelRequired, repeatedTopLevelOptional, repeatedTopLevelRequired, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
         // TEST_END
 
         public virtual Response NestedArgs(NestedRequest request, gaxgrpc::CallSettings callSettings = null) => throw new sys::NotImplementedException();
