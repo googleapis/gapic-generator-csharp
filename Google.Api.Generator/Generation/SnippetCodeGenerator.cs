@@ -345,10 +345,12 @@ namespace Google.Api.Generator.Generation
                         "// End snippet")
                     .WithXmlDoc(XmlDoc.Summary($"Snippet for {Method.AsyncMethodName}"));
 
-            private MethodDeclarationSyntax SyncPaginated(string methodName, IEnumerable<Typ> snippetTyps, object initRequest, object makeRequest) =>
+            private string PaginatedSnippetTypes(bool isSig) => isSig ? "string, int?, " : "";
+
+            private MethodDeclarationSyntax SyncPaginated(string methodName, IEnumerable<Typ> snippetTyps, object initRequest, object makeRequest, bool isSig) =>
                 Method(Public, VoidType, methodName)()
                     .WithBody(
-                        $"// Snippet: {Method.SyncMethodName}({SnippetTypes(snippetTyps)}{nameof(CallSettings)})",
+                        $"// Snippet: {Method.SyncMethodName}({SnippetTypes(snippetTyps)}{PaginatedSnippetTypes(isSig)}{nameof(CallSettings)})",
                         "// Create client",
                         Client.WithInitializer(Ctx.Type(Svc.ClientAbstractTyp).Call("Create")()),
                         "// Initialize request argument(s)",
@@ -383,10 +385,10 @@ namespace Google.Api.Generator.Generation
                         "// End snippet")
                     .WithXmlDoc(XmlDoc.Summary($"Snippet for {Method.SyncMethodName}"));
 
-            private MethodDeclarationSyntax AsyncPaginated(string methodName, IEnumerable<Typ> snippetTyps, object initRequest, object makeRequest) =>
+            private MethodDeclarationSyntax AsyncPaginated(string methodName, IEnumerable<Typ> snippetTyps, object initRequest, object makeRequest, bool isSig) =>
                 Method(Public | Modifier.Async, Ctx.Type<Task>(), methodName)()
                     .WithBody(
-                        $"// Snippet: {Method.AsyncMethodName}({SnippetTypes(snippetTyps)}{nameof(CallSettings)})",
+                        $"// Snippet: {Method.AsyncMethodName}({SnippetTypes(snippetTyps)}{PaginatedSnippetTypes(isSig)}{nameof(CallSettings)})",
                         "// Create client",
                         Client.WithInitializer(Await(Ctx.Type(Svc.ClientAbstractTyp).Call("CreateAsync")())),
                         "// Initialize request argument(s)",
@@ -460,10 +462,10 @@ namespace Google.Api.Generator.Generation
                 InitRequestObject, Response.WithInitializer(Await(Client.Call(Method.AsyncMethodName)(Request))));
 
             public MethodDeclarationSyntax SyncPaginatedRequestMethod => SyncPaginated(Method.SyncSnippetMethodName, new[] { Method.RequestTyp },
-                InitRequestObject, Response.WithInitializer(Client.Call(Method.SyncMethodName)(Request)));
+                InitRequestObject, Response.WithInitializer(Client.Call(Method.SyncMethodName)(Request)), isSig: false);
 
             public MethodDeclarationSyntax AsyncPaginatedRequestMethod => AsyncPaginated(Method.AsyncSnippetMethodName, new[] { Method.RequestTyp },
-                InitRequestObject, AsyncResponse.WithInitializer(Client.Call(Method.AsyncMethodName)(Request)));
+                InitRequestObject, AsyncResponse.WithInitializer(Client.Call(Method.AsyncMethodName)(Request)), isSig: false);
 
             public MethodDeclarationSyntax ServerStreamingRequestMethod => ServerStreaming(Method.SyncSnippetMethodName, new[] { Method.RequestTyp },
                 InitRequestObject, Response.WithInitializer(Client.Call(Method.SyncMethodName)(Request)));
@@ -584,16 +586,16 @@ namespace Google.Api.Generator.Generation
                 }
 
                 public MethodDeclarationSyntax SyncPaginatedMethod => _def.SyncPaginated(SyncMethodName, _sig.Fields.Select(f => f.Typ),
-                    InitRequestArgsNormal, _def.Response.WithInitializer(_def.Client.Call(Method.SyncMethodName)(PaginatedArgs(InitRequestArgsNormal).ToArray())));
+                    InitRequestArgsNormal, _def.Response.WithInitializer(_def.Client.Call(Method.SyncMethodName)(PaginatedArgs(InitRequestArgsNormal).ToArray())), isSig: true);
 
                 public MethodDeclarationSyntax AsyncPaginatedMethod => _def.AsyncPaginated(AsyncMethodName, _sig.Fields.Select(f => f.Typ),
-                    InitRequestArgsNormal, _def.AsyncResponse.WithInitializer(_def.Client.Call(Method.AsyncMethodName)(PaginatedArgs(InitRequestArgsNormal).ToArray())));
+                    InitRequestArgsNormal, _def.AsyncResponse.WithInitializer(_def.Client.Call(Method.AsyncMethodName)(PaginatedArgs(InitRequestArgsNormal).ToArray())), isSig: true);
 
                 public MethodDeclarationSyntax SyncPaginatedMethodResourceNames => _def.SyncPaginated(SyncResourceNameMethodName, SnippetCommentResourceNameArgs,
-                    InitRequestArgsResourceNames, _def.Response.WithInitializer(_def.Client.Call(Method.SyncMethodName)(InitRequestArgsResourceNames.ToArray())));
+                    InitRequestArgsResourceNames, _def.Response.WithInitializer(_def.Client.Call(Method.SyncMethodName)(InitRequestArgsResourceNames.ToArray())), isSig: true);
 
                 public MethodDeclarationSyntax AsyncPaginatedMethodResourceNames => _def.AsyncPaginated(AsyncResourceNameMethodName, SnippetCommentResourceNameArgs,
-                    InitRequestArgsResourceNames, _def.AsyncResponse.WithInitializer(_def.Client.Call(Method.AsyncMethodName)(InitRequestArgsResourceNames.ToArray())));
+                    InitRequestArgsResourceNames, _def.AsyncResponse.WithInitializer(_def.Client.Call(Method.AsyncMethodName)(InitRequestArgsResourceNames.ToArray())), isSig: true);
 
                 public MethodDeclarationSyntax ServerStreamingMethod => _def.ServerStreaming(SyncMethodName, _sig.Fields.Select(f => f.Typ),
                     InitRequestArgsNormal, _def.Response.WithInitializer(_def.Client.Call(Method.SyncMethodName)(InitRequestArgsNormal.ToArray())));
