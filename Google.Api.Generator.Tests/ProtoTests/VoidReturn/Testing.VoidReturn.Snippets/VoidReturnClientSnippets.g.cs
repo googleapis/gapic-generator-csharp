@@ -57,7 +57,7 @@ namespace Testing.VoidReturn.Snippets
         /// <summary>Snippet for VoidMethod</summary>
         public void VoidMethod()
         {
-            // Snippet: VoidMethod(String, CallSettings)
+            // Snippet: VoidMethod(string, CallSettings)
             // Create client
             VoidReturnClient voidReturnClient = VoidReturnClient.Create();
             // Initialize request argument(s)
@@ -70,8 +70,8 @@ namespace Testing.VoidReturn.Snippets
         /// <summary>Snippet for VoidMethodAsync</summary>
         public async Task VoidMethodAsync()
         {
-            // Snippet: VoidMethodAsync(String, CallSettings)
-            // Additional: VoidMethodAsync(String, CancellationToken)
+            // Snippet: VoidMethodAsync(string, CallSettings)
+            // Additional: VoidMethodAsync(string, CancellationToken)
             // Create client
             VoidReturnClient voidReturnClient = await VoidReturnClient.CreateAsync();
             // Initialize request argument(s)

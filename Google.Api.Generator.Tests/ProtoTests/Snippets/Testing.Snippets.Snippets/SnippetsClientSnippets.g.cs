@@ -185,7 +185,7 @@ namespace Testing.Snippets.Snippets
         /// <summary>Snippet for MethodDefaultValues</summary>
         public void MethodDefaultValues()
         {
-            // Snippet: MethodDefaultValues(IEnumerable, IEnumerable, IEnumerable, CallSettings)
+            // Snippet: MethodDefaultValues(IEnumerable<double>, IEnumerable<DefaultValuesRequest.Types.NestedMessage>, IEnumerable<string>, CallSettings)
             // Create client
             SnippetsClient snippetsClient = SnippetsClient.Create();
             // Initialize request argument(s)
@@ -206,8 +206,8 @@ namespace Testing.Snippets.Snippets
         /// <summary>Snippet for MethodDefaultValuesAsync</summary>
         public async Task MethodDefaultValuesAsync()
         {
-            // Snippet: MethodDefaultValuesAsync(IEnumerable, IEnumerable, IEnumerable, CallSettings)
-            // Additional: MethodDefaultValuesAsync(IEnumerable, IEnumerable, IEnumerable, CancellationToken)
+            // Snippet: MethodDefaultValuesAsync(IEnumerable<double>, IEnumerable<DefaultValuesRequest.Types.NestedMessage>, IEnumerable<string>, CallSettings)
+            // Additional: MethodDefaultValuesAsync(IEnumerable<double>, IEnumerable<DefaultValuesRequest.Types.NestedMessage>, IEnumerable<string>, CancellationToken)
             // Create client
             SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
             // Initialize request argument(s)
@@ -228,7 +228,7 @@ namespace Testing.Snippets.Snippets
         /// <summary>Snippet for MethodDefaultValues</summary>
         public void MethodDefaultValues_ResourceNames()
         {
-            // Snippet: MethodDefaultValues(IEnumerable, IEnumerable, AResourceName, CallSettings)
+            // Snippet: MethodDefaultValues(IEnumerable<double>, IEnumerable<DefaultValuesRequest.Types.NestedMessage>, AResourceName, CallSettings)
             // Create client
             SnippetsClient snippetsClient = SnippetsClient.Create();
             // Initialize request argument(s)
@@ -249,8 +249,8 @@ namespace Testing.Snippets.Snippets
         /// <summary>Snippet for MethodDefaultValuesAsync</summary>
         public async Task MethodDefaultValuesAsync_ResourceNames()
         {
-            // Snippet: MethodDefaultValuesAsync(IEnumerable, IEnumerable, AResourceName, CallSettings)
-            // Additional: MethodDefaultValuesAsync(IEnumerable, IEnumerable, AResourceName, CancellationToken)
+            // Snippet: MethodDefaultValuesAsync(IEnumerable<double>, IEnumerable<DefaultValuesRequest.Types.NestedMessage>, AResourceName, CallSettings)
+            // Additional: MethodDefaultValuesAsync(IEnumerable<double>, IEnumerable<DefaultValuesRequest.Types.NestedMessage>, AResourceName, CancellationToken)
             // Create client
             SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
             // Initialize request argument(s)
@@ -308,7 +308,7 @@ namespace Testing.Snippets.Snippets
         /// <summary>Snippet for MethodOneSignature</summary>
         public void MethodOneSignature()
         {
-            // Snippet: MethodOneSignature(String, Int32, Boolean, CallSettings)
+            // Snippet: MethodOneSignature(string, int, bool, CallSettings)
             // Create client
             SnippetsClient snippetsClient = SnippetsClient.Create();
             // Initialize request argument(s)
@@ -323,8 +323,8 @@ namespace Testing.Snippets.Snippets
         /// <summary>Snippet for MethodOneSignatureAsync</summary>
         public async Task MethodOneSignatureAsync()
         {
-            // Snippet: MethodOneSignatureAsync(String, Int32, Boolean, CallSettings)
-            // Additional: MethodOneSignatureAsync(String, Int32, Boolean, CancellationToken)
+            // Snippet: MethodOneSignatureAsync(string, int, bool, CallSettings)
+            // Additional: MethodOneSignatureAsync(string, int, bool, CancellationToken)
             // Create client
             SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
             // Initialize request argument(s)
@@ -376,7 +376,7 @@ namespace Testing.Snippets.Snippets
         /// <summary>Snippet for MethodThreeSignatures</summary>
         public void MethodThreeSignatures1()
         {
-            // Snippet: MethodThreeSignatures(String, Int32, Boolean, CallSettings)
+            // Snippet: MethodThreeSignatures(string, int, bool, CallSettings)
             // Create client
             SnippetsClient snippetsClient = SnippetsClient.Create();
             // Initialize request argument(s)
@@ -391,8 +391,8 @@ namespace Testing.Snippets.Snippets
         /// <summary>Snippet for MethodThreeSignaturesAsync</summary>
         public async Task MethodThreeSignatures1Async()
         {
-            // Snippet: MethodThreeSignaturesAsync(String, Int32, Boolean, CallSettings)
-            // Additional: MethodThreeSignaturesAsync(String, Int32, Boolean, CancellationToken)
+            // Snippet: MethodThreeSignaturesAsync(string, int, bool, CallSettings)
+            // Additional: MethodThreeSignaturesAsync(string, int, bool, CancellationToken)
             // Create client
             SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
             // Initialize request argument(s)
@@ -407,7 +407,7 @@ namespace Testing.Snippets.Snippets
         /// <summary>Snippet for MethodThreeSignatures</summary>
         public void MethodThreeSignatures2()
         {
-            // Snippet: MethodThreeSignatures(String, Boolean, CallSettings)
+            // Snippet: MethodThreeSignatures(string, bool, CallSettings)
             // Create client
             SnippetsClient snippetsClient = SnippetsClient.Create();
             // Initialize request argument(s)
@@ -421,8 +421,8 @@ namespace Testing.Snippets.Snippets
         /// <summary>Snippet for MethodThreeSignaturesAsync</summary>
         public async Task MethodThreeSignatures2Async()
         {
-            // Snippet: MethodThreeSignaturesAsync(String, Boolean, CallSettings)
-            // Additional: MethodThreeSignaturesAsync(String, Boolean, CancellationToken)
+            // Snippet: MethodThreeSignaturesAsync(string, bool, CallSettings)
+            // Additional: MethodThreeSignaturesAsync(string, bool, CancellationToken)
             // Create client
             SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
             // Initialize request argument(s)
@@ -496,7 +496,7 @@ namespace Testing.Snippets.Snippets
         /// <summary>Snippet for MethodResourceSignature</summary>
         public void MethodResourceSignature1()
         {
-            // Snippet: MethodResourceSignature(String, String, String, CallSettings)
+            // Snippet: MethodResourceSignature(string, string, string, CallSettings)
             // Create client
             SnippetsClient snippetsClient = SnippetsClient.Create();
             // Initialize request argument(s)
@@ -511,8 +511,8 @@ namespace Testing.Snippets.Snippets
         /// <summary>Snippet for MethodResourceSignatureAsync</summary>
         public async Task MethodResourceSignature1Async()
         {
-            // Snippet: MethodResourceSignatureAsync(String, String, String, CallSettings)
-            // Additional: MethodResourceSignatureAsync(String, String, String, CancellationToken)
+            // Snippet: MethodResourceSignatureAsync(string, string, string, CallSettings)
+            // Additional: MethodResourceSignatureAsync(string, string, string, CancellationToken)
             // Create client
             SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
             // Initialize request argument(s)
@@ -558,7 +558,7 @@ namespace Testing.Snippets.Snippets
         /// <summary>Snippet for MethodResourceSignature</summary>
         public void MethodResourceSignature2()
         {
-            // Snippet: MethodResourceSignature(String, CallSettings)
+            // Snippet: MethodResourceSignature(string, CallSettings)
             // Create client
             SnippetsClient snippetsClient = SnippetsClient.Create();
             // Initialize request argument(s)
@@ -571,8 +571,8 @@ namespace Testing.Snippets.Snippets
         /// <summary>Snippet for MethodResourceSignatureAsync</summary>
         public async Task MethodResourceSignature2Async()
         {
-            // Snippet: MethodResourceSignatureAsync(String, CallSettings)
-            // Additional: MethodResourceSignatureAsync(String, CancellationToken)
+            // Snippet: MethodResourceSignatureAsync(string, CallSettings)
+            // Additional: MethodResourceSignatureAsync(string, CancellationToken)
             // Create client
             SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
             // Initialize request argument(s)
@@ -681,7 +681,7 @@ namespace Testing.Snippets.Snippets
         /// <summary>Snippet for MethodLroSignatures</summary>
         public void MethodLroSignatures()
         {
-            // Snippet: MethodLroSignatures(String, Int32, Boolean, CallSettings)
+            // Snippet: MethodLroSignatures(string, int, bool, CallSettings)
             // Create client
             SnippetsClient snippetsClient = SnippetsClient.Create();
             // Initialize request argument(s)
@@ -712,8 +712,8 @@ namespace Testing.Snippets.Snippets
         /// <summary>Snippet for MethodLroSignaturesAsync</summary>
         public async Task MethodLroSignaturesAsync()
         {
-            // Snippet: MethodLroSignaturesAsync(String, Int32, Boolean, CallSettings)
-            // Additional: MethodLroSignaturesAsync(String, Int32, Boolean, CancellationToken)
+            // Snippet: MethodLroSignaturesAsync(string, int, bool, CallSettings)
+            // Additional: MethodLroSignaturesAsync(string, int, bool, CancellationToken)
             // Create client
             SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
             // Initialize request argument(s)
@@ -813,7 +813,7 @@ namespace Testing.Snippets.Snippets
         /// <summary>Snippet for MethodLroResourceSignature</summary>
         public void MethodLroResourceSignature()
         {
-            // Snippet: MethodLroResourceSignature(String, String, String, CallSettings)
+            // Snippet: MethodLroResourceSignature(string, string, string, CallSettings)
             // Create client
             SnippetsClient snippetsClient = SnippetsClient.Create();
             // Initialize request argument(s)
@@ -844,8 +844,8 @@ namespace Testing.Snippets.Snippets
         /// <summary>Snippet for MethodLroResourceSignatureAsync</summary>
         public async Task MethodLroResourceSignatureAsync()
         {
-            // Snippet: MethodLroResourceSignatureAsync(String, String, String, CallSettings)
-            // Additional: MethodLroResourceSignatureAsync(String, String, String, CancellationToken)
+            // Snippet: MethodLroResourceSignatureAsync(string, string, string, CallSettings)
+            // Additional: MethodLroResourceSignatureAsync(string, string, string, CancellationToken)
             // Create client
             SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
             // Initialize request argument(s)
@@ -966,7 +966,7 @@ namespace Testing.Snippets.Snippets
         /// <summary>Snippet for MethodServerStreaming</summary>
         public async Task MethodServerStreaming1()
         {
-            // Snippet: MethodServerStreaming(String, Boolean, CallSettings)
+            // Snippet: MethodServerStreaming(string, bool, CallSettings)
             // Create client
             SnippetsClient snippetsClient = SnippetsClient.Create();
             // Initialize request argument(s)
@@ -1036,7 +1036,7 @@ namespace Testing.Snippets.Snippets
         /// <summary>Snippet for MethodServerStreamingResources</summary>
         public async Task MethodServerStreamingResources()
         {
-            // Snippet: MethodServerStreamingResources(String, String, String, CallSettings)
+            // Snippet: MethodServerStreamingResources(string, string, string, CallSettings)
             // Create client
             SnippetsClient snippetsClient = SnippetsClient.Create();
             // Initialize request argument(s)
