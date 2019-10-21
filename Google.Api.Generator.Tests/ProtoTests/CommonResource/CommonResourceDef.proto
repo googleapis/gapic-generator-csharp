@@ -11,3 +11,14 @@ option (google.api.resource_definition) = {
   type: "commonresource.example.com/Project",
   pattern: "projects/{project}"
 };
+
+// Also defined as a common resource in CommonResourceConfig.json
+// This is here to test that an empty `...ResourceNames.cs` file is not created.
+message Organization {
+  option (google.api.resource) = {
+    type: "cloudresourcemanager.googleapis.com/Organization"
+    pattern: "organizations/{organization}"
+  };
+
+  string name = 1;
+}

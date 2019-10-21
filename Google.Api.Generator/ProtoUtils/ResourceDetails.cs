@@ -56,8 +56,9 @@ namespace Google.Api.Generator.ProtoUtils
                 public IReadOnlyList<SingleDef> Defs { get; }
             }
 
-            public Definition(string fileName, string type, string nameField, SingleDef single, MultiDef multi)
+            public Definition(MessageDescriptor msgDesc, string fileName, string type, string nameField, SingleDef single, MultiDef multi)
             {
+                MsgDesc = msgDesc;
                 FileName = fileName;
                 UnifiedResourceTypeName = type;
                 var typeNameParts = type.Split('/');
@@ -72,6 +73,8 @@ namespace Google.Api.Generator.ProtoUtils
                 Single = single;
                 Multi = multi;
             }
+
+            public MessageDescriptor MsgDesc { get; }
 
             public string FileName { get; }
 
@@ -157,15 +160,15 @@ namespace Google.Api.Generator.ProtoUtils
             //                         Adding a new resource with the same pattern as one of a multi-pattern parent.
             // TODO: Support new (Sept 2019) `name_descriptor` way of specifying resource-names.
             var msgsFromProtoMsgs = descs
-                .SelectMany(fileDesc => fileDesc.MessageTypes.Select(msg =>
-                    (fileDesc, resDesc: msg.CustomOptions.TryGetMessage<ResourceDescriptor>(ProtoConsts.MessageOption.Resource, out var resDesc) ? resDesc : null)))
+                .SelectMany(fileDesc => fileDesc.MessageTypes.Select(msgDesc =>
+                    (fileDesc, msgDesc, resDesc: msgDesc.CustomOptions.TryGetMessage<ResourceDescriptor>(ProtoConsts.MessageOption.Resource, out var resDesc) ? resDesc : null)))
                 .Where(x => x.resDesc != null)
-                .Select(x => (x.fileDesc, x.resDesc, shortName: GetShortName(x.resDesc)));
+                .Select(x => (x.fileDesc, x.msgDesc, x.resDesc, shortName: GetShortName(x.resDesc)));
             var msgsFromFileAnnotation = descs
                 .SelectMany(fileDesc =>
                     (fileDesc.CustomOptions.TryGetRepeatedMessage<ResourceDescriptor>(ProtoConsts.FileOption.ResourceDefinition, out var resDesc0) ?
                         resDesc0 : Enumerable.Empty<ResourceDescriptor>())
-                            .Select(resDesc => (fileDesc, resDesc, shortName: GetShortName(resDesc))));
+                            .Select(resDesc => (fileDesc, msgDesc: (MessageDescriptor)null, resDesc, shortName: GetShortName(resDesc))));
             var msgs = msgsFromProtoMsgs.Concat(msgsFromFileAnnotation).ToImmutableList();
             // Load Singles.
             var singlesByType = msgs.Where(x => HasSingle(x.resDesc))
@@ -203,7 +206,7 @@ namespace Google.Api.Generator.ProtoUtils
             {
                 var single = singlesByType.GetValueOrDefault(x.resDesc.Type).single;
                 var multi = multisByType.GetValueOrDefault(x.resDesc.Type).multi;
-                return new Definition(fileNamesByType[x.resDesc.Type], x.resDesc.Type, x.resDesc.NameField, single, multi);
+                return new Definition(x.msgDesc, fileNamesByType[x.resDesc.Type], x.resDesc.Type, x.resDesc.NameField, single, multi);
             }).ToList();
 
             bool HasSingle(ResourceDescriptor resDesc) =>
