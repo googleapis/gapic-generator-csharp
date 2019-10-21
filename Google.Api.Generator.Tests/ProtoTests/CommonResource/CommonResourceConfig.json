@@ -5,6 +5,12 @@
       "csharp_package_name": "Common.Package",
       "csharp_namespace": "Common.Namespace",
       "csharp_class_name":  "CommonProjectName"
+    },
+    {
+      "type": "cloudresourcemanager.googleapis.com/Organization",
+      "csharp_package_name": "Google.Cloud.Gax.Whatever",
+      "csharp_namespace": "Google.Cloud.Gax.Whatever.Ns",
+      "csharp_class_name": "Organization"
     }
   ]
 }
