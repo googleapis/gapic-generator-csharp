@@ -106,7 +106,7 @@ namespace Google.Api.Generator.Utils
             public Special(Type type) => SpecialType = type;
             public Type SpecialType { get; }
             public override string Namespace => throw new InvalidOperationException();
-            public override string Name => throw new InvalidOperationException();
+            public override string Name => null;
         }
 
         private static IReadOnlyDictionary<string, Typ> s_wrapperTypes = new Dictionary<string, Typ>

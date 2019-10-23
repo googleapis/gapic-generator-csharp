@@ -1165,9 +1165,9 @@ namespace Testing.ResourceNames
         /// <summary>
         /// <see cref="tr::SingleResourceName"/>-typed view over the <see cref="Name"/> resource name property.
         /// </summary>
-        public SingleResourceName SingleResourceName
+        public tr::SingleResourceName SingleResourceName
         {
-            get => string.IsNullOrEmpty(Name) ? null : SingleResourceName.Parse(Name);
+            get => string.IsNullOrEmpty(Name) ? null : tr::SingleResourceName.Parse(Name);
             set => Name = value?.ToString() ?? "";
         }
     }
@@ -1189,9 +1189,9 @@ namespace Testing.ResourceNames
         /// <summary>
         /// <see cref="tr::MultiResourceNameOneOf"/>-typed view over the <see cref="Name"/> resource name property.
         /// </summary>
-        public MultiResourceNameOneOf MultiResourceNameOneOf
+        public tr::MultiResourceNameOneOf MultiResourceNameOneOf
         {
-            get => string.IsNullOrEmpty(Name) ? null : MultiResourceNameOneOf.Parse(Name, true);
+            get => string.IsNullOrEmpty(Name) ? null : tr::MultiResourceNameOneOf.Parse(Name, true);
             set => Name = value?.ToString() ?? "";
         }
     }
@@ -1214,9 +1214,9 @@ namespace Testing.ResourceNames
         /// <see cref="tr::FutureMultiResourceNameOneOf"/>-typed view over the <see cref="Name"/> resource name
         /// property.
         /// </summary>
-        public FutureMultiResourceNameOneOf FutureMultiResourceNameOneOf
+        public tr::FutureMultiResourceNameOneOf FutureMultiResourceNameOneOf
         {
-            get => string.IsNullOrEmpty(Name) ? null : FutureMultiResourceNameOneOf.Parse(Name, true);
+            get => string.IsNullOrEmpty(Name) ? null : tr::FutureMultiResourceNameOneOf.Parse(Name, true);
             set => Name = value?.ToString() ?? "";
         }
     }
@@ -1227,9 +1227,9 @@ namespace Testing.ResourceNames
         /// <see cref="tr::OriginallySingleResourceName"/>-typed view over the <see cref="Name"/> resource name
         /// property.
         /// </summary>
-        public OriginallySingleResourceName OriginallySingleResourceName
+        public tr::OriginallySingleResourceName OriginallySingleResourceName
         {
-            get => string.IsNullOrEmpty(Name) ? null : OriginallySingleResourceName.Parse(Name);
+            get => string.IsNullOrEmpty(Name) ? null : tr::OriginallySingleResourceName.Parse(Name);
             set => Name = value?.ToString() ?? "";
         }
 
@@ -1237,9 +1237,9 @@ namespace Testing.ResourceNames
         /// <see cref="tr::OriginallySingleResourceNameOneOf"/>-typed view over the <see cref="Name"/> resource name
         /// property.
         /// </summary>
-        public OriginallySingleResourceNameOneOf OriginallySingleResourceNameOneOf
+        public tr::OriginallySingleResourceNameOneOf OriginallySingleResourceNameOneOf
         {
-            get => string.IsNullOrEmpty(Name) ? null : OriginallySingleResourceNameOneOf.Parse(Name, true);
+            get => string.IsNullOrEmpty(Name) ? null : tr::OriginallySingleResourceNameOneOf.Parse(Name, true);
             set => Name = value?.ToString() ?? "";
         }
     }

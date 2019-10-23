@@ -112,9 +112,9 @@ namespace Testing.ServerStreaming
         /// <summary>
         /// <see cref="ts::ResourceName"/>-typed view over the <see cref="Name"/> resource name property.
         /// </summary>
-        public ResourceName ResourceName
+        public ts::ResourceName ResourceName
         {
-            get => string.IsNullOrEmpty(Name) ? null : ResourceName.Parse(Name);
+            get => string.IsNullOrEmpty(Name) ? null : ts::ResourceName.Parse(Name);
             set => Name = value?.ToString() ?? "";
         }
     }
@@ -124,9 +124,9 @@ namespace Testing.ServerStreaming
         /// <summary>
         /// <see cref="ts::ResourceName"/>-typed view over the <see cref="Name"/> resource name property.
         /// </summary>
-        public ResourceName ResourceName
+        public ts::ResourceName ResourceName
         {
-            get => string.IsNullOrEmpty(Name) ? null : ResourceName.Parse(Name);
+            get => string.IsNullOrEmpty(Name) ? null : ts::ResourceName.Parse(Name);
             set => Name = value?.ToString() ?? "";
         }
     }

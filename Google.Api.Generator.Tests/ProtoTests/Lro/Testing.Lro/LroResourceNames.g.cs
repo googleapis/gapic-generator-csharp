@@ -112,9 +112,9 @@ namespace Testing.Lro
         /// <summary>
         /// <see cref="tl::ResourceName"/>-typed view over the <see cref="Name"/> resource name property.
         /// </summary>
-        public ResourceName ResourceName
+        public tl::ResourceName ResourceName
         {
-            get => string.IsNullOrEmpty(Name) ? null : ResourceName.Parse(Name);
+            get => string.IsNullOrEmpty(Name) ? null : tl::ResourceName.Parse(Name);
             set => Name = value?.ToString() ?? "";
         }
     }

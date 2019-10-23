@@ -18,6 +18,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
@@ -54,17 +55,14 @@ namespace Google.Api.Generator.Generation
             private readonly Dictionary<string, string> _namespaceAliases = new Dictionary<string, string>();
             private readonly HashSet<string> _namespaceAliasesOnly = new HashSet<string>();
 
-            public override TypeSyntax Type(Typ typ, bool forceFullyQualified)
+            public override TypeSyntax Type(Typ typ) => base.Type(typ) ?? Type0(typ);
+
+            private TypeSyntax Type0(Typ typ)
             {
-                var type = base.Type(typ, forceFullyQualified);
-                if (type != null)
-                {
-                    return type;
-                }
                 string namespaceAlias;
-                if (!forceFullyQualified && $"{Namespace}.".StartsWith($"{typ.Namespace}."))
+                if (!RequireFullyQualifiedTyp(typ) && $"{Namespace}.".StartsWith($"{typ.Namespace}."))
                 {
-                    // Within the current namespace, no import required.
+                    // Within the current namespace and not required to force a fully-qualified name; no import required.
                     namespaceAlias = null;
                 }
                 else if (!_namespaceAliases.TryGetValue(typ.Namespace, out namespaceAlias))
@@ -118,13 +116,10 @@ namespace Google.Api.Generator.Generation
 
             private readonly HashSet<string> _imports = new HashSet<string>();
 
-            public override TypeSyntax Type(Typ typ, bool forceFullyQualified)
+            public override TypeSyntax Type(Typ typ) => base.Type(typ) ?? Type0(typ);
+
+            public TypeSyntax Type0(Typ typ)
             {
-                var type = base.Type(typ, forceFullyQualified);
-                if (type != null)
-                {
-                    return type;
-                }
                 if (!$"{Namespace}.".StartsWith($"{typ.Namespace}."))
                 {
                     _imports.Add(typ.Namespace);
@@ -214,6 +209,12 @@ namespace Google.Api.Generator.Generation
         public TypeSyntax CurrentType => Type(CurrentTyp);
 
         /// <summary>
+        /// Member names known to exist in the current and outer class.
+        /// Used to ensure types are fully-qualified if their name clashes with an existing member.
+        /// </summary>
+        public ImmutableHashSet<string> RegisteredMemberNames { get; set; } = ImmutableHashSet<string>.Empty;
+
+        /// <summary>
         /// Move the current context into a namespace.
         /// This is relevant for namespacing of type references.
         /// Disposing of the return value moves the context back out of the namespace.
@@ -237,9 +238,21 @@ namespace Google.Api.Generator.Generation
         public IDisposable InClass(ClassDeclarationSyntax cls)
         {
             var restoreTypes = Typs;
+            var restoreMemberNames = RegisteredMemberNames;
             Typs = Typs.Append(Typ.Manual(Namespace, cls)).ToList();
-            return new Disposable(() => Typs = restoreTypes);
+            return new Disposable(() =>
+            {
+                Typs = restoreTypes;
+                RegisteredMemberNames = restoreMemberNames;
+            });
         }
+
+        public void RegisterClassMemberNames(IEnumerable<string> names)
+        {
+            RegisteredMemberNames = RegisteredMemberNames.Union(names);
+        }
+
+        private bool RequireFullyQualifiedTyp(Typ typ) => RegisteredMemberNames.Contains(typ.Name);
 
         public TypeSyntax TypeDontCare => Type<int>();
 
@@ -247,9 +260,7 @@ namespace Google.Api.Generator.Generation
 
         public TypeSyntax Type(System.Type type) => Type(Typ.Of(type));
 
-        public TypeSyntax Type(Typ typ) => Type(typ, false);
-
-        public virtual TypeSyntax Type(Typ typ, bool forceFullyQualified)
+        public virtual TypeSyntax Type(Typ typ)
         {
             if (typ is Typ.Special special)
             {
@@ -278,7 +289,7 @@ namespace Google.Api.Generator.Generation
             if (typ.DeclaringTyp != null)
             {
                 // Handle nested typs.
-                if (!forceFullyQualified && typ.DeclaringTyp == CurrentTyp)
+                if (!RequireFullyQualifiedTyp(typ) && typ.DeclaringTyp == CurrentTyp)
                 {
                     return IdentifierName(typ.Name);
                 }
