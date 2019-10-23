@@ -1175,11 +1175,12 @@ namespace Testing.ResourceNames
     public partial class SingleResourceRef
     {
         /// <summary>
-        /// <see cref="SingleResourceName"/>-typed view over the <see cref="SingleResource"/> resource name property.
+        /// <see cref="tr::SingleResourceName"/>-typed view over the <see cref="SingleResource"/> resource name
+        /// property.
         /// </summary>
-        public SingleResourceName SingleResourceAsSingleResourceName
+        public tr::SingleResourceName SingleResourceAsSingleResourceName
         {
-            get => string.IsNullOrEmpty(SingleResource) ? null : SingleResourceName.Parse(SingleResource);
+            get => string.IsNullOrEmpty(SingleResource) ? null : tr::SingleResourceName.Parse(SingleResource);
             set => SingleResource = value?.ToString() ?? "";
         }
     }

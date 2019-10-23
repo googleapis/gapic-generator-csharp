@@ -24,6 +24,7 @@ namespace Testing.ResourceNames
     public partial class SingleResourceRef : ProtoMsgFake<SingleResourceRef>
     {
         public string SingleResource { get; set; }
+        public string SingleResourceName { get; set; }
     }
 
     public partial class MultiResource : ProtoMsgFake<MultiResource>

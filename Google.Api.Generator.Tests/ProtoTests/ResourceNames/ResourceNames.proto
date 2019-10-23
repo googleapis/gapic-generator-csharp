@@ -58,6 +58,9 @@ message SingleResource {
 
 message SingleResourceRef {
   string single_resource = 1 [(google.api.resource_reference).type = "resourcenames.example.com/SingleResource"];
+
+  // This field is here to test that references to the type of the same name are correctly fully qualified.
+  string single_resource_name = 2;
 }
 
 message MultiResource {
