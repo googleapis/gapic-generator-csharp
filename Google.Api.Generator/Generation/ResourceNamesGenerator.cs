@@ -503,6 +503,11 @@ namespace Google.Api.Generator.Generation
                     var cls = Class(Public | Partial, Typ.Of(msg));
                     using (_ctx.InClass(cls))
                     {
+                        _ctx.RegisterClassMemberNames(resources
+                            .SelectMany(res => new[] { res.resDetails.SingleResourcePropertyName, res.resDetails.MultiResourcePropertyName })
+                            .Concat(msg.Fields.InDeclarationOrder().Select(f => f.CSharpPropertyName()))
+                            .Append(msg.NestedTypes.Any() ? "Types" : null)
+                            .Where(x => x != null));
                         foreach (var res in resources)
                         {
                             var underlyingProperty = Property(DontCare, _ctx.TypeDontCare, res.resDetails.UnderlyingPropertyName);
@@ -519,9 +524,7 @@ namespace Google.Api.Generator.Generation
                             
                             PropertyDeclarationSyntax ResourceProperty(Typ resourceNameTyp, string propertyName, bool isWildcard, bool isMulti)
                             {
-                                var xmlDocSummary = XmlDoc.Summary(
-                                    _ctx.Type(resourceNameTyp, forceFullyQualified: resourceNameTyp.Name == propertyName),
-                                    "-typed view over the ", underlyingProperty, " resource name property.");
+                                var xmlDocSummary = XmlDoc.Summary(_ctx.Type(resourceNameTyp), "-typed view over the ", underlyingProperty, " resource name property.");
                                 if (res.field.IsRepeated)
                                 {
                                     var repeatedTyp = Typ.Generic(typeof(ResourceNameList<>), resourceNameTyp);

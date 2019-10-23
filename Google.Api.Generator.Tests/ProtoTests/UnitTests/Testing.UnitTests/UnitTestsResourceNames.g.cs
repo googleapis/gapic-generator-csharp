@@ -511,9 +511,9 @@ namespace Testing.UnitTests
         /// <summary>
         /// <see cref="tu::AResourceName"/>-typed view over the <see cref="Name"/> resource name property.
         /// </summary>
-        public AResourceName AResourceName
+        public tu::AResourceName AResourceName
         {
-            get => string.IsNullOrEmpty(Name) ? null : AResourceName.Parse(Name);
+            get => string.IsNullOrEmpty(Name) ? null : tu::AResourceName.Parse(Name);
             set => Name = value?.ToString() ?? "";
         }
     }
@@ -536,9 +536,9 @@ namespace Testing.UnitTests
         /// <see cref="tu::MultiPatternResourceNameOneOf"/>-typed view over the <see cref="Name"/> resource name
         /// property.
         /// </summary>
-        public MultiPatternResourceNameOneOf MultiPatternResourceNameOneOf
+        public tu::MultiPatternResourceNameOneOf MultiPatternResourceNameOneOf
         {
-            get => string.IsNullOrEmpty(Name) ? null : MultiPatternResourceNameOneOf.Parse(Name, true);
+            get => string.IsNullOrEmpty(Name) ? null : tu::MultiPatternResourceNameOneOf.Parse(Name, true);
             set => Name = value?.ToString() ?? "";
         }
     }

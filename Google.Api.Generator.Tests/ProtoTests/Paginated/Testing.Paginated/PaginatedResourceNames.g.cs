@@ -112,9 +112,9 @@ namespace Testing.Paginated
         /// <summary>
         /// <see cref="tp::ResourceName"/>-typed view over the <see cref="Name"/> resource name property.
         /// </summary>
-        public ResourceName ResourceName
+        public tp::ResourceName ResourceName
         {
-            get => string.IsNullOrEmpty(Name) ? null : ResourceName.Parse(Name);
+            get => string.IsNullOrEmpty(Name) ? null : tp::ResourceName.Parse(Name);
             set => Name = value?.ToString() ?? "";
         }
     }
@@ -124,9 +124,9 @@ namespace Testing.Paginated
         /// <summary>
         /// <see cref="tp::ResourceName"/>-typed view over the <see cref="Name"/> resource name property.
         /// </summary>
-        public ResourceName ResourceName
+        public tp::ResourceName ResourceName
         {
-            get => string.IsNullOrEmpty(Name) ? null : ResourceName.Parse(Name);
+            get => string.IsNullOrEmpty(Name) ? null : tp::ResourceName.Parse(Name);
             set => Name = value?.ToString() ?? "";
         }
     }
