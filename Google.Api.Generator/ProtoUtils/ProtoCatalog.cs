@@ -24,6 +24,15 @@ namespace Google.Api.Generator.ProtoUtils
     /// </summary>
     internal class ProtoCatalog
     {
+        class PatternsComparer : IEqualityComparer<ImmutableHashSet<string>>
+        {
+            public static PatternsComparer Instance { get; } = new PatternsComparer();
+
+            public bool Equals(ImmutableHashSet<string> x, ImmutableHashSet<string> y) => x.SetEquals(y);
+
+            public int GetHashCode(ImmutableHashSet<string> obj) => obj.Aggregate(0, (hash, s) => hash ^ s.GetHashCode());
+        }
+
         public ProtoCatalog(string defaultPackage, IEnumerable<FileDescriptor> descs, CommonResources commonResourcesConfig)
         {
             _defaultPackage = defaultPackage;
@@ -32,10 +41,20 @@ namespace Google.Api.Generator.ProtoUtils
             _resourcesByFileName = ResourceDetails.LoadResourceDefinitionsByFileName(descs, commonResourcesConfig).GroupBy(x => x.FileName)
                 .ToImmutableDictionary(x => x.Key, x => (IReadOnlyList<ResourceDetails.Definition>)x.ToImmutableList());
             var resourcesByUrt = _resourcesByFileName.Values.SelectMany(x => x).ToDictionary(x => x.UnifiedResourceTypeName);
+            var resourcesByPatterns = _resourcesByFileName.Values.SelectMany(x => x).Select(def =>
+                {
+                    // If it's a single & multi, only use the multi. The single is legacy.
+                    var patterns = def.Multi != null ?
+                          def.Multi.Defs.Where(y => !y.IsWildcard).Select(y => y.Pattern).ToImmutableHashSet() :
+                          !def.Single.IsWildcard ? ImmutableHashSet.Create(def.Single.Pattern) : ImmutableHashSet<string>.Empty;
+                    return (patterns, def);
+                })
+                .Where(x => !x.patterns.IsEmpty)
+                .ToDictionary(x => x.patterns, x => x.def, PatternsComparer.Instance);
             _resourcesByFieldName = descs
                 .SelectMany(desc => desc.MessageTypes)
                 .SelectMany(msg => msg.Fields.InFieldNumberOrder().Select(field =>
-                    (field, res: ResourceDetails.LoadResourceReference(msg, field, resourcesByUrt)))
+                    (field, res: ResourceDetails.LoadResourceReference(msg, field, resourcesByUrt, resourcesByPatterns)))
                     .Where(x => x.res != null))
                 .ToDictionary(x => x.field.FullName, x => x.res);
             _commonUrts = resourcesByUrt.Values.Where(x => x.IsCommon).Select(x => x.UnifiedResourceTypeName).ToImmutableHashSet();

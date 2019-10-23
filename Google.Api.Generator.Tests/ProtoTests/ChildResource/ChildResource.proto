@@ -1,0 +1,43 @@
+﻿syntax = "proto3";
+
+package testing.childresource;
+
+option csharp_namespace = "Testing.ChildResource";
+
+import "google/api/client.proto";
+import "google/api/resource.proto";
+import "google/api/field_behavior.proto";
+
+// Test single-pattern child_type reference.
+
+option (google.api.resource_definition) = {
+  type: "childresource.example.com/Project",
+  pattern: "projects/{project}"
+};
+
+option (google.api.resource_definition) = {
+  type: "childresource.example.com/ProjectUser",
+  pattern: "projects/{project}/users/{user}"
+};
+
+message ProjectRef {
+  string project_user_parent = 1 [(google.api.resource_reference).child_type = "childresource.example.com/ProjectUser"];
+}
+
+// Test multi-pattern child_type reference.
+
+option (google.api.resource_definition) = {
+  type: "childresource.example.com/MultiRootItem",
+  pattern: "root_a/{root_a}/items/{item}",
+  pattern: "root_b/{root_b}/items/{item}"
+};
+
+option (google.api.resource_definition) = {
+  type: "childresource.example.com/Roots",
+  pattern: "root_a/{root_a}",
+  pattern: "root_b/{root_b}"
+};
+
+message MultiRootRef {
+  string multi_root_parent = 1 [(google.api.resource_reference).child_type = "childresource.example.com/MultiRootItem"];
+}

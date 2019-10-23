@@ -225,21 +225,10 @@ namespace Google.Api.Generator.ProtoUtils
                 }
                 return typeParts[1];
             }
-
-            // TOOD: This will be used when child_type is handled.
-            //string ParentPattern(string pattern)
-            //{
-            //    var lastIndex = pattern.LastIndexOf('}');
-            //    var last2Index = pattern.LastIndexOf('}', startIndex: Math.Max(lastIndex - 1, 0));
-            //    if (lastIndex < 0 || last2Index < 0)
-            //    {
-            //        throw new InvalidOperationException("Cannot create the parent of a single-piece resource name.");
-            //    }
-            //    return pattern.Substring(0, last2Index + 1);
-            //}
         }
 
-        public static Field LoadResourceReference(MessageDescriptor msgDesc, FieldDescriptor fieldDesc, IReadOnlyDictionary<string, Definition> resourcesByUrt)
+        public static Field LoadResourceReference(MessageDescriptor msgDesc, FieldDescriptor fieldDesc,
+            IReadOnlyDictionary<string, Definition> resourcesByUrt, IReadOnlyDictionary<ImmutableHashSet<string>, Definition> resourcesByPatterns)
         {
             // Is this field the name-field of a resource descriptor?
             if (msgDesc.CustomOptions.TryGetMessage<ResourceDescriptor>(ProtoConsts.MessageOption.Resource, out var resourceDesc))
@@ -265,10 +254,36 @@ namespace Google.Api.Generator.ProtoUtils
             }
             else if (!string.IsNullOrEmpty(resourceRef.ChildType))
             {
+                if (!resourcesByUrt.TryGetValue(resourceRef.ChildType, out var childDef))
+                {
+                    throw new InvalidOperationException($"No resource type with name: '{resourceRef.Type}'");
+                }
+                var childDefs = childDef.Multi != null ? childDef.Multi.Defs : new[] { childDef.Single };
+                if (childDefs.Any(x => x.IsWildcard))
+                {
+                    throw new InvalidOperationException("Cannot refer to the child-type of a resource with a wildcard pattern");
+                }
+                var parentPatterns = childDefs.Select(x => ParentPattern(x.Pattern)).ToImmutableHashSet();
+                if (resourcesByPatterns.TryGetValue(parentPatterns, out var parentDef))
+                {
+                    // Return existing resource; no auto-generated required.
+                    return new Field(fieldDesc, parentDef);
+                }
                 // TODO
-                throw new NotImplementedException();
+                throw new NotImplementedException("Cannot yet auto-generate parent resource-names.");
             }
             throw new InvalidOperationException("type or child_type must be set.");
+
+            string ParentPattern(string pattern)
+            {
+                var lastIndex = pattern.LastIndexOf('}');
+                var last2Index = pattern.LastIndexOf('}', startIndex: Math.Max(lastIndex - 1, 0));
+                if (lastIndex < 0 || last2Index < 0)
+                {
+                    throw new InvalidOperationException("Cannot create the parent of a single-piece resource name.");
+                }
+                return pattern.Substring(0, last2Index + 1);
+            }
         }
     }
 }
