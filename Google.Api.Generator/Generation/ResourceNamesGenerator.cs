@@ -235,7 +235,7 @@ namespace Google.Api.Generator.Generation
             public ClassDeclarationSyntax Generate()
             {
                 var xmlDocUl = XmlDoc.UL(_def.Defs.Select(x =>
-                    $"{x.ResourceNameTyp.Name}: A resource of type '{x.Template.ParameterNames.SkipLast(1).Last().RemoveSuffix("_id")}'."));
+                    $"{x.ResourceNameTyp.Name}: A resource of type '{x.Template.ParameterNames.TakeLast(2).First().RemoveSuffix("_id")}'."));
                 var cls = Class(Public | Sealed | Partial, _def.ContainerTyp, _ctx.Type<IResourceName>(), _ctx.Type(Typ.Generic(typeof(IEquatable<>), _def.ContainerTyp)))
                     .WithXmlDoc(
                         XmlDoc.Summary("Resource name which will contain one of a choice of resource names."),
@@ -274,7 +274,7 @@ namespace Google.Api.Generator.Generation
             private EnumDeclarationSyntax OneOfTypeEnum()
             {
                 var resources = _def.Defs.Select((x, i) => EnumMember(x.ResourceNameTyp.Name, value: i + 1).WithXmlDoc(
-                    XmlDoc.Summary($"A resource of type '{x.Template.ParameterNames.SkipLast(1).Last().RemoveSuffix("_id")}'")))
+                    XmlDoc.Summary($"A resource of type '{x.Template.ParameterNames.TakeLast(2).First().RemoveSuffix("_id")}'")))
                     .Prepend(EnumMember("Unknown", value: 0).WithXmlDoc(XmlDoc.Summary("A resource of an unknown type.")));
                 return Enum(Public, OneOfTypeEnumTyp)(resources.ToArray())
                     .WithXmlDoc(XmlDoc.Summary("The possible contents of ", _ctx.Type(_def.ContainerTyp), "."));
