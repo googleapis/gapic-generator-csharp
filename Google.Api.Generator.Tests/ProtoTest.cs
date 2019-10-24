@@ -27,7 +27,7 @@ namespace Google.Api.Generator.Tests
     public class ProtoTest
     {
         private IEnumerable<CodeGenerator.ResultFile> Run(IEnumerable<string> protoFilenames, string package,
-            string grpcServiceConfigPath, string commonResourcesConfigPath)
+            string grpcServiceConfigPath, IEnumerable<string> commonResourcesConfigPaths)
         {
             var clock = new FakeClock(new DateTime(2019, 1, 1));
             var protoPaths = protoFilenames.Select(x => Path.Combine(Invoker.GeneratorTestsDir, x));
@@ -36,7 +36,7 @@ namespace Google.Api.Generator.Tests
                 Invoker.Protoc($"-o {desc} --include_imports --include_source_info " +
                     $"-I{Invoker.CommonProtosDir} -I{Invoker.ProtobufDir} -I{Invoker.GeneratorTestsDir} {string.Join(" ", protoPaths)}");
                 var descriptorBytes = File.ReadAllBytes(desc.Path);
-                return CodeGenerator.Generate(descriptorBytes, package, clock, grpcServiceConfigPath, commonResourcesConfigPath);
+                return CodeGenerator.Generate(descriptorBytes, package, clock, grpcServiceConfigPath, commonResourcesConfigPaths);
             }
         }
 
@@ -49,11 +49,11 @@ namespace Google.Api.Generator.Tests
         }
 
         private void ProtoTestSingle(string testProtoName, bool ignoreCsProj = false, bool ignoreSnippets = false, bool ignoreUnitTests = false,
-            string grpcServiceConfigPath = null, string commonResourcesConfigPath = null) =>
-            ProtoTestSingle(new[] { testProtoName }, ignoreCsProj, ignoreSnippets, ignoreUnitTests, grpcServiceConfigPath, commonResourcesConfigPath);
+            string grpcServiceConfigPath = null, IEnumerable<string> commonResourcesConfigPaths = null) =>
+            ProtoTestSingle(new[] { testProtoName }, ignoreCsProj, ignoreSnippets, ignoreUnitTests, grpcServiceConfigPath, commonResourcesConfigPaths);
 
         private void ProtoTestSingle(IEnumerable<string> testProtoNames, bool ignoreCsProj = false, bool ignoreSnippets = false, bool ignoreUnitTests = false,
-            string grpcServiceConfigPath = null, string commonResourcesConfigPath = null)
+            string grpcServiceConfigPath = null, IEnumerable<string> commonResourcesConfigPaths = null)
         {
             // Confirm each generated file is idential to the expected output.
             // Use `// TEST_START` and `// TEST_END` lines in the expected file to test subsets of output files.
@@ -61,7 +61,7 @@ namespace Google.Api.Generator.Tests
             var dirName = testProtoNames.First();
             var protoPaths = testProtoNames.Select(x => Path.Combine("ProtoTests", dirName, $"{x}.proto"));
             var files = Run(protoPaths, $"testing.{dirName.ToLowerInvariant()}",
-                grpcServiceConfigPath, commonResourcesConfigPath);
+                grpcServiceConfigPath, commonResourcesConfigPaths);
             // Check output is present.
             Assert.NotEmpty(files);
             // Verify each output file.
@@ -243,7 +243,11 @@ namespace Google.Api.Generator.Tests
         [Fact]
         public void CommonResource() => ProtoTestSingle(new[] { "CommonResource", "CommonResourceDef" },
             ignoreCsProj: true, ignoreSnippets: true, ignoreUnitTests: true,
-            commonResourcesConfigPath: Path.Combine(Invoker.GeneratorTestsDir, "ProtoTests", "CommonResource", "CommonResourceConfig.json"));
+            commonResourcesConfigPaths: new[]
+            {
+                Path.Combine(Invoker.GeneratorTestsDir, "ProtoTests", "CommonResource", "CommonResourceConfig1.json"),
+                Path.Combine(Invoker.GeneratorTestsDir, "ProtoTests", "CommonResource", "CommonResourceConfig2.json")
+            });
 
         [Fact]
         public void ChildResource() => ProtoTestSingle("ChildResource", ignoreCsProj: true, ignoreUnitTests: true, ignoreSnippets: true);

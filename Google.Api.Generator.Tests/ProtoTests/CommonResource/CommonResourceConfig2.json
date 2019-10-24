@@ -1,0 +1,10 @@
+﻿{
+  "common_resources": [
+    {
+      "type": "cloudresourcemanager.googleapis.com/Organization",
+      "csharp_package_name": "Google.Cloud.Gax.Whatever",
+      "csharp_namespace": "Google.Cloud.Gax.Whatever.Ns",
+      "csharp_class_name": "Organization"
+    }
+  ]
+}

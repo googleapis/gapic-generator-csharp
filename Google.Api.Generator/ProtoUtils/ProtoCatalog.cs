@@ -33,12 +33,12 @@ namespace Google.Api.Generator.ProtoUtils
             public int GetHashCode(ImmutableHashSet<string> obj) => obj.Aggregate(0, (hash, s) => hash ^ s.GetHashCode());
         }
 
-        public ProtoCatalog(string defaultPackage, IEnumerable<FileDescriptor> descs, CommonResources commonResourcesConfig)
+        public ProtoCatalog(string defaultPackage, IEnumerable<FileDescriptor> descs, IEnumerable<CommonResources> commonResourcesConfigs)
         {
             _defaultPackage = defaultPackage;
             descs = descs.ToList();
             _msgs = descs.SelectMany(desc => desc.MessageTypes).ToDictionary(x => x.FullName);
-            _resourcesByFileName = ResourceDetails.LoadResourceDefinitionsByFileName(descs, commonResourcesConfig).GroupBy(x => x.FileName)
+            _resourcesByFileName = ResourceDetails.LoadResourceDefinitionsByFileName(descs, commonResourcesConfigs).GroupBy(x => x.FileName)
                 .ToImmutableDictionary(x => x.Key, x => (IReadOnlyList<ResourceDetails.Definition>)x.ToImmutableList());
             var resourcesByUrt = _resourcesByFileName.Values.SelectMany(x => x).ToDictionary(x => x.UnifiedResourceTypeName);
             var resourcesByPatterns = _resourcesByFileName.Values.SelectMany(x => x).Select(def =>
