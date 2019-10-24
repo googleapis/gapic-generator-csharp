@@ -52,7 +52,7 @@ namespace Google.Api.Generator
             public string GrpcServiceConfig { get; private set; }
 
             [Option(nameCommonResourcesConfig, Required = false, HelpText = "Common resources config path. JSON proto of type CommonResources.")]
-            public string CommonResourcesConfig { get; private set; }
+            public IEnumerable<string> CommonResourcesConfigs { get; private set; }
 
             [Usage]
             public static IEnumerable<Example> Examples => new[]
@@ -153,7 +153,7 @@ namespace Google.Api.Generator
                 // On success, send all generated files back to protoc.
                 var descriptors = FileDescriptor.BuildFromByteStrings(codeGenRequest.ProtoFile);
                 var results = CodeGenerator.Generate(descriptors, codeGenRequest.FileToGenerate, SystemClock.Instance,
-                    extraParams.GetValueOrDefault(nameGrpcServiceConfig), extraParams.GetValueOrDefault(nameCommonResourcesConfig));
+                    extraParams.GetValueOrDefault(nameGrpcServiceConfig)?.SingleOrDefault(), extraParams.GetValueOrDefault(nameCommonResourcesConfig));
                 codeGenResponse = new CodeGeneratorResponse
                 {
                     File =
@@ -181,30 +181,33 @@ namespace Google.Api.Generator
             }
             return 0;
 
-            IReadOnlyDictionary<string, string> ParseExtraParameters(string paramsString)
+            IReadOnlyDictionary<string, IReadOnlyList<string>> ParseExtraParameters(string paramsString)
             {
                 // Multiple parameters to protoc use a comma separater.
                 var ps = paramsString.Split(',', StringSplitOptions.RemoveEmptyEntries);
-                return ps.Select(param =>
-                {
-                    var parts = param.Split('=').Select(x => x.Trim()).ToArray();
-                    if (parts.Length != 2)
+                return ps
+                    .Select(param =>
                     {
-                        throw new InvalidOperationException($"Invalid parameter: '{param}'");
-                    }
-                    if (!s_validParameters.Contains(parts[0]))
-                    {
-                        throw new InvalidOperationException($"Invalid parameter name: '{param}'");
-                    }
-                    return parts;
-                }).ToDictionary(x => x[0], x => x[1]);
+                        var parts = param.Split('=').Select(x => x.Trim()).ToArray();
+                        if (parts.Length != 2)
+                        {
+                            throw new InvalidOperationException($"Invalid parameter: '{param}'");
+                        }
+                        if (!s_validParameters.Contains(parts[0]))
+                        {
+                            throw new InvalidOperationException($"Invalid parameter name: '{param}'");
+                        }
+                        return parts;
+                    })
+                    .GroupBy(x => x[0])
+                    .ToDictionary(x => x.Key, x => (IReadOnlyList<string>)x.Select(y => y[1]).ToList());
             }
         }
 
         private static void GenerateFromArgs(Options options)
         {
             var descriptorBytes = File.ReadAllBytes(options.Descriptor);
-            var files = CodeGenerator.Generate(descriptorBytes, options.Package, SystemClock.Instance, options.GrpcServiceConfig, options.CommonResourcesConfig);
+            var files = CodeGenerator.Generate(descriptorBytes, options.Package, SystemClock.Instance, options.GrpcServiceConfig, options.CommonResourcesConfigs);
             foreach (var file in files)
             {
                 var path = Path.Combine(options.Output, file.RelativePath);

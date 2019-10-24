@@ -142,9 +142,9 @@ namespace Google.Api.Generator.ProtoUtils
             public Definition ResourceDefinition { get; }
         }
 
-        public static IReadOnlyList<Definition> LoadResourceDefinitionsByFileName(IEnumerable<FileDescriptor> descs, CommonResources commonResourcesConfig)
+        public static IReadOnlyList<Definition> LoadResourceDefinitionsByFileName(IEnumerable<FileDescriptor> descs, IEnumerable<CommonResources> commonResourcesConfigs)
         {
-            var commonsByType = commonResourcesConfig?.CommonResources_.ToImmutableDictionary(x => x.Type) ??
+            var commonsByType = commonResourcesConfigs?.SelectMany(x => x.CommonResources_).ToImmutableDictionary(x => x.Type) ??
                 ImmutableDictionary<string, CommonResource>.Empty;
             // Singles:
             // Compatibility problems: none
