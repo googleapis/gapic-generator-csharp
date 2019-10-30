@@ -64,7 +64,7 @@ namespace Google.Api.Generator.ProtoUtils
                 var typeNameParts = type.Split('/');
                 if (typeNameParts.Length != 2)
                 {
-                    throw new InvalidOperationException($"Invalid unified resource name: '{type}'");
+                    throw new InvalidOperationException($"Invalid unified resource name: '{type}' used in message {msgDesc.Name}");
                 }
                 ShortName = typeNameParts[1];
                 FieldName = ShortName.ToLowerCamelCase();
@@ -248,7 +248,7 @@ namespace Google.Api.Generator.ProtoUtils
             {
                 if (!resourcesByUrt.TryGetValue(resourceRef.Type, out var def))
                 {
-                    throw new InvalidOperationException($"No resource type with name: '{resourceRef.Type}'");
+                    throw new InvalidOperationException($"No resource type with name: '{resourceRef.Type}' for field {msgDesc.Name}.{fieldDesc.Name}");
                 }
                 return new Field(fieldDesc, def);
             }
@@ -256,7 +256,7 @@ namespace Google.Api.Generator.ProtoUtils
             {
                 if (!resourcesByUrt.TryGetValue(resourceRef.ChildType, out var childDef))
                 {
-                    throw new InvalidOperationException($"No resource type with name: '{resourceRef.Type}'");
+                    throw new InvalidOperationException($"No resource type with child name: '{resourceRef.ChildType}' for field {msgDesc.Name}.{fieldDesc.Name}");
                 }
                 var childDefs = childDef.Multi != null ? childDef.Multi.Defs : new[] { childDef.Single };
                 if (childDefs.Any(x => x.IsWildcard))
