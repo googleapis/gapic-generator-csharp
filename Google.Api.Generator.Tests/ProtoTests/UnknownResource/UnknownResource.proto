@@ -1,0 +1,21 @@
+﻿syntax = "proto3";
+
+package testing.unknownresource;
+
+option csharp_namespace = "Testing.UnknownResource";
+
+import "google/api/client.proto";
+import "google/api/resource.proto";
+
+service UnknownResources {
+  rpc AMethod(Request) returns(Response) {
+    option (google.api.method_signature) = "resource";
+  }
+}
+
+message Request {
+  string resource = 1 [(google.api.resource_reference).type = "*"];
+}
+
+message Response {
+}

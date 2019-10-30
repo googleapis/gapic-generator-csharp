@@ -101,14 +101,5 @@ message OriginallySingleResourceRef {
   string resource2 = 2 [(google.api.resource_reference).type = "resourcenames.example.com/OriginallySingleResource"];
 }
 
-// TODO: This will be used to test child_type resource-refs.
-//message SimpleChildResource {
-//  option (google.api.resource) = {
-//    type: "resourcenames.example.com/SimpleChildResource"
-//    pattern: "root/{root_id}/items/{item_id}"
-//  };
-//  string name = 1;
-//}
-
 message Response {
 }

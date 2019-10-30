@@ -56,20 +56,25 @@ namespace Google.Api.Generator.ProtoUtils
                 public IReadOnlyList<SingleDef> Defs { get; }
             }
 
+            public static Definition UnknownResource { get; } = new Definition(null, null, "*", null, SingleDef.Local(null, null, "*"), null);
+
             public Definition(MessageDescriptor msgDesc, string fileName, string type, string nameField, SingleDef single, MultiDef multi)
             {
-                MsgDesc = msgDesc;
-                FileName = fileName;
-                UnifiedResourceTypeName = type;
-                var typeNameParts = type.Split('/');
-                if (typeNameParts.Length != 2)
+                if (type != "*")
                 {
-                    throw new InvalidOperationException($"Invalid unified resource name: '{type}' used in message {msgDesc.Name}");
+                    MsgDesc = msgDesc;
+                    FileName = fileName;
+                    UnifiedResourceTypeName = type;
+                    var typeNameParts = type.Split('/');
+                    if (typeNameParts.Length != 2)
+                    {
+                        throw new InvalidOperationException($"Invalid unified resource name: '{type}' used in message '{msgDesc?.Name}'");
+                    }
+                    ShortName = typeNameParts[1];
+                    FieldName = ShortName.ToLowerCamelCase();
+                    NameField = string.IsNullOrEmpty(nameField) ? "name" : nameField;
+                    DocName = ShortName;
                 }
-                ShortName = typeNameParts[1];
-                FieldName = ShortName.ToLowerCamelCase();
-                NameField = string.IsNullOrEmpty(nameField) ? "name" : nameField;
-                DocName = ShortName;
                 Single = single;
                 Multi = multi;
             }
@@ -246,6 +251,11 @@ namespace Google.Api.Generator.ProtoUtils
             }
             if (!string.IsNullOrEmpty(resourceRef.Type))
             {
+                if (resourceRef.Type == "*" || resourceRef.Type == "**")
+                {
+                    // Resource is `IUnknownResource`.
+                    return new Field(fieldDesc, Definition.UnknownResource);
+                }
                 if (!resourcesByUrt.TryGetValue(resourceRef.Type, out var def))
                 {
                     throw new InvalidOperationException($"No resource type with name: '{resourceRef.Type}' for field {msgDesc.Name}.{fieldDesc.Name}");

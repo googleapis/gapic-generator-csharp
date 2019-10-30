@@ -253,6 +253,9 @@ namespace Google.Api.Generator.Tests
         public void ChildResource() => ProtoTestSingle("ChildResource", ignoreCsProj: true, ignoreUnitTests: true, ignoreSnippets: true);
 
         [Fact]
+        public void UnknownResource() => ProtoTestSingle("UnknownResource", ignoreCsProj: true, ignoreUnitTests: true, ignoreSnippets: true);
+
+        [Fact]
         public void VoidReturn() => ProtoTestSingle("VoidReturn", ignoreCsProj: true);
 
         // Build tests are testing `csproj` file generation only.
