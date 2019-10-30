@@ -14,11 +14,7 @@
 
 // Generated code. DO NOT EDIT!
 
-using gax = Google.Api.Gax;
 using gaxgrpc = Google.Api.Gax.Grpc;
-using linq = System.Linq;
-using proto = Google.Protobuf;
-using scg = System.Collections.Generic;
 using st = System.Threading;
 using stt = System.Threading.Tasks;
 using sys = System;
