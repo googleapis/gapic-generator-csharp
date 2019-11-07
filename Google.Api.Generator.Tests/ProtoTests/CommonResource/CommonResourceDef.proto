@@ -1,8 +1,9 @@
 ﻿syntax = "proto3";
 
-package testing.commonresource;
+// In different package; so no classes (resource-name or partial) will be generated.
+package testing.commonresource.def;
 
-option csharp_namespace = "Testing.CommonResource";
+option csharp_namespace = "Testing.CommonResource.Def";
 
 import "google/api/resource.proto";
 
