@@ -112,32 +112,11 @@ namespace Google.Api.Generator
                     // Record whether LRO is used.
                     hasLro |= serviceDetails.Methods.Any(x => x is MethodDetails.Lro);
                 }
-                // Generate locally-defined resource-names types and message partial classes for this proto file.
-                // This will only be done if there are any to generate.
-                bool anyLocalResourceDefs = catalog.GetResourceDefsByFile(fileDesc).Any(def => !def.IsCommon);
-                bool anyPartialClasses = fileDesc.MessageTypes
-                    .SelectMany(msgDesc => msgDesc.Fields.InDeclarationOrder().Select(fieldDesc => (msgDesc, fieldDesc)))
-                    .Any(x =>
-                    {
-                        var details = catalog.GetResourceDetailsByField(x.fieldDesc);
-                        if (details == null)
-                        {
-                            // This field is not a reference to a resource-name.
-                            return false;
-                        }
-                        if (!details.ResourceDefinition.IsCommon)
-                        {
-                            // This field references a locally-defined resource-name, not a common resource-name.
-                            return true;
-                        }
-                        // Require a partial class if this field is not a resource-name self-reference.
-                        // A self-reference will almost always be the `name` field of a resource.
-                        return details.ResourceDefinition.MsgDesc?.FullName != x.msgDesc.FullName;
-                    });
-                if (anyLocalResourceDefs || anyPartialClasses)
+                var resCtx = SourceFileContext.Create(SourceFileContext.ImportStyle.FullyAliased, clock);
+                var (resCode, resCodeClassCount) = ResourceNamesGenerator.Generate(catalog, resCtx, fileDesc);
+                // Only produce an output file if it contains >0 [partial] classes.
+                if (resCodeClassCount > 0)
                 {
-                    var resCtx = SourceFileContext.Create(SourceFileContext.ImportStyle.FullyAliased, clock);
-                    var resCode = ResourceNamesGenerator.Generate(catalog, resCtx, fileDesc);
                     var formattedResCode = CodeFormatter.Format(resCode);
                     var filenamePrefix = Path.GetFileNameWithoutExtension(fileDesc.Name).ToUpperCamelCase();
                     var resFilename = $"{clientPathPrefix}{filenamePrefix}ResourceNames.g.cs";

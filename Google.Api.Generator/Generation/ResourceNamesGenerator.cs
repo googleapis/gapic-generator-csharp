@@ -31,7 +31,7 @@ namespace Google.Api.Generator.Generation
     /// </summary>
     internal class ResourceNamesGenerator
     {
-        public static CompilationUnitSyntax Generate(ProtoCatalog catalog, SourceFileContext ctx, FileDescriptor fileDesc) =>
+        public static (CompilationUnitSyntax, int) Generate(ProtoCatalog catalog, SourceFileContext ctx, FileDescriptor fileDesc) =>
             new ResourceNamesGenerator(catalog, ctx, fileDesc).Generate();
 
         private ResourceNamesGenerator(ProtoCatalog catalog, SourceFileContext ctx, FileDescriptor fileDesc) =>
@@ -41,16 +41,18 @@ namespace Google.Api.Generator.Generation
         private SourceFileContext _ctx;
         private FileDescriptor _fileDesc;
 
-        private CompilationUnitSyntax Generate()
+        private (CompilationUnitSyntax, int) Generate()
         {
 
             var ns = Namespace(_fileDesc.CSharpNamespace());
             using (_ctx.InNamespace(ns))
             {
-                ns = ns.AddMembers(ResourceNameClasses().ToArray());
-                ns = ns.AddMembers(ProtoMessagePartials().ToArray());
+                var resourceNameClasses = ResourceNameClasses().ToArray();
+                var protoMessagePartials = ProtoMessagePartials().ToArray();
+                ns = ns.AddMembers(resourceNameClasses);
+                ns = ns.AddMembers(protoMessagePartials);
+                return (_ctx.CreateCompilationUnit(ns), resourceNameClasses.Length + protoMessagePartials.Length);
             }
-            return _ctx.CreateCompilationUnit(ns);
         }
 
         private class ParamProperty
@@ -487,13 +489,6 @@ namespace Google.Api.Generator.Generation
             // The optionalness of a field is only relevant within a method signature (flattening).
             foreach (var msg in _fileDesc.MessageTypes)
             {
-                if (msg.CustomOptions.TryGetMessage<ResourceDescriptor>(ProtoConsts.MessageOption.Resource, out var resDesc))
-                {
-                    if (_catalog.IsCommonResourceType(resDesc.Type))
-                    {
-                        continue;
-                    }
-                }
                 var resources = msg.Fields.InFieldNumberOrder()
                     .Select(field => (field, resDetails: _catalog.GetResourceDetailsByField(field)))
                     .Where(x => x.resDetails != null)
