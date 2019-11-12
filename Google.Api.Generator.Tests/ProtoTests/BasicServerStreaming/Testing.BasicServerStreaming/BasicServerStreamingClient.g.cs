@@ -74,8 +74,6 @@ namespace Testing.BasicServerStreaming
             public MethodServerStreamImpl(grpccore::AsyncServerStreamingCall<Response> call) => GrpcCall = call;
 
             public override grpccore::AsyncServerStreamingCall<Response> GrpcCall { get; }
-
-            public override scg::IAsyncEnumerator<Response> ResponseStream => GrpcCall.ResponseStream;
         }
 
         /// <summary>

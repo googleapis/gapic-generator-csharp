@@ -124,8 +124,6 @@ namespace Testing.BasicBidiStreaming
             public override stt::Task TryWriteCompleteAsync() => _writeBuffer.TryWriteCompleteAsync();
 
             public override stt::Task WriteCompleteAsync() => _writeBuffer.WriteCompleteAsync();
-
-            public override scg::IAsyncEnumerator<Response> ResponseStream => GrpcCall.ResponseStream;
         }
 
         /// <summary>
