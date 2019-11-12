@@ -329,8 +329,7 @@ namespace Google.Api.Generator.Generation
                         modifyRequestMethod,
                         TryWriteAsync1(), WriteAsync1(),
                         TryWriteAsync2(), WriteAsync2(),
-                        TryWriteCompleteAsync(), WriteCompleteAsync(),
-                        ResponseStream());
+                        TryWriteCompleteAsync(), WriteCompleteAsync());
                 }
                 return cls;
 
@@ -385,10 +384,6 @@ namespace Google.Api.Generator.Generation
                 MethodDeclarationSyntax WriteCompleteAsync() =>
                     Method(Public | Override, Ctx.Type<Task>(), nameof(BidirectionalStreamingBase<ProtoMsg, ProtoMsg>.WriteCompleteAsync))()
                         .WithBody(writeBufferField.Call(nameof(BufferedClientStreamWriter<ProtoMsg>.WriteCompleteAsync))());
-
-                PropertyDeclarationSyntax ResponseStream() =>
-                    Property(Public | Override, Ctx.Type(Typ.Generic(typeof(IAsyncEnumerator<>), MethodDetails.ResponseTyp)), nameof(BidirectionalStreamingBase<ProtoMsg, ProtoMsg>.ResponseStream))
-                        .WithGetBody(grpcCallProperty.Access(nameof(BidirectionalStreamingBase<ProtoMsg, ProtoMsg>.ResponseStream)));
             }
 
             public MethodDeclarationSyntax ImplBidiStreamSyncRequestMethod()
@@ -434,8 +429,7 @@ namespace Google.Api.Generator.Generation
                 {
                     cls = cls.AddMembers(
                         Constructor(),
-                        grpcCallProperty,
-                        ResponseStream());
+                        grpcCallProperty);
                 }
                 return cls;
 
@@ -448,10 +442,6 @@ namespace Google.Api.Generator.Generation
                             XmlDoc.Summary("Construct the server streaming method for ", XmlDoc.C(MethodDetails.SyncMethodName), "."),
                             XmlDoc.Param(callParam, "The underlying gRPC server streaming call."));
                 }
-
-                PropertyDeclarationSyntax ResponseStream() =>
-                    Property(Public | Override, Ctx.Type(Typ.Generic(typeof(IAsyncEnumerator<>), MethodDetails.ResponseTyp)), nameof(ServerStreamingBase<ProtoMsg>.ResponseStream))
-                        .WithGetBody(grpcCallProperty.Access(nameof(ServerStreamingBase<ProtoMsg>.ResponseStream)));
             }
 
             public MethodDeclarationSyntax ImplServerStreamSyncRequestMethod =>
