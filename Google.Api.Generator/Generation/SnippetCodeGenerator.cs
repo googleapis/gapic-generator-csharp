@@ -435,8 +435,8 @@ namespace Google.Api.Generator.Generation
                         makeRequest,
                         BlankLine,
                         "// Read streaming responses from server until complete",
-                        ResponseStream.WithInitializer(Response.Access(nameof(ServerStreamingBase<int>.ResponseStream))),
-                        While(Await(ResponseStream.Call(nameof(IAsyncEnumerator<int>.MoveNext))()))(
+                        ResponseStream.WithInitializer(Response.Call(nameof(ServerStreamingBase<int>.GetResponseStream))(Ctx.Type<CancellationToken>().Access(nameof(CancellationToken.None)))),
+                        While(Await(ResponseStream.Call(nameof(IAsyncEnumerator<int>.MoveNextAsync))()))(
                             ResponseItem.WithInitializer(ResponseStream.Access(nameof(IAsyncEnumerator<int>.Current))),
                             "// Do something with streamed response"),
                         "// The response stream has completed",
@@ -484,8 +484,8 @@ namespace Google.Api.Generator.Generation
                         BlankLine,
                         "// Create task to do something with responses from server",
                         ResponseHandlerTask.WithInitializer(Ctx.Type<Task>().Call(nameof(Task.Run))(LambdaTyped(null, async: true)(
-                            ResponseStream.WithInitializer(Response.Access(nameof(ServerStreamingBase<int>.ResponseStream))),
-                            While(Await(ResponseStream.Call(nameof(IAsyncEnumerator<int>.MoveNext))()))(
+                            ResponseStream.WithInitializer(Response.Call(nameof(ServerStreamingBase<int>.GetResponseStream))(Ctx.Type<CancellationToken>().Access(nameof(CancellationToken.None)))),
+                            While(Await(ResponseStream.Call(nameof(IAsyncEnumerator<int>.MoveNextAsync))()))(
                                 ResponseItem.WithInitializer(ResponseStream.Access(nameof(IAsyncEnumerator<int>.Current))),
                                 "// Do something with streamed response"
                                 ),
