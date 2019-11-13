@@ -20,6 +20,7 @@ namespace Testing.Snippets.Snippets
     using Google.LongRunning;
     using Google.Protobuf;
     using System.Collections.Generic;
+    using System.Threading;
     using System.Threading.Tasks;
     using ts = Testing.Snippets;
 
@@ -1027,8 +1028,8 @@ namespace Testing.Snippets.Snippets
             SnippetsClient.MethodServerStreamingStream response = snippetsClient.MethodServerStreaming(request);
 
             // Read streaming responses from server until complete
-            IAsyncEnumerator<Response> responseStream = response.ResponseStream;
-            while (await responseStream.MoveNext())
+            IAsyncEnumerator<Response> responseStream = response.GetResponseStream(CancellationToken.None);
+            while (await responseStream.MoveNextAsync())
             {
                 Response responseItem = responseStream.Current;
                 // Do something with streamed response
@@ -1050,8 +1051,8 @@ namespace Testing.Snippets.Snippets
             SnippetsClient.MethodServerStreamingStream response = snippetsClient.MethodServerStreaming(aString, aBool);
 
             // Read streaming responses from server until complete
-            IAsyncEnumerator<Response> responseStream = response.ResponseStream;
-            while (await responseStream.MoveNext())
+            IAsyncEnumerator<Response> responseStream = response.GetResponseStream(CancellationToken.None);
+            while (await responseStream.MoveNextAsync())
             {
                 Response responseItem = responseStream.Current;
                 // Do something with streamed response
@@ -1070,8 +1071,8 @@ namespace Testing.Snippets.Snippets
             SnippetsClient.MethodServerStreamingStream response = snippetsClient.MethodServerStreaming();
 
             // Read streaming responses from server until complete
-            IAsyncEnumerator<Response> responseStream = response.ResponseStream;
-            while (await responseStream.MoveNext())
+            IAsyncEnumerator<Response> responseStream = response.GetResponseStream(CancellationToken.None);
+            while (await responseStream.MoveNextAsync())
             {
                 Response responseItem = responseStream.Current;
                 // Do something with streamed response
@@ -1097,8 +1098,8 @@ namespace Testing.Snippets.Snippets
             SnippetsClient.MethodServerStreamingResourcesStream response = snippetsClient.MethodServerStreamingResources(request);
 
             // Read streaming responses from server until complete
-            IAsyncEnumerator<Response> responseStream = response.ResponseStream;
-            while (await responseStream.MoveNext())
+            IAsyncEnumerator<Response> responseStream = response.GetResponseStream(CancellationToken.None);
+            while (await responseStream.MoveNextAsync())
             {
                 Response responseItem = responseStream.Current;
                 // Do something with streamed response
@@ -1121,8 +1122,8 @@ namespace Testing.Snippets.Snippets
             SnippetsClient.MethodServerStreamingResourcesStream response = snippetsClient.MethodServerStreamingResources(firstName, secondName, thirdName);
 
             // Read streaming responses from server until complete
-            IAsyncEnumerator<Response> responseStream = response.ResponseStream;
-            while (await responseStream.MoveNext())
+            IAsyncEnumerator<Response> responseStream = response.GetResponseStream(CancellationToken.None);
+            while (await responseStream.MoveNextAsync())
             {
                 Response responseItem = responseStream.Current;
                 // Do something with streamed response
@@ -1145,8 +1146,8 @@ namespace Testing.Snippets.Snippets
             SnippetsClient.MethodServerStreamingResourcesStream response = snippetsClient.MethodServerStreamingResources(firstName, secondName, thirdName);
 
             // Read streaming responses from server until complete
-            IAsyncEnumerator<Response> responseStream = response.ResponseStream;
-            while (await responseStream.MoveNext())
+            IAsyncEnumerator<Response> responseStream = response.GetResponseStream(CancellationToken.None);
+            while (await responseStream.MoveNextAsync())
             {
                 Response responseItem = responseStream.Current;
                 // Do something with streamed response
@@ -1170,8 +1171,8 @@ namespace Testing.Snippets.Snippets
             // Create task to do something with responses from server
             Task responseHandlerTask = Task.Run(async () =>
             {
-                IAsyncEnumerator<Response> responseStream = response.ResponseStream;
-                while (await responseStream.MoveNext())
+                IAsyncEnumerator<Response> responseStream = response.GetResponseStream(CancellationToken.None);
+                while (await responseStream.MoveNextAsync())
                 {
                     Response responseItem = responseStream.Current;
                     // Do something with streamed response
