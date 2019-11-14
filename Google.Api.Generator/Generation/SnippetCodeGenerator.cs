@@ -441,7 +441,8 @@ namespace Google.Api.Generator.Generation
                         makeRequest,
                         BlankLine,
                         "// Read streaming responses from server until complete",
-                        ResponseStream.WithInitializer(Response.Call(nameof(ServerStreamingBase<int>.GetResponseStream))(Ctx.Type<CancellationToken>().Access(nameof(CancellationToken.None)))),
+                        "// Note that C# 8 code can use await foreach",
+                        ResponseStream.WithInitializer(Response.Call(nameof(ServerStreamingBase<int>.GetResponseStream))()),
                         While(Await(ResponseStream.Call(nameof(IAsyncEnumerator<int>.MoveNextAsync))()))(
                             ResponseItem.WithInitializer(ResponseStream.Access(nameof(IAsyncEnumerator<int>.Current))),
                             "// Do something with streamed response"),
@@ -490,7 +491,8 @@ namespace Google.Api.Generator.Generation
                         BlankLine,
                         "// Create task to do something with responses from server",
                         ResponseHandlerTask.WithInitializer(Ctx.Type<Task>().Call(nameof(Task.Run))(LambdaTyped(null, async: true)(
-                            ResponseStream.WithInitializer(Response.Call(nameof(ServerStreamingBase<int>.GetResponseStream))(Ctx.Type<CancellationToken>().Access(nameof(CancellationToken.None)))),
+                            "// Note that C# 8 code can use await foreach",
+                            ResponseStream.WithInitializer(Response.Call(nameof(ServerStreamingBase<int>.GetResponseStream))()),
                             While(Await(ResponseStream.Call(nameof(IAsyncEnumerator<int>.MoveNextAsync))()))(
                                 ResponseItem.WithInitializer(ResponseStream.Access(nameof(IAsyncEnumerator<int>.Current))),
                                 "// Do something with streamed response"
