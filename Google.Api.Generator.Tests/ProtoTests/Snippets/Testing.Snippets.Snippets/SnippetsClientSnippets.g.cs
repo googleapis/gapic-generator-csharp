@@ -17,10 +17,10 @@
 namespace Testing.Snippets.Snippets
 {
     using Google.Api.Gax;
+    using Google.Api.Gax.Grpc;
     using Google.LongRunning;
     using Google.Protobuf;
     using System.Collections.Generic;
-    using System.Threading;
     using System.Threading.Tasks;
     using ts = Testing.Snippets;
 
@@ -955,7 +955,8 @@ namespace Testing.Snippets.Snippets
             SnippetsClient.MethodServerStreamingStream response = snippetsClient.MethodServerStreaming(request);
 
             // Read streaming responses from server until complete
-            IAsyncEnumerator<Response> responseStream = response.GetResponseStream(CancellationToken.None);
+            // Note that C# 8 code can use await foreach
+            AsyncResponseStream<Response> responseStream = response.GetResponseStream();
             while (await responseStream.MoveNextAsync())
             {
                 Response responseItem = responseStream.Current;
@@ -978,7 +979,8 @@ namespace Testing.Snippets.Snippets
             SnippetsClient.MethodServerStreamingStream response = snippetsClient.MethodServerStreaming(aString, aBool);
 
             // Read streaming responses from server until complete
-            IAsyncEnumerator<Response> responseStream = response.GetResponseStream(CancellationToken.None);
+            // Note that C# 8 code can use await foreach
+            AsyncResponseStream<Response> responseStream = response.GetResponseStream();
             while (await responseStream.MoveNextAsync())
             {
                 Response responseItem = responseStream.Current;
@@ -998,7 +1000,8 @@ namespace Testing.Snippets.Snippets
             SnippetsClient.MethodServerStreamingStream response = snippetsClient.MethodServerStreaming();
 
             // Read streaming responses from server until complete
-            IAsyncEnumerator<Response> responseStream = response.GetResponseStream(CancellationToken.None);
+            // Note that C# 8 code can use await foreach
+            AsyncResponseStream<Response> responseStream = response.GetResponseStream();
             while (await responseStream.MoveNextAsync())
             {
                 Response responseItem = responseStream.Current;
@@ -1025,7 +1028,8 @@ namespace Testing.Snippets.Snippets
             SnippetsClient.MethodServerStreamingResourcesStream response = snippetsClient.MethodServerStreamingResources(request);
 
             // Read streaming responses from server until complete
-            IAsyncEnumerator<Response> responseStream = response.GetResponseStream(CancellationToken.None);
+            // Note that C# 8 code can use await foreach
+            AsyncResponseStream<Response> responseStream = response.GetResponseStream();
             while (await responseStream.MoveNextAsync())
             {
                 Response responseItem = responseStream.Current;
@@ -1049,7 +1053,8 @@ namespace Testing.Snippets.Snippets
             SnippetsClient.MethodServerStreamingResourcesStream response = snippetsClient.MethodServerStreamingResources(firstName, secondName, thirdName);
 
             // Read streaming responses from server until complete
-            IAsyncEnumerator<Response> responseStream = response.GetResponseStream(CancellationToken.None);
+            // Note that C# 8 code can use await foreach
+            AsyncResponseStream<Response> responseStream = response.GetResponseStream();
             while (await responseStream.MoveNextAsync())
             {
                 Response responseItem = responseStream.Current;
@@ -1073,7 +1078,8 @@ namespace Testing.Snippets.Snippets
             SnippetsClient.MethodServerStreamingResourcesStream response = snippetsClient.MethodServerStreamingResources(firstName, secondName, thirdName);
 
             // Read streaming responses from server until complete
-            IAsyncEnumerator<Response> responseStream = response.GetResponseStream(CancellationToken.None);
+            // Note that C# 8 code can use await foreach
+            AsyncResponseStream<Response> responseStream = response.GetResponseStream();
             while (await responseStream.MoveNextAsync())
             {
                 Response responseItem = responseStream.Current;
@@ -1098,7 +1104,8 @@ namespace Testing.Snippets.Snippets
             // Create task to do something with responses from server
             Task responseHandlerTask = Task.Run(async () =>
             {
-                IAsyncEnumerator<Response> responseStream = response.GetResponseStream(CancellationToken.None);
+                // Note that C# 8 code can use await foreach
+                AsyncResponseStream<Response> responseStream = response.GetResponseStream();
                 while (await responseStream.MoveNextAsync())
                 {
                     Response responseItem = responseStream.Current;
