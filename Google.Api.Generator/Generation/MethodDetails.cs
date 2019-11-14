@@ -140,7 +140,7 @@ namespace Google.Api.Generator.Generation
                 StreamingSettingsName = $"{desc.Name}StreamingSettings";
                 ModifyStreamingCallSettingsMethodName = $"Modify_{RequestTyp.Name}CallSettings";
                 ModifyStreamingRequestMethodName = $"Modify_{RequestTyp.Name}Request";
-                AsyncEnumeratorTyp = Typ.Generic(typeof(IAsyncEnumerator<>), ResponseTyp);
+                AsyncEnumeratorTyp = Typ.Generic(typeof(AsyncResponseStream<>), ResponseTyp);
             }
             public override Typ ApiCallTyp { get; }
             public override Typ SyncReturnTyp => AbstractStreamTyp;
@@ -159,7 +159,7 @@ namespace Google.Api.Generator.Generation
                 ApiCallTyp = Typ.Generic(typeof(ApiServerStreamingCall<,>), RequestTyp, ResponseTyp);
                 AbstractStreamTyp = Typ.Nested(svc.ClientAbstractTyp, $"{SyncMethodName}Stream");
                 ImplStreamTyp = Typ.Nested(svc.ClientImplTyp, $"{SyncMethodName}StreamImpl");
-                AsyncEnumeratorTyp = Typ.Generic(typeof(IAsyncEnumerator<>), ResponseTyp);
+                AsyncEnumeratorTyp = Typ.Generic(typeof(AsyncResponseStream<>), ResponseTyp);
             }
             public override Typ ApiCallTyp { get; }
             public override Typ SyncReturnTyp => AbstractStreamTyp;
