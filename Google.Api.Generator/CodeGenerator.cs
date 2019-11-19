@@ -83,6 +83,7 @@ namespace Google.Api.Generator
             var snippetsPathPrefix = $"{ns}.Snippets{Path.DirectorySeparatorChar}";
             var unitTestsPathPrefix = $"{ns}.Tests{Path.DirectorySeparatorChar}";
             bool hasLro = false;
+            bool hasContent = false;
             foreach (var fileDesc in packageFileDescriptors)
             {
                 foreach (var service in fileDesc.Services)
@@ -111,6 +112,7 @@ namespace Google.Api.Generator
                     yield return new ResultFile(unitTestFilename, unitTestContent);
                     // Record whether LRO is used.
                     hasLro |= serviceDetails.Methods.Any(x => x is MethodDetails.Lro);
+                    hasContent = true;
                 }
                 var resCtx = SourceFileContext.Create(SourceFileContext.ImportStyle.FullyAliased, clock);
                 var (resCode, resCodeClassCount) = ResourceNamesGenerator.Generate(catalog, resCtx, fileDesc);
@@ -122,20 +124,26 @@ namespace Google.Api.Generator
                     var resFilename = $"{clientPathPrefix}{filenamePrefix}ResourceNames.g.cs";
                     var resContent = Encoding.UTF8.GetBytes(formattedResCode.ToFullString());
                     yield return new ResultFile(resFilename, resContent);
+                    hasContent = true;
                 }
             }
-            // Generate client csproj.
-            var csprojContent = Encoding.UTF8.GetBytes(CsProjGenerator.GenerateClient(hasLro));
-            var csprojFilename = $"{clientPathPrefix}{ns}.csproj";
-            yield return new ResultFile(csprojFilename, csprojContent);
-            // Generate snippets csproj.
-            var snippetsCsprojContent = Encoding.UTF8.GetBytes(CsProjGenerator.GenerateSnippets(ns));
-            var snippetsCsProjFilename = $"{snippetsPathPrefix}{ns}.Snippets.csproj";
-            yield return new ResultFile(snippetsCsProjFilename, snippetsCsprojContent);
-            // Generate unit-tests csproj.
-            var unitTestsCsprojContent = Encoding.UTF8.GetBytes(CsProjGenerator.GenerateUnitTests(ns));
-            var unitTestsCsprojFilename = $"{unitTestsPathPrefix}{ns}.Tests.csproj";
-            yield return new ResultFile(unitTestsCsprojFilename, unitTestsCsprojContent);
+            // Only output csproj's if there is any other generated content.
+            // When processing a (proto) package without any services there will be no generated content.
+            if (hasContent)
+            {
+                // Generate client csproj.
+                var csprojContent = Encoding.UTF8.GetBytes(CsProjGenerator.GenerateClient(hasLro));
+                var csprojFilename = $"{clientPathPrefix}{ns}.csproj";
+                yield return new ResultFile(csprojFilename, csprojContent);
+                // Generate snippets csproj.
+                var snippetsCsprojContent = Encoding.UTF8.GetBytes(CsProjGenerator.GenerateSnippets(ns));
+                var snippetsCsProjFilename = $"{snippetsPathPrefix}{ns}.Snippets.csproj";
+                yield return new ResultFile(snippetsCsProjFilename, snippetsCsprojContent);
+                // Generate unit-tests csproj.
+                var unitTestsCsprojContent = Encoding.UTF8.GetBytes(CsProjGenerator.GenerateUnitTests(ns));
+                var unitTestsCsprojFilename = $"{unitTestsPathPrefix}{ns}.Tests.csproj";
+                yield return new ResultFile(unitTestsCsprojFilename, unitTestsCsprojContent);
+            }
         }
 
         private static IReadOnlyList<FileDescriptor> GetFileDescriptors(byte[] bytes)
