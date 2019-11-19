@@ -21,8 +21,8 @@ service Lro {
   // Test an LRO RPC with a method signature that contains resource-names.
   rpc ResourcedMethod(ResourceRequest) returns(google.longrunning.Operation) {
     option (google.longrunning.operation_info) = {
-      response_type: "LroResponse"
-      metadata_type: "LroMetadata"
+      response_type: "LroResponse.Nested" // Test unqualified nested type
+      metadata_type: "testing.lro.LroMetadata.Nested" // Test fully-qualified nested type
     };
     option (google.api.method_signature) = "name";
   }
@@ -41,7 +41,11 @@ message ResourceRequest {
 }
 
 message LroResponse {
+  message Nested {
+  }
 }
 
 message LroMetadata {
+  message Nested {
+  }
 }
