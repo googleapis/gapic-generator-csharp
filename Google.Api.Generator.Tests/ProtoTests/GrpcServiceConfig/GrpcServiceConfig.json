@@ -10,7 +10,7 @@
       "retry_policy": {
         "initial_backoff": "0.5s",
         "max_backoff": "5s",
-        "backoff_multiplier": 2.0,
+        "backoff_multiplier": 1.3,
         "retryable_status_codes": [ "DEADLINE_EXCEEDED", "RESOURCE_EXHAUSTED" ]
       }
     },
