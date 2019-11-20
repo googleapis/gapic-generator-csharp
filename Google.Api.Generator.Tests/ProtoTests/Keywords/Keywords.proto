@@ -1,0 +1,43 @@
+﻿syntax = "proto3";
+
+package testing.keywords;
+
+option csharp_namespace = "Testing.Keywords";
+
+import "google/api/client.proto";
+import "google/api/resource.proto";
+
+service Keywords {
+  rpc Method1(Request) returns(Response) {
+    option (google.api.method_signature) = "event, switch, void";
+  }
+
+  rpc Method2(Resource) returns(Response) {
+    option (google.api.method_signature) = "while, enum";
+  }
+}
+
+enum Enum {
+  void = 0;
+  for = 1;
+  foreach = 2;
+}
+
+message Resource {
+  option (google.api.resource) = {
+    type: "keywords.example.com/Resource"
+    pattern: "items/{item_id}"
+    name_field: "while"
+  };
+  string while = 1;
+  Enum enum = 2;
+}
+
+message Request {
+  string event = 1 [(google.api.resource_reference).type = "keywords.example.com/Resource"];
+  int32 switch = 2;
+  Enum void = 3;
+}
+
+message Response{
+}

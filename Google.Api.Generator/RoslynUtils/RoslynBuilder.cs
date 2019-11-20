@@ -117,7 +117,7 @@ namespace Google.Api.Generator.RoslynUtils
 
         public static ParameterSyntax Parameter(TypeSyntax type, string name, ExpressionSyntax @default = null)
         {
-            var param = SyntaxFactory.Parameter(Identifier(name));
+            var param = SyntaxFactory.Parameter(Identifier(Keywords.PrependAtIfKeyword(name)));
             if (type != null)
             {
                 param = param.WithType(type);
@@ -129,14 +129,15 @@ namespace Google.Api.Generator.RoslynUtils
             return param;
         }
 
-        public static DeclarationExpressionSyntax ParameterOutVar(TypeSyntax type, string name) => DeclarationExpression(type, SingleVariableDesignation(Identifier(name)));
+        public static DeclarationExpressionSyntax ParameterOutVar(TypeSyntax type, string name) =>
+            DeclarationExpression(type, SingleVariableDesignation(Identifier(Keywords.PrependAtIfKeyword(name))));
 
         public static DeclarationExpressionSyntax ParameterOutVar(LocalDeclarationStatementSyntax local) =>
             DeclarationExpression(local.Declaration.Type, SingleVariableDesignation(local.Declaration.Variables[0].Identifier));
 
         public static LocalDeclarationStatementSyntax Local(TypeSyntax type, string name)
         {
-            var varDecl = VariableDeclarator(name);
+            var varDecl = VariableDeclarator(Keywords.PrependAtIfKeyword(name));
             var variable = VariableDeclaration(type, SingletonSeparatedList(varDecl));
             return LocalDeclarationStatement(variable);
         }
