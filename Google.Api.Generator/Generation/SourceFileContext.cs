@@ -14,12 +14,14 @@
 
 using Google.Api.Gax;
 using Google.Api.Generator.Utils;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Reflection;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace Google.Api.Generator.Generation
@@ -72,6 +74,7 @@ namespace Google.Api.Generator.Generation
                     {
                         // If it's not a well-known namespace (e.g. "System"), then create an alias 
                         // using the first character of each namespace part.
+                        // TODO: Ensure single-character aliased are not generated; they cause a compilation error.
                         rawAlias = typ.Namespace
                             .Split('.', StringSplitOptions.RemoveEmptyEntries)
                             .Select(x => char.ToLowerInvariant(x[0]))
@@ -109,20 +112,56 @@ namespace Google.Api.Generator.Generation
 
         private sealed class Unaliased : SourceFileContext
         {
-            // TODO: Handle duplicate names.
             // TODO: Handle nested types.
+
+            // Name collisions between types in imported namespaces and types from generated
+            // code in the current & base namespaces are handled.
+            // Name collisions between types imported from two different namespaces are not handled;
+            // however, this isn't necessary as we completely control which namespaces are imported,
+            // and we know that there are no collisions.
 
             public Unaliased(IClock clock) : base(clock) { }
 
+            // Imported namespaces.
             private readonly HashSet<string> _imports = new HashSet<string>();
+            // All type-names that have been imported through namespace imports. Used to detect name collisions.
+            private readonly HashSet<string> _importedClassNames = new HashSet<string>();
+
+            private void AddImport(string ns)
+            {
+                // Add import.
+                if (_imports.Add(ns))
+                {
+                    // Track all available type names that can be used unalised.
+                    // This mechanism isn't fool-proof, but will work fine in most cases because this generator
+                    // depends on all assemblies that a generated library will depend on.
+                    var typeNamesInNs = AppDomain.CurrentDomain.GetAssemblies()
+                        .Where(a => !a.IsDynamic)
+                        .SelectMany(a => a.GetExportedTypes())
+                        .Where(t => t.Namespace == ns)
+                        .Select(t => t.Name);
+                    foreach (var typeNameInNs in typeNamesInNs)
+                    {
+                        _importedClassNames.Add(typeNameInNs);
+                    }
+                }
+            }
 
             public override TypeSyntax Type(Typ typ) => base.Type(typ) ?? Type0(typ);
 
+            private const string AliasableType = "rewriteable-type";
+
             public TypeSyntax Type0(Typ typ)
             {
+                bool aliasable;
                 if (!$"{Namespace}.".StartsWith($"{typ.Namespace}."))
                 {
-                    _imports.Add(typ.Namespace);
+                    AddImport(typ.Namespace);
+                    aliasable = false;
+                }
+                else
+                {
+                    aliasable = true;
                 }
                 SimpleNameSyntax result = IdentifierName(typ.Name);
                 if (typ.GenericArgTyps != null)
@@ -130,19 +169,69 @@ namespace Google.Api.Generator.Generation
                     // Generic typ, so return a generic name by recursively calling this method on all type args.
                     result = GenericName(result.Identifier, TypeArgumentList(SeparatedList(typ.GenericArgTyps.Select(Type))));
                 }
+                if (aliasable)
+                {
+                    // Annotate this type to show it might need fully aliasing if there is a name collision.
+                    result = result.WithAdditionalAnnotations(new SyntaxAnnotation(AliasableType, typ.Namespace));
+                }
                 return result;
             }
 
             public override T Import<T>(System.Type t, T o)
             {
-                _imports.Add(Typ.Of(t).Namespace);
+                AddImport(t.Namespace);
                 return o;
+            }
+
+            private class TypeAliaser : CSharpSyntaxRewriter
+            {
+                public TypeAliaser(HashSet<string> importedClassNames) => _importedClassNames = importedClassNames;
+
+                private readonly HashSet<string> _importedClassNames;
+
+                // Namespace -> alias
+                private readonly Dictionary<string, string> _namespaceAliases = new Dictionary<string, string>();
+
+                public IReadOnlyDictionary<string, string> NamespaceAliases => _namespaceAliases;
+
+                public override SyntaxNode VisitIdentifierName(IdentifierNameSyntax node)
+                {
+                    var aliasable = node.GetAnnotations(AliasableType).FirstOrDefault();
+                    if (aliasable != null && _importedClassNames.Contains(node.Identifier.ValueText))
+                    {
+                        // Type name needs fully aliasing; there is a name collision with another type.
+                        var ns = aliasable.Data;
+                        if (!_namespaceAliases.TryGetValue(ns, out var alias))
+                        {
+                            // Create alias using the first character of each namespace part.
+                            // TODO: Ensure single-character aliased are not generated; they cause a compilation error.
+                            alias = ns
+                                .Split('.', StringSplitOptions.RemoveEmptyEntries)
+                                .Select(x => char.ToLowerInvariant(x[0]))
+                                .Aggregate("", (a, c) => a + c);
+                            _namespaceAliases.Add(ns, alias);
+                        }
+                        // Move any comments to the new node, and return it.
+                        var aliasedName = AliasQualifiedName(alias, node.WithoutTrivia());
+                        return aliasedName.WithTriviaFrom(node);
+                    }
+                    return base.VisitIdentifierName(node);
+                }
             }
 
             public override CompilationUnitSyntax CreateCompilationUnit(NamespaceDeclarationSyntax ns)
             {
-                var usings = _imports.OrderBy(x => x).Select(x => UsingDirective(IdentifierName(x)));
-                return AddLicense(CompilationUnit().AddMembers(ns.AddUsings(usings.ToArray())));
+                // Rewrite as fully-aliased any types for which there are name collisions.
+                // This has to be done post-generation, as we don't know the complete set of types & imports until generation is complete.
+                var typeAliaser = new TypeAliaser(_importedClassNames);
+                ns = (NamespaceDeclarationSyntax)typeAliaser.Visit(ns);
+                // Add using statements for standard imports, and for fully-qualifying name collisions.
+                var usings = _imports.OrderBy(x => x).Select(x => UsingDirective(IdentifierName(x)))
+                    .Concat(typeAliaser.NamespaceAliases.OrderBy(x => x.Key).Select(x => UsingDirective(NameEquals(x.Value), IdentifierName(x.Key))));
+                ns = ns.AddUsings(usings.ToArray());
+                // Return compilation-unit with license.
+                var compilationUnit = CompilationUnit().AddMembers(ns);
+                return AddLicense(compilationUnit);
             }
         }
 
