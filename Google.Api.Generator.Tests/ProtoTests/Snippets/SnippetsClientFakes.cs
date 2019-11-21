@@ -96,6 +96,9 @@ namespace Testing.Snippets
 
         public class MethodBidiStreamingStream : BidirectionalStreamingBase<SignatureRequest, Response> { }
         public MethodBidiStreamingStream MethodBidiStreaming() => throw new NotImplementedException();
+
+        public Task TaskMethod(Task request) => throw new NotImplementedException();
+        public Task<Task> TaskMethodAsync(Task request) => throw new NotImplementedException();
     }
 
     public class AResourceName : IResourceName
@@ -212,6 +215,8 @@ namespace Testing.Snippets
         public SimpleResourceName SecondNameAsSimpleResourceName { get; set; }
         public SimpleResourceName ThirdNameAsSimpleResourceName { get; set; }
     }
+
+    public class Task : ProtoMsgFake<Task> { }
 
     public class Response : ProtoMsgFake<Response> { }
     public class LroResponse : ProtoMsgFake<LroResponse> { }

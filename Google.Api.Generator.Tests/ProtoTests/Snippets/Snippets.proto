@@ -55,6 +55,9 @@ service Snippets {
   }
 
   rpc MethodBidiStreaming(stream SignatureRequest) returns (stream Response);
+
+  // Test name collision handling in snippets.
+  rpc TaskMethod(Task) returns (Task);
 }
 
 message AResource {
@@ -162,6 +165,9 @@ message ResourceSignatureRequest {
   string first_name = 1 [(google.api.resource_reference).type = "snippets.example.com/SimpleResource"];
   string second_name = 2 [(google.api.resource_reference).type = "snippets.example.com/SimpleResource"];
   string third_name = 3 [(google.api.resource_reference).type = "snippets.example.com/SimpleResource"];
+}
+
+message Task {
 }
 
 message Response {
