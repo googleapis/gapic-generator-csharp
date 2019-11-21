@@ -33,6 +33,8 @@ namespace Google.Api.Generator.RoslynUtils
             public readonly static SyntaxAnnotation Preformatted = new SyntaxAnnotation("preformatted");
         }
 
+        private static string TextNoAt(ParameterSyntax p) => p.Identifier.Text.TrimStart('@');
+
         private static XmlNodeSyntax ToNode(object o)
         {
             switch (o)
@@ -50,7 +52,7 @@ namespace Google.Api.Generator.RoslynUtils
                 case XmlNodeSyntax v:
                     return v;
                 case ParameterSyntax v:
-                    return XmlParamRefElement(v.Identifier.Text);
+                    return XmlParamRefElement(TextNoAt(v));
                 case PropertyDeclarationSyntax v:
                     return XmlSeeElement(NameMemberCref(IdentifierName(v.Identifier)));
                 case ClassDeclarationSyntax v:
@@ -75,7 +77,7 @@ namespace Google.Api.Generator.RoslynUtils
         public static DocumentationCommentTriviaSyntax SummaryPreFormatted(IEnumerable<string> lines) => Summary(lines.ToArray()).WithAdditionalAnnotations(Annotations.Preformatted);
         public static DocumentationCommentTriviaSyntax Remarks(params object[] parts) => XmlDocElement(parts, XmlRemarksElement);
         public static DocumentationCommentTriviaSyntax Example(params object[] parts) => XmlDocElement(parts, XmlExampleElement);
-        public static DocumentationCommentTriviaSyntax Param(ParameterSyntax param, params object[] parts) => XmlDocElement(parts, x => XmlParamElement(param.Identifier.Text, x));
+        public static DocumentationCommentTriviaSyntax Param(ParameterSyntax param, params object[] parts) => XmlDocElement(parts, x => XmlParamElement(TextNoAt(param), x));
         public static DocumentationCommentTriviaSyntax ParamPreFormatted(ParameterSyntax param, IEnumerable<string> lines) => Param(param, lines.ToArray()).WithAdditionalAnnotations(Annotations.Preformatted);
         public static DocumentationCommentTriviaSyntax Returns(params object[] parts) => XmlDocElement(parts, XmlReturnsElement);
 

@@ -269,11 +269,11 @@ namespace Testing.Keywords
 
         /// <summary>
         /// </summary>
-        /// <param name="@event">
+        /// <param name="event">
         /// </param>
-        /// <param name="@switch">
+        /// <param name="switch">
         /// </param>
-        /// <param name="@void">
+        /// <param name="void">
         /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The RPC response.</returns>
@@ -287,11 +287,11 @@ namespace Testing.Keywords
 
         /// <summary>
         /// </summary>
-        /// <param name="@event">
+        /// <param name="event">
         /// </param>
-        /// <param name="@switch">
+        /// <param name="switch">
         /// </param>
-        /// <param name="@void">
+        /// <param name="void">
         /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A Task containing the RPC response.</returns>
@@ -305,11 +305,11 @@ namespace Testing.Keywords
 
         /// <summary>
         /// </summary>
-        /// <param name="@event">
+        /// <param name="event">
         /// </param>
-        /// <param name="@switch">
+        /// <param name="switch">
         /// </param>
-        /// <param name="@void">
+        /// <param name="void">
         /// </param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
         /// <returns>A Task containing the RPC response.</returns>
@@ -318,11 +318,11 @@ namespace Testing.Keywords
 
         /// <summary>
         /// </summary>
-        /// <param name="@event">
+        /// <param name="event">
         /// </param>
-        /// <param name="@switch">
+        /// <param name="switch">
         /// </param>
-        /// <param name="@void">
+        /// <param name="void">
         /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The RPC response.</returns>
@@ -336,11 +336,11 @@ namespace Testing.Keywords
 
         /// <summary>
         /// </summary>
-        /// <param name="@event">
+        /// <param name="event">
         /// </param>
-        /// <param name="@switch">
+        /// <param name="switch">
         /// </param>
-        /// <param name="@void">
+        /// <param name="void">
         /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A Task containing the RPC response.</returns>
@@ -354,11 +354,11 @@ namespace Testing.Keywords
 
         /// <summary>
         /// </summary>
-        /// <param name="@event">
+        /// <param name="event">
         /// </param>
-        /// <param name="@switch">
+        /// <param name="switch">
         /// </param>
-        /// <param name="@void">
+        /// <param name="void">
         /// </param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
         /// <returns>A Task containing the RPC response.</returns>
@@ -391,9 +391,9 @@ namespace Testing.Keywords
 
         /// <summary>
         /// </summary>
-        /// <param name="@while">
+        /// <param name="while">
         /// </param>
-        /// <param name="@enum">
+        /// <param name="enum">
         /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The RPC response.</returns>
@@ -406,9 +406,9 @@ namespace Testing.Keywords
 
         /// <summary>
         /// </summary>
-        /// <param name="@while">
+        /// <param name="while">
         /// </param>
-        /// <param name="@enum">
+        /// <param name="enum">
         /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A Task containing the RPC response.</returns>
@@ -421,9 +421,9 @@ namespace Testing.Keywords
 
         /// <summary>
         /// </summary>
-        /// <param name="@while">
+        /// <param name="while">
         /// </param>
-        /// <param name="@enum">
+        /// <param name="enum">
         /// </param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
         /// <returns>A Task containing the RPC response.</returns>
@@ -432,9 +432,9 @@ namespace Testing.Keywords
 
         /// <summary>
         /// </summary>
-        /// <param name="@while">
+        /// <param name="while">
         /// </param>
-        /// <param name="@enum">
+        /// <param name="enum">
         /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The RPC response.</returns>
@@ -447,9 +447,9 @@ namespace Testing.Keywords
 
         /// <summary>
         /// </summary>
-        /// <param name="@while">
+        /// <param name="while">
         /// </param>
-        /// <param name="@enum">
+        /// <param name="enum">
         /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A Task containing the RPC response.</returns>
@@ -462,9 +462,9 @@ namespace Testing.Keywords
 
         /// <summary>
         /// </summary>
-        /// <param name="@while">
+        /// <param name="while">
         /// </param>
-        /// <param name="@enum">
+        /// <param name="enum">
         /// </param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
         /// <returns>A Task containing the RPC response.</returns>
