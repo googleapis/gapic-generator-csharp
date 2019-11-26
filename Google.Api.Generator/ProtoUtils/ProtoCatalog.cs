@@ -37,7 +37,7 @@ namespace Google.Api.Generator.ProtoUtils
         {
             _defaultPackage = defaultPackage;
             descs = descs.ToList();
-            _msgs = descs.SelectMany(desc => desc.MessageTypes).ToDictionary(x => x.FullName);
+            _msgs = descs.SelectMany(desc => desc.MessageTypes).SelectMany(MsgPlusNested).ToDictionary(x => x.FullName);
             _resourcesByFileName = ResourceDetails.LoadResourceDefinitionsByFileName(descs, commonResourcesConfigs).GroupBy(x => x.FileName)
                 .ToImmutableDictionary(x => x.Key, x => (IReadOnlyList<ResourceDetails.Definition>)x.ToImmutableList());
             var resourcesByUrt = _resourcesByFileName.Values.SelectMany(x => x).ToDictionary(x => x.UnifiedResourceTypeName);
@@ -52,12 +52,14 @@ namespace Google.Api.Generator.ProtoUtils
                 .Where(x => !x.patterns.IsEmpty)
                 .ToDictionary(x => x.patterns, x => x.def, PatternsComparer.Instance);
             _resourcesByFieldName = descs
-                .SelectMany(desc => desc.MessageTypes)
+                .SelectMany(desc => desc.MessageTypes).SelectMany(MsgPlusNested)
                 .SelectMany(msg => msg.Fields.InFieldNumberOrder().Select(field =>
                     (field, res: ResourceDetails.LoadResourceReference(msg, field, resourcesByUrt, resourcesByPatterns)))
                     .Where(x => x.res != null))
                 .ToDictionary(x => x.field.FullName, x => x.res);
             _commonUrts = resourcesByUrt.Values.Where(x => x.IsCommon).Select(x => x.UnifiedResourceTypeName).ToImmutableHashSet();
+
+            IEnumerable<MessageDescriptor> MsgPlusNested(MessageDescriptor msgDesc) => msgDesc.NestedTypes.SelectMany(MsgPlusNested).Append(msgDesc);
         }
 
         private readonly string _defaultPackage;
@@ -66,7 +68,8 @@ namespace Google.Api.Generator.ProtoUtils
         private readonly IReadOnlyDictionary<string, IReadOnlyList<ResourceDetails.Definition>> _resourcesByFileName;
         private readonly IImmutableSet<string> _commonUrts;
 
-        public MessageDescriptor GetMessageByName(string name) => _msgs[name.Contains('.') ? name : $"{_defaultPackage}.{name}"];
+        public MessageDescriptor GetMessageByName(string name) =>
+            _msgs.GetValueOrDefault($"{_defaultPackage}.{name}") ?? _msgs.GetValueOrDefault(name);
 
         public ResourceDetails.Field GetResourceDetailsByField(FieldDescriptor fieldDesc) => _resourcesByFieldName.GetValueOrDefault(fieldDesc.FullName);
 

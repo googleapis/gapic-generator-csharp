@@ -258,6 +258,9 @@ namespace Google.Api.Generator.Tests
         [Fact]
         public void VoidReturn() => ProtoTestSingle("VoidReturn", ignoreCsProj: true);
 
+        [Fact]
+        public void Keywords() => ProtoTestSingle("Keywords", ignoreCsProj: true);
+
         // Build tests are testing `csproj` file generation only.
         // All other generated code is effectively "build tested" when this test project is built.
 

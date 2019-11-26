@@ -266,6 +266,13 @@ namespace Google.Api.Generator.Tests
                     default: return i;
                 }
             }
+
+            // Test aliasing of parameter and local
+            public void AliasedLocal(sys::Exception e)
+            {
+                sys::Exception e2 = e;
+                throw e2;
+            }
         }
 
         // Test base-list with one item.

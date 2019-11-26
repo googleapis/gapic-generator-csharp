@@ -106,8 +106,19 @@ namespace Google.Api.Generator.Generation
                     throw new InvalidOperationException("LRO method must contain a `google.api.operation` option.");
                 }
                 ApiCallTyp = Typ.Generic(typeof(ApiCall<,>), RequestTyp, Typ.Of<Operation>());
-                OperationResponseTyp = Typ.Of(svc.Catalog.GetMessageByName(lroData.ResponseType));
-                OperationMetadataTyp = Typ.Of(svc.Catalog.GetMessageByName(lroData.MetadataType));
+                if (string.IsNullOrEmpty(lroData.ResponseType) || string.IsNullOrEmpty(lroData.MetadataType))
+                {
+                    throw new InvalidOperationException($"Both response-type and metadata-type must be present for method: '{desc.FullName}'.");
+                }
+                var responseTypeMsg = svc.Catalog.GetMessageByName(lroData.ResponseType);
+                var metadataTypeMsg = svc.Catalog.GetMessageByName(lroData.MetadataType);
+                if (responseTypeMsg is null || metadataTypeMsg is null)
+                {
+                    throw new InvalidOperationException(
+                        $"Response-type and Metadata-type must both exist in method '{desc.FullName}': '{lroData.ResponseType}', '{lroData.MetadataType}'.");
+                }
+                OperationResponseTyp = Typ.Of(responseTypeMsg);
+                OperationMetadataTyp = Typ.Of(metadataTypeMsg);
                 SyncReturnTyp = Typ.Generic(typeof(Operation<,>), OperationResponseTyp, OperationMetadataTyp);
                 LroSettingsName = $"{desc.Name}OperationsSettings";
                 LroClientName = $"{desc.Name}OperationsClient";
@@ -298,7 +309,8 @@ namespace Google.Api.Generator.Generation
             }
             var rp = config.RetryPolicy;
             // `retry` is the delay duration between calls.
-            var retry = new BackoffSettings(rp.InitialBackoff.ToTimeSpan(), rp.MaxBackoff.ToTimeSpan(), rp.BackoffMultiplier);
+            // float -> double conversion via string to avoid unpleasent results from unrepresentable floats (e.g. 1.3 -> 1.2999999523162842)
+            var retry = new BackoffSettings(rp.InitialBackoff.ToTimeSpan(), rp.MaxBackoff.ToTimeSpan(), double.Parse(rp.BackoffMultiplier.ToString()));
             // `timeout` is the timeout duration of a single RPC.
             var timeout = new BackoffSettings(config.Timeout.ToTimeSpan(), config.Timeout.ToTimeSpan(), 1.0); 
             var totalExpiration = Expiration.FromTimeout(config.Timeout.ToTimeSpan());

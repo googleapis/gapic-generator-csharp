@@ -32,7 +32,7 @@ namespace Testing.GrpcServiceConfig
         /// <remarks>
         /// <list type="bullet">
         /// <item><description>Initial retry delay: 500 milliseconds.</description></item>
-        /// <item><description>Retry delay multiplier: 2</description></item>
+        /// <item><description>Retry delay multiplier: 1.3</description></item>
         /// <item><description>Retry maximum delay: 5000 milliseconds.</description></item>
         /// <item><description>Initial timeout: 20000 milliseconds.</description></item>
         /// <item><description>Timeout multiplier: 1</description></item>
@@ -40,7 +40,7 @@ namespace Testing.GrpcServiceConfig
         /// <item><description>Total timeout: 20 seconds.</description></item>
         /// </list>
         /// </remarks>
-        public gaxgrpc::CallSettings ServiceLevelRetryMethodSettings { get; set; } = gaxgrpc::CallSettings.FromCallTiming(gaxgrpc::CallTiming.FromRetry(new gaxgrpc::RetrySettings(retryBackoff: new gaxgrpc::BackoffSettings(delay: sys::TimeSpan.FromMilliseconds(500), maxDelay: sys::TimeSpan.FromMilliseconds(5000), delayMultiplier: 2), timeoutBackoff: new gaxgrpc::BackoffSettings(delay: sys::TimeSpan.FromMilliseconds(20000), maxDelay: sys::TimeSpan.FromMilliseconds(20000), delayMultiplier: 1), totalExpiration: gax::Expiration.FromTimeout(sys::TimeSpan.FromMilliseconds(20000)), retryFilter: gaxgrpc::RetrySettings.FilterForStatusCodes(grpccore::StatusCode.DeadlineExceeded, grpccore::StatusCode.ResourceExhausted))));
+        public gaxgrpc::CallSettings ServiceLevelRetryMethodSettings { get; set; } = gaxgrpc::CallSettings.FromCallTiming(gaxgrpc::CallTiming.FromRetry(new gaxgrpc::RetrySettings(retryBackoff: new gaxgrpc::BackoffSettings(delay: sys::TimeSpan.FromMilliseconds(500), maxDelay: sys::TimeSpan.FromMilliseconds(5000), delayMultiplier: 1.3), timeoutBackoff: new gaxgrpc::BackoffSettings(delay: sys::TimeSpan.FromMilliseconds(20000), maxDelay: sys::TimeSpan.FromMilliseconds(20000), delayMultiplier: 1), totalExpiration: gax::Expiration.FromTimeout(sys::TimeSpan.FromMilliseconds(20000)), retryFilter: gaxgrpc::RetrySettings.FilterForStatusCodes(grpccore::StatusCode.DeadlineExceeded, grpccore::StatusCode.ResourceExhausted))));
 
         /// <summary>
         /// <see cref="gaxgrpc::CallSettings"/> for synchronous and asynchronous calls to

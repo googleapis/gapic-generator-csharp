@@ -42,6 +42,18 @@ namespace Testing.Lro
         public string Name { get; set; }
     }
 
-    public class LroResponse : ProtoMsgFake<LroResponse> { }
-    public class LroMetadata : ProtoMsgFake<LroMetadata> { }
+    public class LroResponse : ProtoMsgFake<LroResponse> {
+        public class Types
+        {
+            public class Nested : ProtoMsgFake<Nested> { }
+        }
+    }
+
+    public class LroMetadata : ProtoMsgFake<LroMetadata>
+    {
+        public class Types
+        {
+            public class Nested : ProtoMsgFake<Nested> { }
+        }
+    }
 }

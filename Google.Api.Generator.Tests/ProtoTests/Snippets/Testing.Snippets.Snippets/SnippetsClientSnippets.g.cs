@@ -22,6 +22,7 @@ namespace Testing.Snippets.Snippets
     using Google.Protobuf;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using ts = Testing.Snippets;
 
     /// <summary>Generated snippets.</summary>
     public sealed class GeneratedSnippetsClientSnippets
@@ -1134,6 +1135,33 @@ namespace Testing.Snippets.Snippets
             // Await the response handler
             // This will complete once all server responses have been processed
             await responseHandlerTask;
+            // End snippet
+        }
+
+        /// <summary>Snippet for TaskMethod</summary>
+        public void TaskMethod_RequestObject()
+        {
+            // Snippet: TaskMethod(Task, CallSettings)
+            // Create client
+            SnippetsClient snippetsClient = SnippetsClient.Create();
+            // Initialize request argument(s)
+            ts::Task request = new ts::Task { };
+            // Make the request
+            ts::Task response = snippetsClient.TaskMethod(request);
+            // End snippet
+        }
+
+        /// <summary>Snippet for TaskMethodAsync</summary>
+        public async Task TaskMethodAsync_RequestObject()
+        {
+            // Snippet: TaskMethodAsync(Task, CallSettings)
+            // Additional: TaskMethodAsync(Task, CancellationToken)
+            // Create client
+            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            // Initialize request argument(s)
+            ts::Task request = new ts::Task { };
+            // Make the request
+            ts::Task response = await snippetsClient.TaskMethodAsync(request);
             // End snippet
         }
     }
