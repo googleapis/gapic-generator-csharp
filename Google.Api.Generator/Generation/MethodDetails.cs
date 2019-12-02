@@ -298,10 +298,10 @@ namespace Google.Api.Generator.Generation
             ResponseMessageDesc = desc.OutputType;
             desc.CustomOptions.TryGetMessage<HttpRule>(ProtoConsts.MethodOption.HttpRule, out var http);
             RoutingHeaders = ReadRoutingHeaders(http, desc.InputType).ToList();
-            (MethodRetry, MethodRetryStatusCodes) = LoadRetry(svc, desc);
+            (MethodRetry, MethodRetryStatusCodes, Expiration) = LoadTiming(svc, desc);
         }
 
-        private (RetrySettings, IEnumerable<StatusCode>) LoadRetry(ServiceDetails svc, MethodDescriptor desc)
+        private (RetrySettings, IEnumerable<StatusCode>, Expiration) LoadTiming(ServiceDetails svc, MethodDescriptor desc)
         {
             var config = svc.MethodGrpcConfigsByName.GetValueOrDefault($"{svc.ServiceFullName}/{desc.Name}") ??
                 svc.MethodGrpcConfigsByName.GetValueOrDefault($"{svc.ServiceFullName}/");
@@ -312,14 +312,15 @@ namespace Google.Api.Generator.Generation
             var rp = config.RetryPolicy;
             // `retry` is the delay duration between calls.
             // float -> double conversion via string to avoid unpleasent results from unrepresentable floats (e.g. 1.3 -> 1.2999999523162842)
-            var retry = new BackoffSettings(rp.InitialBackoff.ToTimeSpan(), rp.MaxBackoff.ToTimeSpan(), double.Parse(rp.BackoffMultiplier.ToString()));
-            // `timeout` is the timeout duration of a single RPC.
-            var timeout = new BackoffSettings(config.Timeout.ToTimeSpan(), config.Timeout.ToTimeSpan(), 1.0); 
-            var totalExpiration = Expiration.FromTimeout(config.Timeout.ToTimeSpan());
+            var multiplier = double.Parse(rp.BackoffMultiplier.ToString());
+            // gRPC uses maxAttempts = 0 to mean unlimited; GAX wants a positive number. int.MaxValue is fine.
+            int maxAttempts = rp.MaxAttempts == 0 ? int.MaxValue : (int) rp.MaxAttempts;
+            // The retry filter here is irrelevant. We'll generate code with the right status codes later.
+            var retry = RetrySettings.FromExponentialBackoff(maxAttempts, rp.InitialBackoff.ToTimeSpan(), rp.MaxBackoff.ToTimeSpan(), multiplier, error => false);
             // `Google.Rpc.Code` and `Grpc.Core.StatusCode` enums are identically defined.
             var statusCodes = rp.RetryableStatusCodes.Select(x => (StatusCode)x).ToList();
-            var retrySettings = new RetrySettings(retry, timeout, totalExpiration);
-            return (retrySettings, statusCodes);
+            var expiration = config.Timeout is null ? null : Expiration.FromTimeout(config.Timeout.ToTimeSpan());
+            return (retry, statusCodes, expiration);
         }
 
         private IEnumerable<RoutingHeader> ReadRoutingHeaders(HttpRule http, MessageDescriptor requestDesc)
@@ -448,6 +449,9 @@ namespace Google.Api.Generator.Generation
 
         /// <summary>Retry settings for this method; null if no retry settings available.</summary>
         public RetrySettings MethodRetry { get; }
+
+        /// <summary>Expiration for this method; null if no expiration available.</summary>
+        public Expiration Expiration { get; }
 
         /// <summary>If retry is specified, the status codes on which to retry.</summary>
         public IEnumerable<StatusCode> MethodRetryStatusCodes { get; }

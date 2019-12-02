@@ -29,8 +29,13 @@ namespace Testing.GrpcServiceConfig
         /// <c>GrpcServiceConfigNoRetryClient.NoRetryMethod</c> and <c>GrpcServiceConfigNoRetryClient.NoRetryMethodAsync</c>
         /// .
         /// </summary>
-        /// <remarks>By default, retry will not be attempted.</remarks>
-        public gaxgrpc::CallSettings NoRetryMethodSettings { get; set; }
+        /// <remarks>
+        /// <list type="bullet">
+        /// <item><description>This call will not be retried.</description></item>
+        /// <item><description>No timeout is applied.</description></item>
+        /// </list>
+        /// </remarks>
+        public gaxgrpc::CallSettings NoRetryMethodSettings { get; set; } = gaxgrpc::CallSettings.FromExpiration(gax::Expiration.None);
         // TEST_END
     }
 }
