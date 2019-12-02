@@ -108,56 +108,55 @@ namespace Google.Api.Generator.Generation
                 var cSync = XmlDoc.C($"{_svc.ClientAbstractTyp.Name}.{method.SyncMethodName}");
                 var cAsync = XmlDoc.C($"{_svc.ClientAbstractTyp.Name}.{method.AsyncMethodName}");
                 // Add the general per-method settings property.
-                var property = AutoProperty(Public, _ctx.Type<CallSettings>(), method.SettingsName, hasSetter: true);
+                // We always specify an expiration, and the retry is optional.
+                var expiration = method.Expiration ?? Expiration.None;
+                var property = AutoProperty(Public, _ctx.Type<CallSettings>(), method.SettingsName, hasSetter: true)
+                    .WithInitializer(_ctx.Type<CallSettings>().Call(nameof(CallSettings.FromExpiration))(
+                        expiration.Type == ExpirationType.None
+                        ? _ctx.Type(typeof(Expiration)).Access(nameof(Expiration.None))
+                        : _ctx.Type(typeof(Expiration)).Call(nameof(Expiration.FromTimeout))(_ctx.Type<TimeSpan>().Call(nameof(TimeSpan.FromMilliseconds))((int) expiration.Timeout.Value.TotalMilliseconds))));
                 var xmlSummary = XmlDoc.Summary(_ctx.Type<CallSettings>(), " for synchronous and asynchronous calls to ", cSync, " and ", cAsync, ".");
+                string timeoutRemark = expiration.Type == ExpirationType.None ? "No timeout is applied." : $"Timeout: {(int) expiration.Timeout.Value.TotalSeconds} seconds.";
+
                 if (method.MethodRetry != null)
                 {
-                    var rb = method.MethodRetry.RetryBackoff;
-                    var tb = method.MethodRetry.TimeoutBackoff;
                     if (method is MethodDetails.IStreaming)
                     {
                         // Eventually it may  be illegal to configure retry on streaming methods, but for now just remove it.
                         // It is not possible to apply retry to streaming methods in the general case.
-                        property = property.WithInitializer(
-                            _ctx.Type<CallSettings>().Call(nameof(CallSettings.FromCallTiming))(
-                                _ctx.Type<CallTiming>().Call(nameof(CallTiming.FromTimeout))(
-                                    _ctx.Type<TimeSpan>().Call(nameof(TimeSpan.FromMilliseconds))((int)method.MethodRetry.TotalExpiration.Timeout.Value.TotalMilliseconds))))
-                            .WithXmlDoc(xmlSummary,
-                                XmlDoc.Remarks($"Total timeout: {(int)method.MethodRetry.TotalExpiration.Timeout.Value.TotalSeconds} seconds."));
+                        property = property.WithXmlDoc(xmlSummary, XmlDoc.Remarks(timeoutRemark));
                     }
                     else
                     {
+                        var retry = method.MethodRetry;
+                        var retryExpression = _ctx.Type<RetrySettings>().Call(nameof(RetrySettings.FromExponentialBackoff))(
+                            ("maxAttempts", retry.MaxAttempts),
+                            ("initialBackoff", _ctx.Type<TimeSpan>().Call(nameof(TimeSpan.FromMilliseconds))((int)retry.InitialBackoff.TotalMilliseconds)),
+                            ("maxBackoff", _ctx.Type<TimeSpan>().Call(nameof(TimeSpan.FromMilliseconds))((int)retry.MaxBackoff.TotalMilliseconds)),
+                            ("backoffMultiplier", retry.BackoffMultiplier),
+                            ("retryFilter", _ctx.Type<RetrySettings>().Call(nameof(RetrySettings.FilterForStatusCodes))(
+                                            method.MethodRetryStatusCodes.Select(x => _ctx.Type<StatusCode>().Access(x))))
+                        );
+                        // WithRetry is an extension method, but all our imports are aliased, so the extension methods aren't imported.
+                        // While this is a little ugly, it avoids collisions.
                         property = property.WithInitializer(
-                            _ctx.Type<CallSettings>().Call(nameof(CallSettings.FromCallTiming))(
-                                _ctx.Type<CallTiming>().Call(nameof(CallTiming.FromRetry))(
-                                    New(_ctx.Type<RetrySettings>())(
-                                        ("retryBackoff", New(_ctx.Type<BackoffSettings>())(
-                                            ("delay", _ctx.Type<TimeSpan>().Call(nameof(TimeSpan.FromMilliseconds))((int)rb.Delay.TotalMilliseconds)),
-                                            ("maxDelay", _ctx.Type<TimeSpan>().Call(nameof(TimeSpan.FromMilliseconds))((int)rb.MaxDelay.TotalMilliseconds)),
-                                            ("delayMultiplier", rb.DelayMultiplier))),
-                                        ("timeoutBackoff", New(_ctx.Type<BackoffSettings>())(
-                                            ("delay", _ctx.Type<TimeSpan>().Call(nameof(TimeSpan.FromMilliseconds))((int)tb.Delay.TotalMilliseconds)),
-                                            ("maxDelay", _ctx.Type<TimeSpan>().Call(nameof(TimeSpan.FromMilliseconds))((int)tb.MaxDelay.TotalMilliseconds)),
-                                            ("delayMultiplier", tb.DelayMultiplier))),
-                                        ("totalExpiration", _ctx.Type<Expiration>().Call(nameof(Expiration.FromTimeout))(
-                                            _ctx.Type<TimeSpan>().Call(nameof(TimeSpan.FromMilliseconds))((int)method.MethodRetry.TotalExpiration.Timeout.Value.TotalMilliseconds))),
-                                        ("retryFilter", _ctx.Type<RetrySettings>().Call(nameof(RetrySettings.FilterForStatusCodes))(
-                                            method.MethodRetryStatusCodes.Select(x => _ctx.Type<StatusCode>().Access(x))))))))
+                            _ctx.Type(typeof(CallSettingsExtensions)).Call(nameof(CallSettingsExtensions.WithRetry))(property.Initializer.Value, retryExpression))
                             .WithXmlDoc(xmlSummary,
                                 XmlDoc.Remarks(
                                     XmlDoc.UL(
-                                        $"Initial retry delay: {(int)rb.Delay.TotalMilliseconds} milliseconds.",
-                                        $"Retry delay multiplier: {rb.DelayMultiplier}",
-                                        $"Retry maximum delay: {(int)rb.MaxDelay.TotalMilliseconds} milliseconds.",
-                                        $"Initial timeout: {(int)tb.Delay.TotalMilliseconds} milliseconds.",
-                                        $"Timeout multiplier: {tb.DelayMultiplier}",
-                                        $"Timeout maximum delay: {(int)tb.MaxDelay.TotalMilliseconds} milliseconds.",
-                                        $"Total timeout: {(int)method.MethodRetry.TotalExpiration.Timeout.Value.TotalSeconds} seconds.")));
+                                        $"Initial retry delay: {(int)retry.InitialBackoff.TotalMilliseconds} milliseconds.",
+                                        $"Retry delay multiplier: {retry.BackoffMultiplier}",
+                                        $"Retry maximum delay: {(int)retry.MaxBackoff.TotalMilliseconds} milliseconds.",
+                                        $"Maximum attempts: {(int)retry.MaxAttempts}",
+                                        timeoutRemark)));
                     }
                 }
                 else
                 {
-                    property = property.WithXmlDoc(xmlSummary, XmlDoc.Remarks("By default, retry will not be attempted."));
+                    property = property.WithXmlDoc(xmlSummary,
+                        XmlDoc.Remarks(XmlDoc.UL(
+                            "This call will not be retried.",
+                            timeoutRemark)));
                 }
                 yield return property;
                 // Add extra properties as required for special call types.
