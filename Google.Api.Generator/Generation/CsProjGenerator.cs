@@ -20,9 +20,9 @@ namespace Google.Api.Generator.Generation
 {
     internal static class CsProjGenerator
     {
-        private const string GaxGrpcVersion = "2.9.0";
-        private const string GrpcCoreVersion = "1.22.1";
-        private const string LroVersion = "1.0.0";
+        private const string GaxGrpcVersion = "3.0.0-alpha00";
+        private const string GrpcCoreVersion = "2.25.0";
+        private const string LroVersion = "2.0.0-beta00";
 
         public static string GenerateClient(bool hasLro)
         {
@@ -61,7 +61,7 @@ namespace Google.Api.Generator.Generation
     -->
 
     <!-- These items should not require editing -->
-    <TargetFrameworks>netstandard1.5;net45</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
     <TargetFrameworks Condition=""'$(OS)' != 'Windows_NT'"">netstandard1.5</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -95,7 +95,7 @@ namespace Google.Api.Generator.Generation
 <Project Sdk=""Microsoft.NET.Sdk"">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.2;net452</TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.2;net461</TargetFrameworks>
     <TargetFrameworks Condition=""'$(OS)' != 'Windows_NT'"">netcoreapp2.2</TargetFrameworks>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
