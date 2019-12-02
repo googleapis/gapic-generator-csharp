@@ -23,6 +23,7 @@
       ],
       "timeout": "60s",
       "retry_policy": {
+        "max_attempts": 10,
         "initial_backoff": "1s",
         "max_backoff": "10s",
         "backoff_multiplier": 3.0,
