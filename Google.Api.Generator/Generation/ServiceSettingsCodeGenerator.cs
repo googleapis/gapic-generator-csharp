@@ -109,15 +109,17 @@ namespace Google.Api.Generator.Generation
                 var cAsync = XmlDoc.C($"{_svc.ClientAbstractTyp.Name}.{method.AsyncMethodName}");
                 // Add the general per-method settings property.
                 // We always specify an expiration, and the retry is optional.
+                // The property always has an initializer, XML summary, and XML remarks.
+                // We build each of these separately based on the settings, then assemble the property.
                 var expiration = method.Expiration ?? Expiration.None;
-                var property = AutoProperty(Public, _ctx.Type<CallSettings>(), method.SettingsName, hasSetter: true)
-                    .WithInitializer(_ctx.Type<CallSettings>().Call(nameof(CallSettings.FromExpiration))(
-                        expiration.Type == ExpirationType.None
-                        ? _ctx.Type(typeof(Expiration)).Access(nameof(Expiration.None))
-                        : _ctx.Type(typeof(Expiration)).Call(nameof(Expiration.FromTimeout))(_ctx.Type<TimeSpan>().Call(nameof(TimeSpan.FromMilliseconds))((int) expiration.Timeout.Value.TotalMilliseconds))));
                 var xmlSummary = XmlDoc.Summary(_ctx.Type<CallSettings>(), " for synchronous and asynchronous calls to ", cSync, " and ", cAsync, ".");
                 string timeoutRemark = expiration.Type == ExpirationType.None ? "No timeout is applied." : $"Timeout: {(int) expiration.Timeout.Value.TotalSeconds} seconds.";
 
+                var initializer = _ctx.Type<CallSettings>().Call(nameof(CallSettings.FromExpiration))(
+                    expiration.Type == ExpirationType.None
+                        ? _ctx.Type(typeof(Expiration)).Access(nameof(Expiration.None))
+                        : _ctx.Type(typeof(Expiration)).Call(nameof(Expiration.FromTimeout))(_ctx.Type<TimeSpan>().Call(nameof(TimeSpan.FromMilliseconds))((int) expiration.Timeout.Value.TotalMilliseconds)));
+                DocumentationCommentTriviaSyntax xmlRemarks;
                 if (method.MethodRetry != null)
                 {
                     var retry = method.MethodRetry;
@@ -131,24 +133,25 @@ namespace Google.Api.Generator.Generation
                     );
                     // WithRetry is an extension method, but all our imports are aliased, so the extension methods aren't imported.
                     // While this is a little ugly, it avoids collisions.
-                    property = property.WithInitializer(
-                        _ctx.Type(typeof(CallSettingsExtensions)).Call(nameof(CallSettingsExtensions.WithRetry))(property.Initializer.Value, retryExpression))
-                        .WithXmlDoc(xmlSummary,
-                            XmlDoc.Remarks(
-                                XmlDoc.UL(
-                                    $"Initial retry delay: {(int)retry.InitialBackoff.TotalMilliseconds} milliseconds.",
-                                    $"Retry delay multiplier: {retry.BackoffMultiplier}",
-                                    $"Retry maximum delay: {(int)retry.MaxBackoff.TotalMilliseconds} milliseconds.",
-                                    $"Maximum attempts: {(int)retry.MaxAttempts}",
-                                    timeoutRemark)));
+                    initializer =
+                        _ctx.Type(typeof(CallSettingsExtensions)).Call(nameof(CallSettingsExtensions.WithRetry))(initializer, retryExpression);
+                    xmlRemarks = XmlDoc.Remarks(
+                        XmlDoc.UL(
+                            $"Initial retry delay: {(int)retry.InitialBackoff.TotalMilliseconds} milliseconds.",
+                            $"Retry delay multiplier: {retry.BackoffMultiplier}",
+                            $"Retry maximum delay: {(int)retry.MaxBackoff.TotalMilliseconds} milliseconds.",
+                            $"Maximum attempts: {(retry.MaxAttempts == int.MaxValue ? "Unlimited" : retry.MaxAttempts.ToString())}",
+                            timeoutRemark));
                 }
                 else
                 {
-                    property = property.WithXmlDoc(xmlSummary,
-                        XmlDoc.Remarks(XmlDoc.UL(
-                            "This call will not be retried.",
-                            timeoutRemark)));
+                    xmlRemarks = XmlDoc.Remarks(XmlDoc.UL(
+                        "This call will not be retried.",
+                        timeoutRemark));
                 }
+                var property = AutoProperty(Public, _ctx.Type<CallSettings>(), method.SettingsName, hasSetter: true)
+                    .WithInitializer(initializer)
+                    .WithXmlDoc(xmlSummary, xmlRemarks);
                 yield return property;
                 // Add extra properties as required for special call types.
                 switch (method)
