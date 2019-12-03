@@ -34,7 +34,7 @@ namespace Testing.GrpcServiceConfig
         /// <item><description>Initial retry delay: 500 milliseconds.</description></item>
         /// <item><description>Retry delay multiplier: 1.3</description></item>
         /// <item><description>Retry maximum delay: 5000 milliseconds.</description></item>
-        /// <item><description>Maximum attempts: 2147483647</description></item>
+        /// <item><description>Maximum attempts: Unlimited</description></item>
         /// <item><description>Timeout: 20 seconds.</description></item>
         /// </list>
         /// </remarks>
