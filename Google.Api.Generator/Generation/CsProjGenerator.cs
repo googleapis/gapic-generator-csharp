@@ -62,7 +62,7 @@ namespace Google.Api.Generator.Generation
 
     <!-- These items should not require editing -->
     <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
-    <TargetFrameworks Condition=""'$(OS)' != 'Windows_NT'"">netstandard1.5</TargetFrameworks>
+    <TargetFrameworks Condition=""'$(OS)' != 'Windows_NT'"">netstandard2.0</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Deterministic>true</Deterministic>
