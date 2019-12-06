@@ -238,7 +238,8 @@ namespace Google.Api.Generator.Generation
             desc.IsClientStreaming && desc.IsServerStreaming ? new BidiStreaming(svc, desc) :
             desc.IsServerStreaming ? new ServerStreaming(svc, desc) :
             desc.IsClientStreaming ? throw new NotImplementedException() :
-            desc.OutputType.FullName == "google.longrunning.Operation" ? new Lro(svc, desc) :
+            // Any LRO-returning methods within the LRO package itself should be treated normally. Anywhere else, they get special treatment.
+            desc.OutputType.FullName == "google.longrunning.Operation" && desc.File.Package != "google.longrunning" ? new Lro(svc, desc) :
             (MethodDetails)new Normal(svc, desc));
 
         private static MethodDetails DetectPagination(ServiceDetails svc, MethodDescriptor desc)
