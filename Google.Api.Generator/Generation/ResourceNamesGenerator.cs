@@ -20,6 +20,7 @@ using Google.Protobuf.Reflection;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using static Google.Api.Generator.RoslynUtils.Modifier;
 using static Google.Api.Generator.RoslynUtils.RoslynBuilder;
@@ -37,9 +38,9 @@ namespace Google.Api.Generator.Generation
         private ResourceNamesGenerator(ProtoCatalog catalog, SourceFileContext ctx, FileDescriptor fileDesc) =>
             (_catalog, _ctx, _fileDesc) = (catalog, ctx, fileDesc);
 
-        private ProtoCatalog _catalog;
-        private SourceFileContext _ctx;
-        private FileDescriptor _fileDesc;
+        private readonly ProtoCatalog _catalog;
+        private readonly SourceFileContext _ctx;
+        private readonly FileDescriptor _fileDesc;
 
         private (CompilationUnitSyntax, int) Generate()
         {
@@ -55,144 +56,317 @@ namespace Google.Api.Generator.Generation
             }
         }
 
-        private class ParamProperty
+        private class PatternDetails
         {
-            public ParamProperty(SourceFileContext ctx, string name)
+            public class PathElement
             {
-                var (nameWithId, nameWithoutId) = name.ToLowerInvariant().EndsWith("_id") ? (name, name.Substring(0, name.Length - "_id".Length)) : (name + "_id", name);
-                Parameter = RoslynBuilder.Parameter(ctx.Type<string>(), nameWithId.ToLowerCamelCase());
-                ParameterXmlDoc = XmlDoc.Param(Parameter, "The ", XmlDoc.C(nameWithoutId.ToUpperCamelCase()), " ID. Must not be ", null, ".");
-                Property = AutoProperty(Public, ctx.Type<string>(), nameWithId.ToUpperCamelCase());
-                PropertyXmlDoc = XmlDoc.Summary("The ", XmlDoc.C(nameWithoutId.ToUpperCamelCase()), " ID. Never ", null, ".");
+                public PathElement(SourceFileContext ctx, ResourceDetails.Definition def, string rawPathElement)
+                {
+                    var nameWithoutId = rawPathElement.RemoveSuffix("_id");
+                    var nameWithId = $"{nameWithoutId}_id";
+                    DocName = nameWithoutId;
+                    UpperCamel = nameWithoutId.ToUpperCamelCase();
+                    LowerCamel = nameWithoutId.ToLowerCamelCase();
+                    Parameter = RoslynBuilder.Parameter(ctx.Type<string>(), nameWithId.ToLowerCamelCase());
+                    ParameterWithDefault = RoslynBuilder.Parameter(ctx.Type<string>(), nameWithId.ToLowerCamelCase(), @default: Null);
+                    ParameterXmlDoc = XmlDoc.Param(Parameter, "The ", XmlDoc.C(nameWithoutId.ToUpperCamelCase()), " ID. Must not be ", null, " or empty.");
+                    var summarySuffix = def.Patterns.Count > 1 ?
+                        new object[] { "May be ", null, ", depending on which resource name is contained by this instance." } :
+                        new object[] { "Will not be ", null, ", unless this instance contains an unknown resource name." };
+                    Property = AutoProperty(Public, ctx.Type<string>(), nameWithId.ToUpperCamelCase())
+                        .WithXmlDoc(XmlDoc.Summary(new object[] { "The ", XmlDoc.C(nameWithoutId.ToUpperCamelCase()), " ID. " }.Concat(summarySuffix).ToArray()));
+                }
+
+                public string DocName { get; }
+                public string UpperCamel { get; }
+                public string LowerCamel { get; }
+                public ParameterSyntax Parameter { get; }
+                public ParameterSyntax ParameterWithDefault { get; }
+                public DocumentationCommentTriviaSyntax ParameterXmlDoc { get; }
+                public PropertyDeclarationSyntax Property { get; }
             }
 
-            public ParameterSyntax Parameter { get; }
-            public DocumentationCommentTriviaSyntax ParameterXmlDoc { get; }
-            public PropertyDeclarationSyntax Property { get; }
-            public DocumentationCommentTriviaSyntax PropertyXmlDoc { get; }
+            public PatternDetails(SourceFileContext ctx, ResourceDetails.Definition def, ResourceDetails.Definition.Pattern pattern)
+            {
+                PatternString = pattern.PatternString;
+                PathElements = pattern.Template.ParameterNames.Select(name => new PathElement(ctx, def, name)).ToList();
+                UpperName = string.Join("", PathElements.Select(x => x.UpperCamel));
+                LowerName = string.Join("", PathElements.Take(1).Select(x => x.LowerCamel).Concat(PathElements.Skip(1).Select(x => x.UpperCamel)));
+                PathTemplateField = Field(Private | Static, ctx.Type<PathTemplate>(), $"s_{LowerName}").WithInitializer(New(ctx.Type<PathTemplate>())(pattern.PatternString));
+            }
+
+            public string PatternString { get; }
+            public string UpperName { get; }
+            public string LowerName { get; }
+            public IReadOnlyList<PathElement> PathElements { get; }
+            public FieldDeclarationSyntax PathTemplateField { get; }
         }
 
         private class ResourceClassBuilder
         {
-            public ResourceClassBuilder(SourceFileContext ctx, string fieldName, ResourceDetails.Definition.SingleDef def, string docName) =>
-                (_ctx, _fieldName, _def, _docName) = (ctx, $"{fieldName}Name", def, docName);
+            private class PathElementByNameComparer : IEqualityComparer<PatternDetails.PathElement>
+            {
+                public static PathElementByNameComparer Instance { get; } = new PathElementByNameComparer();
+                public bool Equals(PatternDetails.PathElement x, PatternDetails.PathElement y) => x.LowerCamel == y.LowerCamel;
+                public int GetHashCode(PatternDetails.PathElement obj) => obj.LowerCamel.GetHashCode();
+            }
 
-            private SourceFileContext _ctx;
-            private string _fieldName;
-            private ResourceDetails.Definition.SingleDef _def;
-            private string _docName;
+            public ResourceClassBuilder(SourceFileContext ctx, ResourceDetails.Definition def)
+            {
+                _ctx = ctx;
+                _def = def;
+                ResourceTypeEnumTyp = Typ.Nested(def.ResourceNameTyp, "ResourceType", isEnum: true);
+                PatternDetails = _def.Patterns.Select(x => new PatternDetails(ctx, def, x)).ToList();
+            }
+
+            private readonly SourceFileContext _ctx;
+            private readonly ResourceDetails.Definition _def;
 
             public ClassDeclarationSyntax Generate()
             {
                 var cls = Class(Public | Sealed | Partial, _def.ResourceNameTyp, _ctx.Type<IResourceName>(), _ctx.Type(Typ.Generic(typeof(IEquatable<>), _def.ResourceNameTyp)))
-                    .WithXmlDoc(XmlDoc.Summary("Resource name for the ", XmlDoc.C(_docName), " resource."));
+                    .WithXmlDoc(XmlDoc.Summary("Resource name for the ", XmlDoc.C(_def.DocName), " resource."));
                 using (_ctx.InClass(cls))
                 {
-                    var paramProperties = _def.Template.ParameterNames.Select(name => new ParamProperty(_ctx, name)).ToList();
-                    var templateField = TemplateField();
-                    cls = cls.AddMembers(
-                        templateField,
-                        Parse(templateField),
-                        TryParse(templateField),
-                        Format(templateField, paramProperties),
-                        Constructor(cls, paramProperties));
-                    cls = cls.AddMembers(PartProperties(paramProperties).ToArray());
-                    var toString = ToString(templateField, paramProperties);
-                    var equalsIEquatable = EqualsIEquatable();
-                    cls = cls.AddMembers(
-                        Kind(),
-                        toString,
-                        GetHashCode(toString),
-                        Equals(equalsIEquatable), equalsIEquatable,
-                        EqualityOperator(equalsIEquatable), InequalityOperator());
+                    cls = cls.AddMembers(ResourceTypeEnum());
+                    cls = cls.AddMembers(TemplateFields().ToArray());
+                    cls = cls.AddMembers(CreateUnknownMethod());
+                    cls = cls.AddMembers(CreateMethods().ToArray());
+                    cls = cls.AddMembers(FormatMethods().ToArray());
+                    cls = cls.AddMembers(ParseMethods().ToArray());
+                    cls = cls.AddMembers(Constructors(cls).ToArray());
+                    cls = cls.AddMembers(ResourceType());
+                    cls = cls.AddMembers(UnknownResourceNameProperty());
+                    cls = cls.AddMembers(Properties().ToArray());
+                    cls = cls.AddMembers(ResourceNameKind());
+                    cls = cls.AddMembers(ToString());
+                    cls = cls.AddMembers(GetHashCode());
+                    cls = cls.AddMembers(Equals());
+                    cls = cls.AddMembers(EqualsIEquatable());
+                    cls = cls.AddMembers(EqualityOperator());
+                    cls = cls.AddMembers(InequalityOperator());
                 }
                 return cls;
             }
 
-            private FieldDeclarationSyntax TemplateField() =>
-                Field(Private | Static | Readonly, _ctx.Type<PathTemplate>(), "s_template").WithInitializer(New(_ctx.Type<PathTemplate>())(_def.Pattern));
+            private Typ ResourceTypeEnumTyp { get; }
 
-            private MethodDeclarationSyntax Parse(FieldDeclarationSyntax templateField)
+            private IReadOnlyList<PatternDetails> PatternDetails { get; }
+
+            private EnumDeclarationSyntax ResourceTypeEnum()
             {
-                var name = Parameter(_ctx.Type<string>(), _fieldName);
-                var resourceName = Local(_ctx.Type<TemplatedResourceName>(), _fieldName != "resourceName" ? "resourceName" : "resourceName2");
-                return Method(Public | Static, _ctx.Type(_def.ResourceNameTyp), "Parse")(name)
-                    .WithBody(
-                        _ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(name, Nameof(name)),
-                        resourceName.WithInitializer(templateField.Call("ParseName")(name)),
-                        Return(New(_ctx.Type(_def.ResourceNameTyp))(_def.Template.ParameterNames.Select((_, i) => resourceName.ElementAccess(i)))))
-                    .WithXmlDoc(
-                        XmlDoc.Summary("Parses the given ", XmlDoc.C(_docName), " resource name in string form into a new ", _ctx.Type(_def.ResourceNameTyp), " instance."),
-                        XmlDoc.Param(name, "The ", XmlDoc.C(_docName), " resource name in string form. Must not be ", null, "."),
-                        XmlDoc.Returns("The parsed ", _ctx.Type(_def.ResourceNameTyp), " if successful.")
-                    );
+                var resources = PatternDetails.Select((x, i) => EnumMember(x.UpperName, value: i + 1).WithXmlDoc(
+                    XmlDoc.Summary($"A resource of type '{x.PathElements.TakeLast(2).First().DocName}'.")))
+                    .Prepend(EnumMember("Unknown", value: 0).WithXmlDoc(XmlDoc.Summary("A resource of an unknown type.")));
+                return Enum(Public, ResourceTypeEnumTyp)(resources.ToArray())
+                    .WithXmlDoc(XmlDoc.Summary("The possible contents of ", _ctx.Type(_def.ResourceNameTyp), "."));
             }
 
-            private MethodDeclarationSyntax TryParse(FieldDeclarationSyntax templateField)
+            private IEnumerable<FieldDeclarationSyntax> TemplateFields() => PatternDetails.Select(x => x.PathTemplateField);
+
+            private MethodDeclarationSyntax CreateUnknownMethod()
             {
-                var name = Parameter(_ctx.Type<string>(), _fieldName);
+                var unknownResourceName = Parameter(_ctx.Type<UnknownResourceName>(), "unknownResourceName");
+                return Method(Public | Static, _ctx.Type(_def.ResourceNameTyp), "CreateUnknown")(unknownResourceName)
+                    .WithBody(Return(New(_ctx.Type(_def.ResourceNameTyp))(
+                        _ctx.Type(ResourceTypeEnumTyp).Access("Unknown"),
+                        _ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(unknownResourceName, Nameof(unknownResourceName)))))
+                    .WithXmlDoc(
+                        XmlDoc.Summary("Creates a ", _ctx.Type(_def.ResourceNameTyp), " containing an unknown resource name."),
+                        XmlDoc.Param(unknownResourceName, "The unknown resource name. Must not be ", null, "."),
+                        XmlDoc.Returns("A new instance of ", _ctx.Type(_def.ResourceNameTyp), " containing the provided ", unknownResourceName, "."));
+            }
+
+            private IEnumerable<MethodDeclarationSyntax> CreateMethods()
+            {
+                foreach (var pattern in PatternDetails)
+                {
+                    var xmlDocSummary = XmlDoc.Summary($"Creates a ", _ctx.Type(_def.ResourceNameTyp), " with the pattern ", XmlDoc.C(pattern.PatternString), ".");
+                    var xmlDocReturns = XmlDoc.Returns("A new instance of ", _ctx.Type(_def.ResourceNameTyp), " constructed from the provided ids.");
+                    yield return Method(Public | Static, _ctx.Type(_def.ResourceNameTyp), $"Create{pattern.UpperName}")(pattern.PathElements.Select(x => x.Parameter).ToArray())
+                        .WithBody(Return(New(_ctx.Type(_def.ResourceNameTyp))(
+                            pattern.PathElements.Select(x => (object)(x.Parameter.Identifier.ValueText, _ctx.Type(typeof(GaxPreconditions))
+                                .Call(nameof(GaxPreconditions.CheckNotNullOrEmpty))(x.Parameter, Nameof(x.Parameter))))
+                                .Prepend(_ctx.Type(ResourceTypeEnumTyp).Access(pattern.UpperName)).ToArray())))
+                        .WithXmlDoc(pattern.PathElements.Select(x => x.ParameterXmlDoc).Prepend(xmlDocSummary).Append(xmlDocReturns).ToArray());
+                }
+            }
+
+            private IEnumerable<MethodDeclarationSyntax> FormatMethods()
+            {
+                bool first = true;
+                foreach (var pattern in PatternDetails)
+                {
+                    var xmlDoc = pattern.PathElements.Select(x => x.ParameterXmlDoc)
+                        .Prepend(XmlDoc.Summary("Formats the IDs into the string representation of this ", _ctx.Type(_def.ResourceNameTyp),
+                            " with pattern ", XmlDoc.C(pattern.PatternString), "."))
+                        .Append(XmlDoc.Returns("The string representation of this ", _ctx.Type(_def.ResourceNameTyp), " with pattern ", XmlDoc.C(pattern.PatternString), "."))
+                        .ToArray();
+                    var method = Method(Public | Static, _ctx.Type<string>(), $"Format{pattern.UpperName}")(pattern.PathElements.Select(x => x.Parameter).ToArray())
+                        .WithBody(Return(pattern.PathTemplateField.Call(nameof(PathTemplate.Expand))(pattern.PathElements.Select(x =>
+                            _ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNullOrEmpty))(x.Parameter, Nameof(x.Parameter))))))
+                        .WithXmlDoc(xmlDoc);
+                    if (first)
+                    {
+                        yield return Method(Public | Static, _ctx.Type<string>(), "Format")(pattern.PathElements.Select(x => x.Parameter).ToArray())
+                            .WithBody(Return(This.Call(method)(pattern.PathElements.Select(x => x.Parameter))))
+                            .WithXmlDoc(xmlDoc);
+                        first = false;
+                    }
+                    yield return method;
+                }
+            }
+
+            private IEnumerable<MethodDeclarationSyntax> ParseMethods()
+            {
+                var paramName = _def.ResourceNameTyp.Name.ToLowerCamelCase();
+                var name = Parameter(_ctx.Type<string>(), paramName);
+                var allowUnknown = Parameter(_ctx.Type<bool>(), "allowUnknown");
                 var result = Parameter(_ctx.Type(_def.ResourceNameTyp), "result").Out();
-                var resourceName = ParameterOutVar(_ctx.Type<TemplatedResourceName>(), _fieldName != "resourceName" ? "resourceName" : "resourceName2");
-                return Method(Public | Static, _ctx.Type<bool>(), "TryParse")(name, result)
+                var resultLocal = Local(_ctx.Type(_def.ResourceNameTyp), "result");
+                var resourceName = Local(_ctx.Type<TemplatedResourceName>(), paramName == "resourceName" ? "resourceName2" : "resourceName");
+                var unknownResourceName = Local(_ctx.Type<UnknownResourceName>(), "unknownResourceName");
+                var tryParse2 = Method(Public | Static, _ctx.Type<bool>(), "TryParse")(name, allowUnknown, result)
                     .WithBody(
                         _ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(name, Nameof(name)),
-                        If(templateField.Call(nameof(PathTemplate.TryParseName))(name, resourceName))
-                            .Then(
-                                result.Assign(New(_ctx.Type(_def.ResourceNameTyp))(_def.Template.ParameterNames.Select((_, i) => resourceName.ElementAccess(i)))),
-                                Return(true))
-                            .Else(
-                                result.Assign(Null),
-                                Return(false)))
+                        resourceName,
+                        PatternDetails.Zip(CreateMethods(), (pattern, create) =>
+                        {
+                            var elements = Enumerable.Range(0, pattern.PathElements.Count).Select(i => resourceName.ElementAccess(i));
+                            return If(pattern.PathTemplateField.Call(nameof(PathTemplate.TryParseName))(name, Out(resourceName))).Then(
+                                result.Assign(This.Call(create)(elements.ToArray())),
+                                Return(true));
+                        }),
+                        If(allowUnknown).Then(
+                            If(_ctx.Type<UnknownResourceName>().Call(nameof(UnknownResourceName.TryParse))(name, OutVar(unknownResourceName))).Then(
+                                result.Assign(This.Call(CreateUnknownMethod())(unknownResourceName)),
+                                Return(true))),
+                        result.Assign(Null),
+                        Return(false)
+                    )
                     .WithXmlDoc(
-                        XmlDoc.Summary("Tries to parse the given session resource name in string form into a new ", _ctx.Type(_def.ResourceNameTyp), " instance."),
-                        XmlDoc.Remarks("This method still throws ", _ctx.Type<ArgumentNullException>(), " if ", name, " is ", null,
-                            ", as this would usually indicate a programming error rather than a data error."),
-                        XmlDoc.Param(name, "The ", XmlDoc.C(_docName), " resource name in string form. Must not be ", null, "."),
-                        XmlDoc.Param(result, "When this method returns, the parsed ", _ctx.Type(_def.ResourceNameTyp), ", or ", null, " if parsing fails."),
+                        XmlDoc.Summary("Tries to parse the given resource name string into a new ", _ctx.Type(_def.ResourceNameTyp),
+                            " instance; optionally allowing an unknown resource name to be successfully parsed."),
+                        XmlDocRemarks(includeUnknown: true),
+                        XmlDoc.Param(name, "The resource name in string form. Must not be ", null, "."),
+                        XmlDoc.Param(allowUnknown, "If ", true, " will successfully parse an unknown resource name into the ", UnknownResourceNameProperty(), " property; ",
+                            "otherwise will throw an ", _ctx.Type<ArgumentException>(), " if an unknown resource name is specified."),
+                        XmlDoc.Param(result, "When this method returns, the parsed ", _ctx.Type(_def.ResourceNameTyp), ", or ", null, " if parsing failed."),
                         XmlDoc.Returns(true, " if the name was parsed successfully; ", false, " otherwise."));
-            }
-
-            private MethodDeclarationSyntax Format(FieldDeclarationSyntax templateField, IEnumerable<ParamProperty> paramProperties)
-            {
-                return Method(Public | Static, _ctx.Type<string>(), "Format")(paramProperties.Select(x => x.Parameter).ToArray())
-                    .WithBody(templateField.Call(nameof(PathTemplate.Expand))(paramProperties.Select(x =>
-                        _ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(x.Parameter, Nameof(x.Parameter)))))
+                var parse2 = Method(Public | Static, _ctx.Type(_def.ResourceNameTyp), "Parse")(name, allowUnknown)
+                    .WithBody(Return(
+                        This.Call(tryParse2)(name, allowUnknown, OutVar(resultLocal))
+                            .ConditionalOperator(resultLocal, Throw(New(_ctx.Type<ArgumentException>())("The given resource-name matches no pattern.")))))
                     .WithXmlDoc(
-                        paramProperties.Select(x => x.ParameterXmlDoc)
-                        .Prepend(XmlDoc.Summary("Formats the IDs into the string representation of the ", _ctx.Type(_def.ResourceNameTyp), "."))
-                        .Append(XmlDoc.Returns("The string representation of the ", _ctx.Type(_def.ResourceNameTyp), "."))
-                        .ToArray());
+                        XmlDoc.Summary("Parses the given resource name string into a new ", _ctx.Type(_def.ResourceNameTyp),
+                            " instance; optionally allowing an unknown resource name to be successfully parsed"),
+                        XmlDocRemarks(includeUnknown: true),
+                        XmlDoc.Param(name, "The resource name in string form. Must not be ", null, "."),
+                        XmlDoc.Param(allowUnknown, "If ", true, " will successfully parse an unknown resource name into the ", UnknownResourceNameProperty(), " property; ",
+                            "otherwise will throw an ", _ctx.Type<ArgumentException>(), " if an unknown resource name is specified."),
+                        XmlDoc.Returns("The parsed ", _ctx.Type(_def.ResourceNameTyp), " if successful."));
+                yield return Method(Public | Static, _ctx.Type(_def.ResourceNameTyp), "Parse")(name)
+                    .WithBody(This.Call(parse2)(name, false))
+                    .WithXmlDoc(
+                        XmlDoc.Summary("Parses the given resource name string into a new ", _ctx.Type(_def.ResourceNameTyp), " instance."),
+                        XmlDocRemarks(includeUnknown: false),
+                        XmlDoc.Param(name, "The resource name in string form. Must not be ", null, "."),
+                        XmlDoc.Returns("The parsed ", _ctx.Type(_def.ResourceNameTyp), " if successful."));
+                yield return parse2;
+                yield return Method(Public | Static, _ctx.Type<bool>(), "TryParse")(name, result)
+                    .WithBody(This.Call(tryParse2)(name, false, Out(result)))
+                    .WithXmlDoc(
+                        XmlDoc.Summary("Tries to parse the given resource name string into a new ", _ctx.Type(_def.ResourceNameTyp), " instance."),
+                        XmlDocRemarks(includeUnknown: false),
+                        XmlDoc.Param(name, "The resource name in string form. Must not be ", null, "."),
+                        XmlDoc.Param(result, "When this method returns, the parsed ", _ctx.Type(_def.ResourceNameTyp), ", or ", null, " if parsing failed."),
+                        XmlDoc.Returns(true, " if the name was parsed successfully; ", false, " otherwise."));
+                yield return tryParse2;
+
+                DocumentationCommentTriviaSyntax XmlDocRemarks(bool includeUnknown)
+                {
+                    IEnumerable<object> patterns = new object[]
+                    {
+                        "To parse successfully, the resource name must be formatted as one of the following:",
+                        XmlDoc.UL(PatternDetails.Select(pattern => XmlDoc.C(pattern.PatternString)))
+                    };
+                    if (includeUnknown)
+                    {
+                        patterns = patterns.Concat(new object[] { "Or may be in any format if ", allowUnknown, " is ", true, "." });
+                    }
+                    return XmlDoc.Remarks(patterns.ToArray());
+                }
             }
 
-            private ConstructorDeclarationSyntax Constructor(ClassDeclarationSyntax cls, IEnumerable<ParamProperty> paramProperties) =>
-                Ctor(Public, cls)(paramProperties.Select(x => x.Parameter).ToArray())
-                    .WithBody(paramProperties.Select(x =>
-                        x.Property.Assign(_ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(x.Parameter, Nameof(x.Parameter)))))
-                    .WithXmlDoc(paramProperties.Select(x => x.ParameterXmlDoc)
-                        .Prepend(XmlDoc.Summary("Constructs a new instance of the ", _ctx.Type(_def.ResourceNameTyp), " resource name class from its component parts.")).ToArray());
+            private IEnumerable<ConstructorDeclarationSyntax> Constructors(ClassDeclarationSyntax cls)
+            {
+                // Ctor for any pattern
+                var type = Parameter(_ctx.Type(ResourceTypeEnumTyp), "type");
+                var unknownResourceName = Parameter(_ctx.Type<UnknownResourceName>(), "unknownResourceName", @default: Null);
+                var parameters = PatternDetails.SelectMany(pattern => pattern.PathElements).ToImmutableHashSet(PathElementByNameComparer.Instance).OrderBy(x => x.LowerCamel);
+                var ctor = Ctor(Private, cls)(parameters.Select(x => x.ParameterWithDefault).Prepend(unknownResourceName).Prepend(type).ToArray())
+                    .WithBody(
+                        ResourceType().Assign(type),
+                        UnknownResourceNameProperty().Assign(unknownResourceName),
+                        parameters.Select(x => x.Property.Assign(x.Parameter)));
+                yield return ctor;
+                // Ctor for pattern[0]
+                var initParams = PatternDetails[0].PathElements.Select(x => (object)(x.Parameter.Identifier.ValueText,
+                    _ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNullOrEmpty))(x.Parameter, Nameof(x.Parameter))))
+                    .Prepend(_ctx.Type(ResourceTypeEnumTyp).Access(ResourceTypeEnum().Members[1]));
+                var xmlDocSummary = XmlDoc.Summary("Constructs a new instance of a ", _ctx.Type(_def.ResourceNameTyp),
+                    " class from the component parts of pattern ", XmlDoc.C(PatternDetails[0].PatternString));
+                yield return Ctor(Public, cls, initializer: ThisInitializer(initParams.ToArray()))
+                    (PatternDetails[0].PathElements.Select(x => x.Parameter).ToArray())
+                    .WithBody() // Delibrately empty body.
+                    .WithXmlDoc(PatternDetails[0].PathElements.Select(pattern => pattern.ParameterXmlDoc).Prepend(xmlDocSummary).ToArray());
+            }
 
-            private IEnumerable<PropertyDeclarationSyntax> PartProperties(IEnumerable<ParamProperty> paramProperties) =>
-                paramProperties.Select(x => x.Property.WithXmlDoc(x.PropertyXmlDoc));
+            private PropertyDeclarationSyntax ResourceType() =>
+                AutoProperty(Public, _ctx.Type(ResourceTypeEnumTyp), "Type")
+                    .WithXmlDoc(XmlDoc.Summary("The ", _ctx.Type(ResourceTypeEnumTyp), " of the contained resource name."));
 
-            private PropertyDeclarationSyntax Kind() => Property(Public, _ctx.Type<ResourceNameKind>(), nameof(IResourceName.Kind))
-                .WithGetBody(_ctx.Type<ResourceNameKind>().Access(ResourceNameKind.Simple))
+            private PropertyDeclarationSyntax UnknownResourceNameProperty() =>
+                AutoProperty(Public, _ctx.Type<UnknownResourceName>(), "UnknownResource")
+                    .WithXmlDoc(XmlDoc.Summary("The contained ", _ctx.Type<UnknownResourceName>(), ". Only non-", null, "if this instance contains an unknown resource name."));
+
+            private IEnumerable<PropertyDeclarationSyntax> Properties() =>
+                PatternDetails.SelectMany(pattern => pattern.PathElements).ToImmutableHashSet(PathElementByNameComparer.Instance)
+                    .OrderBy(x => x.LowerCamel) // To make deterministic.
+                    .Select(x => x.Property);
+
+            private PropertyDeclarationSyntax ResourceNameKind() => Property(Public, _ctx.Type<ResourceNameKind>(), nameof(IResourceName.Kind))
+                .WithGetBody(
+                    ResourceType().Equality(_ctx.Type(ResourceTypeEnumTyp).Access("Unknown")).ConditionalOperator(
+                        _ctx.Type<ResourceNameKind>().Access(nameof(Gax.ResourceNameKind.Unknown)),
+                        _ctx.Type<ResourceNameKind>().Access(_def.Patterns.Count > 1 ? nameof(Gax.ResourceNameKind.Oneof) : nameof(Gax.ResourceNameKind.Simple))))
                 .WithXmlDoc(XmlDoc.InheritDoc);
 
-            private MethodDeclarationSyntax ToString(FieldDeclarationSyntax templateField, IEnumerable<ParamProperty> paramProperties) =>
-                Method(Public | Override, _ctx.Type<string>(), nameof(object.ToString))()
-                    .WithBody(templateField.Call(nameof(PathTemplate.Expand))(paramProperties.Select(x => x.Property).ToArray()))
+            private new MethodDeclarationSyntax ToString()
+            {
+                var switchCases = PatternDetails.Select(pattern =>
+                    ((object)_ctx.Type(ResourceTypeEnumTyp).Access(pattern.UpperName),
+                        (object)Return(pattern.PathTemplateField.Call(nameof(PathTemplate.Expand))(pattern.PathElements.Select(x => x.Property).ToArray()))))
+                    .Prepend((_ctx.Type(ResourceTypeEnumTyp).Access("Unknown"), Return(UnknownResourceNameProperty().Call(nameof(object.ToString))())));
+                return Method(Public | Override, _ctx.Type<string>(), nameof(object.ToString))()
+                    .WithBody(
+                        Switch(ResourceType())(switchCases.ToArray()).WithDefault(
+                            Throw(New(_ctx.Type<InvalidOperationException>())("Unrecognized resource-type."))))
                     .WithXmlDoc(XmlDoc.InheritDoc);
+            }
 
-            private MethodDeclarationSyntax GetHashCode(MethodDeclarationSyntax toString) =>
-                Method(Public | Override, _ctx.Type<int>(), nameof(object.GetHashCode))()
-                    .WithBody(This.Call(toString)().Call(nameof(string.GetHashCode))())
+            private new MethodDeclarationSyntax GetHashCode()
+            {
+                return Method(Public | Override, _ctx.Type<int>(), nameof(object.GetHashCode))()
+                    .WithBody(Return(This.Call(ToString())().Call(nameof(object.GetHashCode))()))
                     .WithXmlDoc(XmlDoc.InheritDoc);
+            }
 
-            private MethodDeclarationSyntax Equals(MethodDeclarationSyntax equalsIEquatable)
+            private MethodDeclarationSyntax Equals()
             {
                 var obj = Parameter(_ctx.Type<object>(), "obj");
                 return Method(Public | Override, _ctx.Type<bool>(), nameof(object.Equals))(obj)
-                    .WithBody(This.Call(equalsIEquatable)(obj.As(_ctx.Type(_def.ResourceNameTyp))))
+                    .WithBody(Return(This.Call(EqualsIEquatable())(obj.As(_ctx.Type(_def.ResourceNameTyp)))))
                     .WithXmlDoc(XmlDoc.InheritDoc);
             }
 
@@ -200,16 +374,16 @@ namespace Google.Api.Generator.Generation
             {
                 var other = Parameter(_ctx.Type(_def.ResourceNameTyp), "other");
                 return Method(Public, _ctx.Type<bool>(), nameof(IEquatable<int>.Equals))(other)
-                    .WithBody(This.Call(nameof(object.ToString))().Equality(other.Call(nameof(object.ToString), conditional: true)()))
+                    .WithBody(Return(This.Call(ToString())().Equality(other.Call(ToString(), conditional: true)())))
                     .WithXmlDoc(XmlDoc.InheritDoc);
             }
 
-            private OperatorDeclarationSyntax EqualityOperator(MethodDeclarationSyntax equalsIEquatable)
+            private OperatorDeclarationSyntax EqualityOperator()
             {
                 var a = Parameter(_ctx.Type(_def.ResourceNameTyp), "a");
                 var b = Parameter(_ctx.Type(_def.ResourceNameTyp), "b");
                 return OperatorMethod(_ctx.Type<bool>(), "==")(a, b)
-                    .WithBody(This.Call(nameof(object.ReferenceEquals))(a, b).Or(Parens(a.Call(equalsIEquatable, conditional: true)(b).NullCoalesce(false))))
+                    .WithBody(This.Call(nameof(object.ReferenceEquals))(a, b).Or(Parens(a.Call(EqualsIEquatable(), conditional: true)(b).NullCoalesce(false))))
                     .WithXmlDoc(XmlDoc.InheritDoc);
             }
 
@@ -217,238 +391,6 @@ namespace Google.Api.Generator.Generation
             {
                 var a = Parameter(_ctx.Type(_def.ResourceNameTyp), "a");
                 var b = Parameter(_ctx.Type(_def.ResourceNameTyp), "b");
-                return OperatorMethod(_ctx.Type<bool>(), "!=")(a, b)
-                    .WithBody(Not(Parens(a.Equality(b))))
-                    .WithXmlDoc(XmlDoc.InheritDoc);
-            }
-        }
-
-        private class OneOfClassBuilder
-        {
-            public OneOfClassBuilder(SourceFileContext ctx, ResourceDetails.Definition.MultiDef def, string docName) =>
-                (_ctx, _def, _docName) = (ctx, def, docName);
-
-            private SourceFileContext _ctx;
-            private ResourceDetails.Definition.MultiDef _def;
-            private string _docName;
-
-            private Typ OneOfTypeEnumTyp => Typ.Nested(_def.ContainerTyp, "OneofType", isEnum: true);
-            
-            public ClassDeclarationSyntax Generate()
-            {
-                var xmlDocUl = XmlDoc.UL(_def.Defs.Select(x =>
-                    $"{x.ResourceNameTyp.Name}: A resource of type '{x.Template.ParameterNames.TakeLast(2).First().RemoveSuffix("_id")}'."));
-                var cls = Class(Public | Sealed | Partial, _def.ContainerTyp, _ctx.Type<IResourceName>(), _ctx.Type(Typ.Generic(typeof(IEquatable<>), _def.ContainerTyp)))
-                    .WithXmlDoc(
-                        XmlDoc.Summary("Resource name which will contain one of a choice of resource names."),
-                        XmlDoc.Remarks("This resource name will contain one of the following:", xmlDocUl));
-                using (_ctx.InClass(cls))
-                {
-                    var tryParse = TryParse(xmlDocUl);
-                    cls = cls.AddMembers(
-                        OneOfTypeEnum(),
-                        Parse(xmlDocUl, tryParse),
-                        tryParse);
-                    cls = cls.AddMembers(Froms().ToArray());
-                    var isValid = IsValid();
-                    var typeProp = TypeProperty();
-                    var nameProp = NameProperty();
-                    var checkAndReturn = CheckAndReturn(typeProp, nameProp);
-                    cls = cls.AddMembers(
-                        isValid,
-                        Ctor0(cls, typeProp, nameProp, isValid),
-                        typeProp,
-                        nameProp,
-                        checkAndReturn);
-                    cls = cls.AddMembers(Getters(checkAndReturn).ToArray());
-                    var toString = ToString(nameProp);
-                    var equalsIEquatable = EqualsIEquatable();
-                    cls = cls.AddMembers(
-                        Kind(),
-                        toString,
-                        GetHashCode(toString),
-                        Equals(equalsIEquatable), equalsIEquatable,
-                        EqualityOperator(equalsIEquatable), InequalityOperator());
-                }
-                return cls;
-            }
-
-            private EnumDeclarationSyntax OneOfTypeEnum()
-            {
-                var resources = _def.Defs.Select((x, i) => EnumMember(x.ResourceNameTyp.Name, value: i + 1).WithXmlDoc(
-                    XmlDoc.Summary($"A resource of type '{x.Template.ParameterNames.TakeLast(2).First().RemoveSuffix("_id")}'")))
-                    .Prepend(EnumMember("Unknown", value: 0).WithXmlDoc(XmlDoc.Summary("A resource of an unknown type.")));
-                return Enum(Public, OneOfTypeEnumTyp)(resources.ToArray())
-                    .WithXmlDoc(XmlDoc.Summary("The possible contents of ", _ctx.Type(_def.ContainerTyp), "."));
-            }
-
-            private MethodDeclarationSyntax Parse(XmlNodeSyntax xmlDocUl, MethodDeclarationSyntax tryParse)
-            {
-                var name = Parameter(_ctx.Type<string>(), "name");
-                var allowUnknown = Parameter(_ctx.Type<bool>(), "allowUnknown");
-                var result = Local(_ctx.Type(_def.ContainerTyp), "result");
-                return Method(Public | Static, _ctx.Type(_def.ContainerTyp), "Parse")(name, allowUnknown)
-                    .WithBody(
-                        If(This.Call(tryParse)(name, allowUnknown, ParameterOutVar(result))).Then(Return(result)),
-                        Throw(New(_ctx.Type<ArgumentException>())("Invalid name", Nameof(name))))
-                    .WithXmlDoc(
-                        XmlDoc.Summary("Parses the given ", XmlDoc.C(_docName), " resource name in string form into a new ", _ctx.Type(_def.ContainerTyp), " instance."),
-                        XmlDoc.Remarks("To parse successfully the resource name must be one of the following:", xmlDocUl, "Or an ", _ctx.Type<UnknownResourceName>(), " if ", allowUnknown, " is ", true),
-                        XmlDoc.Param(name, "The resource name in string form. Must not be ", null, "."),
-                        XmlDoc.Param(allowUnknown, "If ", true, ", will successfully parse an unknown resource name into an ", _ctx.Type<UnknownResourceName>(),
-                            "; otherwise will throw an", _ctx.Type<ArgumentException>(), " if an unknown resource name is given."),
-                        XmlDoc.Returns("The parsed ", _ctx.Type(_def.ContainerTyp), " if successful."));
-            }
-
-            private MethodDeclarationSyntax TryParse(XmlNodeSyntax xmlDocUl)
-            {
-                var name = Parameter(_ctx.Type<string>(), "name");
-                var allowUnknown = Parameter(_ctx.Type<bool>(), "allowUnknown");
-                var result = Parameter(_ctx.Type(_def.ContainerTyp), "result");
-                var unknownResourceName = Local(_ctx.Type<UnknownResourceName>(), "unknownResourceName");
-                return Method(Public | Static, _ctx.Type<bool>(), "TryParse")(name, allowUnknown, result.Out())
-                    .WithBody(
-                        _ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(name, Nameof(name)),
-                        _def.Defs.Select(single =>
-                        {
-                            var singleName = Local(_ctx.Type(single.ResourceNameTyp), single.ResourceNameTyp.Name.ToLowerCamelCase());
-                            return new object[]
-                            {
-                                If(_ctx.Type(single.ResourceNameTyp).Call("TryParse")(name, ParameterOutVar(singleName))).Then(
-                                    result.Assign(New(_ctx.Type(_def.ContainerTyp))(_ctx.Type(OneOfTypeEnumTyp).Access(single.ResourceNameTyp.Name), singleName)),
-                                    Return(true))
-                            };
-                        }),
-                        If(allowUnknown).Then(
-                            If(_ctx.Type<UnknownResourceName>().Call("TryParse")(name, ParameterOutVar(unknownResourceName))).Then(
-                                result.Assign(New(_ctx.Type(_def.ContainerTyp))(_ctx.Type(OneOfTypeEnumTyp).Access("Unknown"), unknownResourceName)),
-                                Return(true))),
-                        result.Assign(Null),
-                        Return(false)
-                    )
-                    .WithXmlDoc(
-                        XmlDoc.Summary("Tries to parse a resource name in string form into a new ", _ctx.Type(_def.ContainerTyp), " instance."),
-                        XmlDoc.Remarks("To parse successfully the resource name must be one of the following:", xmlDocUl, "Or an ", _ctx.Type<UnknownResourceName>(), " if ", allowUnknown, " is ", true),
-                        XmlDoc.Param(name, "The resource name in string form. Must not be ", null, "."),
-                        XmlDoc.Param(allowUnknown, "If ", true, ", will successfully parse an unknown resource name into an ", _ctx.Type<UnknownResourceName>(), "."),
-                        XmlDoc.Param(result, "When this method returns, the parsed ", _ctx.Type(_def.ContainerTyp), ", or ", null, " if parsing fails."),
-                        XmlDoc.Returns(true, " if the name was parsed succssfully; othrewise ", false));
-            }
-
-            private IEnumerable<MethodDeclarationSyntax> Froms()
-            {
-                foreach (var single in _def.Defs)
-                {
-                    var name = Parameter(_ctx.Type(single.ResourceNameTyp), single.ResourceNameTyp.Name.ToLowerCamelCase());
-                    yield return Method(Public | Static, _ctx.Type(_def.ContainerTyp), "From")(name)
-                        .WithBody(New(_ctx.Type(_def.ContainerTyp))(_ctx.Type(OneOfTypeEnumTyp).Access(single.ResourceNameTyp.Name), name))
-                        .WithXmlDoc(
-                            XmlDoc.Summary("Constructs a new instance of ", _ctx.Type(_def.ContainerTyp), " from the provided ", _ctx.Type(single.ResourceNameTyp), "."),
-                            XmlDoc.Param(name, "The ", _ctx.Type(single.ResourceNameTyp), " to be contained within the returned ", _ctx.Type(_def.ContainerTyp), ".",
-                                " Must not be ", null),
-                            XmlDoc.Returns("A new ", _ctx.Type(_def.ContainerTyp), ", containing ", name, "."));
-                }
-            }
-
-            private MethodDeclarationSyntax IsValid()
-            {
-                var type = Parameter(_ctx.Type(OneOfTypeEnumTyp), "type");
-                var name = Parameter(_ctx.Type<IResourceName>(), "name");
-                var cases = _def.Defs.Select(single =>
-                    ((object)_ctx.Type(OneOfTypeEnumTyp).Access(single.ResourceNameTyp.Name), (object)Return(name.Is(_ctx.Type(single.ResourceNameTyp)))));
-                return Method(Private | Static, _ctx.Type<bool>(), "IsValid")(type, name)
-                    .WithBody(
-                        Switch(type)(cases.Prepend((_ctx.Type(OneOfTypeEnumTyp).Access("Unknown"), Return(true))).ToArray()).WithDefault(Return(false)));
-            }
-
-            private ConstructorDeclarationSyntax Ctor0(ClassDeclarationSyntax cls,
-                PropertyDeclarationSyntax typeProp, PropertyDeclarationSyntax nameProp, MethodDeclarationSyntax isValid)
-            {
-                var type = Parameter(_ctx.Type(OneOfTypeEnumTyp), "type");
-                var name = Parameter(_ctx.Type<IResourceName>(), "name");
-                return Ctor(Public, cls)(type, name)
-                    .WithBody(
-                        typeProp.Assign(_ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckEnumValue), _ctx.Type(OneOfTypeEnumTyp))(type, Nameof(type))),
-                        nameProp.Assign(_ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(name, Nameof(name))),
-                        If(Not(This.Call(isValid)(type, name))).Then(
-                            Throw(New(_ctx.Type<ArgumentException>())(Dollar($"Mismatched OneofType '{type}' and resource name '{name}'")))))
-                    .WithXmlDoc();
-            }
-
-            private PropertyDeclarationSyntax TypeProperty() => AutoProperty(Public, _ctx.Type(OneOfTypeEnumTyp), "Type")
-                .WithXmlDoc(XmlDoc.Summary("The ", _ctx.Type(OneOfTypeEnumTyp), " of the Name contained in this instance."));
-
-            private PropertyDeclarationSyntax NameProperty() => AutoProperty(Public, _ctx.Type<IResourceName>(), "Name")
-                .WithXmlDoc(XmlDoc.Summary("The ", _ctx.Type<IResourceName>(), " contained in this instance."));
-
-            private MethodDeclarationSyntax CheckAndReturn(PropertyDeclarationSyntax typeProp, PropertyDeclarationSyntax nameProp)
-            {
-                var t = Typ.GenericParam("T");
-                var type = Parameter(_ctx.Type(OneOfTypeEnumTyp), "type");
-                return Method(Private, _ctx.Type(t), "CheckAndReturn", t)(type)
-                    .WithBody(
-                        If(typeProp.NotEqualTo(type)).Then(
-                            Throw(New(_ctx.Type<InvalidOperationException>())(Dollar($"Requested type {type}, but this one-of contains type {typeProp}")))),
-                        Return(Cast(_ctx.Type(t), nameProp)));
-            }
-
-            private IEnumerable<PropertyDeclarationSyntax> Getters(MethodDeclarationSyntax checkAndReturn)
-            {
-                foreach (var single in _def.Defs)
-                {
-                    yield return Property(Public, _ctx.Type(single.ResourceNameTyp), single.ResourceNameTyp.Name)
-                        .WithGetBody(
-                            This.Call(checkAndReturn, _ctx.Type(single.ResourceNameTyp))(_ctx.Type(OneOfTypeEnumTyp).Access(single.ResourceNameTyp.Name)))
-                        .WithXmlDoc(
-                            XmlDoc.Summary("Get the contained ", _ctx.Type<IResourceName>(), " as ", _ctx.Type(single.ResourceNameTyp), "."),
-                            XmlDoc.Remarks("An ", _ctx.Type<InvalidOperationException>(), " will be thrown is this does not contain an instance of ", _ctx.Type(single.ResourceNameTyp), ".")
-                        );
-                }
-            }
-
-            private PropertyDeclarationSyntax Kind() => Property(Public, _ctx.Type<ResourceNameKind>(), nameof(IResourceName.Kind))
-                .WithGetBody(_ctx.Type<ResourceNameKind>().Access(ResourceNameKind.Oneof))
-                .WithXmlDoc(XmlDoc.InheritDoc);
-
-            private MethodDeclarationSyntax ToString(PropertyDeclarationSyntax nameProp) =>
-                Method(Public | Override, _ctx.Type<string>(), nameof(object.ToString))()
-                    .WithBody(This.Access(nameProp).Call(nameof(object.ToString))())
-                    .WithXmlDoc(XmlDoc.InheritDoc);
-
-            private MethodDeclarationSyntax GetHashCode(MethodDeclarationSyntax toString) =>
-                Method(Public | Override, _ctx.Type<int>(), nameof(object.GetHashCode))()
-                    .WithBody(This.Call(toString)().Call(nameof(string.GetHashCode))())
-                    .WithXmlDoc(XmlDoc.InheritDoc);
-
-            private MethodDeclarationSyntax Equals(MethodDeclarationSyntax equalsIEquatable)
-            {
-                var obj = Parameter(_ctx.Type<object>(), "obj");
-                return Method(Public | Override, _ctx.Type<bool>(), nameof(object.Equals))(obj)
-                    .WithBody(This.Call(equalsIEquatable)(obj.As(_ctx.Type(_def.ContainerTyp))))
-                    .WithXmlDoc(XmlDoc.InheritDoc);
-            }
-
-            private MethodDeclarationSyntax EqualsIEquatable()
-            {
-                var other = Parameter(_ctx.Type(_def.ContainerTyp), "other");
-                return Method(Public, _ctx.Type<bool>(), nameof(IEquatable<int>.Equals))(other)
-                    .WithBody(This.Call(nameof(object.ToString))().Equality(other.Call(nameof(object.ToString), conditional: true)()))
-                    .WithXmlDoc(XmlDoc.InheritDoc);
-            }
-
-            private OperatorDeclarationSyntax EqualityOperator(MethodDeclarationSyntax equalsIEquatable)
-            {
-                var a = Parameter(_ctx.Type(_def.ContainerTyp), "a");
-                var b = Parameter(_ctx.Type(_def.ContainerTyp), "b");
-                return OperatorMethod(_ctx.Type<bool>(), "==")(a, b)
-                    .WithBody(This.Call(nameof(object.ReferenceEquals))(a, b).Or(Parens(a.Call(equalsIEquatable, conditional: true)(b).NullCoalesce(false))))
-                    .WithXmlDoc(XmlDoc.InheritDoc);
-            }
-
-            private OperatorDeclarationSyntax InequalityOperator()
-            {
-                var a = Parameter(_ctx.Type(_def.ContainerTyp), "a");
-                var b = Parameter(_ctx.Type(_def.ContainerTyp), "b");
                 return OperatorMethod(_ctx.Type<bool>(), "!=")(a, b)
                     .WithBody(Not(Parens(a.Equality(b))))
                     .WithXmlDoc(XmlDoc.InheritDoc);
@@ -457,28 +399,11 @@ namespace Google.Api.Generator.Generation
 
         private IEnumerable<ClassDeclarationSyntax> ResourceNameClasses()
         {
-            var defs = _catalog.GetResourceDefsByFile(_fileDesc);
-            var seenTyps = new HashSet<Typ>();
-            foreach (var def in defs)
+            foreach (var def in _catalog.GetResourceDefsByFile(_fileDesc))
             {
-                if (def.Single != null && !def.Single.IsWildcard && !def.Single.IsCommon && seenTyps.Add(def.Single.ResourceNameTyp))
+                if (!def.IsWildcard)
                 {
-                    // Generate single (ie not a set) resource-name class.
-                    // Not for wildcard resources. They don't have a generated class, but use the `UnknownResourceName` class in gax.
-                    // Not for common resources. These already exist somewhere else.
-                    yield return new ResourceClassBuilder(_ctx, def.FieldName, def.Single, def.DocName).Generate();
-                }
-
-                if (def.Multi != null)
-                {
-                    // Generate the individual resources.
-                    foreach (var def0 in def.Multi.Defs.Where(x => seenTyps.Add(x.ResourceNameTyp)))
-                    {
-                        var docName = def0.ResourceNameTyp.Name.RemoveSuffix("Name").RemoveSuffix("Id");
-                        var parameterName = docName.ToLowerCamelCase();
-                        yield return new ResourceClassBuilder(_ctx, parameterName, def0, docName).Generate();
-                    }
-                    yield return new OneOfClassBuilder(_ctx, def.Multi, def.DocName).Generate();
+                    yield return new ResourceClassBuilder(_ctx, def).Generate();
                 }
             }
         }
@@ -499,66 +424,39 @@ namespace Google.Api.Generator.Generation
                     using (_ctx.InClass(cls))
                     {
                         _ctx.RegisterClassMemberNames(resources
-                            .SelectMany(res => new[] { res.resDetails.SingleResourcePropertyName, res.resDetails.MultiResourcePropertyName })
+                            .Select(res => res.resDetails.ResourcePropertyName)
                             .Concat(msg.Fields.InDeclarationOrder().Select(f => f.CSharpPropertyName()))
                             .Append(msg.NestedTypes.Any() ? "Types" : null)
                             .Where(x => x != null));
-                        foreach (var res in resources)
+                        var properties = resources.Select(res =>
                         {
                             var underlyingProperty = Property(DontCare, _ctx.TypeDontCare, res.resDetails.UnderlyingPropertyName);
-                            var single = res.resDetails.ResourceDefinition.Single;
-                            var multi = res.resDetails.ResourceDefinition.Multi;
-                            if (single != null)
+                            var def = res.resDetails.ResourceDefinition;
+                            var xmlDocSummary = XmlDoc.Summary(_ctx.Type(def.ResourceNameTyp), "-typed view over the ", underlyingProperty, " resource name property.");
+                            if (res.field.IsRepeated)
                             {
-                                cls = cls.AddMembers(ResourceProperty(single.ResourceNameTyp, res.resDetails.SingleResourcePropertyName, single.IsWildcard, false));
+                                var repeatedTyp = Typ.Generic(typeof(ResourceNameList<>), def.ResourceNameTyp);
+                                var s = Parameter(null, "s");
+                                return Property(Public, _ctx.Type(repeatedTyp), res.resDetails.ResourcePropertyName)
+                                    .WithGetBody(Return(def.IsWildcard ?
+                                        New(_ctx.Type(repeatedTyp))(underlyingProperty, Lambda(s)(_ctx.Type<UnknownResourceName>().Call(nameof(UnknownResourceName.Parse))(s))) :
+                                        New(_ctx.Type(repeatedTyp))(underlyingProperty, Lambda(s)(_ctx.Type(def.ResourceNameTyp).Call("Parse")(s)))))
+                                    .WithXmlDoc(xmlDocSummary);
                             }
-                            if (multi != null)
+                            else
                             {
-                                cls = cls.AddMembers(ResourceProperty(multi.ContainerTyp, res.resDetails.MultiResourcePropertyName, false, true));
+                                return Property(Public, _ctx.Type(def.ResourceNameTyp), res.resDetails.ResourcePropertyName)
+                                    .WithGetBody(Return(def.IsWildcard ?
+                                        _ctx.Type<string>().Call(nameof(string.IsNullOrEmpty))(underlyingProperty).ConditionalOperator(
+                                            Null, _ctx.Type<UnknownResourceName>().Call(nameof(UnknownResourceName.Parse))(underlyingProperty)) :
+                                        _ctx.Type<string>().Call(nameof(string.IsNullOrEmpty))(underlyingProperty).ConditionalOperator(
+                                            Null, _ctx.Type(def.ResourceNameTyp).Call("Parse")(underlyingProperty))))
+                                    .WithSetBody(underlyingProperty.Assign(Value.Call(nameof(object.ToString), conditional: true)().NullCoalesce("")))
+                                    .WithXmlDoc(xmlDocSummary);
                             }
-                            
-                            PropertyDeclarationSyntax ResourceProperty(Typ resourceNameTyp, string propertyName, bool isWildcard, bool isMulti)
-                            {
-                                var xmlDocSummary = XmlDoc.Summary(_ctx.Type(resourceNameTyp), "-typed view over the ", underlyingProperty, " resource name property.");
-                                if (res.field.IsRepeated)
-                                {
-                                    var repeatedTyp = Typ.Generic(typeof(ResourceNameList<>), resourceNameTyp);
-                                    var s = Parameter(null, "s");
-                                    object getter;
-                                    if (isWildcard)
-                                    {
-                                        getter = New(_ctx.Type(repeatedTyp))(underlyingProperty, Lambda(s)(_ctx.Type<UnknownResourceName>().Call(nameof(UnknownResourceName.Parse))(s)));
-                                    }
-                                    else
-                                    {
-                                        var parameters = isMulti ? new object[] { s, true } : new[] { s };
-                                        getter = New(_ctx.Type(repeatedTyp))(underlyingProperty, Lambda(s)(_ctx.Type(resourceNameTyp).Call("Parse")(parameters)));
-                                    }
-                                    return Property(Public, _ctx.Type(repeatedTyp), propertyName)
-                                        .WithGetBody(getter)
-                                        .WithXmlDoc(xmlDocSummary);
-                                }
-                                else
-                                {
-                                    object getter;
-                                    if (isWildcard)
-                                    {
-                                        getter = Return(_ctx.Type<string>().Call(nameof(string.IsNullOrEmpty))(underlyingProperty).ConditionalOperator(
-                                            Null, _ctx.Type<UnknownResourceName>().Call(nameof(UnknownResourceName.Parse))(underlyingProperty)));
-                                    }
-                                    else
-                                    {
-                                        var parameters = isMulti ? new object[] { underlyingProperty, true } : new[] { underlyingProperty };
-                                        getter = Return(_ctx.Type<string>().Call(nameof(string.IsNullOrEmpty))(underlyingProperty).ConditionalOperator(
-                                            Null, _ctx.Type(resourceNameTyp).Call("Parse")(parameters)));
-                                    }
-                                    return Property(Public, _ctx.Type(resourceNameTyp), propertyName)
-                                        .WithGetBody(getter)
-                                        .WithSetBody(underlyingProperty.Assign(Value.Call(nameof(object.ToString), conditional: true)().NullCoalesce("")))
-                                        .WithXmlDoc(xmlDocSummary);
-                                }
-                            }
-                        }
+
+                        });
+                        cls = cls.AddMembers(properties.ToArray());
                     }
                     yield return cls;
                 }

@@ -32,7 +32,7 @@ namespace Testing.Keywords.Tests
             moq::Mock<Keywords.KeywordsClient> mockGrpcClient = new moq::Mock<Keywords.KeywordsClient>(moq::MockBehavior.Strict);
             Request request = new Request
             {
-                EventAsResourceName = new ResourceName("[ITEM_ID]"),
+                EventAsResourceName = ResourceName.CreateItem("[ITEM_ID]"),
                 Switch = -1514770765,
                 Void = Enum.Foreach,
             };
@@ -50,7 +50,7 @@ namespace Testing.Keywords.Tests
             moq::Mock<Keywords.KeywordsClient> mockGrpcClient = new moq::Mock<Keywords.KeywordsClient>(moq::MockBehavior.Strict);
             Request request = new Request
             {
-                EventAsResourceName = new ResourceName("[ITEM_ID]"),
+                EventAsResourceName = ResourceName.CreateItem("[ITEM_ID]"),
                 Switch = -1514770765,
                 Void = Enum.Foreach,
             };
@@ -70,7 +70,7 @@ namespace Testing.Keywords.Tests
             moq::Mock<Keywords.KeywordsClient> mockGrpcClient = new moq::Mock<Keywords.KeywordsClient>(moq::MockBehavior.Strict);
             Request request = new Request
             {
-                EventAsResourceName = new ResourceName("[ITEM_ID]"),
+                EventAsResourceName = ResourceName.CreateItem("[ITEM_ID]"),
                 Switch = -1514770765,
                 Void = Enum.Foreach,
             };
@@ -88,7 +88,7 @@ namespace Testing.Keywords.Tests
             moq::Mock<Keywords.KeywordsClient> mockGrpcClient = new moq::Mock<Keywords.KeywordsClient>(moq::MockBehavior.Strict);
             Request request = new Request
             {
-                EventAsResourceName = new ResourceName("[ITEM_ID]"),
+                EventAsResourceName = ResourceName.CreateItem("[ITEM_ID]"),
                 Switch = -1514770765,
                 Void = Enum.Foreach,
             };
@@ -108,7 +108,7 @@ namespace Testing.Keywords.Tests
             moq::Mock<Keywords.KeywordsClient> mockGrpcClient = new moq::Mock<Keywords.KeywordsClient>(moq::MockBehavior.Strict);
             Request request = new Request
             {
-                EventAsResourceName = new ResourceName("[ITEM_ID]"),
+                EventAsResourceName = ResourceName.CreateItem("[ITEM_ID]"),
                 Switch = -1514770765,
                 Void = Enum.Foreach,
             };
@@ -126,7 +126,7 @@ namespace Testing.Keywords.Tests
             moq::Mock<Keywords.KeywordsClient> mockGrpcClient = new moq::Mock<Keywords.KeywordsClient>(moq::MockBehavior.Strict);
             Request request = new Request
             {
-                EventAsResourceName = new ResourceName("[ITEM_ID]"),
+                EventAsResourceName = ResourceName.CreateItem("[ITEM_ID]"),
                 Switch = -1514770765,
                 Void = Enum.Foreach,
             };
@@ -146,7 +146,7 @@ namespace Testing.Keywords.Tests
             moq::Mock<Keywords.KeywordsClient> mockGrpcClient = new moq::Mock<Keywords.KeywordsClient>(moq::MockBehavior.Strict);
             Resource request = new Resource
             {
-                WhileAsResourceName = new ResourceName("[ITEM_ID]"),
+                WhileAsResourceName = ResourceName.CreateItem("[ITEM_ID]"),
                 Enum = Enum.For,
             };
             Response expectedResponse = new Response { };
@@ -163,7 +163,7 @@ namespace Testing.Keywords.Tests
             moq::Mock<Keywords.KeywordsClient> mockGrpcClient = new moq::Mock<Keywords.KeywordsClient>(moq::MockBehavior.Strict);
             Resource request = new Resource
             {
-                WhileAsResourceName = new ResourceName("[ITEM_ID]"),
+                WhileAsResourceName = ResourceName.CreateItem("[ITEM_ID]"),
                 Enum = Enum.For,
             };
             Response expectedResponse = new Response { };
@@ -182,7 +182,7 @@ namespace Testing.Keywords.Tests
             moq::Mock<Keywords.KeywordsClient> mockGrpcClient = new moq::Mock<Keywords.KeywordsClient>(moq::MockBehavior.Strict);
             Resource request = new Resource
             {
-                WhileAsResourceName = new ResourceName("[ITEM_ID]"),
+                WhileAsResourceName = ResourceName.CreateItem("[ITEM_ID]"),
                 Enum = Enum.For,
             };
             Response expectedResponse = new Response { };
@@ -199,7 +199,7 @@ namespace Testing.Keywords.Tests
             moq::Mock<Keywords.KeywordsClient> mockGrpcClient = new moq::Mock<Keywords.KeywordsClient>(moq::MockBehavior.Strict);
             Resource request = new Resource
             {
-                WhileAsResourceName = new ResourceName("[ITEM_ID]"),
+                WhileAsResourceName = ResourceName.CreateItem("[ITEM_ID]"),
                 Enum = Enum.For,
             };
             Response expectedResponse = new Response { };
@@ -218,7 +218,7 @@ namespace Testing.Keywords.Tests
             moq::Mock<Keywords.KeywordsClient> mockGrpcClient = new moq::Mock<Keywords.KeywordsClient>(moq::MockBehavior.Strict);
             Resource request = new Resource
             {
-                WhileAsResourceName = new ResourceName("[ITEM_ID]"),
+                WhileAsResourceName = ResourceName.CreateItem("[ITEM_ID]"),
                 Enum = Enum.For,
             };
             Response expectedResponse = new Response { };
@@ -235,7 +235,7 @@ namespace Testing.Keywords.Tests
             moq::Mock<Keywords.KeywordsClient> mockGrpcClient = new moq::Mock<Keywords.KeywordsClient>(moq::MockBehavior.Strict);
             Resource request = new Resource
             {
-                WhileAsResourceName = new ResourceName("[ITEM_ID]"),
+                WhileAsResourceName = ResourceName.CreateItem("[ITEM_ID]"),
                 Enum = Enum.For,
             };
             Response expectedResponse = new Response { };

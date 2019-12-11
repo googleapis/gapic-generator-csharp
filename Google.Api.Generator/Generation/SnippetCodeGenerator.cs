@@ -162,42 +162,22 @@ namespace Google.Api.Generator.Generation
                 var resource = Svc.Catalog.GetResourceDetailsByField(fieldDesc);
                 if (resource != null)
                 {
-                    var single = resource.ResourceDefinition.Single;
-                    var multi = resource.ResourceDefinition.Multi;
+                    var def = resource.ResourceDefinition;
                     object @default;
-                    Typ resourceNameTyp = null;
                     if (resourceNameAsString)
                     {
-                        if (multi != null)
-                        {
-                            var def0 = multi.Defs[0];
-                            @default = def0.Template.Expand(def0.Template.ParameterNames.Select(x => $"[{x.ToUpperInvariant()}]").ToArray());
-                        }
-                        else
-                        {
-                            @default = single.IsWildcard ?
-                                "a/wildcard/resource" :
-                                single.Template.Expand(single.Template.ParameterNames.Select(x => $"[{x.ToUpperInvariant()}]").ToArray());
-                        }
+                        @default = def.IsWildcard ?
+                            "a/wildcard/resource" :
+                            def.Patterns[0].Template.Expand(def.Patterns[0].Template.ParameterNames.Select(x => $"[{x.ToUpperInvariant()}]").ToArray());
                     }
                     else
                     {
-                        if (multi != null)
-                        {
-                            var def0 = multi.Defs[0];
-                            @default = Ctx.Type(multi.ContainerTyp).Call("From")(New(Ctx.Type(def0.ResourceNameTyp))(
-                                def0.Template.ParameterNames.Select(x => $"[{x.ToUpperInvariant()}]")));
-                            resourceNameTyp = multi.ContainerTyp;
-                        }
-                        else
-                        {
-                            @default = single.IsWildcard ?
-                                New(Ctx.Type<UnknownResourceName>())("a/wildcard/resource") :
-                                New(Ctx.Type(single.ResourceNameTyp))(single.Template.ParameterNames.Select(x => $"[{x.ToUpperInvariant()}]"));
-                            resourceNameTyp = single.ResourceNameTyp;
-                        }
+                        @default = def.IsWildcard ?
+                            (object)New(Ctx.Type<UnknownResourceName>())("a/wildcard/resource") :
+                            Ctx.Type(def.ResourceNameTyp).Call($"Create{string.Join("", def.Patterns[0].Template.ParameterNames.Select(x => x.RemoveSuffix("_id").ToUpperCamelCase()))}")
+                                (def.Patterns[0].Template.ParameterNames.Select(x => $"[{x.ToUpperInvariant()}]"));
                     }
-                    return fieldDesc.IsRepeated ? Collection(@default, resourceNameTyp) : @default;
+                    return fieldDesc.IsRepeated ? Collection(@default, resourceNameAsString ? null : def.ResourceNameTyp) : @default;
                 }
                 else
                 {
@@ -249,9 +229,7 @@ namespace Google.Api.Generator.Generation
                     if (!IsPaginationField())
                     {
                         var resourceField = Svc.Catalog.GetResourceDetailsByField(fieldDesc);
-                        yield return new ObjectInitExpr(
-                            resourceField?.MultiResourcePropertyName ?? resourceField?.SingleResourcePropertyName ?? fieldDesc.CSharpPropertyName(),
-                            DefaultValue(fieldDesc));
+                        yield return new ObjectInitExpr(resourceField?.ResourcePropertyName ?? fieldDesc.CSharpPropertyName(), DefaultValue(fieldDesc));
                     }
 
                     bool IsPaginationField() => Method is MethodDetails.Paginated paged &&
@@ -513,13 +491,11 @@ namespace Google.Api.Generator.Generation
 
             public class Signature
             {
-                // TODO: Support resource-sets.
-
                 public Signature(MethodDef def, MethodDetails.Signature sig, int? index) => (_def, _sig, _index) = (def, sig, index);
 
-                private MethodDef _def;
-                private MethodDetails.Signature _sig;
-                private int? _index;
+                private readonly MethodDef _def;
+                private readonly MethodDetails.Signature _sig;
+                private readonly int? _index;
 
                 private ServiceDetails Svc => _def.Svc;
                 private SourceFileContext Ctx => _def.Ctx;
@@ -533,15 +509,13 @@ namespace Google.Api.Generator.Generation
                 private Typ MaybeEnumerable(bool repeated, Typ typ) => !repeated || typ == null ? typ : Typ.Generic(typeof(IEnumerable<>), typ);
                 private IEnumerable<LocalDeclarationStatementSyntax> InitRequestArgs(bool resourceNameAsString) =>
                     _sig.Fields.Select(f =>
-                        Local(Ctx.Type(resourceNameAsString ? f.Typ : MaybeEnumerable(f.IsRepeated,
-                            f.FieldResource?.ResourceDefinition.Multi?.ContainerTyp ?? f.FieldResource?.ResourceDefinition.Single.ResourceNameTyp) ?? f.Typ),
+                        Local(Ctx.Type(resourceNameAsString ? f.Typ : MaybeEnumerable(f.IsRepeated, f.FieldResource?.ResourceDefinition.ResourceNameTyp) ?? f.Typ),
                             f.Descs.Last().CSharpFieldName())
                         .WithInitializer(_def.DefaultValue(f.Descs.Last(), resourceNameAsString, topLevel: true)));
                 private IEnumerable<LocalDeclarationStatementSyntax> InitRequestArgsNormal => InitRequestArgs(resourceNameAsString: true);
                 private IEnumerable<LocalDeclarationStatementSyntax> InitRequestArgsResourceNames => InitRequestArgs(resourceNameAsString: false);
 
-                private IEnumerable<Typ> SnippetCommentResourceNameArgs => _sig.Fields
-                    .Select(f => f.FieldResource?.ResourceDefinition.Multi?.ContainerTyp ?? f.FieldResource?.ResourceDefinition.Single.ResourceNameTyp ?? f.Typ);
+                private IEnumerable<Typ> SnippetCommentResourceNameArgs => _sig.Fields.Select(f => f.FieldResource?.ResourceDefinition.ResourceNameTyp ?? f.Typ);
 
                 public bool HasResourceNames => _sig.Fields.Any(x => x.FieldResource != null);
 

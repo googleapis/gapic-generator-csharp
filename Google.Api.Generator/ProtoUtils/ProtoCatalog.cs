@@ -43,10 +43,7 @@ namespace Google.Api.Generator.ProtoUtils
             var resourcesByUrt = _resourcesByFileName.Values.SelectMany(x => x).ToDictionary(x => x.UnifiedResourceTypeName);
             var resourcesByPatterns = _resourcesByFileName.Values.SelectMany(x => x).Select(def =>
                 {
-                    // If it's a single & multi, only use the multi. The single is legacy.
-                    var patterns = def.Multi != null ?
-                          def.Multi.Defs.Where(y => !y.IsWildcard).Select(y => y.Pattern).ToImmutableHashSet() :
-                          !def.Single.IsWildcard ? ImmutableHashSet.Create(def.Single.Pattern) : ImmutableHashSet<string>.Empty;
+                    var patterns = def.IsWildcard ? ImmutableHashSet<string>.Empty : def.Patterns.Select(x => x.PatternString).ToImmutableHashSet();
                     return (patterns, def);
                 })
                 .Where(x => !x.patterns.IsEmpty)

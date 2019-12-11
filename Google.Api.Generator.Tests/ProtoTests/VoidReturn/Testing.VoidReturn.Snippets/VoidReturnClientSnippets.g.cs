@@ -30,7 +30,7 @@ namespace Testing.VoidReturn.Snippets
             // Initialize request argument(s)
             Request request = new Request
             {
-                ResourceName = new ResourceName("[ITEM_ID]"),
+                ResourceName = ResourceName.CreateItem("[ITEM_ID]"),
             };
             // Make the request
             voidReturnClient.VoidMethod(request);
@@ -47,7 +47,7 @@ namespace Testing.VoidReturn.Snippets
             // Initialize request argument(s)
             Request request = new Request
             {
-                ResourceName = new ResourceName("[ITEM_ID]"),
+                ResourceName = ResourceName.CreateItem("[ITEM_ID]"),
             };
             // Make the request
             await voidReturnClient.VoidMethodAsync(request);
@@ -88,7 +88,7 @@ namespace Testing.VoidReturn.Snippets
             // Create client
             VoidReturnClient voidReturnClient = VoidReturnClient.Create();
             // Initialize request argument(s)
-            ResourceName name = new ResourceName("[ITEM_ID]");
+            ResourceName name = ResourceName.CreateItem("[ITEM_ID]");
             // Make the request
             voidReturnClient.VoidMethod(name);
             // End snippet
@@ -102,7 +102,7 @@ namespace Testing.VoidReturn.Snippets
             // Create client
             VoidReturnClient voidReturnClient = await VoidReturnClient.CreateAsync();
             // Initialize request argument(s)
-            ResourceName name = new ResourceName("[ITEM_ID]");
+            ResourceName name = ResourceName.CreateItem("[ITEM_ID]");
             // Make the request
             await voidReturnClient.VoidMethodAsync(name);
             // End snippet
