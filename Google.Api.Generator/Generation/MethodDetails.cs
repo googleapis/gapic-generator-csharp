@@ -57,28 +57,16 @@ namespace Google.Api.Generator.Generation
             public Paginated(ServiceDetails svc, MethodDescriptor desc,
                 FieldDescriptor responseResourceField, int pageSizeFieldNumber, int pageTokenFieldNumber) : base(svc, desc)
             {
-                var resourceDetails = svc.Catalog.GetResourceDetailsByField(responseResourceField);
-                if (resourceDetails is null)
-                {
-                    ResourceTyp = Typ.Of(responseResourceField, forceRepeated: false);
-                }
-                else
-                {
-                    var resourceDef = resourceDetails.ResourceDefinition;
-                    if (resourceDef.Single != null && resourceDef.Multi != null)
-                    {
-                        // TODO: Figure out what to do in this situation.
-                        throw new InvalidOperationException("Cannot handle pagination when the resource type is both a single and multi resource-name.");
-                    }
-                    ResourceTyp = resourceDef.Single?.ResourceNameTyp ?? resourceDef.Multi.ContainerTyp;
-                }
+                ResourcesFieldResourceName = svc.Catalog.GetResourceDetailsByField(responseResourceField);
+                ResourceTyp = ResourcesFieldResourceName is null ?
+                    Typ.Of(responseResourceField, forceRepeated: false) :
+                    ResourcesFieldResourceName.ResourceDefinition.ResourceNameTyp;
                 ApiCallTyp = Typ.Generic(typeof(ApiCall<,>), RequestTyp, ResponseTyp);
                 SyncReturnTyp = Typ.Generic(typeof(PagedEnumerable<,>), ResponseTyp, ResourceTyp);
                 AsyncReturnTyp = Typ.Generic(typeof(PagedAsyncEnumerable<,>), ResponseTyp, ResourceTyp);
                 SyncGrpcType = Typ.Generic(typeof(GrpcPagedEnumerable<,,>), RequestTyp, ResponseTyp, ResourceTyp);
                 AsyncGrpcType = Typ.Generic(typeof(GrpcPagedAsyncEnumerable<,,>), RequestTyp, ResponseTyp, ResourceTyp);
                 ResourcesFieldName = responseResourceField.CSharpPropertyName();
-                ResourcesFieldResourceName = svc.Catalog.GetResourceDetailsByField(responseResourceField);
                 PageSizeFieldNumber = pageSizeFieldNumber;
                 PageTokenFieldNumber = pageTokenFieldNumber;
             }

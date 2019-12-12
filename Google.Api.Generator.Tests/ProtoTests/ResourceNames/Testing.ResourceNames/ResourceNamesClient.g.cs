@@ -212,10 +212,10 @@ namespace Testing.ResourceNames
         /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The RPC response.</returns>
-        public virtual Response MultiMethod(MultiResourceNameOneOf name, gaxgrpc::CallSettings callSettings = null) =>
+        public virtual Response MultiMethod(MultiResourceName name, gaxgrpc::CallSettings callSettings = null) =>
             MultiMethod(new MultiResource
             {
-                MultiResourceNameOneOf = name,
+                MultiResourceName = name,
             }, callSettings);
 
         /// <summary>
@@ -225,10 +225,10 @@ namespace Testing.ResourceNames
         /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<Response> MultiMethodAsync(MultiResourceNameOneOf name, gaxgrpc::CallSettings callSettings = null) =>
+        public virtual stt::Task<Response> MultiMethodAsync(MultiResourceName name, gaxgrpc::CallSettings callSettings = null) =>
             MultiMethodAsync(new MultiResource
             {
-                MultiResourceNameOneOf = name,
+                MultiResourceName = name,
             }, callSettings);
 
         /// <summary>
@@ -238,7 +238,7 @@ namespace Testing.ResourceNames
         /// </param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
         /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<Response> MultiMethodAsync(MultiResourceNameOneOf name, st::CancellationToken cancellationToken) =>
+        public virtual stt::Task<Response> MultiMethodAsync(MultiResourceName name, st::CancellationToken cancellationToken) =>
             MultiMethodAsync(name, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
         // TEST_END
 
@@ -289,10 +289,10 @@ namespace Testing.ResourceNames
         /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The RPC response.</returns>
-        public virtual Response MultiMethodRef(MultiResourceNameOneOf multiResource, gaxgrpc::CallSettings callSettings = null) =>
+        public virtual Response MultiMethodRef(MultiResourceName multiResource, gaxgrpc::CallSettings callSettings = null) =>
             MultiMethodRef(new MultiResourceRef
             {
-                MultiResourceAsMultiResourceNameOneOf = multiResource,
+                MultiResourceAsMultiResourceName = multiResource,
             }, callSettings);
 
         /// <summary>
@@ -302,10 +302,10 @@ namespace Testing.ResourceNames
         /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<Response> MultiMethodRefAsync(MultiResourceNameOneOf multiResource, gaxgrpc::CallSettings callSettings = null) =>
+        public virtual stt::Task<Response> MultiMethodRefAsync(MultiResourceName multiResource, gaxgrpc::CallSettings callSettings = null) =>
             MultiMethodRefAsync(new MultiResourceRef
             {
-                MultiResourceAsMultiResourceNameOneOf = multiResource,
+                MultiResourceAsMultiResourceName = multiResource,
             }, callSettings);
 
         /// <summary>
@@ -315,7 +315,7 @@ namespace Testing.ResourceNames
         /// </param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
         /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<Response> MultiMethodRefAsync(MultiResourceNameOneOf multiResource, st::CancellationToken cancellationToken) =>
+        public virtual stt::Task<Response> MultiMethodRefAsync(MultiResourceName multiResource, st::CancellationToken cancellationToken) =>
             MultiMethodRefAsync(multiResource, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
         // TEST_END
 
@@ -388,42 +388,6 @@ namespace Testing.ResourceNames
         /// <returns>A Task containing the RPC response.</returns>
         public virtual stt::Task<Response> OriginallySingleMethodAsync(OriginallySingleResourceName name, st::CancellationToken cancellationToken) =>
             OriginallySingleMethodAsync(name, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
-
-        /// <summary>
-        /// Test original single resource (ORIGINALLY_SINGLE_PATTERN).
-        /// </summary>
-        /// <param name="name">
-        /// </param>
-        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
-        /// <returns>The RPC response.</returns>
-        public virtual Response OriginallySingleMethod(OriginallySingleResourceNameOneOf name, gaxgrpc::CallSettings callSettings = null) =>
-            OriginallySingleMethod(new OriginallySingleResource
-            {
-                OriginallySingleResourceNameOneOf = name,
-            }, callSettings);
-
-        /// <summary>
-        /// Test original single resource (ORIGINALLY_SINGLE_PATTERN).
-        /// </summary>
-        /// <param name="name">
-        /// </param>
-        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
-        /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<Response> OriginallySingleMethodAsync(OriginallySingleResourceNameOneOf name, gaxgrpc::CallSettings callSettings = null) =>
-            OriginallySingleMethodAsync(new OriginallySingleResource
-            {
-                OriginallySingleResourceNameOneOf = name,
-            }, callSettings);
-
-        /// <summary>
-        /// Test original single resource (ORIGINALLY_SINGLE_PATTERN).
-        /// </summary>
-        /// <param name="name">
-        /// </param>
-        /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
-        /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<Response> OriginallySingleMethodAsync(OriginallySingleResourceNameOneOf name, st::CancellationToken cancellationToken) =>
-            OriginallySingleMethodAsync(name, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
         // TEST_END
 
         public Response FutureMultiMethod(FutureMultiResource request, gaxgrpc::CallSettings callSettings) => throw new sys::NotImplementedException();
@@ -467,10 +431,10 @@ namespace Testing.ResourceNames
         /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The RPC response.</returns>
-        public virtual Response FutureMultiMethod(FutureMultiResourceNameOneOf name, gaxgrpc::CallSettings callSettings = null) =>
+        public virtual Response FutureMultiMethod(FutureMultiResourceName name, gaxgrpc::CallSettings callSettings = null) =>
             FutureMultiMethod(new FutureMultiResource
             {
-                FutureMultiResourceNameOneOf = name,
+                FutureMultiResourceName = name,
             }, callSettings);
 
         /// <summary>
@@ -480,10 +444,10 @@ namespace Testing.ResourceNames
         /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<Response> FutureMultiMethodAsync(FutureMultiResourceNameOneOf name, gaxgrpc::CallSettings callSettings = null) =>
+        public virtual stt::Task<Response> FutureMultiMethodAsync(FutureMultiResourceName name, gaxgrpc::CallSettings callSettings = null) =>
             FutureMultiMethodAsync(new FutureMultiResource
             {
-                FutureMultiResourceNameOneOf = name,
+                FutureMultiResourceName = name,
             }, callSettings);
 
         /// <summary>
@@ -493,7 +457,7 @@ namespace Testing.ResourceNames
         /// </param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
         /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<Response> FutureMultiMethodAsync(FutureMultiResourceNameOneOf name, st::CancellationToken cancellationToken) =>
+        public virtual stt::Task<Response> FutureMultiMethodAsync(FutureMultiResourceName name, st::CancellationToken cancellationToken) =>
             FutureMultiMethodAsync(name, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
         // TEST_END
 
@@ -599,156 +563,6 @@ namespace Testing.ResourceNames
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
         /// <returns>A Task containing the RPC response.</returns>
         public virtual stt::Task<Response> OriginallySingleMethodRefAsync(OriginallySingleResourceName resource1, OriginallySingleResourceName resource2, st::CancellationToken cancellationToken) =>
-            OriginallySingleMethodRefAsync(resource1, resource2, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
-
-        /// <summary>
-        /// Test original single resource (ORIGINALLY_SINGLE_PATTERN),
-        /// with combinatorial method generation.
-        /// </summary>
-        /// <param name="resource1">
-        /// Two resource fields, to test combinatorial generation.
-        /// </param>
-        /// <param name="resource2">
-        /// </param>
-        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
-        /// <returns>The RPC response.</returns>
-        public virtual Response OriginallySingleMethodRef(OriginallySingleResourceNameOneOf resource1, OriginallySingleResourceName resource2, gaxgrpc::CallSettings callSettings = null) =>
-            OriginallySingleMethodRef(new OriginallySingleResourceRef
-            {
-                Resource1AsOriginallySingleResourceNameOneOf = resource1,
-                Resource2AsOriginallySingleResourceName = resource2,
-            }, callSettings);
-
-        /// <summary>
-        /// Test original single resource (ORIGINALLY_SINGLE_PATTERN),
-        /// with combinatorial method generation.
-        /// </summary>
-        /// <param name="resource1">
-        /// Two resource fields, to test combinatorial generation.
-        /// </param>
-        /// <param name="resource2">
-        /// </param>
-        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
-        /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<Response> OriginallySingleMethodRefAsync(OriginallySingleResourceNameOneOf resource1, OriginallySingleResourceName resource2, gaxgrpc::CallSettings callSettings = null) =>
-            OriginallySingleMethodRefAsync(new OriginallySingleResourceRef
-            {
-                Resource1AsOriginallySingleResourceNameOneOf = resource1,
-                Resource2AsOriginallySingleResourceName = resource2,
-            }, callSettings);
-
-        /// <summary>
-        /// Test original single resource (ORIGINALLY_SINGLE_PATTERN),
-        /// with combinatorial method generation.
-        /// </summary>
-        /// <param name="resource1">
-        /// Two resource fields, to test combinatorial generation.
-        /// </param>
-        /// <param name="resource2">
-        /// </param>
-        /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
-        /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<Response> OriginallySingleMethodRefAsync(OriginallySingleResourceNameOneOf resource1, OriginallySingleResourceName resource2, st::CancellationToken cancellationToken) =>
-            OriginallySingleMethodRefAsync(resource1, resource2, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
-
-        /// <summary>
-        /// Test original single resource (ORIGINALLY_SINGLE_PATTERN),
-        /// with combinatorial method generation.
-        /// </summary>
-        /// <param name="resource1">
-        /// Two resource fields, to test combinatorial generation.
-        /// </param>
-        /// <param name="resource2">
-        /// </param>
-        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
-        /// <returns>The RPC response.</returns>
-        public virtual Response OriginallySingleMethodRef(OriginallySingleResourceName resource1, OriginallySingleResourceNameOneOf resource2, gaxgrpc::CallSettings callSettings = null) =>
-            OriginallySingleMethodRef(new OriginallySingleResourceRef
-            {
-                Resource1AsOriginallySingleResourceName = resource1,
-                Resource2AsOriginallySingleResourceNameOneOf = resource2,
-            }, callSettings);
-
-        /// <summary>
-        /// Test original single resource (ORIGINALLY_SINGLE_PATTERN),
-        /// with combinatorial method generation.
-        /// </summary>
-        /// <param name="resource1">
-        /// Two resource fields, to test combinatorial generation.
-        /// </param>
-        /// <param name="resource2">
-        /// </param>
-        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
-        /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<Response> OriginallySingleMethodRefAsync(OriginallySingleResourceName resource1, OriginallySingleResourceNameOneOf resource2, gaxgrpc::CallSettings callSettings = null) =>
-            OriginallySingleMethodRefAsync(new OriginallySingleResourceRef
-            {
-                Resource1AsOriginallySingleResourceName = resource1,
-                Resource2AsOriginallySingleResourceNameOneOf = resource2,
-            }, callSettings);
-
-        /// <summary>
-        /// Test original single resource (ORIGINALLY_SINGLE_PATTERN),
-        /// with combinatorial method generation.
-        /// </summary>
-        /// <param name="resource1">
-        /// Two resource fields, to test combinatorial generation.
-        /// </param>
-        /// <param name="resource2">
-        /// </param>
-        /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
-        /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<Response> OriginallySingleMethodRefAsync(OriginallySingleResourceName resource1, OriginallySingleResourceNameOneOf resource2, st::CancellationToken cancellationToken) =>
-            OriginallySingleMethodRefAsync(resource1, resource2, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
-
-        /// <summary>
-        /// Test original single resource (ORIGINALLY_SINGLE_PATTERN),
-        /// with combinatorial method generation.
-        /// </summary>
-        /// <param name="resource1">
-        /// Two resource fields, to test combinatorial generation.
-        /// </param>
-        /// <param name="resource2">
-        /// </param>
-        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
-        /// <returns>The RPC response.</returns>
-        public virtual Response OriginallySingleMethodRef(OriginallySingleResourceNameOneOf resource1, OriginallySingleResourceNameOneOf resource2, gaxgrpc::CallSettings callSettings = null) =>
-            OriginallySingleMethodRef(new OriginallySingleResourceRef
-            {
-                Resource1AsOriginallySingleResourceNameOneOf = resource1,
-                Resource2AsOriginallySingleResourceNameOneOf = resource2,
-            }, callSettings);
-
-        /// <summary>
-        /// Test original single resource (ORIGINALLY_SINGLE_PATTERN),
-        /// with combinatorial method generation.
-        /// </summary>
-        /// <param name="resource1">
-        /// Two resource fields, to test combinatorial generation.
-        /// </param>
-        /// <param name="resource2">
-        /// </param>
-        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
-        /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<Response> OriginallySingleMethodRefAsync(OriginallySingleResourceNameOneOf resource1, OriginallySingleResourceNameOneOf resource2, gaxgrpc::CallSettings callSettings = null) =>
-            OriginallySingleMethodRefAsync(new OriginallySingleResourceRef
-            {
-                Resource1AsOriginallySingleResourceNameOneOf = resource1,
-                Resource2AsOriginallySingleResourceNameOneOf = resource2,
-            }, callSettings);
-
-        /// <summary>
-        /// Test original single resource (ORIGINALLY_SINGLE_PATTERN),
-        /// with combinatorial method generation.
-        /// </summary>
-        /// <param name="resource1">
-        /// Two resource fields, to test combinatorial generation.
-        /// </param>
-        /// <param name="resource2">
-        /// </param>
-        /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
-        /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<Response> OriginallySingleMethodRefAsync(OriginallySingleResourceNameOneOf resource1, OriginallySingleResourceNameOneOf resource2, st::CancellationToken cancellationToken) =>
             OriginallySingleMethodRefAsync(resource1, resource2, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
         // TEST_END
     }

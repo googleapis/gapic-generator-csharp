@@ -26,7 +26,7 @@ namespace Testing.VoidReturn
 
     public class ResourceName
     {
-        public ResourceName(string name) => throw new NotImplementedException();
+        public static ResourceName FromItem(string item) => throw new NotImplementedException();
     }
 
     // gRPC fake

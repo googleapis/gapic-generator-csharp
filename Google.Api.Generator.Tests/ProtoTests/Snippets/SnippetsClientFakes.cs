@@ -101,22 +101,19 @@ namespace Testing.Snippets
         public Task<Task> TaskMethodAsync(Task request) => throw new NotImplementedException();
     }
 
-    public class AResourceName : IResourceName
+    public partial class AResource : ProtoMsgFake<AResource>
     {
-        public AResourceName(string itemId, string partId) => throw new NotImplementedException();
-        public ResourceNameKind Kind => throw new NotImplementedException();
+        public string Name { get; set; }
     }
 
-    public class RootAItemName : IResourceName
+    public partial class WildcardResource : ProtoMsgFake<WildcardResource>
     {
-        public RootAItemName(string rootId, string itemId) => throw new NotImplementedException();
-        public ResourceNameKind Kind => throw new NotImplementedException();
+        public string Name { get; set; }
     }
 
-    public class MultiPatternResourceNameOneOf : IResourceName
+    public partial class MultiPatternResource : ProtoMsgFake<MultiPatternResource>
     {
-        public static MultiPatternResourceNameOneOf From(RootAItemName item) => throw new NotImplementedException();
-        public ResourceNameKind Kind => throw new NotImplementedException();
+        public string Name { get; set; }
     }
 
     public class AnotherMessage : ProtoMsgFake<AnotherMessage> { }
@@ -126,7 +123,7 @@ namespace Testing.Snippets
         Default = 0,
     }
 
-    public class DefaultValuesRequest : ProtoMsgFake<DefaultValuesRequest>
+    public partial class DefaultValuesRequest : ProtoMsgFake<DefaultValuesRequest>
     {
         public static class Types
         {
@@ -181,14 +178,6 @@ namespace Testing.Snippets
         public RepeatedField<string> RepeatedWildcardResource { get; }
         public string MultiPatternResourceName { get; set; }
         public RepeatedField<string> RepeatedMultiPatternResourceName { get; }
-
-        public AResourceName SingleResourceNameAsAResourceName { get; set; }
-        public ResourceNameList<AResourceName> RepeatedResourceNameAsAResourceNames { get; }
-        public IResourceName SingleWildcardResourceAsResourceName { get; set; }
-        public ResourceNameList<IResourceName> RepeatedWildcardResourceAsResourceNames { get; }
-        public MultiPatternResourceNameOneOf MultiPatternResourceNameAsMultiPatternResourceNameOneOf { get; set; }
-        public ResourceNameList<MultiPatternResourceNameOneOf> RepeatedMultiPatternResourceNameAsMultiPatternResourceNameOneOfs { get; }
-
         public MapField<int, string> MapIntString { get; }
     }
 
@@ -199,21 +188,17 @@ namespace Testing.Snippets
         public bool ABool { get; set; }
     }
 
-    public class SimpleResourceName : IResourceName
+    public partial class SimpleResource : ProtoMsgFake<SimpleResource>
     {
-        public SimpleResourceName(string itemId) => throw new NotImplementedException();
-        public ResourceNameKind Kind => throw new NotImplementedException();
+        public string Name { get; set; }
     }
 
-    public class ResourceSignatureRequest : ProtoMsgFake<ResourceSignatureRequest>
+
+    public partial class ResourceSignatureRequest : ProtoMsgFake<ResourceSignatureRequest>
     {
         public string FirstName { get; set; }
         public string SecondName { get; set; }
         public string ThirdName { get; set; }
-
-        public SimpleResourceName FirstNameAsSimpleResourceName { get; set; }
-        public SimpleResourceName SecondNameAsSimpleResourceName { get; set; }
-        public SimpleResourceName ThirdNameAsSimpleResourceName { get; set; }
     }
 
     public class Task : ProtoMsgFake<Task> { }
