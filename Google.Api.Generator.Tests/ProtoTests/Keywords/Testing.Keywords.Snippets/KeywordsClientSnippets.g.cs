@@ -30,7 +30,7 @@ namespace Testing.Keywords.Snippets
             // Initialize request argument(s)
             Request request = new Request
             {
-                EventAsResourceName = new ResourceName("[ITEM_ID]"),
+                EventAsResourceName = ResourceName.FromItem("[ITEM_ID]"),
                 Switch = 0,
                 Void = Enum.Void,
             };
@@ -49,7 +49,7 @@ namespace Testing.Keywords.Snippets
             // Initialize request argument(s)
             Request request = new Request
             {
-                EventAsResourceName = new ResourceName("[ITEM_ID]"),
+                EventAsResourceName = ResourceName.FromItem("[ITEM_ID]"),
                 Switch = 0,
                 Void = Enum.Void,
             };
@@ -96,7 +96,7 @@ namespace Testing.Keywords.Snippets
             // Create client
             KeywordsClient keywordsClient = KeywordsClient.Create();
             // Initialize request argument(s)
-            ResourceName @event = new ResourceName("[ITEM_ID]");
+            ResourceName @event = ResourceName.FromItem("[ITEM_ID]");
             int @switch = 0;
             Enum @void = Enum.Void;
             // Make the request
@@ -112,7 +112,7 @@ namespace Testing.Keywords.Snippets
             // Create client
             KeywordsClient keywordsClient = await KeywordsClient.CreateAsync();
             // Initialize request argument(s)
-            ResourceName @event = new ResourceName("[ITEM_ID]");
+            ResourceName @event = ResourceName.FromItem("[ITEM_ID]");
             int @switch = 0;
             Enum @void = Enum.Void;
             // Make the request
@@ -129,7 +129,7 @@ namespace Testing.Keywords.Snippets
             // Initialize request argument(s)
             Resource request = new Resource
             {
-                WhileAsResourceName = new ResourceName("[ITEM_ID]"),
+                WhileAsResourceName = ResourceName.FromItem("[ITEM_ID]"),
                 Enum = Enum.Void,
             };
             // Make the request
@@ -147,7 +147,7 @@ namespace Testing.Keywords.Snippets
             // Initialize request argument(s)
             Resource request = new Resource
             {
-                WhileAsResourceName = new ResourceName("[ITEM_ID]"),
+                WhileAsResourceName = ResourceName.FromItem("[ITEM_ID]"),
                 Enum = Enum.Void,
             };
             // Make the request
@@ -191,7 +191,7 @@ namespace Testing.Keywords.Snippets
             // Create client
             KeywordsClient keywordsClient = KeywordsClient.Create();
             // Initialize request argument(s)
-            ResourceName @while = new ResourceName("[ITEM_ID]");
+            ResourceName @while = ResourceName.FromItem("[ITEM_ID]");
             Enum @enum = Enum.Void;
             // Make the request
             Response response = keywordsClient.Method2(@while, @enum);
@@ -206,7 +206,7 @@ namespace Testing.Keywords.Snippets
             // Create client
             KeywordsClient keywordsClient = await KeywordsClient.CreateAsync();
             // Initialize request argument(s)
-            ResourceName @while = new ResourceName("[ITEM_ID]");
+            ResourceName @while = ResourceName.FromItem("[ITEM_ID]");
             Enum @enum = Enum.Void;
             // Make the request
             Response response = await keywordsClient.Method2Async(@while, @enum);

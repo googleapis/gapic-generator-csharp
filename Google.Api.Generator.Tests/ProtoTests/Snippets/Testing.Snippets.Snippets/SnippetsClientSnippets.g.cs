@@ -83,20 +83,20 @@ namespace Testing.Snippets.Snippets
                 {
                     DefaultValuesRequest.Types.NestedEnum.DefaultValue,
                 },
-                SingleResourceNameAsAResourceName = new AResourceName("[ITEM_ID]", "[PART_ID]"),
+                SingleResourceNameAsAResourceName = AResourceName.FromItemPart("[ITEM_ID]", "[PART_ID]"),
                 RepeatedResourceNameAsAResourceNames =
                 {
-                    new AResourceName("[ITEM_ID]", "[PART_ID]"),
+                    AResourceName.FromItemPart("[ITEM_ID]", "[PART_ID]"),
                 },
                 SingleWildcardResourceAsResourceName = new UnknownResourceName("a/wildcard/resource"),
                 RepeatedWildcardResourceAsResourceNames =
                 {
                     new UnknownResourceName("a/wildcard/resource"),
                 },
-                MultiPatternResourceNameAsMultiPatternResourceNameOneOf = MultiPatternResourceNameOneOf.From(new RootAItemName("[ROOT_A_ID]", "[ITEM_ID]")),
-                RepeatedMultiPatternResourceNameAsMultiPatternResourceNameOneOfs =
+                MultiPatternResourceNameAsMultiPatternResourceName = MultiPatternResourceName.FromRootAItem("[ROOT_A_ID]", "[ITEM_ID]"),
+                RepeatedMultiPatternResourceNameAsMultiPatternResourceNames =
                 {
-                    MultiPatternResourceNameOneOf.From(new RootAItemName("[ROOT_A_ID]", "[ITEM_ID]")),
+                    MultiPatternResourceName.FromRootAItem("[ROOT_A_ID]", "[ITEM_ID]"),
                 },
                 MapIntString = { { 0, "" }, },
             };
@@ -162,20 +162,20 @@ namespace Testing.Snippets.Snippets
                 {
                     DefaultValuesRequest.Types.NestedEnum.DefaultValue,
                 },
-                SingleResourceNameAsAResourceName = new AResourceName("[ITEM_ID]", "[PART_ID]"),
+                SingleResourceNameAsAResourceName = AResourceName.FromItemPart("[ITEM_ID]", "[PART_ID]"),
                 RepeatedResourceNameAsAResourceNames =
                 {
-                    new AResourceName("[ITEM_ID]", "[PART_ID]"),
+                    AResourceName.FromItemPart("[ITEM_ID]", "[PART_ID]"),
                 },
                 SingleWildcardResourceAsResourceName = new UnknownResourceName("a/wildcard/resource"),
                 RepeatedWildcardResourceAsResourceNames =
                 {
                     new UnknownResourceName("a/wildcard/resource"),
                 },
-                MultiPatternResourceNameAsMultiPatternResourceNameOneOf = MultiPatternResourceNameOneOf.From(new RootAItemName("[ROOT_A_ID]", "[ITEM_ID]")),
-                RepeatedMultiPatternResourceNameAsMultiPatternResourceNameOneOfs =
+                MultiPatternResourceNameAsMultiPatternResourceName = MultiPatternResourceName.FromRootAItem("[ROOT_A_ID]", "[ITEM_ID]"),
+                RepeatedMultiPatternResourceNameAsMultiPatternResourceNames =
                 {
-                    MultiPatternResourceNameOneOf.From(new RootAItemName("[ROOT_A_ID]", "[ITEM_ID]")),
+                    MultiPatternResourceName.FromRootAItem("[ROOT_A_ID]", "[ITEM_ID]"),
                 },
                 MapIntString = { { 0, "" }, },
             };
@@ -241,7 +241,7 @@ namespace Testing.Snippets.Snippets
             };
             IEnumerable<AResourceName> repeatedResourceName = new AResourceName[]
             {
-                new AResourceName("[ITEM_ID]", "[PART_ID]"),
+                AResourceName.FromItemPart("[ITEM_ID]", "[PART_ID]"),
             };
             // Make the request
             Response response = snippetsClient.MethodDefaultValues(repeatedDouble, repeatedNestedMessage, repeatedResourceName);
@@ -263,7 +263,7 @@ namespace Testing.Snippets.Snippets
             };
             IEnumerable<AResourceName> repeatedResourceName = new AResourceName[]
             {
-                new AResourceName("[ITEM_ID]", "[PART_ID]"),
+                AResourceName.FromItemPart("[ITEM_ID]", "[PART_ID]"),
             };
             // Make the request
             Response response = await snippetsClient.MethodDefaultValuesAsync(repeatedDouble, repeatedNestedMessage, repeatedResourceName);
@@ -537,9 +537,9 @@ namespace Testing.Snippets.Snippets
             // Initialize request argument(s)
             ResourceSignatureRequest request = new ResourceSignatureRequest
             {
-                FirstNameAsSimpleResourceName = new SimpleResourceName("[ITEM_ID]"),
-                SecondNameAsSimpleResourceName = new SimpleResourceName("[ITEM_ID]"),
-                ThirdNameAsSimpleResourceName = new SimpleResourceName("[ITEM_ID]"),
+                FirstNameAsSimpleResourceName = SimpleResourceName.FromItem("[ITEM_ID]"),
+                SecondNameAsSimpleResourceName = SimpleResourceName.FromItem("[ITEM_ID]"),
+                ThirdNameAsSimpleResourceName = SimpleResourceName.FromItem("[ITEM_ID]"),
             };
             // Make the request
             Response response = snippetsClient.MethodResourceSignature(request);
@@ -556,9 +556,9 @@ namespace Testing.Snippets.Snippets
             // Initialize request argument(s)
             ResourceSignatureRequest request = new ResourceSignatureRequest
             {
-                FirstNameAsSimpleResourceName = new SimpleResourceName("[ITEM_ID]"),
-                SecondNameAsSimpleResourceName = new SimpleResourceName("[ITEM_ID]"),
-                ThirdNameAsSimpleResourceName = new SimpleResourceName("[ITEM_ID]"),
+                FirstNameAsSimpleResourceName = SimpleResourceName.FromItem("[ITEM_ID]"),
+                SecondNameAsSimpleResourceName = SimpleResourceName.FromItem("[ITEM_ID]"),
+                ThirdNameAsSimpleResourceName = SimpleResourceName.FromItem("[ITEM_ID]"),
             };
             // Make the request
             Response response = await snippetsClient.MethodResourceSignatureAsync(request);
@@ -603,9 +603,9 @@ namespace Testing.Snippets.Snippets
             // Create client
             SnippetsClient snippetsClient = SnippetsClient.Create();
             // Initialize request argument(s)
-            SimpleResourceName firstName = new SimpleResourceName("[ITEM_ID]");
-            SimpleResourceName secondName = new SimpleResourceName("[ITEM_ID]");
-            SimpleResourceName thirdName = new SimpleResourceName("[ITEM_ID]");
+            SimpleResourceName firstName = SimpleResourceName.FromItem("[ITEM_ID]");
+            SimpleResourceName secondName = SimpleResourceName.FromItem("[ITEM_ID]");
+            SimpleResourceName thirdName = SimpleResourceName.FromItem("[ITEM_ID]");
             // Make the request
             Response response = snippetsClient.MethodResourceSignature(firstName, secondName, thirdName);
             // End snippet
@@ -619,9 +619,9 @@ namespace Testing.Snippets.Snippets
             // Create client
             SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
             // Initialize request argument(s)
-            SimpleResourceName firstName = new SimpleResourceName("[ITEM_ID]");
-            SimpleResourceName secondName = new SimpleResourceName("[ITEM_ID]");
-            SimpleResourceName thirdName = new SimpleResourceName("[ITEM_ID]");
+            SimpleResourceName firstName = SimpleResourceName.FromItem("[ITEM_ID]");
+            SimpleResourceName secondName = SimpleResourceName.FromItem("[ITEM_ID]");
+            SimpleResourceName thirdName = SimpleResourceName.FromItem("[ITEM_ID]");
             // Make the request
             Response response = await snippetsClient.MethodResourceSignatureAsync(firstName, secondName, thirdName);
             // End snippet
@@ -661,7 +661,7 @@ namespace Testing.Snippets.Snippets
             // Create client
             SnippetsClient snippetsClient = SnippetsClient.Create();
             // Initialize request argument(s)
-            SimpleResourceName firstName = new SimpleResourceName("[ITEM_ID]");
+            SimpleResourceName firstName = SimpleResourceName.FromItem("[ITEM_ID]");
             // Make the request
             Response response = snippetsClient.MethodResourceSignature(firstName);
             // End snippet
@@ -675,7 +675,7 @@ namespace Testing.Snippets.Snippets
             // Create client
             SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
             // Initialize request argument(s)
-            SimpleResourceName firstName = new SimpleResourceName("[ITEM_ID]");
+            SimpleResourceName firstName = SimpleResourceName.FromItem("[ITEM_ID]");
             // Make the request
             Response response = await snippetsClient.MethodResourceSignatureAsync(firstName);
             // End snippet
@@ -824,9 +824,9 @@ namespace Testing.Snippets.Snippets
             // Initialize request argument(s)
             ResourceSignatureRequest request = new ResourceSignatureRequest
             {
-                FirstNameAsSimpleResourceName = new SimpleResourceName("[ITEM_ID]"),
-                SecondNameAsSimpleResourceName = new SimpleResourceName("[ITEM_ID]"),
-                ThirdNameAsSimpleResourceName = new SimpleResourceName("[ITEM_ID]"),
+                FirstNameAsSimpleResourceName = SimpleResourceName.FromItem("[ITEM_ID]"),
+                SecondNameAsSimpleResourceName = SimpleResourceName.FromItem("[ITEM_ID]"),
+                ThirdNameAsSimpleResourceName = SimpleResourceName.FromItem("[ITEM_ID]"),
             };
             // Make the request
             Operation<LroResponse, LroMetadata> response = snippetsClient.MethodLroResourceSignature(request);
@@ -859,9 +859,9 @@ namespace Testing.Snippets.Snippets
             // Initialize request argument(s)
             ResourceSignatureRequest request = new ResourceSignatureRequest
             {
-                FirstNameAsSimpleResourceName = new SimpleResourceName("[ITEM_ID]"),
-                SecondNameAsSimpleResourceName = new SimpleResourceName("[ITEM_ID]"),
-                ThirdNameAsSimpleResourceName = new SimpleResourceName("[ITEM_ID]"),
+                FirstNameAsSimpleResourceName = SimpleResourceName.FromItem("[ITEM_ID]"),
+                SecondNameAsSimpleResourceName = SimpleResourceName.FromItem("[ITEM_ID]"),
+                ThirdNameAsSimpleResourceName = SimpleResourceName.FromItem("[ITEM_ID]"),
             };
             // Make the request
             Operation<LroResponse, LroMetadata> response = await snippetsClient.MethodLroResourceSignatureAsync(request);
@@ -954,9 +954,9 @@ namespace Testing.Snippets.Snippets
             // Create client
             SnippetsClient snippetsClient = SnippetsClient.Create();
             // Initialize request argument(s)
-            SimpleResourceName firstName = new SimpleResourceName("[ITEM_ID]");
-            SimpleResourceName secondName = new SimpleResourceName("[ITEM_ID]");
-            SimpleResourceName thirdName = new SimpleResourceName("[ITEM_ID]");
+            SimpleResourceName firstName = SimpleResourceName.FromItem("[ITEM_ID]");
+            SimpleResourceName secondName = SimpleResourceName.FromItem("[ITEM_ID]");
+            SimpleResourceName thirdName = SimpleResourceName.FromItem("[ITEM_ID]");
             // Make the request
             Operation<LroResponse, LroMetadata> response = snippetsClient.MethodLroResourceSignature(firstName, secondName, thirdName);
 
@@ -986,9 +986,9 @@ namespace Testing.Snippets.Snippets
             // Create client
             SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
             // Initialize request argument(s)
-            SimpleResourceName firstName = new SimpleResourceName("[ITEM_ID]");
-            SimpleResourceName secondName = new SimpleResourceName("[ITEM_ID]");
-            SimpleResourceName thirdName = new SimpleResourceName("[ITEM_ID]");
+            SimpleResourceName firstName = SimpleResourceName.FromItem("[ITEM_ID]");
+            SimpleResourceName secondName = SimpleResourceName.FromItem("[ITEM_ID]");
+            SimpleResourceName thirdName = SimpleResourceName.FromItem("[ITEM_ID]");
             // Make the request
             Operation<LroResponse, LroMetadata> response = await snippetsClient.MethodLroResourceSignatureAsync(firstName, secondName, thirdName);
 
@@ -1093,9 +1093,9 @@ namespace Testing.Snippets.Snippets
             // Initialize request argument(s)
             ResourceSignatureRequest request = new ResourceSignatureRequest
             {
-                FirstNameAsSimpleResourceName = new SimpleResourceName("[ITEM_ID]"),
-                SecondNameAsSimpleResourceName = new SimpleResourceName("[ITEM_ID]"),
-                ThirdNameAsSimpleResourceName = new SimpleResourceName("[ITEM_ID]"),
+                FirstNameAsSimpleResourceName = SimpleResourceName.FromItem("[ITEM_ID]"),
+                SecondNameAsSimpleResourceName = SimpleResourceName.FromItem("[ITEM_ID]"),
+                ThirdNameAsSimpleResourceName = SimpleResourceName.FromItem("[ITEM_ID]"),
             };
             // Make the request, returning a streaming response
             SnippetsClient.MethodServerStreamingResourcesStream response = snippetsClient.MethodServerStreamingResources(request);
@@ -1144,9 +1144,9 @@ namespace Testing.Snippets.Snippets
             // Create client
             SnippetsClient snippetsClient = SnippetsClient.Create();
             // Initialize request argument(s)
-            SimpleResourceName firstName = new SimpleResourceName("[ITEM_ID]");
-            SimpleResourceName secondName = new SimpleResourceName("[ITEM_ID]");
-            SimpleResourceName thirdName = new SimpleResourceName("[ITEM_ID]");
+            SimpleResourceName firstName = SimpleResourceName.FromItem("[ITEM_ID]");
+            SimpleResourceName secondName = SimpleResourceName.FromItem("[ITEM_ID]");
+            SimpleResourceName thirdName = SimpleResourceName.FromItem("[ITEM_ID]");
             // Make the request, returning a streaming response
             SnippetsClient.MethodServerStreamingResourcesStream response = snippetsClient.MethodServerStreamingResources(firstName, secondName, thirdName);
 

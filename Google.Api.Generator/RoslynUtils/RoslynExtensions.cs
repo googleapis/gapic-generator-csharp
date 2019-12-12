@@ -234,12 +234,14 @@ namespace Google.Api.Generator.RoslynUtils
         public static BinaryExpressionSyntax Equality(this ParameterSyntax lhs, object rhs) =>
             BinaryExpression(SyntaxKind.EqualsExpression, IdentifierName(lhs.Identifier), ToExpression(rhs));
 
+        public static ExpressionSyntax Equality(this PropertyDeclarationSyntax lhs, object rhs) =>
+            BinaryExpression(SyntaxKind.EqualsExpression, ToExpression(lhs), ToExpression(rhs));
+
         public static BinaryExpressionSyntax Or(this ExpressionSyntax lhs, object rhs) =>
             BinaryExpression(SyntaxKind.LogicalOrExpression, lhs, ToExpression(rhs));
 
         public static ParameterSyntax Ref(this ParameterSyntax parameter) => parameter.WithModifiers(TokenList(Token(SyntaxKind.RefKeyword)));
         public static ParameterSyntax Out(this ParameterSyntax parameter) => parameter.WithModifiers(TokenList(Token(SyntaxKind.OutKeyword)));
-        public static ParameterSyntax OutVar(this ParameterSyntax parameter) => parameter.WithModifiers(TokenList(Token(SyntaxKind.OutKeyword), Token(SyntaxKind.TypeVarKeyword)));
 
         public static MethodDeclarationSyntax AddGenericConstraint(this MethodDeclarationSyntax method, Typ.GenericParameter genericParam, params TypeSyntax[] constraints)
         {

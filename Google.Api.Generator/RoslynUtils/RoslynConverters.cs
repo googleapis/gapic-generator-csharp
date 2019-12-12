@@ -87,6 +87,9 @@ namespace Google.Api.Generator.RoslynUtils
                     case ArgModifier.Type.Ref:
                         kind = SyntaxKind.RefKeyword;
                         break;
+                    case ArgModifier.Type.Out:
+                        kind = SyntaxKind.OutKeyword;
+                        break;
                     default:
                         throw new InvalidOperationException($"Cannot convert modtype: {argMod.ModType}");
                 }
@@ -174,9 +177,13 @@ namespace Google.Api.Generator.RoslynUtils
                 case MethodDeclarationSyntax v:
                     name = v.Identifier;
                     break;
+                case EnumMemberDeclarationSyntax v:
+                    name = v.Identifier;
+                    break;
                 default:
                     throw new NotSupportedException($"Cannot handle ToSimpleName({o.GetType()})");
             }
+            name = name.WithoutTrivia();
             return genericArgs.Any() ?
                 GenericName(name, TypeArgumentList(SeparatedList(genericArgs))) :
                 (SimpleNameSyntax)IdentifierName(name);

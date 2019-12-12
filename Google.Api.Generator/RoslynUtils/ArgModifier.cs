@@ -19,6 +19,7 @@ namespace Google.Api.Generator.RoslynUtils
         public enum Type
         {
             Ref,
+            Out,
         }
 
         public ArgModifier(Type type, object arg) => (ModType, Arg) = (type, arg);
