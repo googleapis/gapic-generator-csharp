@@ -26,57 +26,50 @@ namespace Google.Api.Generator.ProtoUtils
     {
         public class Definition
         {
-            public class SingleDef
+            public class Pattern
             {
-                public static SingleDef Local(string ns, string shortName, string pattern) =>
-                    pattern == "*" ?
-                        new SingleDef(Typ.Of<IResourceName>(), pattern, null, true, false) :
-                        new SingleDef(Typ.Manual(ns, $"{shortName}Name"), pattern, new PathTemplate(pattern), false, false);
+                public Pattern(string pattern) => (PatternString, Template) = (pattern, new PathTemplate(pattern));
 
-                public static SingleDef Common(string ns, string name, string pattern) =>
-                    new SingleDef(Typ.Manual(ns, name), pattern, new PathTemplate(pattern), false, true);
-
-                private SingleDef(Typ resourceNameTyp, string pattern, PathTemplate template, bool isWildcard, bool isCommon) =>
-                    (ResourceNameTyp, Pattern, Template, IsWildcard, IsCommon) = (resourceNameTyp, pattern, template, isWildcard, isCommon);
-                public Typ ResourceNameTyp { get; }
-                public string Pattern { get; }
+                public string PatternString { get; }
                 public PathTemplate Template { get; }
-                public bool IsWildcard { get; }
-                public bool IsCommon { get; }
             }
 
-            public class MultiDef
+            public static Definition UnknownResource { get; } = new Definition();
+
+            // Ctor for wildcard only.
+            private Definition() => ResourceNameTyp = Typ.Of<IResourceName>();
+
+            public Definition(FileDescriptor fileDesc, MessageDescriptor msgDesc, string type, string nameField, CommonResource common, IEnumerable<string> patterns)
             {
-                public MultiDef(string ns, string shortName, IEnumerable<SingleDef> oneDefs)
+                MsgDesc = msgDesc;
+                FileName = fileDesc.Name;
+                UnifiedResourceTypeName = type;
+                var typeNameParts = type.Split('/');
+                if (typeNameParts.Length != 2)
                 {
-                    ContainerTyp = Typ.Manual(ns, $"{shortName}NameOneOf");
-                    Defs = oneDefs.ToList();
+                    throw new InvalidOperationException($"Invalid unified resource name: '{type}' used in message '{msgDesc?.Name}'");
                 }
-                public Typ ContainerTyp { get; }
-                public IReadOnlyList<SingleDef> Defs { get; }
-            }
-
-            public static Definition UnknownResource { get; } = new Definition(null, null, "*", null, SingleDef.Local(null, null, "*"), null);
-
-            public Definition(MessageDescriptor msgDesc, string fileName, string type, string nameField, SingleDef single, MultiDef multi)
-            {
-                if (type != "*")
+                ShortName = typeNameParts[1];
+                FieldName = ShortName.ToLowerCamelCase();
+                NameField = string.IsNullOrEmpty(nameField) ? "name" : nameField;
+                DocName = ShortName;
+                if (!patterns.All(x => x == "*"))
                 {
-                    MsgDesc = msgDesc;
-                    FileName = fileName;
-                    UnifiedResourceTypeName = type;
-                    var typeNameParts = type.Split('/');
-                    if (typeNameParts.Length != 2)
+                    // Not a wildcard.
+                    if (patterns.Any(x => x == "*"))
                     {
-                        throw new InvalidOperationException($"Invalid unified resource name: '{type}' used in message '{msgDesc?.Name}'");
+                        throw new InvalidOperationException("A wildcard pattern must be the only pattern in a resource.");
                     }
-                    ShortName = typeNameParts[1];
-                    FieldName = ShortName.ToLowerCamelCase();
-                    NameField = string.IsNullOrEmpty(nameField) ? "name" : nameField;
-                    DocName = ShortName;
+                    Patterns = patterns.Select(x => new Pattern(x)).ToList();
+                    ResourceNameTyp = common == null ?
+                        Typ.Manual(fileDesc.CSharpNamespace(), $"{ShortName}Name") :
+                        Typ.Manual(common.CsharpNamespace, common.CsharpClassName);
                 }
-                Single = single;
-                Multi = multi;
+                else
+                {
+                    // Wildcard resource.
+                    ResourceNameTyp = Typ.Of<IResourceName>();
+                }
             }
 
             public MessageDescriptor MsgDesc { get; }
@@ -96,14 +89,13 @@ namespace Google.Api.Generator.ProtoUtils
             /// <summary>The name of this resource, as used in XmlDoc.</summary>
             public string DocName { get; }
 
-            /// <summary>Definition of resource that is not a multi. Null if only a multi.</summary>
-            public SingleDef Single { get; }
+            public bool IsCommon { get; }
 
-            /// <summary>Definition of resource that is a multi. Null if not a multi.</summary>
-            public MultiDef Multi { get; }
+            public IReadOnlyList<Pattern> Patterns { get; }
 
-            /// <summary>Is this a common definition? I.e. it's already defined elsewhere.</summary>
-            public bool IsCommon => Single?.IsCommon ?? false;
+            public bool IsWildcard => Patterns == null;
+
+            public Typ ResourceNameTyp { get; }
         }
 
         /// <summary>
@@ -115,33 +107,25 @@ namespace Google.Api.Generator.ProtoUtils
             {
                 UnderlyingPropertyName = fieldDesc.CSharpPropertyName();
                 ResourceDefinition = resourceDef;
-                SingleResourcePropertyName = resourceDef.Single is null ? null : MakePropertyName(resourceDef.Single.ResourceNameTyp.Name, resourceDef.Single.IsWildcard);
-                MultiResourcePropertyName = resourceDef.Multi is null ? null : MakePropertyName(resourceDef.Multi.ContainerTyp.Name, false);
 
-                string MakePropertyName(string typName, bool isWildcard)
-                {
-                    // This naming logic is copied directly from the Java generator.
-                    // TODO: Make sure it's correct for all combinations - I'm not sure it is!
-                    var requireIdentifier = !((fieldDesc.IsRepeated && fieldDesc.Name.ToLowerInvariant() == "names") ||
-                        (!fieldDesc.IsRepeated && fieldDesc.Name.ToLowerInvariant() == "name"));
-                    var requireAs = requireIdentifier || isWildcard;
-                    var requirePlural = fieldDesc.IsRepeated;
-                    var name = requireIdentifier ? UnderlyingPropertyName : "";
-                    name += requireAs ? "As" : "";
-                    name += isWildcard ? "ResourceName" : typName;
-                    name += requirePlural ? "s" : "";
-                    return name;
-                }
+                // This naming logic is copied directly from the Java generator.
+                // TODO: Make sure it's correct for all combinations - I'm not sure it is!
+                var requireIdentifier = !((fieldDesc.IsRepeated && fieldDesc.Name.ToLowerInvariant() == "names") ||
+                    (!fieldDesc.IsRepeated && fieldDesc.Name.ToLowerInvariant() == "name"));
+                var requireAs = requireIdentifier || resourceDef.IsWildcard;
+                var requirePlural = fieldDesc.IsRepeated;
+                var name = requireIdentifier ? UnderlyingPropertyName : "";
+                name += requireAs ? "As" : "";
+                name += resourceDef.IsWildcard ? "ResourceName" : resourceDef.ResourceNameTyp.Name;
+                name += requirePlural ? "s" : "";
+                ResourcePropertyName = name;
             }
 
             /// <summary>The C# name of the string-typed property underlying this resource.</summary>
             public string UnderlyingPropertyName { get; }
 
-            /// <summary>The C# name of the single-pattern resource property.</summary>
-            public string SingleResourcePropertyName { get; }
-
-            /// <summary>The C# name of the multi-pattern resource property.</summary>
-            public string MultiResourcePropertyName { get; }
+            /// <summary>The C# name of the resource property.</summary>
+            public string ResourcePropertyName { get; }
 
             /// <summary>The resource definition for this field.</summary>
             public Definition ResourceDefinition { get; }
@@ -151,18 +135,6 @@ namespace Google.Api.Generator.ProtoUtils
         {
             var commonsByType = commonResourcesConfigs?.SelectMany(x => x.CommonResources_).ToImmutableDictionary(x => x.Type) ??
                 ImmutableDictionary<string, CommonResource>.Empty;
-            // Singles:
-            // Compatibility problems: none
-            //
-            // Multi: If pattern already exists, use it; otherwise create new single-def.
-            //        Create name as concatenation of all ID parts, without "Id" suffixes.
-            // Compatibility problems: Adding a new resource with the same pattern as one of a multi-pattern.
-            //
-            // Child: Find all children that need parents generating.
-            //        Single/Container-name generated as "{ShortName}Parent"; unless a single already exists with same pattern.
-            //        Multi-def parts constructed as in normal multis.
-            // Compatibility problems: Adding a new resource with the same pattern as a single-pattern parent.
-            //                         Adding a new resource with the same pattern as one of a multi-pattern parent.
             // TODO: Support new (Sept 2019) `name_descriptor` way of specifying resource-names.
             var msgsFromProtoMsgs = descs
                 .SelectMany(fileDesc => fileDesc.MessageTypes.Select(msgDesc =>
@@ -175,51 +147,11 @@ namespace Google.Api.Generator.ProtoUtils
                         resDesc0 : Enumerable.Empty<ResourceDescriptor>())
                             .Select(resDesc => (fileDesc, msgDesc: (MessageDescriptor)null, resDesc, shortName: GetShortName(resDesc))));
             var msgs = msgsFromProtoMsgs.Concat(msgsFromFileAnnotation).ToImmutableList();
-            // Load Singles.
-            var singlesByType = msgs.Where(x => HasSingle(x.resDesc))
-                .ToImmutableDictionary(x => x.resDesc.Type, x =>
-                {
-                    var hasCommon = commonsByType.TryGetValue(x.resDesc.Type, out var common);
-                    var single = hasCommon ?
-                        Definition.SingleDef.Common(common.CsharpNamespace, common.CsharpClassName, x.resDesc.Pattern[0]) :
-                        Definition.SingleDef.Local(x.fileDesc.CSharpNamespace(), x.shortName, x.resDesc.Pattern[0]);
-                    return (x.resDesc, single);
-                });
-            var singlesByPattern = singlesByType.Values.ToImmutableDictionary(x => x.single.Pattern);
-            // Load Multis.
-            // TODO: Consider how common resource-names and multi-defs interact.
-            var multisByType = msgs.Where(x => HasMulti(x.resDesc)).Select(msg =>
-            {
-                var innerDefs = msg.resDesc.Pattern.Select(pattern =>
-                {
-                    if (singlesByPattern.TryGetValue(pattern, out var def))
-                    {
-                        return def.single;
-                    }
-                    var shortName = string.Join("", new PathTemplate(pattern).ParameterNames.Select(x => x.ToUpperCamelCase().RemoveSuffix("Id")));
-                    return Definition.SingleDef.Local(msg.fileDesc.CSharpNamespace(), shortName, pattern);
-                }).ToList();
-                var multi = new Definition.MultiDef(msg.fileDesc.CSharpNamespace(), msg.shortName, innerDefs);
-                return (msg.resDesc, multi);
-            }).ToImmutableDictionary(x => x.resDesc.Type);
-            // Load Parents.
-            // TODO
-
-            // Build return value.
-            var fileNamesByType = msgs.ToImmutableDictionary(x => x.resDesc.Type, x => x.fileDesc.Name);
             return msgs.Select(x =>
             {
-                var single = singlesByType.GetValueOrDefault(x.resDesc.Type).single;
-                var multi = multisByType.GetValueOrDefault(x.resDesc.Type).multi;
-                return new Definition(x.msgDesc, fileNamesByType[x.resDesc.Type], x.resDesc.Type, x.resDesc.NameField, single, multi);
+                commonsByType.TryGetValue(x.resDesc.Type, out var common);
+                return new Definition(x.fileDesc, x.msgDesc, x.resDesc.Type, x.resDesc.NameField, common, x.resDesc.Pattern);
             }).ToList();
-
-            bool HasSingle(ResourceDescriptor resDesc) =>
-                (resDesc.History & ResourceDescriptor.Types.History.FutureMultiPattern) == 0 &&
-                    (resDesc.Pattern.Count == 1 || (resDesc.History & ResourceDescriptor.Types.History.OriginallySinglePattern) != 0);
-
-            bool HasMulti(ResourceDescriptor resDesc) =>
-                resDesc.Pattern.Count > 1 || (resDesc.History & ResourceDescriptor.Types.History.FutureMultiPattern) != 0;
 
             string GetShortName(ResourceDescriptor resDesc)
             {
@@ -268,12 +200,11 @@ namespace Google.Api.Generator.ProtoUtils
                 {
                     throw new InvalidOperationException($"No resource type with child name: '{resourceRef.ChildType}' for field {msgDesc.Name}.{fieldDesc.Name}");
                 }
-                var childDefs = childDef.Multi != null ? childDef.Multi.Defs : new[] { childDef.Single };
-                if (childDefs.Any(x => x.IsWildcard))
+                if (childDef.IsWildcard)
                 {
                     throw new InvalidOperationException("Cannot refer to the child-type of a resource with a wildcard pattern");
                 }
-                var parentPatterns = childDefs.Select(x => ParentPattern(x.Pattern)).ToImmutableHashSet();
+                var parentPatterns = childDef.Patterns.Select(x => x.PatternString).ToImmutableHashSet();
                 if (resourcesByPatterns.TryGetValue(parentPatterns, out var parentDef))
                 {
                     // Return existing resource; no auto-generated required.
@@ -285,17 +216,6 @@ namespace Google.Api.Generator.ProtoUtils
                     $"Cannot refer to child-type '{resourceRef.ChildType}' in field {msgDesc.Name}.{fieldDesc.Name} because the child patterns are not already defined in a resource.");
             }
             throw new InvalidOperationException("type or child_type must be set.");
-
-            string ParentPattern(string pattern)
-            {
-                var lastIndex = pattern.LastIndexOf('}');
-                var last2Index = pattern.LastIndexOf('}', startIndex: Math.Max(lastIndex - 1, 0));
-                if (lastIndex < 0 || last2Index < 0)
-                {
-                    throw new InvalidOperationException("Cannot create the parent of a single-piece resource name.");
-                }
-                return pattern.Substring(0, last2Index + 1);
-            }
         }
     }
 }

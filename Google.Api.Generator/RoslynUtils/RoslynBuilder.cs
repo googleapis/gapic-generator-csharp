@@ -81,12 +81,23 @@ namespace Google.Api.Generator.RoslynUtils
             return ctor;
         };
 
-        public static ParametersFunc<ConstructorDeclarationSyntax> Ctor(Modifier modifiers, ClassDeclarationSyntax cls) => parameters =>
-            ConstructorDeclaration(cls.Identifier).AddModifiers(modifiers.ToSyntaxTokens()).WithParameterList(ParameterList(SeparatedList(parameters)));
-
+        public static ParametersFunc<ConstructorDeclarationSyntax> Ctor(Modifier modifiers, ClassDeclarationSyntax cls, ConstructorInitializerSyntax initializer = null) => parameters =>
+        {
+            var ctor = ConstructorDeclaration(cls.Identifier)
+                .AddModifiers(modifiers.ToSyntaxTokens())
+                .WithParameterList(ParameterList(SeparatedList(parameters)));
+            if (initializer != null)
+            {
+                ctor = ctor.WithInitializer(initializer);
+            }
+            return ctor;
+        };
 
         public static ConstructorInitializerSyntax BaseInitializer(params object[] args) =>
             ConstructorInitializer(SyntaxKind.BaseConstructorInitializer, CreateArgList(args));
+
+        public static ConstructorInitializerSyntax ThisInitializer(params object[] args) =>
+            ConstructorInitializer(SyntaxKind.ThisConstructorInitializer, CreateArgList(args));
 
         public static ParametersFunc<MethodDeclarationSyntax> Method(
             Modifier modifiers, TypeSyntax returnType, string name, params Typ.GenericParameter[] genericParams) => parameters =>
@@ -128,12 +139,6 @@ namespace Google.Api.Generator.RoslynUtils
             }
             return param;
         }
-
-        public static DeclarationExpressionSyntax ParameterOutVar(TypeSyntax type, string name) =>
-            DeclarationExpression(type, SingleVariableDesignation(Identifier(Keywords.PrependAtIfKeyword(name))));
-
-        public static DeclarationExpressionSyntax ParameterOutVar(LocalDeclarationStatementSyntax local) =>
-            DeclarationExpression(local.Declaration.Type, SingleVariableDesignation(local.Declaration.Variables[0].Identifier));
 
         public static LocalDeclarationStatementSyntax Local(TypeSyntax type, string name)
         {
@@ -201,7 +206,7 @@ namespace Google.Api.Generator.RoslynUtils
                 exprs.SelectMany(x => ToExpressions(x)).SelectMany(x => new SyntaxNodeOrToken[] { Token(SyntaxKind.CommaToken), x }).Skip(1)));
 
         public static ArgumentsFunc<ObjectCreationExpressionSyntax> New(TypeSyntax type) => args =>
-            ObjectCreationExpression(type).WithArgumentList(RoslynConverters.CreateArgList(args));
+            ObjectCreationExpression(type).WithArgumentList(CreateArgList(args));
 
         public static ArgumentsFunc<ArrayCreationExpressionSyntax> NewArray(ArrayTypeSyntax arrayType) => args =>
             ArrayCreationExpression(arrayType)
@@ -228,6 +233,11 @@ namespace Google.Api.Generator.RoslynUtils
         public static ParenthesizedExpressionSyntax Parens(object expr) => ParenthesizedExpression(ToExpression(expr));
 
         public static ArgModifier Ref(object arg) => new ArgModifier(ArgModifier.Type.Ref, arg);
+
+        public static ArgModifier Out(object arg) => new ArgModifier(ArgModifier.Type.Out, arg);
+
+        public static DeclarationExpressionSyntax OutVar(LocalDeclarationStatementSyntax local) =>
+            DeclarationExpression(local.Declaration.Type, SingleVariableDesignation(local.Declaration.Variables[0].Identifier));
 
         public static SyntaxTrivia BlankLine => CarriageReturnLineFeed;
 
@@ -283,6 +293,8 @@ namespace Google.Api.Generator.RoslynUtils
             cases.Select(@case => SwitchSection(SingletonList<SwitchLabelSyntax>(CaseSwitchLabel(ToExpression(@case.caseLiteral))), List(ToStatements(@case.code))))));
 
         public static SwitchFunc Switch(ParameterSyntax expr) => Switch(IdentifierName(expr.Identifier));
+
+        public static SwitchFunc Switch(PropertyDeclarationSyntax expr) => Switch(IdentifierName(expr.Identifier));
 
         public static CastExpressionSyntax Cast(TypeSyntax type, ExpressionSyntax expr) => CastExpression(type, expr);
 

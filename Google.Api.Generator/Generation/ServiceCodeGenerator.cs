@@ -72,7 +72,7 @@ namespace Google.Api.Generator.Generation
                     using (ctx.InClass(cls))
                     {
                         var resourceField = method.ResourcesFieldResourceName;
-                        var propertyName = resourceField?.SingleResourcePropertyName ?? resourceField?.MultiResourcePropertyName ?? method.ResourcesFieldName;
+                        var propertyName = resourceField?.ResourcePropertyName ?? method.ResourcesFieldName;
                         var genericGetEnumerator = Method(Public, ctx.Type(Typ.Generic(typeof(IEnumerator<>), method.ResourceTyp)), "GetEnumerator")()
                             .WithBody(Property(Public, ctx.TypeDontCare, propertyName).Call(nameof(IEnumerable<int>.GetEnumerator))())
                             .WithXmlDoc(XmlDoc.Summary("Returns an enumerator that iterates through the resources in this response."));

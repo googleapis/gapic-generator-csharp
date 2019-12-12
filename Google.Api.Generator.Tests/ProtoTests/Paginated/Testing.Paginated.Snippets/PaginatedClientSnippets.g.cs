@@ -399,7 +399,7 @@ namespace Testing.Paginated.Snippets
             // Initialize request argument(s)
             ResourceRequest request = new ResourceRequest
             {
-                ResourceName = new ResourceName("[ITEM_ID]"),
+                ResourceName = ResourceName.FromItem("[ITEM_ID]"),
             };
             // Make the request
             PagedEnumerable<ResourceResponse, ResourceName> response = paginatedClient.ResourcedMethod(request);
@@ -447,7 +447,7 @@ namespace Testing.Paginated.Snippets
             // Initialize request argument(s)
             ResourceRequest request = new ResourceRequest
             {
-                ResourceName = new ResourceName("[ITEM_ID]"),
+                ResourceName = ResourceName.FromItem("[ITEM_ID]"),
             };
             // Make the request
             PagedAsyncEnumerable<ResourceResponse, ResourceName> response = paginatedClient.ResourcedMethodAsync(request);
@@ -583,7 +583,7 @@ namespace Testing.Paginated.Snippets
             // Create client
             PaginatedClient paginatedClient = PaginatedClient.Create();
             // Initialize request argument(s)
-            ResourceName name = new ResourceName("[ITEM_ID]");
+            ResourceName name = ResourceName.FromItem("[ITEM_ID]");
             // Make the request
             PagedEnumerable<ResourceResponse, ResourceName> response = paginatedClient.ResourcedMethod(name);
 
@@ -628,7 +628,7 @@ namespace Testing.Paginated.Snippets
             // Create client
             PaginatedClient paginatedClient = await PaginatedClient.CreateAsync();
             // Initialize request argument(s)
-            ResourceName name = new ResourceName("[ITEM_ID]");
+            ResourceName name = ResourceName.FromItem("[ITEM_ID]");
             // Make the request
             PagedAsyncEnumerable<ResourceResponse, ResourceName> response = paginatedClient.ResourcedMethodAsync(name);
 
