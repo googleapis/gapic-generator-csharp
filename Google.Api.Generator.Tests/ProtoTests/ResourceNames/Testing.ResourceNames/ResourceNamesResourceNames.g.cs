@@ -24,12 +24,12 @@ namespace Testing.ResourceNames
     public sealed partial class SingleResourceName : gax::IResourceName, sys::IEquatable<SingleResourceName>
     {
         /// <summary>The possible contents of <see cref="SingleResourceName"/>.</summary>
-        public enum ResourceType
+        public enum ResourceNameType
         {
             /// <summary>A resource of an unknown type.</summary>
             Unknown = 0,
 
-            /// <summary>A resource of type 'item'.</summary>
+            /// <summary>A resource name with pattern <c>items/{item_id}</c>.</summary>
             Item = 1
         }
 
@@ -41,14 +41,14 @@ namespace Testing.ResourceNames
         /// A new instance of <see cref="SingleResourceName"/> containing the provided
         /// <paramref name="unknownResourceName"/>.
         /// </returns>
-        public static SingleResourceName CreateUnknown(gax::UnknownResourceName unknownResourceName) =>
-            new SingleResourceName(ResourceType.Unknown, gax::GaxPreconditions.CheckNotNull(unknownResourceName, nameof(unknownResourceName)));
+        public static SingleResourceName FromUnknown(gax::UnknownResourceName unknownResourceName) =>
+            new SingleResourceName(ResourceNameType.Unknown, gax::GaxPreconditions.CheckNotNull(unknownResourceName, nameof(unknownResourceName)));
 
         /// <summary>Creates a <see cref="SingleResourceName"/> with the pattern <c>items/{item_id}</c>.</summary>
         /// <param name="itemId">The <c>Item</c> ID. Must not be <c>null</c> or empty.</param>
         /// <returns>A new instance of <see cref="SingleResourceName"/> constructed from the provided ids.</returns>
-        public static SingleResourceName CreateItem(string itemId) =>
-            new SingleResourceName(ResourceType.Item, itemId: gax::GaxPreconditions.CheckNotNullOrEmpty(itemId, nameof(itemId)));
+        public static SingleResourceName FromItem(string itemId) =>
+            new SingleResourceName(ResourceNameType.Item, itemId: gax::GaxPreconditions.CheckNotNullOrEmpty(itemId, nameof(itemId)));
 
         /// <summary>
         /// Formats the IDs into the string representation of this <see cref="SingleResourceName"/> with pattern
@@ -141,14 +141,14 @@ namespace Testing.ResourceNames
             gax::TemplatedResourceName resourceName;
             if (s_item.TryParseName(singleResourceName, out resourceName))
             {
-                result = CreateItem(resourceName[0]);
+                result = FromItem(resourceName[0]);
                 return true;
             }
             if (allowUnknown)
             {
                 if (gax::UnknownResourceName.TryParse(singleResourceName, out gax::UnknownResourceName unknownResourceName))
                 {
-                    result = CreateUnknown(unknownResourceName);
+                    result = FromUnknown(unknownResourceName);
                     return true;
                 }
             }
@@ -156,7 +156,7 @@ namespace Testing.ResourceNames
             return false;
         }
 
-        private SingleResourceName(ResourceType type, gax::UnknownResourceName unknownResourceName = null, string itemId = null)
+        private SingleResourceName(ResourceNameType type, gax::UnknownResourceName unknownResourceName = null, string itemId = null)
         {
             Type = type;
             UnknownResource = unknownResourceName;
@@ -168,12 +168,12 @@ namespace Testing.ResourceNames
         /// <c>items/{item_id}</c>
         /// </summary>
         /// <param name="itemId">The <c>Item</c> ID. Must not be <c>null</c> or empty.</param>
-        public SingleResourceName(string itemId) : this(ResourceType.Item, itemId: gax::GaxPreconditions.CheckNotNullOrEmpty(itemId, nameof(itemId)))
+        public SingleResourceName(string itemId) : this(ResourceNameType.Item, itemId: gax::GaxPreconditions.CheckNotNullOrEmpty(itemId, nameof(itemId)))
         {
         }
 
-        /// <summary>The <see cref="ResourceType"/> of the contained resource name.</summary>
-        public ResourceType Type { get; }
+        /// <summary>The <see cref="ResourceNameType"/> of the contained resource name.</summary>
+        public ResourceNameType Type { get; }
 
         /// <summary>
         /// The contained <see cref="gax::UnknownResourceName"/>. Only non-<c>null</c>if this instance contains an
@@ -187,15 +187,15 @@ namespace Testing.ResourceNames
         public string ItemId { get; }
 
         /// <inheritdoc/>
-        public gax::ResourceNameKind Kind => Type == ResourceType.Unknown ? gax::ResourceNameKind.Unknown : gax::ResourceNameKind.Simple;
+        public gax::ResourceNameKind Kind => Type == ResourceNameType.Unknown ? gax::ResourceNameKind.Unknown : gax::ResourceNameKind.Simple;
 
         /// <inheritdoc/>
         public override string ToString()
         {
             switch (Type)
             {
-                case ResourceType.Unknown: return UnknownResource.ToString();
-                case ResourceType.Item: return s_item.Expand(ItemId);
+                case ResourceNameType.Unknown: return UnknownResource.ToString();
+                case ResourceNameType.Item: return s_item.Expand(ItemId);
                 default: throw new sys::InvalidOperationException("Unrecognized resource-type.");
             }
         }
@@ -220,15 +220,15 @@ namespace Testing.ResourceNames
     public sealed partial class MultiResourceName : gax::IResourceName, sys::IEquatable<MultiResourceName>
     {
         /// <summary>The possible contents of <see cref="MultiResourceName"/>.</summary>
-        public enum ResourceType
+        public enum ResourceNameType
         {
             /// <summary>A resource of an unknown type.</summary>
             Unknown = 0,
 
-            /// <summary>A resource of type 'root_a'.</summary>
+            /// <summary>A resource name with pattern <c>roota/{root_a_id}/multi/{multi_id}</c>.</summary>
             RootAMulti = 1,
 
-            /// <summary>A resource of type 'root_b'.</summary>
+            /// <summary>A resource name with pattern <c>rootb/{root_b_id}/multi/{multi_id}</c>.</summary>
             RootBMulti = 2
         }
 
@@ -242,8 +242,8 @@ namespace Testing.ResourceNames
         /// A new instance of <see cref="MultiResourceName"/> containing the provided
         /// <paramref name="unknownResourceName"/>.
         /// </returns>
-        public static MultiResourceName CreateUnknown(gax::UnknownResourceName unknownResourceName) =>
-            new MultiResourceName(ResourceType.Unknown, gax::GaxPreconditions.CheckNotNull(unknownResourceName, nameof(unknownResourceName)));
+        public static MultiResourceName FromUnknown(gax::UnknownResourceName unknownResourceName) =>
+            new MultiResourceName(ResourceNameType.Unknown, gax::GaxPreconditions.CheckNotNull(unknownResourceName, nameof(unknownResourceName)));
 
         /// <summary>
         /// Creates a <see cref="MultiResourceName"/> with the pattern <c>roota/{root_a_id}/multi/{multi_id}</c>.
@@ -251,8 +251,8 @@ namespace Testing.ResourceNames
         /// <param name="rootAId">The <c>RootA</c> ID. Must not be <c>null</c> or empty.</param>
         /// <param name="multiId">The <c>Multi</c> ID. Must not be <c>null</c> or empty.</param>
         /// <returns>A new instance of <see cref="MultiResourceName"/> constructed from the provided ids.</returns>
-        public static MultiResourceName CreateRootAMulti(string rootAId, string multiId) =>
-            new MultiResourceName(ResourceType.RootAMulti, rootAId: gax::GaxPreconditions.CheckNotNullOrEmpty(rootAId, nameof(rootAId)), multiId: gax::GaxPreconditions.CheckNotNullOrEmpty(multiId, nameof(multiId)));
+        public static MultiResourceName FromRootAMulti(string rootAId, string multiId) =>
+            new MultiResourceName(ResourceNameType.RootAMulti, rootAId: gax::GaxPreconditions.CheckNotNullOrEmpty(rootAId, nameof(rootAId)), multiId: gax::GaxPreconditions.CheckNotNullOrEmpty(multiId, nameof(multiId)));
 
         /// <summary>
         /// Creates a <see cref="MultiResourceName"/> with the pattern <c>rootb/{root_b_id}/multi/{multi_id}</c>.
@@ -260,8 +260,8 @@ namespace Testing.ResourceNames
         /// <param name="rootBId">The <c>RootB</c> ID. Must not be <c>null</c> or empty.</param>
         /// <param name="multiId">The <c>Multi</c> ID. Must not be <c>null</c> or empty.</param>
         /// <returns>A new instance of <see cref="MultiResourceName"/> constructed from the provided ids.</returns>
-        public static MultiResourceName CreateRootBMulti(string rootBId, string multiId) =>
-            new MultiResourceName(ResourceType.RootBMulti, rootBId: gax::GaxPreconditions.CheckNotNullOrEmpty(rootBId, nameof(rootBId)), multiId: gax::GaxPreconditions.CheckNotNullOrEmpty(multiId, nameof(multiId)));
+        public static MultiResourceName FromRootBMulti(string rootBId, string multiId) =>
+            new MultiResourceName(ResourceNameType.RootBMulti, rootBId: gax::GaxPreconditions.CheckNotNullOrEmpty(rootBId, nameof(rootBId)), multiId: gax::GaxPreconditions.CheckNotNullOrEmpty(multiId, nameof(multiId)));
 
         /// <summary>
         /// Formats the IDs into the string representation of this <see cref="MultiResourceName"/> with pattern
@@ -383,19 +383,19 @@ namespace Testing.ResourceNames
             gax::TemplatedResourceName resourceName;
             if (s_rootAMulti.TryParseName(multiResourceName, out resourceName))
             {
-                result = CreateRootAMulti(resourceName[0], resourceName[1]);
+                result = FromRootAMulti(resourceName[0], resourceName[1]);
                 return true;
             }
             if (s_rootBMulti.TryParseName(multiResourceName, out resourceName))
             {
-                result = CreateRootBMulti(resourceName[0], resourceName[1]);
+                result = FromRootBMulti(resourceName[0], resourceName[1]);
                 return true;
             }
             if (allowUnknown)
             {
                 if (gax::UnknownResourceName.TryParse(multiResourceName, out gax::UnknownResourceName unknownResourceName))
                 {
-                    result = CreateUnknown(unknownResourceName);
+                    result = FromUnknown(unknownResourceName);
                     return true;
                 }
             }
@@ -403,7 +403,7 @@ namespace Testing.ResourceNames
             return false;
         }
 
-        private MultiResourceName(ResourceType type, gax::UnknownResourceName unknownResourceName = null, string multiId = null, string rootAId = null, string rootBId = null)
+        private MultiResourceName(ResourceNameType type, gax::UnknownResourceName unknownResourceName = null, string multiId = null, string rootAId = null, string rootBId = null)
         {
             Type = type;
             UnknownResource = unknownResourceName;
@@ -418,12 +418,12 @@ namespace Testing.ResourceNames
         /// </summary>
         /// <param name="rootAId">The <c>RootA</c> ID. Must not be <c>null</c> or empty.</param>
         /// <param name="multiId">The <c>Multi</c> ID. Must not be <c>null</c> or empty.</param>
-        public MultiResourceName(string rootAId, string multiId) : this(ResourceType.RootAMulti, rootAId: gax::GaxPreconditions.CheckNotNullOrEmpty(rootAId, nameof(rootAId)), multiId: gax::GaxPreconditions.CheckNotNullOrEmpty(multiId, nameof(multiId)))
+        public MultiResourceName(string rootAId, string multiId) : this(ResourceNameType.RootAMulti, rootAId: gax::GaxPreconditions.CheckNotNullOrEmpty(rootAId, nameof(rootAId)), multiId: gax::GaxPreconditions.CheckNotNullOrEmpty(multiId, nameof(multiId)))
         {
         }
 
-        /// <summary>The <see cref="ResourceType"/> of the contained resource name.</summary>
-        public ResourceType Type { get; }
+        /// <summary>The <see cref="ResourceNameType"/> of the contained resource name.</summary>
+        public ResourceNameType Type { get; }
 
         /// <summary>
         /// The contained <see cref="gax::UnknownResourceName"/>. Only non-<c>null</c>if this instance contains an
@@ -447,16 +447,16 @@ namespace Testing.ResourceNames
         public string RootBId { get; }
 
         /// <inheritdoc/>
-        public gax::ResourceNameKind Kind => Type == ResourceType.Unknown ? gax::ResourceNameKind.Unknown : gax::ResourceNameKind.Oneof;
+        public gax::ResourceNameKind Kind => Type == ResourceNameType.Unknown ? gax::ResourceNameKind.Unknown : gax::ResourceNameKind.Oneof;
 
         /// <inheritdoc/>
         public override string ToString()
         {
             switch (Type)
             {
-                case ResourceType.Unknown: return UnknownResource.ToString();
-                case ResourceType.RootAMulti: return s_rootAMulti.Expand(RootAId, MultiId);
-                case ResourceType.RootBMulti: return s_rootBMulti.Expand(RootBId, MultiId);
+                case ResourceNameType.Unknown: return UnknownResource.ToString();
+                case ResourceNameType.RootAMulti: return s_rootAMulti.Expand(RootAId, MultiId);
+                case ResourceNameType.RootBMulti: return s_rootBMulti.Expand(RootBId, MultiId);
                 default: throw new sys::InvalidOperationException("Unrecognized resource-type.");
             }
         }
@@ -481,12 +481,12 @@ namespace Testing.ResourceNames
     public sealed partial class FutureMultiResourceName : gax::IResourceName, sys::IEquatable<FutureMultiResourceName>
     {
         /// <summary>The possible contents of <see cref="FutureMultiResourceName"/>.</summary>
-        public enum ResourceType
+        public enum ResourceNameType
         {
             /// <summary>A resource of an unknown type.</summary>
             Unknown = 0,
 
-            /// <summary>A resource of type 'root_a'.</summary>
+            /// <summary>A resource name with pattern <c>root/{root_a_id}/futuremulti/{future_multi_id}</c>.</summary>
             RootAFutureMulti = 1
         }
 
@@ -498,8 +498,8 @@ namespace Testing.ResourceNames
         /// A new instance of <see cref="FutureMultiResourceName"/> containing the provided
         /// <paramref name="unknownResourceName"/>.
         /// </returns>
-        public static FutureMultiResourceName CreateUnknown(gax::UnknownResourceName unknownResourceName) =>
-            new FutureMultiResourceName(ResourceType.Unknown, gax::GaxPreconditions.CheckNotNull(unknownResourceName, nameof(unknownResourceName)));
+        public static FutureMultiResourceName FromUnknown(gax::UnknownResourceName unknownResourceName) =>
+            new FutureMultiResourceName(ResourceNameType.Unknown, gax::GaxPreconditions.CheckNotNull(unknownResourceName, nameof(unknownResourceName)));
 
         /// <summary>
         /// Creates a <see cref="FutureMultiResourceName"/> with the pattern
@@ -510,8 +510,8 @@ namespace Testing.ResourceNames
         /// <returns>
         /// A new instance of <see cref="FutureMultiResourceName"/> constructed from the provided ids.
         /// </returns>
-        public static FutureMultiResourceName CreateRootAFutureMulti(string rootAId, string futureMultiId) =>
-            new FutureMultiResourceName(ResourceType.RootAFutureMulti, rootAId: gax::GaxPreconditions.CheckNotNullOrEmpty(rootAId, nameof(rootAId)), futureMultiId: gax::GaxPreconditions.CheckNotNullOrEmpty(futureMultiId, nameof(futureMultiId)));
+        public static FutureMultiResourceName FromRootAFutureMulti(string rootAId, string futureMultiId) =>
+            new FutureMultiResourceName(ResourceNameType.RootAFutureMulti, rootAId: gax::GaxPreconditions.CheckNotNullOrEmpty(rootAId, nameof(rootAId)), futureMultiId: gax::GaxPreconditions.CheckNotNullOrEmpty(futureMultiId, nameof(futureMultiId)));
 
         /// <summary>
         /// Formats the IDs into the string representation of this <see cref="FutureMultiResourceName"/> with pattern
@@ -618,14 +618,14 @@ namespace Testing.ResourceNames
             gax::TemplatedResourceName resourceName;
             if (s_rootAFutureMulti.TryParseName(futureMultiResourceName, out resourceName))
             {
-                result = CreateRootAFutureMulti(resourceName[0], resourceName[1]);
+                result = FromRootAFutureMulti(resourceName[0], resourceName[1]);
                 return true;
             }
             if (allowUnknown)
             {
                 if (gax::UnknownResourceName.TryParse(futureMultiResourceName, out gax::UnknownResourceName unknownResourceName))
                 {
-                    result = CreateUnknown(unknownResourceName);
+                    result = FromUnknown(unknownResourceName);
                     return true;
                 }
             }
@@ -633,7 +633,7 @@ namespace Testing.ResourceNames
             return false;
         }
 
-        private FutureMultiResourceName(ResourceType type, gax::UnknownResourceName unknownResourceName = null, string futureMultiId = null, string rootAId = null)
+        private FutureMultiResourceName(ResourceNameType type, gax::UnknownResourceName unknownResourceName = null, string futureMultiId = null, string rootAId = null)
         {
             Type = type;
             UnknownResource = unknownResourceName;
@@ -647,12 +647,12 @@ namespace Testing.ResourceNames
         /// </summary>
         /// <param name="rootAId">The <c>RootA</c> ID. Must not be <c>null</c> or empty.</param>
         /// <param name="futureMultiId">The <c>FutureMulti</c> ID. Must not be <c>null</c> or empty.</param>
-        public FutureMultiResourceName(string rootAId, string futureMultiId) : this(ResourceType.RootAFutureMulti, rootAId: gax::GaxPreconditions.CheckNotNullOrEmpty(rootAId, nameof(rootAId)), futureMultiId: gax::GaxPreconditions.CheckNotNullOrEmpty(futureMultiId, nameof(futureMultiId)))
+        public FutureMultiResourceName(string rootAId, string futureMultiId) : this(ResourceNameType.RootAFutureMulti, rootAId: gax::GaxPreconditions.CheckNotNullOrEmpty(rootAId, nameof(rootAId)), futureMultiId: gax::GaxPreconditions.CheckNotNullOrEmpty(futureMultiId, nameof(futureMultiId)))
         {
         }
 
-        /// <summary>The <see cref="ResourceType"/> of the contained resource name.</summary>
-        public ResourceType Type { get; }
+        /// <summary>The <see cref="ResourceNameType"/> of the contained resource name.</summary>
+        public ResourceNameType Type { get; }
 
         /// <summary>
         /// The contained <see cref="gax::UnknownResourceName"/>. Only non-<c>null</c>if this instance contains an
@@ -671,15 +671,15 @@ namespace Testing.ResourceNames
         public string RootAId { get; }
 
         /// <inheritdoc/>
-        public gax::ResourceNameKind Kind => Type == ResourceType.Unknown ? gax::ResourceNameKind.Unknown : gax::ResourceNameKind.Simple;
+        public gax::ResourceNameKind Kind => Type == ResourceNameType.Unknown ? gax::ResourceNameKind.Unknown : gax::ResourceNameKind.Simple;
 
         /// <inheritdoc/>
         public override string ToString()
         {
             switch (Type)
             {
-                case ResourceType.Unknown: return UnknownResource.ToString();
-                case ResourceType.RootAFutureMulti: return s_rootAFutureMulti.Expand(RootAId, FutureMultiId);
+                case ResourceNameType.Unknown: return UnknownResource.ToString();
+                case ResourceNameType.RootAFutureMulti: return s_rootAFutureMulti.Expand(RootAId, FutureMultiId);
                 default: throw new sys::InvalidOperationException("Unrecognized resource-type.");
             }
         }
@@ -704,15 +704,19 @@ namespace Testing.ResourceNames
     public sealed partial class OriginallySingleResourceName : gax::IResourceName, sys::IEquatable<OriginallySingleResourceName>
     {
         /// <summary>The possible contents of <see cref="OriginallySingleResourceName"/>.</summary>
-        public enum ResourceType
+        public enum ResourceNameType
         {
             /// <summary>A resource of an unknown type.</summary>
             Unknown = 0,
 
-            /// <summary>A resource of type 'root_a'.</summary>
+            /// <summary>
+            /// A resource name with pattern <c>roota/{root_a_id}/originallysingle/{originally_single_multi_id}</c>.
+            /// </summary>
             RootAOriginallySingleMulti = 1,
 
-            /// <summary>A resource of type 'root_b'.</summary>
+            /// <summary>
+            /// A resource name with pattern <c>rootb/{root_b_id}/originallysingle/{originally_single_multi_id}</c>.
+            /// </summary>
             RootBOriginallySingleMulti = 2
         }
 
@@ -726,8 +730,8 @@ namespace Testing.ResourceNames
         /// A new instance of <see cref="OriginallySingleResourceName"/> containing the provided
         /// <paramref name="unknownResourceName"/>.
         /// </returns>
-        public static OriginallySingleResourceName CreateUnknown(gax::UnknownResourceName unknownResourceName) =>
-            new OriginallySingleResourceName(ResourceType.Unknown, gax::GaxPreconditions.CheckNotNull(unknownResourceName, nameof(unknownResourceName)));
+        public static OriginallySingleResourceName FromUnknown(gax::UnknownResourceName unknownResourceName) =>
+            new OriginallySingleResourceName(ResourceNameType.Unknown, gax::GaxPreconditions.CheckNotNull(unknownResourceName, nameof(unknownResourceName)));
 
         /// <summary>
         /// Creates a <see cref="OriginallySingleResourceName"/> with the pattern
@@ -740,8 +744,8 @@ namespace Testing.ResourceNames
         /// <returns>
         /// A new instance of <see cref="OriginallySingleResourceName"/> constructed from the provided ids.
         /// </returns>
-        public static OriginallySingleResourceName CreateRootAOriginallySingleMulti(string rootAId, string originallySingleMultiId) =>
-            new OriginallySingleResourceName(ResourceType.RootAOriginallySingleMulti, rootAId: gax::GaxPreconditions.CheckNotNullOrEmpty(rootAId, nameof(rootAId)), originallySingleMultiId: gax::GaxPreconditions.CheckNotNullOrEmpty(originallySingleMultiId, nameof(originallySingleMultiId)));
+        public static OriginallySingleResourceName FromRootAOriginallySingleMulti(string rootAId, string originallySingleMultiId) =>
+            new OriginallySingleResourceName(ResourceNameType.RootAOriginallySingleMulti, rootAId: gax::GaxPreconditions.CheckNotNullOrEmpty(rootAId, nameof(rootAId)), originallySingleMultiId: gax::GaxPreconditions.CheckNotNullOrEmpty(originallySingleMultiId, nameof(originallySingleMultiId)));
 
         /// <summary>
         /// Creates a <see cref="OriginallySingleResourceName"/> with the pattern
@@ -754,8 +758,8 @@ namespace Testing.ResourceNames
         /// <returns>
         /// A new instance of <see cref="OriginallySingleResourceName"/> constructed from the provided ids.
         /// </returns>
-        public static OriginallySingleResourceName CreateRootBOriginallySingleMulti(string rootBId, string originallySingleMultiId) =>
-            new OriginallySingleResourceName(ResourceType.RootBOriginallySingleMulti, rootBId: gax::GaxPreconditions.CheckNotNullOrEmpty(rootBId, nameof(rootBId)), originallySingleMultiId: gax::GaxPreconditions.CheckNotNullOrEmpty(originallySingleMultiId, nameof(originallySingleMultiId)));
+        public static OriginallySingleResourceName FromRootBOriginallySingleMulti(string rootBId, string originallySingleMultiId) =>
+            new OriginallySingleResourceName(ResourceNameType.RootBOriginallySingleMulti, rootBId: gax::GaxPreconditions.CheckNotNullOrEmpty(rootBId, nameof(rootBId)), originallySingleMultiId: gax::GaxPreconditions.CheckNotNullOrEmpty(originallySingleMultiId, nameof(originallySingleMultiId)));
 
         /// <summary>
         /// Formats the IDs into the string representation of this <see cref="OriginallySingleResourceName"/> with
@@ -912,19 +916,19 @@ namespace Testing.ResourceNames
             gax::TemplatedResourceName resourceName;
             if (s_rootAOriginallySingleMulti.TryParseName(originallySingleResourceName, out resourceName))
             {
-                result = CreateRootAOriginallySingleMulti(resourceName[0], resourceName[1]);
+                result = FromRootAOriginallySingleMulti(resourceName[0], resourceName[1]);
                 return true;
             }
             if (s_rootBOriginallySingleMulti.TryParseName(originallySingleResourceName, out resourceName))
             {
-                result = CreateRootBOriginallySingleMulti(resourceName[0], resourceName[1]);
+                result = FromRootBOriginallySingleMulti(resourceName[0], resourceName[1]);
                 return true;
             }
             if (allowUnknown)
             {
                 if (gax::UnknownResourceName.TryParse(originallySingleResourceName, out gax::UnknownResourceName unknownResourceName))
                 {
-                    result = CreateUnknown(unknownResourceName);
+                    result = FromUnknown(unknownResourceName);
                     return true;
                 }
             }
@@ -932,7 +936,7 @@ namespace Testing.ResourceNames
             return false;
         }
 
-        private OriginallySingleResourceName(ResourceType type, gax::UnknownResourceName unknownResourceName = null, string originallySingleMultiId = null, string rootAId = null, string rootBId = null)
+        private OriginallySingleResourceName(ResourceNameType type, gax::UnknownResourceName unknownResourceName = null, string originallySingleMultiId = null, string rootAId = null, string rootBId = null)
         {
             Type = type;
             UnknownResource = unknownResourceName;
@@ -949,12 +953,12 @@ namespace Testing.ResourceNames
         /// <param name="originallySingleMultiId">
         /// The <c>OriginallySingleMulti</c> ID. Must not be <c>null</c> or empty.
         /// </param>
-        public OriginallySingleResourceName(string rootAId, string originallySingleMultiId) : this(ResourceType.RootAOriginallySingleMulti, rootAId: gax::GaxPreconditions.CheckNotNullOrEmpty(rootAId, nameof(rootAId)), originallySingleMultiId: gax::GaxPreconditions.CheckNotNullOrEmpty(originallySingleMultiId, nameof(originallySingleMultiId)))
+        public OriginallySingleResourceName(string rootAId, string originallySingleMultiId) : this(ResourceNameType.RootAOriginallySingleMulti, rootAId: gax::GaxPreconditions.CheckNotNullOrEmpty(rootAId, nameof(rootAId)), originallySingleMultiId: gax::GaxPreconditions.CheckNotNullOrEmpty(originallySingleMultiId, nameof(originallySingleMultiId)))
         {
         }
 
-        /// <summary>The <see cref="ResourceType"/> of the contained resource name.</summary>
-        public ResourceType Type { get; }
+        /// <summary>The <see cref="ResourceNameType"/> of the contained resource name.</summary>
+        public ResourceNameType Type { get; }
 
         /// <summary>
         /// The contained <see cref="gax::UnknownResourceName"/>. Only non-<c>null</c>if this instance contains an
@@ -979,16 +983,16 @@ namespace Testing.ResourceNames
         public string RootBId { get; }
 
         /// <inheritdoc/>
-        public gax::ResourceNameKind Kind => Type == ResourceType.Unknown ? gax::ResourceNameKind.Unknown : gax::ResourceNameKind.Oneof;
+        public gax::ResourceNameKind Kind => Type == ResourceNameType.Unknown ? gax::ResourceNameKind.Unknown : gax::ResourceNameKind.Oneof;
 
         /// <inheritdoc/>
         public override string ToString()
         {
             switch (Type)
             {
-                case ResourceType.Unknown: return UnknownResource.ToString();
-                case ResourceType.RootAOriginallySingleMulti: return s_rootAOriginallySingleMulti.Expand(RootAId, OriginallySingleMultiId);
-                case ResourceType.RootBOriginallySingleMulti: return s_rootBOriginallySingleMulti.Expand(RootBId, OriginallySingleMultiId);
+                case ResourceNameType.Unknown: return UnknownResource.ToString();
+                case ResourceNameType.RootAOriginallySingleMulti: return s_rootAOriginallySingleMulti.Expand(RootAId, OriginallySingleMultiId);
+                case ResourceNameType.RootBOriginallySingleMulti: return s_rootBOriginallySingleMulti.Expand(RootBId, OriginallySingleMultiId);
                 default: throw new sys::InvalidOperationException("Unrecognized resource-type.");
             }
         }

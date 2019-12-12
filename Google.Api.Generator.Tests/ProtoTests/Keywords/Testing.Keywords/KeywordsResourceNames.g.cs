@@ -23,12 +23,12 @@ namespace Testing.Keywords
     public sealed partial class ResourceName : gax::IResourceName, sys::IEquatable<ResourceName>
     {
         /// <summary>The possible contents of <see cref="ResourceName"/>.</summary>
-        public enum ResourceType
+        public enum ResourceNameType
         {
             /// <summary>A resource of an unknown type.</summary>
             Unknown = 0,
 
-            /// <summary>A resource of type 'item'.</summary>
+            /// <summary>A resource name with pattern <c>items/{item_id}</c>.</summary>
             Item = 1
         }
 
@@ -39,14 +39,14 @@ namespace Testing.Keywords
         /// <returns>
         /// A new instance of <see cref="ResourceName"/> containing the provided <paramref name="unknownResourceName"/>.
         /// </returns>
-        public static ResourceName CreateUnknown(gax::UnknownResourceName unknownResourceName) =>
-            new ResourceName(ResourceType.Unknown, gax::GaxPreconditions.CheckNotNull(unknownResourceName, nameof(unknownResourceName)));
+        public static ResourceName FromUnknown(gax::UnknownResourceName unknownResourceName) =>
+            new ResourceName(ResourceNameType.Unknown, gax::GaxPreconditions.CheckNotNull(unknownResourceName, nameof(unknownResourceName)));
 
         /// <summary>Creates a <see cref="ResourceName"/> with the pattern <c>items/{item_id}</c>.</summary>
         /// <param name="itemId">The <c>Item</c> ID. Must not be <c>null</c> or empty.</param>
         /// <returns>A new instance of <see cref="ResourceName"/> constructed from the provided ids.</returns>
-        public static ResourceName CreateItem(string itemId) =>
-            new ResourceName(ResourceType.Item, itemId: gax::GaxPreconditions.CheckNotNullOrEmpty(itemId, nameof(itemId)));
+        public static ResourceName FromItem(string itemId) =>
+            new ResourceName(ResourceNameType.Item, itemId: gax::GaxPreconditions.CheckNotNullOrEmpty(itemId, nameof(itemId)));
 
         /// <summary>
         /// Formats the IDs into the string representation of this <see cref="ResourceName"/> with pattern
@@ -136,14 +136,14 @@ namespace Testing.Keywords
             gax::TemplatedResourceName resourceName2;
             if (s_item.TryParseName(resourceName, out resourceName2))
             {
-                result = CreateItem(resourceName2[0]);
+                result = FromItem(resourceName2[0]);
                 return true;
             }
             if (allowUnknown)
             {
                 if (gax::UnknownResourceName.TryParse(resourceName, out gax::UnknownResourceName unknownResourceName))
                 {
-                    result = CreateUnknown(unknownResourceName);
+                    result = FromUnknown(unknownResourceName);
                     return true;
                 }
             }
@@ -151,7 +151,7 @@ namespace Testing.Keywords
             return false;
         }
 
-        private ResourceName(ResourceType type, gax::UnknownResourceName unknownResourceName = null, string itemId = null)
+        private ResourceName(ResourceNameType type, gax::UnknownResourceName unknownResourceName = null, string itemId = null)
         {
             Type = type;
             UnknownResource = unknownResourceName;
@@ -163,12 +163,12 @@ namespace Testing.Keywords
         /// <c>items/{item_id}</c>
         /// </summary>
         /// <param name="itemId">The <c>Item</c> ID. Must not be <c>null</c> or empty.</param>
-        public ResourceName(string itemId) : this(ResourceType.Item, itemId: gax::GaxPreconditions.CheckNotNullOrEmpty(itemId, nameof(itemId)))
+        public ResourceName(string itemId) : this(ResourceNameType.Item, itemId: gax::GaxPreconditions.CheckNotNullOrEmpty(itemId, nameof(itemId)))
         {
         }
 
-        /// <summary>The <see cref="ResourceType"/> of the contained resource name.</summary>
-        public ResourceType Type { get; }
+        /// <summary>The <see cref="ResourceNameType"/> of the contained resource name.</summary>
+        public ResourceNameType Type { get; }
 
         /// <summary>
         /// The contained <see cref="gax::UnknownResourceName"/>. Only non-<c>null</c>if this instance contains an
@@ -182,15 +182,15 @@ namespace Testing.Keywords
         public string ItemId { get; }
 
         /// <inheritdoc/>
-        public gax::ResourceNameKind Kind => Type == ResourceType.Unknown ? gax::ResourceNameKind.Unknown : gax::ResourceNameKind.Simple;
+        public gax::ResourceNameKind Kind => Type == ResourceNameType.Unknown ? gax::ResourceNameKind.Unknown : gax::ResourceNameKind.Simple;
 
         /// <inheritdoc/>
         public override string ToString()
         {
             switch (Type)
             {
-                case ResourceType.Unknown: return UnknownResource.ToString();
-                case ResourceType.Item: return s_item.Expand(ItemId);
+                case ResourceNameType.Unknown: return UnknownResource.ToString();
+                case ResourceNameType.Item: return s_item.Expand(ItemId);
                 default: throw new sys::InvalidOperationException("Unrecognized resource-type.");
             }
         }

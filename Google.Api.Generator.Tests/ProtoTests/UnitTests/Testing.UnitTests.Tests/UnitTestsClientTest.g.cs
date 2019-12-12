@@ -107,20 +107,20 @@ namespace Testing.UnitTests.Tests
                 {
                     ValuesRequest.Types.NestedEnum.Default,
                 },
-                SingleResourceNameAsAResourceName = AResourceName.CreateItemPart("[ITEM_ID]", "[PART_ID]"),
+                SingleResourceNameAsAResourceName = AResourceName.FromItemPart("[ITEM_ID]", "[PART_ID]"),
                 RepeatedResourceNameAsAResourceNames =
                 {
-                    AResourceName.CreateItemPart("[ITEM_ID]", "[PART_ID]"),
+                    AResourceName.FromItemPart("[ITEM_ID]", "[PART_ID]"),
                 },
                 SingleWildcardResourceAsResourceName = new gax::UnknownResourceName("a/wildcard/resource"),
                 RepeatedWildcardResourceAsResourceNames =
                 {
                     new gax::UnknownResourceName("a/wildcard/resource"),
                 },
-                MultiPatternResourceNameAsMultiPatternResourceName = MultiPatternResourceName.CreateRootAItem("[ROOT_A_ID]", "[ITEM_ID]"),
+                MultiPatternResourceNameAsMultiPatternResourceName = MultiPatternResourceName.FromRootAItem("[ROOT_A_ID]", "[ITEM_ID]"),
                 RepeatedMultiPatternResourceNameAsMultiPatternResourceNames =
                 {
-                    MultiPatternResourceName.CreateRootAItem("[ROOT_A_ID]", "[ITEM_ID]"),
+                    MultiPatternResourceName.FromRootAItem("[ROOT_A_ID]", "[ITEM_ID]"),
                 },
                 MapIntString =
                 {
@@ -216,20 +216,20 @@ namespace Testing.UnitTests.Tests
                 {
                     ValuesRequest.Types.NestedEnum.Default,
                 },
-                SingleResourceNameAsAResourceName = AResourceName.CreateItemPart("[ITEM_ID]", "[PART_ID]"),
+                SingleResourceNameAsAResourceName = AResourceName.FromItemPart("[ITEM_ID]", "[PART_ID]"),
                 RepeatedResourceNameAsAResourceNames =
                 {
-                    AResourceName.CreateItemPart("[ITEM_ID]", "[PART_ID]"),
+                    AResourceName.FromItemPart("[ITEM_ID]", "[PART_ID]"),
                 },
                 SingleWildcardResourceAsResourceName = new gax::UnknownResourceName("a/wildcard/resource"),
                 RepeatedWildcardResourceAsResourceNames =
                 {
                     new gax::UnknownResourceName("a/wildcard/resource"),
                 },
-                MultiPatternResourceNameAsMultiPatternResourceName = MultiPatternResourceName.CreateRootAItem("[ROOT_A_ID]", "[ITEM_ID]"),
+                MultiPatternResourceNameAsMultiPatternResourceName = MultiPatternResourceName.FromRootAItem("[ROOT_A_ID]", "[ITEM_ID]"),
                 RepeatedMultiPatternResourceNameAsMultiPatternResourceNames =
                 {
-                    MultiPatternResourceName.CreateRootAItem("[ROOT_A_ID]", "[ITEM_ID]"),
+                    MultiPatternResourceName.FromRootAItem("[ROOT_A_ID]", "[ITEM_ID]"),
                 },
                 MapIntString =
                 {
@@ -303,7 +303,7 @@ namespace Testing.UnitTests.Tests
                 },
                 RepeatedResourceNameAsAResourceNames =
                 {
-                    AResourceName.CreateItemPart("[ITEM_ID]", "[PART_ID]"),
+                    AResourceName.FromItemPart("[ITEM_ID]", "[PART_ID]"),
                 },
             };
             Response expectedResponse = new Response { };
@@ -332,7 +332,7 @@ namespace Testing.UnitTests.Tests
                 },
                 RepeatedResourceNameAsAResourceNames =
                 {
-                    AResourceName.CreateItemPart("[ITEM_ID]", "[PART_ID]"),
+                    AResourceName.FromItemPart("[ITEM_ID]", "[PART_ID]"),
                 },
             };
             Response expectedResponse = new Response { };
@@ -363,7 +363,7 @@ namespace Testing.UnitTests.Tests
                 },
                 RepeatedResourceNameAsAResourceNames =
                 {
-                    AResourceName.CreateItemPart("[ITEM_ID]", "[PART_ID]"),
+                    AResourceName.FromItemPart("[ITEM_ID]", "[PART_ID]"),
                 },
             };
             Response expectedResponse = new Response { };
@@ -392,7 +392,7 @@ namespace Testing.UnitTests.Tests
                 },
                 RepeatedResourceNameAsAResourceNames =
                 {
-                    AResourceName.CreateItemPart("[ITEM_ID]", "[PART_ID]"),
+                    AResourceName.FromItemPart("[ITEM_ID]", "[PART_ID]"),
                 },
             };
             Response expectedResponse = new Response { };

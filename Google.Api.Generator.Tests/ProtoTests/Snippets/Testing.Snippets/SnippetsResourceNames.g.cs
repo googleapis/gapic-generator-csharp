@@ -24,12 +24,12 @@ namespace Testing.Snippets
     public sealed partial class AResourceName : gax::IResourceName, sys::IEquatable<AResourceName>
     {
         /// <summary>The possible contents of <see cref="AResourceName"/>.</summary>
-        public enum ResourceType
+        public enum ResourceNameType
         {
             /// <summary>A resource of an unknown type.</summary>
             Unknown = 0,
 
-            /// <summary>A resource of type 'item'.</summary>
+            /// <summary>A resource name with pattern <c>items/{item_id}/parts/{part_id}</c>.</summary>
             ItemPart = 1
         }
 
@@ -41,8 +41,8 @@ namespace Testing.Snippets
         /// A new instance of <see cref="AResourceName"/> containing the provided <paramref name="unknownResourceName"/>
         /// .
         /// </returns>
-        public static AResourceName CreateUnknown(gax::UnknownResourceName unknownResourceName) =>
-            new AResourceName(ResourceType.Unknown, gax::GaxPreconditions.CheckNotNull(unknownResourceName, nameof(unknownResourceName)));
+        public static AResourceName FromUnknown(gax::UnknownResourceName unknownResourceName) =>
+            new AResourceName(ResourceNameType.Unknown, gax::GaxPreconditions.CheckNotNull(unknownResourceName, nameof(unknownResourceName)));
 
         /// <summary>
         /// Creates a <see cref="AResourceName"/> with the pattern <c>items/{item_id}/parts/{part_id}</c>.
@@ -50,8 +50,8 @@ namespace Testing.Snippets
         /// <param name="itemId">The <c>Item</c> ID. Must not be <c>null</c> or empty.</param>
         /// <param name="partId">The <c>Part</c> ID. Must not be <c>null</c> or empty.</param>
         /// <returns>A new instance of <see cref="AResourceName"/> constructed from the provided ids.</returns>
-        public static AResourceName CreateItemPart(string itemId, string partId) =>
-            new AResourceName(ResourceType.ItemPart, itemId: gax::GaxPreconditions.CheckNotNullOrEmpty(itemId, nameof(itemId)), partId: gax::GaxPreconditions.CheckNotNullOrEmpty(partId, nameof(partId)));
+        public static AResourceName FromItemPart(string itemId, string partId) =>
+            new AResourceName(ResourceNameType.ItemPart, itemId: gax::GaxPreconditions.CheckNotNullOrEmpty(itemId, nameof(itemId)), partId: gax::GaxPreconditions.CheckNotNullOrEmpty(partId, nameof(partId)));
 
         /// <summary>
         /// Formats the IDs into the string representation of this <see cref="AResourceName"/> with pattern
@@ -145,14 +145,14 @@ namespace Testing.Snippets
             gax::TemplatedResourceName resourceName;
             if (s_itemPart.TryParseName(aResourceName, out resourceName))
             {
-                result = CreateItemPart(resourceName[0], resourceName[1]);
+                result = FromItemPart(resourceName[0], resourceName[1]);
                 return true;
             }
             if (allowUnknown)
             {
                 if (gax::UnknownResourceName.TryParse(aResourceName, out gax::UnknownResourceName unknownResourceName))
                 {
-                    result = CreateUnknown(unknownResourceName);
+                    result = FromUnknown(unknownResourceName);
                     return true;
                 }
             }
@@ -160,7 +160,7 @@ namespace Testing.Snippets
             return false;
         }
 
-        private AResourceName(ResourceType type, gax::UnknownResourceName unknownResourceName = null, string itemId = null, string partId = null)
+        private AResourceName(ResourceNameType type, gax::UnknownResourceName unknownResourceName = null, string itemId = null, string partId = null)
         {
             Type = type;
             UnknownResource = unknownResourceName;
@@ -174,12 +174,12 @@ namespace Testing.Snippets
         /// </summary>
         /// <param name="itemId">The <c>Item</c> ID. Must not be <c>null</c> or empty.</param>
         /// <param name="partId">The <c>Part</c> ID. Must not be <c>null</c> or empty.</param>
-        public AResourceName(string itemId, string partId) : this(ResourceType.ItemPart, itemId: gax::GaxPreconditions.CheckNotNullOrEmpty(itemId, nameof(itemId)), partId: gax::GaxPreconditions.CheckNotNullOrEmpty(partId, nameof(partId)))
+        public AResourceName(string itemId, string partId) : this(ResourceNameType.ItemPart, itemId: gax::GaxPreconditions.CheckNotNullOrEmpty(itemId, nameof(itemId)), partId: gax::GaxPreconditions.CheckNotNullOrEmpty(partId, nameof(partId)))
         {
         }
 
-        /// <summary>The <see cref="ResourceType"/> of the contained resource name.</summary>
-        public ResourceType Type { get; }
+        /// <summary>The <see cref="ResourceNameType"/> of the contained resource name.</summary>
+        public ResourceNameType Type { get; }
 
         /// <summary>
         /// The contained <see cref="gax::UnknownResourceName"/>. Only non-<c>null</c>if this instance contains an
@@ -198,15 +198,15 @@ namespace Testing.Snippets
         public string PartId { get; }
 
         /// <inheritdoc/>
-        public gax::ResourceNameKind Kind => Type == ResourceType.Unknown ? gax::ResourceNameKind.Unknown : gax::ResourceNameKind.Simple;
+        public gax::ResourceNameKind Kind => Type == ResourceNameType.Unknown ? gax::ResourceNameKind.Unknown : gax::ResourceNameKind.Simple;
 
         /// <inheritdoc/>
         public override string ToString()
         {
             switch (Type)
             {
-                case ResourceType.Unknown: return UnknownResource.ToString();
-                case ResourceType.ItemPart: return s_itemPart.Expand(ItemId, PartId);
+                case ResourceNameType.Unknown: return UnknownResource.ToString();
+                case ResourceNameType.ItemPart: return s_itemPart.Expand(ItemId, PartId);
                 default: throw new sys::InvalidOperationException("Unrecognized resource-type.");
             }
         }
@@ -231,15 +231,15 @@ namespace Testing.Snippets
     public sealed partial class MultiPatternResourceName : gax::IResourceName, sys::IEquatable<MultiPatternResourceName>
     {
         /// <summary>The possible contents of <see cref="MultiPatternResourceName"/>.</summary>
-        public enum ResourceType
+        public enum ResourceNameType
         {
             /// <summary>A resource of an unknown type.</summary>
             Unknown = 0,
 
-            /// <summary>A resource of type 'root_a'.</summary>
+            /// <summary>A resource name with pattern <c>root/{root_a_id}/items/{item_id}</c>.</summary>
             RootAItem = 1,
 
-            /// <summary>A resource of type 'root_b'.</summary>
+            /// <summary>A resource name with pattern <c>root/{root_b_id}/items/{item_id}</c>.</summary>
             RootBItem = 2
         }
 
@@ -253,8 +253,8 @@ namespace Testing.Snippets
         /// A new instance of <see cref="MultiPatternResourceName"/> containing the provided
         /// <paramref name="unknownResourceName"/>.
         /// </returns>
-        public static MultiPatternResourceName CreateUnknown(gax::UnknownResourceName unknownResourceName) =>
-            new MultiPatternResourceName(ResourceType.Unknown, gax::GaxPreconditions.CheckNotNull(unknownResourceName, nameof(unknownResourceName)));
+        public static MultiPatternResourceName FromUnknown(gax::UnknownResourceName unknownResourceName) =>
+            new MultiPatternResourceName(ResourceNameType.Unknown, gax::GaxPreconditions.CheckNotNull(unknownResourceName, nameof(unknownResourceName)));
 
         /// <summary>
         /// Creates a <see cref="MultiPatternResourceName"/> with the pattern <c>root/{root_a_id}/items/{item_id}</c>.
@@ -264,8 +264,8 @@ namespace Testing.Snippets
         /// <returns>
         /// A new instance of <see cref="MultiPatternResourceName"/> constructed from the provided ids.
         /// </returns>
-        public static MultiPatternResourceName CreateRootAItem(string rootAId, string itemId) =>
-            new MultiPatternResourceName(ResourceType.RootAItem, rootAId: gax::GaxPreconditions.CheckNotNullOrEmpty(rootAId, nameof(rootAId)), itemId: gax::GaxPreconditions.CheckNotNullOrEmpty(itemId, nameof(itemId)));
+        public static MultiPatternResourceName FromRootAItem(string rootAId, string itemId) =>
+            new MultiPatternResourceName(ResourceNameType.RootAItem, rootAId: gax::GaxPreconditions.CheckNotNullOrEmpty(rootAId, nameof(rootAId)), itemId: gax::GaxPreconditions.CheckNotNullOrEmpty(itemId, nameof(itemId)));
 
         /// <summary>
         /// Creates a <see cref="MultiPatternResourceName"/> with the pattern <c>root/{root_b_id}/items/{item_id}</c>.
@@ -275,8 +275,8 @@ namespace Testing.Snippets
         /// <returns>
         /// A new instance of <see cref="MultiPatternResourceName"/> constructed from the provided ids.
         /// </returns>
-        public static MultiPatternResourceName CreateRootBItem(string rootBId, string itemId) =>
-            new MultiPatternResourceName(ResourceType.RootBItem, rootBId: gax::GaxPreconditions.CheckNotNullOrEmpty(rootBId, nameof(rootBId)), itemId: gax::GaxPreconditions.CheckNotNullOrEmpty(itemId, nameof(itemId)));
+        public static MultiPatternResourceName FromRootBItem(string rootBId, string itemId) =>
+            new MultiPatternResourceName(ResourceNameType.RootBItem, rootBId: gax::GaxPreconditions.CheckNotNullOrEmpty(rootBId, nameof(rootBId)), itemId: gax::GaxPreconditions.CheckNotNullOrEmpty(itemId, nameof(itemId)));
 
         /// <summary>
         /// Formats the IDs into the string representation of this <see cref="MultiPatternResourceName"/> with pattern
@@ -401,19 +401,19 @@ namespace Testing.Snippets
             gax::TemplatedResourceName resourceName;
             if (s_rootAItem.TryParseName(multiPatternResourceName, out resourceName))
             {
-                result = CreateRootAItem(resourceName[0], resourceName[1]);
+                result = FromRootAItem(resourceName[0], resourceName[1]);
                 return true;
             }
             if (s_rootBItem.TryParseName(multiPatternResourceName, out resourceName))
             {
-                result = CreateRootBItem(resourceName[0], resourceName[1]);
+                result = FromRootBItem(resourceName[0], resourceName[1]);
                 return true;
             }
             if (allowUnknown)
             {
                 if (gax::UnknownResourceName.TryParse(multiPatternResourceName, out gax::UnknownResourceName unknownResourceName))
                 {
-                    result = CreateUnknown(unknownResourceName);
+                    result = FromUnknown(unknownResourceName);
                     return true;
                 }
             }
@@ -421,7 +421,7 @@ namespace Testing.Snippets
             return false;
         }
 
-        private MultiPatternResourceName(ResourceType type, gax::UnknownResourceName unknownResourceName = null, string itemId = null, string rootAId = null, string rootBId = null)
+        private MultiPatternResourceName(ResourceNameType type, gax::UnknownResourceName unknownResourceName = null, string itemId = null, string rootAId = null, string rootBId = null)
         {
             Type = type;
             UnknownResource = unknownResourceName;
@@ -436,12 +436,12 @@ namespace Testing.Snippets
         /// </summary>
         /// <param name="rootAId">The <c>RootA</c> ID. Must not be <c>null</c> or empty.</param>
         /// <param name="itemId">The <c>Item</c> ID. Must not be <c>null</c> or empty.</param>
-        public MultiPatternResourceName(string rootAId, string itemId) : this(ResourceType.RootAItem, rootAId: gax::GaxPreconditions.CheckNotNullOrEmpty(rootAId, nameof(rootAId)), itemId: gax::GaxPreconditions.CheckNotNullOrEmpty(itemId, nameof(itemId)))
+        public MultiPatternResourceName(string rootAId, string itemId) : this(ResourceNameType.RootAItem, rootAId: gax::GaxPreconditions.CheckNotNullOrEmpty(rootAId, nameof(rootAId)), itemId: gax::GaxPreconditions.CheckNotNullOrEmpty(itemId, nameof(itemId)))
         {
         }
 
-        /// <summary>The <see cref="ResourceType"/> of the contained resource name.</summary>
-        public ResourceType Type { get; }
+        /// <summary>The <see cref="ResourceNameType"/> of the contained resource name.</summary>
+        public ResourceNameType Type { get; }
 
         /// <summary>
         /// The contained <see cref="gax::UnknownResourceName"/>. Only non-<c>null</c>if this instance contains an
@@ -465,16 +465,16 @@ namespace Testing.Snippets
         public string RootBId { get; }
 
         /// <inheritdoc/>
-        public gax::ResourceNameKind Kind => Type == ResourceType.Unknown ? gax::ResourceNameKind.Unknown : gax::ResourceNameKind.Oneof;
+        public gax::ResourceNameKind Kind => Type == ResourceNameType.Unknown ? gax::ResourceNameKind.Unknown : gax::ResourceNameKind.Oneof;
 
         /// <inheritdoc/>
         public override string ToString()
         {
             switch (Type)
             {
-                case ResourceType.Unknown: return UnknownResource.ToString();
-                case ResourceType.RootAItem: return s_rootAItem.Expand(RootAId, ItemId);
-                case ResourceType.RootBItem: return s_rootBItem.Expand(RootBId, ItemId);
+                case ResourceNameType.Unknown: return UnknownResource.ToString();
+                case ResourceNameType.RootAItem: return s_rootAItem.Expand(RootAId, ItemId);
+                case ResourceNameType.RootBItem: return s_rootBItem.Expand(RootBId, ItemId);
                 default: throw new sys::InvalidOperationException("Unrecognized resource-type.");
             }
         }
@@ -499,12 +499,12 @@ namespace Testing.Snippets
     public sealed partial class SimpleResourceName : gax::IResourceName, sys::IEquatable<SimpleResourceName>
     {
         /// <summary>The possible contents of <see cref="SimpleResourceName"/>.</summary>
-        public enum ResourceType
+        public enum ResourceNameType
         {
             /// <summary>A resource of an unknown type.</summary>
             Unknown = 0,
 
-            /// <summary>A resource of type 'item'.</summary>
+            /// <summary>A resource name with pattern <c>items/{item_id}</c>.</summary>
             Item = 1
         }
 
@@ -516,14 +516,14 @@ namespace Testing.Snippets
         /// A new instance of <see cref="SimpleResourceName"/> containing the provided
         /// <paramref name="unknownResourceName"/>.
         /// </returns>
-        public static SimpleResourceName CreateUnknown(gax::UnknownResourceName unknownResourceName) =>
-            new SimpleResourceName(ResourceType.Unknown, gax::GaxPreconditions.CheckNotNull(unknownResourceName, nameof(unknownResourceName)));
+        public static SimpleResourceName FromUnknown(gax::UnknownResourceName unknownResourceName) =>
+            new SimpleResourceName(ResourceNameType.Unknown, gax::GaxPreconditions.CheckNotNull(unknownResourceName, nameof(unknownResourceName)));
 
         /// <summary>Creates a <see cref="SimpleResourceName"/> with the pattern <c>items/{item_id}</c>.</summary>
         /// <param name="itemId">The <c>Item</c> ID. Must not be <c>null</c> or empty.</param>
         /// <returns>A new instance of <see cref="SimpleResourceName"/> constructed from the provided ids.</returns>
-        public static SimpleResourceName CreateItem(string itemId) =>
-            new SimpleResourceName(ResourceType.Item, itemId: gax::GaxPreconditions.CheckNotNullOrEmpty(itemId, nameof(itemId)));
+        public static SimpleResourceName FromItem(string itemId) =>
+            new SimpleResourceName(ResourceNameType.Item, itemId: gax::GaxPreconditions.CheckNotNullOrEmpty(itemId, nameof(itemId)));
 
         /// <summary>
         /// Formats the IDs into the string representation of this <see cref="SimpleResourceName"/> with pattern
@@ -616,14 +616,14 @@ namespace Testing.Snippets
             gax::TemplatedResourceName resourceName;
             if (s_item.TryParseName(simpleResourceName, out resourceName))
             {
-                result = CreateItem(resourceName[0]);
+                result = FromItem(resourceName[0]);
                 return true;
             }
             if (allowUnknown)
             {
                 if (gax::UnknownResourceName.TryParse(simpleResourceName, out gax::UnknownResourceName unknownResourceName))
                 {
-                    result = CreateUnknown(unknownResourceName);
+                    result = FromUnknown(unknownResourceName);
                     return true;
                 }
             }
@@ -631,7 +631,7 @@ namespace Testing.Snippets
             return false;
         }
 
-        private SimpleResourceName(ResourceType type, gax::UnknownResourceName unknownResourceName = null, string itemId = null)
+        private SimpleResourceName(ResourceNameType type, gax::UnknownResourceName unknownResourceName = null, string itemId = null)
         {
             Type = type;
             UnknownResource = unknownResourceName;
@@ -643,12 +643,12 @@ namespace Testing.Snippets
         /// <c>items/{item_id}</c>
         /// </summary>
         /// <param name="itemId">The <c>Item</c> ID. Must not be <c>null</c> or empty.</param>
-        public SimpleResourceName(string itemId) : this(ResourceType.Item, itemId: gax::GaxPreconditions.CheckNotNullOrEmpty(itemId, nameof(itemId)))
+        public SimpleResourceName(string itemId) : this(ResourceNameType.Item, itemId: gax::GaxPreconditions.CheckNotNullOrEmpty(itemId, nameof(itemId)))
         {
         }
 
-        /// <summary>The <see cref="ResourceType"/> of the contained resource name.</summary>
-        public ResourceType Type { get; }
+        /// <summary>The <see cref="ResourceNameType"/> of the contained resource name.</summary>
+        public ResourceNameType Type { get; }
 
         /// <summary>
         /// The contained <see cref="gax::UnknownResourceName"/>. Only non-<c>null</c>if this instance contains an
@@ -662,15 +662,15 @@ namespace Testing.Snippets
         public string ItemId { get; }
 
         /// <inheritdoc/>
-        public gax::ResourceNameKind Kind => Type == ResourceType.Unknown ? gax::ResourceNameKind.Unknown : gax::ResourceNameKind.Simple;
+        public gax::ResourceNameKind Kind => Type == ResourceNameType.Unknown ? gax::ResourceNameKind.Unknown : gax::ResourceNameKind.Simple;
 
         /// <inheritdoc/>
         public override string ToString()
         {
             switch (Type)
             {
-                case ResourceType.Unknown: return UnknownResource.ToString();
-                case ResourceType.Item: return s_item.Expand(ItemId);
+                case ResourceNameType.Unknown: return UnknownResource.ToString();
+                case ResourceNameType.Item: return s_item.Expand(ItemId);
                 default: throw new sys::InvalidOperationException("Unrecognized resource-type.");
             }
         }

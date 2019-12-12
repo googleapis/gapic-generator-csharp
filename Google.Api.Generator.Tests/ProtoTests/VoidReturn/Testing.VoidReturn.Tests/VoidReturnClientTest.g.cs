@@ -36,7 +36,7 @@ namespace Testing.VoidReturn.Tests
             moq::Mock<VoidReturn.VoidReturnClient> mockGrpcClient = new moq::Mock<VoidReturn.VoidReturnClient>(moq::MockBehavior.Strict);
             Request request = new Request
             {
-                ResourceName = ResourceName.CreateItem("[ITEM_ID]"),
+                ResourceName = ResourceName.FromItem("[ITEM_ID]"),
             };
             wkt::Empty expectedResponse = new wkt::Empty { };
             mockGrpcClient.Setup(x => x.VoidMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
@@ -52,7 +52,7 @@ namespace Testing.VoidReturn.Tests
             moq::Mock<VoidReturn.VoidReturnClient> mockGrpcClient = new moq::Mock<VoidReturn.VoidReturnClient>(moq::MockBehavior.Strict);
             Request request = new Request
             {
-                ResourceName = ResourceName.CreateItem("[ITEM_ID]"),
+                ResourceName = ResourceName.FromItem("[ITEM_ID]"),
             };
             wkt::Empty expectedResponse = new wkt::Empty { };
             mockGrpcClient.Setup(x => x.VoidMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<wkt::Empty>(stt::Task.FromResult(expectedResponse), null, null, null, null));
@@ -69,7 +69,7 @@ namespace Testing.VoidReturn.Tests
             moq::Mock<VoidReturn.VoidReturnClient> mockGrpcClient = new moq::Mock<VoidReturn.VoidReturnClient>(moq::MockBehavior.Strict);
             Request request = new Request
             {
-                ResourceName = ResourceName.CreateItem("[ITEM_ID]"),
+                ResourceName = ResourceName.FromItem("[ITEM_ID]"),
             };
             wkt::Empty expectedResponse = new wkt::Empty { };
             mockGrpcClient.Setup(x => x.VoidMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
@@ -85,7 +85,7 @@ namespace Testing.VoidReturn.Tests
             moq::Mock<VoidReturn.VoidReturnClient> mockGrpcClient = new moq::Mock<VoidReturn.VoidReturnClient>(moq::MockBehavior.Strict);
             Request request = new Request
             {
-                ResourceName = ResourceName.CreateItem("[ITEM_ID]"),
+                ResourceName = ResourceName.FromItem("[ITEM_ID]"),
             };
             wkt::Empty expectedResponse = new wkt::Empty { };
             mockGrpcClient.Setup(x => x.VoidMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<wkt::Empty>(stt::Task.FromResult(expectedResponse), null, null, null, null));
@@ -102,7 +102,7 @@ namespace Testing.VoidReturn.Tests
             moq::Mock<VoidReturn.VoidReturnClient> mockGrpcClient = new moq::Mock<VoidReturn.VoidReturnClient>(moq::MockBehavior.Strict);
             Request request = new Request
             {
-                ResourceName = ResourceName.CreateItem("[ITEM_ID]"),
+                ResourceName = ResourceName.FromItem("[ITEM_ID]"),
             };
             wkt::Empty expectedResponse = new wkt::Empty { };
             mockGrpcClient.Setup(x => x.VoidMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
@@ -118,7 +118,7 @@ namespace Testing.VoidReturn.Tests
             moq::Mock<VoidReturn.VoidReturnClient> mockGrpcClient = new moq::Mock<VoidReturn.VoidReturnClient>(moq::MockBehavior.Strict);
             Request request = new Request
             {
-                ResourceName = ResourceName.CreateItem("[ITEM_ID]"),
+                ResourceName = ResourceName.FromItem("[ITEM_ID]"),
             };
             wkt::Empty expectedResponse = new wkt::Empty { };
             mockGrpcClient.Setup(x => x.VoidMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<wkt::Empty>(stt::Task.FromResult(expectedResponse), null, null, null, null));

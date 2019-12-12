@@ -174,7 +174,7 @@ namespace Google.Api.Generator.Generation
                     {
                         @default = def.IsWildcard ?
                             (object)New(Ctx.Type<UnknownResourceName>())("a/wildcard/resource") :
-                            Ctx.Type(def.ResourceNameTyp).Call($"Create{string.Join("", def.Patterns[0].Template.ParameterNames.Select(x => x.RemoveSuffix("_id").ToUpperCamelCase()))}")
+                            Ctx.Type(def.ResourceNameTyp).Call($"From{string.Join("", def.Patterns[0].Template.ParameterNames.Select(x => x.RemoveSuffix("_id").ToUpperCamelCase()))}")
                                 (def.Patterns[0].Template.ParameterNames.Select(x => $"[{x.ToUpperInvariant()}]"));
                     }
                     return fieldDesc.IsRepeated ? Collection(@default, resourceNameAsString ? null : def.ResourceNameTyp) : @default;

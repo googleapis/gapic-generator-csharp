@@ -64,7 +64,6 @@ namespace Google.Api.Generator.Generation
                 {
                     var nameWithoutId = rawPathElement.RemoveSuffix("_id");
                     var nameWithId = $"{nameWithoutId}_id";
-                    DocName = nameWithoutId;
                     UpperCamel = nameWithoutId.ToUpperCamelCase();
                     LowerCamel = nameWithoutId.ToLowerCamelCase();
                     Parameter = RoslynBuilder.Parameter(ctx.Type<string>(), nameWithId.ToLowerCamelCase());
@@ -77,7 +76,6 @@ namespace Google.Api.Generator.Generation
                         .WithXmlDoc(XmlDoc.Summary(new object[] { "The ", XmlDoc.C(nameWithoutId.ToUpperCamelCase()), " ID. " }.Concat(summarySuffix).ToArray()));
                 }
 
-                public string DocName { get; }
                 public string UpperCamel { get; }
                 public string LowerCamel { get; }
                 public ParameterSyntax Parameter { get; }
@@ -115,7 +113,7 @@ namespace Google.Api.Generator.Generation
             {
                 _ctx = ctx;
                 _def = def;
-                ResourceTypeEnumTyp = Typ.Nested(def.ResourceNameTyp, "ResourceType", isEnum: true);
+                ResourceNameTypeTyp = Typ.Nested(def.ResourceNameTyp, "ResourceNameType", isEnum: true);
                 PatternDetails = _def.Patterns.Select(x => new PatternDetails(ctx, def, x)).ToList();
             }
 
@@ -130,8 +128,8 @@ namespace Google.Api.Generator.Generation
                 {
                     cls = cls.AddMembers(ResourceTypeEnum());
                     cls = cls.AddMembers(TemplateFields().ToArray());
-                    cls = cls.AddMembers(CreateUnknownMethod());
-                    cls = cls.AddMembers(CreateMethods().ToArray());
+                    cls = cls.AddMembers(FromUnknownMethod());
+                    cls = cls.AddMembers(FromMethods().ToArray());
                     cls = cls.AddMembers(FormatMethods().ToArray());
                     cls = cls.AddMembers(ParseMethods().ToArray());
                     cls = cls.AddMembers(Constructors(cls).ToArray());
@@ -149,27 +147,27 @@ namespace Google.Api.Generator.Generation
                 return cls;
             }
 
-            private Typ ResourceTypeEnumTyp { get; }
+            private Typ ResourceNameTypeTyp { get; }
 
             private IReadOnlyList<PatternDetails> PatternDetails { get; }
 
             private EnumDeclarationSyntax ResourceTypeEnum()
             {
                 var resources = PatternDetails.Select((x, i) => EnumMember(x.UpperName, value: i + 1).WithXmlDoc(
-                    XmlDoc.Summary($"A resource of type '{x.PathElements.TakeLast(2).First().DocName}'.")))
+                    XmlDoc.Summary("A resource name with pattern ", XmlDoc.C(x.PatternString), ".")))
                     .Prepend(EnumMember("Unknown", value: 0).WithXmlDoc(XmlDoc.Summary("A resource of an unknown type.")));
-                return Enum(Public, ResourceTypeEnumTyp)(resources.ToArray())
+                return Enum(Public, ResourceNameTypeTyp)(resources.ToArray())
                     .WithXmlDoc(XmlDoc.Summary("The possible contents of ", _ctx.Type(_def.ResourceNameTyp), "."));
             }
 
             private IEnumerable<FieldDeclarationSyntax> TemplateFields() => PatternDetails.Select(x => x.PathTemplateField);
 
-            private MethodDeclarationSyntax CreateUnknownMethod()
+            private MethodDeclarationSyntax FromUnknownMethod()
             {
                 var unknownResourceName = Parameter(_ctx.Type<UnknownResourceName>(), "unknownResourceName");
-                return Method(Public | Static, _ctx.Type(_def.ResourceNameTyp), "CreateUnknown")(unknownResourceName)
+                return Method(Public | Static, _ctx.Type(_def.ResourceNameTyp), "FromUnknown")(unknownResourceName)
                     .WithBody(Return(New(_ctx.Type(_def.ResourceNameTyp))(
-                        _ctx.Type(ResourceTypeEnumTyp).Access("Unknown"),
+                        _ctx.Type(ResourceNameTypeTyp).Access("Unknown"),
                         _ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(unknownResourceName, Nameof(unknownResourceName)))))
                     .WithXmlDoc(
                         XmlDoc.Summary("Creates a ", _ctx.Type(_def.ResourceNameTyp), " containing an unknown resource name."),
@@ -177,17 +175,17 @@ namespace Google.Api.Generator.Generation
                         XmlDoc.Returns("A new instance of ", _ctx.Type(_def.ResourceNameTyp), " containing the provided ", unknownResourceName, "."));
             }
 
-            private IEnumerable<MethodDeclarationSyntax> CreateMethods()
+            private IEnumerable<MethodDeclarationSyntax> FromMethods()
             {
                 foreach (var pattern in PatternDetails)
                 {
                     var xmlDocSummary = XmlDoc.Summary($"Creates a ", _ctx.Type(_def.ResourceNameTyp), " with the pattern ", XmlDoc.C(pattern.PatternString), ".");
                     var xmlDocReturns = XmlDoc.Returns("A new instance of ", _ctx.Type(_def.ResourceNameTyp), " constructed from the provided ids.");
-                    yield return Method(Public | Static, _ctx.Type(_def.ResourceNameTyp), $"Create{pattern.UpperName}")(pattern.PathElements.Select(x => x.Parameter).ToArray())
+                    yield return Method(Public | Static, _ctx.Type(_def.ResourceNameTyp), $"From{pattern.UpperName}")(pattern.PathElements.Select(x => x.Parameter).ToArray())
                         .WithBody(Return(New(_ctx.Type(_def.ResourceNameTyp))(
                             pattern.PathElements.Select(x => (object)(x.Parameter.Identifier.ValueText, _ctx.Type(typeof(GaxPreconditions))
                                 .Call(nameof(GaxPreconditions.CheckNotNullOrEmpty))(x.Parameter, Nameof(x.Parameter))))
-                                .Prepend(_ctx.Type(ResourceTypeEnumTyp).Access(pattern.UpperName)).ToArray())))
+                                .Prepend(_ctx.Type(ResourceNameTypeTyp).Access(pattern.UpperName)).ToArray())))
                         .WithXmlDoc(pattern.PathElements.Select(x => x.ParameterXmlDoc).Prepend(xmlDocSummary).Append(xmlDocReturns).ToArray());
                 }
             }
@@ -230,7 +228,7 @@ namespace Google.Api.Generator.Generation
                     .WithBody(
                         _ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(name, Nameof(name)),
                         resourceName,
-                        PatternDetails.Zip(CreateMethods(), (pattern, create) =>
+                        PatternDetails.Zip(FromMethods(), (pattern, create) =>
                         {
                             var elements = Enumerable.Range(0, pattern.PathElements.Count).Select(i => resourceName.ElementAccess(i));
                             return If(pattern.PathTemplateField.Call(nameof(PathTemplate.TryParseName))(name, Out(resourceName))).Then(
@@ -239,7 +237,7 @@ namespace Google.Api.Generator.Generation
                         }),
                         If(allowUnknown).Then(
                             If(_ctx.Type<UnknownResourceName>().Call(nameof(UnknownResourceName.TryParse))(name, OutVar(unknownResourceName))).Then(
-                                result.Assign(This.Call(CreateUnknownMethod())(unknownResourceName)),
+                                result.Assign(This.Call(FromUnknownMethod())(unknownResourceName)),
                                 Return(true))),
                         result.Assign(Null),
                         Return(false)
@@ -301,7 +299,7 @@ namespace Google.Api.Generator.Generation
             private IEnumerable<ConstructorDeclarationSyntax> Constructors(ClassDeclarationSyntax cls)
             {
                 // Ctor for any pattern
-                var type = Parameter(_ctx.Type(ResourceTypeEnumTyp), "type");
+                var type = Parameter(_ctx.Type(ResourceNameTypeTyp), "type");
                 var unknownResourceName = Parameter(_ctx.Type<UnknownResourceName>(), "unknownResourceName", @default: Null);
                 var parameters = PatternDetails.SelectMany(pattern => pattern.PathElements).ToImmutableHashSet(PathElementByNameComparer.Instance).OrderBy(x => x.LowerCamel);
                 var ctor = Ctor(Private, cls)(parameters.Select(x => x.ParameterWithDefault).Prepend(unknownResourceName).Prepend(type).ToArray())
@@ -313,7 +311,7 @@ namespace Google.Api.Generator.Generation
                 // Ctor for pattern[0]
                 var initParams = PatternDetails[0].PathElements.Select(x => (object)(x.Parameter.Identifier.ValueText,
                     _ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNullOrEmpty))(x.Parameter, Nameof(x.Parameter))))
-                    .Prepend(_ctx.Type(ResourceTypeEnumTyp).Access(ResourceTypeEnum().Members[1]));
+                    .Prepend(_ctx.Type(ResourceNameTypeTyp).Access(ResourceTypeEnum().Members[1]));
                 var xmlDocSummary = XmlDoc.Summary("Constructs a new instance of a ", _ctx.Type(_def.ResourceNameTyp),
                     " class from the component parts of pattern ", XmlDoc.C(PatternDetails[0].PatternString));
                 yield return Ctor(Public, cls, initializer: ThisInitializer(initParams.ToArray()))
@@ -323,8 +321,8 @@ namespace Google.Api.Generator.Generation
             }
 
             private PropertyDeclarationSyntax ResourceType() =>
-                AutoProperty(Public, _ctx.Type(ResourceTypeEnumTyp), "Type")
-                    .WithXmlDoc(XmlDoc.Summary("The ", _ctx.Type(ResourceTypeEnumTyp), " of the contained resource name."));
+                AutoProperty(Public, _ctx.Type(ResourceNameTypeTyp), "Type")
+                    .WithXmlDoc(XmlDoc.Summary("The ", _ctx.Type(ResourceNameTypeTyp), " of the contained resource name."));
 
             private PropertyDeclarationSyntax UnknownResourceNameProperty() =>
                 AutoProperty(Public, _ctx.Type<UnknownResourceName>(), "UnknownResource")
@@ -337,7 +335,7 @@ namespace Google.Api.Generator.Generation
 
             private PropertyDeclarationSyntax ResourceNameKind() => Property(Public, _ctx.Type<ResourceNameKind>(), nameof(IResourceName.Kind))
                 .WithGetBody(
-                    ResourceType().Equality(_ctx.Type(ResourceTypeEnumTyp).Access("Unknown")).ConditionalOperator(
+                    ResourceType().Equality(_ctx.Type(ResourceNameTypeTyp).Access("Unknown")).ConditionalOperator(
                         _ctx.Type<ResourceNameKind>().Access(nameof(Gax.ResourceNameKind.Unknown)),
                         _ctx.Type<ResourceNameKind>().Access(_def.Patterns.Count > 1 ? nameof(Gax.ResourceNameKind.Oneof) : nameof(Gax.ResourceNameKind.Simple))))
                 .WithXmlDoc(XmlDoc.InheritDoc);
@@ -345,9 +343,9 @@ namespace Google.Api.Generator.Generation
             private new MethodDeclarationSyntax ToString()
             {
                 var switchCases = PatternDetails.Select(pattern =>
-                    ((object)_ctx.Type(ResourceTypeEnumTyp).Access(pattern.UpperName),
+                    ((object)_ctx.Type(ResourceNameTypeTyp).Access(pattern.UpperName),
                         (object)Return(pattern.PathTemplateField.Call(nameof(PathTemplate.Expand))(pattern.PathElements.Select(x => x.Property).ToArray()))))
-                    .Prepend((_ctx.Type(ResourceTypeEnumTyp).Access("Unknown"), Return(UnknownResourceNameProperty().Call(nameof(object.ToString))())));
+                    .Prepend((_ctx.Type(ResourceNameTypeTyp).Access("Unknown"), Return(UnknownResourceNameProperty().Call(nameof(object.ToString))())));
                 return Method(Public | Override, _ctx.Type<string>(), nameof(object.ToString))()
                     .WithBody(
                         Switch(ResourceType())(switchCases.ToArray()).WithDefault(
