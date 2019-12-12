@@ -88,10 +88,10 @@ namespace Testing.Snippets.Snippets
                 {
                     AResourceName.FromItemPart("[ITEM_ID]", "[PART_ID]"),
                 },
-                SingleWildcardResourceAsResourceName = new UnknownResourceName("a/wildcard/resource"),
+                SingleWildcardResourceAsResourceName = new UnparsedResourceName("a/wildcard/resource"),
                 RepeatedWildcardResourceAsResourceNames =
                 {
-                    new UnknownResourceName("a/wildcard/resource"),
+                    new UnparsedResourceName("a/wildcard/resource"),
                 },
                 MultiPatternResourceNameAsMultiPatternResourceName = MultiPatternResourceName.FromRootAItem("[ROOT_A_ID]", "[ITEM_ID]"),
                 RepeatedMultiPatternResourceNameAsMultiPatternResourceNames =
@@ -167,10 +167,10 @@ namespace Testing.Snippets.Snippets
                 {
                     AResourceName.FromItemPart("[ITEM_ID]", "[PART_ID]"),
                 },
-                SingleWildcardResourceAsResourceName = new UnknownResourceName("a/wildcard/resource"),
+                SingleWildcardResourceAsResourceName = new UnparsedResourceName("a/wildcard/resource"),
                 RepeatedWildcardResourceAsResourceNames =
                 {
-                    new UnknownResourceName("a/wildcard/resource"),
+                    new UnparsedResourceName("a/wildcard/resource"),
                 },
                 MultiPatternResourceNameAsMultiPatternResourceName = MultiPatternResourceName.FromRootAItem("[ROOT_A_ID]", "[ITEM_ID]"),
                 RepeatedMultiPatternResourceNameAsMultiPatternResourceNames =

@@ -125,7 +125,7 @@ namespace Google.Api.Generator.Generation
                     else
                     {
                         value = def.IsWildcard ?
-                            (object)New(Ctx.Type<UnknownResourceName>())("a/wildcard/resource") :
+                            (object)New(Ctx.Type<UnparsedResourceName>())("a/wildcard/resource") :
                             Ctx.Type(def.ResourceNameTyp).Call($"From{string.Join("", def.Patterns[0].Template.ParameterNames.Select(x => x.RemoveSuffix("_id").ToUpperCamelCase()))}")
                                 (def.Patterns[0].Template.ParameterNames.Select(x => $"[{x.ToUpperInvariant()}]"));
                     }
