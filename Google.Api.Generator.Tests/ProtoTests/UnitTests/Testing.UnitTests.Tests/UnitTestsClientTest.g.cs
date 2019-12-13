@@ -112,10 +112,10 @@ namespace Testing.UnitTests.Tests
                 {
                     AResourceName.FromItemPart("[ITEM_ID]", "[PART_ID]"),
                 },
-                SingleWildcardResourceAsResourceName = new gax::UnknownResourceName("a/wildcard/resource"),
+                SingleWildcardResourceAsResourceName = new gax::UnparsedResourceName("a/wildcard/resource"),
                 RepeatedWildcardResourceAsResourceNames =
                 {
-                    new gax::UnknownResourceName("a/wildcard/resource"),
+                    new gax::UnparsedResourceName("a/wildcard/resource"),
                 },
                 MultiPatternResourceNameAsMultiPatternResourceName = MultiPatternResourceName.FromRootAItem("[ROOT_A_ID]", "[ITEM_ID]"),
                 RepeatedMultiPatternResourceNameAsMultiPatternResourceNames =
@@ -221,10 +221,10 @@ namespace Testing.UnitTests.Tests
                 {
                     AResourceName.FromItemPart("[ITEM_ID]", "[PART_ID]"),
                 },
-                SingleWildcardResourceAsResourceName = new gax::UnknownResourceName("a/wildcard/resource"),
+                SingleWildcardResourceAsResourceName = new gax::UnparsedResourceName("a/wildcard/resource"),
                 RepeatedWildcardResourceAsResourceNames =
                 {
-                    new gax::UnknownResourceName("a/wildcard/resource"),
+                    new gax::UnparsedResourceName("a/wildcard/resource"),
                 },
                 MultiPatternResourceNameAsMultiPatternResourceName = MultiPatternResourceName.FromRootAItem("[ROOT_A_ID]", "[ITEM_ID]"),
                 RepeatedMultiPatternResourceNameAsMultiPatternResourceNames =

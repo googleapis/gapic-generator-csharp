@@ -26,8 +26,8 @@ namespace Testing.ResourceNames
         /// <summary>The possible contents of <see cref="SingleResourceName"/>.</summary>
         public enum ResourceNameType
         {
-            /// <summary>A resource of an unknown type.</summary>
-            Unknown = 0,
+            /// <summary>An unparsed resource name.</summary>
+            Unparsed = 0,
 
             /// <summary>A resource name with pattern <c>items/{item_id}</c>.</summary>
             Item = 1
@@ -35,14 +35,14 @@ namespace Testing.ResourceNames
 
         private static gax::PathTemplate s_item = new gax::PathTemplate("items/{item_id}");
 
-        /// <summary>Creates a <see cref="SingleResourceName"/> containing an unknown resource name.</summary>
-        /// <param name="unknownResourceName">The unknown resource name. Must not be <c>null</c>.</param>
+        /// <summary>Creates a <see cref="SingleResourceName"/> containing an unparsed resource name.</summary>
+        /// <param name="unparsedResourceName">The unparsed resource name. Must not be <c>null</c>.</param>
         /// <returns>
         /// A new instance of <see cref="SingleResourceName"/> containing the provided
-        /// <paramref name="unknownResourceName"/>.
+        /// <paramref name="unparsedResourceName"/>.
         /// </returns>
-        public static SingleResourceName FromUnknown(gax::UnknownResourceName unknownResourceName) =>
-            new SingleResourceName(ResourceNameType.Unknown, gax::GaxPreconditions.CheckNotNull(unknownResourceName, nameof(unknownResourceName)));
+        public static SingleResourceName FromUnparsed(gax::UnparsedResourceName unparsedResourceName) =>
+            new SingleResourceName(ResourceNameType.Unparsed, gax::GaxPreconditions.CheckNotNull(unparsedResourceName, nameof(unparsedResourceName)));
 
         /// <summary>Creates a <see cref="SingleResourceName"/> with the pattern <c>items/{item_id}</c>.</summary>
         /// <param name="itemId">The <c>Item</c> ID. Must not be <c>null</c> or empty.</param>
@@ -84,22 +84,22 @@ namespace Testing.ResourceNames
 
         /// <summary>
         /// Parses the given resource name string into a new <see cref="SingleResourceName"/> instance; optionally
-        /// allowing an unknown resource name to be successfully parsed
+        /// allowing an unparseable resource name.
         /// </summary>
         /// <remarks>
         /// To parse successfully, the resource name must be formatted as one of the following:
         /// <list type="bullet"><item><description><c>items/{item_id}</c></description></item></list>
-        /// Or may be in any format if <paramref name="allowUnknown"/> is <c>true</c>.
+        /// Or may be in any format if <paramref name="allowUnparsed"/> is <c>true</c>.
         /// </remarks>
         /// <param name="singleResourceName">The resource name in string form. Must not be <c>null</c>.</param>
-        /// <param name="allowUnknown">
-        /// If <c>true</c> will successfully parse an unknown resource name into the <see cref="UnknownResource"/>
-        /// property; otherwise will throw an <see cref="sys::ArgumentException"/> if an unknown resource name is
+        /// <param name="allowUnparsed">
+        /// If <c>true</c> will successfully store an unparseable resource name into the <see cref="UnparsedResource"/>
+        /// property; otherwise will throw an <see cref="sys::ArgumentException"/> if an unparseable resource name is
         /// specified.
         /// </param>
         /// <returns>The parsed <see cref="SingleResourceName"/> if successful.</returns>
-        public static SingleResourceName Parse(string singleResourceName, bool allowUnknown) =>
-            TryParse(singleResourceName, allowUnknown, out SingleResourceName result) ? result : throw new sys::ArgumentException("The given resource-name matches no pattern.");
+        public static SingleResourceName Parse(string singleResourceName, bool allowUnparsed) =>
+            TryParse(singleResourceName, allowUnparsed, out SingleResourceName result) ? result : throw new sys::ArgumentException("The given resource-name matches no pattern.");
 
         /// <summary>
         /// Tries to parse the given resource name string into a new <see cref="SingleResourceName"/> instance.
@@ -118,24 +118,24 @@ namespace Testing.ResourceNames
 
         /// <summary>
         /// Tries to parse the given resource name string into a new <see cref="SingleResourceName"/> instance;
-        /// optionally allowing an unknown resource name to be successfully parsed.
+        /// optionally allowing an unparseable resource name.
         /// </summary>
         /// <remarks>
         /// To parse successfully, the resource name must be formatted as one of the following:
         /// <list type="bullet"><item><description><c>items/{item_id}</c></description></item></list>
-        /// Or may be in any format if <paramref name="allowUnknown"/> is <c>true</c>.
+        /// Or may be in any format if <paramref name="allowUnparsed"/> is <c>true</c>.
         /// </remarks>
         /// <param name="singleResourceName">The resource name in string form. Must not be <c>null</c>.</param>
-        /// <param name="allowUnknown">
-        /// If <c>true</c> will successfully parse an unknown resource name into the <see cref="UnknownResource"/>
-        /// property; otherwise will throw an <see cref="sys::ArgumentException"/> if an unknown resource name is
+        /// <param name="allowUnparsed">
+        /// If <c>true</c> will successfully store an unparseable resource name into the <see cref="UnparsedResource"/>
+        /// property; otherwise will throw an <see cref="sys::ArgumentException"/> if an unparseable resource name is
         /// specified.
         /// </param>
         /// <param name="result">
         /// When this method returns, the parsed <see cref="SingleResourceName"/>, or <c>null</c> if parsing failed.
         /// </param>
         /// <returns><c>true</c> if the name was parsed successfully; <c>false</c> otherwise.</returns>
-        public static bool TryParse(string singleResourceName, bool allowUnknown, out SingleResourceName result)
+        public static bool TryParse(string singleResourceName, bool allowUnparsed, out SingleResourceName result)
         {
             gax::GaxPreconditions.CheckNotNull(singleResourceName, nameof(singleResourceName));
             gax::TemplatedResourceName resourceName;
@@ -144,11 +144,11 @@ namespace Testing.ResourceNames
                 result = FromItem(resourceName[0]);
                 return true;
             }
-            if (allowUnknown)
+            if (allowUnparsed)
             {
-                if (gax::UnknownResourceName.TryParse(singleResourceName, out gax::UnknownResourceName unknownResourceName))
+                if (gax::UnparsedResourceName.TryParse(singleResourceName, out gax::UnparsedResourceName unparsedResourceName))
                 {
-                    result = FromUnknown(unknownResourceName);
+                    result = FromUnparsed(unparsedResourceName);
                     return true;
                 }
             }
@@ -156,10 +156,10 @@ namespace Testing.ResourceNames
             return false;
         }
 
-        private SingleResourceName(ResourceNameType type, gax::UnknownResourceName unknownResourceName = null, string itemId = null)
+        private SingleResourceName(ResourceNameType type, gax::UnparsedResourceName unparsedResourceName = null, string itemId = null)
         {
             Type = type;
-            UnknownResource = unknownResourceName;
+            UnparsedResource = unparsedResourceName;
             ItemId = itemId;
         }
 
@@ -176,25 +176,25 @@ namespace Testing.ResourceNames
         public ResourceNameType Type { get; }
 
         /// <summary>
-        /// The contained <see cref="gax::UnknownResourceName"/>. Only non-<c>null</c>if this instance contains an
-        /// unknown resource name.
+        /// The contained <see cref="gax::UnparsedResourceName"/>. Only non-<c>null</c>if this instance contains an
+        /// unparsed resource name.
         /// </summary>
-        public gax::UnknownResourceName UnknownResource { get; }
+        public gax::UnparsedResourceName UnparsedResource { get; }
 
         /// <summary>
-        /// The <c>Item</c> ID. Will not be <c>null</c>, unless this instance contains an unknown resource name.
+        /// The <c>Item</c> ID. Will not be <c>null</c>, unless this instance contains an unparsed resource name.
         /// </summary>
         public string ItemId { get; }
 
         /// <inheritdoc/>
-        public gax::ResourceNameKind Kind => Type == ResourceNameType.Unknown ? gax::ResourceNameKind.Unknown : gax::ResourceNameKind.Simple;
+        public bool IsKnownPattern => Type != ResourceNameType.Unparsed;
 
         /// <inheritdoc/>
         public override string ToString()
         {
             switch (Type)
             {
-                case ResourceNameType.Unknown: return UnknownResource.ToString();
+                case ResourceNameType.Unparsed: return UnparsedResource.ToString();
                 case ResourceNameType.Item: return s_item.Expand(ItemId);
                 default: throw new sys::InvalidOperationException("Unrecognized resource-type.");
             }
@@ -222,8 +222,8 @@ namespace Testing.ResourceNames
         /// <summary>The possible contents of <see cref="MultiResourceName"/>.</summary>
         public enum ResourceNameType
         {
-            /// <summary>A resource of an unknown type.</summary>
-            Unknown = 0,
+            /// <summary>An unparsed resource name.</summary>
+            Unparsed = 0,
 
             /// <summary>A resource name with pattern <c>roota/{root_a_id}/multi/{multi_id}</c>.</summary>
             RootAMulti = 1,
@@ -236,14 +236,14 @@ namespace Testing.ResourceNames
 
         private static gax::PathTemplate s_rootBMulti = new gax::PathTemplate("rootb/{root_b_id}/multi/{multi_id}");
 
-        /// <summary>Creates a <see cref="MultiResourceName"/> containing an unknown resource name.</summary>
-        /// <param name="unknownResourceName">The unknown resource name. Must not be <c>null</c>.</param>
+        /// <summary>Creates a <see cref="MultiResourceName"/> containing an unparsed resource name.</summary>
+        /// <param name="unparsedResourceName">The unparsed resource name. Must not be <c>null</c>.</param>
         /// <returns>
         /// A new instance of <see cref="MultiResourceName"/> containing the provided
-        /// <paramref name="unknownResourceName"/>.
+        /// <paramref name="unparsedResourceName"/>.
         /// </returns>
-        public static MultiResourceName FromUnknown(gax::UnknownResourceName unknownResourceName) =>
-            new MultiResourceName(ResourceNameType.Unknown, gax::GaxPreconditions.CheckNotNull(unknownResourceName, nameof(unknownResourceName)));
+        public static MultiResourceName FromUnparsed(gax::UnparsedResourceName unparsedResourceName) =>
+            new MultiResourceName(ResourceNameType.Unparsed, gax::GaxPreconditions.CheckNotNull(unparsedResourceName, nameof(unparsedResourceName)));
 
         /// <summary>
         /// Creates a <see cref="MultiResourceName"/> with the pattern <c>roota/{root_a_id}/multi/{multi_id}</c>.
@@ -317,7 +317,7 @@ namespace Testing.ResourceNames
 
         /// <summary>
         /// Parses the given resource name string into a new <see cref="MultiResourceName"/> instance; optionally
-        /// allowing an unknown resource name to be successfully parsed
+        /// allowing an unparseable resource name.
         /// </summary>
         /// <remarks>
         /// To parse successfully, the resource name must be formatted as one of the following:
@@ -325,17 +325,17 @@ namespace Testing.ResourceNames
         /// <item><description><c>roota/{root_a_id}/multi/{multi_id}</c></description></item>
         /// <item><description><c>rootb/{root_b_id}/multi/{multi_id}</c></description></item>
         /// </list>
-        /// Or may be in any format if <paramref name="allowUnknown"/> is <c>true</c>.
+        /// Or may be in any format if <paramref name="allowUnparsed"/> is <c>true</c>.
         /// </remarks>
         /// <param name="multiResourceName">The resource name in string form. Must not be <c>null</c>.</param>
-        /// <param name="allowUnknown">
-        /// If <c>true</c> will successfully parse an unknown resource name into the <see cref="UnknownResource"/>
-        /// property; otherwise will throw an <see cref="sys::ArgumentException"/> if an unknown resource name is
+        /// <param name="allowUnparsed">
+        /// If <c>true</c> will successfully store an unparseable resource name into the <see cref="UnparsedResource"/>
+        /// property; otherwise will throw an <see cref="sys::ArgumentException"/> if an unparseable resource name is
         /// specified.
         /// </param>
         /// <returns>The parsed <see cref="MultiResourceName"/> if successful.</returns>
-        public static MultiResourceName Parse(string multiResourceName, bool allowUnknown) =>
-            TryParse(multiResourceName, allowUnknown, out MultiResourceName result) ? result : throw new sys::ArgumentException("The given resource-name matches no pattern.");
+        public static MultiResourceName Parse(string multiResourceName, bool allowUnparsed) =>
+            TryParse(multiResourceName, allowUnparsed, out MultiResourceName result) ? result : throw new sys::ArgumentException("The given resource-name matches no pattern.");
 
         /// <summary>
         /// Tries to parse the given resource name string into a new <see cref="MultiResourceName"/> instance.
@@ -357,7 +357,7 @@ namespace Testing.ResourceNames
 
         /// <summary>
         /// Tries to parse the given resource name string into a new <see cref="MultiResourceName"/> instance;
-        /// optionally allowing an unknown resource name to be successfully parsed.
+        /// optionally allowing an unparseable resource name.
         /// </summary>
         /// <remarks>
         /// To parse successfully, the resource name must be formatted as one of the following:
@@ -365,19 +365,19 @@ namespace Testing.ResourceNames
         /// <item><description><c>roota/{root_a_id}/multi/{multi_id}</c></description></item>
         /// <item><description><c>rootb/{root_b_id}/multi/{multi_id}</c></description></item>
         /// </list>
-        /// Or may be in any format if <paramref name="allowUnknown"/> is <c>true</c>.
+        /// Or may be in any format if <paramref name="allowUnparsed"/> is <c>true</c>.
         /// </remarks>
         /// <param name="multiResourceName">The resource name in string form. Must not be <c>null</c>.</param>
-        /// <param name="allowUnknown">
-        /// If <c>true</c> will successfully parse an unknown resource name into the <see cref="UnknownResource"/>
-        /// property; otherwise will throw an <see cref="sys::ArgumentException"/> if an unknown resource name is
+        /// <param name="allowUnparsed">
+        /// If <c>true</c> will successfully store an unparseable resource name into the <see cref="UnparsedResource"/>
+        /// property; otherwise will throw an <see cref="sys::ArgumentException"/> if an unparseable resource name is
         /// specified.
         /// </param>
         /// <param name="result">
         /// When this method returns, the parsed <see cref="MultiResourceName"/>, or <c>null</c> if parsing failed.
         /// </param>
         /// <returns><c>true</c> if the name was parsed successfully; <c>false</c> otherwise.</returns>
-        public static bool TryParse(string multiResourceName, bool allowUnknown, out MultiResourceName result)
+        public static bool TryParse(string multiResourceName, bool allowUnparsed, out MultiResourceName result)
         {
             gax::GaxPreconditions.CheckNotNull(multiResourceName, nameof(multiResourceName));
             gax::TemplatedResourceName resourceName;
@@ -391,11 +391,11 @@ namespace Testing.ResourceNames
                 result = FromRootBMulti(resourceName[0], resourceName[1]);
                 return true;
             }
-            if (allowUnknown)
+            if (allowUnparsed)
             {
-                if (gax::UnknownResourceName.TryParse(multiResourceName, out gax::UnknownResourceName unknownResourceName))
+                if (gax::UnparsedResourceName.TryParse(multiResourceName, out gax::UnparsedResourceName unparsedResourceName))
                 {
-                    result = FromUnknown(unknownResourceName);
+                    result = FromUnparsed(unparsedResourceName);
                     return true;
                 }
             }
@@ -403,10 +403,10 @@ namespace Testing.ResourceNames
             return false;
         }
 
-        private MultiResourceName(ResourceNameType type, gax::UnknownResourceName unknownResourceName = null, string multiId = null, string rootAId = null, string rootBId = null)
+        private MultiResourceName(ResourceNameType type, gax::UnparsedResourceName unparsedResourceName = null, string multiId = null, string rootAId = null, string rootBId = null)
         {
             Type = type;
-            UnknownResource = unknownResourceName;
+            UnparsedResource = unparsedResourceName;
             MultiId = multiId;
             RootAId = rootAId;
             RootBId = rootBId;
@@ -426,10 +426,10 @@ namespace Testing.ResourceNames
         public ResourceNameType Type { get; }
 
         /// <summary>
-        /// The contained <see cref="gax::UnknownResourceName"/>. Only non-<c>null</c>if this instance contains an
-        /// unknown resource name.
+        /// The contained <see cref="gax::UnparsedResourceName"/>. Only non-<c>null</c>if this instance contains an
+        /// unparsed resource name.
         /// </summary>
-        public gax::UnknownResourceName UnknownResource { get; }
+        public gax::UnparsedResourceName UnparsedResource { get; }
 
         /// <summary>
         /// The <c>Multi</c> ID. May be <c>null</c>, depending on which resource name is contained by this instance.
@@ -447,14 +447,14 @@ namespace Testing.ResourceNames
         public string RootBId { get; }
 
         /// <inheritdoc/>
-        public gax::ResourceNameKind Kind => Type == ResourceNameType.Unknown ? gax::ResourceNameKind.Unknown : gax::ResourceNameKind.Oneof;
+        public bool IsKnownPattern => Type != ResourceNameType.Unparsed;
 
         /// <inheritdoc/>
         public override string ToString()
         {
             switch (Type)
             {
-                case ResourceNameType.Unknown: return UnknownResource.ToString();
+                case ResourceNameType.Unparsed: return UnparsedResource.ToString();
                 case ResourceNameType.RootAMulti: return s_rootAMulti.Expand(RootAId, MultiId);
                 case ResourceNameType.RootBMulti: return s_rootBMulti.Expand(RootBId, MultiId);
                 default: throw new sys::InvalidOperationException("Unrecognized resource-type.");
@@ -483,8 +483,8 @@ namespace Testing.ResourceNames
         /// <summary>The possible contents of <see cref="FutureMultiResourceName"/>.</summary>
         public enum ResourceNameType
         {
-            /// <summary>A resource of an unknown type.</summary>
-            Unknown = 0,
+            /// <summary>An unparsed resource name.</summary>
+            Unparsed = 0,
 
             /// <summary>A resource name with pattern <c>root/{root_a_id}/futuremulti/{future_multi_id}</c>.</summary>
             RootAFutureMulti = 1
@@ -492,14 +492,14 @@ namespace Testing.ResourceNames
 
         private static gax::PathTemplate s_rootAFutureMulti = new gax::PathTemplate("root/{root_a_id}/futuremulti/{future_multi_id}");
 
-        /// <summary>Creates a <see cref="FutureMultiResourceName"/> containing an unknown resource name.</summary>
-        /// <param name="unknownResourceName">The unknown resource name. Must not be <c>null</c>.</param>
+        /// <summary>Creates a <see cref="FutureMultiResourceName"/> containing an unparsed resource name.</summary>
+        /// <param name="unparsedResourceName">The unparsed resource name. Must not be <c>null</c>.</param>
         /// <returns>
         /// A new instance of <see cref="FutureMultiResourceName"/> containing the provided
-        /// <paramref name="unknownResourceName"/>.
+        /// <paramref name="unparsedResourceName"/>.
         /// </returns>
-        public static FutureMultiResourceName FromUnknown(gax::UnknownResourceName unknownResourceName) =>
-            new FutureMultiResourceName(ResourceNameType.Unknown, gax::GaxPreconditions.CheckNotNull(unknownResourceName, nameof(unknownResourceName)));
+        public static FutureMultiResourceName FromUnparsed(gax::UnparsedResourceName unparsedResourceName) =>
+            new FutureMultiResourceName(ResourceNameType.Unparsed, gax::GaxPreconditions.CheckNotNull(unparsedResourceName, nameof(unparsedResourceName)));
 
         /// <summary>
         /// Creates a <see cref="FutureMultiResourceName"/> with the pattern
@@ -553,24 +553,24 @@ namespace Testing.ResourceNames
 
         /// <summary>
         /// Parses the given resource name string into a new <see cref="FutureMultiResourceName"/> instance; optionally
-        /// allowing an unknown resource name to be successfully parsed
+        /// allowing an unparseable resource name.
         /// </summary>
         /// <remarks>
         /// To parse successfully, the resource name must be formatted as one of the following:
         /// <list type="bullet">
         /// <item><description><c>root/{root_a_id}/futuremulti/{future_multi_id}</c></description></item>
         /// </list>
-        /// Or may be in any format if <paramref name="allowUnknown"/> is <c>true</c>.
+        /// Or may be in any format if <paramref name="allowUnparsed"/> is <c>true</c>.
         /// </remarks>
         /// <param name="futureMultiResourceName">The resource name in string form. Must not be <c>null</c>.</param>
-        /// <param name="allowUnknown">
-        /// If <c>true</c> will successfully parse an unknown resource name into the <see cref="UnknownResource"/>
-        /// property; otherwise will throw an <see cref="sys::ArgumentException"/> if an unknown resource name is
+        /// <param name="allowUnparsed">
+        /// If <c>true</c> will successfully store an unparseable resource name into the <see cref="UnparsedResource"/>
+        /// property; otherwise will throw an <see cref="sys::ArgumentException"/> if an unparseable resource name is
         /// specified.
         /// </param>
         /// <returns>The parsed <see cref="FutureMultiResourceName"/> if successful.</returns>
-        public static FutureMultiResourceName Parse(string futureMultiResourceName, bool allowUnknown) =>
-            TryParse(futureMultiResourceName, allowUnknown, out FutureMultiResourceName result) ? result : throw new sys::ArgumentException("The given resource-name matches no pattern.");
+        public static FutureMultiResourceName Parse(string futureMultiResourceName, bool allowUnparsed) =>
+            TryParse(futureMultiResourceName, allowUnparsed, out FutureMultiResourceName result) ? result : throw new sys::ArgumentException("The given resource-name matches no pattern.");
 
         /// <summary>
         /// Tries to parse the given resource name string into a new <see cref="FutureMultiResourceName"/> instance.
@@ -592,19 +592,19 @@ namespace Testing.ResourceNames
 
         /// <summary>
         /// Tries to parse the given resource name string into a new <see cref="FutureMultiResourceName"/> instance;
-        /// optionally allowing an unknown resource name to be successfully parsed.
+        /// optionally allowing an unparseable resource name.
         /// </summary>
         /// <remarks>
         /// To parse successfully, the resource name must be formatted as one of the following:
         /// <list type="bullet">
         /// <item><description><c>root/{root_a_id}/futuremulti/{future_multi_id}</c></description></item>
         /// </list>
-        /// Or may be in any format if <paramref name="allowUnknown"/> is <c>true</c>.
+        /// Or may be in any format if <paramref name="allowUnparsed"/> is <c>true</c>.
         /// </remarks>
         /// <param name="futureMultiResourceName">The resource name in string form. Must not be <c>null</c>.</param>
-        /// <param name="allowUnknown">
-        /// If <c>true</c> will successfully parse an unknown resource name into the <see cref="UnknownResource"/>
-        /// property; otherwise will throw an <see cref="sys::ArgumentException"/> if an unknown resource name is
+        /// <param name="allowUnparsed">
+        /// If <c>true</c> will successfully store an unparseable resource name into the <see cref="UnparsedResource"/>
+        /// property; otherwise will throw an <see cref="sys::ArgumentException"/> if an unparseable resource name is
         /// specified.
         /// </param>
         /// <param name="result">
@@ -612,7 +612,7 @@ namespace Testing.ResourceNames
         /// failed.
         /// </param>
         /// <returns><c>true</c> if the name was parsed successfully; <c>false</c> otherwise.</returns>
-        public static bool TryParse(string futureMultiResourceName, bool allowUnknown, out FutureMultiResourceName result)
+        public static bool TryParse(string futureMultiResourceName, bool allowUnparsed, out FutureMultiResourceName result)
         {
             gax::GaxPreconditions.CheckNotNull(futureMultiResourceName, nameof(futureMultiResourceName));
             gax::TemplatedResourceName resourceName;
@@ -621,11 +621,11 @@ namespace Testing.ResourceNames
                 result = FromRootAFutureMulti(resourceName[0], resourceName[1]);
                 return true;
             }
-            if (allowUnknown)
+            if (allowUnparsed)
             {
-                if (gax::UnknownResourceName.TryParse(futureMultiResourceName, out gax::UnknownResourceName unknownResourceName))
+                if (gax::UnparsedResourceName.TryParse(futureMultiResourceName, out gax::UnparsedResourceName unparsedResourceName))
                 {
-                    result = FromUnknown(unknownResourceName);
+                    result = FromUnparsed(unparsedResourceName);
                     return true;
                 }
             }
@@ -633,10 +633,10 @@ namespace Testing.ResourceNames
             return false;
         }
 
-        private FutureMultiResourceName(ResourceNameType type, gax::UnknownResourceName unknownResourceName = null, string futureMultiId = null, string rootAId = null)
+        private FutureMultiResourceName(ResourceNameType type, gax::UnparsedResourceName unparsedResourceName = null, string futureMultiId = null, string rootAId = null)
         {
             Type = type;
-            UnknownResource = unknownResourceName;
+            UnparsedResource = unparsedResourceName;
             FutureMultiId = futureMultiId;
             RootAId = rootAId;
         }
@@ -655,30 +655,30 @@ namespace Testing.ResourceNames
         public ResourceNameType Type { get; }
 
         /// <summary>
-        /// The contained <see cref="gax::UnknownResourceName"/>. Only non-<c>null</c>if this instance contains an
-        /// unknown resource name.
+        /// The contained <see cref="gax::UnparsedResourceName"/>. Only non-<c>null</c>if this instance contains an
+        /// unparsed resource name.
         /// </summary>
-        public gax::UnknownResourceName UnknownResource { get; }
+        public gax::UnparsedResourceName UnparsedResource { get; }
 
         /// <summary>
-        /// The <c>FutureMulti</c> ID. Will not be <c>null</c>, unless this instance contains an unknown resource name.
+        /// The <c>FutureMulti</c> ID. Will not be <c>null</c>, unless this instance contains an unparsed resource name.
         /// </summary>
         public string FutureMultiId { get; }
 
         /// <summary>
-        /// The <c>RootA</c> ID. Will not be <c>null</c>, unless this instance contains an unknown resource name.
+        /// The <c>RootA</c> ID. Will not be <c>null</c>, unless this instance contains an unparsed resource name.
         /// </summary>
         public string RootAId { get; }
 
         /// <inheritdoc/>
-        public gax::ResourceNameKind Kind => Type == ResourceNameType.Unknown ? gax::ResourceNameKind.Unknown : gax::ResourceNameKind.Simple;
+        public bool IsKnownPattern => Type != ResourceNameType.Unparsed;
 
         /// <inheritdoc/>
         public override string ToString()
         {
             switch (Type)
             {
-                case ResourceNameType.Unknown: return UnknownResource.ToString();
+                case ResourceNameType.Unparsed: return UnparsedResource.ToString();
                 case ResourceNameType.RootAFutureMulti: return s_rootAFutureMulti.Expand(RootAId, FutureMultiId);
                 default: throw new sys::InvalidOperationException("Unrecognized resource-type.");
             }
@@ -706,8 +706,8 @@ namespace Testing.ResourceNames
         /// <summary>The possible contents of <see cref="OriginallySingleResourceName"/>.</summary>
         public enum ResourceNameType
         {
-            /// <summary>A resource of an unknown type.</summary>
-            Unknown = 0,
+            /// <summary>An unparsed resource name.</summary>
+            Unparsed = 0,
 
             /// <summary>
             /// A resource name with pattern <c>roota/{root_a_id}/originallysingle/{originally_single_multi_id}</c>.
@@ -724,14 +724,16 @@ namespace Testing.ResourceNames
 
         private static gax::PathTemplate s_rootBOriginallySingleMulti = new gax::PathTemplate("rootb/{root_b_id}/originallysingle/{originally_single_multi_id}");
 
-        /// <summary>Creates a <see cref="OriginallySingleResourceName"/> containing an unknown resource name.</summary>
-        /// <param name="unknownResourceName">The unknown resource name. Must not be <c>null</c>.</param>
+        /// <summary>
+        /// Creates a <see cref="OriginallySingleResourceName"/> containing an unparsed resource name.
+        /// </summary>
+        /// <param name="unparsedResourceName">The unparsed resource name. Must not be <c>null</c>.</param>
         /// <returns>
         /// A new instance of <see cref="OriginallySingleResourceName"/> containing the provided
-        /// <paramref name="unknownResourceName"/>.
+        /// <paramref name="unparsedResourceName"/>.
         /// </returns>
-        public static OriginallySingleResourceName FromUnknown(gax::UnknownResourceName unknownResourceName) =>
-            new OriginallySingleResourceName(ResourceNameType.Unknown, gax::GaxPreconditions.CheckNotNull(unknownResourceName, nameof(unknownResourceName)));
+        public static OriginallySingleResourceName FromUnparsed(gax::UnparsedResourceName unparsedResourceName) =>
+            new OriginallySingleResourceName(ResourceNameType.Unparsed, gax::GaxPreconditions.CheckNotNull(unparsedResourceName, nameof(unparsedResourceName)));
 
         /// <summary>
         /// Creates a <see cref="OriginallySingleResourceName"/> with the pattern
@@ -829,7 +831,7 @@ namespace Testing.ResourceNames
 
         /// <summary>
         /// Parses the given resource name string into a new <see cref="OriginallySingleResourceName"/> instance;
-        /// optionally allowing an unknown resource name to be successfully parsed
+        /// optionally allowing an unparseable resource name.
         /// </summary>
         /// <remarks>
         /// To parse successfully, the resource name must be formatted as one of the following:
@@ -841,19 +843,19 @@ namespace Testing.ResourceNames
         /// <description><c>rootb/{root_b_id}/originallysingle/{originally_single_multi_id}</c></description>
         /// </item>
         /// </list>
-        /// Or may be in any format if <paramref name="allowUnknown"/> is <c>true</c>.
+        /// Or may be in any format if <paramref name="allowUnparsed"/> is <c>true</c>.
         /// </remarks>
         /// <param name="originallySingleResourceName">
         /// The resource name in string form. Must not be <c>null</c>.
         /// </param>
-        /// <param name="allowUnknown">
-        /// If <c>true</c> will successfully parse an unknown resource name into the <see cref="UnknownResource"/>
-        /// property; otherwise will throw an <see cref="sys::ArgumentException"/> if an unknown resource name is
+        /// <param name="allowUnparsed">
+        /// If <c>true</c> will successfully store an unparseable resource name into the <see cref="UnparsedResource"/>
+        /// property; otherwise will throw an <see cref="sys::ArgumentException"/> if an unparseable resource name is
         /// specified.
         /// </param>
         /// <returns>The parsed <see cref="OriginallySingleResourceName"/> if successful.</returns>
-        public static OriginallySingleResourceName Parse(string originallySingleResourceName, bool allowUnknown) =>
-            TryParse(originallySingleResourceName, allowUnknown, out OriginallySingleResourceName result) ? result : throw new sys::ArgumentException("The given resource-name matches no pattern.");
+        public static OriginallySingleResourceName Parse(string originallySingleResourceName, bool allowUnparsed) =>
+            TryParse(originallySingleResourceName, allowUnparsed, out OriginallySingleResourceName result) ? result : throw new sys::ArgumentException("The given resource-name matches no pattern.");
 
         /// <summary>
         /// Tries to parse the given resource name string into a new <see cref="OriginallySingleResourceName"/>
@@ -883,7 +885,7 @@ namespace Testing.ResourceNames
 
         /// <summary>
         /// Tries to parse the given resource name string into a new <see cref="OriginallySingleResourceName"/>
-        /// instance; optionally allowing an unknown resource name to be successfully parsed.
+        /// instance; optionally allowing an unparseable resource name.
         /// </summary>
         /// <remarks>
         /// To parse successfully, the resource name must be formatted as one of the following:
@@ -895,14 +897,14 @@ namespace Testing.ResourceNames
         /// <description><c>rootb/{root_b_id}/originallysingle/{originally_single_multi_id}</c></description>
         /// </item>
         /// </list>
-        /// Or may be in any format if <paramref name="allowUnknown"/> is <c>true</c>.
+        /// Or may be in any format if <paramref name="allowUnparsed"/> is <c>true</c>.
         /// </remarks>
         /// <param name="originallySingleResourceName">
         /// The resource name in string form. Must not be <c>null</c>.
         /// </param>
-        /// <param name="allowUnknown">
-        /// If <c>true</c> will successfully parse an unknown resource name into the <see cref="UnknownResource"/>
-        /// property; otherwise will throw an <see cref="sys::ArgumentException"/> if an unknown resource name is
+        /// <param name="allowUnparsed">
+        /// If <c>true</c> will successfully store an unparseable resource name into the <see cref="UnparsedResource"/>
+        /// property; otherwise will throw an <see cref="sys::ArgumentException"/> if an unparseable resource name is
         /// specified.
         /// </param>
         /// <param name="result">
@@ -910,7 +912,7 @@ namespace Testing.ResourceNames
         /// failed.
         /// </param>
         /// <returns><c>true</c> if the name was parsed successfully; <c>false</c> otherwise.</returns>
-        public static bool TryParse(string originallySingleResourceName, bool allowUnknown, out OriginallySingleResourceName result)
+        public static bool TryParse(string originallySingleResourceName, bool allowUnparsed, out OriginallySingleResourceName result)
         {
             gax::GaxPreconditions.CheckNotNull(originallySingleResourceName, nameof(originallySingleResourceName));
             gax::TemplatedResourceName resourceName;
@@ -924,11 +926,11 @@ namespace Testing.ResourceNames
                 result = FromRootBOriginallySingleMulti(resourceName[0], resourceName[1]);
                 return true;
             }
-            if (allowUnknown)
+            if (allowUnparsed)
             {
-                if (gax::UnknownResourceName.TryParse(originallySingleResourceName, out gax::UnknownResourceName unknownResourceName))
+                if (gax::UnparsedResourceName.TryParse(originallySingleResourceName, out gax::UnparsedResourceName unparsedResourceName))
                 {
-                    result = FromUnknown(unknownResourceName);
+                    result = FromUnparsed(unparsedResourceName);
                     return true;
                 }
             }
@@ -936,10 +938,10 @@ namespace Testing.ResourceNames
             return false;
         }
 
-        private OriginallySingleResourceName(ResourceNameType type, gax::UnknownResourceName unknownResourceName = null, string originallySingleMultiId = null, string rootAId = null, string rootBId = null)
+        private OriginallySingleResourceName(ResourceNameType type, gax::UnparsedResourceName unparsedResourceName = null, string originallySingleMultiId = null, string rootAId = null, string rootBId = null)
         {
             Type = type;
-            UnknownResource = unknownResourceName;
+            UnparsedResource = unparsedResourceName;
             OriginallySingleMultiId = originallySingleMultiId;
             RootAId = rootAId;
             RootBId = rootBId;
@@ -961,10 +963,10 @@ namespace Testing.ResourceNames
         public ResourceNameType Type { get; }
 
         /// <summary>
-        /// The contained <see cref="gax::UnknownResourceName"/>. Only non-<c>null</c>if this instance contains an
-        /// unknown resource name.
+        /// The contained <see cref="gax::UnparsedResourceName"/>. Only non-<c>null</c>if this instance contains an
+        /// unparsed resource name.
         /// </summary>
-        public gax::UnknownResourceName UnknownResource { get; }
+        public gax::UnparsedResourceName UnparsedResource { get; }
 
         /// <summary>
         /// The <c>OriginallySingleMulti</c> ID. May be <c>null</c>, depending on which resource name is contained by
@@ -983,14 +985,14 @@ namespace Testing.ResourceNames
         public string RootBId { get; }
 
         /// <inheritdoc/>
-        public gax::ResourceNameKind Kind => Type == ResourceNameType.Unknown ? gax::ResourceNameKind.Unknown : gax::ResourceNameKind.Oneof;
+        public bool IsKnownPattern => Type != ResourceNameType.Unparsed;
 
         /// <inheritdoc/>
         public override string ToString()
         {
             switch (Type)
             {
-                case ResourceNameType.Unknown: return UnknownResource.ToString();
+                case ResourceNameType.Unparsed: return UnparsedResource.ToString();
                 case ResourceNameType.RootAOriginallySingleMulti: return s_rootAOriginallySingleMulti.Expand(RootAId, OriginallySingleMultiId);
                 case ResourceNameType.RootBOriginallySingleMulti: return s_rootBOriginallySingleMulti.Expand(RootBId, OriginallySingleMultiId);
                 default: throw new sys::InvalidOperationException("Unrecognized resource-type.");
