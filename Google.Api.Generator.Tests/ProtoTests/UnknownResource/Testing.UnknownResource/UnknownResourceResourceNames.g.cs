@@ -25,7 +25,7 @@ namespace Testing.UnknownResource
         /// </summary>
         public gax::IResourceName ResourceAsResourceName
         {
-            get => string.IsNullOrEmpty(Resource) ? null : gax::UnknownResourceName.Parse(Resource);
+            get => string.IsNullOrEmpty(Resource) ? null : gax::UnparsedResourceName.Parse(Resource);
             set => Resource = value?.ToString() ?? "";
         }
     }
