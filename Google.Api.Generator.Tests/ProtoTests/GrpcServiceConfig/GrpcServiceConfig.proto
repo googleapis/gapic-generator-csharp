@@ -18,6 +18,9 @@ service GrpcServiceConfig {
   rpc ServiceLevelRetryMethod(Request) returns(Response);
 
   rpc MethodLevelRetryMethod(Request) returns(Response);
+
+  rpc MethodWithServerRetry(Request) returns(stream Response);
+  rpc MethodWithBidiRetry(stream Request) returns(stream Response);
 }
 
 message Request {
