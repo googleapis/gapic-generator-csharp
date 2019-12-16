@@ -34,8 +34,8 @@ namespace Testing.Paginated
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
-        /// <returns>A pageable sequence of <see cref="string"/> resources.</returns>
-        public virtual gax::PagedEnumerable<Response, string> SignatureMethod(Request request, gaxgrpc::CallSettings callSettings = null) =>
+        /// <returns>A pageable sequence of <see cref="Response.Types.NestedResult"/> resources.</returns>
+        public virtual gax::PagedEnumerable<Response, Response.Types.NestedResult> SignatureMethod(Request request, gaxgrpc::CallSettings callSettings = null) =>
             throw new sys::NotImplementedException();
 
         /// <summary>
@@ -43,8 +43,8 @@ namespace Testing.Paginated
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
-        /// <returns>A pageable asynchronous sequence of <see cref="string"/> resources.</returns>
-        public virtual gax::PagedAsyncEnumerable<Response, string> SignatureMethodAsync(Request request, gaxgrpc::CallSettings callSettings = null) =>
+        /// <returns>A pageable asynchronous sequence of <see cref="Response.Types.NestedResult"/> resources.</returns>
+        public virtual gax::PagedAsyncEnumerable<Response, Response.Types.NestedResult> SignatureMethodAsync(Request request, gaxgrpc::CallSettings callSettings = null) =>
             throw new sys::NotImplementedException();
 
         /// <summary>
@@ -63,8 +63,8 @@ namespace Testing.Paginated
         /// <c>null</c> or <c>0</c> uses a server-defined page size.
         /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
-        /// <returns>A pageable sequence of <see cref="string"/> resources.</returns>
-        public virtual gax::PagedEnumerable<Response, string> SignatureMethod(string aString, int aNumber, string pageToken = null, int? pageSize = null, gaxgrpc::CallSettings callSettings = null) =>
+        /// <returns>A pageable sequence of <see cref="Response.Types.NestedResult"/> resources.</returns>
+        public virtual gax::PagedEnumerable<Response, Response.Types.NestedResult> SignatureMethod(string aString, int aNumber, string pageToken = null, int? pageSize = null, gaxgrpc::CallSettings callSettings = null) =>
             SignatureMethod(new Request
             {
                 AString = aString ?? "",
@@ -89,8 +89,8 @@ namespace Testing.Paginated
         /// <c>null</c> or <c>0</c> uses a server-defined page size.
         /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
-        /// <returns>A pageable asynchronous sequence of <see cref="string"/> resources.</returns>
-        public virtual gax::PagedAsyncEnumerable<Response, string> SignatureMethodAsync(string aString, int aNumber, string pageToken = null, int? pageSize = null, gaxgrpc::CallSettings callSettings = null) =>
+        /// <returns>A pageable asynchronous sequence of <see cref="Response.Types.NestedResult"/> resources.</returns>
+        public virtual gax::PagedAsyncEnumerable<Response, Response.Types.NestedResult> SignatureMethodAsync(string aString, int aNumber, string pageToken = null, int? pageSize = null, gaxgrpc::CallSettings callSettings = null) =>
             SignatureMethodAsync(new Request
             {
                 AString = aString ?? "",
@@ -113,8 +113,8 @@ namespace Testing.Paginated
         /// <c>null</c> or <c>0</c> uses a server-defined page size.
         /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
-        /// <returns>A pageable sequence of <see cref="string"/> resources.</returns>
-        public virtual gax::PagedEnumerable<Response, string> SignatureMethod(string aString, string pageToken = null, int? pageSize = null, gaxgrpc::CallSettings callSettings = null) =>
+        /// <returns>A pageable sequence of <see cref="Response.Types.NestedResult"/> resources.</returns>
+        public virtual gax::PagedEnumerable<Response, Response.Types.NestedResult> SignatureMethod(string aString, string pageToken = null, int? pageSize = null, gaxgrpc::CallSettings callSettings = null) =>
             SignatureMethod(new Request
             {
                 AString = aString ?? "",
@@ -136,8 +136,8 @@ namespace Testing.Paginated
         /// <c>null</c> or <c>0</c> uses a server-defined page size.
         /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
-        /// <returns>A pageable asynchronous sequence of <see cref="string"/> resources.</returns>
-        public virtual gax::PagedAsyncEnumerable<Response, string> SignatureMethodAsync(string aString, string pageToken = null, int? pageSize = null, gaxgrpc::CallSettings callSettings = null) =>
+        /// <returns>A pageable asynchronous sequence of <see cref="Response.Types.NestedResult"/> resources.</returns>
+        public virtual gax::PagedAsyncEnumerable<Response, Response.Types.NestedResult> SignatureMethodAsync(string aString, string pageToken = null, int? pageSize = null, gaxgrpc::CallSettings callSettings = null) =>
             SignatureMethodAsync(new Request
             {
                 AString = aString ?? "",
@@ -157,8 +157,8 @@ namespace Testing.Paginated
         /// <c>null</c> or <c>0</c> uses a server-defined page size.
         /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
-        /// <returns>A pageable sequence of <see cref="string"/> resources.</returns>
-        public virtual gax::PagedEnumerable<Response, string> SignatureMethod(string pageToken = null, int? pageSize = null, gaxgrpc::CallSettings callSettings = null) =>
+        /// <returns>A pageable sequence of <see cref="Response.Types.NestedResult"/> resources.</returns>
+        public virtual gax::PagedEnumerable<Response, Response.Types.NestedResult> SignatureMethod(string pageToken = null, int? pageSize = null, gaxgrpc::CallSettings callSettings = null) =>
             SignatureMethod(new Request
             {
                 PageToken = pageToken ?? "",
@@ -177,8 +177,8 @@ namespace Testing.Paginated
         /// <c>null</c> or <c>0</c> uses a server-defined page size.
         /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
-        /// <returns>A pageable asynchronous sequence of <see cref="string"/> resources.</returns>
-        public virtual gax::PagedAsyncEnumerable<Response, string> SignatureMethodAsync(string pageToken = null, int? pageSize = null, gaxgrpc::CallSettings callSettings = null) =>
+        /// <returns>A pageable asynchronous sequence of <see cref="Response.Types.NestedResult"/> resources.</returns>
+        public virtual gax::PagedAsyncEnumerable<Response, Response.Types.NestedResult> SignatureMethodAsync(string pageToken = null, int? pageSize = null, gaxgrpc::CallSettings callSettings = null) =>
             SignatureMethodAsync(new Request
             {
                 PageToken = pageToken ?? "",
@@ -317,11 +317,11 @@ namespace Testing.Paginated
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
-        /// <returns>A pageable sequence of <see cref="string"/> resources.</returns>
-        public override gax::PagedEnumerable<Response, string> SignatureMethod(Request request, gaxgrpc::CallSettings callSettings = null)
+        /// <returns>A pageable sequence of <see cref="Response.Types.NestedResult"/> resources.</returns>
+        public override gax::PagedEnumerable<Response, Response.Types.NestedResult> SignatureMethod(Request request, gaxgrpc::CallSettings callSettings = null)
         {
             Modify_Request(ref request, ref callSettings);
-            return new gaxgrpc::GrpcPagedEnumerable<Request, Response, string>(_callSignatureMethod, request, callSettings);
+            return new gaxgrpc::GrpcPagedEnumerable<Request, Response, Response.Types.NestedResult>(_callSignatureMethod, request, callSettings);
         }
 
         /// <summary>
@@ -329,11 +329,11 @@ namespace Testing.Paginated
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
-        /// <returns>A pageable asynchronous sequence of <see cref="string"/> resources.</returns>
-        public override gax::PagedAsyncEnumerable<Response, string> SignatureMethodAsync(Request request, gaxgrpc::CallSettings callSettings = null)
+        /// <returns>A pageable asynchronous sequence of <see cref="Response.Types.NestedResult"/> resources.</returns>
+        public override gax::PagedAsyncEnumerable<Response, Response.Types.NestedResult> SignatureMethodAsync(Request request, gaxgrpc::CallSettings callSettings = null)
         {
             Modify_Request(ref request, ref callSettings);
-            return new gaxgrpc::GrpcPagedAsyncEnumerable<Request, Response, string>(_callSignatureMethod, request, callSettings);
+            return new gaxgrpc::GrpcPagedAsyncEnumerable<Request, Response, Response.Types.NestedResult>(_callSignatureMethod, request, callSettings);
         }
 
         /// <summary>
@@ -373,10 +373,10 @@ namespace Testing.Paginated
     {
     }
 
-    public partial class Response : gaxgrpc::IPageResponse<string>
+    public partial class Response : gaxgrpc::IPageResponse<Response.Types.NestedResult>
     {
         /// <summary>Returns an enumerator that iterates through the resources in this response.</summary>
-        public scg::IEnumerator<string> GetEnumerator() => Results.GetEnumerator();
+        public scg::IEnumerator<Types.NestedResult> GetEnumerator() => Results.GetEnumerator();
 
         sc::IEnumerator sc::IEnumerable.GetEnumerator() => GetEnumerator();
     }

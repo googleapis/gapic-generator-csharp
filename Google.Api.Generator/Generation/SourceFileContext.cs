@@ -378,8 +378,9 @@ namespace Google.Api.Generator.Generation
             if (typ.DeclaringTyp != null)
             {
                 // Handle nested typs.
-                if (!RequireFullyQualifiedTyp(typ) && typ.DeclaringTyp == CurrentTyp)
+                if (!RequireFullyQualifiedTyp(typ) && Typs.Count > 0 && typ.DeclaringTyp == CurrentTyp)
                 {
+                    // No need to fully qualify
                     return IdentifierName(typ.Name);
                 }
                 var outerType = Type(typ.DeclaringTyp);
