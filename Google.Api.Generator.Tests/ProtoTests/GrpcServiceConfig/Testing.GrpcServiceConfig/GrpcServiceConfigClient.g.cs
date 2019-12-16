@@ -59,6 +59,22 @@ namespace Testing.GrpcServiceConfig
         /// </list>
         /// </remarks>
         public gaxgrpc::CallSettings MethodLevelRetryMethodSettings { get; set; } = gaxgrpc::CallSettings.FromCallTiming(gaxgrpc::CallTiming.FromRetry(new gaxgrpc::RetrySettings(retryBackoff: new gaxgrpc::BackoffSettings(delay: sys::TimeSpan.FromMilliseconds(1000), maxDelay: sys::TimeSpan.FromMilliseconds(10000), delayMultiplier: 3), timeoutBackoff: new gaxgrpc::BackoffSettings(delay: sys::TimeSpan.FromMilliseconds(60000), maxDelay: sys::TimeSpan.FromMilliseconds(60000), delayMultiplier: 1), totalExpiration: gax::Expiration.FromTimeout(sys::TimeSpan.FromMilliseconds(60000)), retryFilter: gaxgrpc::RetrySettings.FilterForStatusCodes(grpccore::StatusCode.Unavailable))));
+
+        /// <summary>
+        /// <see cref="gaxgrpc::CallSettings"/> for synchronous and asynchronous calls to
+        /// <c>GrpcServiceConfigClient.MethodWithServerRetry</c> and
+        /// <c>GrpcServiceConfigClient.MethodWithServerRetryAsync</c>.
+        /// </summary>
+        /// <remarks>Total timeout: 20 seconds.</remarks>
+        public gaxgrpc::CallSettings MethodWithServerRetrySettings { get; set; } = gaxgrpc::CallSettings.FromCallTiming(gaxgrpc::CallTiming.FromTimeout(sys::TimeSpan.FromMilliseconds(20000)));
+
+        /// <summary>
+        /// <see cref="gaxgrpc::CallSettings"/> for synchronous and asynchronous calls to
+        /// <c>GrpcServiceConfigClient.MethodWithBidiRetry</c> and <c>GrpcServiceConfigClient.MethodWithBidiRetryAsync</c>
+        /// .
+        /// </summary>
+        /// <remarks>Total timeout: 20 seconds.</remarks>
+        public gaxgrpc::CallSettings MethodWithBidiRetrySettings { get; set; } = gaxgrpc::CallSettings.FromCallTiming(gaxgrpc::CallTiming.FromTimeout(sys::TimeSpan.FromMilliseconds(20000)));
         // TEST_END
     }
 }
