@@ -116,6 +116,8 @@ namespace Google.Api.Generator.Generation
                     var tb = method.MethodRetry.TimeoutBackoff;
                     if (method is MethodDetails.IStreaming)
                     {
+                        // Eventually it may  be illegal to configure retry on streaming methods, but for now just remove it.
+                        // It is not possible to apply retry to streaming methods in the general case.
                         property = property.WithInitializer(
                             _ctx.Type<CallSettings>().Call(nameof(CallSettings.FromCallTiming))(
                                 _ctx.Type<CallTiming>().Call(nameof(CallTiming.FromTimeout))(
