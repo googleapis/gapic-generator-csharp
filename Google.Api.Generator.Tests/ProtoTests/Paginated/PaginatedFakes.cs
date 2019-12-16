@@ -31,8 +31,14 @@ namespace Testing.Paginated
 
     public partial class Response : ProtoMsgFake<Response>
     {
+        public class Types
+        {
+            public class NestedResult : ProtoMsgFake<NestedResult>
+            {
+            }
+        }
         public string NextPageToken { get; set; }
-        public RepeatedField<string> Results { get; }
+        public RepeatedField<Types.NestedResult> Results { get; }
     }
 
     public partial class ResourceRequest : ProtoMsgFake<ResourceRequest>

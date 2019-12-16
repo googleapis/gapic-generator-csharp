@@ -37,10 +37,10 @@ namespace Testing.Paginated.Snippets
                 ANumber = 0,
             };
             // Make the request
-            PagedEnumerable<Response, string> response = paginatedClient.SignatureMethod(request);
+            PagedEnumerable<Response, Response.Types.NestedResult> response = paginatedClient.SignatureMethod(request);
 
             // Iterate over all response items, lazily performing RPCs as required
-            foreach (string item in response)
+            foreach (Response.Types.NestedResult item in response)
             {
                 // Do something with each item
                 Console.WriteLine(item);
@@ -51,7 +51,7 @@ namespace Testing.Paginated.Snippets
             {
                 // Do something with each page of items
                 Console.WriteLine("A page of results:");
-                foreach (string item in page)
+                foreach (Response.Types.NestedResult item in page)
                 {
                     // Do something with each item
                     Console.WriteLine(item);
@@ -60,10 +60,10 @@ namespace Testing.Paginated.Snippets
 
             // Or retrieve a single page of known size (unless it's the final page), performing as many RPCs as required
             int pageSize = 10;
-            Page<string> singlePage = response.ReadPage(pageSize);
+            Page<Response.Types.NestedResult> singlePage = response.ReadPage(pageSize);
             // Do something with the page of items
             Console.WriteLine($"A page of {pageSize} results (unless it's the final page):");
-            foreach (string item in singlePage)
+            foreach (Response.Types.NestedResult item in singlePage)
             {
                 // Do something with each item
                 Console.WriteLine(item);
@@ -86,10 +86,10 @@ namespace Testing.Paginated.Snippets
                 ANumber = 0,
             };
             // Make the request
-            PagedAsyncEnumerable<Response, string> response = paginatedClient.SignatureMethodAsync(request);
+            PagedAsyncEnumerable<Response, Response.Types.NestedResult> response = paginatedClient.SignatureMethodAsync(request);
 
             // Iterate over all response items, lazily performing RPCs as required
-            await response.ForEachAsync((string item) =>
+            await response.ForEachAsync((Response.Types.NestedResult item) =>
             {
                 // Do something with each item
                 Console.WriteLine(item);
@@ -100,7 +100,7 @@ namespace Testing.Paginated.Snippets
             {
                 // Do something with each page of items
                 Console.WriteLine("A page of results:");
-                foreach (string item in page)
+                foreach (Response.Types.NestedResult item in page)
                 {
                     // Do something with each item
                     Console.WriteLine(item);
@@ -109,10 +109,10 @@ namespace Testing.Paginated.Snippets
 
             // Or retrieve a single page of known size (unless it's the final page), performing as many RPCs as required
             int pageSize = 10;
-            Page<string> singlePage = await response.ReadPageAsync(pageSize);
+            Page<Response.Types.NestedResult> singlePage = await response.ReadPageAsync(pageSize);
             // Do something with the page of items
             Console.WriteLine($"A page of {pageSize} results (unless it's the final page):");
-            foreach (string item in singlePage)
+            foreach (Response.Types.NestedResult item in singlePage)
             {
                 // Do something with each item
                 Console.WriteLine(item);
@@ -132,10 +132,10 @@ namespace Testing.Paginated.Snippets
             string aString = "";
             int aNumber = 0;
             // Make the request
-            PagedEnumerable<Response, string> response = paginatedClient.SignatureMethod(aString, aNumber);
+            PagedEnumerable<Response, Response.Types.NestedResult> response = paginatedClient.SignatureMethod(aString, aNumber);
 
             // Iterate over all response items, lazily performing RPCs as required
-            foreach (string item in response)
+            foreach (Response.Types.NestedResult item in response)
             {
                 // Do something with each item
                 Console.WriteLine(item);
@@ -146,7 +146,7 @@ namespace Testing.Paginated.Snippets
             {
                 // Do something with each page of items
                 Console.WriteLine("A page of results:");
-                foreach (string item in page)
+                foreach (Response.Types.NestedResult item in page)
                 {
                     // Do something with each item
                     Console.WriteLine(item);
@@ -155,10 +155,10 @@ namespace Testing.Paginated.Snippets
 
             // Or retrieve a single page of known size (unless it's the final page), performing as many RPCs as required
             int pageSize = 10;
-            Page<string> singlePage = response.ReadPage(pageSize);
+            Page<Response.Types.NestedResult> singlePage = response.ReadPage(pageSize);
             // Do something with the page of items
             Console.WriteLine($"A page of {pageSize} results (unless it's the final page):");
-            foreach (string item in singlePage)
+            foreach (Response.Types.NestedResult item in singlePage)
             {
                 // Do something with each item
                 Console.WriteLine(item);
@@ -178,10 +178,10 @@ namespace Testing.Paginated.Snippets
             string aString = "";
             int aNumber = 0;
             // Make the request
-            PagedAsyncEnumerable<Response, string> response = paginatedClient.SignatureMethodAsync(aString, aNumber);
+            PagedAsyncEnumerable<Response, Response.Types.NestedResult> response = paginatedClient.SignatureMethodAsync(aString, aNumber);
 
             // Iterate over all response items, lazily performing RPCs as required
-            await response.ForEachAsync((string item) =>
+            await response.ForEachAsync((Response.Types.NestedResult item) =>
             {
                 // Do something with each item
                 Console.WriteLine(item);
@@ -192,7 +192,7 @@ namespace Testing.Paginated.Snippets
             {
                 // Do something with each page of items
                 Console.WriteLine("A page of results:");
-                foreach (string item in page)
+                foreach (Response.Types.NestedResult item in page)
                 {
                     // Do something with each item
                     Console.WriteLine(item);
@@ -201,10 +201,10 @@ namespace Testing.Paginated.Snippets
 
             // Or retrieve a single page of known size (unless it's the final page), performing as many RPCs as required
             int pageSize = 10;
-            Page<string> singlePage = await response.ReadPageAsync(pageSize);
+            Page<Response.Types.NestedResult> singlePage = await response.ReadPageAsync(pageSize);
             // Do something with the page of items
             Console.WriteLine($"A page of {pageSize} results (unless it's the final page):");
-            foreach (string item in singlePage)
+            foreach (Response.Types.NestedResult item in singlePage)
             {
                 // Do something with each item
                 Console.WriteLine(item);
@@ -223,10 +223,10 @@ namespace Testing.Paginated.Snippets
             // Initialize request argument(s)
             string aString = "";
             // Make the request
-            PagedEnumerable<Response, string> response = paginatedClient.SignatureMethod(aString: aString);
+            PagedEnumerable<Response, Response.Types.NestedResult> response = paginatedClient.SignatureMethod(aString: aString);
 
             // Iterate over all response items, lazily performing RPCs as required
-            foreach (string item in response)
+            foreach (Response.Types.NestedResult item in response)
             {
                 // Do something with each item
                 Console.WriteLine(item);
@@ -237,7 +237,7 @@ namespace Testing.Paginated.Snippets
             {
                 // Do something with each page of items
                 Console.WriteLine("A page of results:");
-                foreach (string item in page)
+                foreach (Response.Types.NestedResult item in page)
                 {
                     // Do something with each item
                     Console.WriteLine(item);
@@ -246,10 +246,10 @@ namespace Testing.Paginated.Snippets
 
             // Or retrieve a single page of known size (unless it's the final page), performing as many RPCs as required
             int pageSize = 10;
-            Page<string> singlePage = response.ReadPage(pageSize);
+            Page<Response.Types.NestedResult> singlePage = response.ReadPage(pageSize);
             // Do something with the page of items
             Console.WriteLine($"A page of {pageSize} results (unless it's the final page):");
-            foreach (string item in singlePage)
+            foreach (Response.Types.NestedResult item in singlePage)
             {
                 // Do something with each item
                 Console.WriteLine(item);
@@ -268,10 +268,10 @@ namespace Testing.Paginated.Snippets
             // Initialize request argument(s)
             string aString = "";
             // Make the request
-            PagedAsyncEnumerable<Response, string> response = paginatedClient.SignatureMethodAsync(aString: aString);
+            PagedAsyncEnumerable<Response, Response.Types.NestedResult> response = paginatedClient.SignatureMethodAsync(aString: aString);
 
             // Iterate over all response items, lazily performing RPCs as required
-            await response.ForEachAsync((string item) =>
+            await response.ForEachAsync((Response.Types.NestedResult item) =>
             {
                 // Do something with each item
                 Console.WriteLine(item);
@@ -282,7 +282,7 @@ namespace Testing.Paginated.Snippets
             {
                 // Do something with each page of items
                 Console.WriteLine("A page of results:");
-                foreach (string item in page)
+                foreach (Response.Types.NestedResult item in page)
                 {
                     // Do something with each item
                     Console.WriteLine(item);
@@ -291,10 +291,10 @@ namespace Testing.Paginated.Snippets
 
             // Or retrieve a single page of known size (unless it's the final page), performing as many RPCs as required
             int pageSize = 10;
-            Page<string> singlePage = await response.ReadPageAsync(pageSize);
+            Page<Response.Types.NestedResult> singlePage = await response.ReadPageAsync(pageSize);
             // Do something with the page of items
             Console.WriteLine($"A page of {pageSize} results (unless it's the final page):");
-            foreach (string item in singlePage)
+            foreach (Response.Types.NestedResult item in singlePage)
             {
                 // Do something with each item
                 Console.WriteLine(item);
@@ -311,10 +311,10 @@ namespace Testing.Paginated.Snippets
             // Create client
             PaginatedClient paginatedClient = PaginatedClient.Create();
             // Make the request
-            PagedEnumerable<Response, string> response = paginatedClient.SignatureMethod();
+            PagedEnumerable<Response, Response.Types.NestedResult> response = paginatedClient.SignatureMethod();
 
             // Iterate over all response items, lazily performing RPCs as required
-            foreach (string item in response)
+            foreach (Response.Types.NestedResult item in response)
             {
                 // Do something with each item
                 Console.WriteLine(item);
@@ -325,7 +325,7 @@ namespace Testing.Paginated.Snippets
             {
                 // Do something with each page of items
                 Console.WriteLine("A page of results:");
-                foreach (string item in page)
+                foreach (Response.Types.NestedResult item in page)
                 {
                     // Do something with each item
                     Console.WriteLine(item);
@@ -334,10 +334,10 @@ namespace Testing.Paginated.Snippets
 
             // Or retrieve a single page of known size (unless it's the final page), performing as many RPCs as required
             int pageSize = 10;
-            Page<string> singlePage = response.ReadPage(pageSize);
+            Page<Response.Types.NestedResult> singlePage = response.ReadPage(pageSize);
             // Do something with the page of items
             Console.WriteLine($"A page of {pageSize} results (unless it's the final page):");
-            foreach (string item in singlePage)
+            foreach (Response.Types.NestedResult item in singlePage)
             {
                 // Do something with each item
                 Console.WriteLine(item);
@@ -354,10 +354,10 @@ namespace Testing.Paginated.Snippets
             // Create client
             PaginatedClient paginatedClient = await PaginatedClient.CreateAsync();
             // Make the request
-            PagedAsyncEnumerable<Response, string> response = paginatedClient.SignatureMethodAsync();
+            PagedAsyncEnumerable<Response, Response.Types.NestedResult> response = paginatedClient.SignatureMethodAsync();
 
             // Iterate over all response items, lazily performing RPCs as required
-            await response.ForEachAsync((string item) =>
+            await response.ForEachAsync((Response.Types.NestedResult item) =>
             {
                 // Do something with each item
                 Console.WriteLine(item);
@@ -368,7 +368,7 @@ namespace Testing.Paginated.Snippets
             {
                 // Do something with each page of items
                 Console.WriteLine("A page of results:");
-                foreach (string item in page)
+                foreach (Response.Types.NestedResult item in page)
                 {
                     // Do something with each item
                     Console.WriteLine(item);
@@ -377,10 +377,10 @@ namespace Testing.Paginated.Snippets
 
             // Or retrieve a single page of known size (unless it's the final page), performing as many RPCs as required
             int pageSize = 10;
-            Page<string> singlePage = await response.ReadPageAsync(pageSize);
+            Page<Response.Types.NestedResult> singlePage = await response.ReadPageAsync(pageSize);
             // Do something with the page of items
             Console.WriteLine($"A page of {pageSize} results (unless it's the final page):");
-            foreach (string item in singlePage)
+            foreach (Response.Types.NestedResult item in singlePage)
             {
                 // Do something with each item
                 Console.WriteLine(item);

@@ -32,9 +32,10 @@ message Request {
 }
 
 message Response {
+  message NestedResult { }
   string next_page_token = 1;
   repeated int32 not_results = 2; // primitive fields are not valid resource candidates.
-  repeated string results = 3; // First non-primitive (msg|string) field by order and number.
+  repeated NestedResult results = 3; // First non-primitive (msg|string) field by order and number.
   repeated string also_not_results = 4; // Non-first field not the resource.
 }
 
