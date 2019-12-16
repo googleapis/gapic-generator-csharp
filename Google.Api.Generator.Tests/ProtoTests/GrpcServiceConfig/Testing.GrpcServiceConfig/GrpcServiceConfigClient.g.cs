@@ -61,7 +61,7 @@ namespace Testing.GrpcServiceConfig
         /// <c>GrpcServiceConfigClient.MethodWithServerRetry</c> and
         /// <c>GrpcServiceConfigClient.MethodWithServerRetryAsync</c>.
         /// </summary>
-        /// <remarks>Total timeout: 20 seconds.</remarks>
+        /// <remarks>Timeout: 20 seconds.</remarks>
         public gaxgrpc::CallSettings MethodWithServerRetrySettings { get; set; } = gaxgrpc::CallSettings.FromExpiration(gax::Expiration.FromTimeout(sys::TimeSpan.FromMilliseconds(20000)));
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace Testing.GrpcServiceConfig
         /// <c>GrpcServiceConfigClient.MethodWithBidiRetry</c> and <c>GrpcServiceConfigClient.MethodWithBidiRetryAsync</c>
         /// .
         /// </summary>
-        /// <remarks>Total timeout: 20 seconds.</remarks>
+        /// <remarks>Timeout: 20 seconds.</remarks>
         public gaxgrpc::CallSettings MethodWithBidiRetrySettings { get; set; } = gaxgrpc::CallSettings.FromExpiration(gax::Expiration.FromTimeout(sys::TimeSpan.FromMilliseconds(20000)));
         // TEST_END
     }
