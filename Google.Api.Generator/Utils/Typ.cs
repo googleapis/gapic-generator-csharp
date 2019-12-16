@@ -175,7 +175,13 @@ namespace Google.Api.Generator.Utils
         {
             if (desc.IsMap)
             {
-                throw new NotSupportedException("Maps not yet supported");
+                if (forceRepeated != null)
+                {
+                    throw new InvalidOperationException("Cannot force repeated on a map field.");
+                }
+                // A map is a repeated message with key and value fields.
+                var kv = desc.MessageType.Fields.InFieldNumberOrder();
+                return Generic(typeof(IDictionary<,>), Of(kv[0]), Of(kv[1]));
             }
             // See https://developers.google.com/protocol-buffers/docs/proto3#scalar
             // Switch cases are ordered as in this doc. Please do not re-order.

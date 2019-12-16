@@ -59,6 +59,16 @@ namespace Testing.MethodSignatures
         public RepeatedField<Types.Msg> RepeatedRequired { get; }
     }
 
+    public class MapRequest : ProtoMsgFake<MessageRequest>
+    {
+        public static class Types
+        {
+            public class Msg : ProtoMsgFake<Msg> { }
+        }
+        public MapField<string, string> Optional { get; }
+        public MapField<int, Types.Msg> Required { get; }
+    }
+
     public enum TopLevelEnum
     {
         DEFAULT = 0,

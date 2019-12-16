@@ -497,6 +497,64 @@ namespace Testing.MethodSignatures
             MessageArgsAsync(optional, required, repeatedOptional, repeatedRequired, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
         // TEST_END
 
+        public virtual Response MapArgs(MapRequest request, gaxgrpc::CallSettings callSettings = null) => throw new sys::NotImplementedException();
+        public virtual stt::Task<Response> MapArgsAsync(MapRequest request, gaxgrpc::CallSettings callSettings = null) => throw new sys::NotImplementedException();
+
+        // TEST_START
+        /// <summary>
+        /// </summary>
+        /// <param name="optional">
+        /// </param>
+        /// <param name="required">
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>The RPC response.</returns>
+        public virtual Response MapArgs(scg::IDictionary<string, string> optional, scg::IDictionary<int, MapRequest.Types.Msg> required, gaxgrpc::CallSettings callSettings = null) =>
+            MapArgs(new MapRequest
+            {
+                Optional =
+                {
+                    optional ?? new scg::Dictionary<string, string>(),
+                },
+                Required =
+                {
+                    gax::GaxPreconditions.CheckNotNull(required, nameof(required)),
+                },
+            }, callSettings);
+
+        /// <summary>
+        /// </summary>
+        /// <param name="optional">
+        /// </param>
+        /// <param name="required">
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<Response> MapArgsAsync(scg::IDictionary<string, string> optional, scg::IDictionary<int, MapRequest.Types.Msg> required, gaxgrpc::CallSettings callSettings = null) =>
+            MapArgsAsync(new MapRequest
+            {
+                Optional =
+                {
+                    optional ?? new scg::Dictionary<string, string>(),
+                },
+                Required =
+                {
+                    gax::GaxPreconditions.CheckNotNull(required, nameof(required)),
+                },
+            }, callSettings);
+
+        /// <summary>
+        /// </summary>
+        /// <param name="optional">
+        /// </param>
+        /// <param name="required">
+        /// </param>
+        /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<Response> MapArgsAsync(scg::IDictionary<string, string> optional, scg::IDictionary<int, MapRequest.Types.Msg> required, st::CancellationToken cancellationToken) =>
+            MapArgsAsync(optional, required, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+        // TEST_END
+
         public virtual Response EnumArgs(EnumRequest request, gaxgrpc::CallSettings callSettings = null) => throw new sys::NotImplementedException();
         public virtual stt::Task<Response> EnumArgsAsync(EnumRequest request, gaxgrpc::CallSettings callSettings = null) => throw new sys::NotImplementedException();
 

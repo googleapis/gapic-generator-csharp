@@ -71,7 +71,14 @@ namespace Google.Api.Generator.Generation
                     // message               | null ok         | check not null  | null -> empty     | check not null
                     // resourcename (string) | null -> ""      | check not null  | null -> empty     | check not null
                     // resourcenames use the generated partial resource-name-typde properties, which perform the string conversion.
-                    if (field.IsRepeated)
+                    if (field.IsMap)
+                    {
+                        return CollectionInitializer(field.IsRequired ?
+                            Ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(param, Nameof(param)) :
+                            param.NullCoalesce(New(Ctx.Type(Typ.Generic(typeof(Dictionary<,>),
+                                field.Typ.GenericArgTyps.First(), field.Typ.GenericArgTyps.ElementAt(1))))()));
+                    }
+                    else if (field.IsRepeated)
                     {
                         if (treatAsResource)
                         {
