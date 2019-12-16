@@ -197,6 +197,7 @@ namespace Google.Api.Generator.Generation
                     }, acc => acc.result);
                     var lastDesc = Descs.Last();
                     Typ = Typ.Of(lastDesc);
+                    IsMap = lastDesc.IsMap;
                     IsRepeated = lastDesc.IsRepeated;
                     IsWrapperType = Typ.IsWrapperType(lastDesc);
                     IsRequired = lastDesc.CustomOptions.TryGetRepeatedEnum<FieldBehavior>(ProtoConsts.FieldOption.FieldBehavior, out var behaviors) &&
@@ -208,6 +209,7 @@ namespace Google.Api.Generator.Generation
                 }
                 public IReadOnlyList<FieldDescriptor> Descs { get; }
                 public Typ Typ { get; }
+                public bool IsMap { get; }
                 public bool IsRepeated { get; }
                 public bool IsRequired { get; }
                 public bool IsWrapperType { get; }

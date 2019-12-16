@@ -34,6 +34,10 @@ service MethodSignatures {
     option (google.api.method_signature) = "optional,required,repeated_optional,repeated_required";
   }
 
+  rpc MapArgs(MapRequest) returns(Response) {
+     option (google.api.method_signature) = "optional, required";
+  }
+
   rpc EnumArgs(EnumRequest) returns(Response) {
     option (google.api.method_signature) = "optional,required,repeated_optional,repeated_required,top_level_optional,top_level_required,repeated_top_level_optional,repeated_top_level_required";
   }
@@ -87,6 +91,12 @@ message MessageRequest {
   Msg required = 2 [(google.api.field_behavior) = REQUIRED];
   repeated Msg repeated_optional = 3;
   repeated Msg repeated_required = 4 [(google.api.field_behavior) = REQUIRED];
+}
+
+message MapRequest {
+  message Msg { }
+  map<string, string> optional = 1;
+  map<int32, Msg> required = 2 [(google.api.field_behavior) = REQUIRED];
 }
 
 enum TopLevelEnum {
