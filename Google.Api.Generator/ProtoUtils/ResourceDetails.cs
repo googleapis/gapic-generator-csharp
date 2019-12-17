@@ -282,7 +282,7 @@ namespace Google.Api.Generator.ProtoUtils
                 // It is invalid to ask for a parent that is not already defined.
                 // This may change in the future, to allow auto-generating parent resource-names, but this is not currently allowed.
                 throw new InvalidOperationException(
-                    "Cannot refer to the child-type of a resource if the child pattern is not already defined in a resource.");
+                    $"Cannot refer to child-type '{resourceRef.ChildType}' in field {msgDesc.Name}.{fieldDesc.Name} because the child patterns are not already defined in a resource.");
             }
             throw new InvalidOperationException("type or child_type must be set.");
 
