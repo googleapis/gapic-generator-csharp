@@ -340,9 +340,11 @@ namespace Testing.UnitTests
         /// </param>
         /// <param name="repeatedResourceName">
         /// </param>
+        /// <param name="mapIntString">
+        /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The RPC response.</returns>
-        public virtual Response MethodValues(double singleDouble, float singleFloat, int singleInt32, long singleInt64, scg::IEnumerable<bool> repeatedBool, scg::IEnumerable<proto::ByteString> repeatedBytes, scg::IEnumerable<string> repeatedResourceName, gaxgrpc::CallSettings callSettings = null) =>
+        public virtual Response MethodValues(double singleDouble, float singleFloat, int singleInt32, long singleInt64, scg::IEnumerable<bool> repeatedBool, scg::IEnumerable<proto::ByteString> repeatedBytes, scg::IEnumerable<string> repeatedResourceName, scg::IDictionary<int, string> mapIntString, gaxgrpc::CallSettings callSettings = null) =>
             MethodValues(new ValuesRequest
             {
                 SingleDouble = singleDouble,
@@ -361,6 +363,10 @@ namespace Testing.UnitTests
                 {
                     repeatedResourceName ?? linq::Enumerable.Empty<string>(),
                 },
+                MapIntString =
+                {
+                    mapIntString ?? new scg::Dictionary<int, string>(),
+                },
             }, callSettings);
 
         /// <summary>
@@ -379,9 +385,11 @@ namespace Testing.UnitTests
         /// </param>
         /// <param name="repeatedResourceName">
         /// </param>
+        /// <param name="mapIntString">
+        /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<Response> MethodValuesAsync(double singleDouble, float singleFloat, int singleInt32, long singleInt64, scg::IEnumerable<bool> repeatedBool, scg::IEnumerable<proto::ByteString> repeatedBytes, scg::IEnumerable<string> repeatedResourceName, gaxgrpc::CallSettings callSettings = null) =>
+        public virtual stt::Task<Response> MethodValuesAsync(double singleDouble, float singleFloat, int singleInt32, long singleInt64, scg::IEnumerable<bool> repeatedBool, scg::IEnumerable<proto::ByteString> repeatedBytes, scg::IEnumerable<string> repeatedResourceName, scg::IDictionary<int, string> mapIntString, gaxgrpc::CallSettings callSettings = null) =>
             MethodValuesAsync(new ValuesRequest
             {
                 SingleDouble = singleDouble,
@@ -400,6 +408,10 @@ namespace Testing.UnitTests
                 {
                     repeatedResourceName ?? linq::Enumerable.Empty<string>(),
                 },
+                MapIntString =
+                {
+                    mapIntString ?? new scg::Dictionary<int, string>(),
+                },
             }, callSettings);
 
         /// <summary>
@@ -418,10 +430,12 @@ namespace Testing.UnitTests
         /// </param>
         /// <param name="repeatedResourceName">
         /// </param>
+        /// <param name="mapIntString">
+        /// </param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
         /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<Response> MethodValuesAsync(double singleDouble, float singleFloat, int singleInt32, long singleInt64, scg::IEnumerable<bool> repeatedBool, scg::IEnumerable<proto::ByteString> repeatedBytes, scg::IEnumerable<string> repeatedResourceName, st::CancellationToken cancellationToken) =>
-            MethodValuesAsync(singleDouble, singleFloat, singleInt32, singleInt64, repeatedBool, repeatedBytes, repeatedResourceName, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+        public virtual stt::Task<Response> MethodValuesAsync(double singleDouble, float singleFloat, int singleInt32, long singleInt64, scg::IEnumerable<bool> repeatedBool, scg::IEnumerable<proto::ByteString> repeatedBytes, scg::IEnumerable<string> repeatedResourceName, scg::IDictionary<int, string> mapIntString, st::CancellationToken cancellationToken) =>
+            MethodValuesAsync(singleDouble, singleFloat, singleInt32, singleInt64, repeatedBool, repeatedBytes, repeatedResourceName, mapIntString, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
         /// </summary>
@@ -439,9 +453,11 @@ namespace Testing.UnitTests
         /// </param>
         /// <param name="repeatedResourceName">
         /// </param>
+        /// <param name="mapIntString">
+        /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The RPC response.</returns>
-        public virtual Response MethodValues(double singleDouble, float singleFloat, int singleInt32, long singleInt64, scg::IEnumerable<bool> repeatedBool, scg::IEnumerable<proto::ByteString> repeatedBytes, scg::IEnumerable<AResourceName> repeatedResourceName, gaxgrpc::CallSettings callSettings = null) =>
+        public virtual Response MethodValues(double singleDouble, float singleFloat, int singleInt32, long singleInt64, scg::IEnumerable<bool> repeatedBool, scg::IEnumerable<proto::ByteString> repeatedBytes, scg::IEnumerable<AResourceName> repeatedResourceName, scg::IDictionary<int, string> mapIntString, gaxgrpc::CallSettings callSettings = null) =>
             MethodValues(new ValuesRequest
             {
                 SingleDouble = singleDouble,
@@ -460,6 +476,10 @@ namespace Testing.UnitTests
                 {
                     repeatedResourceName ?? linq::Enumerable.Empty<AResourceName>(),
                 },
+                MapIntString =
+                {
+                    mapIntString ?? new scg::Dictionary<int, string>(),
+                },
             }, callSettings);
 
         /// <summary>
@@ -478,9 +498,11 @@ namespace Testing.UnitTests
         /// </param>
         /// <param name="repeatedResourceName">
         /// </param>
+        /// <param name="mapIntString">
+        /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<Response> MethodValuesAsync(double singleDouble, float singleFloat, int singleInt32, long singleInt64, scg::IEnumerable<bool> repeatedBool, scg::IEnumerable<proto::ByteString> repeatedBytes, scg::IEnumerable<AResourceName> repeatedResourceName, gaxgrpc::CallSettings callSettings = null) =>
+        public virtual stt::Task<Response> MethodValuesAsync(double singleDouble, float singleFloat, int singleInt32, long singleInt64, scg::IEnumerable<bool> repeatedBool, scg::IEnumerable<proto::ByteString> repeatedBytes, scg::IEnumerable<AResourceName> repeatedResourceName, scg::IDictionary<int, string> mapIntString, gaxgrpc::CallSettings callSettings = null) =>
             MethodValuesAsync(new ValuesRequest
             {
                 SingleDouble = singleDouble,
@@ -499,6 +521,10 @@ namespace Testing.UnitTests
                 {
                     repeatedResourceName ?? linq::Enumerable.Empty<AResourceName>(),
                 },
+                MapIntString =
+                {
+                    mapIntString ?? new scg::Dictionary<int, string>(),
+                },
             }, callSettings);
 
         /// <summary>
@@ -517,10 +543,12 @@ namespace Testing.UnitTests
         /// </param>
         /// <param name="repeatedResourceName">
         /// </param>
+        /// <param name="mapIntString">
+        /// </param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
         /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<Response> MethodValuesAsync(double singleDouble, float singleFloat, int singleInt32, long singleInt64, scg::IEnumerable<bool> repeatedBool, scg::IEnumerable<proto::ByteString> repeatedBytes, scg::IEnumerable<AResourceName> repeatedResourceName, st::CancellationToken cancellationToken) =>
-            MethodValuesAsync(singleDouble, singleFloat, singleInt32, singleInt64, repeatedBool, repeatedBytes, repeatedResourceName, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+        public virtual stt::Task<Response> MethodValuesAsync(double singleDouble, float singleFloat, int singleInt32, long singleInt64, scg::IEnumerable<bool> repeatedBool, scg::IEnumerable<proto::ByteString> repeatedBytes, scg::IEnumerable<AResourceName> repeatedResourceName, scg::IDictionary<int, string> mapIntString, st::CancellationToken cancellationToken) =>
+            MethodValuesAsync(singleDouble, singleFloat, singleInt32, singleInt64, repeatedBool, repeatedBytes, repeatedResourceName, mapIntString, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
         /// LRO method, to test the client mocking supports LRO.
