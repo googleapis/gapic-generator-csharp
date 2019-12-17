@@ -207,7 +207,13 @@ namespace Google.Api.Generator.Generation
                         var parts = fieldDesc.MessageType.Fields.InFieldNumberOrder();
                         var keyValue = DefaultValue(parts[0]);
                         var valueValue = DefaultValue(parts[1]);
-                        return CollectionInitializer(ComplexElementInitializer(keyValue, valueValue));
+                        var collectionInitializer = CollectionInitializer(ComplexElementInitializer(keyValue, valueValue));
+                        return topLevel
+                            ? New(Ctx.Type(Typ.Generic(typeof(Dictionary<,>), Typ.Of(fieldDesc).GenericArgTyps.ToArray())))()
+                                // We want new Dictionary<int, int> { ... } rather than new Dictionary<int, int>() { ... }
+                                .WithArgumentList(null)
+                                .WithInitializer(collectionInitializer)
+                            : (object) collectionInitializer;
                     }
                     object @default;
                     // See https://developers.google.com/protocol-buffers/docs/proto3#scalar
