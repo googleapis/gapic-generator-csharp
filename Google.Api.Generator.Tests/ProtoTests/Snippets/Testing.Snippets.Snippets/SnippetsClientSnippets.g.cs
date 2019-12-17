@@ -281,6 +281,7 @@ namespace Testing.Snippets.Snippets
                 AString = "",
                 AnInt = 0,
                 ABool = false,
+                MapIntString = { { 0, "" }, },
             };
             // Make the request
             Response response = snippetsClient.MethodOneSignature(request);
@@ -300,6 +301,7 @@ namespace Testing.Snippets.Snippets
                 AString = "",
                 AnInt = 0,
                 ABool = false,
+                MapIntString = { { 0, "" }, },
             };
             // Make the request
             Response response = await snippetsClient.MethodOneSignatureAsync(request);
@@ -349,6 +351,7 @@ namespace Testing.Snippets.Snippets
                 AString = "",
                 AnInt = 0,
                 ABool = false,
+                MapIntString = { { 0, "" }, },
             };
             // Make the request
             Response response = snippetsClient.MethodThreeSignatures(request);
@@ -368,6 +371,7 @@ namespace Testing.Snippets.Snippets
                 AString = "",
                 AnInt = 0,
                 ABool = false,
+                MapIntString = { { 0, "" }, },
             };
             // Make the request
             Response response = await snippetsClient.MethodThreeSignaturesAsync(request);
@@ -454,6 +458,72 @@ namespace Testing.Snippets.Snippets
             SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
             // Make the request
             Response response = await snippetsClient.MethodThreeSignaturesAsync();
+            // End snippet
+        }
+
+        /// <summary>Snippet for MethodMapSignature</summary>
+        public void MethodMapSignature_RequestObject()
+        {
+            // Snippet: MethodMapSignature(SignatureRequest, CallSettings)
+            // Create client
+            SnippetsClient snippetsClient = SnippetsClient.Create();
+            // Initialize request argument(s)
+            SignatureRequest request = new SignatureRequest
+            {
+                AString = "",
+                AnInt = 0,
+                ABool = false,
+                MapIntString = { { 0, "" }, },
+            };
+            // Make the request
+            Response response = snippetsClient.MethodMapSignature(request);
+            // End snippet
+        }
+
+        /// <summary>Snippet for MethodMapSignatureAsync</summary>
+        public async Task MethodMapSignatureAsync_RequestObject()
+        {
+            // Snippet: MethodMapSignatureAsync(SignatureRequest, CallSettings)
+            // Additional: MethodMapSignatureAsync(SignatureRequest, CancellationToken)
+            // Create client
+            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            // Initialize request argument(s)
+            SignatureRequest request = new SignatureRequest
+            {
+                AString = "",
+                AnInt = 0,
+                ABool = false,
+                MapIntString = { { 0, "" }, },
+            };
+            // Make the request
+            Response response = await snippetsClient.MethodMapSignatureAsync(request);
+            // End snippet
+        }
+
+        /// <summary>Snippet for MethodMapSignature</summary>
+        public void MethodMapSignature()
+        {
+            // Snippet: MethodMapSignature(IDictionary<int,string>, CallSettings)
+            // Create client
+            SnippetsClient snippetsClient = SnippetsClient.Create();
+            // Initialize request argument(s)
+            IDictionary<int, string> mapIntString = new Dictionary<int, string> { { 0, "" }, };
+            // Make the request
+            Response response = snippetsClient.MethodMapSignature(mapIntString);
+            // End snippet
+        }
+
+        /// <summary>Snippet for MethodMapSignatureAsync</summary>
+        public async Task MethodMapSignatureAsync()
+        {
+            // Snippet: MethodMapSignatureAsync(IDictionary<int,string>, CallSettings)
+            // Additional: MethodMapSignatureAsync(IDictionary<int,string>, CancellationToken)
+            // Create client
+            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            // Initialize request argument(s)
+            IDictionary<int, string> mapIntString = new Dictionary<int, string> { { 0, "" }, };
+            // Make the request
+            Response response = await snippetsClient.MethodMapSignatureAsync(mapIntString);
             // End snippet
         }
 
@@ -622,6 +692,7 @@ namespace Testing.Snippets.Snippets
                 AString = "",
                 AnInt = 0,
                 ABool = false,
+                MapIntString = { { 0, "" }, },
             };
             // Make the request
             Operation<LroResponse, LroMetadata> response = snippetsClient.MethodLroSignatures(request);
@@ -657,6 +728,7 @@ namespace Testing.Snippets.Snippets
                 AString = "",
                 AnInt = 0,
                 ABool = false,
+                MapIntString = { { 0, "" }, },
             };
             // Make the request
             Operation<LroResponse, LroMetadata> response = await snippetsClient.MethodLroSignaturesAsync(request);
@@ -949,6 +1021,7 @@ namespace Testing.Snippets.Snippets
                 AString = "",
                 AnInt = 0,
                 ABool = false,
+                MapIntString = { { 0, "" }, },
             };
             // Make the request, returning a streaming response
             SnippetsClient.MethodServerStreamingStream response = snippetsClient.MethodServerStreaming(request);
@@ -1116,6 +1189,7 @@ namespace Testing.Snippets.Snippets
                     AString = "",
                     AnInt = 0,
                     ABool = false,
+                    MapIntString = { { 0, "" }, },
                 };
                 // Stream a request to the server
                 await response.WriteAsync(request);

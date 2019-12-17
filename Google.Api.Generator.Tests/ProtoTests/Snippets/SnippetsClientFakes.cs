@@ -57,6 +57,11 @@ namespace Testing.Snippets
         public Response MethodThreeSignatures() => throw new NotImplementedException();
         public Task<Response> MethodThreeSignaturesAsync() => throw new NotImplementedException();
 
+        public Response MethodMapSignature(SignatureRequest request) => throw new NotImplementedException();
+        public Task<Response> MethodMapSignatureAsync(SignatureRequest request) => throw new NotImplementedException();
+        public Response MethodMapSignature(IDictionary<int, string> mapIntString) => throw new NotImplementedException();
+        public Task<Response> MethodMapSignatureAsync(IDictionary<int, string> mapIntString) => throw new NotImplementedException();
+
         public Response MethodResourceSignature(ResourceSignatureRequest request) => throw new NotImplementedException();
         public Task<Response> MethodResourceSignatureAsync(ResourceSignatureRequest request) => throw new NotImplementedException();
         public Response MethodResourceSignature(string firstName, string secondName, string thirdName) => throw new NotImplementedException();
@@ -197,6 +202,7 @@ namespace Testing.Snippets
         public string AString { get; set; }
         public int AnInt { get; set; }
         public bool ABool { get; set; }
+        public MapField<int, string> MapIntString { get; } = new MapField<int, string>();
     }
 
     public class SimpleResourceName : IResourceName
