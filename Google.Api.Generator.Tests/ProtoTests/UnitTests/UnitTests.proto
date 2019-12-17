@@ -13,7 +13,7 @@ service UnitTests {
 
   rpc MethodValues(ValuesRequest) returns(Response) {
     option (google.api.method_signature) = "single_double";
-    option (google.api.method_signature) = "single_double,single_float,single_int32,single_int64,repeated_bool,repeated_bytes,repeated_resource_name";
+    option (google.api.method_signature) = "single_double,single_float,single_int32,single_int64,repeated_bool,repeated_bytes,repeated_resource_name,map_int_string";
   }
 
   // LRO method, to test the client mocking supports LRO.
