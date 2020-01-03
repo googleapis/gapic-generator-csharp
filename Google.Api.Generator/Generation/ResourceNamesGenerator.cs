@@ -326,7 +326,7 @@ namespace Google.Api.Generator.Generation
 
             private PropertyDeclarationSyntax UnparsedResourceNameProperty() =>
                 AutoProperty(Public, _ctx.Type<UnparsedResourceName>(), "UnparsedResource")
-                    .WithXmlDoc(XmlDoc.Summary("The contained ", _ctx.Type<UnparsedResourceName>(), ". Only non-", null, "if this instance contains an unparsed resource name."));
+                    .WithXmlDoc(XmlDoc.Summary("The contained ", _ctx.Type<UnparsedResourceName>(), ". Only non-", null, " if this instance contains an unparsed resource name."));
 
             private IEnumerable<PropertyDeclarationSyntax> Properties() =>
                 PatternDetails.SelectMany(pattern => pattern.PathElements).ToImmutableHashSet(PathElementByNameComparer.Instance)
