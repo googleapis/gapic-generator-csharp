@@ -204,7 +204,7 @@ namespace Google.Api.Generator.ProtoUtils
                 {
                     throw new InvalidOperationException("Cannot refer to the child-type of a resource with a wildcard pattern");
                 }
-                var parentPatterns = childDef.Patterns.Select(x => x.PatternString).ToImmutableHashSet();
+                var parentPatterns = childDef.Patterns.Select(x => ParentPattern(x.PatternString)).ToImmutableHashSet();
                 if (resourcesByPatterns.TryGetValue(parentPatterns, out var parentDef))
                 {
                     // Return existing resource; no auto-generated required.
@@ -216,6 +216,17 @@ namespace Google.Api.Generator.ProtoUtils
                     $"Cannot refer to child-type '{resourceRef.ChildType}' in field {msgDesc.Name}.{fieldDesc.Name} because the child patterns are not already defined in a resource.");
             }
             throw new InvalidOperationException("type or child_type must be set.");
+
+            string ParentPattern(string pattern)
+            {
+                var lastIndex = pattern.LastIndexOf('}');
+                var last2Index = pattern.LastIndexOf('}', startIndex: Math.Max(lastIndex - 1, 0));
+                if (lastIndex < 0 || last2Index < 0)
+                {
+                    throw new InvalidOperationException("Cannot create the parent of a single-piece resource name.");
+                }
+                return pattern.Substring(0, last2Index + 1);
+            }
         }
     }
 }

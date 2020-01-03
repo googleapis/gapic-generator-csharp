@@ -920,11 +920,11 @@ namespace Testing.ChildResource
     public partial class ProjectRef
     {
         /// <summary>
-        /// <see cref="ProjectUserName"/>-typed view over the <see cref="ProjectUserParent"/> resource name property.
+        /// <see cref="ProjectName"/>-typed view over the <see cref="ProjectUserParent"/> resource name property.
         /// </summary>
-        public ProjectUserName ProjectUserParentAsProjectUserName
+        public ProjectName ProjectUserParentAsProjectName
         {
-            get => string.IsNullOrEmpty(ProjectUserParent) ? null : ProjectUserName.Parse(ProjectUserParent);
+            get => string.IsNullOrEmpty(ProjectUserParent) ? null : ProjectName.Parse(ProjectUserParent);
             set => ProjectUserParent = value?.ToString() ?? "";
         }
     }
@@ -932,11 +932,11 @@ namespace Testing.ChildResource
     public partial class MultiRootRef
     {
         /// <summary>
-        /// <see cref="MultiRootItemName"/>-typed view over the <see cref="MultiRootParent"/> resource name property.
+        /// <see cref="RootsName"/>-typed view over the <see cref="MultiRootParent"/> resource name property.
         /// </summary>
-        public MultiRootItemName MultiRootParentAsMultiRootItemName
+        public RootsName MultiRootParentAsRootsName
         {
-            get => string.IsNullOrEmpty(MultiRootParent) ? null : MultiRootItemName.Parse(MultiRootParent);
+            get => string.IsNullOrEmpty(MultiRootParent) ? null : RootsName.Parse(MultiRootParent);
             set => MultiRootParent = value?.ToString() ?? "";
         }
     }
