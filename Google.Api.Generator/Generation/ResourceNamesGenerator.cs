@@ -337,13 +337,6 @@ namespace Google.Api.Generator.Generation
                 .WithGetBody(ResourceType().NotEqualTo(_ctx.Type(ResourceNameTypeTyp).Access("Unparsed")))
                 .WithXmlDoc(XmlDoc.InheritDoc);
 
-            //private PropertyDeclarationSyntax ResourceNameKind() => Property(Public, _ctx.Type<ResourceNameKind>(), nameof(IResourceName.Kind))
-            //    .WithGetBody(
-            //        ResourceType().Equality(_ctx.Type(ResourceNameTypeTyp).Access("Unparsed")).ConditionalOperator(
-            //            _ctx.Type<ResourceNameKind>().Access(nameof(Gax.ResourceNameKind.Unknown)),
-            //            _ctx.Type<ResourceNameKind>().Access(_def.Patterns.Count > 1 ? nameof(Gax.ResourceNameKind.Oneof) : nameof(Gax.ResourceNameKind.Simple))))
-            //    .WithXmlDoc(XmlDoc.InheritDoc);
-
             private new MethodDeclarationSyntax ToString()
             {
                 var switchCases = PatternDetails.Select(pattern =>
