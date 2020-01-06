@@ -14,13 +14,15 @@
 
 namespace Testing.ChildResource
 {
-    public partial class ProjectRef
+    public partial class ProjectRef : ProtoMsgFake<ProjectRef>
     {
         public string ProjectUserParent { get; set; }
     }
 
-    public partial class MultiRootRef
+    public partial class MultiRootRef : ProtoMsgFake<MultiRootRef>
     {
         public string MultiRootParent { get; set; }
     }
+
+    public class Response : ProtoMsgFake<Response> { }
 }
