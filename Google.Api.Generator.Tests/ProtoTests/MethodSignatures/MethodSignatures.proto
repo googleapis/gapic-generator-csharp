@@ -12,6 +12,7 @@ service MethodSignatures {
   option (google.api.default_host) = "methodsignatures.example.com";
 
   rpc SimpleMethod(SimpleRequest) returns(Response) {
+    option (google.api.method_signature) = ""; // Test zero-parameter signature. This would be unusual, but valid.
     option (google.api.method_signature) = "a_number";
     option (google.api.method_signature) = "a_string";
     option (google.api.method_signature) = "a_number , a_string"; // Test spaces within the signature.
