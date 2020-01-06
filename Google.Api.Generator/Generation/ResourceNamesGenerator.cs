@@ -316,7 +316,7 @@ namespace Google.Api.Generator.Generation
                     " class from the component parts of pattern ", XmlDoc.C(PatternDetails[0].PatternString));
                 yield return Ctor(Public, cls, initializer: ThisInitializer(initParams.ToArray()))
                     (PatternDetails[0].PathElements.Select(x => x.Parameter).ToArray())
-                    .WithBody() // Delibrately empty body.
+                    .WithBody() // Deliberately empty body.
                     .WithXmlDoc(PatternDetails[0].PathElements.Select(pattern => pattern.ParameterXmlDoc).Prepend(xmlDocSummary).ToArray());
             }
 
