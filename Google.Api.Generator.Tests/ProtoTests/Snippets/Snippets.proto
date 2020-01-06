@@ -149,6 +149,7 @@ message DefaultValuesRequest {
   string multi_pattern_resource_name = 44 [(google.api.resource_reference).type = "unittests.example.com/MultiPatternResource"];
   repeated string repeated_multi_pattern_resource_name = 45 [(google.api.resource_reference).type = "unittests.example.com/MultiPatternResource"];
   map<int32, string> map_int_string = 46;
+  string obsolete_field = 50 [deprecated = true];
 }
 
 message SignatureRequest {

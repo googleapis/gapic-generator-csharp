@@ -230,7 +230,7 @@ namespace Google.Api.Generator.Generation
 
             private IEnumerable<ObjectInitExpr> InitRequest()
             {
-                foreach (var fieldDesc in Method.RequestMessageDesc.Fields.InFieldNumberOrder())
+                foreach (var fieldDesc in Method.RequestMessageDesc.Fields.InFieldNumberOrder().Where(x => !x.IsDeprecated()))
                 {
                     if (!IsPaginationField())
                     {
