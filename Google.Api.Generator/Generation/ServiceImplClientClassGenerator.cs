@@ -130,21 +130,16 @@ namespace Google.Api.Generator.Generation
                     default:
                         var fieldInit = clientHelper.Call(nameof(ClientHelper.BuildApiCall), _ctx.Type(method.RequestTyp), _ctx.Type(method.ResponseTyp))(
                             grpcClient.Access(method.AsyncMethodName), grpcClient.Access(method.SyncMethodName), effectiveSettings.Access(method.SettingsName));
-                        if (method.RoutingHeaders.Any())
+                        var request = Parameter(_ctx.Type(method.RequestTyp), "request");
+                        foreach (var header in method.RoutingHeaders)
                         {
-                            var request = Parameter(_ctx.Type(method.RequestTyp), "request");
-                            var strings = method.RoutingHeaders.Select((header, i) =>
+                            var access = request.Access(header.PropertyNames.First());
+                            foreach (var propertyName in header.PropertyNames.Skip(1))
                             {
-                                var access = request.Access(header.PropertyNames.First());
-                                foreach (var propertyName in header.PropertyNames.Skip(1))
-                                {
-                                    access = access.Access(propertyName);
-                                }
-                                var amp = i == 0 ? "" : "&";
-                                return (FormattableString)$"{amp:raw}{header.EncodedName:raw}={Parens(_ctx.Type(typeof(WebUtility)).Call(nameof(WebUtility.UrlEncode))(access))}";
-                            });
-                            fieldInit = fieldInit.Call(nameof(ApiCall<ProtoMsg, ProtoMsg>.WithCallSettingsOverlay))(
-                                Lambda(request)(_ctx.Type<CallSettings>().Call(nameof(CallSettings.FromHeader))("x-goog-request-params", Dollar(strings.ToArray()))));
+                                access = access.Access(propertyName, conditional: true);
+                            }
+                            fieldInit = fieldInit.Call(nameof(ApiCall<ProtoMsg, ProtoMsg>.WithGoogleRequestParam))(
+                                header.EncodedName, Lambda(request)(access));
                         }
                         yield return field.Assign(fieldInit);
                         break;

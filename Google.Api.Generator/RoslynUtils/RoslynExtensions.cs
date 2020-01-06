@@ -192,7 +192,8 @@ namespace Google.Api.Generator.RoslynUtils
         public static ExpressionSyntax Access(this FieldDeclarationSyntax field, object member) =>
             MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, IdentifierName(field.Declaration.Variables.Single().Identifier), ToSimpleName(member));
 
-        public static ExpressionSyntax Access(this ExpressionSyntax expr, object member) =>
+        public static ExpressionSyntax Access(this ExpressionSyntax expr, object member, bool conditional = false) => conditional ?
+            (ExpressionSyntax) ConditionalAccessExpression(expr, MemberBindingExpression(ToSimpleName(member)))  :
             MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, expr, ToSimpleName(member));
 
         public static ExpressionSyntax ElementAccess(this LocalDeclarationStatementSyntax var, object element) =>
