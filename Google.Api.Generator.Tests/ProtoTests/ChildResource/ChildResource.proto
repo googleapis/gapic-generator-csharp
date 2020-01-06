@@ -8,6 +8,16 @@ import "google/api/client.proto";
 import "google/api/resource.proto";
 import "google/api/field_behavior.proto";
 
+service ChildResource {
+  rpc Single(ProjectRef) returns(Response) {
+    option (google.api.method_signature) = "project_user_parent";
+  }
+
+  rpc Multi(MultiRootRef) returns(Response) {
+    option (google.api.method_signature) = "multi_root_parent";
+  }
+}
+
 // Test single-pattern child_type reference.
 
 option (google.api.resource_definition) = {
@@ -40,4 +50,7 @@ option (google.api.resource_definition) = {
 
 message MultiRootRef {
   string multi_root_parent = 1 [(google.api.resource_reference).child_type = "childresource.example.com/MultiRootItem"];
+}
+
+message Response {
 }
