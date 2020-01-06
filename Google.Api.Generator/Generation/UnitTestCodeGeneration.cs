@@ -181,7 +181,7 @@ namespace Google.Api.Generator.Generation
             private IEnumerable<ObjectInitExpr> InitMessage(MessageDescriptor msgDesc, IEnumerable<MethodDetails.Signature.Field> onlyFields)
             {
                 var onlyFieldsSet = onlyFields?.Select(x => x.Descs.Last().FieldNumber).ToHashSet();
-                foreach (var fieldDesc in msgDesc.Fields.InFieldNumberOrder())
+                foreach (var fieldDesc in msgDesc.Fields.InFieldNumberOrder().Where(x => !x.IsDeprecated()))
                 {
                     if (!IsPaginationField() && (onlyFieldsSet == null || onlyFieldsSet.Contains(fieldDesc.FieldNumber)))
                     {

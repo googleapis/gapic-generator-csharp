@@ -25,16 +25,20 @@ namespace Google.Api.Generator.ProtoUtils
 {
     internal static class ProtoExtensions
     {
+        private static T ReadOption<T>(IDescriptor desc, string optionName)
+        {
+            // There is no support for reading various standard options; so use reflection.
+            object descProto = desc.GetType().GetProperty("Proto", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(desc);
+            object options = descProto.GetType().GetProperty("Options").GetValue(descProto);
+            object result = options?.GetType().GetProperty(optionName).GetValue(options);
+            return result != null ? (T)result : default;
+        }
+
         public static string CSharpNamespace(this FileDescriptor desc)
         {
-            // There is no way of reading the C# namespace without using reflection.
-            // Once C# supports proto2 this will become easier.
             // Order of looking for C# namespace: "csharp_namespace" option, proto package.
             // TODO: Also look for the "metadata" proto annotation: Metadata.PackageName
-            var protoProp = typeof(FileDescriptor).GetProperty("Proto", BindingFlags.Instance | BindingFlags.NonPublic);
-            object fileDescriptorProto = protoProp.GetValue(desc);
-            object options = fileDescriptorProto.GetType().GetProperty("Options").GetValue(fileDescriptorProto);
-            string ns = options?.GetType().GetProperty("CsharpNamespace").GetValue(options) as string;
+            string ns = ReadOption<string>(desc, "CsharpNamespace");
             if (!string.IsNullOrEmpty(ns))
             {
                 return ns;
@@ -42,6 +46,8 @@ namespace Google.Api.Generator.ProtoUtils
             // As a fallback, capitalize the first character of each part of the proto package.
             return string.Join(".", desc.Package.Split('.').Select(x => x.ToUpperCamelCase()));
         }
+
+        public static bool IsDeprecated(this FieldDescriptor desc) => ReadOption<bool>(desc, "Deprecated");
 
         public static IEnumerable<string> DocLines(this DescriptorDeclaration decl) =>
             decl?.LeadingComments.Split('\n').Select(x => x.Trim())
