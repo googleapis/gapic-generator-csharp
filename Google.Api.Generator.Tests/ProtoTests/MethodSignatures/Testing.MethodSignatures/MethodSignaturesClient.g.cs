@@ -33,6 +33,27 @@ namespace Testing.MethodSignatures
         // TEST_START
         /// <summary>
         /// </summary>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>The RPC response.</returns>
+        public virtual Response SimpleMethod(gaxgrpc::CallSettings callSettings = null) =>
+            SimpleMethod(new SimpleRequest { }, callSettings);
+
+        /// <summary>
+        /// </summary>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<Response> SimpleMethodAsync(gaxgrpc::CallSettings callSettings = null) =>
+            SimpleMethodAsync(new SimpleRequest { }, callSettings);
+
+        /// <summary>
+        /// </summary>
+        /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<Response> SimpleMethodAsync(st::CancellationToken cancellationToken) =>
+            SimpleMethodAsync(gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+
+        /// <summary>
+        /// </summary>
         /// <param name="aNumber">
         /// A number with some test (preformatted) documentation.
         /// </param>
