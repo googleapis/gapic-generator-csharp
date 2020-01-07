@@ -21,6 +21,8 @@ service Paginated {
   // in both the request and the response.
   rpc ResourcedMethod(ResourceRequest) returns(ResourceResponse) {
     option (google.api.method_signature) = "name";
+    // The same corner case as above, but where the first parameter is a resource name.
+    option (google.api.method_signature) = "name,extra_string";
   }
 }
 
@@ -51,6 +53,7 @@ message ResourceRequest {
   string name = 1 [(google.api.resource_reference).type = "paginated.example.com/Resource"];
   int32 page_size = 2;
   string page_token = 3;
+  string extra_string = 4;
 }
 
 message ResourceResponse {

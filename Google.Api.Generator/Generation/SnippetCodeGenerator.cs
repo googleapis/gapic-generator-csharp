@@ -574,10 +574,10 @@ namespace Google.Api.Generator.Generation
                     InitRequestArgsNormal, _def.AsyncResponse.WithInitializer(_def.Client.Call(Method.AsyncMethodName)(PaginatedArgs(InitRequestArgsNormal).ToArray())), isSig: true);
 
                 public MethodDeclarationSyntax SyncPaginatedMethodResourceNames => _def.SyncPaginated(SyncResourceNameMethodName, SnippetCommentResourceNameArgs,
-                    InitRequestArgsResourceNames, _def.Response.WithInitializer(_def.Client.Call(Method.SyncMethodName)(InitRequestArgsResourceNames.ToArray())), isSig: true);
+                    InitRequestArgsResourceNames, _def.Response.WithInitializer(_def.Client.Call(Method.SyncMethodName)(PaginatedArgs(InitRequestArgsResourceNames).ToArray())), isSig: true);
 
                 public MethodDeclarationSyntax AsyncPaginatedMethodResourceNames => _def.AsyncPaginated(AsyncResourceNameMethodName, SnippetCommentResourceNameArgs,
-                    InitRequestArgsResourceNames, _def.AsyncResponse.WithInitializer(_def.Client.Call(Method.AsyncMethodName)(InitRequestArgsResourceNames.ToArray())), isSig: true);
+                    InitRequestArgsResourceNames, _def.AsyncResponse.WithInitializer(_def.Client.Call(Method.AsyncMethodName)(PaginatedArgs(InitRequestArgsResourceNames).ToArray())), isSig: true);
 
                 public MethodDeclarationSyntax ServerStreamingMethod => _def.ServerStreaming(SyncMethodName, _sig.Fields.Select(f => f.Typ),
                     InitRequestArgsNormal, _def.Response.WithInitializer(_def.Client.Call(Method.SyncMethodName)(InitRequestArgsNormal.ToArray())));
@@ -588,7 +588,7 @@ namespace Google.Api.Generator.Generation
 
             private bool RequireFinalNamedArg(MethodDetails.Signature sig)
             {
-                // The last argument numst be named, if there is a signature with identical types and an extra string parameter.
+                // The last argument must be named, if there is a signature with identical types and an extra string parameter.
                 var stringTyp = Typ.Of<string>();
                 var sigTyps = sig.Fields.Select(x => x.Typ).ToList();
                 return Method.Signatures.Any(s => s.Fields.Select(x => x.Typ).Append(stringTyp).SequenceEqual(sigTyps));
