@@ -14,6 +14,7 @@
 
 // Generated code. DO NOT EDIT!
 
+using gax = Google.Api.Gax;
 using gaxgrpc = Google.Api.Gax.Grpc;
 using st = System.Threading;
 using stt = System.Threading.Tasks;
@@ -164,5 +165,77 @@ namespace Testing.ChildResource
         public virtual stt::Task<Response> MultiAsync(RootsName multiRootParent, st::CancellationToken cancellationToken) =>
             MultiAsync(multiRootParent, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
         // TEST_END
+
+        public virtual Response Wild(WildcardRef request, gaxgrpc::CallSettings callSettings = null) => throw new sys::NotImplementedException();
+        public virtual stt::Task<Response> WildAsync(WildcardRef request, gaxgrpc::CallSettings callSettings = null) => throw new sys::NotImplementedException();
+
+        // TEST_START
+        /// <summary>
+        /// </summary>
+        /// <param name="wildcardParent">
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>The RPC response.</returns>
+        public virtual Response Wild(string wildcardParent, gaxgrpc::CallSettings callSettings = null) =>
+            Wild(new WildcardRef
+            {
+                WildcardParent = wildcardParent ?? "",
+            }, callSettings);
+
+        /// <summary>
+        /// </summary>
+        /// <param name="wildcardParent">
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<Response> WildAsync(string wildcardParent, gaxgrpc::CallSettings callSettings = null) =>
+            WildAsync(new WildcardRef
+            {
+                WildcardParent = wildcardParent ?? "",
+            }, callSettings);
+
+        /// <summary>
+        /// </summary>
+        /// <param name="wildcardParent">
+        /// </param>
+        /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<Response> WildAsync(string wildcardParent, st::CancellationToken cancellationToken) =>
+            WildAsync(wildcardParent, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+
+        /// <summary>
+        /// </summary>
+        /// <param name="wildcardParent">
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>The RPC response.</returns>
+        public virtual Response Wild(gax::IResourceName wildcardParent, gaxgrpc::CallSettings callSettings = null) =>
+            Wild(new WildcardRef
+            {
+                WildcardParentAsResourceName = wildcardParent,
+            }, callSettings);
+
+        /// <summary>
+        /// </summary>
+        /// <param name="wildcardParent">
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<Response> WildAsync(gax::IResourceName wildcardParent, gaxgrpc::CallSettings callSettings = null) =>
+            WildAsync(new WildcardRef
+            {
+                WildcardParentAsResourceName = wildcardParent,
+            }, callSettings);
+
+        /// <summary>
+        /// </summary>
+        /// <param name="wildcardParent">
+        /// </param>
+        /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<Response> WildAsync(gax::IResourceName wildcardParent, st::CancellationToken cancellationToken) =>
+            WildAsync(wildcardParent, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+        // TEST_END
+
     }
 }
