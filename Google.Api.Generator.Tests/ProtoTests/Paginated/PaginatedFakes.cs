@@ -46,6 +46,7 @@ namespace Testing.Paginated
         public string Name { get; set; }
         public int PageSize { get; set; }
         public string PageToken { get; set; }
+        public string ExtraString { get; set; }
     }
 
     public partial class ResourceResponse : ProtoMsgFake<ResourceResponse>
