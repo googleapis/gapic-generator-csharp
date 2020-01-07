@@ -396,7 +396,7 @@ namespace Google.Api.Generator.Generation
         {
             foreach (var def in _catalog.GetResourceDefsByFile(_fileDesc))
             {
-                if (!def.IsWildcard)
+                if (!def.IsWildcard && !def.IsCommon)
                 {
                     yield return new ResourceClassBuilder(_ctx, def).Generate();
                 }

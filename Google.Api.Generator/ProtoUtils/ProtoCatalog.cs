@@ -54,7 +54,6 @@ namespace Google.Api.Generator.ProtoUtils
                     (field, res: ResourceDetails.LoadResourceReference(msg, field, resourcesByUrt, resourcesByPatterns)))
                     .Where(x => x.res != null))
                 .ToDictionary(x => x.field.FullName, x => x.res);
-            _commonUrts = resourcesByUrt.Values.Where(x => x.IsCommon).Select(x => x.UnifiedResourceTypeName).ToImmutableHashSet();
 
             IEnumerable<MessageDescriptor> MsgPlusNested(MessageDescriptor msgDesc) => msgDesc.NestedTypes.SelectMany(MsgPlusNested).Append(msgDesc);
         }
@@ -63,7 +62,6 @@ namespace Google.Api.Generator.ProtoUtils
         private readonly IReadOnlyDictionary<string, MessageDescriptor> _msgs;
         private readonly IReadOnlyDictionary<string, ResourceDetails.Field> _resourcesByFieldName;
         private readonly IReadOnlyDictionary<string, IReadOnlyList<ResourceDetails.Definition>> _resourcesByFileName;
-        private readonly IImmutableSet<string> _commonUrts;
 
         public MessageDescriptor GetMessageByName(string name) =>
             _msgs.GetValueOrDefault($"{_defaultPackage}.{name}") ?? _msgs.GetValueOrDefault(name);
@@ -72,7 +70,5 @@ namespace Google.Api.Generator.ProtoUtils
 
         public IEnumerable<ResourceDetails.Definition> GetResourceDefsByFile(FileDescriptor fileDesc) =>
             _resourcesByFileName.GetValueOrDefault(fileDesc.Name, ImmutableList<ResourceDetails.Definition>.Empty);
-
-        public bool IsCommonResourceType(string type) => _commonUrts.Contains(type);
     }
 }

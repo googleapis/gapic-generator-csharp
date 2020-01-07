@@ -70,6 +70,7 @@ namespace Google.Api.Generator.ProtoUtils
                     // Wildcard resource.
                     ResourceNameTyp = Typ.Of<IResourceName>();
                 }
+                IsCommon = common != null;
             }
 
             public MessageDescriptor MsgDesc { get; }
