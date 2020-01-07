@@ -24,5 +24,10 @@ namespace Testing.ChildResource
         public string MultiRootParent { get; set; }
     }
 
+    public partial class WildcardRef : ProtoMsgFake<WildcardRef>
+    {
+        public string WildcardParent { get; set; }
+    }
+
     public class Response : ProtoMsgFake<Response> { }
 }

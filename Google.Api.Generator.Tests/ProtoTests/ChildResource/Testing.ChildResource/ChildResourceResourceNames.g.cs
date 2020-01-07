@@ -940,5 +940,17 @@ namespace Testing.ChildResource
             set => MultiRootParent = value?.ToString() ?? "";
         }
     }
+
+    public partial class WildcardRef
+    {
+        /// <summary>
+        /// <see cref="gax::IResourceName"/>-typed view over the <see cref="WildcardParent"/> resource name property.
+        /// </summary>
+        public gax::IResourceName WildcardParentAsResourceName
+        {
+            get => string.IsNullOrEmpty(WildcardParent) ? null : gax::UnparsedResourceName.Parse(WildcardParent);
+            set => WildcardParent = value?.ToString() ?? "";
+        }
+    }
 }
 

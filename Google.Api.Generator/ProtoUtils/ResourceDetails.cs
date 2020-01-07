@@ -202,7 +202,8 @@ namespace Google.Api.Generator.ProtoUtils
                 }
                 if (childDef.IsWildcard)
                 {
-                    throw new InvalidOperationException("Cannot refer to the child-type of a resource with a wildcard pattern");
+                    // The parent of a wildcard pattern is another wildcard.
+                    return new Field(fieldDesc, Definition.UnknownResource);
                 }
                 var parentPatterns = childDef.Patterns.Select(x => ParentPattern(x.PatternString)).ToImmutableHashSet();
                 if (resourcesByPatterns.TryGetValue(parentPatterns, out var parentDef))
