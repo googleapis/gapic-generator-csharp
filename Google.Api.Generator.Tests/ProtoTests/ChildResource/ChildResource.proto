@@ -16,6 +16,10 @@ service ChildResource {
   rpc Multi(MultiRootRef) returns(Response) {
     option (google.api.method_signature) = "multi_root_parent";
   }
+
+  rpc Wild(WildcardRef) returns(Response) {
+    option (google.api.method_signature) = "wildcard_parent";
+  }
 }
 
 // Test single-pattern child_type reference.
@@ -50,6 +54,17 @@ option (google.api.resource_definition) = {
 
 message MultiRootRef {
   string multi_root_parent = 1 [(google.api.resource_reference).child_type = "childresource.example.com/MultiRootItem"];
+}
+
+// Test wildcard child_type reference
+
+option (google.api.resource_definition) = {
+  type: "childresource.example.com/WildcardItem",
+  pattern: "*",
+};
+
+message WildcardRef {
+  string wildcard_parent = 1 [(google.api.resource_reference).child_type = "childresource.example.com/WildcardItem"];
 }
 
 message Response {
