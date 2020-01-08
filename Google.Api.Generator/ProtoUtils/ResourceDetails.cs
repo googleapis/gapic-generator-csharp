@@ -53,6 +53,7 @@ namespace Google.Api.Generator.ProtoUtils
                 FieldName = ShortName.ToLowerCamelCase();
                 NameField = string.IsNullOrEmpty(nameField) ? "name" : nameField;
                 DocName = ShortName;
+                IsCommon = common != null;
                 if (!patterns.All(x => x == "*"))
                 {
                     // Not a wildcard.

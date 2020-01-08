@@ -23,3 +23,11 @@ message Request {
 
 message Response {
 }
+
+// Defined as a common resource in CommonResourceConfig.json
+// Test that this is not generated. This must be contained within this file, not in CommonResourceDef.proto,
+// as only this file has the package which is being generated.
+option (google.api.resource_definition) = {
+  type: "commonresource.example.com/Something",
+  pattern: "things/{thing}"
+};
