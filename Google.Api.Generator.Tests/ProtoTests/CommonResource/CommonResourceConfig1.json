@@ -5,6 +5,12 @@
       "csharp_package_name": "Common.Package",
       "csharp_namespace": "Common.Namespace",
       "csharp_class_name":  "CommonProjectName"
+    },
+    {
+      "type": "commonresource.example.com/Something",
+      "csharp_package_name": "Common.Package",
+      "csharp_namespace": "Common.Namespace",
+      "csharp_class_name": "CommonThing"
     }
   ]
 }
