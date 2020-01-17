@@ -186,6 +186,24 @@ namespace Testing.Paginated
             }, callSettings);
 
         /// <summary>
+        /// Test rpc with duplicate response message, to make sure partial LRO response class is only generated once.
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A pageable sequence of <see cref="Response.Types.NestedResult"/> resources.</returns>
+        public virtual gax::PagedEnumerable<Response, Response.Types.NestedResult> SignatureMethod2(Request request, gaxgrpc::CallSettings callSettings = null) =>
+            throw new sys::NotImplementedException();
+
+        /// <summary>
+        /// Test rpc with duplicate response message, to make sure partial LRO response class is only generated once.
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A pageable asynchronous sequence of <see cref="Response.Types.NestedResult"/> resources.</returns>
+        public virtual gax::PagedAsyncEnumerable<Response, Response.Types.NestedResult> SignatureMethod2Async(Request request, gaxgrpc::CallSettings callSettings = null) =>
+            throw new sys::NotImplementedException();
+
+        /// <summary>
         /// Test a paginated RPC with a method signature that contains resource-names
         /// in both the request and the response.
         /// </summary>
@@ -414,6 +432,7 @@ namespace Testing.Paginated
     public sealed partial class PaginatedClientImpl : PaginatedClient
     {
         private readonly gaxgrpc::ApiCall<Request, Response> _callSignatureMethod = null;
+        private readonly gaxgrpc::ApiCall<Request, Response> _callSignatureMethod2 = null;
         private readonly gaxgrpc::ApiCall<ResourceRequest, ResourceResponse> _callResourcedMethod = null;
 
         partial void Modify_Request(ref Request request, ref gaxgrpc::CallSettings callSettings);
@@ -442,6 +461,30 @@ namespace Testing.Paginated
         {
             Modify_Request(ref request, ref callSettings);
             return new gaxgrpc::GrpcPagedAsyncEnumerable<Request, Response, Response.Types.NestedResult>(_callSignatureMethod, request, callSettings);
+        }
+
+        /// <summary>
+        /// Test rpc with duplicate response message, to make sure partial LRO response class is only generated once.
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A pageable sequence of <see cref="Response.Types.NestedResult"/> resources.</returns>
+        public override gax::PagedEnumerable<Response, Response.Types.NestedResult> SignatureMethod2(Request request, gaxgrpc::CallSettings callSettings = null)
+        {
+            Modify_Request(ref request, ref callSettings);
+            return new gaxgrpc::GrpcPagedEnumerable<Request, Response, Response.Types.NestedResult>(_callSignatureMethod2, request, callSettings);
+        }
+
+        /// <summary>
+        /// Test rpc with duplicate response message, to make sure partial LRO response class is only generated once.
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A pageable asynchronous sequence of <see cref="Response.Types.NestedResult"/> resources.</returns>
+        public override gax::PagedAsyncEnumerable<Response, Response.Types.NestedResult> SignatureMethod2Async(Request request, gaxgrpc::CallSettings callSettings = null)
+        {
+            Modify_Request(ref request, ref callSettings);
+            return new gaxgrpc::GrpcPagedAsyncEnumerable<Request, Response, Response.Types.NestedResult>(_callSignatureMethod2, request, callSettings);
         }
 
         /// <summary>
