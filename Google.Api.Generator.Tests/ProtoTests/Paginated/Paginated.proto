@@ -17,6 +17,9 @@ service Paginated {
     option (google.api.method_signature) = "";
   }
 
+  // Test rpc with duplicate response message, to make sure partial LRO response class is only generated once.
+  rpc SignatureMethod2(Request) returns(Response);
+
   // Test a paginated RPC with a method signature that contains resource-names
   // in both the request and the response.
   rpc ResourcedMethod(ResourceRequest) returns(ResourceResponse) {

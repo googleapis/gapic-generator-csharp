@@ -56,17 +56,10 @@ namespace Google.Api.Generator.Generation
             {
                 yield return Class(Public | Partial, typ, baseTypes: ctx.Type<IPageRequest>());
             }
-            var seen = new Dictionary<string, Typ>();
+            var seenResponseTyps = new HashSet<Typ>();
             foreach (var method in paginatedMethods)
             {
-                if (seen.TryGetValue(method.SyncMethodName, out var seenTyp))
-                {
-                    if (seenTyp != method.ResourceTyp)
-                    {
-                        throw new InvalidOperationException($"Incompatible resource-types in paginated method: {method.SyncMethodName}");
-                    }
-                }
-                else
+                if (seenResponseTyps.Add(method.ResponseTyp))
                 {
                     var cls = Class(Public | Partial, method.ResponseTyp, baseTypes: ctx.Type(Typ.Generic(typeof(IPageResponse<>), method.ResourceTyp)));
                     using (ctx.InClass(cls))
