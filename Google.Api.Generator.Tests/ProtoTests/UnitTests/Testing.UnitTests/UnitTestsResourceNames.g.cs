@@ -512,7 +512,7 @@ namespace Testing.UnitTests
         /// <summary>
         /// <see cref="gax::IResourceName"/>-typed view over the <see cref="Name"/> resource name property.
         /// </summary>
-        public gax::IResourceName AsResourceName
+        public gax::IResourceName ResourceName
         {
             get => string.IsNullOrEmpty(Name) ? null : gax::UnparsedResourceName.Parse(Name);
             set => Name = value?.ToString() ?? "";
