@@ -113,7 +113,7 @@ namespace Google.Api.Generator.ProtoUtils
                 // TODO: Make sure it's correct for all combinations - I'm not sure it is!
                 var requireIdentifier = !((fieldDesc.IsRepeated && fieldDesc.Name.ToLowerInvariant() == "names") ||
                     (!fieldDesc.IsRepeated && fieldDesc.Name.ToLowerInvariant() == "name"));
-                var requireAs = requireIdentifier || resourceDef.IsWildcard;
+                var requireAs = requireIdentifier;
                 var requirePlural = fieldDesc.IsRepeated;
                 var name = requireIdentifier ? UnderlyingPropertyName : "";
                 name += requireAs ? "As" : "";
