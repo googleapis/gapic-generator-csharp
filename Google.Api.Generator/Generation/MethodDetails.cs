@@ -89,7 +89,8 @@ namespace Google.Api.Generator.Generation
         {
             public Lro(ServiceDetails svc, MethodDescriptor desc) : base(svc, desc)
             {
-                if (!desc.CustomOptions.TryGetMessage<OperationInfo>(ProtoConsts.MethodOption.OperationInfo, out var lroData))
+                OperationInfo lroData = desc.SafeGetOption(OperationsExtensions.OperationInfo);
+                if (lroData is null)
                 {
                     throw new InvalidOperationException("LRO method must contain a `google.api.operation` option.");
                 }
@@ -188,8 +189,7 @@ namespace Google.Api.Generator.Generation
                     IsMap = lastDesc.IsMap;
                     IsRepeated = lastDesc.IsRepeated;
                     IsWrapperType = Typ.IsWrapperType(lastDesc);
-                    IsRequired = lastDesc.CustomOptions.TryGetRepeatedEnum<FieldBehavior>(ProtoConsts.FieldOption.FieldBehavior, out var behaviors) &&
-                        behaviors.Any(x => x == FieldBehavior.Required);
+                    IsRequired = lastDesc.SafeGetOption(FieldBehaviorExtensions.FieldBehavior).Any(x => x == FieldBehavior.Required);
                     ParameterName = lastDesc.CSharpFieldName();
                     PropertyName = lastDesc.CSharpPropertyName();
                     DocLines = lastDesc.Declaration.DocLines();
@@ -281,11 +281,10 @@ namespace Google.Api.Generator.Generation
             ModifyApiCallMethodName = $"Modify_{desc.Name}ApiCall";
             ModifyRequestMethodName = $"Modify_{RequestTyp.Name}";
             DocLines = desc.Declaration.DocLines().ToList();
-            Signatures = desc.CustomOptions.TryGetRepeatedString(ProtoConsts.MethodOption.MethodSignature, out var sigs) ?
-                sigs.Select(sig => new Signature(svc, desc.InputType, sig)).ToList() : (IReadOnlyList<Signature>)new Signature[0];
+            Signatures = desc.SafeGetOption(ClientExtensions.MethodSignature).Select(sig => new Signature(svc, desc.InputType, sig)).ToList();
             RequestMessageDesc = desc.InputType;
             ResponseMessageDesc = desc.OutputType;
-            desc.CustomOptions.TryGetMessage<HttpRule>(ProtoConsts.MethodOption.HttpRule, out var http);
+            var http = desc.SafeGetOption(AnnotationsExtensions.Http);
             RoutingHeaders = ReadRoutingHeaders(http, desc.InputType).ToList();
             (MethodRetry, MethodRetryStatusCodes, Expiration) = LoadTiming(svc, desc);
         }

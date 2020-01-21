@@ -13,10 +13,11 @@
 // limitations under the License.
 
 using Google.Api.Generator.Utils;
+using Google.LongRunning;
 using Google.Protobuf;
+using Google.Protobuf.Collections;
 using Google.Protobuf.Reflection;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -25,20 +26,34 @@ namespace Google.Api.Generator.ProtoUtils
 {
     internal static class ProtoExtensions
     {
-        private static T ReadOption<T>(IDescriptor desc, string optionName)
+        /// <summary>
+        /// Extension registry with everything we need in. See <see cref="ReparseWithExtensions{T}(T)"/> for usage.
+        /// </summary>
+        private static readonly ExtensionRegistry s_registry = new ExtensionRegistry
         {
-            // There is no support for reading various standard options; so use reflection.
+            ClientExtensions.DefaultHost,
+            ClientExtensions.MethodSignature,
+            ClientExtensions.OauthScopes,
+            OperationsExtensions.OperationInfo,
+            FieldBehaviorExtensions.FieldBehavior,
+            AnnotationsExtensions.Http,
+            ResourceExtensions.Resource,
+            ResourceExtensions.ResourceDefinition,
+            ResourceExtensions.ResourceReference
+        };
+
+        private static object GetRawOptions(IDescriptor desc)
+        {
             object descProto = desc.GetType().GetProperty("Proto", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(desc);
             object options = descProto.GetType().GetProperty("Options").GetValue(descProto);
-            object result = options?.GetType().GetProperty(optionName).GetValue(options);
-            return result != null ? (T)result : default;
+            return options;
         }
 
         public static string CSharpNamespace(this FileDescriptor desc)
         {
             // Order of looking for C# namespace: "csharp_namespace" option, proto package.
             // TODO: Also look for the "metadata" proto annotation: Metadata.PackageName
-            string ns = ReadOption<string>(desc, "CsharpNamespace");
+            string ns = GetOptions(desc)?.CsharpNamespace;
             if (!string.IsNullOrEmpty(ns))
             {
                 return ns;
@@ -47,7 +62,7 @@ namespace Google.Api.Generator.ProtoUtils
             return string.Join(".", desc.Package.Split('.').Select(x => x.ToUpperCamelCase()));
         }
 
-        public static bool IsDeprecated(this FieldDescriptor desc) => ReadOption<bool>(desc, "Deprecated");
+        public static bool IsDeprecated(this FieldDescriptor desc) => GetOptions(desc)?.Deprecated ?? false;
 
         public static IEnumerable<string> DocLines(this DescriptorDeclaration decl) =>
             decl?.LeadingComments.Split('\n').Select(x => x.Trim())
@@ -79,58 +94,65 @@ namespace Google.Api.Generator.ProtoUtils
 
         public static string CSharpName(this EnumValueDescriptor desc) => RemoveEnumPrefix(desc.EnumDescriptor.Name, desc.Name);
 
-        private static IEnumerable<(ulong number, ByteString byteString)> GetRepeated(CustomOptions opts, int field)
+        // *Descriptor.GetOption equivalents, with three differences:
+        // - Google.Protobuf code throws an NRE if you try to fetch an option and there are no options in the descriptor.
+        // - Google.Protobuf code throws an NRE if you try to fetch a repeated option and it doesn't exist in the descriptor.
+        // - After obtaining options, we reparse the options with our extension registry - because we can't that when we create the
+        //   original FileDescriptors. (FileDescriptor.BuildFromByteStrings doesn't accept an extension registry.)
+        //
+        // Hopefully this could all go away if Google.Protobuf is fixed.
+        internal static T SafeGetOption<T>(this FileDescriptor descriptor, Extension<FileOptions, T> extension)
         {
-            // There is no way of reading a repeated custom option.
-            // The normal `TryGetMessage<T>()` method returns the single merged value of all repeated options.
-            // See proto code for details for the members reflected over:
-            // https://github.com/protocolbuffers/protobuf/blob/3.8.x/csharp/src/Google.Protobuf/Reflection/CustomOptions.cs
-            var valuesByField = typeof(CustomOptions).GetField("valuesByField", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(opts);
-            // valuesByField is a Dictionary<int, List<CustomOptions.FieldValue>> - FieldValue is a private nested struct.
-            var parameters = new object[] { field, null };
-            var containsField = (bool)valuesByField.GetType().GetMethod("TryGetValue").Invoke(valuesByField, parameters);
-            return containsField ? ((IEnumerable)parameters[1]).Cast<object>().Select(fieldValue =>
-            {
-                var number = (ulong)fieldValue.GetType().GetProperty("Number", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(fieldValue);
-                var byteString = (ByteString)fieldValue.GetType().GetProperty("ByteString", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(fieldValue);
-                return (number, byteString);
-            }) : null;
+            var options = GetOptions(descriptor);
+            return options is object ? options.GetExtension(extension) : default;
         }
 
-        public static bool TryGetRepeatedMessage<T>(this CustomOptions opts, int field, out IEnumerable<T> value) where T : class, IMessage<T>, new()
+        internal static RepeatedField<T> SafeGetOption<T>(this FileDescriptor descriptor, RepeatedExtension<FileOptions, T> extension) =>
+            GetOptions(descriptor)?.GetExtension(extension) ?? new RepeatedField<T>();
+
+        internal static T SafeGetOption<T>(this MessageDescriptor descriptor, Extension<MessageOptions, T> extension)
         {
-            var result = GetRepeated(opts, field)?.Select(fieldValue =>
-            {
-                if (fieldValue.byteString == null)
-                {
-                    return null;
-                }
-                T v = new T();
-                v.MergeFrom(fieldValue.byteString);
-                return v;
-            }).Where(x => x != null).ToList();
-            value = result == null || result.Count == 0 ? null : result;
-            return value != null;
+            var options = GetOptions(descriptor);
+            return options is object ? options.GetExtension(extension) : default;
         }
 
-        public static bool TryGetRepeatedInt32(this CustomOptions opts, int field, out IEnumerable<int> value)
+        internal static RepeatedField<T> SafeGetOption<T>(this MessageDescriptor descriptor, RepeatedExtension<MessageOptions, T> extension) =>
+            GetOptions(descriptor)?.GetExtension(extension) ?? new RepeatedField<T>();
+
+        internal static T SafeGetOption<T>(this FieldDescriptor descriptor, Extension<FieldOptions, T> extension)
         {
-            var result = GetRepeated(opts, field)?.Select(fieldValue => (int)fieldValue.number).ToList();
-            value = result == null || result.Count == 0 ? null : result;
-            return value != null;
+            var options = GetOptions(descriptor);
+            return options is object ? options.GetExtension(extension) : default;
         }
 
-        public static bool TryGetRepeatedString(this CustomOptions opts, int field, out IEnumerable<string> value)
+        internal static RepeatedField<T> SafeGetOption<T>(this FieldDescriptor descriptor, RepeatedExtension<FieldOptions, T> extension) =>
+            GetOptions(descriptor)?.GetExtension(extension) ?? new RepeatedField<T>();
+
+        internal static T SafeGetOption<T>(this ServiceDescriptor descriptor, Extension<ServiceOptions, T> extension)
         {
-            var result = GetRepeated(opts, field)?.Select(fieldValue => fieldValue.byteString.ToStringUtf8()).ToList();
-            value = result == null || result.Count == 0 ? null : result;
-            return value != null;
+            var options = GetOptions(descriptor);
+            return options is object ? options.GetExtension(extension) : default;
         }
 
-        public static bool TryGetRepeatedEnum<T>(this CustomOptions opts, int field, out IEnumerable<T> value) where T : Enum
+        internal static RepeatedField<T> SafeGetOption<T>(this ServiceDescriptor descriptor, RepeatedExtension<ServiceOptions, T> extension) =>
+            GetOptions(descriptor)?.GetExtension(extension) ?? new RepeatedField<T>();
+
+        internal static T SafeGetOption<T>(this MethodDescriptor descriptor, Extension<MethodOptions, T> extension)
         {
-            value = TryGetRepeatedInt32(opts, field, out var ints) ? ints.Select(x => (T)(object)x) : null;
-            return value != null;
+            var options = GetOptions(descriptor);
+            return options is object ? options.GetExtension(extension) : default;
         }
+
+        internal static RepeatedField<T> SafeGetOption<T>(this MethodDescriptor descriptor, RepeatedExtension<MethodOptions, T> extension) =>
+            GetOptions(descriptor)?.GetExtension(extension) ?? new RepeatedField<T>();
+
+        private static FileOptions GetOptions(FileDescriptor descriptor) => ((FileOptions) GetRawOptions(descriptor)).ReparseWithExtensions();
+        private static MessageOptions GetOptions(MessageDescriptor descriptor) => ((MessageOptions) GetRawOptions(descriptor)).ReparseWithExtensions();
+        private static ServiceOptions GetOptions(ServiceDescriptor descriptor) => ((ServiceOptions) GetRawOptions(descriptor)).ReparseWithExtensions();
+        private static MethodOptions GetOptions(MethodDescriptor descriptor) => ((MethodOptions) GetRawOptions(descriptor)).ReparseWithExtensions();
+        private static FieldOptions GetOptions(FieldDescriptor descriptor) => ((FieldOptions) GetRawOptions(descriptor)).ReparseWithExtensions();
+
+        private static T ReparseWithExtensions<T>(this T input) where T : class, IMessage<T> =>
+            (T) input?.Descriptor.Parser.WithExtensionRegistry(s_registry).ParseFrom(input.ToByteArray());
     }
 }

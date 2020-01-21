@@ -48,7 +48,7 @@ namespace Google.Api.Generator.Tests
             PluginFile = Path.Combine(GeneratorDir, "bin", "Debug", "netcoreapp2.2", Runtime, "publish",
                 isWindows ? "Google.Api.Generator.exe" : "Google.Api.Generator");
             CommonProtosDir = Path.Combine(RootDir, "api-common-protos");
-            ProtobufDir = Path.Combine(RootDir, "protobuf", "src");
+            ProtobufDir = Path.Combine(RootDir, "tools", "protos");
         }
 
         /// <summary>Root path; where the .sln file is.</summary>

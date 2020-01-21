@@ -139,14 +139,13 @@ namespace Google.Api.Generator.ProtoUtils
             // TODO: Support new (Sept 2019) `name_descriptor` way of specifying resource-names.
             var msgsFromProtoMsgs = descs
                 .SelectMany(fileDesc => fileDesc.MessageTypes.Select(msgDesc =>
-                    (fileDesc, msgDesc, resDesc: msgDesc.CustomOptions.TryGetMessage<ResourceDescriptor>(ProtoConsts.MessageOption.Resource, out var resDesc) ? resDesc : null)))
+                    (fileDesc, msgDesc, resDesc: msgDesc.SafeGetOption(ResourceExtensions.Resource))))
                 .Where(x => x.resDesc != null)
                 .Select(x => (x.fileDesc, x.msgDesc, x.resDesc, shortName: GetShortName(x.resDesc)));
             var msgsFromFileAnnotation = descs
                 .SelectMany(fileDesc =>
-                    (fileDesc.CustomOptions.TryGetRepeatedMessage<ResourceDescriptor>(ProtoConsts.FileOption.ResourceDefinition, out var resDesc0) ?
-                        resDesc0 : Enumerable.Empty<ResourceDescriptor>())
-                            .Select(resDesc => (fileDesc, msgDesc: (MessageDescriptor)null, resDesc, shortName: GetShortName(resDesc))));
+                    fileDesc.SafeGetOption(ResourceExtensions.ResourceDefinition)
+                        .Select(resDesc => (fileDesc, msgDesc: (MessageDescriptor)null, resDesc, shortName: GetShortName(resDesc))));
             var msgs = msgsFromProtoMsgs.Concat(msgsFromFileAnnotation).ToImmutableList();
             return msgs.Select(x =>
             {
@@ -169,7 +168,8 @@ namespace Google.Api.Generator.ProtoUtils
             IReadOnlyDictionary<string, Definition> resourcesByUrt, IReadOnlyDictionary<ImmutableHashSet<string>, Definition> resourcesByPatterns)
         {
             // Is this field the name-field of a resource descriptor?
-            if (msgDesc.CustomOptions.TryGetMessage<ResourceDescriptor>(ProtoConsts.MessageOption.Resource, out var resourceDesc))
+            var resourceDesc = msgDesc.SafeGetOption(ResourceExtensions.Resource);
+            if (resourceDesc is object)
             {
                 var def = resourcesByUrt[resourceDesc.Type];
                 if (fieldDesc.Name == def.NameField)
@@ -178,7 +178,8 @@ namespace Google.Api.Generator.ProtoUtils
                 }
             }
             // Is this field a resource reference?
-            if (!fieldDesc.CustomOptions.TryGetMessage<ResourceReference>(ProtoConsts.FieldOption.ResourceReference, out var resourceRef))
+            var resourceRef = fieldDesc.SafeGetOption(ResourceExtensions.ResourceReference);
+            if (resourceRef is null)
             {
                 return null;
             }
