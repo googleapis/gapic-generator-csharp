@@ -7,12 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\protobuf\csharp\src\Google.Protobuf\Google.Protobuf.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="2.5.0" />
-    <PackageReference Include="Google.Api.CommonProtos" Version="2.0.0-alpha00" />
+    <PackageReference Include="Google.Api.CommonProtos" Version="2.0.0-beta01" />
     <PackageReference Include="Google.Api.Gax.Grpc" Version="3.0.0-alpha00" />
     <PackageReference Include="Google.LongRunning" Version="2.0.0-beta00" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="2.10.0" />
