@@ -84,7 +84,7 @@ namespace Google.Api.Generator.Generation
         }
 
         private MethodDeclarationSyntax GetDefaultEndpoint() =>
-            Method(Protected|Override, _ctx.Type<ServiceEndpoint>(), "GetDefaultEndpoint")()
+            Method(Protected|Override, _ctx.Type<string>(), "GetDefaultEndpoint")()
                 .WithBody(_ctx.Type(_svc.ClientAbstractTyp).Access("DefaultEndpoint"))
                 .WithXmlDoc(XmlDoc.InheritDoc);
 

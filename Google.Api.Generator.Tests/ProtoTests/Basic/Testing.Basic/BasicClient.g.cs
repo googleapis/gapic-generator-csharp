@@ -90,7 +90,7 @@ namespace Testing.Basic
         }
 
         /// <inheritdoc/>
-        protected override gaxgrpc::ServiceEndpoint GetDefaultEndpoint() => BasicClient.DefaultEndpoint;
+        protected override string GetDefaultEndpoint() => BasicClient.DefaultEndpoint;
 
         /// <inheritdoc/>
         protected override scg::IReadOnlyList<string> GetDefaultScopes() => BasicClient.DefaultScopes;
@@ -105,7 +105,7 @@ namespace Testing.Basic
         /// <summary>
         /// The default endpoint for the Basic service, which is a host of "basic.example.com" and a port of 443.
         /// </summary>
-        public static gaxgrpc::ServiceEndpoint DefaultEndpoint { get; } = new gaxgrpc::ServiceEndpoint("basic.example.com", 443);
+        public static string DefaultEndpoint { get; } = "basic.example.com:443";
 
         /// <summary>The default Basic scopes.</summary>
         /// <remarks>
@@ -150,10 +150,10 @@ namespace Testing.Basic
         /// await channel.ShutdownAsync();
         /// </code>
         /// </example>
-        /// <param name="endpoint">Optional <see cref="gaxgrpc::ServiceEndpoint"/>.</param>
+        /// <param name="endpoint">Optional service endpoint.</param>
         /// <param name="settings">Optional <see cref="BasicSettings"/>.</param>
         /// <returns>The task representing the created <see cref="BasicClient"/>.</returns>
-        public static async stt::Task<BasicClient> CreateAsync(gaxgrpc::ServiceEndpoint endpoint = null, BasicSettings settings = null)
+        public static async stt::Task<BasicClient> CreateAsync(string endpoint = null, BasicSettings settings = null)
         {
             grpccore::Channel channel = await ChannelPool.GetChannelAsync(endpoint ?? DefaultEndpoint).ConfigureAwait(false);
             return Create(channel, settings);
@@ -190,10 +190,10 @@ namespace Testing.Basic
         /// channel.ShutdownAsync().Wait();
         /// </code>
         /// </example>
-        /// <param name="endpoint">Optional <see cref="gaxgrpc::ServiceEndpoint"/>.</param>
+        /// <param name="endpoint">Optional service endpoint.</param>
         /// <param name="settings">Optional <see cref="BasicSettings"/>.</param>
         /// <returns>The created <see cref="BasicClient"/>.</returns>
-        public static BasicClient Create(gaxgrpc::ServiceEndpoint endpoint = null, BasicSettings settings = null)
+        public static BasicClient Create(string endpoint = null, BasicSettings settings = null)
         {
             grpccore::Channel channel = ChannelPool.GetChannel(endpoint ?? DefaultEndpoint);
             return Create(channel, settings);
@@ -233,13 +233,13 @@ namespace Testing.Basic
 
         /// <summary>
         /// Shuts down any channels automatically created by <see cref="Create(grpccore::CallInvoker,BasicSettings)"/>
-        /// and <see cref="CreateAsync(gaxgrpc::ServiceEndpoint,BasicSettings)"/>. Channels which weren't automatically
-        /// created are not affected.
+        /// and <see cref="CreateAsync(string,BasicSettings)"/>. Channels which weren't automatically created are not
+        /// affected.
         /// </summary>
         /// <remarks>
         /// After calling this method, further calls to <see cref="Create(grpccore::CallInvoker,BasicSettings)"/> and
-        /// <see cref="CreateAsync(gaxgrpc::ServiceEndpoint,BasicSettings)"/> will create new channels, which could in
-        /// turn be shut down by another call to this method.
+        /// <see cref="CreateAsync(string,BasicSettings)"/> will create new channels, which could in turn be shut down
+        /// by another call to this method.
         /// </remarks>
         /// <returns>A task representing the asynchronous shutdown operation.</returns>
         public static stt::Task ShutdownDefaultChannelsAsync() => ChannelPool.ShutdownChannelsAsync();
