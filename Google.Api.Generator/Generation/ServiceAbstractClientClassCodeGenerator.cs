@@ -66,8 +66,8 @@ namespace Google.Api.Generator.Generation
         }
 
         private PropertyDeclarationSyntax DefaultEndpoint() =>
-            AutoProperty(Public | Static, _ctx.Type<ServiceEndpoint>(), "DefaultEndpoint")
-                .WithInitializer(New(_ctx.Type<ServiceEndpoint>())(_svc.DefaultHost, _svc.DefaultPort))
+            AutoProperty(Public | Static, _ctx.Type<string>(), "DefaultEndpoint")
+                .WithInitializer($"{_svc.DefaultHost}:{_svc.DefaultPort}")
                 .WithXmlDoc(XmlDoc.Summary(
                     $"The default endpoint for the {_svc.DocumentationName} service, " + 
                     $"which is a host of \"{_svc.DefaultHost}\" and a port of {_svc.DefaultPort}."));
@@ -122,7 +122,7 @@ namespace Google.Api.Generator.Generation
 
         private MethodDeclarationSyntax CreateFromEndpoint(PropertyDeclarationSyntax channelPool, MemberDeclarationSyntax defaultEndpoint, MethodDeclarationSyntax createFromChannel)
         {
-            var endpoint = Parameter(_ctx.Type<ServiceEndpoint>(), "endpoint", @default: Null);
+            var endpoint = Parameter(_ctx.Type<string>(), "endpoint", @default: Null);
             var settings = Parameter(_ctx.Type(_svc.SettingsTyp), "settings", @default: Null);
             var channel = Local(_ctx.Type<Channel>(), "channel");
             return Method(Public | Static, _ctx.CurrentType, "Create")(endpoint, settings)
@@ -155,7 +155,7 @@ namespace Google.Api.Generator.Generation
                             "...",
                             "// Shutdown the channel when it is no longer required.",
                             "channel.ShutdownAsync().Wait();")),
-                    XmlDoc.Param(endpoint, "Optional ", endpoint.Type, "."),
+                    XmlDoc.Param(endpoint, "Optional service endpoint."),
                     XmlDoc.Param(settings, "Optional ", settings.Type, "."),
                     XmlDoc.Returns("The created ", _ctx.CurrentType, "."));
         }
@@ -163,7 +163,7 @@ namespace Google.Api.Generator.Generation
         private MethodDeclarationSyntax CreateAsync(PropertyDeclarationSyntax channelPool, PropertyDeclarationSyntax defaultEndpoint, MethodDeclarationSyntax createFromChannel)
         {
             var returnType = Typ.Generic(typeof(Task<>), _ctx.CurrentTyp);
-            var endpoint = Parameter(_ctx.Type<ServiceEndpoint>(), "endpoint", @default: Null);
+            var endpoint = Parameter(_ctx.Type<string>(), "endpoint", @default: Null);
             var settings = Parameter(_ctx.Type(_svc.SettingsTyp), "settings", @default: Null);
             var channel = Local(_ctx.Type<Channel>(), "channel");
             return Method(Public | Static | Async, _ctx.Type(returnType), "CreateAsync")(endpoint, settings)
@@ -196,7 +196,7 @@ namespace Google.Api.Generator.Generation
                             "...",
                             "// Shutdown the channel when it is no longer required.",
                             "await channel.ShutdownAsync();")),
-                    XmlDoc.Param(endpoint, "Optional ", endpoint.Type, "."),
+                    XmlDoc.Param(endpoint, "Optional service endpoint."),
                     XmlDoc.Param(settings, "Optional ", settings.Type, "."),
                     XmlDoc.Returns("The task representing the created ", _ctx.CurrentType, "."));
         }
