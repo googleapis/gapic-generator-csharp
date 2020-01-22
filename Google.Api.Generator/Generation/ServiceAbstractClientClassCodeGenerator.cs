@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using static Google.Api.Generator.RoslynUtils.Modifier;
 using static Google.Api.Generator.RoslynUtils.RoslynBuilder;
@@ -49,16 +50,14 @@ namespace Google.Api.Generator.Generation
                 var defaultEndpoint = DefaultEndpoint();
                 var defaultScopes = DefaultScopes();
                 var channelPool = ChannelPool(defaultScopes);
+                var createAsync = CreateAsync();
+                var create = Create();
                 var createFromCallInvoker = CreateFromCallInvoker();
-                var createFromChannel = CreateFromChannel(createFromCallInvoker);
-                var createFromEndPoint = CreateFromEndpoint(channelPool, defaultEndpoint, createFromChannel);
-                var createAsync = CreateAsync(channelPool, defaultEndpoint, createFromChannel);
-                var shutdown = ShutdownDefaultChannelsAsync(channelPool, createFromCallInvoker, createAsync);
+                var shutdown = ShutdownDefaultChannelsAsync(channelPool, create, createAsync);
                 var grpcClient = GrpcClient();
                 cls = cls.AddMembers(
                     defaultEndpoint, defaultScopes, channelPool,
-                    createAsync, createFromEndPoint, createFromChannel, createFromCallInvoker,
-                    shutdown, grpcClient);
+                    createAsync, create, createFromCallInvoker, shutdown, grpcClient);
                 var methods = ServiceMethodGenerator.Generate(_ctx, _svc, inAbstract: true);
                 cls = cls.AddMembers(methods.ToArray());
             }
@@ -83,13 +82,15 @@ namespace Google.Api.Generator.Generation
             AutoProperty(Internal | Static, _ctx.Type<ChannelPool>(), "ChannelPool")
                 .WithInitializer(New(_ctx.Type<ChannelPool>())(defaultScopes));
 
+        // This isn't strictly required; it could be moved into the builder type if we wanted.
+        // That can be done later if we want, as this is an internal method.
         private MethodDeclarationSyntax CreateFromCallInvoker()
         {
             var callInvoker = Parameter(_ctx.Type<CallInvoker>(), "callInvoker");
             var settings = Parameter(_ctx.Type(_svc.SettingsTyp), "settings", @default: Null);
             var interceptor = Local(_ctx.Type<Interceptor>(), "interceptor");
             var grpcClient = Local(_ctx.Type(_svc.GrpcClientTyp), "grpcClient");
-            return Method(Public | Static, _ctx.CurrentType, "Create")(callInvoker, settings)
+            return Method(Internal | Static, _ctx.CurrentType, "Create")(callInvoker, settings)
                 .WithBody(
                     _ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(callInvoker, Nameof(callInvoker)),
                     interceptor.WithInitializer(settings.Access("Interceptor", conditional: true)),
@@ -105,100 +106,30 @@ namespace Google.Api.Generator.Generation
                     XmlDoc.Returns("The created ", _ctx.CurrentType, "."));
         }
 
-        private MethodDeclarationSyntax CreateFromChannel(MethodDeclarationSyntax createFromCallInvoker)
-        {
-            var channel = Parameter(_ctx.Type<Channel>(), "channel");
-            var settings = Parameter(_ctx.Type(_svc.SettingsTyp), "settings", @default: Null);
-            return Method(Public | Static, _ctx.CurrentType, "Create")(channel, settings)
-                .WithBody(
-                    _ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(channel, Nameof(channel)),
-                    Return(This.Call(createFromCallInvoker)(New(_ctx.Type<DefaultCallInvoker>())(channel), settings)))
-                .WithXmlDoc(
-                    XmlDoc.Summary("Creates a ", _ctx.CurrentType, " which uses the specified channel for remote operations."),
-                    XmlDoc.Param(channel, "The ", channel.Type, " for remote operations. Must not be null."),
-                    XmlDoc.Param(settings, "Optional ", settings.Type, "."),
-                    XmlDoc.Returns("The created ", _ctx.CurrentType, "."));
-        }
-
-        private MethodDeclarationSyntax CreateFromEndpoint(PropertyDeclarationSyntax channelPool, MemberDeclarationSyntax defaultEndpoint, MethodDeclarationSyntax createFromChannel)
-        {
-            var endpoint = Parameter(_ctx.Type<string>(), "endpoint", @default: Null);
-            var settings = Parameter(_ctx.Type(_svc.SettingsTyp), "settings", @default: Null);
-            var channel = Local(_ctx.Type<Channel>(), "channel");
-            return Method(Public | Static, _ctx.CurrentType, "Create")(endpoint, settings)
-                .WithBody(
-                    channel.WithInitializer(channelPool.Call(nameof(Google.Api.Gax.Grpc.ChannelPool.GetChannel))(endpoint.NullCoalesce(defaultEndpoint))),
-                    Return(This.Call(createFromChannel)(channel, settings)))
-                .WithXmlDoc(
-                    XmlDoc.Summary("Synchronously creates a ", _ctx.CurrentType, ", applying defaults for all unspecified settings, ",
-                        "and creating a channel connecting to the given endpoint with application default credentials where ",
-                        "necessary. See the example for how to use custom credentials."),
-                    XmlDoc.Example("This sample shows how to create a client using default credentials:",
-                        XmlDoc.Code(
-                            "using Google.Cloud.Vision.V1;",
-                            "...",
-                            "// When running on Google Cloud Platform this will use the project Compute Credential.",
-                            "// Or set the GOOGLE_APPLICATION_CREDENTIALS environment variable to the path of a JSON",
-                            "// credential file to use that credential.",
-                            "ImageAnnotatorClient client = ImageAnnotatorClient.Create();"),
-                        "This sample shows how to create a client using credentials loaded from a JSON file:",
-                        XmlDoc.Code(
-                            "using Google.Cloud.Vision.V1;",
-                            "using Google.Apis.Auth.OAuth2;",
-                            "using Grpc.Auth;",
-                            "using Grpc.Core;",
-                            "...",
-                            "GoogleCredential cred = GoogleCredential.FromFile(\"/path/to/credentials.json\");",
-                            "Channel channel = new Channel(",
-                            "    ImageAnnotatorClient.DefaultEndpoint.Host, ImageAnnotatorClient.DefaultEndpoint.Port, cred.ToChannelCredentials());",
-                            "ImageAnnotatorClient client = ImageAnnotatorClient.Create(channel);",
-                            "...",
-                            "// Shutdown the channel when it is no longer required.",
-                            "channel.ShutdownAsync().Wait();")),
-                    XmlDoc.Param(endpoint, "Optional service endpoint."),
-                    XmlDoc.Param(settings, "Optional ", settings.Type, "."),
-                    XmlDoc.Returns("The created ", _ctx.CurrentType, "."));
-        }
-
-        private MethodDeclarationSyntax CreateAsync(PropertyDeclarationSyntax channelPool, PropertyDeclarationSyntax defaultEndpoint, MethodDeclarationSyntax createFromChannel)
+        private MethodDeclarationSyntax CreateAsync()
         {
             var returnType = Typ.Generic(typeof(Task<>), _ctx.CurrentTyp);
-            var endpoint = Parameter(_ctx.Type<string>(), "endpoint", @default: Null);
-            var settings = Parameter(_ctx.Type(_svc.SettingsTyp), "settings", @default: Null);
-            var channel = Local(_ctx.Type<Channel>(), "channel");
-            return Method(Public | Static | Async, _ctx.Type(returnType), "CreateAsync")(endpoint, settings)
-                .WithBody(
-                    channel.WithInitializer(Await(channelPool.Call(nameof(Google.Api.Gax.Grpc.ChannelPool.GetChannelAsync))(endpoint.NullCoalesce(defaultEndpoint)).ConfigureAwait())),
-                    Return(This.Call(createFromChannel)(channel, settings)))
+            var cancellationToken = Parameter(_ctx.Type<CancellationToken>(), "cancellationToken", @default: Default);
+            return Method(Public | Static, _ctx.Type(returnType), "CreateAsync")(cancellationToken)
+                .WithBody(New(_ctx.Type(_svc.BuilderTyp))().Call("BuildAsync")(cancellationToken))
                 .WithXmlDoc(
-                    XmlDoc.Summary("Asynchronously creates a ", _ctx.CurrentType, ", applying defaults for all unspecified settings, ",
-                        "and creating a channel connecting to the given endpoint with application default credentials where ",
-                        "necessary. See the example for how to use custom credentials."),
-                    XmlDoc.Example("This sample shows how to create a client using default credentials:",
-                        XmlDoc.Code(
-                            "using Google.Cloud.Vision.V1;",
-                            "...",
-                            "// When running on Google Cloud Platform this will use the project Compute Credential.",
-                            "// Or set the GOOGLE_APPLICATION_CREDENTIALS environment variable to the path of a JSON",
-                            "// credential file to use that credential.",
-                            "ImageAnnotatorClient client = await ImageAnnotatorClient.CreateAsync();"),
-                        "This sample shows how to create a client using credentials loaded from a JSON file:",
-                        XmlDoc.Code(
-                            "using Google.Cloud.Vision.V1;",
-                            "using Google.Apis.Auth.OAuth2;",
-                            "using Grpc.Auth;",
-                            "using Grpc.Core;",
-                            "...",
-                            "GoogleCredential cred = GoogleCredential.FromFile(\"/path/to/credentials.json\");",
-                            "Channel channel = new Channel(",
-                            "    ImageAnnotatorClient.DefaultEndpoint.Host, ImageAnnotatorClient.DefaultEndpoint.Port, cred.ToChannelCredentials());",
-                            "ImageAnnotatorClient client = ImageAnnotatorClient.Create(channel);",
-                            "...",
-                            "// Shutdown the channel when it is no longer required.",
-                            "await channel.ShutdownAsync();")),
-                    XmlDoc.Param(endpoint, "Optional service endpoint."),
-                    XmlDoc.Param(settings, "Optional ", settings.Type, "."),
+                    XmlDoc.Summary("Asynchronously creates a ", _ctx.CurrentType,
+                    " using the default credentials, endpoint and settings. ",
+                    "To specify custom credentials or other settings, use ", _ctx.Type(_svc.BuilderTyp), "."),
+                    XmlDoc.Param(cancellationToken, "The ", cancellationToken.Type, " to use while creating the client."),
                     XmlDoc.Returns("The task representing the created ", _ctx.CurrentType, "."));
+        }
+
+        private MethodDeclarationSyntax Create()
+        {
+            var returnType = _ctx.CurrentTyp;
+            return Method(Public | Static, _ctx.Type(returnType), "Create")()
+                .WithBody(New(_ctx.Type(_svc.BuilderTyp))().Call("Build")())
+                .WithXmlDoc(
+                    XmlDoc.Summary("Synchronously creates a ", _ctx.CurrentType,
+                    " using the default credentials, endpoint and settings. ",
+                    "To specify custom credentials or other settings, use ", _ctx.Type(_svc.BuilderTyp), "."),
+                    XmlDoc.Returns("The created ", _ctx.CurrentType, "."));
         }
 
         private MemberDeclarationSyntax ShutdownDefaultChannelsAsync(PropertyDeclarationSyntax channelPool, MethodDeclarationSyntax create, MethodDeclarationSyntax createAsync) =>
