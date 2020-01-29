@@ -25,7 +25,7 @@ namespace Testing.CommonResource
         /// </summary>
         public cn::CommonProjectName ProjectNameAsCommonProjectName
         {
-            get => string.IsNullOrEmpty(ProjectName) ? null : cn::CommonProjectName.Parse(ProjectName);
+            get => string.IsNullOrEmpty(ProjectName) ? null : cn::CommonProjectName.Parse(ProjectName, allowUnparsed: true);
             set => ProjectName = value?.ToString() ?? "";
         }
     }

@@ -219,7 +219,7 @@ namespace Testing.Keywords
         /// </summary>
         public ResourceName WhileAsResourceName
         {
-            get => string.IsNullOrEmpty(While) ? null : ResourceName.Parse(While);
+            get => string.IsNullOrEmpty(While) ? null : ResourceName.Parse(While, allowUnparsed: true);
             set => While = value?.ToString() ?? "";
         }
     }
@@ -231,7 +231,7 @@ namespace Testing.Keywords
         /// </summary>
         public ResourceName EventAsResourceName
         {
-            get => string.IsNullOrEmpty(Event) ? null : ResourceName.Parse(Event);
+            get => string.IsNullOrEmpty(Event) ? null : ResourceName.Parse(Event, allowUnparsed: true);
             set => Event = value?.ToString() ?? "";
         }
     }

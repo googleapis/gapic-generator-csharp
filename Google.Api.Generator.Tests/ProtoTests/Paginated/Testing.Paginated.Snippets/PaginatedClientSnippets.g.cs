@@ -25,7 +25,7 @@ namespace Testing.Paginated.Snippets
     public sealed class GeneratedPaginatedClientSnippets
     {
         /// <summary>Snippet for SignatureMethod</summary>
-        public void SignatureMethod_RequestObject()
+        public void SignatureMethodRequestObject()
         {
             // Snippet: SignatureMethod(Request, CallSettings)
             // Create client
@@ -74,7 +74,7 @@ namespace Testing.Paginated.Snippets
         }
 
         /// <summary>Snippet for SignatureMethod</summary>
-        public async Task SignatureMethodAsync_RequestObject()
+        public async Task SignatureMethodRequestObjectAsync()
         {
             // Snippet: SignatureMethodAsync(Request, CallSettings)
             // Create client
@@ -391,7 +391,7 @@ namespace Testing.Paginated.Snippets
         }
 
         /// <summary>Snippet for SignatureMethod2</summary>
-        public void SignatureMethod2_RequestObject()
+        public void SignatureMethod2RequestObject()
         {
             // Snippet: SignatureMethod2(Request, CallSettings)
             // Create client
@@ -440,7 +440,7 @@ namespace Testing.Paginated.Snippets
         }
 
         /// <summary>Snippet for SignatureMethod2</summary>
-        public async Task SignatureMethod2Async_RequestObject()
+        public async Task SignatureMethod2RequestObjectAsync()
         {
             // Snippet: SignatureMethod2Async(Request, CallSettings)
             // Create client
@@ -489,7 +489,7 @@ namespace Testing.Paginated.Snippets
         }
 
         /// <summary>Snippet for ResourcedMethod</summary>
-        public void ResourcedMethod_RequestObject()
+        public void ResourcedMethodRequestObject()
         {
             // Snippet: ResourcedMethod(ResourceRequest, CallSettings)
             // Create client
@@ -501,10 +501,10 @@ namespace Testing.Paginated.Snippets
                 ExtraString = "",
             };
             // Make the request
-            PagedEnumerable<ResourceResponse, ResourceName> response = paginatedClient.ResourcedMethod(request);
+            PagedEnumerable<ResourceResponse, string> response = paginatedClient.ResourcedMethod(request);
 
             // Iterate over all response items, lazily performing RPCs as required
-            foreach (ResourceName item in response)
+            foreach (string item in response)
             {
                 // Do something with each item
                 Console.WriteLine(item);
@@ -515,7 +515,7 @@ namespace Testing.Paginated.Snippets
             {
                 // Do something with each page of items
                 Console.WriteLine("A page of results:");
-                foreach (ResourceName item in page)
+                foreach (string item in page)
                 {
                     // Do something with each item
                     Console.WriteLine(item);
@@ -524,10 +524,10 @@ namespace Testing.Paginated.Snippets
 
             // Or retrieve a single page of known size (unless it's the final page), performing as many RPCs as required
             int pageSize = 10;
-            Page<ResourceName> singlePage = response.ReadPage(pageSize);
+            Page<string> singlePage = response.ReadPage(pageSize);
             // Do something with the page of items
             Console.WriteLine($"A page of {pageSize} results (unless it's the final page):");
-            foreach (ResourceName item in singlePage)
+            foreach (string item in singlePage)
             {
                 // Do something with each item
                 Console.WriteLine(item);
@@ -538,7 +538,7 @@ namespace Testing.Paginated.Snippets
         }
 
         /// <summary>Snippet for ResourcedMethod</summary>
-        public async Task ResourcedMethodAsync_RequestObject()
+        public async Task ResourcedMethodRequestObjectAsync()
         {
             // Snippet: ResourcedMethodAsync(ResourceRequest, CallSettings)
             // Create client
@@ -550,10 +550,10 @@ namespace Testing.Paginated.Snippets
                 ExtraString = "",
             };
             // Make the request
-            PagedAsyncEnumerable<ResourceResponse, ResourceName> response = paginatedClient.ResourcedMethodAsync(request);
+            PagedAsyncEnumerable<ResourceResponse, string> response = paginatedClient.ResourcedMethodAsync(request);
 
             // Iterate over all response items, lazily performing RPCs as required
-            await response.ForEachAsync((ResourceName item) =>
+            await response.ForEachAsync((string item) =>
             {
                 // Do something with each item
                 Console.WriteLine(item);
@@ -564,7 +564,7 @@ namespace Testing.Paginated.Snippets
             {
                 // Do something with each page of items
                 Console.WriteLine("A page of results:");
-                foreach (ResourceName item in page)
+                foreach (string item in page)
                 {
                     // Do something with each item
                     Console.WriteLine(item);
@@ -573,10 +573,10 @@ namespace Testing.Paginated.Snippets
 
             // Or retrieve a single page of known size (unless it's the final page), performing as many RPCs as required
             int pageSize = 10;
-            Page<ResourceName> singlePage = await response.ReadPageAsync(pageSize);
+            Page<string> singlePage = await response.ReadPageAsync(pageSize);
             // Do something with the page of items
             Console.WriteLine($"A page of {pageSize} results (unless it's the final page):");
-            foreach (ResourceName item in singlePage)
+            foreach (string item in singlePage)
             {
                 // Do something with each item
                 Console.WriteLine(item);
@@ -595,10 +595,10 @@ namespace Testing.Paginated.Snippets
             // Initialize request argument(s)
             string name = "items/[ITEM_ID]";
             // Make the request
-            PagedEnumerable<ResourceResponse, ResourceName> response = paginatedClient.ResourcedMethod(name);
+            PagedEnumerable<ResourceResponse, string> response = paginatedClient.ResourcedMethod(name);
 
             // Iterate over all response items, lazily performing RPCs as required
-            foreach (ResourceName item in response)
+            foreach (string item in response)
             {
                 // Do something with each item
                 Console.WriteLine(item);
@@ -609,7 +609,7 @@ namespace Testing.Paginated.Snippets
             {
                 // Do something with each page of items
                 Console.WriteLine("A page of results:");
-                foreach (ResourceName item in page)
+                foreach (string item in page)
                 {
                     // Do something with each item
                     Console.WriteLine(item);
@@ -618,10 +618,10 @@ namespace Testing.Paginated.Snippets
 
             // Or retrieve a single page of known size (unless it's the final page), performing as many RPCs as required
             int pageSize = 10;
-            Page<ResourceName> singlePage = response.ReadPage(pageSize);
+            Page<string> singlePage = response.ReadPage(pageSize);
             // Do something with the page of items
             Console.WriteLine($"A page of {pageSize} results (unless it's the final page):");
-            foreach (ResourceName item in singlePage)
+            foreach (string item in singlePage)
             {
                 // Do something with each item
                 Console.WriteLine(item);
@@ -640,10 +640,10 @@ namespace Testing.Paginated.Snippets
             // Initialize request argument(s)
             string name = "items/[ITEM_ID]";
             // Make the request
-            PagedAsyncEnumerable<ResourceResponse, ResourceName> response = paginatedClient.ResourcedMethodAsync(name);
+            PagedAsyncEnumerable<ResourceResponse, string> response = paginatedClient.ResourcedMethodAsync(name);
 
             // Iterate over all response items, lazily performing RPCs as required
-            await response.ForEachAsync((ResourceName item) =>
+            await response.ForEachAsync((string item) =>
             {
                 // Do something with each item
                 Console.WriteLine(item);
@@ -654,7 +654,7 @@ namespace Testing.Paginated.Snippets
             {
                 // Do something with each page of items
                 Console.WriteLine("A page of results:");
-                foreach (ResourceName item in page)
+                foreach (string item in page)
                 {
                     // Do something with each item
                     Console.WriteLine(item);
@@ -663,10 +663,10 @@ namespace Testing.Paginated.Snippets
 
             // Or retrieve a single page of known size (unless it's the final page), performing as many RPCs as required
             int pageSize = 10;
-            Page<ResourceName> singlePage = await response.ReadPageAsync(pageSize);
+            Page<string> singlePage = await response.ReadPageAsync(pageSize);
             // Do something with the page of items
             Console.WriteLine($"A page of {pageSize} results (unless it's the final page):");
-            foreach (ResourceName item in singlePage)
+            foreach (string item in singlePage)
             {
                 // Do something with each item
                 Console.WriteLine(item);
@@ -677,7 +677,7 @@ namespace Testing.Paginated.Snippets
         }
 
         /// <summary>Snippet for ResourcedMethod</summary>
-        public void ResourcedMethod1_ResourceNames()
+        public void ResourcedMethod1ResourceNames()
         {
             // Snippet: ResourcedMethod(ResourceName, string, int?, CallSettings)
             // Create client
@@ -685,10 +685,10 @@ namespace Testing.Paginated.Snippets
             // Initialize request argument(s)
             ResourceName name = ResourceName.FromItem("[ITEM_ID]");
             // Make the request
-            PagedEnumerable<ResourceResponse, ResourceName> response = paginatedClient.ResourcedMethod(name);
+            PagedEnumerable<ResourceResponse, string> response = paginatedClient.ResourcedMethod(name);
 
             // Iterate over all response items, lazily performing RPCs as required
-            foreach (ResourceName item in response)
+            foreach (string item in response)
             {
                 // Do something with each item
                 Console.WriteLine(item);
@@ -699,7 +699,7 @@ namespace Testing.Paginated.Snippets
             {
                 // Do something with each page of items
                 Console.WriteLine("A page of results:");
-                foreach (ResourceName item in page)
+                foreach (string item in page)
                 {
                     // Do something with each item
                     Console.WriteLine(item);
@@ -708,10 +708,10 @@ namespace Testing.Paginated.Snippets
 
             // Or retrieve a single page of known size (unless it's the final page), performing as many RPCs as required
             int pageSize = 10;
-            Page<ResourceName> singlePage = response.ReadPage(pageSize);
+            Page<string> singlePage = response.ReadPage(pageSize);
             // Do something with the page of items
             Console.WriteLine($"A page of {pageSize} results (unless it's the final page):");
-            foreach (ResourceName item in singlePage)
+            foreach (string item in singlePage)
             {
                 // Do something with each item
                 Console.WriteLine(item);
@@ -722,7 +722,7 @@ namespace Testing.Paginated.Snippets
         }
 
         /// <summary>Snippet for ResourcedMethod</summary>
-        public async Task ResourcedMethod1Async_ResourceNames()
+        public async Task ResourcedMethod1ResourceNamesAsync()
         {
             // Snippet: ResourcedMethodAsync(ResourceName, string, int?, CallSettings)
             // Create client
@@ -730,10 +730,10 @@ namespace Testing.Paginated.Snippets
             // Initialize request argument(s)
             ResourceName name = ResourceName.FromItem("[ITEM_ID]");
             // Make the request
-            PagedAsyncEnumerable<ResourceResponse, ResourceName> response = paginatedClient.ResourcedMethodAsync(name);
+            PagedAsyncEnumerable<ResourceResponse, string> response = paginatedClient.ResourcedMethodAsync(name);
 
             // Iterate over all response items, lazily performing RPCs as required
-            await response.ForEachAsync((ResourceName item) =>
+            await response.ForEachAsync((string item) =>
             {
                 // Do something with each item
                 Console.WriteLine(item);
@@ -744,7 +744,7 @@ namespace Testing.Paginated.Snippets
             {
                 // Do something with each page of items
                 Console.WriteLine("A page of results:");
-                foreach (ResourceName item in page)
+                foreach (string item in page)
                 {
                     // Do something with each item
                     Console.WriteLine(item);
@@ -753,10 +753,10 @@ namespace Testing.Paginated.Snippets
 
             // Or retrieve a single page of known size (unless it's the final page), performing as many RPCs as required
             int pageSize = 10;
-            Page<ResourceName> singlePage = await response.ReadPageAsync(pageSize);
+            Page<string> singlePage = await response.ReadPageAsync(pageSize);
             // Do something with the page of items
             Console.WriteLine($"A page of {pageSize} results (unless it's the final page):");
-            foreach (ResourceName item in singlePage)
+            foreach (string item in singlePage)
             {
                 // Do something with each item
                 Console.WriteLine(item);
@@ -776,10 +776,10 @@ namespace Testing.Paginated.Snippets
             string name = "items/[ITEM_ID]";
             string extraString = "";
             // Make the request
-            PagedEnumerable<ResourceResponse, ResourceName> response = paginatedClient.ResourcedMethod(name, extraString: extraString);
+            PagedEnumerable<ResourceResponse, string> response = paginatedClient.ResourcedMethod(name, extraString: extraString);
 
             // Iterate over all response items, lazily performing RPCs as required
-            foreach (ResourceName item in response)
+            foreach (string item in response)
             {
                 // Do something with each item
                 Console.WriteLine(item);
@@ -790,7 +790,7 @@ namespace Testing.Paginated.Snippets
             {
                 // Do something with each page of items
                 Console.WriteLine("A page of results:");
-                foreach (ResourceName item in page)
+                foreach (string item in page)
                 {
                     // Do something with each item
                     Console.WriteLine(item);
@@ -799,10 +799,10 @@ namespace Testing.Paginated.Snippets
 
             // Or retrieve a single page of known size (unless it's the final page), performing as many RPCs as required
             int pageSize = 10;
-            Page<ResourceName> singlePage = response.ReadPage(pageSize);
+            Page<string> singlePage = response.ReadPage(pageSize);
             // Do something with the page of items
             Console.WriteLine($"A page of {pageSize} results (unless it's the final page):");
-            foreach (ResourceName item in singlePage)
+            foreach (string item in singlePage)
             {
                 // Do something with each item
                 Console.WriteLine(item);
@@ -822,10 +822,10 @@ namespace Testing.Paginated.Snippets
             string name = "items/[ITEM_ID]";
             string extraString = "";
             // Make the request
-            PagedAsyncEnumerable<ResourceResponse, ResourceName> response = paginatedClient.ResourcedMethodAsync(name, extraString: extraString);
+            PagedAsyncEnumerable<ResourceResponse, string> response = paginatedClient.ResourcedMethodAsync(name, extraString: extraString);
 
             // Iterate over all response items, lazily performing RPCs as required
-            await response.ForEachAsync((ResourceName item) =>
+            await response.ForEachAsync((string item) =>
             {
                 // Do something with each item
                 Console.WriteLine(item);
@@ -836,7 +836,7 @@ namespace Testing.Paginated.Snippets
             {
                 // Do something with each page of items
                 Console.WriteLine("A page of results:");
-                foreach (ResourceName item in page)
+                foreach (string item in page)
                 {
                     // Do something with each item
                     Console.WriteLine(item);
@@ -845,10 +845,10 @@ namespace Testing.Paginated.Snippets
 
             // Or retrieve a single page of known size (unless it's the final page), performing as many RPCs as required
             int pageSize = 10;
-            Page<ResourceName> singlePage = await response.ReadPageAsync(pageSize);
+            Page<string> singlePage = await response.ReadPageAsync(pageSize);
             // Do something with the page of items
             Console.WriteLine($"A page of {pageSize} results (unless it's the final page):");
-            foreach (ResourceName item in singlePage)
+            foreach (string item in singlePage)
             {
                 // Do something with each item
                 Console.WriteLine(item);
@@ -859,7 +859,7 @@ namespace Testing.Paginated.Snippets
         }
 
         /// <summary>Snippet for ResourcedMethod</summary>
-        public void ResourcedMethod2_ResourceNames()
+        public void ResourcedMethod2ResourceNames()
         {
             // Snippet: ResourcedMethod(ResourceName, string, string, int?, CallSettings)
             // Create client
@@ -868,10 +868,10 @@ namespace Testing.Paginated.Snippets
             ResourceName name = ResourceName.FromItem("[ITEM_ID]");
             string extraString = "";
             // Make the request
-            PagedEnumerable<ResourceResponse, ResourceName> response = paginatedClient.ResourcedMethod(name, extraString: extraString);
+            PagedEnumerable<ResourceResponse, string> response = paginatedClient.ResourcedMethod(name, extraString: extraString);
 
             // Iterate over all response items, lazily performing RPCs as required
-            foreach (ResourceName item in response)
+            foreach (string item in response)
             {
                 // Do something with each item
                 Console.WriteLine(item);
@@ -882,7 +882,7 @@ namespace Testing.Paginated.Snippets
             {
                 // Do something with each page of items
                 Console.WriteLine("A page of results:");
-                foreach (ResourceName item in page)
+                foreach (string item in page)
                 {
                     // Do something with each item
                     Console.WriteLine(item);
@@ -891,10 +891,10 @@ namespace Testing.Paginated.Snippets
 
             // Or retrieve a single page of known size (unless it's the final page), performing as many RPCs as required
             int pageSize = 10;
-            Page<ResourceName> singlePage = response.ReadPage(pageSize);
+            Page<string> singlePage = response.ReadPage(pageSize);
             // Do something with the page of items
             Console.WriteLine($"A page of {pageSize} results (unless it's the final page):");
-            foreach (ResourceName item in singlePage)
+            foreach (string item in singlePage)
             {
                 // Do something with each item
                 Console.WriteLine(item);
@@ -905,7 +905,7 @@ namespace Testing.Paginated.Snippets
         }
 
         /// <summary>Snippet for ResourcedMethod</summary>
-        public async Task ResourcedMethod2Async_ResourceNames()
+        public async Task ResourcedMethod2ResourceNamesAsync()
         {
             // Snippet: ResourcedMethodAsync(ResourceName, string, string, int?, CallSettings)
             // Create client
@@ -914,10 +914,10 @@ namespace Testing.Paginated.Snippets
             ResourceName name = ResourceName.FromItem("[ITEM_ID]");
             string extraString = "";
             // Make the request
-            PagedAsyncEnumerable<ResourceResponse, ResourceName> response = paginatedClient.ResourcedMethodAsync(name, extraString: extraString);
+            PagedAsyncEnumerable<ResourceResponse, string> response = paginatedClient.ResourcedMethodAsync(name, extraString: extraString);
 
             // Iterate over all response items, lazily performing RPCs as required
-            await response.ForEachAsync((ResourceName item) =>
+            await response.ForEachAsync((string item) =>
             {
                 // Do something with each item
                 Console.WriteLine(item);
@@ -928,7 +928,7 @@ namespace Testing.Paginated.Snippets
             {
                 // Do something with each page of items
                 Console.WriteLine("A page of results:");
-                foreach (ResourceName item in page)
+                foreach (string item in page)
                 {
                     // Do something with each item
                     Console.WriteLine(item);
@@ -937,10 +937,10 @@ namespace Testing.Paginated.Snippets
 
             // Or retrieve a single page of known size (unless it's the final page), performing as many RPCs as required
             int pageSize = 10;
-            Page<ResourceName> singlePage = await response.ReadPageAsync(pageSize);
+            Page<string> singlePage = await response.ReadPageAsync(pageSize);
             // Do something with the page of items
             Console.WriteLine($"A page of {pageSize} results (unless it's the final page):");
-            foreach (ResourceName item in singlePage)
+            foreach (string item in singlePage)
             {
                 // Do something with each item
                 Console.WriteLine(item);

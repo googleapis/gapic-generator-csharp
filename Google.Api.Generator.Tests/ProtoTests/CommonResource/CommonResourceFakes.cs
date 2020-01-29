@@ -18,7 +18,7 @@ namespace Common.Namespace
 {
     public class CommonProjectName
     {
-        public static CommonProjectName Parse(string s) => throw new NotImplementedException();
+        public static CommonProjectName Parse(string s, bool allowUnparsed = false) => throw new NotImplementedException();
     }
 }
 

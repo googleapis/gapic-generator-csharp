@@ -502,7 +502,7 @@ namespace Testing.UnitTests
         /// </summary>
         public tu::AResourceName AResourceName
         {
-            get => string.IsNullOrEmpty(Name) ? null : tu::AResourceName.Parse(Name);
+            get => string.IsNullOrEmpty(Name) ? null : tu::AResourceName.Parse(Name, allowUnparsed: true);
             set => Name = value?.ToString() ?? "";
         }
     }
@@ -526,7 +526,7 @@ namespace Testing.UnitTests
         /// </summary>
         public tu::MultiPatternResourceName MultiPatternResourceName
         {
-            get => string.IsNullOrEmpty(Name) ? null : tu::MultiPatternResourceName.Parse(Name);
+            get => string.IsNullOrEmpty(Name) ? null : tu::MultiPatternResourceName.Parse(Name, allowUnparsed: true);
             set => Name = value?.ToString() ?? "";
         }
     }
@@ -538,7 +538,7 @@ namespace Testing.UnitTests
         /// </summary>
         public AResourceName SingleResourceNameAsAResourceName
         {
-            get => string.IsNullOrEmpty(SingleResourceName) ? null : AResourceName.Parse(SingleResourceName);
+            get => string.IsNullOrEmpty(SingleResourceName) ? null : AResourceName.Parse(SingleResourceName, allowUnparsed: true);
             set => SingleResourceName = value?.ToString() ?? "";
         }
 
@@ -547,7 +547,7 @@ namespace Testing.UnitTests
         /// </summary>
         public gax::ResourceNameList<AResourceName> RepeatedResourceNameAsAResourceNames
         {
-            get => new gax::ResourceNameList<AResourceName>(RepeatedResourceName, s => AResourceName.Parse(s));
+            get => new gax::ResourceNameList<AResourceName>(RepeatedResourceName, s => string.IsNullOrEmpty(s) ? null : AResourceName.Parse(s, allowUnparsed: true));
         }
 
         /// <summary>
@@ -566,7 +566,7 @@ namespace Testing.UnitTests
         /// </summary>
         public gax::ResourceNameList<gax::IResourceName> RepeatedWildcardResourceAsResourceNames
         {
-            get => new gax::ResourceNameList<gax::IResourceName>(RepeatedWildcardResource, s => gax::UnparsedResourceName.Parse(s));
+            get => new gax::ResourceNameList<gax::IResourceName>(RepeatedWildcardResource, s => string.IsNullOrEmpty(s) ? null : gax::UnparsedResourceName.Parse(s));
         }
 
         /// <summary>
@@ -575,7 +575,7 @@ namespace Testing.UnitTests
         /// </summary>
         public tu::MultiPatternResourceName MultiPatternResourceNameAsMultiPatternResourceName
         {
-            get => string.IsNullOrEmpty(MultiPatternResourceName) ? null : tu::MultiPatternResourceName.Parse(MultiPatternResourceName);
+            get => string.IsNullOrEmpty(MultiPatternResourceName) ? null : tu::MultiPatternResourceName.Parse(MultiPatternResourceName, allowUnparsed: true);
             set => MultiPatternResourceName = value?.ToString() ?? "";
         }
 
@@ -585,7 +585,7 @@ namespace Testing.UnitTests
         /// </summary>
         public gax::ResourceNameList<tu::MultiPatternResourceName> RepeatedMultiPatternResourceNameAsMultiPatternResourceNames
         {
-            get => new gax::ResourceNameList<tu::MultiPatternResourceName>(RepeatedMultiPatternResourceName, s => tu::MultiPatternResourceName.Parse(s));
+            get => new gax::ResourceNameList<tu::MultiPatternResourceName>(RepeatedMultiPatternResourceName, s => string.IsNullOrEmpty(s) ? null : tu::MultiPatternResourceName.Parse(s, allowUnparsed: true));
         }
     }
 }

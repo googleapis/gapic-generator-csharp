@@ -22,7 +22,7 @@ namespace Testing.Basic.Snippets
     public sealed class GeneratedBasicClientSnippets
     {
         /// <summary>Snippet for AMethod</summary>
-        public void AMethod_RequestObject()
+        public void AMethodRequestObject()
         {
             // Snippet: AMethod(Request, CallSettings)
             // Create client
@@ -35,7 +35,7 @@ namespace Testing.Basic.Snippets
         }
 
         /// <summary>Snippet for AMethodAsync</summary>
-        public async Task AMethodAsync_RequestObject()
+        public async Task AMethodRequestObjectAsync()
         {
             // Snippet: AMethodAsync(Request, CallSettings)
             // Additional: AMethodAsync(Request, CancellationToken)

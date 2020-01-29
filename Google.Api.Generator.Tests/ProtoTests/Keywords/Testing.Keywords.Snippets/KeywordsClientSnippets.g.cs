@@ -22,7 +22,7 @@ namespace Testing.Keywords.Snippets
     public sealed class GeneratedKeywordsClientSnippets
     {
         /// <summary>Snippet for Method1</summary>
-        public void Method1_RequestObject()
+        public void Method1RequestObject()
         {
             // Snippet: Method1(Request, CallSettings)
             // Create client
@@ -40,7 +40,7 @@ namespace Testing.Keywords.Snippets
         }
 
         /// <summary>Snippet for Method1Async</summary>
-        public async Task Method1Async_RequestObject()
+        public async Task Method1RequestObjectAsync()
         {
             // Snippet: Method1Async(Request, CallSettings)
             // Additional: Method1Async(Request, CancellationToken)
@@ -90,7 +90,7 @@ namespace Testing.Keywords.Snippets
         }
 
         /// <summary>Snippet for Method1</summary>
-        public void Method1_ResourceNames()
+        public void Method1ResourceNames()
         {
             // Snippet: Method1(ResourceName, int, Enum, CallSettings)
             // Create client
@@ -105,7 +105,7 @@ namespace Testing.Keywords.Snippets
         }
 
         /// <summary>Snippet for Method1Async</summary>
-        public async Task Method1Async_ResourceNames()
+        public async Task Method1ResourceNamesAsync()
         {
             // Snippet: Method1Async(ResourceName, int, Enum, CallSettings)
             // Additional: Method1Async(ResourceName, int, Enum, CancellationToken)
@@ -121,7 +121,7 @@ namespace Testing.Keywords.Snippets
         }
 
         /// <summary>Snippet for Method2</summary>
-        public void Method2_RequestObject()
+        public void Method2RequestObject()
         {
             // Snippet: Method2(Resource, CallSettings)
             // Create client
@@ -138,7 +138,7 @@ namespace Testing.Keywords.Snippets
         }
 
         /// <summary>Snippet for Method2Async</summary>
-        public async Task Method2Async_RequestObject()
+        public async Task Method2RequestObjectAsync()
         {
             // Snippet: Method2Async(Resource, CallSettings)
             // Additional: Method2Async(Resource, CancellationToken)
@@ -185,7 +185,7 @@ namespace Testing.Keywords.Snippets
         }
 
         /// <summary>Snippet for Method2</summary>
-        public void Method2_ResourceNames()
+        public void Method2ResourceNames()
         {
             // Snippet: Method2(ResourceName, Enum, CallSettings)
             // Create client
@@ -199,7 +199,7 @@ namespace Testing.Keywords.Snippets
         }
 
         /// <summary>Snippet for Method2Async</summary>
-        public async Task Method2Async_ResourceNames()
+        public async Task Method2ResourceNamesAsync()
         {
             // Snippet: Method2Async(ResourceName, Enum, CallSettings)
             // Additional: Method2Async(ResourceName, Enum, CancellationToken)
