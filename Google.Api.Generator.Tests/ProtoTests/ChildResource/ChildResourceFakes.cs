@@ -12,21 +12,38 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Google.Protobuf.Collections;
+
 namespace Testing.ChildResource
 {
-    public partial class ProjectRef : ProtoMsgFake<ProjectRef>
+    public partial class SingleParent : ProtoMsgFake<Response>
     {
-        public string ProjectUserParent { get; set; }
+        public string Ref { get; set; }
+        public RepeatedField<string> RepeatedRef { get; }
     }
 
-    public partial class MultiRootRef : ProtoMsgFake<MultiRootRef>
+    public partial class WildcardParent
     {
-        public string MultiRootParent { get; set; }
+        public string Ref { get; set; }
+        public RepeatedField<string> RepeatedRef { get; }
     }
 
-    public partial class WildcardRef : ProtoMsgFake<WildcardRef>
+    public partial class TripleParent : ProtoMsgFake<TripleParent>
     {
-        public string WildcardParent { get; set; }
+        public string Ref { get; set; }
+        public RepeatedField<string> RepeatedRef { get; }
+    }
+
+    public partial class TripleWildcardParent : ProtoMsgFake<TripleWildcardParent>
+    {
+        public string Ref { get; set; }
+        public RepeatedField<string> RepeatedRef { get; }
+    }
+
+    public partial class OverlapParent : ProtoMsgFake<OverlapParent>
+    {
+        public string Ref { get; set; }
+        public RepeatedField<string> RepeatedRef { get; }
     }
 
     public class Response : ProtoMsgFake<Response> { }
