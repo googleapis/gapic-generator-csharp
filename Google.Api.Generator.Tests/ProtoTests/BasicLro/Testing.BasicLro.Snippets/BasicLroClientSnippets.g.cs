@@ -23,7 +23,7 @@ namespace Testing.BasicLro.Snippets
     public sealed class GeneratedBasicLroClientSnippets
     {
         /// <summary>Snippet for Method1</summary>
-        public void Method1_RequestObject()
+        public void Method1RequestObject()
         {
             // Snippet: Method1(Request, CallSettings)
             // Create client
@@ -52,7 +52,7 @@ namespace Testing.BasicLro.Snippets
         }
 
         /// <summary>Snippet for Method1Async</summary>
-        public async Task Method1Async_RequestObject()
+        public async Task Method1RequestObjectAsync()
         {
             // Snippet: Method1Async(Request, CallSettings)
             // Additional: Method1Async(Request, CancellationToken)

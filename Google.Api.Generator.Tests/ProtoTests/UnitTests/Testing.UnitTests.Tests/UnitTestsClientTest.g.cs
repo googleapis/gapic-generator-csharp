@@ -360,7 +360,7 @@ namespace Testing.UnitTests.Tests
         }
 
         [xunit::FactAttribute]
-        public void MethodValues2_ResourceNames()
+        public void MethodValues2ResourceNames()
         {
             moq::Mock<UnitTests.UnitTestsClient> mockGrpcClient = new moq::Mock<UnitTests.UnitTestsClient>(moq::MockBehavior.Strict);
             mockGrpcClient.Setup(x => x.CreateOperationsClient()).Returns(new moq::Mock<lro::Operations.OperationsClient>().Object);
@@ -396,7 +396,7 @@ namespace Testing.UnitTests.Tests
         }
 
         [xunit::FactAttribute]
-        public async stt::Task MethodValues2Async_ResourceNames()
+        public async stt::Task MethodValues2ResourceNamesAsync()
         {
             moq::Mock<UnitTests.UnitTestsClient> mockGrpcClient = new moq::Mock<UnitTests.UnitTestsClient>(moq::MockBehavior.Strict);
             mockGrpcClient.Setup(x => x.CreateOperationsClient()).Returns(new moq::Mock<lro::Operations.OperationsClient>().Object);
@@ -429,6 +429,134 @@ namespace Testing.UnitTests.Tests
             Response responseCallSettings = await client.MethodValuesAsync(request.SingleDouble, request.SingleFloat, request.SingleInt32, request.SingleInt64, request.RepeatedBool, request.RepeatedBytes, request.RepeatedResourceNameAsAResourceNames, request.MapIntString, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.MethodValuesAsync(request.SingleDouble, request.SingleFloat, request.SingleInt32, request.SingleInt64, request.RepeatedBool, request.RepeatedBytes, request.RepeatedResourceNameAsAResourceNames, request.MapIntString, st::CancellationToken.None);
+            xunit::Assert.Same(expectedResponse, responseCancellationToken);
+            mockGrpcClient.VerifyAll();
+        }
+
+        [xunit::FactAttribute]
+        public void MethodValues3()
+        {
+            moq::Mock<UnitTests.UnitTestsClient> mockGrpcClient = new moq::Mock<UnitTests.UnitTestsClient>(moq::MockBehavior.Strict);
+            mockGrpcClient.Setup(x => x.CreateOperationsClient()).Returns(new moq::Mock<lro::Operations.OperationsClient>().Object);
+            ValuesRequest request = new ValuesRequest
+            {
+                SingleResourceNameAsAResourceName = AResourceName.FromItemPart("[ITEM_ID]", "[PART_ID]"),
+                RepeatedResourceNameAsAResourceNames =
+                {
+                    AResourceName.FromItemPart("[ITEM_ID]", "[PART_ID]"),
+                },
+                SingleWildcardResourceAsResourceName = new gax::UnparsedResourceName("a/wildcard/resource"),
+                RepeatedWildcardResourceAsResourceNames =
+                {
+                    new gax::UnparsedResourceName("a/wildcard/resource"),
+                },
+                MultiPatternResourceNameAsMultiPatternResourceName = MultiPatternResourceName.FromRootAItem("[ROOT_A_ID]", "[ITEM_ID]"),
+                RepeatedMultiPatternResourceNameAsMultiPatternResourceNames =
+                {
+                    MultiPatternResourceName.FromRootAItem("[ROOT_A_ID]", "[ITEM_ID]"),
+                },
+            };
+            Response expectedResponse = new Response { };
+            mockGrpcClient.Setup(x => x.MethodValues(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
+            UnitTestsClient client = new UnitTestsClientImpl(mockGrpcClient.Object, null);
+            Response response = client.MethodValues(request.SingleResourceName, request.RepeatedResourceName, request.SingleWildcardResource, request.RepeatedWildcardResource, request.MultiPatternResourceName, request.RepeatedMultiPatternResourceName);
+            xunit::Assert.Same(expectedResponse, response);
+            mockGrpcClient.VerifyAll();
+        }
+
+        [xunit::FactAttribute]
+        public async stt::Task MethodValues3Async()
+        {
+            moq::Mock<UnitTests.UnitTestsClient> mockGrpcClient = new moq::Mock<UnitTests.UnitTestsClient>(moq::MockBehavior.Strict);
+            mockGrpcClient.Setup(x => x.CreateOperationsClient()).Returns(new moq::Mock<lro::Operations.OperationsClient>().Object);
+            ValuesRequest request = new ValuesRequest
+            {
+                SingleResourceNameAsAResourceName = AResourceName.FromItemPart("[ITEM_ID]", "[PART_ID]"),
+                RepeatedResourceNameAsAResourceNames =
+                {
+                    AResourceName.FromItemPart("[ITEM_ID]", "[PART_ID]"),
+                },
+                SingleWildcardResourceAsResourceName = new gax::UnparsedResourceName("a/wildcard/resource"),
+                RepeatedWildcardResourceAsResourceNames =
+                {
+                    new gax::UnparsedResourceName("a/wildcard/resource"),
+                },
+                MultiPatternResourceNameAsMultiPatternResourceName = MultiPatternResourceName.FromRootAItem("[ROOT_A_ID]", "[ITEM_ID]"),
+                RepeatedMultiPatternResourceNameAsMultiPatternResourceNames =
+                {
+                    MultiPatternResourceName.FromRootAItem("[ROOT_A_ID]", "[ITEM_ID]"),
+                },
+            };
+            Response expectedResponse = new Response { };
+            mockGrpcClient.Setup(x => x.MethodValuesAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
+            UnitTestsClient client = new UnitTestsClientImpl(mockGrpcClient.Object, null);
+            Response responseCallSettings = await client.MethodValuesAsync(request.SingleResourceName, request.RepeatedResourceName, request.SingleWildcardResource, request.RepeatedWildcardResource, request.MultiPatternResourceName, request.RepeatedMultiPatternResourceName, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
+            xunit::Assert.Same(expectedResponse, responseCallSettings);
+            Response responseCancellationToken = await client.MethodValuesAsync(request.SingleResourceName, request.RepeatedResourceName, request.SingleWildcardResource, request.RepeatedWildcardResource, request.MultiPatternResourceName, request.RepeatedMultiPatternResourceName, st::CancellationToken.None);
+            xunit::Assert.Same(expectedResponse, responseCancellationToken);
+            mockGrpcClient.VerifyAll();
+        }
+
+        [xunit::FactAttribute]
+        public void MethodValues3ResourceNames()
+        {
+            moq::Mock<UnitTests.UnitTestsClient> mockGrpcClient = new moq::Mock<UnitTests.UnitTestsClient>(moq::MockBehavior.Strict);
+            mockGrpcClient.Setup(x => x.CreateOperationsClient()).Returns(new moq::Mock<lro::Operations.OperationsClient>().Object);
+            ValuesRequest request = new ValuesRequest
+            {
+                SingleResourceNameAsAResourceName = AResourceName.FromItemPart("[ITEM_ID]", "[PART_ID]"),
+                RepeatedResourceNameAsAResourceNames =
+                {
+                    AResourceName.FromItemPart("[ITEM_ID]", "[PART_ID]"),
+                },
+                SingleWildcardResourceAsResourceName = new gax::UnparsedResourceName("a/wildcard/resource"),
+                RepeatedWildcardResourceAsResourceNames =
+                {
+                    new gax::UnparsedResourceName("a/wildcard/resource"),
+                },
+                MultiPatternResourceNameAsMultiPatternResourceName = MultiPatternResourceName.FromRootAItem("[ROOT_A_ID]", "[ITEM_ID]"),
+                RepeatedMultiPatternResourceNameAsMultiPatternResourceNames =
+                {
+                    MultiPatternResourceName.FromRootAItem("[ROOT_A_ID]", "[ITEM_ID]"),
+                },
+            };
+            Response expectedResponse = new Response { };
+            mockGrpcClient.Setup(x => x.MethodValues(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
+            UnitTestsClient client = new UnitTestsClientImpl(mockGrpcClient.Object, null);
+            Response response = client.MethodValues(request.SingleResourceNameAsAResourceName, request.RepeatedResourceNameAsAResourceNames, request.SingleWildcardResourceAsResourceName, request.RepeatedWildcardResourceAsResourceNames, request.MultiPatternResourceNameAsMultiPatternResourceName, request.RepeatedMultiPatternResourceNameAsMultiPatternResourceNames);
+            xunit::Assert.Same(expectedResponse, response);
+            mockGrpcClient.VerifyAll();
+        }
+
+        [xunit::FactAttribute]
+        public async stt::Task MethodValues3ResourceNamesAsync()
+        {
+            moq::Mock<UnitTests.UnitTestsClient> mockGrpcClient = new moq::Mock<UnitTests.UnitTestsClient>(moq::MockBehavior.Strict);
+            mockGrpcClient.Setup(x => x.CreateOperationsClient()).Returns(new moq::Mock<lro::Operations.OperationsClient>().Object);
+            ValuesRequest request = new ValuesRequest
+            {
+                SingleResourceNameAsAResourceName = AResourceName.FromItemPart("[ITEM_ID]", "[PART_ID]"),
+                RepeatedResourceNameAsAResourceNames =
+                {
+                    AResourceName.FromItemPart("[ITEM_ID]", "[PART_ID]"),
+                },
+                SingleWildcardResourceAsResourceName = new gax::UnparsedResourceName("a/wildcard/resource"),
+                RepeatedWildcardResourceAsResourceNames =
+                {
+                    new gax::UnparsedResourceName("a/wildcard/resource"),
+                },
+                MultiPatternResourceNameAsMultiPatternResourceName = MultiPatternResourceName.FromRootAItem("[ROOT_A_ID]", "[ITEM_ID]"),
+                RepeatedMultiPatternResourceNameAsMultiPatternResourceNames =
+                {
+                    MultiPatternResourceName.FromRootAItem("[ROOT_A_ID]", "[ITEM_ID]"),
+                },
+            };
+            Response expectedResponse = new Response { };
+            mockGrpcClient.Setup(x => x.MethodValuesAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
+            UnitTestsClient client = new UnitTestsClientImpl(mockGrpcClient.Object, null);
+            Response responseCallSettings = await client.MethodValuesAsync(request.SingleResourceNameAsAResourceName, request.RepeatedResourceNameAsAResourceNames, request.SingleWildcardResourceAsResourceName, request.RepeatedWildcardResourceAsResourceNames, request.MultiPatternResourceNameAsMultiPatternResourceName, request.RepeatedMultiPatternResourceNameAsMultiPatternResourceNames, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
+            xunit::Assert.Same(expectedResponse, responseCallSettings);
+            Response responseCancellationToken = await client.MethodValuesAsync(request.SingleResourceNameAsAResourceName, request.RepeatedResourceNameAsAResourceNames, request.SingleWildcardResourceAsResourceName, request.RepeatedWildcardResourceAsResourceNames, request.MultiPatternResourceNameAsMultiPatternResourceName, request.RepeatedMultiPatternResourceNameAsMultiPatternResourceNames, st::CancellationToken.None);
             xunit::Assert.Same(expectedResponse, responseCancellationToken);
             mockGrpcClient.VerifyAll();
         }

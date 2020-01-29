@@ -97,7 +97,7 @@ namespace Testing.VoidReturn.Tests
         // TEST_END
 
         // TEST_START
-        public void VoidMethod_ResourceNames()
+        public void VoidMethodResourceNames()
         {
             moq::Mock<VoidReturn.VoidReturnClient> mockGrpcClient = new moq::Mock<VoidReturn.VoidReturnClient>(moq::MockBehavior.Strict);
             Request request = new Request
@@ -113,7 +113,7 @@ namespace Testing.VoidReturn.Tests
         // TEST_END
 
         // TEST_START
-        public async stt::Task VoidMethodAsync_ResourceNames()
+        public async stt::Task VoidMethodResourceNamesAsync()
         {
             moq::Mock<VoidReturn.VoidReturnClient> mockGrpcClient = new moq::Mock<VoidReturn.VoidReturnClient>(moq::MockBehavior.Strict);
             Request request = new Request

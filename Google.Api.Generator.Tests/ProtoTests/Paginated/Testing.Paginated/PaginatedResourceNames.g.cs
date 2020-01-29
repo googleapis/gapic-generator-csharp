@@ -220,7 +220,7 @@ namespace Testing.Paginated
         /// </summary>
         public tp::ResourceName ResourceName
         {
-            get => string.IsNullOrEmpty(Name) ? null : tp::ResourceName.Parse(Name);
+            get => string.IsNullOrEmpty(Name) ? null : tp::ResourceName.Parse(Name, allowUnparsed: true);
             set => Name = value?.ToString() ?? "";
         }
     }
@@ -232,7 +232,7 @@ namespace Testing.Paginated
         /// </summary>
         public tp::ResourceName ResourceName
         {
-            get => string.IsNullOrEmpty(Name) ? null : tp::ResourceName.Parse(Name);
+            get => string.IsNullOrEmpty(Name) ? null : tp::ResourceName.Parse(Name, allowUnparsed: true);
             set => Name = value?.ToString() ?? "";
         }
     }
@@ -244,7 +244,7 @@ namespace Testing.Paginated
         /// </summary>
         public gax::ResourceNameList<ResourceName> ResultsAsResourceNames
         {
-            get => new gax::ResourceNameList<ResourceName>(Results, s => ResourceName.Parse(s));
+            get => new gax::ResourceNameList<ResourceName>(Results, s => string.IsNullOrEmpty(s) ? null : ResourceName.Parse(s, allowUnparsed: true));
         }
     }
 }

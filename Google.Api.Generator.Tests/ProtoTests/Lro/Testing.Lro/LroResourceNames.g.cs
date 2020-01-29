@@ -220,7 +220,7 @@ namespace Testing.Lro
         /// </summary>
         public tl::ResourceName ResourceName
         {
-            get => string.IsNullOrEmpty(Name) ? null : tl::ResourceName.Parse(Name);
+            get => string.IsNullOrEmpty(Name) ? null : tl::ResourceName.Parse(Name, allowUnparsed: true);
             set => Name = value?.ToString() ?? "";
         }
     }
