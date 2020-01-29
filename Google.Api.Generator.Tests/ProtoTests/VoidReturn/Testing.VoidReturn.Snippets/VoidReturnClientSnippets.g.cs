@@ -22,7 +22,7 @@ namespace Testing.VoidReturn.Snippets
     public sealed class GeneratedVoidReturnClientSnippets
     {
         /// <summary>Snippet for VoidMethod</summary>
-        public void VoidMethod_RequestObject()
+        public void VoidMethodRequestObject()
         {
             // Snippet: VoidMethod(Request, CallSettings)
             // Create client
@@ -38,7 +38,7 @@ namespace Testing.VoidReturn.Snippets
         }
 
         /// <summary>Snippet for VoidMethodAsync</summary>
-        public async Task VoidMethodAsync_RequestObject()
+        public async Task VoidMethodRequestObjectAsync()
         {
             // Snippet: VoidMethodAsync(Request, CallSettings)
             // Additional: VoidMethodAsync(Request, CancellationToken)
@@ -82,7 +82,7 @@ namespace Testing.VoidReturn.Snippets
         }
 
         /// <summary>Snippet for VoidMethod</summary>
-        public void VoidMethod_ResourceNames()
+        public void VoidMethodResourceNames()
         {
             // Snippet: VoidMethod(ResourceName, CallSettings)
             // Create client
@@ -95,7 +95,7 @@ namespace Testing.VoidReturn.Snippets
         }
 
         /// <summary>Snippet for VoidMethodAsync</summary>
-        public async Task VoidMethodAsync_ResourceNames()
+        public async Task VoidMethodResourceNamesAsync()
         {
             // Snippet: VoidMethodAsync(ResourceName, CallSettings)
             // Additional: VoidMethodAsync(ResourceName, CancellationToken)

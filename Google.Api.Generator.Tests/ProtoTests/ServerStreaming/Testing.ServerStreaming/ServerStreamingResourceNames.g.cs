@@ -220,7 +220,7 @@ namespace Testing.ServerStreaming
         /// </summary>
         public ts::ResourceName ResourceName
         {
-            get => string.IsNullOrEmpty(Name) ? null : ts::ResourceName.Parse(Name);
+            get => string.IsNullOrEmpty(Name) ? null : ts::ResourceName.Parse(Name, allowUnparsed: true);
             set => Name = value?.ToString() ?? "";
         }
     }
@@ -232,7 +232,7 @@ namespace Testing.ServerStreaming
         /// </summary>
         public ts::ResourceName ResourceName
         {
-            get => string.IsNullOrEmpty(Name) ? null : ts::ResourceName.Parse(Name);
+            get => string.IsNullOrEmpty(Name) ? null : ts::ResourceName.Parse(Name, allowUnparsed: true);
             set => Name = value?.ToString() ?? "";
         }
     }

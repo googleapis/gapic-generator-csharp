@@ -209,8 +209,8 @@ namespace Testing.Paginated
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
-        /// <returns>A pageable sequence of <see cref="ResourceName"/> resources.</returns>
-        public virtual gax::PagedEnumerable<ResourceResponse, ResourceName> ResourcedMethod(ResourceRequest request, gaxgrpc::CallSettings callSettings = null) =>
+        /// <returns>A pageable sequence of <see cref="string"/> resources.</returns>
+        public virtual gax::PagedEnumerable<ResourceResponse, string> ResourcedMethod(ResourceRequest request, gaxgrpc::CallSettings callSettings = null) =>
             throw new sys::NotImplementedException();
 
         /// <summary>
@@ -219,8 +219,8 @@ namespace Testing.Paginated
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
-        /// <returns>A pageable asynchronous sequence of <see cref="ResourceName"/> resources.</returns>
-        public virtual gax::PagedAsyncEnumerable<ResourceResponse, ResourceName> ResourcedMethodAsync(ResourceRequest request, gaxgrpc::CallSettings callSettings = null) =>
+        /// <returns>A pageable asynchronous sequence of <see cref="string"/> resources.</returns>
+        public virtual gax::PagedAsyncEnumerable<ResourceResponse, string> ResourcedMethodAsync(ResourceRequest request, gaxgrpc::CallSettings callSettings = null) =>
             throw new sys::NotImplementedException();
 
         /// <summary>
@@ -238,8 +238,8 @@ namespace Testing.Paginated
         /// <c>null</c> or <c>0</c> uses a server-defined page size.
         /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
-        /// <returns>A pageable sequence of <see cref="ResourceName"/> resources.</returns>
-        public virtual gax::PagedEnumerable<ResourceResponse, ResourceName> ResourcedMethod(string name, string pageToken = null, int? pageSize = null, gaxgrpc::CallSettings callSettings = null) =>
+        /// <returns>A pageable sequence of <see cref="string"/> resources.</returns>
+        public virtual gax::PagedEnumerable<ResourceResponse, string> ResourcedMethod(string name, string pageToken = null, int? pageSize = null, gaxgrpc::CallSettings callSettings = null) =>
             ResourcedMethod(new ResourceRequest
             {
                 Name = name ?? "",
@@ -262,8 +262,8 @@ namespace Testing.Paginated
         /// <c>null</c> or <c>0</c> uses a server-defined page size.
         /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
-        /// <returns>A pageable asynchronous sequence of <see cref="ResourceName"/> resources.</returns>
-        public virtual gax::PagedAsyncEnumerable<ResourceResponse, ResourceName> ResourcedMethodAsync(string name, string pageToken = null, int? pageSize = null, gaxgrpc::CallSettings callSettings = null) =>
+        /// <returns>A pageable asynchronous sequence of <see cref="string"/> resources.</returns>
+        public virtual gax::PagedAsyncEnumerable<ResourceResponse, string> ResourcedMethodAsync(string name, string pageToken = null, int? pageSize = null, gaxgrpc::CallSettings callSettings = null) =>
             ResourcedMethodAsync(new ResourceRequest
             {
                 Name = name ?? "",
@@ -286,8 +286,8 @@ namespace Testing.Paginated
         /// <c>null</c> or <c>0</c> uses a server-defined page size.
         /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
-        /// <returns>A pageable sequence of <see cref="ResourceName"/> resources.</returns>
-        public virtual gax::PagedEnumerable<ResourceResponse, ResourceName> ResourcedMethod(ResourceName name, string pageToken = null, int? pageSize = null, gaxgrpc::CallSettings callSettings = null) =>
+        /// <returns>A pageable sequence of <see cref="string"/> resources.</returns>
+        public virtual gax::PagedEnumerable<ResourceResponse, string> ResourcedMethod(ResourceName name, string pageToken = null, int? pageSize = null, gaxgrpc::CallSettings callSettings = null) =>
             ResourcedMethod(new ResourceRequest
             {
                 ResourceName = name,
@@ -310,8 +310,8 @@ namespace Testing.Paginated
         /// <c>null</c> or <c>0</c> uses a server-defined page size.
         /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
-        /// <returns>A pageable asynchronous sequence of <see cref="ResourceName"/> resources.</returns>
-        public virtual gax::PagedAsyncEnumerable<ResourceResponse, ResourceName> ResourcedMethodAsync(ResourceName name, string pageToken = null, int? pageSize = null, gaxgrpc::CallSettings callSettings = null) =>
+        /// <returns>A pageable asynchronous sequence of <see cref="string"/> resources.</returns>
+        public virtual gax::PagedAsyncEnumerable<ResourceResponse, string> ResourcedMethodAsync(ResourceName name, string pageToken = null, int? pageSize = null, gaxgrpc::CallSettings callSettings = null) =>
             ResourcedMethodAsync(new ResourceRequest
             {
                 ResourceName = name,
@@ -336,8 +336,8 @@ namespace Testing.Paginated
         /// <c>null</c> or <c>0</c> uses a server-defined page size.
         /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
-        /// <returns>A pageable sequence of <see cref="ResourceName"/> resources.</returns>
-        public virtual gax::PagedEnumerable<ResourceResponse, ResourceName> ResourcedMethod(string name, string extraString, string pageToken = null, int? pageSize = null, gaxgrpc::CallSettings callSettings = null) =>
+        /// <returns>A pageable sequence of <see cref="string"/> resources.</returns>
+        public virtual gax::PagedEnumerable<ResourceResponse, string> ResourcedMethod(string name, string extraString, string pageToken = null, int? pageSize = null, gaxgrpc::CallSettings callSettings = null) =>
             ResourcedMethod(new ResourceRequest
             {
                 Name = name ?? "",
@@ -363,8 +363,8 @@ namespace Testing.Paginated
         /// <c>null</c> or <c>0</c> uses a server-defined page size.
         /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
-        /// <returns>A pageable asynchronous sequence of <see cref="ResourceName"/> resources.</returns>
-        public virtual gax::PagedAsyncEnumerable<ResourceResponse, ResourceName> ResourcedMethodAsync(string name, string extraString, string pageToken = null, int? pageSize = null, gaxgrpc::CallSettings callSettings = null) =>
+        /// <returns>A pageable asynchronous sequence of <see cref="string"/> resources.</returns>
+        public virtual gax::PagedAsyncEnumerable<ResourceResponse, string> ResourcedMethodAsync(string name, string extraString, string pageToken = null, int? pageSize = null, gaxgrpc::CallSettings callSettings = null) =>
             ResourcedMethodAsync(new ResourceRequest
             {
                 Name = name ?? "",
@@ -390,8 +390,8 @@ namespace Testing.Paginated
         /// <c>null</c> or <c>0</c> uses a server-defined page size.
         /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
-        /// <returns>A pageable sequence of <see cref="ResourceName"/> resources.</returns>
-        public virtual gax::PagedEnumerable<ResourceResponse, ResourceName> ResourcedMethod(ResourceName name, string extraString, string pageToken = null, int? pageSize = null, gaxgrpc::CallSettings callSettings = null) =>
+        /// <returns>A pageable sequence of <see cref="string"/> resources.</returns>
+        public virtual gax::PagedEnumerable<ResourceResponse, string> ResourcedMethod(ResourceName name, string extraString, string pageToken = null, int? pageSize = null, gaxgrpc::CallSettings callSettings = null) =>
             ResourcedMethod(new ResourceRequest
             {
                 ResourceName = name,
@@ -417,8 +417,8 @@ namespace Testing.Paginated
         /// <c>null</c> or <c>0</c> uses a server-defined page size.
         /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
-        /// <returns>A pageable asynchronous sequence of <see cref="ResourceName"/> resources.</returns>
-        public virtual gax::PagedAsyncEnumerable<ResourceResponse, ResourceName> ResourcedMethodAsync(ResourceName name, string extraString, string pageToken = null, int? pageSize = null, gaxgrpc::CallSettings callSettings = null) =>
+        /// <returns>A pageable asynchronous sequence of <see cref="string"/> resources.</returns>
+        public virtual gax::PagedAsyncEnumerable<ResourceResponse, string> ResourcedMethodAsync(ResourceName name, string extraString, string pageToken = null, int? pageSize = null, gaxgrpc::CallSettings callSettings = null) =>
             ResourcedMethodAsync(new ResourceRequest
             {
                 ResourceName = name,
@@ -493,11 +493,11 @@ namespace Testing.Paginated
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
-        /// <returns>A pageable sequence of <see cref="ResourceName"/> resources.</returns>
-        public override gax::PagedEnumerable<ResourceResponse, ResourceName> ResourcedMethod(ResourceRequest request, gaxgrpc::CallSettings callSettings = null)
+        /// <returns>A pageable sequence of <see cref="string"/> resources.</returns>
+        public override gax::PagedEnumerable<ResourceResponse, string> ResourcedMethod(ResourceRequest request, gaxgrpc::CallSettings callSettings = null)
         {
             Modify_ResourceRequest(ref request, ref callSettings);
-            return new gaxgrpc::GrpcPagedEnumerable<ResourceRequest, ResourceResponse, ResourceName>(_callResourcedMethod, request, callSettings);
+            return new gaxgrpc::GrpcPagedEnumerable<ResourceRequest, ResourceResponse, string>(_callResourcedMethod, request, callSettings);
         }
 
         /// <summary>
@@ -506,11 +506,11 @@ namespace Testing.Paginated
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
-        /// <returns>A pageable asynchronous sequence of <see cref="ResourceName"/> resources.</returns>
-        public override gax::PagedAsyncEnumerable<ResourceResponse, ResourceName> ResourcedMethodAsync(ResourceRequest request, gaxgrpc::CallSettings callSettings = null)
+        /// <returns>A pageable asynchronous sequence of <see cref="string"/> resources.</returns>
+        public override gax::PagedAsyncEnumerable<ResourceResponse, string> ResourcedMethodAsync(ResourceRequest request, gaxgrpc::CallSettings callSettings = null)
         {
             Modify_ResourceRequest(ref request, ref callSettings);
-            return new gaxgrpc::GrpcPagedAsyncEnumerable<ResourceRequest, ResourceResponse, ResourceName>(_callResourcedMethod, request, callSettings);
+            return new gaxgrpc::GrpcPagedAsyncEnumerable<ResourceRequest, ResourceResponse, string>(_callResourcedMethod, request, callSettings);
         }
         // TEST_END
     }
@@ -532,10 +532,10 @@ namespace Testing.Paginated
         sc::IEnumerator sc::IEnumerable.GetEnumerator() => GetEnumerator();
     }
 
-    public partial class ResourceResponse : gaxgrpc::IPageResponse<ResourceName>
+    public partial class ResourceResponse : gaxgrpc::IPageResponse<string>
     {
         /// <summary>Returns an enumerator that iterates through the resources in this response.</summary>
-        public scg::IEnumerator<ResourceName> GetEnumerator() => ResultsAsResourceNames.GetEnumerator();
+        public scg::IEnumerator<string> GetEnumerator() => Results.GetEnumerator();
 
         sc::IEnumerator sc::IEnumerable.GetEnumerator() => GetEnumerator();
     }

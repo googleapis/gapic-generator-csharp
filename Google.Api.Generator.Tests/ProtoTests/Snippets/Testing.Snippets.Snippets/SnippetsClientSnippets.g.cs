@@ -28,7 +28,7 @@ namespace Testing.Snippets.Snippets
     public sealed class GeneratedSnippetsClientSnippets
     {
         /// <summary>Snippet for MethodDefaultValues</summary>
-        public void MethodDefaultValues_RequestObject()
+        public void MethodDefaultValuesRequestObject()
         {
             // Snippet: MethodDefaultValues(DefaultValuesRequest, CallSettings)
             // Create client
@@ -106,7 +106,7 @@ namespace Testing.Snippets.Snippets
         }
 
         /// <summary>Snippet for MethodDefaultValuesAsync</summary>
-        public async Task MethodDefaultValuesAsync_RequestObject()
+        public async Task MethodDefaultValuesRequestObjectAsync()
         {
             // Snippet: MethodDefaultValuesAsync(DefaultValuesRequest, CallSettings)
             // Additional: MethodDefaultValuesAsync(DefaultValuesRequest, CancellationToken)
@@ -228,7 +228,7 @@ namespace Testing.Snippets.Snippets
         }
 
         /// <summary>Snippet for MethodDefaultValues</summary>
-        public void MethodDefaultValues_ResourceNames()
+        public void MethodDefaultValuesResourceNames()
         {
             // Snippet: MethodDefaultValues(IEnumerable<double>, IEnumerable<DefaultValuesRequest.Types.NestedMessage>, AResourceName, CallSettings)
             // Create client
@@ -249,7 +249,7 @@ namespace Testing.Snippets.Snippets
         }
 
         /// <summary>Snippet for MethodDefaultValuesAsync</summary>
-        public async Task MethodDefaultValuesAsync_ResourceNames()
+        public async Task MethodDefaultValuesResourceNamesAsync()
         {
             // Snippet: MethodDefaultValuesAsync(IEnumerable<double>, IEnumerable<DefaultValuesRequest.Types.NestedMessage>, AResourceName, CallSettings)
             // Additional: MethodDefaultValuesAsync(IEnumerable<double>, IEnumerable<DefaultValuesRequest.Types.NestedMessage>, AResourceName, CancellationToken)
@@ -271,7 +271,7 @@ namespace Testing.Snippets.Snippets
         }
 
         /// <summary>Snippet for MethodOneSignature</summary>
-        public void MethodOneSignature_RequestObject()
+        public void MethodOneSignatureRequestObject()
         {
             // Snippet: MethodOneSignature(SignatureRequest, CallSettings)
             // Create client
@@ -290,7 +290,7 @@ namespace Testing.Snippets.Snippets
         }
 
         /// <summary>Snippet for MethodOneSignatureAsync</summary>
-        public async Task MethodOneSignatureAsync_RequestObject()
+        public async Task MethodOneSignatureRequestObjectAsync()
         {
             // Snippet: MethodOneSignatureAsync(SignatureRequest, CallSettings)
             // Additional: MethodOneSignatureAsync(SignatureRequest, CancellationToken)
@@ -341,7 +341,7 @@ namespace Testing.Snippets.Snippets
         }
 
         /// <summary>Snippet for MethodThreeSignatures</summary>
-        public void MethodThreeSignatures_RequestObject()
+        public void MethodThreeSignaturesRequestObject()
         {
             // Snippet: MethodThreeSignatures(SignatureRequest, CallSettings)
             // Create client
@@ -360,7 +360,7 @@ namespace Testing.Snippets.Snippets
         }
 
         /// <summary>Snippet for MethodThreeSignaturesAsync</summary>
-        public async Task MethodThreeSignaturesAsync_RequestObject()
+        public async Task MethodThreeSignaturesRequestObjectAsync()
         {
             // Snippet: MethodThreeSignaturesAsync(SignatureRequest, CallSettings)
             // Additional: MethodThreeSignaturesAsync(SignatureRequest, CancellationToken)
@@ -463,7 +463,7 @@ namespace Testing.Snippets.Snippets
         }
 
         /// <summary>Snippet for MethodMapSignature</summary>
-        public void MethodMapSignature_RequestObject()
+        public void MethodMapSignatureRequestObject()
         {
             // Snippet: MethodMapSignature(SignatureRequest, CallSettings)
             // Create client
@@ -482,7 +482,7 @@ namespace Testing.Snippets.Snippets
         }
 
         /// <summary>Snippet for MethodMapSignatureAsync</summary>
-        public async Task MethodMapSignatureAsync_RequestObject()
+        public async Task MethodMapSignatureRequestObjectAsync()
         {
             // Snippet: MethodMapSignatureAsync(SignatureRequest, CallSettings)
             // Additional: MethodMapSignatureAsync(SignatureRequest, CancellationToken)
@@ -529,7 +529,7 @@ namespace Testing.Snippets.Snippets
         }
 
         /// <summary>Snippet for MethodResourceSignature</summary>
-        public void MethodResourceSignature_RequestObject()
+        public void MethodResourceSignatureRequestObject()
         {
             // Snippet: MethodResourceSignature(ResourceSignatureRequest, CallSettings)
             // Create client
@@ -547,7 +547,7 @@ namespace Testing.Snippets.Snippets
         }
 
         /// <summary>Snippet for MethodResourceSignatureAsync</summary>
-        public async Task MethodResourceSignatureAsync_RequestObject()
+        public async Task MethodResourceSignatureRequestObjectAsync()
         {
             // Snippet: MethodResourceSignatureAsync(ResourceSignatureRequest, CallSettings)
             // Additional: MethodResourceSignatureAsync(ResourceSignatureRequest, CancellationToken)
@@ -597,7 +597,7 @@ namespace Testing.Snippets.Snippets
         }
 
         /// <summary>Snippet for MethodResourceSignature</summary>
-        public void MethodResourceSignature1_ResourceNames()
+        public void MethodResourceSignature1ResourceNames()
         {
             // Snippet: MethodResourceSignature(SimpleResourceName, SimpleResourceName, SimpleResourceName, CallSettings)
             // Create client
@@ -612,7 +612,7 @@ namespace Testing.Snippets.Snippets
         }
 
         /// <summary>Snippet for MethodResourceSignatureAsync</summary>
-        public async Task MethodResourceSignature1Async_ResourceNames()
+        public async Task MethodResourceSignature1ResourceNamesAsync()
         {
             // Snippet: MethodResourceSignatureAsync(SimpleResourceName, SimpleResourceName, SimpleResourceName, CallSettings)
             // Additional: MethodResourceSignatureAsync(SimpleResourceName, SimpleResourceName, SimpleResourceName, CancellationToken)
@@ -655,7 +655,7 @@ namespace Testing.Snippets.Snippets
         }
 
         /// <summary>Snippet for MethodResourceSignature</summary>
-        public void MethodResourceSignature2_ResourceNames()
+        public void MethodResourceSignature2ResourceNames()
         {
             // Snippet: MethodResourceSignature(SimpleResourceName, CallSettings)
             // Create client
@@ -668,7 +668,7 @@ namespace Testing.Snippets.Snippets
         }
 
         /// <summary>Snippet for MethodResourceSignatureAsync</summary>
-        public async Task MethodResourceSignature2Async_ResourceNames()
+        public async Task MethodResourceSignature2ResourceNamesAsync()
         {
             // Snippet: MethodResourceSignatureAsync(SimpleResourceName, CallSettings)
             // Additional: MethodResourceSignatureAsync(SimpleResourceName, CancellationToken)
@@ -682,7 +682,7 @@ namespace Testing.Snippets.Snippets
         }
 
         /// <summary>Snippet for MethodLroSignatures</summary>
-        public void MethodLroSignatures_RequestObject()
+        public void MethodLroSignaturesRequestObject()
         {
             // Snippet: MethodLroSignatures(SignatureRequest, CallSettings)
             // Create client
@@ -717,7 +717,7 @@ namespace Testing.Snippets.Snippets
         }
 
         /// <summary>Snippet for MethodLroSignaturesAsync</summary>
-        public async Task MethodLroSignaturesAsync_RequestObject()
+        public async Task MethodLroSignaturesRequestObjectAsync()
         {
             // Snippet: MethodLroSignaturesAsync(SignatureRequest, CallSettings)
             // Additional: MethodLroSignaturesAsync(SignatureRequest, CancellationToken)
@@ -816,7 +816,7 @@ namespace Testing.Snippets.Snippets
         }
 
         /// <summary>Snippet for MethodLroResourceSignature</summary>
-        public void MethodLroResourceSignature_RequestObject()
+        public void MethodLroResourceSignatureRequestObject()
         {
             // Snippet: MethodLroResourceSignature(ResourceSignatureRequest, CallSettings)
             // Create client
@@ -850,7 +850,7 @@ namespace Testing.Snippets.Snippets
         }
 
         /// <summary>Snippet for MethodLroResourceSignatureAsync</summary>
-        public async Task MethodLroResourceSignatureAsync_RequestObject()
+        public async Task MethodLroResourceSignatureRequestObjectAsync()
         {
             // Snippet: MethodLroResourceSignatureAsync(ResourceSignatureRequest, CallSettings)
             // Additional: MethodLroResourceSignatureAsync(ResourceSignatureRequest, CancellationToken)
@@ -948,7 +948,7 @@ namespace Testing.Snippets.Snippets
         }
 
         /// <summary>Snippet for MethodLroResourceSignature</summary>
-        public void MethodLroResourceSignature_ResourceNames()
+        public void MethodLroResourceSignatureResourceNames()
         {
             // Snippet: MethodLroResourceSignature(SimpleResourceName, SimpleResourceName, SimpleResourceName, CallSettings)
             // Create client
@@ -979,7 +979,7 @@ namespace Testing.Snippets.Snippets
         }
 
         /// <summary>Snippet for MethodLroResourceSignatureAsync</summary>
-        public async Task MethodLroResourceSignatureAsync_ResourceNames()
+        public async Task MethodLroResourceSignatureResourceNamesAsync()
         {
             // Snippet: MethodLroResourceSignatureAsync(SimpleResourceName, SimpleResourceName, SimpleResourceName, CallSettings)
             // Additional: MethodLroResourceSignatureAsync(SimpleResourceName, SimpleResourceName, SimpleResourceName, CancellationToken)
@@ -1011,7 +1011,7 @@ namespace Testing.Snippets.Snippets
         }
 
         /// <summary>Snippet for MethodServerStreaming</summary>
-        public async Task MethodServerStreaming_RequestObject()
+        public async Task MethodServerStreamingRequestObject()
         {
             // Snippet: MethodServerStreaming(SignatureRequest, CallSettings)
             // Create client
@@ -1085,7 +1085,7 @@ namespace Testing.Snippets.Snippets
         }
 
         /// <summary>Snippet for MethodServerStreamingResources</summary>
-        public async Task MethodServerStreamingResources_RequestObject()
+        public async Task MethodServerStreamingResourcesRequestObject()
         {
             // Snippet: MethodServerStreamingResources(ResourceSignatureRequest, CallSettings)
             // Create client
@@ -1138,7 +1138,7 @@ namespace Testing.Snippets.Snippets
         }
 
         /// <summary>Snippet for MethodServerStreamingResources</summary>
-        public async Task MethodServerStreamingResources_ResourceNames()
+        public async Task MethodServerStreamingResourcesResourceNames()
         {
             // Snippet: MethodServerStreamingResources(SimpleResourceName, SimpleResourceName, SimpleResourceName, CallSettings)
             // Create client
@@ -1213,7 +1213,7 @@ namespace Testing.Snippets.Snippets
         }
 
         /// <summary>Snippet for TaskMethod</summary>
-        public void TaskMethod_RequestObject()
+        public void TaskMethodRequestObject()
         {
             // Snippet: TaskMethod(Task, CallSettings)
             // Create client
@@ -1226,7 +1226,7 @@ namespace Testing.Snippets.Snippets
         }
 
         /// <summary>Snippet for TaskMethodAsync</summary>
-        public async Task TaskMethodAsync_RequestObject()
+        public async Task TaskMethodRequestObjectAsync()
         {
             // Snippet: TaskMethodAsync(Task, CallSettings)
             // Additional: TaskMethodAsync(Task, CancellationToken)
