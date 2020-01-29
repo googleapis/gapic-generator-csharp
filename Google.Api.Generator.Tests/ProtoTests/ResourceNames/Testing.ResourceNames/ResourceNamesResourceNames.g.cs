@@ -20,10 +20,10 @@ using tr = Testing.ResourceNames;
 
 namespace Testing.ResourceNames
 {
-    /// <summary>Resource name for the <c>SingleResource</c> resource.</summary>
-    public sealed partial class SingleResourceName : gax::IResourceName, sys::IEquatable<SingleResourceName>
+    /// <summary>Resource name for the <c>SinglePattern</c> resource.</summary>
+    public sealed partial class SinglePatternName : gax::IResourceName, sys::IEquatable<SinglePatternName>
     {
-        /// <summary>The possible contents of <see cref="SingleResourceName"/>.</summary>
+        /// <summary>The possible contents of <see cref="SinglePatternName"/>.</summary>
         public enum ResourceNameType
         {
             /// <summary>An unparsed resource name.</summary>
@@ -35,55 +35,55 @@ namespace Testing.ResourceNames
 
         private static gax::PathTemplate s_item = new gax::PathTemplate("items/{item_id}");
 
-        /// <summary>Creates a <see cref="SingleResourceName"/> containing an unparsed resource name.</summary>
+        /// <summary>Creates a <see cref="SinglePatternName"/> containing an unparsed resource name.</summary>
         /// <param name="unparsedResourceName">The unparsed resource name. Must not be <c>null</c>.</param>
         /// <returns>
-        /// A new instance of <see cref="SingleResourceName"/> containing the provided
+        /// A new instance of <see cref="SinglePatternName"/> containing the provided
         /// <paramref name="unparsedResourceName"/>.
         /// </returns>
-        public static SingleResourceName FromUnparsed(gax::UnparsedResourceName unparsedResourceName) =>
-            new SingleResourceName(ResourceNameType.Unparsed, gax::GaxPreconditions.CheckNotNull(unparsedResourceName, nameof(unparsedResourceName)));
+        public static SinglePatternName FromUnparsed(gax::UnparsedResourceName unparsedResourceName) =>
+            new SinglePatternName(ResourceNameType.Unparsed, gax::GaxPreconditions.CheckNotNull(unparsedResourceName, nameof(unparsedResourceName)));
 
-        /// <summary>Creates a <see cref="SingleResourceName"/> with the pattern <c>items/{item_id}</c>.</summary>
+        /// <summary>Creates a <see cref="SinglePatternName"/> with the pattern <c>items/{item_id}</c>.</summary>
         /// <param name="itemId">The <c>Item</c> ID. Must not be <c>null</c> or empty.</param>
-        /// <returns>A new instance of <see cref="SingleResourceName"/> constructed from the provided ids.</returns>
-        public static SingleResourceName FromItem(string itemId) =>
-            new SingleResourceName(ResourceNameType.Item, itemId: gax::GaxPreconditions.CheckNotNullOrEmpty(itemId, nameof(itemId)));
+        /// <returns>A new instance of <see cref="SinglePatternName"/> constructed from the provided ids.</returns>
+        public static SinglePatternName FromItem(string itemId) =>
+            new SinglePatternName(ResourceNameType.Item, itemId: gax::GaxPreconditions.CheckNotNullOrEmpty(itemId, nameof(itemId)));
 
         /// <summary>
-        /// Formats the IDs into the string representation of this <see cref="SingleResourceName"/> with pattern
+        /// Formats the IDs into the string representation of this <see cref="SinglePatternName"/> with pattern
         /// <c>items/{item_id}</c>.
         /// </summary>
         /// <param name="itemId">The <c>Item</c> ID. Must not be <c>null</c> or empty.</param>
         /// <returns>
-        /// The string representation of this <see cref="SingleResourceName"/> with pattern <c>items/{item_id}</c>.
+        /// The string representation of this <see cref="SinglePatternName"/> with pattern <c>items/{item_id}</c>.
         /// </returns>
         public static string Format(string itemId) => FormatItem(itemId);
 
         /// <summary>
-        /// Formats the IDs into the string representation of this <see cref="SingleResourceName"/> with pattern
+        /// Formats the IDs into the string representation of this <see cref="SinglePatternName"/> with pattern
         /// <c>items/{item_id}</c>.
         /// </summary>
         /// <param name="itemId">The <c>Item</c> ID. Must not be <c>null</c> or empty.</param>
         /// <returns>
-        /// The string representation of this <see cref="SingleResourceName"/> with pattern <c>items/{item_id}</c>.
+        /// The string representation of this <see cref="SinglePatternName"/> with pattern <c>items/{item_id}</c>.
         /// </returns>
         public static string FormatItem(string itemId) =>
             s_item.Expand(gax::GaxPreconditions.CheckNotNullOrEmpty(itemId, nameof(itemId)));
 
         /// <summary>
-        /// Parses the given resource name string into a new <see cref="SingleResourceName"/> instance.
+        /// Parses the given resource name string into a new <see cref="SinglePatternName"/> instance.
         /// </summary>
         /// <remarks>
         /// To parse successfully, the resource name must be formatted as one of the following:
         /// <list type="bullet"><item><description><c>items/{item_id}</c></description></item></list>
         /// </remarks>
-        /// <param name="singleResourceName">The resource name in string form. Must not be <c>null</c>.</param>
-        /// <returns>The parsed <see cref="SingleResourceName"/> if successful.</returns>
-        public static SingleResourceName Parse(string singleResourceName) => Parse(singleResourceName, false);
+        /// <param name="singlePatternName">The resource name in string form. Must not be <c>null</c>.</param>
+        /// <returns>The parsed <see cref="SinglePatternName"/> if successful.</returns>
+        public static SinglePatternName Parse(string singlePatternName) => Parse(singlePatternName, false);
 
         /// <summary>
-        /// Parses the given resource name string into a new <see cref="SingleResourceName"/> instance; optionally
+        /// Parses the given resource name string into a new <see cref="SinglePatternName"/> instance; optionally
         /// allowing an unparseable resource name.
         /// </summary>
         /// <remarks>
@@ -91,33 +91,33 @@ namespace Testing.ResourceNames
         /// <list type="bullet"><item><description><c>items/{item_id}</c></description></item></list>
         /// Or may be in any format if <paramref name="allowUnparsed"/> is <c>true</c>.
         /// </remarks>
-        /// <param name="singleResourceName">The resource name in string form. Must not be <c>null</c>.</param>
+        /// <param name="singlePatternName">The resource name in string form. Must not be <c>null</c>.</param>
         /// <param name="allowUnparsed">
         /// If <c>true</c> will successfully store an unparseable resource name into the <see cref="UnparsedResource"/>
         /// property; otherwise will throw an <see cref="sys::ArgumentException"/> if an unparseable resource name is
         /// specified.
         /// </param>
-        /// <returns>The parsed <see cref="SingleResourceName"/> if successful.</returns>
-        public static SingleResourceName Parse(string singleResourceName, bool allowUnparsed) =>
-            TryParse(singleResourceName, allowUnparsed, out SingleResourceName result) ? result : throw new sys::ArgumentException("The given resource-name matches no pattern.");
+        /// <returns>The parsed <see cref="SinglePatternName"/> if successful.</returns>
+        public static SinglePatternName Parse(string singlePatternName, bool allowUnparsed) =>
+            TryParse(singlePatternName, allowUnparsed, out SinglePatternName result) ? result : throw new sys::ArgumentException("The given resource-name matches no pattern.");
 
         /// <summary>
-        /// Tries to parse the given resource name string into a new <see cref="SingleResourceName"/> instance.
+        /// Tries to parse the given resource name string into a new <see cref="SinglePatternName"/> instance.
         /// </summary>
         /// <remarks>
         /// To parse successfully, the resource name must be formatted as one of the following:
         /// <list type="bullet"><item><description><c>items/{item_id}</c></description></item></list>
         /// </remarks>
-        /// <param name="singleResourceName">The resource name in string form. Must not be <c>null</c>.</param>
+        /// <param name="singlePatternName">The resource name in string form. Must not be <c>null</c>.</param>
         /// <param name="result">
-        /// When this method returns, the parsed <see cref="SingleResourceName"/>, or <c>null</c> if parsing failed.
+        /// When this method returns, the parsed <see cref="SinglePatternName"/>, or <c>null</c> if parsing failed.
         /// </param>
         /// <returns><c>true</c> if the name was parsed successfully; <c>false</c> otherwise.</returns>
-        public static bool TryParse(string singleResourceName, out SingleResourceName result) =>
-            TryParse(singleResourceName, false, out result);
+        public static bool TryParse(string singlePatternName, out SinglePatternName result) =>
+            TryParse(singlePatternName, false, out result);
 
         /// <summary>
-        /// Tries to parse the given resource name string into a new <see cref="SingleResourceName"/> instance;
+        /// Tries to parse the given resource name string into a new <see cref="SinglePatternName"/> instance;
         /// optionally allowing an unparseable resource name.
         /// </summary>
         /// <remarks>
@@ -125,28 +125,28 @@ namespace Testing.ResourceNames
         /// <list type="bullet"><item><description><c>items/{item_id}</c></description></item></list>
         /// Or may be in any format if <paramref name="allowUnparsed"/> is <c>true</c>.
         /// </remarks>
-        /// <param name="singleResourceName">The resource name in string form. Must not be <c>null</c>.</param>
+        /// <param name="singlePatternName">The resource name in string form. Must not be <c>null</c>.</param>
         /// <param name="allowUnparsed">
         /// If <c>true</c> will successfully store an unparseable resource name into the <see cref="UnparsedResource"/>
         /// property; otherwise will throw an <see cref="sys::ArgumentException"/> if an unparseable resource name is
         /// specified.
         /// </param>
         /// <param name="result">
-        /// When this method returns, the parsed <see cref="SingleResourceName"/>, or <c>null</c> if parsing failed.
+        /// When this method returns, the parsed <see cref="SinglePatternName"/>, or <c>null</c> if parsing failed.
         /// </param>
         /// <returns><c>true</c> if the name was parsed successfully; <c>false</c> otherwise.</returns>
-        public static bool TryParse(string singleResourceName, bool allowUnparsed, out SingleResourceName result)
+        public static bool TryParse(string singlePatternName, bool allowUnparsed, out SinglePatternName result)
         {
-            gax::GaxPreconditions.CheckNotNull(singleResourceName, nameof(singleResourceName));
+            gax::GaxPreconditions.CheckNotNull(singlePatternName, nameof(singlePatternName));
             gax::TemplatedResourceName resourceName;
-            if (s_item.TryParseName(singleResourceName, out resourceName))
+            if (s_item.TryParseName(singlePatternName, out resourceName))
             {
                 result = FromItem(resourceName[0]);
                 return true;
             }
             if (allowUnparsed)
             {
-                if (gax::UnparsedResourceName.TryParse(singleResourceName, out gax::UnparsedResourceName unparsedResourceName))
+                if (gax::UnparsedResourceName.TryParse(singlePatternName, out gax::UnparsedResourceName unparsedResourceName))
                 {
                     result = FromUnparsed(unparsedResourceName);
                     return true;
@@ -156,7 +156,7 @@ namespace Testing.ResourceNames
             return false;
         }
 
-        private SingleResourceName(ResourceNameType type, gax::UnparsedResourceName unparsedResourceName = null, string itemId = null)
+        private SinglePatternName(ResourceNameType type, gax::UnparsedResourceName unparsedResourceName = null, string itemId = null)
         {
             Type = type;
             UnparsedResource = unparsedResourceName;
@@ -164,11 +164,11 @@ namespace Testing.ResourceNames
         }
 
         /// <summary>
-        /// Constructs a new instance of a <see cref="SingleResourceName"/> class from the component parts of pattern
+        /// Constructs a new instance of a <see cref="SinglePatternName"/> class from the component parts of pattern
         /// <c>items/{item_id}</c>
         /// </summary>
         /// <param name="itemId">The <c>Item</c> ID. Must not be <c>null</c> or empty.</param>
-        public SingleResourceName(string itemId) : this(ResourceNameType.Item, itemId: gax::GaxPreconditions.CheckNotNullOrEmpty(itemId, nameof(itemId)))
+        public SinglePatternName(string itemId) : this(ResourceNameType.Item, itemId: gax::GaxPreconditions.CheckNotNullOrEmpty(itemId, nameof(itemId)))
         {
         }
 
@@ -204,196 +204,152 @@ namespace Testing.ResourceNames
         public override int GetHashCode() => ToString().GetHashCode();
 
         /// <inheritdoc/>
-        public override bool Equals(object obj) => Equals(obj as SingleResourceName);
+        public override bool Equals(object obj) => Equals(obj as SinglePatternName);
 
         /// <inheritdoc/>
-        public bool Equals(SingleResourceName other) => ToString() == other?.ToString();
+        public bool Equals(SinglePatternName other) => ToString() == other?.ToString();
 
         /// <inheritdoc/>
-        public static bool operator ==(SingleResourceName a, SingleResourceName b) => ReferenceEquals(a, b) || (a?.Equals(b) ?? false);
+        public static bool operator ==(SinglePatternName a, SinglePatternName b) => ReferenceEquals(a, b) || (a?.Equals(b) ?? false);
 
         /// <inheritdoc/>
-        public static bool operator !=(SingleResourceName a, SingleResourceName b) => !(a == b);
+        public static bool operator !=(SinglePatternName a, SinglePatternName b) => !(a == b);
     }
 
-    /// <summary>Resource name for the <c>MultiResource</c> resource.</summary>
-    public sealed partial class MultiResourceName : gax::IResourceName, sys::IEquatable<MultiResourceName>
+    /// <summary>Resource name for the <c>WildcardMultiPattern</c> resource.</summary>
+    public sealed partial class WildcardMultiPatternName : gax::IResourceName, sys::IEquatable<WildcardMultiPatternName>
     {
-        /// <summary>The possible contents of <see cref="MultiResourceName"/>.</summary>
+        /// <summary>The possible contents of <see cref="WildcardMultiPatternName"/>.</summary>
         public enum ResourceNameType
         {
             /// <summary>An unparsed resource name.</summary>
             Unparsed = 0,
 
-            /// <summary>A resource name with pattern <c>roota/{root_a_id}/multi/{multi_id}</c>.</summary>
-            RootAMulti = 1,
-
-            /// <summary>A resource name with pattern <c>rootb/{root_b_id}/multi/{multi_id}</c>.</summary>
-            RootBMulti = 2
+            /// <summary>A resource name with pattern <c>items/{item_id}</c>.</summary>
+            Item = 1
         }
 
-        private static gax::PathTemplate s_rootAMulti = new gax::PathTemplate("roota/{root_a_id}/multi/{multi_id}");
+        private static gax::PathTemplate s_item = new gax::PathTemplate("items/{item_id}");
 
-        private static gax::PathTemplate s_rootBMulti = new gax::PathTemplate("rootb/{root_b_id}/multi/{multi_id}");
-
-        /// <summary>Creates a <see cref="MultiResourceName"/> containing an unparsed resource name.</summary>
+        /// <summary>Creates a <see cref="WildcardMultiPatternName"/> containing an unparsed resource name.</summary>
         /// <param name="unparsedResourceName">The unparsed resource name. Must not be <c>null</c>.</param>
         /// <returns>
-        /// A new instance of <see cref="MultiResourceName"/> containing the provided
+        /// A new instance of <see cref="WildcardMultiPatternName"/> containing the provided
         /// <paramref name="unparsedResourceName"/>.
         /// </returns>
-        public static MultiResourceName FromUnparsed(gax::UnparsedResourceName unparsedResourceName) =>
-            new MultiResourceName(ResourceNameType.Unparsed, gax::GaxPreconditions.CheckNotNull(unparsedResourceName, nameof(unparsedResourceName)));
+        public static WildcardMultiPatternName FromUnparsed(gax::UnparsedResourceName unparsedResourceName) =>
+            new WildcardMultiPatternName(ResourceNameType.Unparsed, gax::GaxPreconditions.CheckNotNull(unparsedResourceName, nameof(unparsedResourceName)));
 
-        /// <summary>
-        /// Creates a <see cref="MultiResourceName"/> with the pattern <c>roota/{root_a_id}/multi/{multi_id}</c>.
-        /// </summary>
-        /// <param name="rootAId">The <c>RootA</c> ID. Must not be <c>null</c> or empty.</param>
-        /// <param name="multiId">The <c>Multi</c> ID. Must not be <c>null</c> or empty.</param>
-        /// <returns>A new instance of <see cref="MultiResourceName"/> constructed from the provided ids.</returns>
-        public static MultiResourceName FromRootAMulti(string rootAId, string multiId) =>
-            new MultiResourceName(ResourceNameType.RootAMulti, rootAId: gax::GaxPreconditions.CheckNotNullOrEmpty(rootAId, nameof(rootAId)), multiId: gax::GaxPreconditions.CheckNotNullOrEmpty(multiId, nameof(multiId)));
-
-        /// <summary>
-        /// Creates a <see cref="MultiResourceName"/> with the pattern <c>rootb/{root_b_id}/multi/{multi_id}</c>.
-        /// </summary>
-        /// <param name="rootBId">The <c>RootB</c> ID. Must not be <c>null</c> or empty.</param>
-        /// <param name="multiId">The <c>Multi</c> ID. Must not be <c>null</c> or empty.</param>
-        /// <returns>A new instance of <see cref="MultiResourceName"/> constructed from the provided ids.</returns>
-        public static MultiResourceName FromRootBMulti(string rootBId, string multiId) =>
-            new MultiResourceName(ResourceNameType.RootBMulti, rootBId: gax::GaxPreconditions.CheckNotNullOrEmpty(rootBId, nameof(rootBId)), multiId: gax::GaxPreconditions.CheckNotNullOrEmpty(multiId, nameof(multiId)));
-
-        /// <summary>
-        /// Formats the IDs into the string representation of this <see cref="MultiResourceName"/> with pattern
-        /// <c>roota/{root_a_id}/multi/{multi_id}</c>.
-        /// </summary>
-        /// <param name="rootAId">The <c>RootA</c> ID. Must not be <c>null</c> or empty.</param>
-        /// <param name="multiId">The <c>Multi</c> ID. Must not be <c>null</c> or empty.</param>
+        /// <summary>Creates a <see cref="WildcardMultiPatternName"/> with the pattern <c>items/{item_id}</c>.</summary>
+        /// <param name="itemId">The <c>Item</c> ID. Must not be <c>null</c> or empty.</param>
         /// <returns>
-        /// The string representation of this <see cref="MultiResourceName"/> with pattern
-        /// <c>roota/{root_a_id}/multi/{multi_id}</c>.
+        /// A new instance of <see cref="WildcardMultiPatternName"/> constructed from the provided ids.
         /// </returns>
-        public static string Format(string rootAId, string multiId) => FormatRootAMulti(rootAId, multiId);
+        public static WildcardMultiPatternName FromItem(string itemId) =>
+            new WildcardMultiPatternName(ResourceNameType.Item, itemId: gax::GaxPreconditions.CheckNotNullOrEmpty(itemId, nameof(itemId)));
 
         /// <summary>
-        /// Formats the IDs into the string representation of this <see cref="MultiResourceName"/> with pattern
-        /// <c>roota/{root_a_id}/multi/{multi_id}</c>.
+        /// Formats the IDs into the string representation of this <see cref="WildcardMultiPatternName"/> with pattern
+        /// <c>items/{item_id}</c>.
         /// </summary>
-        /// <param name="rootAId">The <c>RootA</c> ID. Must not be <c>null</c> or empty.</param>
-        /// <param name="multiId">The <c>Multi</c> ID. Must not be <c>null</c> or empty.</param>
+        /// <param name="itemId">The <c>Item</c> ID. Must not be <c>null</c> or empty.</param>
         /// <returns>
-        /// The string representation of this <see cref="MultiResourceName"/> with pattern
-        /// <c>roota/{root_a_id}/multi/{multi_id}</c>.
+        /// The string representation of this <see cref="WildcardMultiPatternName"/> with pattern <c>items/{item_id}</c>
+        /// .
         /// </returns>
-        public static string FormatRootAMulti(string rootAId, string multiId) =>
-            s_rootAMulti.Expand(gax::GaxPreconditions.CheckNotNullOrEmpty(rootAId, nameof(rootAId)), gax::GaxPreconditions.CheckNotNullOrEmpty(multiId, nameof(multiId)));
+        public static string Format(string itemId) => FormatItem(itemId);
 
         /// <summary>
-        /// Formats the IDs into the string representation of this <see cref="MultiResourceName"/> with pattern
-        /// <c>rootb/{root_b_id}/multi/{multi_id}</c>.
+        /// Formats the IDs into the string representation of this <see cref="WildcardMultiPatternName"/> with pattern
+        /// <c>items/{item_id}</c>.
         /// </summary>
-        /// <param name="rootBId">The <c>RootB</c> ID. Must not be <c>null</c> or empty.</param>
-        /// <param name="multiId">The <c>Multi</c> ID. Must not be <c>null</c> or empty.</param>
+        /// <param name="itemId">The <c>Item</c> ID. Must not be <c>null</c> or empty.</param>
         /// <returns>
-        /// The string representation of this <see cref="MultiResourceName"/> with pattern
-        /// <c>rootb/{root_b_id}/multi/{multi_id}</c>.
+        /// The string representation of this <see cref="WildcardMultiPatternName"/> with pattern <c>items/{item_id}</c>
+        /// .
         /// </returns>
-        public static string FormatRootBMulti(string rootBId, string multiId) =>
-            s_rootBMulti.Expand(gax::GaxPreconditions.CheckNotNullOrEmpty(rootBId, nameof(rootBId)), gax::GaxPreconditions.CheckNotNullOrEmpty(multiId, nameof(multiId)));
+        public static string FormatItem(string itemId) =>
+            s_item.Expand(gax::GaxPreconditions.CheckNotNullOrEmpty(itemId, nameof(itemId)));
 
         /// <summary>
-        /// Parses the given resource name string into a new <see cref="MultiResourceName"/> instance.
+        /// Parses the given resource name string into a new <see cref="WildcardMultiPatternName"/> instance.
         /// </summary>
         /// <remarks>
         /// To parse successfully, the resource name must be formatted as one of the following:
-        /// <list type="bullet">
-        /// <item><description><c>roota/{root_a_id}/multi/{multi_id}</c></description></item>
-        /// <item><description><c>rootb/{root_b_id}/multi/{multi_id}</c></description></item>
-        /// </list>
+        /// <list type="bullet"><item><description><c>items/{item_id}</c></description></item></list>
         /// </remarks>
-        /// <param name="multiResourceName">The resource name in string form. Must not be <c>null</c>.</param>
-        /// <returns>The parsed <see cref="MultiResourceName"/> if successful.</returns>
-        public static MultiResourceName Parse(string multiResourceName) => Parse(multiResourceName, false);
+        /// <param name="wildcardMultiPatternName">The resource name in string form. Must not be <c>null</c>.</param>
+        /// <returns>The parsed <see cref="WildcardMultiPatternName"/> if successful.</returns>
+        public static WildcardMultiPatternName Parse(string wildcardMultiPatternName) =>
+            Parse(wildcardMultiPatternName, false);
 
         /// <summary>
-        /// Parses the given resource name string into a new <see cref="MultiResourceName"/> instance; optionally
+        /// Parses the given resource name string into a new <see cref="WildcardMultiPatternName"/> instance; optionally
         /// allowing an unparseable resource name.
         /// </summary>
         /// <remarks>
         /// To parse successfully, the resource name must be formatted as one of the following:
-        /// <list type="bullet">
-        /// <item><description><c>roota/{root_a_id}/multi/{multi_id}</c></description></item>
-        /// <item><description><c>rootb/{root_b_id}/multi/{multi_id}</c></description></item>
-        /// </list>
+        /// <list type="bullet"><item><description><c>items/{item_id}</c></description></item></list>
         /// Or may be in any format if <paramref name="allowUnparsed"/> is <c>true</c>.
         /// </remarks>
-        /// <param name="multiResourceName">The resource name in string form. Must not be <c>null</c>.</param>
+        /// <param name="wildcardMultiPatternName">The resource name in string form. Must not be <c>null</c>.</param>
         /// <param name="allowUnparsed">
         /// If <c>true</c> will successfully store an unparseable resource name into the <see cref="UnparsedResource"/>
         /// property; otherwise will throw an <see cref="sys::ArgumentException"/> if an unparseable resource name is
         /// specified.
         /// </param>
-        /// <returns>The parsed <see cref="MultiResourceName"/> if successful.</returns>
-        public static MultiResourceName Parse(string multiResourceName, bool allowUnparsed) =>
-            TryParse(multiResourceName, allowUnparsed, out MultiResourceName result) ? result : throw new sys::ArgumentException("The given resource-name matches no pattern.");
+        /// <returns>The parsed <see cref="WildcardMultiPatternName"/> if successful.</returns>
+        public static WildcardMultiPatternName Parse(string wildcardMultiPatternName, bool allowUnparsed) =>
+            TryParse(wildcardMultiPatternName, allowUnparsed, out WildcardMultiPatternName result) ? result : throw new sys::ArgumentException("The given resource-name matches no pattern.");
 
         /// <summary>
-        /// Tries to parse the given resource name string into a new <see cref="MultiResourceName"/> instance.
+        /// Tries to parse the given resource name string into a new <see cref="WildcardMultiPatternName"/> instance.
         /// </summary>
         /// <remarks>
         /// To parse successfully, the resource name must be formatted as one of the following:
-        /// <list type="bullet">
-        /// <item><description><c>roota/{root_a_id}/multi/{multi_id}</c></description></item>
-        /// <item><description><c>rootb/{root_b_id}/multi/{multi_id}</c></description></item>
-        /// </list>
+        /// <list type="bullet"><item><description><c>items/{item_id}</c></description></item></list>
         /// </remarks>
-        /// <param name="multiResourceName">The resource name in string form. Must not be <c>null</c>.</param>
+        /// <param name="wildcardMultiPatternName">The resource name in string form. Must not be <c>null</c>.</param>
         /// <param name="result">
-        /// When this method returns, the parsed <see cref="MultiResourceName"/>, or <c>null</c> if parsing failed.
+        /// When this method returns, the parsed <see cref="WildcardMultiPatternName"/>, or <c>null</c> if parsing
+        /// failed.
         /// </param>
         /// <returns><c>true</c> if the name was parsed successfully; <c>false</c> otherwise.</returns>
-        public static bool TryParse(string multiResourceName, out MultiResourceName result) =>
-            TryParse(multiResourceName, false, out result);
+        public static bool TryParse(string wildcardMultiPatternName, out WildcardMultiPatternName result) =>
+            TryParse(wildcardMultiPatternName, false, out result);
 
         /// <summary>
-        /// Tries to parse the given resource name string into a new <see cref="MultiResourceName"/> instance;
+        /// Tries to parse the given resource name string into a new <see cref="WildcardMultiPatternName"/> instance;
         /// optionally allowing an unparseable resource name.
         /// </summary>
         /// <remarks>
         /// To parse successfully, the resource name must be formatted as one of the following:
-        /// <list type="bullet">
-        /// <item><description><c>roota/{root_a_id}/multi/{multi_id}</c></description></item>
-        /// <item><description><c>rootb/{root_b_id}/multi/{multi_id}</c></description></item>
-        /// </list>
+        /// <list type="bullet"><item><description><c>items/{item_id}</c></description></item></list>
         /// Or may be in any format if <paramref name="allowUnparsed"/> is <c>true</c>.
         /// </remarks>
-        /// <param name="multiResourceName">The resource name in string form. Must not be <c>null</c>.</param>
+        /// <param name="wildcardMultiPatternName">The resource name in string form. Must not be <c>null</c>.</param>
         /// <param name="allowUnparsed">
         /// If <c>true</c> will successfully store an unparseable resource name into the <see cref="UnparsedResource"/>
         /// property; otherwise will throw an <see cref="sys::ArgumentException"/> if an unparseable resource name is
         /// specified.
         /// </param>
         /// <param name="result">
-        /// When this method returns, the parsed <see cref="MultiResourceName"/>, or <c>null</c> if parsing failed.
+        /// When this method returns, the parsed <see cref="WildcardMultiPatternName"/>, or <c>null</c> if parsing
+        /// failed.
         /// </param>
         /// <returns><c>true</c> if the name was parsed successfully; <c>false</c> otherwise.</returns>
-        public static bool TryParse(string multiResourceName, bool allowUnparsed, out MultiResourceName result)
+        public static bool TryParse(string wildcardMultiPatternName, bool allowUnparsed, out WildcardMultiPatternName result)
         {
-            gax::GaxPreconditions.CheckNotNull(multiResourceName, nameof(multiResourceName));
+            gax::GaxPreconditions.CheckNotNull(wildcardMultiPatternName, nameof(wildcardMultiPatternName));
             gax::TemplatedResourceName resourceName;
-            if (s_rootAMulti.TryParseName(multiResourceName, out resourceName))
+            if (s_item.TryParseName(wildcardMultiPatternName, out resourceName))
             {
-                result = FromRootAMulti(resourceName[0], resourceName[1]);
-                return true;
-            }
-            if (s_rootBMulti.TryParseName(multiResourceName, out resourceName))
-            {
-                result = FromRootBMulti(resourceName[0], resourceName[1]);
+                result = FromItem(resourceName[0]);
                 return true;
             }
             if (allowUnparsed)
             {
-                if (gax::UnparsedResourceName.TryParse(multiResourceName, out gax::UnparsedResourceName unparsedResourceName))
+                if (gax::UnparsedResourceName.TryParse(wildcardMultiPatternName, out gax::UnparsedResourceName unparsedResourceName))
                 {
                     result = FromUnparsed(unparsedResourceName);
                     return true;
@@ -403,22 +359,19 @@ namespace Testing.ResourceNames
             return false;
         }
 
-        private MultiResourceName(ResourceNameType type, gax::UnparsedResourceName unparsedResourceName = null, string multiId = null, string rootAId = null, string rootBId = null)
+        private WildcardMultiPatternName(ResourceNameType type, gax::UnparsedResourceName unparsedResourceName = null, string itemId = null)
         {
             Type = type;
             UnparsedResource = unparsedResourceName;
-            MultiId = multiId;
-            RootAId = rootAId;
-            RootBId = rootBId;
+            ItemId = itemId;
         }
 
         /// <summary>
-        /// Constructs a new instance of a <see cref="MultiResourceName"/> class from the component parts of pattern
-        /// <c>roota/{root_a_id}/multi/{multi_id}</c>
+        /// Constructs a new instance of a <see cref="WildcardMultiPatternName"/> class from the component parts of
+        /// pattern <c>items/{item_id}</c>
         /// </summary>
-        /// <param name="rootAId">The <c>RootA</c> ID. Must not be <c>null</c> or empty.</param>
-        /// <param name="multiId">The <c>Multi</c> ID. Must not be <c>null</c> or empty.</param>
-        public MultiResourceName(string rootAId, string multiId) : this(ResourceNameType.RootAMulti, rootAId: gax::GaxPreconditions.CheckNotNullOrEmpty(rootAId, nameof(rootAId)), multiId: gax::GaxPreconditions.CheckNotNullOrEmpty(multiId, nameof(multiId)))
+        /// <param name="itemId">The <c>Item</c> ID. Must not be <c>null</c> or empty.</param>
+        public WildcardMultiPatternName(string itemId) : this(ResourceNameType.Item, itemId: gax::GaxPreconditions.CheckNotNullOrEmpty(itemId, nameof(itemId)))
         {
         }
 
@@ -432,19 +385,9 @@ namespace Testing.ResourceNames
         public gax::UnparsedResourceName UnparsedResource { get; }
 
         /// <summary>
-        /// The <c>Multi</c> ID. May be <c>null</c>, depending on which resource name is contained by this instance.
+        /// The <c>Item</c> ID. May be <c>null</c>, depending on which resource name is contained by this instance.
         /// </summary>
-        public string MultiId { get; }
-
-        /// <summary>
-        /// The <c>RootA</c> ID. May be <c>null</c>, depending on which resource name is contained by this instance.
-        /// </summary>
-        public string RootAId { get; }
-
-        /// <summary>
-        /// The <c>RootB</c> ID. May be <c>null</c>, depending on which resource name is contained by this instance.
-        /// </summary>
-        public string RootBId { get; }
+        public string ItemId { get; }
 
         /// <inheritdoc/>
         public bool IsKnownPattern => Type != ResourceNameType.Unparsed;
@@ -455,8 +398,7 @@ namespace Testing.ResourceNames
             switch (Type)
             {
                 case ResourceNameType.Unparsed: return UnparsedResource.ToString();
-                case ResourceNameType.RootAMulti: return s_rootAMulti.Expand(RootAId, MultiId);
-                case ResourceNameType.RootBMulti: return s_rootBMulti.Expand(RootBId, MultiId);
+                case ResourceNameType.Item: return s_item.Expand(ItemId);
                 default: throw new sys::InvalidOperationException("Unrecognized resource-type.");
             }
         }
@@ -465,387 +407,163 @@ namespace Testing.ResourceNames
         public override int GetHashCode() => ToString().GetHashCode();
 
         /// <inheritdoc/>
-        public override bool Equals(object obj) => Equals(obj as MultiResourceName);
+        public override bool Equals(object obj) => Equals(obj as WildcardMultiPatternName);
 
         /// <inheritdoc/>
-        public bool Equals(MultiResourceName other) => ToString() == other?.ToString();
+        public bool Equals(WildcardMultiPatternName other) => ToString() == other?.ToString();
 
         /// <inheritdoc/>
-        public static bool operator ==(MultiResourceName a, MultiResourceName b) => ReferenceEquals(a, b) || (a?.Equals(b) ?? false);
+        public static bool operator ==(WildcardMultiPatternName a, WildcardMultiPatternName b) => ReferenceEquals(a, b) || (a?.Equals(b) ?? false);
 
         /// <inheritdoc/>
-        public static bool operator !=(MultiResourceName a, MultiResourceName b) => !(a == b);
+        public static bool operator !=(WildcardMultiPatternName a, WildcardMultiPatternName b) => !(a == b);
     }
 
-    /// <summary>Resource name for the <c>FutureMultiResource</c> resource.</summary>
-    public sealed partial class FutureMultiResourceName : gax::IResourceName, sys::IEquatable<FutureMultiResourceName>
+    /// <summary>Resource name for the <c>WildcardMultiPatternMultiple</c> resource.</summary>
+    public sealed partial class WildcardMultiPatternMultipleName : gax::IResourceName, sys::IEquatable<WildcardMultiPatternMultipleName>
     {
-        /// <summary>The possible contents of <see cref="FutureMultiResourceName"/>.</summary>
+        /// <summary>The possible contents of <see cref="WildcardMultiPatternMultipleName"/>.</summary>
         public enum ResourceNameType
         {
             /// <summary>An unparsed resource name.</summary>
             Unparsed = 0,
 
-            /// <summary>A resource name with pattern <c>root/{root_a_id}/futuremulti/{future_multi_id}</c>.</summary>
-            RootAFutureMulti = 1
+            /// <summary>A resource name with pattern <c>items_a/{item_a_id}</c>.</summary>
+            ItemA = 1,
+
+            /// <summary>A resource name with pattern <c>items_b/{item_b_id}</c>.</summary>
+            ItemB = 2,
+
+            /// <summary>A resource name with pattern <c>items_c/{item_c_id}</c>.</summary>
+            ItemC = 3
         }
 
-        private static gax::PathTemplate s_rootAFutureMulti = new gax::PathTemplate("root/{root_a_id}/futuremulti/{future_multi_id}");
+        private static gax::PathTemplate s_itemA = new gax::PathTemplate("items_a/{item_a_id}");
 
-        /// <summary>Creates a <see cref="FutureMultiResourceName"/> containing an unparsed resource name.</summary>
-        /// <param name="unparsedResourceName">The unparsed resource name. Must not be <c>null</c>.</param>
-        /// <returns>
-        /// A new instance of <see cref="FutureMultiResourceName"/> containing the provided
-        /// <paramref name="unparsedResourceName"/>.
-        /// </returns>
-        public static FutureMultiResourceName FromUnparsed(gax::UnparsedResourceName unparsedResourceName) =>
-            new FutureMultiResourceName(ResourceNameType.Unparsed, gax::GaxPreconditions.CheckNotNull(unparsedResourceName, nameof(unparsedResourceName)));
+        private static gax::PathTemplate s_itemB = new gax::PathTemplate("items_b/{item_b_id}");
+
+        private static gax::PathTemplate s_itemC = new gax::PathTemplate("items_c/{item_c_id}");
 
         /// <summary>
-        /// Creates a <see cref="FutureMultiResourceName"/> with the pattern
-        /// <c>root/{root_a_id}/futuremulti/{future_multi_id}</c>.
-        /// </summary>
-        /// <param name="rootAId">The <c>RootA</c> ID. Must not be <c>null</c> or empty.</param>
-        /// <param name="futureMultiId">The <c>FutureMulti</c> ID. Must not be <c>null</c> or empty.</param>
-        /// <returns>
-        /// A new instance of <see cref="FutureMultiResourceName"/> constructed from the provided ids.
-        /// </returns>
-        public static FutureMultiResourceName FromRootAFutureMulti(string rootAId, string futureMultiId) =>
-            new FutureMultiResourceName(ResourceNameType.RootAFutureMulti, rootAId: gax::GaxPreconditions.CheckNotNullOrEmpty(rootAId, nameof(rootAId)), futureMultiId: gax::GaxPreconditions.CheckNotNullOrEmpty(futureMultiId, nameof(futureMultiId)));
-
-        /// <summary>
-        /// Formats the IDs into the string representation of this <see cref="FutureMultiResourceName"/> with pattern
-        /// <c>root/{root_a_id}/futuremulti/{future_multi_id}</c>.
-        /// </summary>
-        /// <param name="rootAId">The <c>RootA</c> ID. Must not be <c>null</c> or empty.</param>
-        /// <param name="futureMultiId">The <c>FutureMulti</c> ID. Must not be <c>null</c> or empty.</param>
-        /// <returns>
-        /// The string representation of this <see cref="FutureMultiResourceName"/> with pattern
-        /// <c>root/{root_a_id}/futuremulti/{future_multi_id}</c>.
-        /// </returns>
-        public static string Format(string rootAId, string futureMultiId) => FormatRootAFutureMulti(rootAId, futureMultiId);
-
-        /// <summary>
-        /// Formats the IDs into the string representation of this <see cref="FutureMultiResourceName"/> with pattern
-        /// <c>root/{root_a_id}/futuremulti/{future_multi_id}</c>.
-        /// </summary>
-        /// <param name="rootAId">The <c>RootA</c> ID. Must not be <c>null</c> or empty.</param>
-        /// <param name="futureMultiId">The <c>FutureMulti</c> ID. Must not be <c>null</c> or empty.</param>
-        /// <returns>
-        /// The string representation of this <see cref="FutureMultiResourceName"/> with pattern
-        /// <c>root/{root_a_id}/futuremulti/{future_multi_id}</c>.
-        /// </returns>
-        public static string FormatRootAFutureMulti(string rootAId, string futureMultiId) =>
-            s_rootAFutureMulti.Expand(gax::GaxPreconditions.CheckNotNullOrEmpty(rootAId, nameof(rootAId)), gax::GaxPreconditions.CheckNotNullOrEmpty(futureMultiId, nameof(futureMultiId)));
-
-        /// <summary>
-        /// Parses the given resource name string into a new <see cref="FutureMultiResourceName"/> instance.
-        /// </summary>
-        /// <remarks>
-        /// To parse successfully, the resource name must be formatted as one of the following:
-        /// <list type="bullet">
-        /// <item><description><c>root/{root_a_id}/futuremulti/{future_multi_id}</c></description></item>
-        /// </list>
-        /// </remarks>
-        /// <param name="futureMultiResourceName">The resource name in string form. Must not be <c>null</c>.</param>
-        /// <returns>The parsed <see cref="FutureMultiResourceName"/> if successful.</returns>
-        public static FutureMultiResourceName Parse(string futureMultiResourceName) => Parse(futureMultiResourceName, false);
-
-        /// <summary>
-        /// Parses the given resource name string into a new <see cref="FutureMultiResourceName"/> instance; optionally
-        /// allowing an unparseable resource name.
-        /// </summary>
-        /// <remarks>
-        /// To parse successfully, the resource name must be formatted as one of the following:
-        /// <list type="bullet">
-        /// <item><description><c>root/{root_a_id}/futuremulti/{future_multi_id}</c></description></item>
-        /// </list>
-        /// Or may be in any format if <paramref name="allowUnparsed"/> is <c>true</c>.
-        /// </remarks>
-        /// <param name="futureMultiResourceName">The resource name in string form. Must not be <c>null</c>.</param>
-        /// <param name="allowUnparsed">
-        /// If <c>true</c> will successfully store an unparseable resource name into the <see cref="UnparsedResource"/>
-        /// property; otherwise will throw an <see cref="sys::ArgumentException"/> if an unparseable resource name is
-        /// specified.
-        /// </param>
-        /// <returns>The parsed <see cref="FutureMultiResourceName"/> if successful.</returns>
-        public static FutureMultiResourceName Parse(string futureMultiResourceName, bool allowUnparsed) =>
-            TryParse(futureMultiResourceName, allowUnparsed, out FutureMultiResourceName result) ? result : throw new sys::ArgumentException("The given resource-name matches no pattern.");
-
-        /// <summary>
-        /// Tries to parse the given resource name string into a new <see cref="FutureMultiResourceName"/> instance.
-        /// </summary>
-        /// <remarks>
-        /// To parse successfully, the resource name must be formatted as one of the following:
-        /// <list type="bullet">
-        /// <item><description><c>root/{root_a_id}/futuremulti/{future_multi_id}</c></description></item>
-        /// </list>
-        /// </remarks>
-        /// <param name="futureMultiResourceName">The resource name in string form. Must not be <c>null</c>.</param>
-        /// <param name="result">
-        /// When this method returns, the parsed <see cref="FutureMultiResourceName"/>, or <c>null</c> if parsing
-        /// failed.
-        /// </param>
-        /// <returns><c>true</c> if the name was parsed successfully; <c>false</c> otherwise.</returns>
-        public static bool TryParse(string futureMultiResourceName, out FutureMultiResourceName result) =>
-            TryParse(futureMultiResourceName, false, out result);
-
-        /// <summary>
-        /// Tries to parse the given resource name string into a new <see cref="FutureMultiResourceName"/> instance;
-        /// optionally allowing an unparseable resource name.
-        /// </summary>
-        /// <remarks>
-        /// To parse successfully, the resource name must be formatted as one of the following:
-        /// <list type="bullet">
-        /// <item><description><c>root/{root_a_id}/futuremulti/{future_multi_id}</c></description></item>
-        /// </list>
-        /// Or may be in any format if <paramref name="allowUnparsed"/> is <c>true</c>.
-        /// </remarks>
-        /// <param name="futureMultiResourceName">The resource name in string form. Must not be <c>null</c>.</param>
-        /// <param name="allowUnparsed">
-        /// If <c>true</c> will successfully store an unparseable resource name into the <see cref="UnparsedResource"/>
-        /// property; otherwise will throw an <see cref="sys::ArgumentException"/> if an unparseable resource name is
-        /// specified.
-        /// </param>
-        /// <param name="result">
-        /// When this method returns, the parsed <see cref="FutureMultiResourceName"/>, or <c>null</c> if parsing
-        /// failed.
-        /// </param>
-        /// <returns><c>true</c> if the name was parsed successfully; <c>false</c> otherwise.</returns>
-        public static bool TryParse(string futureMultiResourceName, bool allowUnparsed, out FutureMultiResourceName result)
-        {
-            gax::GaxPreconditions.CheckNotNull(futureMultiResourceName, nameof(futureMultiResourceName));
-            gax::TemplatedResourceName resourceName;
-            if (s_rootAFutureMulti.TryParseName(futureMultiResourceName, out resourceName))
-            {
-                result = FromRootAFutureMulti(resourceName[0], resourceName[1]);
-                return true;
-            }
-            if (allowUnparsed)
-            {
-                if (gax::UnparsedResourceName.TryParse(futureMultiResourceName, out gax::UnparsedResourceName unparsedResourceName))
-                {
-                    result = FromUnparsed(unparsedResourceName);
-                    return true;
-                }
-            }
-            result = null;
-            return false;
-        }
-
-        private FutureMultiResourceName(ResourceNameType type, gax::UnparsedResourceName unparsedResourceName = null, string futureMultiId = null, string rootAId = null)
-        {
-            Type = type;
-            UnparsedResource = unparsedResourceName;
-            FutureMultiId = futureMultiId;
-            RootAId = rootAId;
-        }
-
-        /// <summary>
-        /// Constructs a new instance of a <see cref="FutureMultiResourceName"/> class from the component parts of
-        /// pattern <c>root/{root_a_id}/futuremulti/{future_multi_id}</c>
-        /// </summary>
-        /// <param name="rootAId">The <c>RootA</c> ID. Must not be <c>null</c> or empty.</param>
-        /// <param name="futureMultiId">The <c>FutureMulti</c> ID. Must not be <c>null</c> or empty.</param>
-        public FutureMultiResourceName(string rootAId, string futureMultiId) : this(ResourceNameType.RootAFutureMulti, rootAId: gax::GaxPreconditions.CheckNotNullOrEmpty(rootAId, nameof(rootAId)), futureMultiId: gax::GaxPreconditions.CheckNotNullOrEmpty(futureMultiId, nameof(futureMultiId)))
-        {
-        }
-
-        /// <summary>The <see cref="ResourceNameType"/> of the contained resource name.</summary>
-        public ResourceNameType Type { get; }
-
-        /// <summary>
-        /// The contained <see cref="gax::UnparsedResourceName"/>. Only non-<c>null</c> if this instance contains an
-        /// unparsed resource name.
-        /// </summary>
-        public gax::UnparsedResourceName UnparsedResource { get; }
-
-        /// <summary>
-        /// The <c>FutureMulti</c> ID. Will not be <c>null</c>, unless this instance contains an unparsed resource name.
-        /// </summary>
-        public string FutureMultiId { get; }
-
-        /// <summary>
-        /// The <c>RootA</c> ID. Will not be <c>null</c>, unless this instance contains an unparsed resource name.
-        /// </summary>
-        public string RootAId { get; }
-
-        /// <inheritdoc/>
-        public bool IsKnownPattern => Type != ResourceNameType.Unparsed;
-
-        /// <inheritdoc/>
-        public override string ToString()
-        {
-            switch (Type)
-            {
-                case ResourceNameType.Unparsed: return UnparsedResource.ToString();
-                case ResourceNameType.RootAFutureMulti: return s_rootAFutureMulti.Expand(RootAId, FutureMultiId);
-                default: throw new sys::InvalidOperationException("Unrecognized resource-type.");
-            }
-        }
-
-        /// <inheritdoc/>
-        public override int GetHashCode() => ToString().GetHashCode();
-
-        /// <inheritdoc/>
-        public override bool Equals(object obj) => Equals(obj as FutureMultiResourceName);
-
-        /// <inheritdoc/>
-        public bool Equals(FutureMultiResourceName other) => ToString() == other?.ToString();
-
-        /// <inheritdoc/>
-        public static bool operator ==(FutureMultiResourceName a, FutureMultiResourceName b) => ReferenceEquals(a, b) || (a?.Equals(b) ?? false);
-
-        /// <inheritdoc/>
-        public static bool operator !=(FutureMultiResourceName a, FutureMultiResourceName b) => !(a == b);
-    }
-
-    /// <summary>Resource name for the <c>OriginallySingleResource</c> resource.</summary>
-    public sealed partial class OriginallySingleResourceName : gax::IResourceName, sys::IEquatable<OriginallySingleResourceName>
-    {
-        /// <summary>The possible contents of <see cref="OriginallySingleResourceName"/>.</summary>
-        public enum ResourceNameType
-        {
-            /// <summary>An unparsed resource name.</summary>
-            Unparsed = 0,
-
-            /// <summary>
-            /// A resource name with pattern <c>roota/{root_a_id}/originallysingle/{originally_single_multi_id}</c>.
-            /// </summary>
-            RootAOriginallySingleMulti = 1,
-
-            /// <summary>
-            /// A resource name with pattern <c>rootb/{root_b_id}/originallysingle/{originally_single_multi_id}</c>.
-            /// </summary>
-            RootBOriginallySingleMulti = 2
-        }
-
-        private static gax::PathTemplate s_rootAOriginallySingleMulti = new gax::PathTemplate("roota/{root_a_id}/originallysingle/{originally_single_multi_id}");
-
-        private static gax::PathTemplate s_rootBOriginallySingleMulti = new gax::PathTemplate("rootb/{root_b_id}/originallysingle/{originally_single_multi_id}");
-
-        /// <summary>
-        /// Creates a <see cref="OriginallySingleResourceName"/> containing an unparsed resource name.
+        /// Creates a <see cref="WildcardMultiPatternMultipleName"/> containing an unparsed resource name.
         /// </summary>
         /// <param name="unparsedResourceName">The unparsed resource name. Must not be <c>null</c>.</param>
         /// <returns>
-        /// A new instance of <see cref="OriginallySingleResourceName"/> containing the provided
+        /// A new instance of <see cref="WildcardMultiPatternMultipleName"/> containing the provided
         /// <paramref name="unparsedResourceName"/>.
         /// </returns>
-        public static OriginallySingleResourceName FromUnparsed(gax::UnparsedResourceName unparsedResourceName) =>
-            new OriginallySingleResourceName(ResourceNameType.Unparsed, gax::GaxPreconditions.CheckNotNull(unparsedResourceName, nameof(unparsedResourceName)));
+        public static WildcardMultiPatternMultipleName FromUnparsed(gax::UnparsedResourceName unparsedResourceName) =>
+            new WildcardMultiPatternMultipleName(ResourceNameType.Unparsed, gax::GaxPreconditions.CheckNotNull(unparsedResourceName, nameof(unparsedResourceName)));
 
         /// <summary>
-        /// Creates a <see cref="OriginallySingleResourceName"/> with the pattern
-        /// <c>roota/{root_a_id}/originallysingle/{originally_single_multi_id}</c>.
+        /// Creates a <see cref="WildcardMultiPatternMultipleName"/> with the pattern <c>items_a/{item_a_id}</c>.
         /// </summary>
-        /// <param name="rootAId">The <c>RootA</c> ID. Must not be <c>null</c> or empty.</param>
-        /// <param name="originallySingleMultiId">
-        /// The <c>OriginallySingleMulti</c> ID. Must not be <c>null</c> or empty.
-        /// </param>
+        /// <param name="itemAId">The <c>ItemA</c> ID. Must not be <c>null</c> or empty.</param>
         /// <returns>
-        /// A new instance of <see cref="OriginallySingleResourceName"/> constructed from the provided ids.
+        /// A new instance of <see cref="WildcardMultiPatternMultipleName"/> constructed from the provided ids.
         /// </returns>
-        public static OriginallySingleResourceName FromRootAOriginallySingleMulti(string rootAId, string originallySingleMultiId) =>
-            new OriginallySingleResourceName(ResourceNameType.RootAOriginallySingleMulti, rootAId: gax::GaxPreconditions.CheckNotNullOrEmpty(rootAId, nameof(rootAId)), originallySingleMultiId: gax::GaxPreconditions.CheckNotNullOrEmpty(originallySingleMultiId, nameof(originallySingleMultiId)));
+        public static WildcardMultiPatternMultipleName FromItemA(string itemAId) =>
+            new WildcardMultiPatternMultipleName(ResourceNameType.ItemA, itemAId: gax::GaxPreconditions.CheckNotNullOrEmpty(itemAId, nameof(itemAId)));
 
         /// <summary>
-        /// Creates a <see cref="OriginallySingleResourceName"/> with the pattern
-        /// <c>rootb/{root_b_id}/originallysingle/{originally_single_multi_id}</c>.
+        /// Creates a <see cref="WildcardMultiPatternMultipleName"/> with the pattern <c>items_b/{item_b_id}</c>.
         /// </summary>
-        /// <param name="rootBId">The <c>RootB</c> ID. Must not be <c>null</c> or empty.</param>
-        /// <param name="originallySingleMultiId">
-        /// The <c>OriginallySingleMulti</c> ID. Must not be <c>null</c> or empty.
-        /// </param>
+        /// <param name="itemBId">The <c>ItemB</c> ID. Must not be <c>null</c> or empty.</param>
         /// <returns>
-        /// A new instance of <see cref="OriginallySingleResourceName"/> constructed from the provided ids.
+        /// A new instance of <see cref="WildcardMultiPatternMultipleName"/> constructed from the provided ids.
         /// </returns>
-        public static OriginallySingleResourceName FromRootBOriginallySingleMulti(string rootBId, string originallySingleMultiId) =>
-            new OriginallySingleResourceName(ResourceNameType.RootBOriginallySingleMulti, rootBId: gax::GaxPreconditions.CheckNotNullOrEmpty(rootBId, nameof(rootBId)), originallySingleMultiId: gax::GaxPreconditions.CheckNotNullOrEmpty(originallySingleMultiId, nameof(originallySingleMultiId)));
+        public static WildcardMultiPatternMultipleName FromItemB(string itemBId) =>
+            new WildcardMultiPatternMultipleName(ResourceNameType.ItemB, itemBId: gax::GaxPreconditions.CheckNotNullOrEmpty(itemBId, nameof(itemBId)));
 
         /// <summary>
-        /// Formats the IDs into the string representation of this <see cref="OriginallySingleResourceName"/> with
-        /// pattern <c>roota/{root_a_id}/originallysingle/{originally_single_multi_id}</c>.
+        /// Creates a <see cref="WildcardMultiPatternMultipleName"/> with the pattern <c>items_c/{item_c_id}</c>.
         /// </summary>
-        /// <param name="rootAId">The <c>RootA</c> ID. Must not be <c>null</c> or empty.</param>
-        /// <param name="originallySingleMultiId">
-        /// The <c>OriginallySingleMulti</c> ID. Must not be <c>null</c> or empty.
-        /// </param>
+        /// <param name="itemCId">The <c>ItemC</c> ID. Must not be <c>null</c> or empty.</param>
         /// <returns>
-        /// The string representation of this <see cref="OriginallySingleResourceName"/> with pattern
-        /// <c>roota/{root_a_id}/originallysingle/{originally_single_multi_id}</c>.
+        /// A new instance of <see cref="WildcardMultiPatternMultipleName"/> constructed from the provided ids.
         /// </returns>
-        public static string Format(string rootAId, string originallySingleMultiId) =>
-            FormatRootAOriginallySingleMulti(rootAId, originallySingleMultiId);
+        public static WildcardMultiPatternMultipleName FromItemC(string itemCId) =>
+            new WildcardMultiPatternMultipleName(ResourceNameType.ItemC, itemCId: gax::GaxPreconditions.CheckNotNullOrEmpty(itemCId, nameof(itemCId)));
 
         /// <summary>
-        /// Formats the IDs into the string representation of this <see cref="OriginallySingleResourceName"/> with
-        /// pattern <c>roota/{root_a_id}/originallysingle/{originally_single_multi_id}</c>.
+        /// Formats the IDs into the string representation of this <see cref="WildcardMultiPatternMultipleName"/> with
+        /// pattern <c>items_a/{item_a_id}</c>.
         /// </summary>
-        /// <param name="rootAId">The <c>RootA</c> ID. Must not be <c>null</c> or empty.</param>
-        /// <param name="originallySingleMultiId">
-        /// The <c>OriginallySingleMulti</c> ID. Must not be <c>null</c> or empty.
-        /// </param>
+        /// <param name="itemAId">The <c>ItemA</c> ID. Must not be <c>null</c> or empty.</param>
         /// <returns>
-        /// The string representation of this <see cref="OriginallySingleResourceName"/> with pattern
-        /// <c>roota/{root_a_id}/originallysingle/{originally_single_multi_id}</c>.
+        /// The string representation of this <see cref="WildcardMultiPatternMultipleName"/> with pattern
+        /// <c>items_a/{item_a_id}</c>.
         /// </returns>
-        public static string FormatRootAOriginallySingleMulti(string rootAId, string originallySingleMultiId) =>
-            s_rootAOriginallySingleMulti.Expand(gax::GaxPreconditions.CheckNotNullOrEmpty(rootAId, nameof(rootAId)), gax::GaxPreconditions.CheckNotNullOrEmpty(originallySingleMultiId, nameof(originallySingleMultiId)));
+        public static string Format(string itemAId) => FormatItemA(itemAId);
 
         /// <summary>
-        /// Formats the IDs into the string representation of this <see cref="OriginallySingleResourceName"/> with
-        /// pattern <c>rootb/{root_b_id}/originallysingle/{originally_single_multi_id}</c>.
+        /// Formats the IDs into the string representation of this <see cref="WildcardMultiPatternMultipleName"/> with
+        /// pattern <c>items_a/{item_a_id}</c>.
         /// </summary>
-        /// <param name="rootBId">The <c>RootB</c> ID. Must not be <c>null</c> or empty.</param>
-        /// <param name="originallySingleMultiId">
-        /// The <c>OriginallySingleMulti</c> ID. Must not be <c>null</c> or empty.
-        /// </param>
+        /// <param name="itemAId">The <c>ItemA</c> ID. Must not be <c>null</c> or empty.</param>
         /// <returns>
-        /// The string representation of this <see cref="OriginallySingleResourceName"/> with pattern
-        /// <c>rootb/{root_b_id}/originallysingle/{originally_single_multi_id}</c>.
+        /// The string representation of this <see cref="WildcardMultiPatternMultipleName"/> with pattern
+        /// <c>items_a/{item_a_id}</c>.
         /// </returns>
-        public static string FormatRootBOriginallySingleMulti(string rootBId, string originallySingleMultiId) =>
-            s_rootBOriginallySingleMulti.Expand(gax::GaxPreconditions.CheckNotNullOrEmpty(rootBId, nameof(rootBId)), gax::GaxPreconditions.CheckNotNullOrEmpty(originallySingleMultiId, nameof(originallySingleMultiId)));
+        public static string FormatItemA(string itemAId) =>
+            s_itemA.Expand(gax::GaxPreconditions.CheckNotNullOrEmpty(itemAId, nameof(itemAId)));
 
         /// <summary>
-        /// Parses the given resource name string into a new <see cref="OriginallySingleResourceName"/> instance.
+        /// Formats the IDs into the string representation of this <see cref="WildcardMultiPatternMultipleName"/> with
+        /// pattern <c>items_b/{item_b_id}</c>.
+        /// </summary>
+        /// <param name="itemBId">The <c>ItemB</c> ID. Must not be <c>null</c> or empty.</param>
+        /// <returns>
+        /// The string representation of this <see cref="WildcardMultiPatternMultipleName"/> with pattern
+        /// <c>items_b/{item_b_id}</c>.
+        /// </returns>
+        public static string FormatItemB(string itemBId) =>
+            s_itemB.Expand(gax::GaxPreconditions.CheckNotNullOrEmpty(itemBId, nameof(itemBId)));
+
+        /// <summary>
+        /// Formats the IDs into the string representation of this <see cref="WildcardMultiPatternMultipleName"/> with
+        /// pattern <c>items_c/{item_c_id}</c>.
+        /// </summary>
+        /// <param name="itemCId">The <c>ItemC</c> ID. Must not be <c>null</c> or empty.</param>
+        /// <returns>
+        /// The string representation of this <see cref="WildcardMultiPatternMultipleName"/> with pattern
+        /// <c>items_c/{item_c_id}</c>.
+        /// </returns>
+        public static string FormatItemC(string itemCId) =>
+            s_itemC.Expand(gax::GaxPreconditions.CheckNotNullOrEmpty(itemCId, nameof(itemCId)));
+
+        /// <summary>
+        /// Parses the given resource name string into a new <see cref="WildcardMultiPatternMultipleName"/> instance.
         /// </summary>
         /// <remarks>
         /// To parse successfully, the resource name must be formatted as one of the following:
         /// <list type="bullet">
-        /// <item>
-        /// <description><c>roota/{root_a_id}/originallysingle/{originally_single_multi_id}</c></description>
-        /// </item>
-        /// <item>
-        /// <description><c>rootb/{root_b_id}/originallysingle/{originally_single_multi_id}</c></description>
-        /// </item>
+        /// <item><description><c>items_a/{item_a_id}</c></description></item>
+        /// <item><description><c>items_b/{item_b_id}</c></description></item>
+        /// <item><description><c>items_c/{item_c_id}</c></description></item>
         /// </list>
         /// </remarks>
-        /// <param name="originallySingleResourceName">
+        /// <param name="wildcardMultiPatternMultipleName">
         /// The resource name in string form. Must not be <c>null</c>.
         /// </param>
-        /// <returns>The parsed <see cref="OriginallySingleResourceName"/> if successful.</returns>
-        public static OriginallySingleResourceName Parse(string originallySingleResourceName) =>
-            Parse(originallySingleResourceName, false);
+        /// <returns>The parsed <see cref="WildcardMultiPatternMultipleName"/> if successful.</returns>
+        public static WildcardMultiPatternMultipleName Parse(string wildcardMultiPatternMultipleName) =>
+            Parse(wildcardMultiPatternMultipleName, false);
 
         /// <summary>
-        /// Parses the given resource name string into a new <see cref="OriginallySingleResourceName"/> instance;
+        /// Parses the given resource name string into a new <see cref="WildcardMultiPatternMultipleName"/> instance;
         /// optionally allowing an unparseable resource name.
         /// </summary>
         /// <remarks>
         /// To parse successfully, the resource name must be formatted as one of the following:
         /// <list type="bullet">
-        /// <item>
-        /// <description><c>roota/{root_a_id}/originallysingle/{originally_single_multi_id}</c></description>
-        /// </item>
-        /// <item>
-        /// <description><c>rootb/{root_b_id}/originallysingle/{originally_single_multi_id}</c></description>
-        /// </item>
+        /// <item><description><c>items_a/{item_a_id}</c></description></item>
+        /// <item><description><c>items_b/{item_b_id}</c></description></item>
+        /// <item><description><c>items_c/{item_c_id}</c></description></item>
         /// </list>
         /// Or may be in any format if <paramref name="allowUnparsed"/> is <c>true</c>.
         /// </remarks>
-        /// <param name="originallySingleResourceName">
+        /// <param name="wildcardMultiPatternMultipleName">
         /// The resource name in string form. Must not be <c>null</c>.
         /// </param>
         /// <param name="allowUnparsed">
@@ -853,53 +571,47 @@ namespace Testing.ResourceNames
         /// property; otherwise will throw an <see cref="sys::ArgumentException"/> if an unparseable resource name is
         /// specified.
         /// </param>
-        /// <returns>The parsed <see cref="OriginallySingleResourceName"/> if successful.</returns>
-        public static OriginallySingleResourceName Parse(string originallySingleResourceName, bool allowUnparsed) =>
-            TryParse(originallySingleResourceName, allowUnparsed, out OriginallySingleResourceName result) ? result : throw new sys::ArgumentException("The given resource-name matches no pattern.");
+        /// <returns>The parsed <see cref="WildcardMultiPatternMultipleName"/> if successful.</returns>
+        public static WildcardMultiPatternMultipleName Parse(string wildcardMultiPatternMultipleName, bool allowUnparsed) =>
+            TryParse(wildcardMultiPatternMultipleName, allowUnparsed, out WildcardMultiPatternMultipleName result) ? result : throw new sys::ArgumentException("The given resource-name matches no pattern.");
 
         /// <summary>
-        /// Tries to parse the given resource name string into a new <see cref="OriginallySingleResourceName"/>
+        /// Tries to parse the given resource name string into a new <see cref="WildcardMultiPatternMultipleName"/>
         /// instance.
         /// </summary>
         /// <remarks>
         /// To parse successfully, the resource name must be formatted as one of the following:
         /// <list type="bullet">
-        /// <item>
-        /// <description><c>roota/{root_a_id}/originallysingle/{originally_single_multi_id}</c></description>
-        /// </item>
-        /// <item>
-        /// <description><c>rootb/{root_b_id}/originallysingle/{originally_single_multi_id}</c></description>
-        /// </item>
+        /// <item><description><c>items_a/{item_a_id}</c></description></item>
+        /// <item><description><c>items_b/{item_b_id}</c></description></item>
+        /// <item><description><c>items_c/{item_c_id}</c></description></item>
         /// </list>
         /// </remarks>
-        /// <param name="originallySingleResourceName">
+        /// <param name="wildcardMultiPatternMultipleName">
         /// The resource name in string form. Must not be <c>null</c>.
         /// </param>
         /// <param name="result">
-        /// When this method returns, the parsed <see cref="OriginallySingleResourceName"/>, or <c>null</c> if parsing
-        /// failed.
+        /// When this method returns, the parsed <see cref="WildcardMultiPatternMultipleName"/>, or <c>null</c> if
+        /// parsing failed.
         /// </param>
         /// <returns><c>true</c> if the name was parsed successfully; <c>false</c> otherwise.</returns>
-        public static bool TryParse(string originallySingleResourceName, out OriginallySingleResourceName result) =>
-            TryParse(originallySingleResourceName, false, out result);
+        public static bool TryParse(string wildcardMultiPatternMultipleName, out WildcardMultiPatternMultipleName result) =>
+            TryParse(wildcardMultiPatternMultipleName, false, out result);
 
         /// <summary>
-        /// Tries to parse the given resource name string into a new <see cref="OriginallySingleResourceName"/>
+        /// Tries to parse the given resource name string into a new <see cref="WildcardMultiPatternMultipleName"/>
         /// instance; optionally allowing an unparseable resource name.
         /// </summary>
         /// <remarks>
         /// To parse successfully, the resource name must be formatted as one of the following:
         /// <list type="bullet">
-        /// <item>
-        /// <description><c>roota/{root_a_id}/originallysingle/{originally_single_multi_id}</c></description>
-        /// </item>
-        /// <item>
-        /// <description><c>rootb/{root_b_id}/originallysingle/{originally_single_multi_id}</c></description>
-        /// </item>
+        /// <item><description><c>items_a/{item_a_id}</c></description></item>
+        /// <item><description><c>items_b/{item_b_id}</c></description></item>
+        /// <item><description><c>items_c/{item_c_id}</c></description></item>
         /// </list>
         /// Or may be in any format if <paramref name="allowUnparsed"/> is <c>true</c>.
         /// </remarks>
-        /// <param name="originallySingleResourceName">
+        /// <param name="wildcardMultiPatternMultipleName">
         /// The resource name in string form. Must not be <c>null</c>.
         /// </param>
         /// <param name="allowUnparsed">
@@ -908,27 +620,32 @@ namespace Testing.ResourceNames
         /// specified.
         /// </param>
         /// <param name="result">
-        /// When this method returns, the parsed <see cref="OriginallySingleResourceName"/>, or <c>null</c> if parsing
-        /// failed.
+        /// When this method returns, the parsed <see cref="WildcardMultiPatternMultipleName"/>, or <c>null</c> if
+        /// parsing failed.
         /// </param>
         /// <returns><c>true</c> if the name was parsed successfully; <c>false</c> otherwise.</returns>
-        public static bool TryParse(string originallySingleResourceName, bool allowUnparsed, out OriginallySingleResourceName result)
+        public static bool TryParse(string wildcardMultiPatternMultipleName, bool allowUnparsed, out WildcardMultiPatternMultipleName result)
         {
-            gax::GaxPreconditions.CheckNotNull(originallySingleResourceName, nameof(originallySingleResourceName));
+            gax::GaxPreconditions.CheckNotNull(wildcardMultiPatternMultipleName, nameof(wildcardMultiPatternMultipleName));
             gax::TemplatedResourceName resourceName;
-            if (s_rootAOriginallySingleMulti.TryParseName(originallySingleResourceName, out resourceName))
+            if (s_itemA.TryParseName(wildcardMultiPatternMultipleName, out resourceName))
             {
-                result = FromRootAOriginallySingleMulti(resourceName[0], resourceName[1]);
+                result = FromItemA(resourceName[0]);
                 return true;
             }
-            if (s_rootBOriginallySingleMulti.TryParseName(originallySingleResourceName, out resourceName))
+            if (s_itemB.TryParseName(wildcardMultiPatternMultipleName, out resourceName))
             {
-                result = FromRootBOriginallySingleMulti(resourceName[0], resourceName[1]);
+                result = FromItemB(resourceName[0]);
+                return true;
+            }
+            if (s_itemC.TryParseName(wildcardMultiPatternMultipleName, out resourceName))
+            {
+                result = FromItemC(resourceName[0]);
                 return true;
             }
             if (allowUnparsed)
             {
-                if (gax::UnparsedResourceName.TryParse(originallySingleResourceName, out gax::UnparsedResourceName unparsedResourceName))
+                if (gax::UnparsedResourceName.TryParse(wildcardMultiPatternMultipleName, out gax::UnparsedResourceName unparsedResourceName))
                 {
                     result = FromUnparsed(unparsedResourceName);
                     return true;
@@ -938,25 +655,13 @@ namespace Testing.ResourceNames
             return false;
         }
 
-        private OriginallySingleResourceName(ResourceNameType type, gax::UnparsedResourceName unparsedResourceName = null, string originallySingleMultiId = null, string rootAId = null, string rootBId = null)
+        private WildcardMultiPatternMultipleName(ResourceNameType type, gax::UnparsedResourceName unparsedResourceName = null, string itemAId = null, string itemBId = null, string itemCId = null)
         {
             Type = type;
             UnparsedResource = unparsedResourceName;
-            OriginallySingleMultiId = originallySingleMultiId;
-            RootAId = rootAId;
-            RootBId = rootBId;
-        }
-
-        /// <summary>
-        /// Constructs a new instance of a <see cref="OriginallySingleResourceName"/> class from the component parts of
-        /// pattern <c>roota/{root_a_id}/originallysingle/{originally_single_multi_id}</c>
-        /// </summary>
-        /// <param name="rootAId">The <c>RootA</c> ID. Must not be <c>null</c> or empty.</param>
-        /// <param name="originallySingleMultiId">
-        /// The <c>OriginallySingleMulti</c> ID. Must not be <c>null</c> or empty.
-        /// </param>
-        public OriginallySingleResourceName(string rootAId, string originallySingleMultiId) : this(ResourceNameType.RootAOriginallySingleMulti, rootAId: gax::GaxPreconditions.CheckNotNullOrEmpty(rootAId, nameof(rootAId)), originallySingleMultiId: gax::GaxPreconditions.CheckNotNullOrEmpty(originallySingleMultiId, nameof(originallySingleMultiId)))
-        {
+            ItemAId = itemAId;
+            ItemBId = itemBId;
+            ItemCId = itemCId;
         }
 
         /// <summary>The <see cref="ResourceNameType"/> of the contained resource name.</summary>
@@ -969,20 +674,19 @@ namespace Testing.ResourceNames
         public gax::UnparsedResourceName UnparsedResource { get; }
 
         /// <summary>
-        /// The <c>OriginallySingleMulti</c> ID. May be <c>null</c>, depending on which resource name is contained by
-        /// this instance.
+        /// The <c>ItemA</c> ID. May be <c>null</c>, depending on which resource name is contained by this instance.
         /// </summary>
-        public string OriginallySingleMultiId { get; }
+        public string ItemAId { get; }
 
         /// <summary>
-        /// The <c>RootA</c> ID. May be <c>null</c>, depending on which resource name is contained by this instance.
+        /// The <c>ItemB</c> ID. May be <c>null</c>, depending on which resource name is contained by this instance.
         /// </summary>
-        public string RootAId { get; }
+        public string ItemBId { get; }
 
         /// <summary>
-        /// The <c>RootB</c> ID. May be <c>null</c>, depending on which resource name is contained by this instance.
+        /// The <c>ItemC</c> ID. May be <c>null</c>, depending on which resource name is contained by this instance.
         /// </summary>
-        public string RootBId { get; }
+        public string ItemCId { get; }
 
         /// <inheritdoc/>
         public bool IsKnownPattern => Type != ResourceNameType.Unparsed;
@@ -993,8 +697,9 @@ namespace Testing.ResourceNames
             switch (Type)
             {
                 case ResourceNameType.Unparsed: return UnparsedResource.ToString();
-                case ResourceNameType.RootAOriginallySingleMulti: return s_rootAOriginallySingleMulti.Expand(RootAId, OriginallySingleMultiId);
-                case ResourceNameType.RootBOriginallySingleMulti: return s_rootBOriginallySingleMulti.Expand(RootBId, OriginallySingleMultiId);
+                case ResourceNameType.ItemA: return s_itemA.Expand(ItemAId);
+                case ResourceNameType.ItemB: return s_itemB.Expand(ItemBId);
+                case ResourceNameType.ItemC: return s_itemC.Expand(ItemCId);
                 default: throw new sys::InvalidOperationException("Unrecognized resource-type.");
             }
         }
@@ -1003,112 +708,270 @@ namespace Testing.ResourceNames
         public override int GetHashCode() => ToString().GetHashCode();
 
         /// <inheritdoc/>
-        public override bool Equals(object obj) => Equals(obj as OriginallySingleResourceName);
+        public override bool Equals(object obj) => Equals(obj as WildcardMultiPatternMultipleName);
 
         /// <inheritdoc/>
-        public bool Equals(OriginallySingleResourceName other) => ToString() == other?.ToString();
+        public bool Equals(WildcardMultiPatternMultipleName other) => ToString() == other?.ToString();
 
         /// <inheritdoc/>
-        public static bool operator ==(OriginallySingleResourceName a, OriginallySingleResourceName b) => ReferenceEquals(a, b) || (a?.Equals(b) ?? false);
+        public static bool operator ==(WildcardMultiPatternMultipleName a, WildcardMultiPatternMultipleName b) => ReferenceEquals(a, b) || (a?.Equals(b) ?? false);
 
         /// <inheritdoc/>
-        public static bool operator !=(OriginallySingleResourceName a, OriginallySingleResourceName b) => !(a == b);
+        public static bool operator !=(WildcardMultiPatternMultipleName a, WildcardMultiPatternMultipleName b) => !(a == b);
     }
 
-    public partial class SingleResource
+    public partial class SinglePattern
     {
         /// <summary>
-        /// <see cref="tr::SingleResourceName"/>-typed view over the <see cref="Name"/> resource name property.
+        /// <see cref="SinglePatternName"/>-typed view over the <see cref="RealName"/> resource name property.
         /// </summary>
-        public tr::SingleResourceName SingleResourceName
+        public SinglePatternName RealNameAsSinglePatternName
         {
-            get => string.IsNullOrEmpty(Name) ? null : tr::SingleResourceName.Parse(Name);
+            get => string.IsNullOrEmpty(RealName) ? null : SinglePatternName.Parse(RealName, allowUnparsed: true);
+            set => RealName = value?.ToString() ?? "";
+        }
+
+        /// <summary>
+        /// <see cref="SinglePatternName"/>-typed view over the <see cref="Ref"/> resource name property.
+        /// </summary>
+        public SinglePatternName RefAsSinglePatternName
+        {
+            get => string.IsNullOrEmpty(Ref) ? null : SinglePatternName.Parse(Ref, allowUnparsed: true);
+            set => Ref = value?.ToString() ?? "";
+        }
+
+        /// <summary>
+        /// <see cref="SinglePatternName"/>-typed view over the <see cref="RepeatedRef"/> resource name property.
+        /// </summary>
+        public gax::ResourceNameList<SinglePatternName> RepeatedRefAsSinglePatternNames
+        {
+            get => new gax::ResourceNameList<SinglePatternName>(RepeatedRef, s => string.IsNullOrEmpty(s) ? null : SinglePatternName.Parse(s, allowUnparsed: true));
+        }
+    }
+
+    public partial class WildcardOnlyPattern
+    {
+        /// <summary>
+        /// <see cref="gax::IResourceName"/>-typed view over the <see cref="Name"/> resource name property.
+        /// </summary>
+        public gax::IResourceName ResourceName
+        {
+            get => string.IsNullOrEmpty(Name) ? null : gax::UnparsedResourceName.Parse(Name);
             set => Name = value?.ToString() ?? "";
         }
-    }
 
-    public partial class SingleResourceRef
-    {
         /// <summary>
-        /// <see cref="tr::SingleResourceName"/>-typed view over the <see cref="SingleResource"/> resource name
-        /// property.
+        /// <see cref="gax::IResourceName"/>-typed view over the <see cref="Ref"/> resource name property.
         /// </summary>
-        public tr::SingleResourceName SingleResourceAsSingleResourceName
+        public gax::IResourceName RefAsResourceName
         {
-            get => string.IsNullOrEmpty(SingleResource) ? null : tr::SingleResourceName.Parse(SingleResource);
-            set => SingleResource = value?.ToString() ?? "";
+            get => string.IsNullOrEmpty(Ref) ? null : gax::UnparsedResourceName.Parse(Ref);
+            set => Ref = value?.ToString() ?? "";
+        }
+
+        /// <summary>
+        /// <see cref="gax::IResourceName"/>-typed view over the <see cref="RepeatedRef"/> resource name property.
+        /// </summary>
+        public gax::ResourceNameList<gax::IResourceName> RepeatedRefAsResourceNames
+        {
+            get => new gax::ResourceNameList<gax::IResourceName>(RepeatedRef, s => string.IsNullOrEmpty(s) ? null : gax::UnparsedResourceName.Parse(s));
+        }
+
+        /// <summary>
+        /// <see cref="gax::IResourceName"/>-typed view over the <see cref="RefSugar"/> resource name property.
+        /// </summary>
+        public gax::IResourceName RefSugarAsResourceName
+        {
+            get => string.IsNullOrEmpty(RefSugar) ? null : gax::UnparsedResourceName.Parse(RefSugar);
+            set => RefSugar = value?.ToString() ?? "";
+        }
+
+        /// <summary>
+        /// <see cref="gax::IResourceName"/>-typed view over the <see cref="RepeatedRefSugar"/> resource name property.
+        /// </summary>
+        public gax::ResourceNameList<gax::IResourceName> RepeatedRefSugarAsResourceNames
+        {
+            get => new gax::ResourceNameList<gax::IResourceName>(RepeatedRefSugar, s => string.IsNullOrEmpty(s) ? null : gax::UnparsedResourceName.Parse(s));
         }
     }
 
-    public partial class MultiResource
+    public partial class WildcardMultiPattern
     {
         /// <summary>
-        /// <see cref="tr::MultiResourceName"/>-typed view over the <see cref="Name"/> resource name property.
+        /// <see cref="tr::WildcardMultiPatternName"/>-typed view over the <see cref="Name"/> resource name property.
         /// </summary>
-        public tr::MultiResourceName MultiResourceName
+        public tr::WildcardMultiPatternName WildcardMultiPatternName
         {
-            get => string.IsNullOrEmpty(Name) ? null : tr::MultiResourceName.Parse(Name);
+            get => string.IsNullOrEmpty(Name) ? null : tr::WildcardMultiPatternName.Parse(Name, allowUnparsed: true);
             set => Name = value?.ToString() ?? "";
         }
-    }
 
-    public partial class MultiResourceRef
-    {
         /// <summary>
-        /// <see cref="MultiResourceName"/>-typed view over the <see cref="MultiResource"/> resource name property.
+        /// <see cref="gax::IResourceName"/>-typed view over the <see cref="Name"/> resource name property.
         /// </summary>
-        public MultiResourceName MultiResourceAsMultiResourceName
+        public gax::IResourceName ResourceName
         {
-            get => string.IsNullOrEmpty(MultiResource) ? null : MultiResourceName.Parse(MultiResource);
-            set => MultiResource = value?.ToString() ?? "";
-        }
-    }
-
-    public partial class FutureMultiResource
-    {
-        /// <summary>
-        /// <see cref="tr::FutureMultiResourceName"/>-typed view over the <see cref="Name"/> resource name property.
-        /// </summary>
-        public tr::FutureMultiResourceName FutureMultiResourceName
-        {
-            get => string.IsNullOrEmpty(Name) ? null : tr::FutureMultiResourceName.Parse(Name);
+            get
+            {
+                if (string.IsNullOrEmpty(Name))
+                {
+                    return null;
+                }
+                if (tr::WildcardMultiPatternName.TryParse(Name, out tr::WildcardMultiPatternName wildcardMultiPattern))
+                {
+                    return wildcardMultiPattern;
+                }
+                return gax::UnparsedResourceName.Parse(Name);
+            }
             set => Name = value?.ToString() ?? "";
         }
-    }
 
-    public partial class OriginallySingleResource
-    {
         /// <summary>
-        /// <see cref="tr::OriginallySingleResourceName"/>-typed view over the <see cref="Name"/> resource name
+        /// <see cref="tr::WildcardMultiPatternName"/>-typed view over the <see cref="Ref"/> resource name property.
+        /// </summary>
+        public tr::WildcardMultiPatternName RefAsWildcardMultiPatternName
+        {
+            get => string.IsNullOrEmpty(Ref) ? null : tr::WildcardMultiPatternName.Parse(Ref, allowUnparsed: true);
+            set => Ref = value?.ToString() ?? "";
+        }
+
+        /// <summary>
+        /// <see cref="gax::IResourceName"/>-typed view over the <see cref="Ref"/> resource name property.
+        /// </summary>
+        public gax::IResourceName RefAsResourceName
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(Ref))
+                {
+                    return null;
+                }
+                if (tr::WildcardMultiPatternName.TryParse(Ref, out tr::WildcardMultiPatternName wildcardMultiPattern))
+                {
+                    return wildcardMultiPattern;
+                }
+                return gax::UnparsedResourceName.Parse(Ref);
+            }
+            set => Ref = value?.ToString() ?? "";
+        }
+
+        /// <summary>
+        /// <see cref="tr::WildcardMultiPatternName"/>-typed view over the <see cref="RepeatedRef"/> resource name
         /// property.
         /// </summary>
-        public tr::OriginallySingleResourceName OriginallySingleResourceName
+        public gax::ResourceNameList<tr::WildcardMultiPatternName> RepeatedRefAsWildcardMultiPatternNames
         {
-            get => string.IsNullOrEmpty(Name) ? null : tr::OriginallySingleResourceName.Parse(Name);
+            get => new gax::ResourceNameList<tr::WildcardMultiPatternName>(RepeatedRef, s => string.IsNullOrEmpty(s) ? null : tr::WildcardMultiPatternName.Parse(s, allowUnparsed: true));
+        }
+
+        /// <summary>
+        /// <see cref="gax::IResourceName"/>-typed view over the <see cref="RepeatedRef"/> resource name property.
+        /// </summary>
+        public gax::ResourceNameList<gax::IResourceName> RepeatedRefAsResourceNames
+        {
+            get => new gax::ResourceNameList<gax::IResourceName>(RepeatedRef, s =>
+            {
+                if (string.IsNullOrEmpty(s))
+                {
+                    return null;
+                }
+                if (tr::WildcardMultiPatternName.TryParse(s, out tr::WildcardMultiPatternName wildcardMultiPattern))
+                {
+                    return wildcardMultiPattern;
+                }
+                return gax::UnparsedResourceName.Parse(s);
+            });
+        }
+    }
+
+    public partial class WildcardMultiPatternMultiple
+    {
+        /// <summary>
+        /// <see cref="tr::WildcardMultiPatternMultipleName"/>-typed view over the <see cref="Name"/> resource name
+        /// property.
+        /// </summary>
+        public tr::WildcardMultiPatternMultipleName WildcardMultiPatternMultipleName
+        {
+            get => string.IsNullOrEmpty(Name) ? null : tr::WildcardMultiPatternMultipleName.Parse(Name, allowUnparsed: true);
             set => Name = value?.ToString() ?? "";
         }
-    }
 
-    public partial class OriginallySingleResourceRef
-    {
         /// <summary>
-        /// <see cref="OriginallySingleResourceName"/>-typed view over the <see cref="Resource1"/> resource name
-        /// property.
+        /// <see cref="gax::IResourceName"/>-typed view over the <see cref="Name"/> resource name property.
         /// </summary>
-        public OriginallySingleResourceName Resource1AsOriginallySingleResourceName
+        public gax::IResourceName ResourceName
         {
-            get => string.IsNullOrEmpty(Resource1) ? null : OriginallySingleResourceName.Parse(Resource1);
-            set => Resource1 = value?.ToString() ?? "";
+            get
+            {
+                if (string.IsNullOrEmpty(Name))
+                {
+                    return null;
+                }
+                if (tr::WildcardMultiPatternMultipleName.TryParse(Name, out tr::WildcardMultiPatternMultipleName wildcardMultiPatternMultiple))
+                {
+                    return wildcardMultiPatternMultiple;
+                }
+                return gax::UnparsedResourceName.Parse(Name);
+            }
+            set => Name = value?.ToString() ?? "";
         }
 
         /// <summary>
-        /// <see cref="OriginallySingleResourceName"/>-typed view over the <see cref="Resource2"/> resource name
+        /// <see cref="tr::WildcardMultiPatternMultipleName"/>-typed view over the <see cref="Ref"/> resource name
         /// property.
         /// </summary>
-        public OriginallySingleResourceName Resource2AsOriginallySingleResourceName
+        public tr::WildcardMultiPatternMultipleName RefAsWildcardMultiPatternMultipleName
         {
-            get => string.IsNullOrEmpty(Resource2) ? null : OriginallySingleResourceName.Parse(Resource2);
-            set => Resource2 = value?.ToString() ?? "";
+            get => string.IsNullOrEmpty(Ref) ? null : tr::WildcardMultiPatternMultipleName.Parse(Ref, allowUnparsed: true);
+            set => Ref = value?.ToString() ?? "";
+        }
+
+        /// <summary>
+        /// <see cref="gax::IResourceName"/>-typed view over the <see cref="Ref"/> resource name property.
+        /// </summary>
+        public gax::IResourceName RefAsResourceName
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(Ref))
+                {
+                    return null;
+                }
+                if (tr::WildcardMultiPatternMultipleName.TryParse(Ref, out tr::WildcardMultiPatternMultipleName wildcardMultiPatternMultiple))
+                {
+                    return wildcardMultiPatternMultiple;
+                }
+                return gax::UnparsedResourceName.Parse(Ref);
+            }
+            set => Ref = value?.ToString() ?? "";
+        }
+
+        /// <summary>
+        /// <see cref="tr::WildcardMultiPatternMultipleName"/>-typed view over the <see cref="RepeatedRef"/> resource
+        /// name property.
+        /// </summary>
+        public gax::ResourceNameList<tr::WildcardMultiPatternMultipleName> RepeatedRefAsWildcardMultiPatternMultipleNames
+        {
+            get => new gax::ResourceNameList<tr::WildcardMultiPatternMultipleName>(RepeatedRef, s => string.IsNullOrEmpty(s) ? null : tr::WildcardMultiPatternMultipleName.Parse(s, allowUnparsed: true));
+        }
+
+        /// <summary>
+        /// <see cref="gax::IResourceName"/>-typed view over the <see cref="RepeatedRef"/> resource name property.
+        /// </summary>
+        public gax::ResourceNameList<gax::IResourceName> RepeatedRefAsResourceNames
+        {
+            get => new gax::ResourceNameList<gax::IResourceName>(RepeatedRef, s =>
+            {
+                if (string.IsNullOrEmpty(s))
+                {
+                    return null;
+                }
+                if (tr::WildcardMultiPatternMultipleName.TryParse(s, out tr::WildcardMultiPatternMultipleName wildcardMultiPatternMultiple))
+                {
+                    return wildcardMultiPatternMultiple;
+                }
+                return gax::UnparsedResourceName.Parse(s);
+            });
         }
     }
 }

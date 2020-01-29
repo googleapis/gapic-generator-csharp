@@ -9,63 +9,114 @@ import "google/api/resource.proto";
 import "google/api/field_behavior.proto";
 
 service ChildResource {
-  rpc Single(ProjectRef) returns(Response) {
-    option (google.api.method_signature) = "project_user_parent";
+  rpc SingleParentMethod(SingleParent) returns(Response) {
+    option (google.api.method_signature) = "ref, repeated_ref";
   }
 
-  rpc Multi(MultiRootRef) returns(Response) {
-    option (google.api.method_signature) = "multi_root_parent";
+  rpc WildcardParentMethod(WildcardParent) returns(Response) {
+    option (google.api.method_signature) = "ref, repeated_ref";
   }
 
-  rpc Wild(WildcardRef) returns(Response) {
-    option (google.api.method_signature) = "wildcard_parent";
+  rpc TripleParentMethod(TripleParent) returns(Response) {
+    option (google.api.method_signature) = "ref, repeated_ref";
+  }
+
+  rpc TripleWildcardParentMethod(TripleWildcardParent) returns(Response) {
+    option (google.api.method_signature) = "ref, repeated_ref";
+  }
+
+  rpc OverlapParentMethod(OverlapParent) returns(Response) {
+    option (google.api.method_signature) = "ref"; // "ref" and "repeated_ref" would generate too many overloads.
+    option (google.api.method_signature) = "repeated_ref";
   }
 }
 
-// Test single-pattern child_type reference.
-
 option (google.api.resource_definition) = {
-  type: "childresource.example.com/Project",
+  type: "childresource.example.com/Project"
   pattern: "projects/{project}"
 };
 
 option (google.api.resource_definition) = {
-  type: "childresource.example.com/ProjectUser",
-  pattern: "projects/{project}/users/{user}"
+  type: "childresource.example.com/SinglePattern"
+  pattern: "projects/{project}/items/{item_id}"
 };
 
-message ProjectRef {
-  string project_user_parent = 1 [(google.api.resource_reference).child_type = "childresource.example.com/ProjectUser"];
+message SingleParent {
+  string ref = 1 [(google.api.resource_reference).child_type = "childresource.example.com/SinglePattern"];
+  repeated string repeated_ref = 2 [(google.api.resource_reference).child_type = "childresource.example.com/SinglePattern"];
 }
 
-// Test multi-pattern child_type reference.
+message WildcardParent {
+  string ref = 1 [(google.api.resource_reference).child_type = "*"];
+  repeated string repeated_ref = 2 [(google.api.resource_reference).child_type = "*"];
+}
 
 option (google.api.resource_definition) = {
-  type: "childresource.example.com/MultiRootItem",
-  pattern: "root_a/{root_a}/items/{item}",
-  pattern: "root_b/{root_b}/items/{item}"
+  type: "childresource.example.com/Org"
+  pattern: "orgs/{org}"
 };
 
 option (google.api.resource_definition) = {
-  type: "childresource.example.com/Roots",
-  pattern: "root_a/{root_a}",
-  pattern: "root_b/{root_b}"
+  type: "childresource.example.com/Dept"
+  pattern: "depts/{dept}"
 };
-
-message MultiRootRef {
-  string multi_root_parent = 1 [(google.api.resource_reference).child_type = "childresource.example.com/MultiRootItem"];
-}
-
-// Test wildcard child_type reference
 
 option (google.api.resource_definition) = {
-  type: "childresource.example.com/WildcardItem",
-  pattern: "*",
+  type: "childresource.example.com/TriplePattern"
+  pattern: "projects/{project}/items/{item_id}"
+  pattern: "orgs/{org}/items/{item_id}"
+  pattern: "depts/{dept}/items/{item_id}"
 };
 
-message WildcardRef {
-  string wildcard_parent = 1 [(google.api.resource_reference).child_type = "childresource.example.com/WildcardItem"];
+message TripleParent {
+  string ref = 1 [(google.api.resource_reference).child_type = "childresource.example.com/TriplePattern"];
+  repeated string repeated_ref = 2 [(google.api.resource_reference).child_type = "childresource.example.com/TriplePattern"];
 }
 
-message Response {
+option (google.api.resource_definition) = {
+  type: "childresource.example.com/TripleWildcardPattern"
+  pattern: "*"
+  pattern: "projects/{project}/items/{item_id}"
+  pattern: "orgs/{org}/items/{item_id}"
+  pattern: "depts/{dept}/items/{item_id}"
+};
+
+message TripleWildcardParent {
+  string ref = 1 [(google.api.resource_reference).child_type = "childresource.example.com/TripleWildcardPattern"];
+  repeated string repeated_ref = 2 [(google.api.resource_reference).child_type = "childresource.example.com/TripleWildcardPattern"];
 }
+
+option (google.api.resource_definition) = {
+  type: "childresource.example.com/ProjectOverlap"
+  pattern: "projects/{project}"
+  pattern: "overlaps/{overlap}"
+};
+
+option (google.api.resource_definition) = {
+  type: "childresource.example.com/OrgOverlap"
+  pattern: "orgs/{org}"
+  pattern: "overlaps/{overlap}"
+};
+
+option (google.api.resource_definition) = {
+  type: "childresource.example.com/AllOverlap"
+  pattern: "projects/{project}"
+  pattern: "orgs/{org}"
+  pattern: "depts/{dept}"
+  pattern: "overlaps/{overlap}"
+};
+
+option (google.api.resource_definition) = {
+  type: "childresource.example.com/OverlapPattern"
+  pattern: "projects/{project}/items/{item_id}"
+  pattern: "orgs/{org}/items/{item_id}"
+  pattern: "depts/{dept}/items/{item_id}"
+  pattern: "overlaps/{overlap}/items/{item_id}"
+};
+
+message OverlapParent {
+  string ref = 1 [(google.api.resource_reference).child_type = "childresource.example.com/OverlapPattern"];
+  repeated string repeated_ref = 2 [(google.api.resource_reference).child_type = "childresource.example.com/OverlapPattern"];
+}
+
+message Response { }

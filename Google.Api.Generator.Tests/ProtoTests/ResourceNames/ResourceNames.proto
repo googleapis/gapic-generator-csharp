@@ -9,97 +9,69 @@ import "google/api/resource.proto";
 import "google/api/field_behavior.proto";
 
 service ResourceNames {
-  option (google.api.default_host) = "resourcenames.example.com";
-
-  // Test single resource definition.
-  rpc SingleMethod(SingleResource) returns(Response) {
-    option (google.api.method_signature) = "name";
+  rpc SinglePatternMethod(SinglePattern) returns(Response) {
+    option (google.api.method_signature) = "real_name, ref, repeated_ref";
   }
 
-  // Test single resource reference.
-  rpc SingleMethodRef(SingleResourceRef) returns(Response) {
-    option (google.api.method_signature) = "single_resource";
+  rpc WildcardOnlyPatternMethod(WildcardOnlyPattern) returns(Response) {
+    option (google.api.method_signature) = "name, ref, repeated_ref, ref_sugar, repeated_ref_sugar";
   }
 
-  // Test multi resource definition.
-  rpc MultiMethod(MultiResource) returns(Response) {
-    option (google.api.method_signature) = "name";
+  rpc WildcardMultiPatternMethod(WildcardMultiPattern) returns(Response) {
+    option (google.api.method_signature) = "name, ref, repeated_ref";
   }
 
-  // Test multi resource reference.
-  rpc MultiMethodRef(MultiResourceRef) returns(Response) {
-    option (google.api.method_signature) = "multi_resource";
-  }
-
-  // Test future multi resource (FUTURE_MULTI_PATTERN).
-  rpc FutureMultiMethod(FutureMultiResource) returns(Response) {
-    option (google.api.method_signature) = "name";
-  }
-
-  // Test original single resource (ORIGINALLY_SINGLE_PATTERN).
-  rpc OriginallySingleMethod(OriginallySingleResource) returns(Response) {
-    option (google.api.method_signature) = "name";
-  }
-
-  // Test original single resource (ORIGINALLY_SINGLE_PATTERN),
-  // with combinatorial method generation.
-  rpc OriginallySingleMethodRef(OriginallySingleResourceRef) returns(Response) {
-    option (google.api.method_signature) = "resource1,resource2";
+  rpc WildcardMultiPatternMultipleMethod(WildcardMultiPatternMultiple) returns(Response) {
+    option (google.api.method_signature) = "ref, repeated_ref"; // `name` parameter delibrately missing.
   }
 }
 
-message SingleResource {
+message SinglePattern {
   option (google.api.resource) = {
-    type: "resourcenames.example.com/SingleResource"
+    type: "resourcenames.example.com/SinglePattern"
 	pattern: "items/{item_id}"
+    name_field: "real_name"
   };
-  string name = 1;
+  string real_name = 1; // Test non-standard field name.
+  string ref = 2 [(google.api.resource_reference).type = "resourcenames.example.com/SinglePattern"];
+  repeated string repeated_ref = 3 [(google.api.resource_reference).type = "resourcenames.example.com/SinglePattern"];
 }
 
-message SingleResourceRef {
-  string single_resource = 1 [(google.api.resource_reference).type = "resourcenames.example.com/SingleResource"];
-
-  // This field is here to test that references to the type of the same name are correctly fully qualified.
-  string single_resource_name = 2;
-}
-
-message MultiResource {
+message WildcardOnlyPattern {
   option (google.api.resource) = {
-    type: "resourcenames.example.com/MultiResource"
-	pattern: "roota/{root_a_id}/multi/{multi_id}"
-	pattern: "rootb/{root_b_id}/multi/{multi_id}"
+    type: "resourcenames.example.com/WildcardOnlyPattern"
+    pattern: "*"
   };
   string name = 1;
+  string ref = 2 [(google.api.resource_reference).type = "resourcenames.example.com/WildcardOnlyPattern"];
+  repeated string repeated_ref = 3 [(google.api.resource_reference).type = "resourcenames.example.com/WildcardOnlyPattern"];
+  string ref_sugar = 4 [(google.api.resource_reference).type = "*"]; // Test syntactic sugar of `type="*"`.
+  repeated string repeated_ref_sugar = 5 [(google.api.resource_reference).type = "*"]; // Test syntactic sugar of `type="*"`.
 }
 
-message MultiResourceRef {
-  string multi_resource = 1 [(google.api.resource_reference).type = "resourcenames.example.com/MultiResource"];
-}
-
-message FutureMultiResource {
+message WildcardMultiPattern {
+  // This also tests combinatorial overloading of method signatures.
   option (google.api.resource) = {
-    type: "resourcenames.example.com/FutureMultiResource"
-	pattern: "root/{root_a_id}/futuremulti/{future_multi_id}"
-	history: FUTURE_MULTI_PATTERN
+    type: "resourcenames.example.com/WildcardMultiPattern"
+    pattern: "items/{item_id}"
+    pattern: "*" // Test wildcard pattern not first
   };
   string name = 1;
+  string ref = 2 [(google.api.resource_reference).type = "resourcenames.example.com/WildcardMultiPattern"];
+  repeated string repeated_ref = 3 [(google.api.resource_reference).type = "resourcenames.example.com/WildcardMultiPattern"];
 }
 
-message OriginallySingleResource {
+message WildcardMultiPatternMultiple {
   option (google.api.resource) = {
-    type: "resourcenames.example.com/OriginallySingleResource"
-    pattern: "roota/{root_a_id}/originallysingle/{originally_single_multi_id}"
-    pattern: "rootb/{root_b_id}/originallysingle/{originally_single_multi_id}"
-    history: ORIGINALLY_SINGLE_PATTERN
+    type: "resourcenames.example.com/WildcardMultiPatternMultiple"
+    pattern: "*" // Test wildcard pattern first
+    pattern: "items_a/{item_a_id}"
+    pattern: "items_b/{item_b_id}"
+    pattern: "items_c/{item_c_id}"
   };
   string name = 1;
+  string ref = 2 [(google.api.resource_reference).type = "resourcenames.example.com/WildcardMultiPatternMultiple"];
+  repeated string repeated_ref = 3 [(google.api.resource_reference).type = "resourcenames.example.com/WildcardMultiPatternMultiple"];
 }
 
-message OriginallySingleResourceRef {
-  // Two resource fields, to test combinatorial generation.
-  string resource1 = 1 [(google.api.resource_reference).type = "resourcenames.example.com/OriginallySingleResource"];
-  string resource2 = 2 [(google.api.resource_reference).type = "resourcenames.example.com/OriginallySingleResource"];
-}
-
-message Response {
-}
+message Response { }
