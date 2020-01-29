@@ -15,6 +15,7 @@
 using Google.Api.Gax;
 using Google.Api.Generator.Utils;
 using Google.Protobuf.Reflection;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -26,18 +27,42 @@ namespace Google.Api.Generator.ProtoUtils
     {
         public class Definition
         {
+            public class TypeComparer : IEqualityComparer<Definition>
+            {
+                public static TypeComparer Instance { get; } = new TypeComparer();
+
+                public bool Equals(Definition x, Definition y) => EqualityComparer<string>.Default.Equals(x.UnifiedResourceTypeName, y.UnifiedResourceTypeName);
+
+                public int GetHashCode(Definition obj) => obj.UnifiedResourceTypeName.GetHashCode();
+            }
+
             public class Pattern
             {
-                public Pattern(string pattern) => (PatternString, Template) = (pattern, new PathTemplate(pattern));
+                public Pattern(string pattern)
+                {
+                    PatternString = pattern;
+                    IsWildcard = pattern == "*";
+                    if (!IsWildcard)
+                    {
+                        Template = new PathTemplate(pattern);
+                    }
+                }
 
+                public bool IsWildcard { get; }
                 public string PatternString { get; }
                 public PathTemplate Template { get; }
             }
 
-            public static Definition UnknownResource { get; } = new Definition();
+            public static Definition WildcardResource { get; } = new Definition();
 
             // Ctor for wildcard only.
-            private Definition() => ResourceNameTyp = Typ.Of<IResourceName>();
+            private Definition()
+            {
+                Patterns = new[] { new Pattern("*") };
+                ResourceNameTyp = Typ.Of<IResourceName>();
+                ResourceParserTyp = Typ.Of<UnparsedResourceName>();
+                IsUnparsed = true;
+            }
 
             public Definition(FileDescriptor fileDesc, MessageDescriptor msgDesc, string type, string nameField, CommonResource common, IEnumerable<string> patterns)
             {
@@ -53,24 +78,17 @@ namespace Google.Api.Generator.ProtoUtils
                 FieldName = ShortName.ToLowerCamelCase();
                 NameField = string.IsNullOrEmpty(nameField) ? "name" : nameField;
                 DocName = ShortName;
+                Patterns = patterns.Select(x => new Pattern(x)).ToList();
+                if (patterns.Distinct().Count() != Patterns.Count)
+                {
+                    throw new InvalidOperationException("All patterns must be unique within a resource-name.");
+                }
                 IsCommon = common != null;
-                if (!patterns.All(x => x == "*"))
-                {
-                    // Not a wildcard.
-                    if (patterns.Any(x => x == "*"))
-                    {
-                        throw new InvalidOperationException("A wildcard pattern must be the only pattern in a resource.");
-                    }
-                    Patterns = patterns.Select(x => new Pattern(x)).ToList();
-                    ResourceNameTyp = common == null ?
-                        Typ.Manual(fileDesc.CSharpNamespace(), $"{ShortName}Name") :
-                        Typ.Manual(common.CsharpNamespace, common.CsharpClassName);
-                }
-                else
-                {
-                    // Wildcard resource.
-                    ResourceNameTyp = Typ.Of<IResourceName>();
-                }
+                ResourceNameTyp = IsCommon ?
+                    Typ.Manual(common.CsharpNamespace, common.CsharpClassName) :
+                    Typ.Manual(fileDesc.CSharpNamespace(), $"{ShortName}Name");
+                ResourceParserTyp = ResourceNameTyp;
+                IsUnparsed = false;
             }
 
             public MessageDescriptor MsgDesc { get; }
@@ -94,9 +112,17 @@ namespace Google.Api.Generator.ProtoUtils
 
             public IReadOnlyList<Pattern> Patterns { get; }
 
-            public bool IsWildcard => Patterns == null;
+            public bool HasWildcard => Patterns.Any(x => x.IsWildcard);
+
+            public bool HasNotWildcard => Patterns.Any(x => !x.IsWildcard);
+
+            public bool IsWildcardOnly => HasWildcard && !HasNotWildcard;
 
             public Typ ResourceNameTyp { get; }
+
+            public Typ ResourceParserTyp { get; }
+
+            public bool IsUnparsed { get; }
         }
 
         /// <summary>
@@ -104,23 +130,21 @@ namespace Google.Api.Generator.ProtoUtils
         /// </summary>
         public class Field
         {
-            public Field(FieldDescriptor fieldDesc, Definition resourceDef)
+            public Field(FieldDescriptor fieldDesc, Definition resourceDef, IReadOnlyList<Definition> innerDefs = null)
             {
+                // innerFields only non-null for the IResourceName property of child_type refs.
+                IsRepeated = fieldDesc.IsRepeated;
                 UnderlyingPropertyName = fieldDesc.CSharpPropertyName();
                 ResourceDefinition = resourceDef;
-
-                // This naming logic is copied directly from the Java generator.
-                // TODO: Make sure it's correct for all combinations - I'm not sure it is!
                 var requireIdentifier = !((fieldDesc.IsRepeated && fieldDesc.Name.ToLowerInvariant() == "names") ||
                     (!fieldDesc.IsRepeated && fieldDesc.Name.ToLowerInvariant() == "name"));
-                var requireAs = requireIdentifier;
                 var requirePlural = fieldDesc.IsRepeated;
-                var name = requireIdentifier ? UnderlyingPropertyName : "";
-                name += requireAs ? "As" : "";
-                name += resourceDef.IsWildcard ? "ResourceName" : resourceDef.ResourceNameTyp.Name;
-                name += requirePlural ? "s" : "";
-                ResourcePropertyName = name;
+                var nameBase = (requireIdentifier ? UnderlyingPropertyName : "") + (requireIdentifier ? "As" : "");
+                ResourcePropertyName = nameBase + (resourceDef.IsWildcardOnly ? "ResourceName" : resourceDef.ResourceNameTyp.Name) + (requirePlural ? "s" : "");
+                InnerDefs = innerDefs;
             }
+
+            public bool IsRepeated { get; }
 
             /// <summary>The C# name of the string-typed property underlying this resource.</summary>
             public string UnderlyingPropertyName { get; }
@@ -130,6 +154,9 @@ namespace Google.Api.Generator.ProtoUtils
 
             /// <summary>The resource definition for this field.</summary>
             public Definition ResourceDefinition { get; }
+
+            /// <summary>All the resource definitions that are possible for a child_type ref; only populated for the IResourceName field.</summary>
+            public IReadOnlyList<Definition> InnerDefs { get; }
         }
 
         public static IReadOnlyList<Definition> LoadResourceDefinitionsByFileName(IEnumerable<FileDescriptor> descs, IEnumerable<CommonResources> commonResourcesConfigs)
@@ -164,8 +191,8 @@ namespace Google.Api.Generator.ProtoUtils
             }
         }
 
-        public static Field LoadResourceReference(MessageDescriptor msgDesc, FieldDescriptor fieldDesc,
-            IReadOnlyDictionary<string, Definition> resourcesByUrt, IReadOnlyDictionary<ImmutableHashSet<string>, Definition> resourcesByPatterns)
+        public static IEnumerable<Field> LoadResourceReference(MessageDescriptor msgDesc, FieldDescriptor fieldDesc,
+            IReadOnlyDictionary<string, Definition> resourcesByUrt, IReadOnlyDictionary<string, IReadOnlyList<Definition>> resourcesByPattern)
         {
             // Is this field the name-field of a resource descriptor?
             var resourceDesc = msgDesc.SafeGetOption(ResourceExtensions.Resource);
@@ -174,54 +201,92 @@ namespace Google.Api.Generator.ProtoUtils
                 var def = resourcesByUrt[resourceDesc.Type];
                 if (fieldDesc.Name == def.NameField)
                 {
-                    return new Field(fieldDesc, def);
+                    if (def.HasNotWildcard)
+                    {
+                        yield return new Field(fieldDesc, def);
+                    }
+                    if (def.HasWildcard)
+                    {
+                        yield return new Field(fieldDesc, Definition.WildcardResource, def.HasNotWildcard ? new[] { def } : null);
+                    }
+                    yield break;
                 }
             }
             // Is this field a resource reference?
             var resourceRef = fieldDesc.SafeGetOption(ResourceExtensions.ResourceReference);
-            if (resourceRef is null)
+            if (resourceRef is object)
             {
-                return null;
+                if (!string.IsNullOrEmpty(resourceRef.Type))
+                {
+                    if (resourceRef.Type == "*" || resourceRef.Type == "**")
+                    {
+                        yield return new Field(fieldDesc, Definition.WildcardResource);
+                        yield break;
+                    }
+                    if (!resourcesByUrt.TryGetValue(resourceRef.Type, out var def))
+                    {
+                        throw new InvalidOperationException($"No resource type with name: '{resourceRef.Type}' for field {msgDesc.Name}.{fieldDesc.Name}");
+                    }
+                    if (def.HasNotWildcard)
+                    {
+                        yield return new Field(fieldDesc, def);
+                    }
+                    if (def.HasWildcard)
+                    {
+                        yield return new Field(fieldDesc, Definition.WildcardResource, def.HasNotWildcard ? new[] { def } : null);
+                    }
+                }
+                else if (!string.IsNullOrEmpty(resourceRef.ChildType))
+                {
+                    if (resourceRef.ChildType == "*" || resourceRef.ChildType == "**")
+                    {
+                        yield return new Field(fieldDesc, Definition.WildcardResource);
+                        yield break;
+                    }
+                    if (!resourcesByUrt.TryGetValue(resourceRef.ChildType, out var childDef))
+                    {
+                        throw new InvalidOperationException($"No resource type with child name: '{resourceRef.ChildType}' for field {msgDesc.Name}.{fieldDesc.Name}");
+                    }
+                    // Find all resources in which the patterns are a subset of the child patterns; a wildcard matches a child wildcard.
+                    // Verify that these resources together match all parent patterns of the child resource.
+                    // Order by most-specific-parent first, then by order in child-type patterns (then alphabetically as a last resort, to keep it deterministic).
+                    var parentPatterns = childDef.Patterns.Select(x => ParentPattern(x.PatternString)).ToImmutableList();
+                    var parentPatternsSet = parentPatterns.ToImmutableHashSet();
+                    var parentDefs = parentPatterns
+                        .SelectMany(x => resourcesByPattern.TryGetValue(x, out var defs) ? defs : Enumerable.Empty<Definition>())
+                        .Where(def => def.Patterns.All(x => parentPatternsSet.Contains(x.PatternString)))
+                        .Distinct(Definition.TypeComparer.Instance)
+                        .OrderBy(def => def.Patterns.Count)
+                        .ThenBy(def => def.Patterns.Select(x => parentPatterns.IndexOf(x.PatternString)).Where(x => x >= 0).Min())
+                        .ThenBy(def => def.UnifiedResourceTypeName)
+                        .ToImmutableList();
+                    // "*" pattern is not required to be matched; all others are required.
+                    if (parentPatternsSet.Except(parentDefs.SelectMany(x => x.Patterns).Select(x => x.PatternString).Append("*")).Any())
+                    {
+                        throw new InvalidOperationException($"Not all patterns can be matched to a parent resource for field {msgDesc.Name}.{fieldDesc.Name}");
+                    }
+                    foreach (var parentDef in parentDefs)
+                    {
+                        yield return new Field(fieldDesc, parentDef);
+                    }
+                    if (parentDefs.Any(x => x.HasWildcard) || parentDefs.Count > 1)
+                    {
+                        yield return new Field(fieldDesc, Definition.WildcardResource, parentDefs.Count > 1 ? parentDefs : null);
+                    }
+                }
+                else
+                {
+                    throw new InvalidOperationException("type or child_type must be set.");
+                }
             }
-            if (!string.IsNullOrEmpty(resourceRef.Type))
-            {
-                if (resourceRef.Type == "*" || resourceRef.Type == "**")
-                {
-                    // Resource is `IUnknownResource`.
-                    return new Field(fieldDesc, Definition.UnknownResource);
-                }
-                if (!resourcesByUrt.TryGetValue(resourceRef.Type, out var def))
-                {
-                    throw new InvalidOperationException($"No resource type with name: '{resourceRef.Type}' for field {msgDesc.Name}.{fieldDesc.Name}");
-                }
-                return new Field(fieldDesc, def);
-            }
-            else if (!string.IsNullOrEmpty(resourceRef.ChildType))
-            {
-                if (!resourcesByUrt.TryGetValue(resourceRef.ChildType, out var childDef))
-                {
-                    throw new InvalidOperationException($"No resource type with child name: '{resourceRef.ChildType}' for field {msgDesc.Name}.{fieldDesc.Name}");
-                }
-                if (childDef.IsWildcard)
-                {
-                    // The parent of a wildcard pattern is another wildcard.
-                    return new Field(fieldDesc, Definition.UnknownResource);
-                }
-                var parentPatterns = childDef.Patterns.Select(x => ParentPattern(x.PatternString)).ToImmutableHashSet();
-                if (resourcesByPatterns.TryGetValue(parentPatterns, out var parentDef))
-                {
-                    // Return existing resource; no auto-generated required.
-                    return new Field(fieldDesc, parentDef);
-                }
-                // It is invalid to ask for a parent that is not already defined.
-                // This may change in the future, to allow auto-generating parent resource-names, but this is not currently allowed.
-                throw new InvalidOperationException(
-                    $"Cannot refer to child-type '{resourceRef.ChildType}' in field {msgDesc.Name}.{fieldDesc.Name} because the child patterns are not already defined in a resource.");
-            }
-            throw new InvalidOperationException("type or child_type must be set.");
 
             string ParentPattern(string pattern)
             {
+                if (pattern == "*")
+                {
+                    // Parent of wildcard is a wildcard.
+                    return "*";
+                }
                 var lastIndex = pattern.LastIndexOf('}');
                 var last2Index = pattern.LastIndexOf('}', startIndex: Math.Max(lastIndex - 1, 0));
                 if (lastIndex < 0 || last2Index < 0)

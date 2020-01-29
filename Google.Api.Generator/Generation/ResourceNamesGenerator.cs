@@ -114,7 +114,7 @@ namespace Google.Api.Generator.Generation
                 _ctx = ctx;
                 _def = def;
                 ResourceNameTypeTyp = Typ.Nested(def.ResourceNameTyp, "ResourceNameType", isEnum: true);
-                PatternDetails = _def.Patterns.Select(x => new PatternDetails(ctx, def, x)).ToList();
+                PatternDetails = _def.Patterns.Where(x => !x.IsWildcard).Select(x => new PatternDetails(ctx, def, x)).ToList();
             }
 
             private readonly SourceFileContext _ctx;
@@ -308,16 +308,19 @@ namespace Google.Api.Generator.Generation
                         UnparsedResourceNameProperty().Assign(unparsedResourceName),
                         parameters.Select(x => x.Property.Assign(x.Parameter)));
                 yield return ctor;
-                // Ctor for pattern[0]
-                var initParams = PatternDetails[0].PathElements.Select(x => (object)(x.Parameter.Identifier.ValueText,
-                    _ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNullOrEmpty))(x.Parameter, Nameof(x.Parameter))))
-                    .Prepend(_ctx.Type(ResourceNameTypeTyp).Access(ResourceTypeEnum().Members[1]));
-                var xmlDocSummary = XmlDoc.Summary("Constructs a new instance of a ", _ctx.Type(_def.ResourceNameTyp),
-                    " class from the component parts of pattern ", XmlDoc.C(PatternDetails[0].PatternString));
-                yield return Ctor(Public, cls, initializer: ThisInitializer(initParams.ToArray()))
-                    (PatternDetails[0].PathElements.Select(x => x.Parameter).ToArray())
-                    .WithBody() // Deliberately empty body.
-                    .WithXmlDoc(PatternDetails[0].PathElements.Select(pattern => pattern.ParameterXmlDoc).Prepend(xmlDocSummary).ToArray());
+                if (!_def.Patterns[0].IsWildcard)
+                {
+                    // Ctor for pattern[0]; only generate if first pattern is not a wildcard.
+                    var initParams = PatternDetails[0].PathElements.Select(x => (object)(x.Parameter.Identifier.ValueText,
+                        _ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNullOrEmpty))(x.Parameter, Nameof(x.Parameter))))
+                        .Prepend(_ctx.Type(ResourceNameTypeTyp).Access(ResourceTypeEnum().Members[1]));
+                    var xmlDocSummary = XmlDoc.Summary("Constructs a new instance of a ", _ctx.Type(_def.ResourceNameTyp),
+                        " class from the component parts of pattern ", XmlDoc.C(PatternDetails[0].PatternString));
+                    yield return Ctor(Public, cls, initializer: ThisInitializer(initParams.ToArray()))
+                        (PatternDetails[0].PathElements.Select(x => x.Parameter).ToArray())
+                        .WithBody() // Deliberately empty body.
+                        .WithXmlDoc(PatternDetails[0].PathElements.Select(pattern => pattern.ParameterXmlDoc).Prepend(xmlDocSummary).ToArray());
+                }
             }
 
             private PropertyDeclarationSyntax ResourceType() =>
@@ -396,7 +399,7 @@ namespace Google.Api.Generator.Generation
         {
             foreach (var def in _catalog.GetResourceDefsByFile(_fileDesc))
             {
-                if (!def.IsWildcard && !def.IsCommon)
+                if (def.HasNotWildcard && !def.IsCommon)
                 {
                     yield return new ResourceClassBuilder(_ctx, def).Generate();
                 }
@@ -410,7 +413,7 @@ namespace Google.Api.Generator.Generation
             foreach (var msg in _fileDesc.MessageTypes)
             {
                 var resources = msg.Fields.InFieldNumberOrder()
-                    .Select(field => (field, resDetails: _catalog.GetResourceDetailsByField(field)))
+                    .Select(fieldDesc => (fieldDesc, resDetails: _catalog.GetResourceDetailsByField(fieldDesc)))
                     .Where(x => x.resDetails != null)
                     .ToList();
                 if (resources.Any())
@@ -419,37 +422,41 @@ namespace Google.Api.Generator.Generation
                     using (_ctx.InClass(cls))
                     {
                         _ctx.RegisterClassMemberNames(resources
-                            .Select(res => res.resDetails.ResourcePropertyName)
+                            .SelectMany(res => res.resDetails.Select(x => x.ResourcePropertyName))
                             .Concat(msg.Fields.InDeclarationOrder().Select(f => f.CSharpPropertyName()))
                             .Append(msg.NestedTypes.Any() ? "Types" : null)
                             .Where(x => x != null));
-                        var properties = resources.Select(res =>
+                        var properties = resources.SelectMany(res => res.resDetails).Select(field =>
                         {
-                            var underlyingProperty = Property(DontCare, _ctx.TypeDontCare, res.resDetails.UnderlyingPropertyName);
-                            var def = res.resDetails.ResourceDefinition;
+                            var def = field.ResourceDefinition;
+                            var underlyingProperty = Property(DontCare, _ctx.TypeDontCare, field.UnderlyingPropertyName);
                             var xmlDocSummary = XmlDoc.Summary(_ctx.Type(def.ResourceNameTyp), "-typed view over the ", underlyingProperty, " resource name property.");
-                            if (res.field.IsRepeated)
+                            Func<object, object> getBodyFn = field.InnerDefs is object ?
+                                (Func<object, object>)(p => field.InnerDefs.Select(innerDef =>
+                                {
+                                    var result = Local(_ctx.Type(innerDef.ResourceNameTyp), innerDef.FieldName);
+                                    return If(_ctx.Type(innerDef.ResourceNameTyp).Call("TryParse")(p, OutVar(result)))
+                                        .Then(Return(result));
+                                }).Cast<object>()
+                                    .Prepend(If(_ctx.Type<string>().Call(nameof(string.IsNullOrEmpty))(p)).Then(Return(Null)))
+                                    .Append(Return(_ctx.Type<UnparsedResourceName>().Call(nameof(UnparsedResourceName.Parse))(p)))) :
+                                p => Return(_ctx.Type<string>().Call(nameof(string.IsNullOrEmpty))(p).ConditionalOperator(
+                                    Null, _ctx.Type(def.ResourceParserTyp).Call("Parse")(p, def.IsUnparsed ? null : (object)("allowUnparsed", true))));
+                            if (field.IsRepeated)
                             {
-                                var repeatedTyp = Typ.Generic(typeof(ResourceNameList<>), def.ResourceNameTyp);
                                 var s = Parameter(null, "s");
-                                return Property(Public, _ctx.Type(repeatedTyp), res.resDetails.ResourcePropertyName)
-                                    .WithGetBody(Return(def.IsWildcard ?
-                                        New(_ctx.Type(repeatedTyp))(underlyingProperty, Lambda(s)(_ctx.Type<UnparsedResourceName>().Call(nameof(UnparsedResourceName.Parse))(s))) :
-                                        New(_ctx.Type(repeatedTyp))(underlyingProperty, Lambda(s)(_ctx.Type(def.ResourceNameTyp).Call("Parse")(s)))))
-                                    .WithXmlDoc(xmlDocSummary);
+                                var repeatedTyp = Typ.Generic(typeof(ResourceNameList<>), def.ResourceNameTyp);
+                                return Property(Public, _ctx.Type(repeatedTyp), field.ResourcePropertyName)
+                                        .WithGetBody(Return(New(_ctx.Type(repeatedTyp))(underlyingProperty, Lambda(s)(getBodyFn(s)))))
+                                        .WithXmlDoc(xmlDocSummary);
                             }
                             else
                             {
-                                return Property(Public, _ctx.Type(def.ResourceNameTyp), res.resDetails.ResourcePropertyName)
-                                    .WithGetBody(Return(def.IsWildcard ?
-                                        _ctx.Type<string>().Call(nameof(string.IsNullOrEmpty))(underlyingProperty).ConditionalOperator(
-                                            Null, _ctx.Type<UnparsedResourceName>().Call(nameof(UnparsedResourceName.Parse))(underlyingProperty)) :
-                                        _ctx.Type<string>().Call(nameof(string.IsNullOrEmpty))(underlyingProperty).ConditionalOperator(
-                                            Null, _ctx.Type(def.ResourceNameTyp).Call("Parse")(underlyingProperty))))
+                                return Property(Public, _ctx.Type(def.ResourceNameTyp), field.ResourcePropertyName)
+                                    .WithGetBody(getBodyFn(underlyingProperty))
                                     .WithSetBody(underlyingProperty.Assign(Value.Call(nameof(object.ToString), conditional: true)().NullCoalesce("")))
                                     .WithXmlDoc(xmlDocSummary);
                             }
-
                         });
                         cls = cls.AddMembers(properties.ToArray());
                     }

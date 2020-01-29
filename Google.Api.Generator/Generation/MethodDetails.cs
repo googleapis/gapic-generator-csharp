@@ -57,10 +57,7 @@ namespace Google.Api.Generator.Generation
             public Paginated(ServiceDetails svc, MethodDescriptor desc,
                 FieldDescriptor responseResourceField, int pageSizeFieldNumber, int pageTokenFieldNumber) : base(svc, desc)
             {
-                ResourcesFieldResourceName = svc.Catalog.GetResourceDetailsByField(responseResourceField);
-                ResourceTyp = ResourcesFieldResourceName is null ?
-                    Typ.Of(responseResourceField, forceRepeated: false) :
-                    ResourcesFieldResourceName.ResourceDefinition.ResourceNameTyp;
+                ResourceTyp = Typ.Of(responseResourceField, forceRepeated: false);
                 ApiCallTyp = Typ.Generic(typeof(ApiCall<,>), RequestTyp, ResponseTyp);
                 SyncReturnTyp = Typ.Generic(typeof(PagedEnumerable<,>), ResponseTyp, ResourceTyp);
                 AsyncReturnTyp = Typ.Generic(typeof(PagedAsyncEnumerable<,>), ResponseTyp, ResourceTyp);
@@ -77,7 +74,6 @@ namespace Google.Api.Generator.Generation
             public Typ SyncGrpcType { get; }
             public Typ AsyncGrpcType { get; }
             public string ResourcesFieldName { get; }
-            public ResourceDetails.Field ResourcesFieldResourceName { get; }
             public int PageSizeFieldNumber { get; }
             public int PageTokenFieldNumber { get; }
         }
@@ -193,7 +189,7 @@ namespace Google.Api.Generator.Generation
                     ParameterName = lastDesc.CSharpFieldName();
                     PropertyName = lastDesc.CSharpPropertyName();
                     DocLines = lastDesc.Declaration.DocLines();
-                    FieldResource = svc.Catalog.GetResourceDetailsByField(lastDesc);
+                    FieldResources = svc.Catalog.GetResourceDetailsByField(lastDesc);
                 }
                 public IReadOnlyList<FieldDescriptor> Descs { get; }
                 public Typ Typ { get; }
@@ -205,7 +201,7 @@ namespace Google.Api.Generator.Generation
                 public string PropertyName { get; }
                 public IEnumerable<string> DocLines { get; }
                 /// <summary>Resource details if this field respresents a resource. Null if not a resource field.</summary>
-                public ResourceDetails.Field FieldResource { get; }
+                public IReadOnlyList<ResourceDetails.Field> FieldResources { get; }
             }
             public Signature(ServiceDetails svc, MessageDescriptor msg , string sig)
             {
@@ -269,10 +265,10 @@ namespace Google.Api.Generator.Generation
         {
             Svc = svc;
             SyncMethodName = desc.Name;
-            SyncSnippetMethodName = $"{desc.Name}_RequestObject";
+            SyncSnippetMethodName = $"{desc.Name}RequestObject";
             SyncTestMethodName = $"{desc.Name}RequestObject";
             AsyncMethodName = $"{desc.Name}Async";
-            AsyncSnippetMethodName = $"{desc.Name}Async_RequestObject";
+            AsyncSnippetMethodName = $"{desc.Name}RequestObjectAsync";
             AsyncTestMethodName = $"{desc.Name}RequestObjectAsync";
             SettingsName = $"{desc.Name}Settings";
             RequestTyp = Typ.Of(desc.InputType);

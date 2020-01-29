@@ -26,6 +26,7 @@ using Moq;
 using Moq.Language;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -77,10 +78,10 @@ namespace Google.Api.Generator.Generation
                         {
                             yield return signature.SyncMethod;
                             yield return signature.AsyncMethod;
-                            if (signature.HasResourceNames)
+                            foreach (var resourceName in signature.ResourceNames)
                             {
-                                yield return signature.SyncMethodResourceNames;
-                                yield return signature.AsyncMethodResourceNames;
+                                yield return resourceName.SyncMethod;
+                                yield return resourceName.AsyncMethod;
                             }
                         }
                         break;
@@ -109,26 +110,17 @@ namespace Google.Api.Generator.Generation
 
             private ParameterSyntax X => Parameter(null, "x");
 
-            private object TestValue(FieldDescriptor fieldDesc, bool resourceNameAsString = false)
+            private object TestValue(FieldDescriptor fieldDesc)
             {
-                var resource = Svc.Catalog.GetResourceDetailsByField(fieldDesc);
-                if (resource != null)
+                var resources = Svc.Catalog.GetResourceDetailsByField(fieldDesc);
+                if (resources is object)
                 {
-                    var def = resource.ResourceDefinition;
-                    object value;
-                    if (resourceNameAsString)
-                    {
-                        value = def.IsWildcard ?
-                            "a/wildcard/resource" :
-                            def.Patterns[0].Template.Expand(def.Patterns[0].Template.ParameterNames.Select(x => $"[{x.ToUpperInvariant()}]").ToArray());
-                    }
-                    else
-                    {
-                        value = def.IsWildcard ?
-                            (object)New(Ctx.Type<UnparsedResourceName>())("a/wildcard/resource") :
-                            Ctx.Type(def.ResourceNameTyp).Call($"From{string.Join("", def.Patterns[0].Template.ParameterNames.Select(x => x.RemoveSuffix("_id").ToUpperCamelCase()))}")
-                                (def.Patterns[0].Template.ParameterNames.Select(x => $"[{x.ToUpperInvariant()}]"));
-                    }
+                    var def = resources[0].ResourceDefinition;
+                    var pattern = def.Patterns.FirstOrDefault(x => !x.IsWildcard);
+                    object value = pattern is null ?
+                        (object)New(Ctx.Type<UnparsedResourceName>())("a/wildcard/resource") :
+                        Ctx.Type(def.ResourceNameTyp).Call($"From{string.Join("", pattern.Template.ParameterNames.Select(x => x.RemoveSuffix("_id").ToUpperCamelCase()))}")
+                                (pattern.Template.ParameterNames.Select(x => $"[{x.ToUpperInvariant()}]"));
                     return fieldDesc.IsRepeated ? CollectionInitializer(value) : value;
                 }
                 else
@@ -187,7 +179,7 @@ namespace Google.Api.Generator.Generation
                     {
                         var resourceField = Svc.Catalog.GetResourceDetailsByField(fieldDesc);
                         yield return new ObjectInitExpr(
-                            resourceField?.ResourcePropertyName ?? fieldDesc.CSharpPropertyName(),
+                            resourceField?[0].ResourcePropertyName ?? fieldDesc.CSharpPropertyName(),
                             TestValue(fieldDesc));
                     }
 
@@ -277,33 +269,53 @@ namespace Google.Api.Generator.Generation
             {
                 public Signature(MethodDef def, MethodDetails.Signature sig, int? index) => (_def, _sig, _index) = (def, sig, index);
 
-                private MethodDef _def;
-                private MethodDetails.Signature _sig;
-                private int? _index;
+                private readonly MethodDef _def;
+                private readonly MethodDetails.Signature _sig;
+                private readonly int? _index;
 
-                private ServiceDetails Svc => _def.Svc;
-                private SourceFileContext Ctx => _def.Ctx;
                 private MethodDetails Method => _def.Method;
 
                 private string SyncMethodName => Method.SyncMethodName + (_index is int index ? (index + 1).ToString() : "");
                 private string AsyncMethodName => $"{Method.AsyncMethodName.Substring(0, Method.AsyncMethodName.Length - 5)}{(_index is int index ? (index + 1).ToString() : "")}Async";
-                private string SyncResourceNameMethodName => $"{SyncMethodName}_ResourceNames";
-                private string AsyncResourceNameMethodName => $"{AsyncMethodName}_ResourceNames";
 
                 private IEnumerable<object> SigArgs => _sig.Fields.Select(field => _def.Request.Access(field.PropertyName));
-
-                private IEnumerable<object> SigResourceNameArgs =>
-                    _sig.Fields.Select(field => _def.Request.Access(field.FieldResource?.ResourcePropertyName ?? field.PropertyName));
-
-                public bool HasResourceNames => _sig.Fields.Any(x => x.FieldResource != null);
 
                 public MethodDeclarationSyntax SyncMethod => _def.Sync(SyncMethodName, _sig.Fields, SigArgs);
 
                 public MethodDeclarationSyntax AsyncMethod => _def.Async(AsyncMethodName, _sig.Fields, SigArgs);
 
-                public MethodDeclarationSyntax SyncMethodResourceNames => _def.Sync(SyncResourceNameMethodName, _sig.Fields, SigResourceNameArgs);
+                public class ResourceName
+                {
+                    public static IEnumerable<ResourceName> Create(Signature sig)
+                    {
+                        if (!sig._sig.Fields.Any(f => f.FieldResources is object))
+                        {
+                            return Enumerable.Empty<ResourceName>();
+                        }
+                        var allOverloads = sig._sig.Fields.Aggregate(ImmutableList.Create(ImmutableList<string>.Empty), (overloads, f) =>
+                        {
+                            var names = f.FieldResources is null ? new[] { f.PropertyName } : f.FieldResources.Select(x => x.ResourcePropertyName);
+                            return overloads.SelectMany(overload => names.Select(typ => overload.Add(typ))).ToImmutableList();
+                        }).ToList();
+                        return allOverloads.Select((typs, index) => new ResourceName(sig, typs, allOverloads.Count > 1 ? (int?)(index + 1) : null));
+                    }
 
-                public MethodDeclarationSyntax AsyncMethodResourceNames => _def.Async(AsyncResourceNameMethodName, _sig.Fields, SigResourceNameArgs);
+                    private ResourceName(Signature sig, IReadOnlyList<string> propertyNames, int? index) => (_sig, _propertyNames, _index) = (sig, propertyNames, index);
+
+                    private readonly Signature _sig;
+                    private readonly IReadOnlyList<string> _propertyNames;
+                    private readonly int? _index;
+                    private string SyncMethodName => $"{_sig.SyncMethodName}ResourceNames{(_index?.ToString() ?? "")}";
+                    private string AsyncMethodName => $"{SyncMethodName}Async";
+
+                    public MethodDeclarationSyntax SyncMethod => _sig._def.Sync(SyncMethodName, _sig._sig.Fields,
+                        _propertyNames.Select(propertyName => _sig._def.Request.Access(propertyName)));
+
+                    public MethodDeclarationSyntax AsyncMethod => _sig._def.Async(AsyncMethodName, _sig._sig.Fields,
+                        _propertyNames.Select(propertyName => _sig._def.Request.Access(propertyName)));
+                }
+
+                public IEnumerable<ResourceName> ResourceNames => ResourceName.Create(this);
             }
 
             public IEnumerable<Signature> Signatures => Method.Signatures.Select((sig, i) => new Signature(this, sig, Method.Signatures.Count > 1 ? i : (int?)null));

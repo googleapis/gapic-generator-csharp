@@ -24,6 +24,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -72,10 +73,10 @@ namespace Google.Api.Generator.Generation
                         {
                             yield return signature.SyncMethod;
                             yield return signature.AsyncMethod;
-                            if (signature.HasResourceNames)
+                            foreach (var resourceName in signature.ResourceNames)
                             {
-                                yield return signature.SyncMethodResourceNames;
-                                yield return signature.AsyncMethodResourceNames;
+                                yield return resourceName.SyncMethod;
+                                yield return resourceName.AsyncMethod;
                             }
                         }
                         break;
@@ -86,10 +87,10 @@ namespace Google.Api.Generator.Generation
                         {
                             yield return signature.SyncLroMethod;
                             yield return signature.AsyncLroMethod;
-                            if (signature.HasResourceNames)
+                            foreach (var resourceName in signature.ResourceNames)
                             {
-                                yield return signature.SyncLroMethodResourceNames;
-                                yield return signature.AsyncLroMethodResourceNames;
+                                yield return resourceName.SyncLroMethod;
+                                yield return resourceName.AsyncLroMethod;
                             }
                         }
                         break;
@@ -100,10 +101,10 @@ namespace Google.Api.Generator.Generation
                         {
                             yield return signature.SyncPaginatedMethod;
                             yield return signature.AsyncPaginatedMethod;
-                            if (signature.HasResourceNames)
+                            foreach (var resourceName in signature.ResourceNames)
                             {
-                                yield return signature.SyncPaginatedMethodResourceNames;
-                                yield return signature.AsyncPaginatedMethodResourceNames;
+                                yield return resourceName.SyncPaginatedMethod;
+                                yield return resourceName.AsyncPaginatedMethod;
                             }
                         }
                         break;
@@ -112,9 +113,9 @@ namespace Google.Api.Generator.Generation
                         foreach (var signature in methodDef.Signatures)
                         {
                             yield return signature.ServerStreamingMethod;
-                            if (signature.HasResourceNames)
+                            foreach (var resourceName in signature.ResourceNames)
                             {
-                                yield return signature.ServerStreamingMethodResourceNames;
+                                yield return resourceName.ServerStreamingMethod;
                             }
                         }
                         break;
@@ -157,27 +158,29 @@ namespace Google.Api.Generator.Generation
             private ParameterSyntax PaginatedItem => Parameter(Ctx.Type(MethodPaginated.ResourceTyp), "item");
             private ParameterSyntax PaginatedPage => Parameter(Ctx.Type(Method.ResponseTyp), "page");
 
-            private object DefaultValue(FieldDescriptor fieldDesc, bool resourceNameAsString = false, bool topLevel = false)
+            private object DefaultValue(FieldDescriptor fieldDesc, Typ resourceTyp = null, bool topLevel = false)
             {
-                var resource = Svc.Catalog.GetResourceDetailsByField(fieldDesc);
-                if (resource != null)
+                var resources = Svc.Catalog.GetResourceDetailsByField(fieldDesc);
+                if (resources is object)
                 {
+                    var resource = resources.FirstOrDefault(x => x.ResourceDefinition.ResourceNameTyp == resourceTyp) ?? resources[0];
                     var def = resource.ResourceDefinition;
                     object @default;
-                    if (resourceNameAsString)
+                    var pattern = def.Patterns.FirstOrDefault(x => !x.IsWildcard);
+                    if (resourceTyp is null)
                     {
-                        @default = def.IsWildcard ?
+                        @default = pattern is null ?
                             "a/wildcard/resource" :
-                            def.Patterns[0].Template.Expand(def.Patterns[0].Template.ParameterNames.Select(x => $"[{x.ToUpperInvariant()}]").ToArray());
+                            pattern.Template.Expand(pattern.Template.ParameterNames.Select(x => $"[{x.ToUpperInvariant()}]").ToArray());
                     }
                     else
                     {
-                        @default = def.IsWildcard ?
+                        @default = pattern is null ?
                             (object)New(Ctx.Type<UnparsedResourceName>())("a/wildcard/resource") :
-                            Ctx.Type(def.ResourceNameTyp).Call($"From{string.Join("", def.Patterns[0].Template.ParameterNames.Select(x => x.RemoveSuffix("_id").ToUpperCamelCase()))}")
-                                (def.Patterns[0].Template.ParameterNames.Select(x => $"[{x.ToUpperInvariant()}]"));
+                            Ctx.Type(resourceTyp).Call($"From{string.Join("", pattern.Template.ParameterNames.Select(x => x.RemoveSuffix("_id").ToUpperCamelCase()))}")
+                                (pattern.Template.ParameterNames.Select(x => $"[{x.ToUpperInvariant()}]"));
                     }
-                    return fieldDesc.IsRepeated ? Collection(@default, resourceNameAsString ? null : def.ResourceNameTyp) : @default;
+                    return fieldDesc.IsRepeated ? Collection(@default, resourceTyp) : @default;
                 }
                 else
                 {
@@ -234,8 +237,9 @@ namespace Google.Api.Generator.Generation
                 {
                     if (!IsPaginationField())
                     {
-                        var resourceField = Svc.Catalog.GetResourceDetailsByField(fieldDesc);
-                        yield return new ObjectInitExpr(resourceField?.ResourcePropertyName ?? fieldDesc.CSharpPropertyName(), DefaultValue(fieldDesc));
+                        var resourceField = Svc.Catalog.GetResourceDetailsByField(fieldDesc)?[0];
+                        yield return new ObjectInitExpr(resourceField?.ResourcePropertyName ?? fieldDesc.CSharpPropertyName(),
+                            DefaultValue(fieldDesc, resourceField?.ResourceDefinition.ResourceNameTyp));
                     }
 
                     bool IsPaginationField() => Method is MethodDetails.Paginated paged &&
@@ -502,28 +506,22 @@ namespace Google.Api.Generator.Generation
                 private readonly MethodDef _def;
                 private readonly MethodDetails.Signature _sig;
                 private readonly int? _index;
-
-                private ServiceDetails Svc => _def.Svc;
                 private SourceFileContext Ctx => _def.Ctx;
                 private MethodDetails Method => _def.Method;
 
                 private string SyncMethodName => Method.SyncMethodName + (_index is int index ? (index + 1).ToString() : "");
                 private string AsyncMethodName => $"{Method.AsyncMethodName.Substring(0, Method.AsyncMethodName.Length - 5)}{(_index is int index ? (index + 1).ToString() : "")}Async";
-                private string SyncResourceNameMethodName => $"{SyncMethodName}_ResourceNames";
-                private string AsyncResourceNameMethodName => $"{AsyncMethodName}_ResourceNames";
-
+                
                 private Typ MaybeEnumerable(bool repeated, Typ typ) => !repeated || typ == null ? typ : Typ.Generic(typeof(IEnumerable<>), typ);
                 private IEnumerable<LocalDeclarationStatementSyntax> InitRequestArgs(bool resourceNameAsString) =>
                     _sig.Fields.Select(f =>
-                        Local(Ctx.Type(resourceNameAsString ? f.Typ : MaybeEnumerable(f.IsRepeated, f.FieldResource?.ResourceDefinition.ResourceNameTyp) ?? f.Typ),
+                        Local(Ctx.Type(resourceNameAsString ? f.Typ : MaybeEnumerable(f.IsRepeated, f.FieldResources?[0].ResourceDefinition.ResourceNameTyp) ?? f.Typ),
                             f.Descs.Last().CSharpFieldName())
-                        .WithInitializer(_def.DefaultValue(f.Descs.Last(), resourceNameAsString, topLevel: true)));
+                        .WithInitializer(_def.DefaultValue(f.Descs.Last(), null, topLevel: true)));
                 private IEnumerable<LocalDeclarationStatementSyntax> InitRequestArgsNormal => InitRequestArgs(resourceNameAsString: true);
                 private IEnumerable<LocalDeclarationStatementSyntax> InitRequestArgsResourceNames => InitRequestArgs(resourceNameAsString: false);
 
-                private IEnumerable<Typ> SnippetCommentResourceNameArgs => _sig.Fields.Select(f => f.FieldResource?.ResourceDefinition.ResourceNameTyp ?? f.Typ);
-
-                public bool HasResourceNames => _sig.Fields.Any(x => x.FieldResource != null);
+                private IEnumerable<Typ> SnippetCommentResourceNameArgs => throw new NotImplementedException();
 
                 public MethodDeclarationSyntax SyncMethod => _def.Sync(SyncMethodName, _sig.Fields.Select(f => f.Typ),
                     InitRequestArgsNormal, Method.SyncReturnTyp is Typ.VoidTyp ?
@@ -535,27 +533,11 @@ namespace Google.Api.Generator.Generation
                         (object)Await(_def.Client.Call(Method.AsyncMethodName)(InitRequestArgsNormal.ToArray())) :
                         _def.Response.WithInitializer(Await(_def.Client.Call(Method.AsyncMethodName)(InitRequestArgsNormal.ToArray()))));
 
-                public MethodDeclarationSyntax SyncMethodResourceNames => _def.Sync(SyncResourceNameMethodName, SnippetCommentResourceNameArgs,
-                    InitRequestArgsResourceNames, Method.SyncReturnTyp is Typ.VoidTyp ?
-                        (object)_def.Client.Call(Method.SyncMethodName)(InitRequestArgsResourceNames.ToArray()) :
-                        _def.Response.WithInitializer(_def.Client.Call(Method.SyncMethodName)(InitRequestArgsResourceNames.ToArray())));
-
-                public MethodDeclarationSyntax AsyncMethodResourceNames => _def.Async(AsyncResourceNameMethodName, SnippetCommentResourceNameArgs,
-                    InitRequestArgsResourceNames, Method.SyncReturnTyp is Typ.VoidTyp ? 
-                        (object)Await(_def.Client.Call(Method.AsyncMethodName)(InitRequestArgsResourceNames.ToArray())) :
-                        _def.Response.WithInitializer(Await(_def.Client.Call(Method.AsyncMethodName)(InitRequestArgsResourceNames.ToArray()))));
-
                 public MethodDeclarationSyntax SyncLroMethod => _def.SyncLro(SyncMethodName, _sig.Fields.Select(f => f.Typ),
                     InitRequestArgsNormal, _def.Response.WithInitializer(_def.Client.Call(Method.SyncMethodName)(InitRequestArgsNormal.ToArray())));
 
                 public MethodDeclarationSyntax AsyncLroMethod => _def.AsyncLro(AsyncMethodName, _sig.Fields.Select(f => f.Typ),
                     InitRequestArgsNormal, _def.Response.WithInitializer(Await(_def.Client.Call(Method.AsyncMethodName)(InitRequestArgsNormal.ToArray()))));
-
-                public MethodDeclarationSyntax SyncLroMethodResourceNames => _def.SyncLro(SyncResourceNameMethodName, SnippetCommentResourceNameArgs,
-                    InitRequestArgsResourceNames, _def.Response.WithInitializer(_def.Client.Call(Method.SyncMethodName)(InitRequestArgsResourceNames.ToArray())));
-
-                public MethodDeclarationSyntax AsyncLroMethodResourceNames => _def.AsyncLro(AsyncResourceNameMethodName, SnippetCommentResourceNameArgs,
-                    InitRequestArgsResourceNames, _def.Response.WithInitializer(Await(_def.Client.Call(Method.AsyncMethodName)(InitRequestArgsResourceNames.ToArray()))));
 
                 private IEnumerable<object> PaginatedArgs(IEnumerable<LocalDeclarationStatementSyntax> args)
                 {
@@ -573,17 +555,65 @@ namespace Google.Api.Generator.Generation
                 public MethodDeclarationSyntax AsyncPaginatedMethod => _def.AsyncPaginated(AsyncMethodName, _sig.Fields.Select(f => f.Typ),
                     InitRequestArgsNormal, _def.AsyncResponse.WithInitializer(_def.Client.Call(Method.AsyncMethodName)(PaginatedArgs(InitRequestArgsNormal).ToArray())), isSig: true);
 
-                public MethodDeclarationSyntax SyncPaginatedMethodResourceNames => _def.SyncPaginated(SyncResourceNameMethodName, SnippetCommentResourceNameArgs,
-                    InitRequestArgsResourceNames, _def.Response.WithInitializer(_def.Client.Call(Method.SyncMethodName)(PaginatedArgs(InitRequestArgsResourceNames).ToArray())), isSig: true);
-
-                public MethodDeclarationSyntax AsyncPaginatedMethodResourceNames => _def.AsyncPaginated(AsyncResourceNameMethodName, SnippetCommentResourceNameArgs,
-                    InitRequestArgsResourceNames, _def.AsyncResponse.WithInitializer(_def.Client.Call(Method.AsyncMethodName)(PaginatedArgs(InitRequestArgsResourceNames).ToArray())), isSig: true);
-
                 public MethodDeclarationSyntax ServerStreamingMethod => _def.ServerStreaming(SyncMethodName, _sig.Fields.Select(f => f.Typ),
                     InitRequestArgsNormal, _def.Response.WithInitializer(_def.Client.Call(Method.SyncMethodName)(InitRequestArgsNormal.ToArray())));
 
-                public MethodDeclarationSyntax ServerStreamingMethodResourceNames => _def.ServerStreaming(SyncResourceNameMethodName, SnippetCommentResourceNameArgs,
-                    InitRequestArgsResourceNames, _def.Response.WithInitializer(_def.Client.Call(Method.SyncMethodName)(InitRequestArgsResourceNames.ToArray())));
+                public class ResourceName
+                {
+                    public static IEnumerable<ResourceName> Create(Signature sig)
+                    {
+                        if (!sig._sig.Fields.Any(f => f.FieldResources is object))
+                        {
+                            return Enumerable.Empty<ResourceName>();
+                        }
+                        var allOverloads = sig._sig.Fields.Aggregate(ImmutableList.Create(ImmutableList<Typ>.Empty), (overloads, f) =>
+                        {
+                            var typs = f.FieldResources is null ? new[] { f.Typ } : f.FieldResources.Select(x => x.ResourceDefinition.ResourceNameTyp);
+                            return overloads.SelectMany(overload => typs.Select(typ => overload.Add(typ))).ToImmutableList();
+                        }).ToList();
+                        return allOverloads.Select((typs, index) => new ResourceName(sig, typs, allOverloads.Count > 1 ? (int?)(index + 1) : null));
+                    }
+
+                    private ResourceName(Signature sig, IReadOnlyList<Typ> typs, int? index) => (_sig, _typs, _index) = (sig, typs, index);
+
+                    private readonly Signature _sig;
+                    private readonly IReadOnlyList<Typ> _typs;
+                    private readonly int? _index;
+                    private SourceFileContext Ctx => _sig.Ctx;
+                    private MethodDetails Method => _sig.Method;
+                    private string SyncMethodName => $"{_sig.SyncMethodName}ResourceNames{(_index?.ToString() ?? "")}";
+                    private string AsyncMethodName => $"{SyncMethodName}Async";
+
+                    private IEnumerable<LocalDeclarationStatementSyntax> InitRequestArgs =>
+                        _sig._sig.Fields.Zip(_typs, (f, typ) =>
+                            Local(Ctx.Type(f.IsRepeated && f.FieldResources is object ? Typ.Generic(typeof(IEnumerable<>), typ) : typ),
+                                f.Descs.Last().CSharpFieldName()).WithInitializer(_sig._def.DefaultValue(f.Descs.Last(), typ, topLevel: true)));
+
+                    public MethodDeclarationSyntax SyncMethod => _sig._def.Sync(SyncMethodName, _typs, InitRequestArgs, Method.SyncReturnTyp is Typ.VoidTyp ?
+                        (object)_sig._def.Client.Call(Method.SyncMethodName)(InitRequestArgs.ToArray()) :
+                        _sig._def.Response.WithInitializer(_sig._def.Client.Call(Method.SyncMethodName)(InitRequestArgs.ToArray())));
+
+                    public MethodDeclarationSyntax AsyncMethod => _sig._def.Async(AsyncMethodName, _typs, InitRequestArgs, Method.SyncReturnTyp is Typ.VoidTyp ?
+                        (object)Await(_sig._def.Client.Call(Method.AsyncMethodName)(InitRequestArgs.ToArray())) :
+                        _sig._def.Response.WithInitializer(Await(_sig._def.Client.Call(Method.AsyncMethodName)(InitRequestArgs.ToArray()))));
+
+                    public MethodDeclarationSyntax SyncLroMethod => _sig._def.SyncLro(SyncMethodName, _typs, InitRequestArgs,
+                        _sig._def.Response.WithInitializer(_sig._def.Client.Call(Method.SyncMethodName)(InitRequestArgs.ToArray())));
+
+                    public MethodDeclarationSyntax AsyncLroMethod => _sig._def.AsyncLro(AsyncMethodName, _typs, InitRequestArgs,
+                        _sig._def.Response.WithInitializer(Await(_sig._def.Client.Call(Method.AsyncMethodName)(InitRequestArgs.ToArray()))));
+
+                    public MethodDeclarationSyntax SyncPaginatedMethod => _sig._def.SyncPaginated(SyncMethodName, _typs, InitRequestArgs,
+                        _sig._def.Response.WithInitializer(_sig._def.Client.Call(Method.SyncMethodName)(_sig.PaginatedArgs(InitRequestArgs).ToArray())), true);
+
+                    public MethodDeclarationSyntax AsyncPaginatedMethod => _sig._def.AsyncPaginated(AsyncMethodName, _typs, InitRequestArgs,
+                        _sig._def.AsyncResponse.WithInitializer(_sig._def.Client.Call(Method.AsyncMethodName)(_sig.PaginatedArgs(InitRequestArgs).ToArray())), true);
+
+                    public MethodDeclarationSyntax ServerStreamingMethod => _sig._def.ServerStreaming(SyncMethodName, _typs, InitRequestArgs,
+                        _sig._def.Response.WithInitializer(_sig._def.Client.Call(Method.SyncMethodName)(InitRequestArgs.ToArray())));
+                }
+
+                public IEnumerable<ResourceName> ResourceNames => ResourceName.Create(this);
             }
 
             private bool RequireFinalNamedArg(MethodDetails.Signature sig)
