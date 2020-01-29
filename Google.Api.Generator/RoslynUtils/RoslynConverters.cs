@@ -73,6 +73,10 @@ namespace Google.Api.Generator.RoslynUtils
 
         private static IEnumerable<ArgumentSyntax> ToArgs(object o)
         {
+            if (o is null)
+            {
+                return Enumerable.Empty<ArgumentSyntax>();
+            }
             if (o is ITuple tuple && tuple.Length == 2 && tuple[0] is string argName)
             {
                 // Named argument

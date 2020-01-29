@@ -357,8 +357,7 @@ namespace Google.Api.Generator.Formatting
             node = (AccessorDeclarationSyntax)base.VisitAccessorDeclaration(node);
             if (node.Body != null)
             {
-                // TODO: Implement this if/when required.
-                throw new NotImplementedException();
+                node = node.WithKeyword(node.Keyword.WithLeadingTrivia(_indentTrivia));
             }
             else if (node.ExpressionBody != null)
             {

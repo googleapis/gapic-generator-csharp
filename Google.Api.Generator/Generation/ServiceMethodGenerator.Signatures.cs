@@ -22,6 +22,7 @@ using Google.Protobuf.Reflection;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using static Google.Api.Generator.RoslynUtils.Modifier;
 using static Google.Api.Generator.RoslynUtils.RoslynBuilder;
@@ -39,27 +40,25 @@ namespace Google.Api.Generator.Generation
                 private class ParameterInfo
                 {
                     public ParameterInfo(IReadOnlyList<FieldDescriptor> fieldDescs, ParameterSyntax parameter, object initExpr,
-                        ResourceDetails.Field resourceField, DocumentationCommentTriviaSyntax xmlDoc) =>
-                        (FieldDescs, Parameter, InitExpr, ResourceField, XmlDoc) = (fieldDescs, parameter, initExpr, resourceField, xmlDoc);
+                        string resourcePropertyName, DocumentationCommentTriviaSyntax xmlDoc) =>
+                        (FieldDescs, Parameter, InitExpr, ResourcePropertyName, XmlDoc) = (fieldDescs, parameter, initExpr, resourcePropertyName, xmlDoc);
                     /// <summary>Nesting fields; null if none.</summary>
                     public IReadOnlyList<FieldDescriptor> FieldDescs { get; }
                     public ParameterSyntax Parameter { get; }
                     public object InitExpr { get; }
-                    /// <summary>Not null if a resource-name field.</summary>
-                    public ResourceDetails.Field ResourceField { get; }
-                    /// <summary>If a resource-name field, is this a single or multi resource.</summary>
+                    public string ResourcePropertyName { get; }
                     public DocumentationCommentTriviaSyntax XmlDoc { get; }
                 }
 
                 public Signature(MethodDef def, MethodDetails.Signature sig) => (_def, _sig) = (def, sig);
 
-                private MethodDef _def;
-                private MethodDetails.Signature _sig;
+                private readonly MethodDef _def;
+                private readonly MethodDetails.Signature _sig;
 
                 private SourceFileContext Ctx => _def.Ctx;
                 private MethodDetails MethodDetails => _def.MethodDetails;
 
-                private object InitExpr(MethodDetails.Signature.Field field, ParameterSyntax param, bool treatAsResource = false)
+                private object InitExpr(MethodDetails.Signature.Field field, ParameterSyntax param, ResourceDetails.Field treatAsResource = null)
                 {
                     // Type                  | Single optional | Single required | Repeated optional | Repeated required
                     // ----------------------|-----------------|-----------------|-------------------|------------------
@@ -68,7 +67,7 @@ namespace Google.Api.Generator.Generation
                     // bytes                 | null -> byte[0] | check not null  | null -> empty     | check not null
                     // message               | null ok         | check not null  | null -> empty     | check not null
                     // resourcename (string) | null -> ""      | check not null  | null -> empty     | check not null
-                    // resourcenames use the generated partial resource-name-typde properties, which perform the string conversion.
+                    // resourcenames use the generated partial resource-name-type properties, which perform the string conversion.
                     if (field.IsMap)
                     {
                         return CollectionInitializer(field.IsRequired ?
@@ -78,12 +77,12 @@ namespace Google.Api.Generator.Generation
                     }
                     else if (field.IsRepeated)
                     {
-                        if (treatAsResource)
+                        if (treatAsResource is object)
                         {
                             return CollectionInitializer(field.IsRequired ?
                                 Ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(param, Nameof(param)) :
                                 param.NullCoalesce(Ctx.Type(typeof(Enumerable)).Call(
-                                    nameof(Enumerable.Empty), Ctx.Type(field.FieldResource.ResourceDefinition.ResourceNameTyp))()));
+                                    nameof(Enumerable.Empty), Ctx.Type(treatAsResource.ResourceDefinition.ResourceNameTyp))()));
                         }
                         else
                         {
@@ -94,7 +93,7 @@ namespace Google.Api.Generator.Generation
                     }
                     else
                     {
-                        if (treatAsResource)
+                        if (treatAsResource is object)
                         {
                             return field.IsRequired ?
                                 Ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(param, Nameof(param)) :
@@ -183,7 +182,7 @@ namespace Google.Api.Generator.Generation
                                     foreach (var param in f.OrderBy(x => x.FieldDescs?.Last().Index ?? int.MaxValue))
                                     {
                                         yield return (param.InitExpr as ObjectInitExpr) ??
-                                            new ObjectInitExpr(param.ResourceField?.ResourcePropertyName ??  param.FieldDescs.Last().CSharpPropertyName(), param.InitExpr);
+                                            new ObjectInitExpr(param.ResourcePropertyName ??  param.FieldDescs.Last().CSharpPropertyName(), param.InitExpr);
                                     }
                                 }
                                 else
@@ -219,19 +218,36 @@ namespace Google.Api.Generator.Generation
                     {
                         var ctx = signature.Ctx;
                         var fields = signature._sig.Fields;
-                        if (!fields.Any(f => f.FieldResource != null))
+                        if (!fields.Any(f => f.FieldResources is object))
                         {
-                            yield break;
+                            return Enumerable.Empty<ResourceName>();
                         }
-                        var parameters = fields.Select(field =>
+                        if (fields.Aggregate(1, (acc, f) => acc * (f.FieldResources?.Count ?? 1)) > 32)
                         {
-                            var parameter = Parameter(ctx.Type(MaybeRepeated(field.FieldResource?.ResourceDefinition.ResourceNameTyp) ?? field.Typ), field.ParameterName);
-                            Typ MaybeRepeated(Typ typ) => typ == null ? null : field.IsRepeated ? Typ.Generic(typeof(IEnumerable<>), typ) : typ;
-                            var initExpr = signature.InitExpr(field, parameter, field.FieldResource is object);
-                            var xmlDoc = XmlDoc.ParamPreFormatted(parameter, field.DocLines);
-                            return new ParameterInfo(field.Descs, parameter, initExpr, field.FieldResource, xmlDoc);
-                        }).ToList();
-                        yield return new ResourceName(signature, parameters);
+                            throw new InvalidOperationException($"Cannot generate >32 overloads for method signature: '{signature._def.MethodDetails.SyncMethodName}'");
+                        }
+                        var allOverloads = fields.Aggregate(ImmutableList.Create(ImmutableList<ParameterInfo>.Empty), (overloads, f) =>
+                        {
+                            IEnumerable<ParameterInfo> paramInfos;
+                            if (f.FieldResources is null)
+                            {
+                                var parameter = Parameter(ctx.Type(f.Typ), f.ParameterName);
+                                var xmlDoc = XmlDoc.ParamPreFormatted(parameter, f.DocLines);
+                                paramInfos = new[] { new ParameterInfo(f.Descs, parameter, signature.InitExpr(f, parameter), null, xmlDoc) };
+                            }
+                            else
+                            {
+                                paramInfos = f.FieldResources.Select(resDetails =>
+                                {
+                                    var typ = f.IsRepeated ? Typ.Generic(typeof(IEnumerable<>), resDetails.ResourceDefinition.ResourceNameTyp) : resDetails.ResourceDefinition.ResourceNameTyp;
+                                    var parameter = Parameter(ctx.Type(typ), f.ParameterName);
+                                    var xmlDoc = XmlDoc.ParamPreFormatted(parameter, f.DocLines);
+                                    return new ParameterInfo(f.Descs, parameter, signature.InitExpr(f, parameter, resDetails), resDetails.ResourcePropertyName, xmlDoc);
+                                }).ToList();
+                            }
+                            return overloads.SelectMany(overload => paramInfos.Select(paramInfo => overload.Add(paramInfo))).ToImmutableList();
+                        });
+                        return allOverloads.Select(parameters => new ResourceName(signature, parameters));
                     }
 
                     private ResourceName(Signature signature, IEnumerable<ParameterInfo> parameters)

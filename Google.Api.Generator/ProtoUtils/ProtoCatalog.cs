@@ -24,15 +24,6 @@ namespace Google.Api.Generator.ProtoUtils
     /// </summary>
     internal class ProtoCatalog
     {
-        class PatternsComparer : IEqualityComparer<ImmutableHashSet<string>>
-        {
-            public static PatternsComparer Instance { get; } = new PatternsComparer();
-
-            public bool Equals(ImmutableHashSet<string> x, ImmutableHashSet<string> y) => x.SetEquals(y);
-
-            public int GetHashCode(ImmutableHashSet<string> obj) => obj.Aggregate(0, (hash, s) => hash ^ s.GetHashCode());
-        }
-
         public ProtoCatalog(string defaultPackage, IEnumerable<FileDescriptor> descs, IEnumerable<CommonResources> commonResourcesConfigs)
         {
             _defaultPackage = defaultPackage;
@@ -41,18 +32,16 @@ namespace Google.Api.Generator.ProtoUtils
             _resourcesByFileName = ResourceDetails.LoadResourceDefinitionsByFileName(descs, commonResourcesConfigs).GroupBy(x => x.FileName)
                 .ToImmutableDictionary(x => x.Key, x => (IReadOnlyList<ResourceDetails.Definition>)x.ToImmutableList());
             var resourcesByUrt = _resourcesByFileName.Values.SelectMany(x => x).ToDictionary(x => x.UnifiedResourceTypeName);
-            var resourcesByPatterns = _resourcesByFileName.Values.SelectMany(x => x).Select(def =>
-                {
-                    var patterns = def.IsWildcard ? ImmutableHashSet<string>.Empty : def.Patterns.Select(x => x.PatternString).ToImmutableHashSet();
-                    return (patterns, def);
-                })
-                .Where(x => !x.patterns.IsEmpty)
-                .ToDictionary(x => x.patterns, x => x.def, PatternsComparer.Instance);
+            var resourcesByPattern = _resourcesByFileName.Values.SelectMany(x => x)
+                .SelectMany(def => def.Patterns.Where(x => !x.IsWildcard).Select(x => (x.PatternString, def)))
+                .GroupBy(x => x.PatternString, x => x.def)
+                .ToImmutableDictionary(x => x.Key, x => (IReadOnlyList<ResourceDetails.Definition>)x.ToImmutableList());
             _resourcesByFieldName = descs
-                .SelectMany(desc => desc.MessageTypes).SelectMany(MsgPlusNested)
+                .SelectMany(desc => desc.MessageTypes)
+                .SelectMany(MsgPlusNested)
                 .SelectMany(msg => msg.Fields.InFieldNumberOrder().Select(field =>
-                    (field, res: ResourceDetails.LoadResourceReference(msg, field, resourcesByUrt, resourcesByPatterns)))
-                    .Where(x => x.res != null))
+                    (field, res: (IReadOnlyList<ResourceDetails.Field>)ResourceDetails.LoadResourceReference(msg, field, resourcesByUrt, resourcesByPattern).ToList()))
+                    .Where(x => x.res.Any()))
                 .ToDictionary(x => x.field.FullName, x => x.res);
 
             IEnumerable<MessageDescriptor> MsgPlusNested(MessageDescriptor msgDesc) => msgDesc.NestedTypes.SelectMany(MsgPlusNested).Append(msgDesc);
@@ -60,13 +49,13 @@ namespace Google.Api.Generator.ProtoUtils
 
         private readonly string _defaultPackage;
         private readonly IReadOnlyDictionary<string, MessageDescriptor> _msgs;
-        private readonly IReadOnlyDictionary<string, ResourceDetails.Field> _resourcesByFieldName;
+        private readonly IReadOnlyDictionary<string, IReadOnlyList<ResourceDetails.Field>> _resourcesByFieldName;
         private readonly IReadOnlyDictionary<string, IReadOnlyList<ResourceDetails.Definition>> _resourcesByFileName;
 
         public MessageDescriptor GetMessageByName(string name) =>
             _msgs.GetValueOrDefault($"{_defaultPackage}.{name}") ?? _msgs.GetValueOrDefault(name);
 
-        public ResourceDetails.Field GetResourceDetailsByField(FieldDescriptor fieldDesc) => _resourcesByFieldName.GetValueOrDefault(fieldDesc.FullName);
+        public IReadOnlyList<ResourceDetails.Field> GetResourceDetailsByField(FieldDescriptor fieldDesc) => _resourcesByFieldName.GetValueOrDefault(fieldDesc.FullName);
 
         public IEnumerable<ResourceDetails.Definition> GetResourceDefsByFile(FileDescriptor fileDesc) =>
             _resourcesByFileName.GetValueOrDefault(fileDesc.Name, ImmutableList<ResourceDetails.Definition>.Empty);
