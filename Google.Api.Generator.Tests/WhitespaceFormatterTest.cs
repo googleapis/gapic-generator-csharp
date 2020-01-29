@@ -95,6 +95,19 @@ namespace Google.Api.Generator.Tests
                 set => _p4 = value;
             }
 
+            // Test get/set block-bodied property.
+            public string P5
+            {
+                get
+                {
+                    return _p4 + _p4;
+                }
+                set
+                {
+                    _p4 = value;
+                }
+            }
+
             public class ObjectWithProperties
             {
                 public string S { get; set; }
@@ -110,7 +123,7 @@ namespace Google.Api.Generator.Tests
 
             // Test property with initializer using nested object initialization.
             // Test object collection initialization.
-            public ObjectWithProperties P5 { get; set; } = new ObjectWithProperties
+            public ObjectWithProperties P6 { get; set; } = new ObjectWithProperties
             {
                 S = "A_string",
                 O = new ObjectWithProperties

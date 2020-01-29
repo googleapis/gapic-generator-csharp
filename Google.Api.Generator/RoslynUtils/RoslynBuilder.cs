@@ -167,14 +167,15 @@ namespace Google.Api.Generator.RoslynUtils
 
         public static CodeFunc<LambdaExpressionSyntax> Lambda(ParameterSyntax parameter, bool async = false) => code =>
         {
-            var expr = code.Length == 1 ?
-                SimpleLambdaExpression(parameter.WithType(null), ToExpression(code)) :
-                SimpleLambdaExpression(parameter.WithType(null), Block(ToStatements(code).ToArray()));
+            var statements = ToStatements(code).ToArray();
+            var expr = SimpleLambdaExpression(parameter.WithType(null), statements.Length == 1 ? MakeExpr(statements[0]) : Block(statements));
             if (async)
             {
                 expr = expr.WithAsyncKeyword(Token(SyntaxKind.AsyncKeyword));
             }
             return expr;
+            CSharpSyntaxNode MakeExpr(CSharpSyntaxNode c) =>
+                c is ReturnStatementSyntax ret ? ret.Expression : c is ExpressionStatementSyntax exprState ? exprState.Expression : c;
         };
 
         public static CodeFunc<LambdaExpressionSyntax> LambdaTyped(ParameterSyntax parameter, bool async = false) => code =>

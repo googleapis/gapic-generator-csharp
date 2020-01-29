@@ -107,7 +107,7 @@ namespace Google.Api.Generator.Utils
             public override string Name => null;
         }
 
-        private static IReadOnlyDictionary<string, Typ> s_wrapperTypes = new Dictionary<string, Typ>
+        private static readonly IReadOnlyDictionary<string, Typ> s_wrapperTypes = new Dictionary<string, Typ>
         {
             { "google.protobuf.BoolValue", Of<bool?>() },
             { "google.protobuf.Int32Value", Of<int?>() },
