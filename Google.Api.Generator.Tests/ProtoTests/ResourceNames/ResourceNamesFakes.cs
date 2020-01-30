@@ -47,43 +47,4 @@ namespace Testing.ResourceNames
     }
 
     public partial class Response : ProtoMsgFake<Response> { }
-
-    //public partial class SingleResource : ProtoMsgFake<SingleResource>
-    //{
-    //    public string Name { get; set; }
-    //}
-
-    //public partial class SingleResourceRef : ProtoMsgFake<SingleResourceRef>
-    //{
-    //    public string SingleResource { get; set; }
-    //    public string SingleResourceName { get; set; }
-    //}
-
-    //public partial class MultiResource : ProtoMsgFake<MultiResource>
-    //{
-    //    public string Name { get; set; }
-    //}
-
-    //public partial class MultiResourceRef : ProtoMsgFake<MultiResourceRef>
-    //{
-    //    public string MultiResource { get; set; }
-    //}
-
-    //public partial class FutureMultiResource : ProtoMsgFake<FutureMultiResource>
-    //{
-    //    public string Name { get; set; }
-    //}
-
-    //public partial class OriginallySingleResource : ProtoMsgFake<OriginallySingleResource>
-    //{
-    //    public string Name { get; set; }
-    //}
-
-    //public partial class OriginallySingleResourceRef : ProtoMsgFake<OriginallySingleResourceRef>
-    //{
-    //    public string Resource1 { get; set; }
-    //    public string Resource2 { get; set; }
-    //}
-
-    //public class Response : ProtoMsgFake<Response> { }
 }
