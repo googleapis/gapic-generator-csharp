@@ -237,7 +237,7 @@ namespace Google.Api.Generator.Generation
                             }
                             else
                             {
-                                paramInfos = f.FieldResources.Select(resDetails =>
+                                paramInfos = f.FieldResources.Where(resDetails => resDetails.ContainsWildcard != false).Select(resDetails =>
                                 {
                                     var typ = f.IsRepeated ? Typ.Generic(typeof(IEnumerable<>), resDetails.ResourceDefinition.ResourceNameTyp) : resDetails.ResourceDefinition.ResourceNameTyp;
                                     var parameter = Parameter(ctx.Type(typ), f.ParameterName);

@@ -130,7 +130,7 @@ namespace Google.Api.Generator.ProtoUtils
         /// </summary>
         public class Field
         {
-            public Field(FieldDescriptor fieldDesc, Definition resourceDef, IReadOnlyList<Definition> innerDefs = null)
+            public Field(FieldDescriptor fieldDesc, Definition resourceDef, IReadOnlyList<Definition> innerDefs = null, bool? containsWildcard = null)
             {
                 // innerFields only non-null for the IResourceName property of child_type refs.
                 IsRepeated = fieldDesc.IsRepeated;
@@ -138,10 +138,10 @@ namespace Google.Api.Generator.ProtoUtils
                 ResourceDefinition = resourceDef;
                 var requireIdentifier = !((fieldDesc.IsRepeated && fieldDesc.Name.ToLowerInvariant() == "names") ||
                     (!fieldDesc.IsRepeated && fieldDesc.Name.ToLowerInvariant() == "name"));
-                var requirePlural = fieldDesc.IsRepeated;
-                var nameBase = (requireIdentifier ? UnderlyingPropertyName : "") + (requireIdentifier ? "As" : "");
-                ResourcePropertyName = nameBase + (resourceDef.IsWildcardOnly ? "ResourceName" : resourceDef.ResourceNameTyp.Name) + (requirePlural ? "s" : "");
+                ResourcePropertyName = (requireIdentifier ? $"{UnderlyingPropertyName}As" : "") +
+                    (resourceDef.IsWildcardOnly ? "ResourceName" : resourceDef.ResourceNameTyp.Name) + (fieldDesc.IsRepeated ? "s" : "");
                 InnerDefs = innerDefs;
+                ContainsWildcard = containsWildcard;
             }
 
             public bool IsRepeated { get; }
@@ -155,8 +155,11 @@ namespace Google.Api.Generator.ProtoUtils
             /// <summary>The resource definition for this field.</summary>
             public Definition ResourceDefinition { get; }
 
-            /// <summary>All the resource definitions that are possible for a child_type ref; only populated for the IResourceName field.</summary>
+            /// <summary>All the resource definitions that are possible for a child_type ref; only populated for an IResourceName parent field.</summary>
             public IReadOnlyList<Definition> InnerDefs { get; }
+
+            /// <summary>If this is an IResourceName parent field, then does the parent contain a wildcard pattern.</summary>
+            public bool? ContainsWildcard { get; }
         }
 
         public static IReadOnlyList<Definition> LoadResourceDefinitionsByFileName(IEnumerable<FileDescriptor> descs, IEnumerable<CommonResources> commonResourcesConfigs)
@@ -271,7 +274,7 @@ namespace Google.Api.Generator.ProtoUtils
                     }
                     if (parentDefs.Any(x => x.HasWildcard) || parentDefs.Count > 1)
                     {
-                        yield return new Field(fieldDesc, Definition.WildcardResource, parentDefs.Count > 1 ? parentDefs : null);
+                        yield return new Field(fieldDesc, Definition.WildcardResource, parentDefs.Count > 1 ? parentDefs : null, parentPatternsSet.Contains("*"));
                     }
                 }
                 else

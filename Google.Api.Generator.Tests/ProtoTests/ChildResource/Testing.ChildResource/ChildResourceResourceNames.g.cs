@@ -2641,7 +2641,6 @@ namespace Testing.ChildResource
                 }
                 return gax::UnparsedResourceName.Parse(Ref);
             }
-            set => Ref = value?.ToString() ?? "";
         }
 
         /// <summary>
@@ -2886,7 +2885,6 @@ namespace Testing.ChildResource
                 }
                 return gax::UnparsedResourceName.Parse(Ref);
             }
-            set => Ref = value?.ToString() ?? "";
         }
 
         /// <summary>
