@@ -452,14 +452,10 @@ namespace Google.Api.Generator.Generation
                             }
                             else
                             {
-                                var property = Property(Public, _ctx.Type(def.ResourceNameTyp), field.ResourcePropertyName)
+                                return Property(Public, _ctx.Type(def.ResourceNameTyp), field.ResourcePropertyName)
                                     .WithGetBody(getBodyFn(underlyingProperty))
+                                    .WithSetBody(underlyingProperty.Assign(Value.Call(nameof(object.ToString), conditional: true)().NullCoalesce("")))
                                     .WithXmlDoc(xmlDocSummary);
-                                if (field.ContainsWildcard != false)
-                                {
-                                    property = property.WithSetBody(underlyingProperty.Assign(Value.Call(nameof(object.ToString), conditional: true)().NullCoalesce("")));
-                                }
-                                return property;
                             }
                         });
                         cls = cls.AddMembers(properties.ToArray());
