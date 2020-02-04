@@ -568,7 +568,8 @@ namespace Google.Api.Generator.Generation
                         }
                         var allOverloads = sig._sig.Fields.Aggregate(ImmutableList.Create(ImmutableList<Typ>.Empty), (overloads, f) =>
                         {
-                            var typs = f.FieldResources is null ? new[] { f.Typ } : f.FieldResources.Select(x => x.ResourceDefinition.ResourceNameTyp);
+                            var typs = f.FieldResources is null ? new[] { f.Typ }
+                                : f.FieldResources.Where(resDetails => resDetails.ContainsWildcard != false).Select(x => x.ResourceDefinition.ResourceNameTyp);
                             return overloads.SelectMany(overload => typs.Select(typ => overload.Add(typ))).ToImmutableList();
                         }).ToList();
                         return allOverloads.Select((typs, index) => new ResourceName(sig, typs, allOverloads.Count > 1 ? (int?)(index + 1) : null));
