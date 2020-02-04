@@ -175,7 +175,9 @@ namespace Google.Api.Generator.RoslynUtils
             }
             return expr;
             CSharpSyntaxNode MakeExpr(CSharpSyntaxNode c) =>
-                c is ReturnStatementSyntax ret ? ret.Expression : c is ExpressionStatementSyntax exprState ? exprState.Expression : c;
+                c is ReturnStatementSyntax ret ? ret.Expression :
+                c is ExpressionStatementSyntax exprState ? exprState.Expression :
+                c;
         };
 
         public static CodeFunc<LambdaExpressionSyntax> LambdaTyped(ParameterSyntax parameter, bool async = false) => code =>
