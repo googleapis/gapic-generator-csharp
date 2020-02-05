@@ -14,7 +14,7 @@ service ChildResource {
   }
 
   rpc WildcardParentMethod(WildcardParent) returns(Response) {
-    option (google.api.method_signature) = "ref, repeated_ref";
+    option (google.api.method_signature) = "ref, repeated_ref, ref_sugar, repeated_ref_sugar";
   }
 
   rpc TripleParentMethod(TripleParent) returns(Response) {
@@ -46,9 +46,16 @@ message SingleParent {
   repeated string repeated_ref = 2 [(google.api.resource_reference).child_type = "childresource.example.com/SinglePattern"];
 }
 
+option (google.api.resource_definition) = {
+  type: "childresource.example.com/WildcardOnly"
+  pattern: "*"
+};
+
 message WildcardParent {
-  string ref = 1 [(google.api.resource_reference).child_type = "*"];
-  repeated string repeated_ref = 2 [(google.api.resource_reference).child_type = "*"];
+  string ref = 1 [(google.api.resource_reference).child_type = "childresource.example.com/WildcardOnly"];
+  repeated string repeated_ref = 2 [(google.api.resource_reference).child_type = "childresource.example.com/WildcardOnly"];
+  string ref_sugar = 3 [(google.api.resource_reference).child_type = "*"];
+  repeated string repeated_ref_sugar = 4 [(google.api.resource_reference).child_type = "*"];
 }
 
 option (google.api.resource_definition) = {

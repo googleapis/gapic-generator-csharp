@@ -2591,6 +2591,23 @@ namespace Testing.ChildResource
         {
             get => new gax::ResourceNameList<gax::IResourceName>(RepeatedRef, s => string.IsNullOrEmpty(s) ? null : gax::UnparsedResourceName.Parse(s));
         }
+
+        /// <summary>
+        /// <see cref="gax::IResourceName"/>-typed view over the <see cref="RefSugar"/> resource name property.
+        /// </summary>
+        public gax::IResourceName RefSugarAsResourceName
+        {
+            get => string.IsNullOrEmpty(RefSugar) ? null : gax::UnparsedResourceName.Parse(RefSugar);
+            set => RefSugar = value?.ToString() ?? "";
+        }
+
+        /// <summary>
+        /// <see cref="gax::IResourceName"/>-typed view over the <see cref="RepeatedRefSugar"/> resource name property.
+        /// </summary>
+        public gax::ResourceNameList<gax::IResourceName> RepeatedRefSugarAsResourceNames
+        {
+            get => new gax::ResourceNameList<gax::IResourceName>(RepeatedRefSugar, s => string.IsNullOrEmpty(s) ? null : gax::UnparsedResourceName.Parse(s));
+        }
     }
 
     public partial class TripleParent

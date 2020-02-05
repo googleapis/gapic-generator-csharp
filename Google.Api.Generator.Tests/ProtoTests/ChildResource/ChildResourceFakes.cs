@@ -26,6 +26,8 @@ namespace Testing.ChildResource
     {
         public string Ref { get; set; }
         public RepeatedField<string> RepeatedRef { get; }
+        public string RefSugar { get; set; }
+        public RepeatedField<string> RepeatedRefSugar { get; }
     }
 
     public partial class TripleParent : ProtoMsgFake<TripleParent>
