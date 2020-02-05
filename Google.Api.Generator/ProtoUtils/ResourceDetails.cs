@@ -272,7 +272,7 @@ namespace Google.Api.Generator.ProtoUtils
                     {
                         yield return new Field(fieldDesc, parentDef);
                     }
-                    if (parentDefs.Any(x => x.HasWildcard) || parentDefs.Count > 1)
+                    if (parentDefs.Any(x => x.HasWildcard) || childDef.IsWildcardOnly || parentDefs.Count > 1)
                     {
                         yield return new Field(fieldDesc, Definition.WildcardResource, parentDefs.Count > 1 ? parentDefs : null, parentPatternsSet.Contains("*"));
                     }

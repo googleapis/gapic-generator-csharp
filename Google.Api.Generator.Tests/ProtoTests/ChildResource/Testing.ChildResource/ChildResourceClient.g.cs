@@ -175,9 +175,13 @@ namespace Testing.ChildResource
         /// </param>
         /// <param name="repeatedRef">
         /// </param>
+        /// <param name="refSugar">
+        /// </param>
+        /// <param name="repeatedRefSugar">
+        /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The RPC response.</returns>
-        public virtual Response WildcardParentMethod(string @ref, scg::IEnumerable<string> repeatedRef, gaxgrpc::CallSettings callSettings = null) =>
+        public virtual Response WildcardParentMethod(string @ref, scg::IEnumerable<string> repeatedRef, string refSugar, scg::IEnumerable<string> repeatedRefSugar, gaxgrpc::CallSettings callSettings = null) =>
             WildcardParentMethod(new WildcardParent
             {
                 Ref = @ref ?? "",
@@ -185,6 +189,11 @@ namespace Testing.ChildResource
                 {
                     repeatedRef ?? linq::Enumerable.Empty<string>(),
                 },
+                RefSugar = refSugar ?? "",
+                RepeatedRefSugar =
+                {
+                    repeatedRefSugar ?? linq::Enumerable.Empty<string>(),
+                },
             }, callSettings);
 
         /// <summary>
@@ -193,9 +202,13 @@ namespace Testing.ChildResource
         /// </param>
         /// <param name="repeatedRef">
         /// </param>
+        /// <param name="refSugar">
+        /// </param>
+        /// <param name="repeatedRefSugar">
+        /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<Response> WildcardParentMethodAsync(string @ref, scg::IEnumerable<string> repeatedRef, gaxgrpc::CallSettings callSettings = null) =>
+        public virtual stt::Task<Response> WildcardParentMethodAsync(string @ref, scg::IEnumerable<string> repeatedRef, string refSugar, scg::IEnumerable<string> repeatedRefSugar, gaxgrpc::CallSettings callSettings = null) =>
             WildcardParentMethodAsync(new WildcardParent
             {
                 Ref = @ref ?? "",
@@ -203,6 +216,11 @@ namespace Testing.ChildResource
                 {
                     repeatedRef ?? linq::Enumerable.Empty<string>(),
                 },
+                RefSugar = refSugar ?? "",
+                RepeatedRefSugar =
+                {
+                    repeatedRefSugar ?? linq::Enumerable.Empty<string>(),
+                },
             }, callSettings);
 
         /// <summary>
@@ -211,10 +229,14 @@ namespace Testing.ChildResource
         /// </param>
         /// <param name="repeatedRef">
         /// </param>
+        /// <param name="refSugar">
+        /// </param>
+        /// <param name="repeatedRefSugar">
+        /// </param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
         /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<Response> WildcardParentMethodAsync(string @ref, scg::IEnumerable<string> repeatedRef, st::CancellationToken cancellationToken) =>
-            WildcardParentMethodAsync(@ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+        public virtual stt::Task<Response> WildcardParentMethodAsync(string @ref, scg::IEnumerable<string> repeatedRef, string refSugar, scg::IEnumerable<string> repeatedRefSugar, st::CancellationToken cancellationToken) =>
+            WildcardParentMethodAsync(@ref, repeatedRef, refSugar, repeatedRefSugar, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
         /// </summary>
@@ -222,9 +244,13 @@ namespace Testing.ChildResource
         /// </param>
         /// <param name="repeatedRef">
         /// </param>
+        /// <param name="refSugar">
+        /// </param>
+        /// <param name="repeatedRefSugar">
+        /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The RPC response.</returns>
-        public virtual Response WildcardParentMethod(gax::IResourceName @ref, scg::IEnumerable<gax::IResourceName> repeatedRef, gaxgrpc::CallSettings callSettings = null) =>
+        public virtual Response WildcardParentMethod(gax::IResourceName @ref, scg::IEnumerable<gax::IResourceName> repeatedRef, gax::IResourceName refSugar, scg::IEnumerable<gax::IResourceName> repeatedRefSugar, gaxgrpc::CallSettings callSettings = null) =>
             WildcardParentMethod(new WildcardParent
             {
                 RefAsResourceName = @ref,
@@ -232,23 +258,10 @@ namespace Testing.ChildResource
                 {
                     repeatedRef ?? linq::Enumerable.Empty<gax::IResourceName>(),
                 },
-            }, callSettings);
-
-        /// <summary>
-        /// </summary>
-        /// <param name="ref">
-        /// </param>
-        /// <param name="repeatedRef">
-        /// </param>
-        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
-        /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<Response> WildcardParentMethodAsync(gax::IResourceName @ref, scg::IEnumerable<gax::IResourceName> repeatedRef, gaxgrpc::CallSettings callSettings = null) =>
-            WildcardParentMethodAsync(new WildcardParent
-            {
-                RefAsResourceName = @ref,
-                RepeatedRefAsResourceNames =
+                RefSugarAsResourceName = refSugar,
+                RepeatedRefSugarAsResourceNames =
                 {
-                    repeatedRef ?? linq::Enumerable.Empty<gax::IResourceName>(),
+                    repeatedRefSugar ?? linq::Enumerable.Empty<gax::IResourceName>(),
                 },
             }, callSettings);
 
@@ -258,10 +271,41 @@ namespace Testing.ChildResource
         /// </param>
         /// <param name="repeatedRef">
         /// </param>
+        /// <param name="refSugar">
+        /// </param>
+        /// <param name="repeatedRefSugar">
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<Response> WildcardParentMethodAsync(gax::IResourceName @ref, scg::IEnumerable<gax::IResourceName> repeatedRef, gax::IResourceName refSugar, scg::IEnumerable<gax::IResourceName> repeatedRefSugar, gaxgrpc::CallSettings callSettings = null) =>
+            WildcardParentMethodAsync(new WildcardParent
+            {
+                RefAsResourceName = @ref,
+                RepeatedRefAsResourceNames =
+                {
+                    repeatedRef ?? linq::Enumerable.Empty<gax::IResourceName>(),
+                },
+                RefSugarAsResourceName = refSugar,
+                RepeatedRefSugarAsResourceNames =
+                {
+                    repeatedRefSugar ?? linq::Enumerable.Empty<gax::IResourceName>(),
+                },
+            }, callSettings);
+
+        /// <summary>
+        /// </summary>
+        /// <param name="ref">
+        /// </param>
+        /// <param name="repeatedRef">
+        /// </param>
+        /// <param name="refSugar">
+        /// </param>
+        /// <param name="repeatedRefSugar">
+        /// </param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
         /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<Response> WildcardParentMethodAsync(gax::IResourceName @ref, scg::IEnumerable<gax::IResourceName> repeatedRef, st::CancellationToken cancellationToken) =>
-            WildcardParentMethodAsync(@ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+        public virtual stt::Task<Response> WildcardParentMethodAsync(gax::IResourceName @ref, scg::IEnumerable<gax::IResourceName> repeatedRef, gax::IResourceName refSugar, scg::IEnumerable<gax::IResourceName> repeatedRefSugar, st::CancellationToken cancellationToken) =>
+            WildcardParentMethodAsync(@ref, repeatedRef, refSugar, repeatedRefSugar, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
         /// </summary>
