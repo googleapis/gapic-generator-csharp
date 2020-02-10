@@ -431,6 +431,11 @@ namespace Testing.ResourceNames
             }
         }
 
+        /// <summary>
+        /// Constructs a new instance of <see cref="MultiResourceNameOneOf"/> with an expected type and a resource name.
+        /// </summary>
+        /// <param name="type">The expected type of this oneof.</param>
+        /// <param name="name">The resource name represented by this oneof. Must not be <c>null</c>.</param>
         public MultiResourceNameOneOf(OneofType type, gax::IResourceName name)
         {
             Type = gax::GaxPreconditions.CheckEnumValue<OneofType>(type, nameof(type));
@@ -700,6 +705,12 @@ namespace Testing.ResourceNames
             }
         }
 
+        /// <summary>
+        /// Constructs a new instance of <see cref="FutureMultiResourceNameOneOf"/> with an expected type and a resource
+        /// name.
+        /// </summary>
+        /// <param name="type">The expected type of this oneof.</param>
+        /// <param name="name">The resource name represented by this oneof. Must not be <c>null</c>.</param>
         public FutureMultiResourceNameOneOf(OneofType type, gax::IResourceName name)
         {
             Type = gax::GaxPreconditions.CheckEnumValue<OneofType>(type, nameof(type));
@@ -1095,6 +1106,12 @@ namespace Testing.ResourceNames
             }
         }
 
+        /// <summary>
+        /// Constructs a new instance of <see cref="OriginallySingleResourceNameOneOf"/> with an expected type and a
+        /// resource name.
+        /// </summary>
+        /// <param name="type">The expected type of this oneof.</param>
+        /// <param name="name">The resource name represented by this oneof. Must not be <c>null</c>.</param>
         public OriginallySingleResourceNameOneOf(OneofType type, gax::IResourceName name)
         {
             Type = gax::GaxPreconditions.CheckEnumValue<OneofType>(type, nameof(type));

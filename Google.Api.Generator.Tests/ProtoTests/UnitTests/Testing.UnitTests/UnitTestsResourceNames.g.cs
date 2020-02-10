@@ -445,6 +445,12 @@ namespace Testing.UnitTests
             }
         }
 
+        /// <summary>
+        /// Constructs a new instance of <see cref="MultiPatternResourceNameOneOf"/> with an expected type and a
+        /// resource name.
+        /// </summary>
+        /// <param name="type">The expected type of this oneof.</param>
+        /// <param name="name">The resource name represented by this oneof. Must not be <c>null</c>.</param>
         public MultiPatternResourceNameOneOf(OneofType type, gax::IResourceName name)
         {
             Type = gax::GaxPreconditions.CheckEnumValue<OneofType>(type, nameof(type));
