@@ -519,6 +519,11 @@ namespace Testing.ChildResource
             }
         }
 
+        /// <summary>
+        /// Constructs a new instance of <see cref="MultiRootItemNameOneOf"/> with an expected type and a resource name.
+        /// </summary>
+        /// <param name="type">The expected type of this oneof.</param>
+        /// <param name="name">The resource name represented by this oneof. Must not be <c>null</c>.</param>
         public MultiRootItemNameOneOf(OneofType type, gax::IResourceName name)
         {
             Type = gax::GaxPreconditions.CheckEnumValue<OneofType>(type, nameof(type));
@@ -868,6 +873,11 @@ namespace Testing.ChildResource
             }
         }
 
+        /// <summary>
+        /// Constructs a new instance of <see cref="RootsNameOneOf"/> with an expected type and a resource name.
+        /// </summary>
+        /// <param name="type">The expected type of this oneof.</param>
+        /// <param name="name">The resource name represented by this oneof. Must not be <c>null</c>.</param>
         public RootsNameOneOf(OneofType type, gax::IResourceName name)
         {
             Type = gax::GaxPreconditions.CheckEnumValue<OneofType>(type, nameof(type));

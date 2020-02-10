@@ -372,7 +372,11 @@ namespace Google.Api.Generator.Generation
                         nameProp.Assign(_ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(name, Nameof(name))),
                         If(Not(This.Call(isValid)(type, name))).Then(
                             Throw(New(_ctx.Type<ArgumentException>())(Dollar($"Mismatched OneofType '{type}' and resource name '{name}'")))))
-                    .WithXmlDoc();
+                    .WithXmlDoc(
+                        XmlDoc.Summary("Constructs a new instance of ", _ctx.Type(_def.ContainerTyp), " with an expected type and a resource name."),
+                        XmlDoc.Param(type, "The expected type of this oneof."),
+                        XmlDoc.Param(name, "The resource name represented by this oneof. Must not be ", null, "."));
+
             }
 
             private PropertyDeclarationSyntax TypeProperty() => AutoProperty(Public, _ctx.Type(OneOfTypeEnumTyp), "Type")
