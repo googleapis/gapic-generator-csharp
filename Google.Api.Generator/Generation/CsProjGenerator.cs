@@ -20,8 +20,8 @@ namespace Google.Api.Generator.Generation
 {
     internal static class CsProjGenerator
     {
-        private const string GaxGrpcVersion = "3.0.0-alpha00";
-        private const string GrpcCoreVersion = "2.25.0";
+        private const string GaxGrpcCoreVersion = "3.0.0-alpha00";
+        private const string GrpcCoreVersion = "2.27.0";
         private const string LroVersion = "2.0.0-beta00";
 
         public static string GenerateClient(bool hasLro)
@@ -71,7 +71,7 @@ namespace Google.Api.Generator.Generation
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include=""Google.Api.Gax.Grpc"" Version=""{GaxGrpcVersion}"" />
+    <PackageReference Include=""Google.Api.Gax.Grpc.GrpcCore"" Version=""{GaxGrpcCoreVersion}"" />
     <PackageReference Include=""Grpc.Core"" Version=""{GrpcCoreVersion}"" />{packageRefs}
   </ItemGroup>
 
