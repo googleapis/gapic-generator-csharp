@@ -168,8 +168,9 @@ namespace Google.Api.Generator.ProtoUtils
                 ImmutableDictionary<string, CommonResource>.Empty;
             // TODO: Support new (Sept 2019) `name_descriptor` way of specifying resource-names.
             var msgsFromProtoMsgs = descs
-                .SelectMany(fileDesc => fileDesc.MessageTypes.Select(msgDesc =>
-                    (fileDesc, msgDesc, resDesc: msgDesc.SafeGetOption(ResourceExtensions.Resource))))
+                .SelectMany(fileDesc => fileDesc.MessageTypes
+                    .SelectMany(GetMessagesAndSelf)
+                    .Select(msgDesc =>(fileDesc, msgDesc, resDesc: msgDesc.SafeGetOption(ResourceExtensions.Resource))))
                 .Where(x => x.resDesc != null)
                 .Select(x => (x.fileDesc, x.msgDesc, x.resDesc, shortName: GetShortName(x.resDesc)));
             var msgsFromFileAnnotation = descs
@@ -192,6 +193,12 @@ namespace Google.Api.Generator.ProtoUtils
                 }
                 return typeParts[1];
             }
+
+            // Recurses through a message's nested messages to get all descendant messages. This is required
+            // in order to pick up resource definitions on nested types.
+            // TODO: A test for this.
+            IEnumerable<MessageDescriptor> GetMessagesAndSelf(MessageDescriptor message) =>
+                message.NestedTypes.SelectMany(GetMessagesAndSelf).Append(message);
         }
 
         public static IEnumerable<Field> LoadResourceReference(MessageDescriptor msgDesc, FieldDescriptor fieldDesc,
