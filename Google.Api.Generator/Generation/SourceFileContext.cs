@@ -42,6 +42,7 @@ namespace Google.Api.Generator.Generation
                 { typeof(System.Linq.Enumerable).Namespace, "linq" },
                 { typeof(Google.Api.Gax.Expiration).Namespace, "gax" },
                 { typeof(Google.Api.Gax.Grpc.CallSettings).Namespace, "gaxgrpc" },
+                { typeof(Google.Api.Gax.Grpc.GrpcCore.GrpcCoreAdapter).Namespace, "gaxgrpccore" },
                 { typeof(Grpc.Core.CallCredentials).Namespace, "grpccore" },
                 { typeof(Grpc.Core.Interceptors.Interceptor).Namespace, "grpcinter" },
                 { typeof(Google.Protobuf.WellKnownTypes.Any).Namespace, "wkt" },
