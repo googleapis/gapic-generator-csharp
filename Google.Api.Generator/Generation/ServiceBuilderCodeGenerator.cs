@@ -13,9 +13,11 @@
 // limitations under the License.
 
 using Google.Api.Gax.Grpc;
+using Google.Api.Gax.Grpc.GrpcCore;
 using Google.Api.Generator.RoslynUtils;
 using Google.Api.Generator.Utils;
 using Grpc.Core;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections.Generic;
 using System.Threading;
@@ -52,6 +54,7 @@ namespace Google.Api.Generator.Generation
                 cls = cls.AddMembers(GetDefaultEndpoint());
                 cls = cls.AddMembers(GetDefaultScopes());
                 cls = cls.AddMembers(GetChannelPool());
+                cls = cls.AddMembers(DefaultGrpcAdapter());
             }
             return cls;
         }
@@ -96,6 +99,11 @@ namespace Google.Api.Generator.Generation
         private MethodDeclarationSyntax GetChannelPool() =>
             Method(Protected | Override, _ctx.Type<ChannelPool>(), "GetChannelPool")()
                 .WithBody(_ctx.Type(_svc.ClientAbstractTyp).Access("ChannelPool"))
+                .WithXmlDoc(XmlDoc.InheritDoc);
+
+        private PropertyDeclarationSyntax DefaultGrpcAdapter() =>
+            Property(Protected | Override, _ctx.Type<GrpcAdapter>(), "DefaultGrpcAdapter")
+                .WithGetBody(_ctx.Type<GrpcCoreAdapter>().Access(nameof(GrpcCoreAdapter.Instance)))
                 .WithXmlDoc(XmlDoc.InheritDoc);
     }
 }
