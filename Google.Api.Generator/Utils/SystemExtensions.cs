@@ -25,7 +25,7 @@ namespace Google.Api.Generator.Utils
         private static string Camelizer(string s, bool firstUpper, bool forceAllChars) =>
             s.Aggregate((upper: (bool?)firstUpper, prev: '\0', sb: new StringBuilder()), (acc, c) =>
                 !char.IsLetterOrDigit(c) ?
-                    (true, c, acc.sb) :
+                    (acc.sb.Length > 0 ? true : firstUpper, c, acc.sb) :
                     (char.IsDigit(c) ? true : forceAllChars ? (bool?)false : null, c,
                         acc.sb.Append(MaybeForceCase(c, char.IsLower(acc.prev) && char.IsUpper(c) ? true : acc.upper))),
                 acc => acc.sb.ToString());
