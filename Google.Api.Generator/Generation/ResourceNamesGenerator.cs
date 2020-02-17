@@ -88,8 +88,18 @@ namespace Google.Api.Generator.Generation
             {
                 PatternString = pattern.PatternString;
                 PathElements = pattern.Template.ParameterNames.Select(name => new PathElement(ctx, def, name)).ToList();
-                UpperName = string.Join("", PathElements.Select(x => x.UpperCamel));
-                LowerName = string.Join("", PathElements.Take(1).Select(x => x.LowerCamel).Concat(PathElements.Skip(1).Select(x => x.UpperCamel)));
+                if (PathElements.Count == 0)
+                {
+                    // Path-template contains no parameters, special naming required.
+                    UpperName = PatternString.ToUpperCamelCase();
+                    LowerName = PatternString.ToLowerCamelCase();
+                }
+                else
+                {
+                    // Standard naming, concat all parameter names.
+                    UpperName = string.Join("", PathElements.Select(x => x.UpperCamel));
+                    LowerName = string.Join("", PathElements.Take(1).Select(x => x.LowerCamel).Concat(PathElements.Skip(1).Select(x => x.UpperCamel)));
+                }
                 PathTemplateField = Field(Private | Static, ctx.Type<PathTemplate>(), $"s_{LowerName}").WithInitializer(New(ctx.Type<PathTemplate>())(pattern.PatternString));
             }
 

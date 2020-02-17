@@ -428,15 +428,20 @@ namespace Testing.ResourceNames
             /// <summary>An unparsed resource name.</summary>
             Unparsed = 0,
 
+            /// <summary>A resource name with pattern <c>const-pattern</c>.</summary>
+            ConstPattern = 1,
+
             /// <summary>A resource name with pattern <c>items_a/{item_a_id}</c>.</summary>
-            ItemA = 1,
+            ItemA = 2,
 
             /// <summary>A resource name with pattern <c>items_b/{item_b_id}</c>.</summary>
-            ItemB = 2,
+            ItemB = 3,
 
             /// <summary>A resource name with pattern <c>items_c/{item_c_id}</c>.</summary>
-            ItemC = 3
+            ItemC = 4
         }
+
+        private static gax::PathTemplate s_constPattern = new gax::PathTemplate("const-pattern");
 
         private static gax::PathTemplate s_itemA = new gax::PathTemplate("items_a/{item_a_id}");
 
@@ -454,6 +459,15 @@ namespace Testing.ResourceNames
         /// </returns>
         public static WildcardMultiPatternMultipleName FromUnparsed(gax::UnparsedResourceName unparsedResourceName) =>
             new WildcardMultiPatternMultipleName(ResourceNameType.Unparsed, gax::GaxPreconditions.CheckNotNull(unparsedResourceName, nameof(unparsedResourceName)));
+
+        /// <summary>
+        /// Creates a <see cref="WildcardMultiPatternMultipleName"/> with the pattern <c>const-pattern</c>.
+        /// </summary>
+        /// <returns>
+        /// A new instance of <see cref="WildcardMultiPatternMultipleName"/> constructed from the provided ids.
+        /// </returns>
+        public static WildcardMultiPatternMultipleName FromConstPattern() =>
+            new WildcardMultiPatternMultipleName(ResourceNameType.ConstPattern);
 
         /// <summary>
         /// Creates a <see cref="WildcardMultiPatternMultipleName"/> with the pattern <c>items_a/{item_a_id}</c>.
@@ -487,14 +501,23 @@ namespace Testing.ResourceNames
 
         /// <summary>
         /// Formats the IDs into the string representation of this <see cref="WildcardMultiPatternMultipleName"/> with
-        /// pattern <c>items_a/{item_a_id}</c>.
+        /// pattern <c>const-pattern</c>.
         /// </summary>
-        /// <param name="itemAId">The <c>ItemA</c> ID. Must not be <c>null</c> or empty.</param>
         /// <returns>
         /// The string representation of this <see cref="WildcardMultiPatternMultipleName"/> with pattern
-        /// <c>items_a/{item_a_id}</c>.
+        /// <c>const-pattern</c>.
         /// </returns>
-        public static string Format(string itemAId) => FormatItemA(itemAId);
+        public static string Format() => FormatConstPattern();
+
+        /// <summary>
+        /// Formats the IDs into the string representation of this <see cref="WildcardMultiPatternMultipleName"/> with
+        /// pattern <c>const-pattern</c>.
+        /// </summary>
+        /// <returns>
+        /// The string representation of this <see cref="WildcardMultiPatternMultipleName"/> with pattern
+        /// <c>const-pattern</c>.
+        /// </returns>
+        public static string FormatConstPattern() => s_constPattern.Expand();
 
         /// <summary>
         /// Formats the IDs into the string representation of this <see cref="WildcardMultiPatternMultipleName"/> with
@@ -538,6 +561,7 @@ namespace Testing.ResourceNames
         /// <remarks>
         /// To parse successfully, the resource name must be formatted as one of the following:
         /// <list type="bullet">
+        /// <item><description><c>const-pattern</c></description></item>
         /// <item><description><c>items_a/{item_a_id}</c></description></item>
         /// <item><description><c>items_b/{item_b_id}</c></description></item>
         /// <item><description><c>items_c/{item_c_id}</c></description></item>
@@ -557,6 +581,7 @@ namespace Testing.ResourceNames
         /// <remarks>
         /// To parse successfully, the resource name must be formatted as one of the following:
         /// <list type="bullet">
+        /// <item><description><c>const-pattern</c></description></item>
         /// <item><description><c>items_a/{item_a_id}</c></description></item>
         /// <item><description><c>items_b/{item_b_id}</c></description></item>
         /// <item><description><c>items_c/{item_c_id}</c></description></item>
@@ -582,6 +607,7 @@ namespace Testing.ResourceNames
         /// <remarks>
         /// To parse successfully, the resource name must be formatted as one of the following:
         /// <list type="bullet">
+        /// <item><description><c>const-pattern</c></description></item>
         /// <item><description><c>items_a/{item_a_id}</c></description></item>
         /// <item><description><c>items_b/{item_b_id}</c></description></item>
         /// <item><description><c>items_c/{item_c_id}</c></description></item>
@@ -605,6 +631,7 @@ namespace Testing.ResourceNames
         /// <remarks>
         /// To parse successfully, the resource name must be formatted as one of the following:
         /// <list type="bullet">
+        /// <item><description><c>const-pattern</c></description></item>
         /// <item><description><c>items_a/{item_a_id}</c></description></item>
         /// <item><description><c>items_b/{item_b_id}</c></description></item>
         /// <item><description><c>items_c/{item_c_id}</c></description></item>
@@ -628,6 +655,11 @@ namespace Testing.ResourceNames
         {
             gax::GaxPreconditions.CheckNotNull(wildcardMultiPatternMultipleName, nameof(wildcardMultiPatternMultipleName));
             gax::TemplatedResourceName resourceName;
+            if (s_constPattern.TryParseName(wildcardMultiPatternMultipleName, out resourceName))
+            {
+                result = FromConstPattern();
+                return true;
+            }
             if (s_itemA.TryParseName(wildcardMultiPatternMultipleName, out resourceName))
             {
                 result = FromItemA(resourceName[0]);
@@ -697,6 +729,7 @@ namespace Testing.ResourceNames
             switch (Type)
             {
                 case ResourceNameType.Unparsed: return UnparsedResource.ToString();
+                case ResourceNameType.ConstPattern: return s_constPattern.Expand();
                 case ResourceNameType.ItemA: return s_itemA.Expand(ItemAId);
                 case ResourceNameType.ItemB: return s_itemB.Expand(ItemBId);
                 case ResourceNameType.ItemC: return s_itemC.Expand(ItemCId);
