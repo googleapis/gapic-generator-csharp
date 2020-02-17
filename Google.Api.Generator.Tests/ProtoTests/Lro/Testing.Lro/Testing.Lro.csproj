@@ -40,9 +40,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Google.Api.Gax.Grpc.GrpcCore" Version="3.0.0-alpha00" />
+    <PackageReference Include="Google.Api.Gax.Grpc.GrpcCore" Version="3.0.0-beta01" />
     <PackageReference Include="Grpc.Core" Version="2.27.0" />
-    <PackageReference Include="Google.LongRunning" Version="2.0.0-beta00" />
+    <PackageReference Include="Google.LongRunning" Version="2.0.0-beta01" />
   </ItemGroup>
 
 </Project>
