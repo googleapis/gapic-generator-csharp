@@ -428,20 +428,30 @@ namespace Testing.ResourceNames
             /// <summary>An unparsed resource name.</summary>
             Unparsed = 0,
 
-            /// <summary>A resource name with pattern <c>const-pattern</c>.</summary>
-            ConstPattern = 1,
+            /// <summary>A resource name with pattern <c>const-pattern-lower</c>.</summary>
+            ConstPatternLower = 1,
+
+            /// <summary>A resource name with pattern <c>Const-Pattern-Upper</c>.</summary>
+            ConstPatternUpper = 2,
+
+            /// <summary>A resource name with pattern <c>__const_pattern_trimmable__</c>.</summary>
+            ConstPatternTrimmable = 3,
 
             /// <summary>A resource name with pattern <c>items_a/{item_a_id}</c>.</summary>
-            ItemA = 2,
+            ItemA = 4,
 
             /// <summary>A resource name with pattern <c>items_b/{item_b_id}</c>.</summary>
-            ItemB = 3,
+            ItemB = 5,
 
             /// <summary>A resource name with pattern <c>items_c/{item_c_id}</c>.</summary>
-            ItemC = 4
+            ItemC = 6
         }
 
-        private static gax::PathTemplate s_constPattern = new gax::PathTemplate("const-pattern");
+        private static gax::PathTemplate s_constPatternLower = new gax::PathTemplate("const-pattern-lower");
+
+        private static gax::PathTemplate s_constPatternUpper = new gax::PathTemplate("Const-Pattern-Upper");
+
+        private static gax::PathTemplate s_constPatternTrimmable = new gax::PathTemplate("__const_pattern_trimmable__");
 
         private static gax::PathTemplate s_itemA = new gax::PathTemplate("items_a/{item_a_id}");
 
@@ -461,13 +471,32 @@ namespace Testing.ResourceNames
             new WildcardMultiPatternMultipleName(ResourceNameType.Unparsed, gax::GaxPreconditions.CheckNotNull(unparsedResourceName, nameof(unparsedResourceName)));
 
         /// <summary>
-        /// Creates a <see cref="WildcardMultiPatternMultipleName"/> with the pattern <c>const-pattern</c>.
+        /// Creates a <see cref="WildcardMultiPatternMultipleName"/> with the pattern <c>const-pattern-lower</c>.
         /// </summary>
         /// <returns>
         /// A new instance of <see cref="WildcardMultiPatternMultipleName"/> constructed from the provided ids.
         /// </returns>
-        public static WildcardMultiPatternMultipleName FromConstPattern() =>
-            new WildcardMultiPatternMultipleName(ResourceNameType.ConstPattern);
+        public static WildcardMultiPatternMultipleName FromConstPatternLower() =>
+            new WildcardMultiPatternMultipleName(ResourceNameType.ConstPatternLower);
+
+        /// <summary>
+        /// Creates a <see cref="WildcardMultiPatternMultipleName"/> with the pattern <c>Const-Pattern-Upper</c>.
+        /// </summary>
+        /// <returns>
+        /// A new instance of <see cref="WildcardMultiPatternMultipleName"/> constructed from the provided ids.
+        /// </returns>
+        public static WildcardMultiPatternMultipleName FromConstPatternUpper() =>
+            new WildcardMultiPatternMultipleName(ResourceNameType.ConstPatternUpper);
+
+        /// <summary>
+        /// Creates a <see cref="WildcardMultiPatternMultipleName"/> with the pattern <c>__const_pattern_trimmable__</c>
+        /// .
+        /// </summary>
+        /// <returns>
+        /// A new instance of <see cref="WildcardMultiPatternMultipleName"/> constructed from the provided ids.
+        /// </returns>
+        public static WildcardMultiPatternMultipleName FromConstPatternTrimmable() =>
+            new WildcardMultiPatternMultipleName(ResourceNameType.ConstPatternTrimmable);
 
         /// <summary>
         /// Creates a <see cref="WildcardMultiPatternMultipleName"/> with the pattern <c>items_a/{item_a_id}</c>.
@@ -501,23 +530,43 @@ namespace Testing.ResourceNames
 
         /// <summary>
         /// Formats the IDs into the string representation of this <see cref="WildcardMultiPatternMultipleName"/> with
-        /// pattern <c>const-pattern</c>.
+        /// pattern <c>const-pattern-lower</c>.
         /// </summary>
         /// <returns>
         /// The string representation of this <see cref="WildcardMultiPatternMultipleName"/> with pattern
-        /// <c>const-pattern</c>.
+        /// <c>const-pattern-lower</c>.
         /// </returns>
-        public static string Format() => FormatConstPattern();
+        public static string Format() => FormatConstPatternLower();
 
         /// <summary>
         /// Formats the IDs into the string representation of this <see cref="WildcardMultiPatternMultipleName"/> with
-        /// pattern <c>const-pattern</c>.
+        /// pattern <c>const-pattern-lower</c>.
         /// </summary>
         /// <returns>
         /// The string representation of this <see cref="WildcardMultiPatternMultipleName"/> with pattern
-        /// <c>const-pattern</c>.
+        /// <c>const-pattern-lower</c>.
         /// </returns>
-        public static string FormatConstPattern() => s_constPattern.Expand();
+        public static string FormatConstPatternLower() => s_constPatternLower.Expand();
+
+        /// <summary>
+        /// Formats the IDs into the string representation of this <see cref="WildcardMultiPatternMultipleName"/> with
+        /// pattern <c>Const-Pattern-Upper</c>.
+        /// </summary>
+        /// <returns>
+        /// The string representation of this <see cref="WildcardMultiPatternMultipleName"/> with pattern
+        /// <c>Const-Pattern-Upper</c>.
+        /// </returns>
+        public static string FormatConstPatternUpper() => s_constPatternUpper.Expand();
+
+        /// <summary>
+        /// Formats the IDs into the string representation of this <see cref="WildcardMultiPatternMultipleName"/> with
+        /// pattern <c>__const_pattern_trimmable__</c>.
+        /// </summary>
+        /// <returns>
+        /// The string representation of this <see cref="WildcardMultiPatternMultipleName"/> with pattern
+        /// <c>__const_pattern_trimmable__</c>.
+        /// </returns>
+        public static string FormatConstPatternTrimmable() => s_constPatternTrimmable.Expand();
 
         /// <summary>
         /// Formats the IDs into the string representation of this <see cref="WildcardMultiPatternMultipleName"/> with
@@ -561,7 +610,9 @@ namespace Testing.ResourceNames
         /// <remarks>
         /// To parse successfully, the resource name must be formatted as one of the following:
         /// <list type="bullet">
-        /// <item><description><c>const-pattern</c></description></item>
+        /// <item><description><c>const-pattern-lower</c></description></item>
+        /// <item><description><c>Const-Pattern-Upper</c></description></item>
+        /// <item><description><c>__const_pattern_trimmable__</c></description></item>
         /// <item><description><c>items_a/{item_a_id}</c></description></item>
         /// <item><description><c>items_b/{item_b_id}</c></description></item>
         /// <item><description><c>items_c/{item_c_id}</c></description></item>
@@ -581,7 +632,9 @@ namespace Testing.ResourceNames
         /// <remarks>
         /// To parse successfully, the resource name must be formatted as one of the following:
         /// <list type="bullet">
-        /// <item><description><c>const-pattern</c></description></item>
+        /// <item><description><c>const-pattern-lower</c></description></item>
+        /// <item><description><c>Const-Pattern-Upper</c></description></item>
+        /// <item><description><c>__const_pattern_trimmable__</c></description></item>
         /// <item><description><c>items_a/{item_a_id}</c></description></item>
         /// <item><description><c>items_b/{item_b_id}</c></description></item>
         /// <item><description><c>items_c/{item_c_id}</c></description></item>
@@ -607,7 +660,9 @@ namespace Testing.ResourceNames
         /// <remarks>
         /// To parse successfully, the resource name must be formatted as one of the following:
         /// <list type="bullet">
-        /// <item><description><c>const-pattern</c></description></item>
+        /// <item><description><c>const-pattern-lower</c></description></item>
+        /// <item><description><c>Const-Pattern-Upper</c></description></item>
+        /// <item><description><c>__const_pattern_trimmable__</c></description></item>
         /// <item><description><c>items_a/{item_a_id}</c></description></item>
         /// <item><description><c>items_b/{item_b_id}</c></description></item>
         /// <item><description><c>items_c/{item_c_id}</c></description></item>
@@ -631,7 +686,9 @@ namespace Testing.ResourceNames
         /// <remarks>
         /// To parse successfully, the resource name must be formatted as one of the following:
         /// <list type="bullet">
-        /// <item><description><c>const-pattern</c></description></item>
+        /// <item><description><c>const-pattern-lower</c></description></item>
+        /// <item><description><c>Const-Pattern-Upper</c></description></item>
+        /// <item><description><c>__const_pattern_trimmable__</c></description></item>
         /// <item><description><c>items_a/{item_a_id}</c></description></item>
         /// <item><description><c>items_b/{item_b_id}</c></description></item>
         /// <item><description><c>items_c/{item_c_id}</c></description></item>
@@ -655,9 +712,19 @@ namespace Testing.ResourceNames
         {
             gax::GaxPreconditions.CheckNotNull(wildcardMultiPatternMultipleName, nameof(wildcardMultiPatternMultipleName));
             gax::TemplatedResourceName resourceName;
-            if (s_constPattern.TryParseName(wildcardMultiPatternMultipleName, out resourceName))
+            if (s_constPatternLower.TryParseName(wildcardMultiPatternMultipleName, out resourceName))
             {
-                result = FromConstPattern();
+                result = FromConstPatternLower();
+                return true;
+            }
+            if (s_constPatternUpper.TryParseName(wildcardMultiPatternMultipleName, out resourceName))
+            {
+                result = FromConstPatternUpper();
+                return true;
+            }
+            if (s_constPatternTrimmable.TryParseName(wildcardMultiPatternMultipleName, out resourceName))
+            {
+                result = FromConstPatternTrimmable();
                 return true;
             }
             if (s_itemA.TryParseName(wildcardMultiPatternMultipleName, out resourceName))
@@ -729,7 +796,9 @@ namespace Testing.ResourceNames
             switch (Type)
             {
                 case ResourceNameType.Unparsed: return UnparsedResource.ToString();
-                case ResourceNameType.ConstPattern: return s_constPattern.Expand();
+                case ResourceNameType.ConstPatternLower: return s_constPatternLower.Expand();
+                case ResourceNameType.ConstPatternUpper: return s_constPatternUpper.Expand();
+                case ResourceNameType.ConstPatternTrimmable: return s_constPatternTrimmable.Expand();
                 case ResourceNameType.ItemA: return s_itemA.Expand(ItemAId);
                 case ResourceNameType.ItemB: return s_itemB.Expand(ItemBId);
                 case ResourceNameType.ItemC: return s_itemC.Expand(ItemCId);

@@ -65,7 +65,9 @@ message WildcardMultiPatternMultiple {
   option (google.api.resource) = {
     type: "resourcenames.example.com/WildcardMultiPatternMultiple"
     pattern: "*" // Test wildcard pattern first
-    pattern: "const-pattern" // Test constant pattern
+    pattern: "const-pattern-lower" // Test lower-case constant pattern
+    pattern: "Const-Pattern-Upper" // Test upper-case constant pattern
+    pattern: "__const_pattern_trimmable__" // Test non-letter-digits at either end of pattern
     pattern: "items_a/{item_a_id}"
     pattern: "items_b/{item_b_id}"
     pattern: "items_c/{item_c_id}"
