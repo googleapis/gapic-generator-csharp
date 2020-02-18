@@ -33,6 +33,10 @@ service Snippets {
     option (google.api.method_signature) = "first_name";
   }
 
+  rpc MethodRepeatedResourceSignature(RepeatedResourceSignatureRequest) returns(Response) {
+    option (google.api.method_signature) = "names";
+  }
+
   rpc MethodLroSignatures(SignatureRequest) returns(google.longrunning.Operation) {
     option (google.api.method_signature) = "a_string,an_int,a_bool";
     option (google.longrunning.operation_info) = {
@@ -171,6 +175,10 @@ message ResourceSignatureRequest {
   string first_name = 1 [(google.api.resource_reference).type = "snippets.example.com/SimpleResource"];
   string second_name = 2 [(google.api.resource_reference).type = "snippets.example.com/SimpleResource"];
   string third_name = 3 [(google.api.resource_reference).type = "snippets.example.com/SimpleResource"];
+}
+
+message RepeatedResourceSignatureRequest {
+  repeated string names = 1 [(google.api.resource_reference).type = "snippets.example.com/SimpleResource"];
 }
 
 message Task {
