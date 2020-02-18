@@ -681,6 +681,99 @@ namespace Testing.Snippets.Snippets
             // End snippet
         }
 
+        /// <summary>Snippet for MethodRepeatedResourceSignature</summary>
+        public void MethodRepeatedResourceSignatureRequestObject()
+        {
+            // Snippet: MethodRepeatedResourceSignature(RepeatedResourceSignatureRequest, CallSettings)
+            // Create client
+            SnippetsClient snippetsClient = SnippetsClient.Create();
+            // Initialize request argument(s)
+            RepeatedResourceSignatureRequest request = new RepeatedResourceSignatureRequest
+            {
+                SimpleResourceNames =
+                {
+                    SimpleResourceName.FromItem("[ITEM_ID]"),
+                },
+            };
+            // Make the request
+            Response response = snippetsClient.MethodRepeatedResourceSignature(request);
+            // End snippet
+        }
+
+        /// <summary>Snippet for MethodRepeatedResourceSignatureAsync</summary>
+        public async Task MethodRepeatedResourceSignatureRequestObjectAsync()
+        {
+            // Snippet: MethodRepeatedResourceSignatureAsync(RepeatedResourceSignatureRequest, CallSettings)
+            // Additional: MethodRepeatedResourceSignatureAsync(RepeatedResourceSignatureRequest, CancellationToken)
+            // Create client
+            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            // Initialize request argument(s)
+            RepeatedResourceSignatureRequest request = new RepeatedResourceSignatureRequest
+            {
+                SimpleResourceNames =
+                {
+                    SimpleResourceName.FromItem("[ITEM_ID]"),
+                },
+            };
+            // Make the request
+            Response response = await snippetsClient.MethodRepeatedResourceSignatureAsync(request);
+            // End snippet
+        }
+
+        /// <summary>Snippet for MethodRepeatedResourceSignature</summary>
+        public void MethodRepeatedResourceSignature()
+        {
+            // Snippet: MethodRepeatedResourceSignature(IEnumerable<string>, CallSettings)
+            // Create client
+            SnippetsClient snippetsClient = SnippetsClient.Create();
+            // Initialize request argument(s)
+            IEnumerable<string> names = new string[] { "items/[ITEM_ID]", };
+            // Make the request
+            Response response = snippetsClient.MethodRepeatedResourceSignature(names);
+            // End snippet
+        }
+
+        /// <summary>Snippet for MethodRepeatedResourceSignatureAsync</summary>
+        public async Task MethodRepeatedResourceSignatureAsync()
+        {
+            // Snippet: MethodRepeatedResourceSignatureAsync(IEnumerable<string>, CallSettings)
+            // Additional: MethodRepeatedResourceSignatureAsync(IEnumerable<string>, CancellationToken)
+            // Create client
+            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            // Initialize request argument(s)
+            IEnumerable<string> names = new string[] { "items/[ITEM_ID]", };
+            // Make the request
+            Response response = await snippetsClient.MethodRepeatedResourceSignatureAsync(names);
+            // End snippet
+        }
+
+        /// <summary>Snippet for MethodRepeatedResourceSignature</summary>
+        public void MethodRepeatedResourceSignatureResourceNames()
+        {
+            // Snippet: MethodRepeatedResourceSignature(IEnumerable<SimpleResourceName>, CallSettings)
+            // Create client
+            SnippetsClient snippetsClient = SnippetsClient.Create();
+            // Initialize request argument(s)
+            IEnumerable<SimpleResourceName> names = new SimpleResourceName[] { SimpleResourceName.FromItem("[ITEM_ID]"), };
+            // Make the request
+            Response response = snippetsClient.MethodRepeatedResourceSignature(names);
+            // End snippet
+        }
+
+        /// <summary>Snippet for MethodRepeatedResourceSignatureAsync</summary>
+        public async Task MethodRepeatedResourceSignatureResourceNamesAsync()
+        {
+            // Snippet: MethodRepeatedResourceSignatureAsync(IEnumerable<SimpleResourceName>, CallSettings)
+            // Additional: MethodRepeatedResourceSignatureAsync(IEnumerable<SimpleResourceName>, CancellationToken)
+            // Create client
+            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            // Initialize request argument(s)
+            IEnumerable<SimpleResourceName> names = new SimpleResourceName[] { SimpleResourceName.FromItem("[ITEM_ID]"), };
+            // Make the request
+            Response response = await snippetsClient.MethodRepeatedResourceSignatureAsync(names);
+            // End snippet
+        }
+
         /// <summary>Snippet for MethodLroSignatures</summary>
         public void MethodLroSignaturesRequestObject()
         {

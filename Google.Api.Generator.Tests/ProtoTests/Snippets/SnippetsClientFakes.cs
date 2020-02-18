@@ -73,6 +73,13 @@ namespace Testing.Snippets
         public Response MethodResourceSignature(SimpleResourceName firstName) => throw new NotImplementedException();
         public Task<Response> MethodResourceSignatureAsync(SimpleResourceName firstName) => throw new NotImplementedException();
 
+        public Response MethodRepeatedResourceSignature(RepeatedResourceSignatureRequest request) => throw new NotImplementedException();
+        public Task<Response> MethodRepeatedResourceSignatureAsync(RepeatedResourceSignatureRequest request) => throw new NotImplementedException();
+        public Response MethodRepeatedResourceSignature(IEnumerable<string> names) => throw new NotImplementedException();
+        public Response MethodRepeatedResourceSignature(IEnumerable<SimpleResourceName> names) => throw new NotImplementedException();
+        public Task<Response> MethodRepeatedResourceSignatureAsync(IEnumerable<string> names) => throw new NotImplementedException();
+        public Task<Response> MethodRepeatedResourceSignatureAsync(IEnumerable<SimpleResourceName> names) => throw new NotImplementedException();
+
         public Operation<LroResponse, LroMetadata> MethodLroSignatures(SignatureRequest request) => throw new NotImplementedException();
         public Task<Operation<LroResponse, LroMetadata>> MethodLroSignaturesAsync(SignatureRequest request) => throw new NotImplementedException();
         public Operation<LroResponse, LroMetadata> MethodLroSignatures(string aString, int anInt, bool aBool) => throw new NotImplementedException();
@@ -205,6 +212,11 @@ namespace Testing.Snippets
         public string FirstName { get; set; }
         public string SecondName { get; set; }
         public string ThirdName { get; set; }
+    }
+
+    public partial class RepeatedResourceSignatureRequest : ProtoMsgFake<ResourceSignatureRequest>
+    {
+        public RepeatedField<string> Names { get; set; }
     }
 
     public class Task : ProtoMsgFake<Task> { }

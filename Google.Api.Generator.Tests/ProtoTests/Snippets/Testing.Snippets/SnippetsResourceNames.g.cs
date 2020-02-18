@@ -826,4 +826,15 @@ namespace Testing.Snippets
             set => ThirdName = value?.ToString() ?? "";
         }
     }
+
+    public partial class RepeatedResourceSignatureRequest
+    {
+        /// <summary>
+        /// <see cref="SimpleResourceName"/>-typed view over the <see cref="Names"/> resource name property.
+        /// </summary>
+        public gax::ResourceNameList<SimpleResourceName> SimpleResourceNames
+        {
+            get => new gax::ResourceNameList<SimpleResourceName>(Names, s => string.IsNullOrEmpty(s) ? null : SimpleResourceName.Parse(s, allowUnparsed: true));
+        }
+    }
 }
