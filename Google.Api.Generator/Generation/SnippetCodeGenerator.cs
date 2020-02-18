@@ -590,27 +590,30 @@ namespace Google.Api.Generator.Generation
                             Local(Ctx.Type(f.IsRepeated && f.FieldResources is object ? Typ.Generic(typeof(IEnumerable<>), typ) : typ),
                                 f.Descs.Last().CSharpFieldName()).WithInitializer(_sig._def.DefaultValue(f.Descs.Last(), typ, topLevel: true)));
 
-                    public MethodDeclarationSyntax SyncMethod => _sig._def.Sync(SyncMethodName, _typs, InitRequestArgs, Method.SyncReturnTyp is Typ.VoidTyp ?
+                    private IEnumerable<Typ> SnippetTyps =>
+                        _sig._sig.Fields.Zip(_typs, (f, typ) => f.IsRepeated && f.FieldResources is object ? Typ.Generic(typeof(IEnumerable<>), typ) : typ);
+
+                    public MethodDeclarationSyntax SyncMethod => _sig._def.Sync(SyncMethodName, SnippetTyps, InitRequestArgs, Method.SyncReturnTyp is Typ.VoidTyp ?
                         (object)_sig._def.Client.Call(Method.SyncMethodName)(InitRequestArgs.ToArray()) :
                         _sig._def.Response.WithInitializer(_sig._def.Client.Call(Method.SyncMethodName)(InitRequestArgs.ToArray())));
 
-                    public MethodDeclarationSyntax AsyncMethod => _sig._def.Async(AsyncMethodName, _typs, InitRequestArgs, Method.SyncReturnTyp is Typ.VoidTyp ?
+                    public MethodDeclarationSyntax AsyncMethod => _sig._def.Async(AsyncMethodName, SnippetTyps, InitRequestArgs, Method.SyncReturnTyp is Typ.VoidTyp ?
                         (object)Await(_sig._def.Client.Call(Method.AsyncMethodName)(InitRequestArgs.ToArray())) :
                         _sig._def.Response.WithInitializer(Await(_sig._def.Client.Call(Method.AsyncMethodName)(InitRequestArgs.ToArray()))));
 
-                    public MethodDeclarationSyntax SyncLroMethod => _sig._def.SyncLro(SyncMethodName, _typs, InitRequestArgs,
+                    public MethodDeclarationSyntax SyncLroMethod => _sig._def.SyncLro(SyncMethodName, SnippetTyps, InitRequestArgs,
                         _sig._def.Response.WithInitializer(_sig._def.Client.Call(Method.SyncMethodName)(InitRequestArgs.ToArray())));
 
-                    public MethodDeclarationSyntax AsyncLroMethod => _sig._def.AsyncLro(AsyncMethodName, _typs, InitRequestArgs,
+                    public MethodDeclarationSyntax AsyncLroMethod => _sig._def.AsyncLro(AsyncMethodName, SnippetTyps, InitRequestArgs,
                         _sig._def.Response.WithInitializer(Await(_sig._def.Client.Call(Method.AsyncMethodName)(InitRequestArgs.ToArray()))));
 
-                    public MethodDeclarationSyntax SyncPaginatedMethod => _sig._def.SyncPaginated(SyncMethodName, _typs, InitRequestArgs,
+                    public MethodDeclarationSyntax SyncPaginatedMethod => _sig._def.SyncPaginated(SyncMethodName, SnippetTyps, InitRequestArgs,
                         _sig._def.Response.WithInitializer(_sig._def.Client.Call(Method.SyncMethodName)(_sig.PaginatedArgs(InitRequestArgs).ToArray())), true);
 
-                    public MethodDeclarationSyntax AsyncPaginatedMethod => _sig._def.AsyncPaginated(AsyncMethodName, _typs, InitRequestArgs,
+                    public MethodDeclarationSyntax AsyncPaginatedMethod => _sig._def.AsyncPaginated(AsyncMethodName, SnippetTyps, InitRequestArgs,
                         _sig._def.AsyncResponse.WithInitializer(_sig._def.Client.Call(Method.AsyncMethodName)(_sig.PaginatedArgs(InitRequestArgs).ToArray())), true);
 
-                    public MethodDeclarationSyntax ServerStreamingMethod => _sig._def.ServerStreaming(SyncMethodName, _typs, InitRequestArgs,
+                    public MethodDeclarationSyntax ServerStreamingMethod => _sig._def.ServerStreaming(SyncMethodName, SnippetTyps, InitRequestArgs,
                         _sig._def.Response.WithInitializer(_sig._def.Client.Call(Method.SyncMethodName)(InitRequestArgs.ToArray())));
                 }
 

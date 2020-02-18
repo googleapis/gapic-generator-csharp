@@ -230,7 +230,7 @@ namespace Testing.Snippets.Snippets
         /// <summary>Snippet for MethodDefaultValues</summary>
         public void MethodDefaultValuesResourceNames()
         {
-            // Snippet: MethodDefaultValues(IEnumerable<double>, IEnumerable<DefaultValuesRequest.Types.NestedMessage>, AResourceName, CallSettings)
+            // Snippet: MethodDefaultValues(IEnumerable<double>, IEnumerable<DefaultValuesRequest.Types.NestedMessage>, IEnumerable<AResourceName>, CallSettings)
             // Create client
             SnippetsClient snippetsClient = SnippetsClient.Create();
             // Initialize request argument(s)
@@ -251,8 +251,8 @@ namespace Testing.Snippets.Snippets
         /// <summary>Snippet for MethodDefaultValuesAsync</summary>
         public async Task MethodDefaultValuesResourceNamesAsync()
         {
-            // Snippet: MethodDefaultValuesAsync(IEnumerable<double>, IEnumerable<DefaultValuesRequest.Types.NestedMessage>, AResourceName, CallSettings)
-            // Additional: MethodDefaultValuesAsync(IEnumerable<double>, IEnumerable<DefaultValuesRequest.Types.NestedMessage>, AResourceName, CancellationToken)
+            // Snippet: MethodDefaultValuesAsync(IEnumerable<double>, IEnumerable<DefaultValuesRequest.Types.NestedMessage>, IEnumerable<AResourceName>, CallSettings)
+            // Additional: MethodDefaultValuesAsync(IEnumerable<double>, IEnumerable<DefaultValuesRequest.Types.NestedMessage>, IEnumerable<AResourceName>, CancellationToken)
             // Create client
             SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
             // Initialize request argument(s)
@@ -754,7 +754,10 @@ namespace Testing.Snippets.Snippets
             // Create client
             SnippetsClient snippetsClient = SnippetsClient.Create();
             // Initialize request argument(s)
-            IEnumerable<SimpleResourceName> names = new SimpleResourceName[] { SimpleResourceName.FromItem("[ITEM_ID]"), };
+            IEnumerable<SimpleResourceName> names = new SimpleResourceName[]
+            {
+                SimpleResourceName.FromItem("[ITEM_ID]"),
+            };
             // Make the request
             Response response = snippetsClient.MethodRepeatedResourceSignature(names);
             // End snippet
@@ -768,7 +771,10 @@ namespace Testing.Snippets.Snippets
             // Create client
             SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
             // Initialize request argument(s)
-            IEnumerable<SimpleResourceName> names = new SimpleResourceName[] { SimpleResourceName.FromItem("[ITEM_ID]"), };
+            IEnumerable<SimpleResourceName> names = new SimpleResourceName[]
+            {
+                SimpleResourceName.FromItem("[ITEM_ID]"),
+            };
             // Make the request
             Response response = await snippetsClient.MethodRepeatedResourceSignatureAsync(names);
             // End snippet
