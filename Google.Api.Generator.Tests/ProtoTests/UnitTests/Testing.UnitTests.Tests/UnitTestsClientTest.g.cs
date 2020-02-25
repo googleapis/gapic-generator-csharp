@@ -129,6 +129,9 @@ namespace Testing.UnitTests.Tests
                         "value60c16320"
                     },
                 },
+#pragma warning disable CS0612
+                ObsoleteField = "obsolete_field3c966e0f",
+#pragma warning restore CS0612
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.MethodValues(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
@@ -238,6 +241,9 @@ namespace Testing.UnitTests.Tests
                         "value60c16320"
                     },
                 },
+#pragma warning disable CS0612
+                ObsoleteField = "obsolete_field3c966e0f",
+#pragma warning restore CS0612
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.MethodValuesAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));

@@ -16,8 +16,9 @@ namespace Google.Api.Generator.RoslynUtils
 {
     internal class ObjectInitExpr
     {
-        public ObjectInitExpr(string propertyName, object code) => (PropertyName, Code) = (propertyName, code);
+        public ObjectInitExpr(string propertyName, object code, bool isDeprecated = false) => (PropertyName, Code, IsDeprecated) = (propertyName, code, isDeprecated);
         public string PropertyName { get; }
         public object Code { get; }
+        public bool IsDeprecated { get; }
     }
 }

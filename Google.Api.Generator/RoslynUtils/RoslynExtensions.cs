@@ -101,7 +101,14 @@ namespace Google.Api.Generator.RoslynUtils
             }
             return obj.WithInitializer(InitializerExpression(SyntaxKind.ObjectInitializerExpression,
                 SeparatedList<ExpressionSyntax>(inits.Select(init =>
-                    AssignmentExpression(SyntaxKind.SimpleAssignmentExpression, ToSimpleName(init.PropertyName), ToExpression(init.Code))))));
+                {
+                    var property = ToSimpleName(init.PropertyName);
+                    if (init.IsDeprecated)
+                    {
+                        property = property.WithIdentifier(property.Identifier.WithPragmaWarning(PragmaWarnings.Obsolete));
+                    }
+                    return AssignmentExpression(SyntaxKind.SimpleAssignmentExpression, property, ToExpression(init.Code));
+                }))));
         }
 
         public static PropertyDeclarationSyntax WithInitializer(this PropertyDeclarationSyntax prop, object code) =>
@@ -183,7 +190,7 @@ namespace Google.Api.Generator.RoslynUtils
             (ExpressionSyntax)ConditionalAccessExpression(IdentifierName(obj.Identifier), MemberBindingExpression(ToSimpleName(member))) :
             MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, IdentifierName(obj.Identifier), ToSimpleName(member));
 
-        public static ExpressionSyntax Access(this LocalDeclarationStatementSyntax var, object member) =>
+        public static MemberAccessExpressionSyntax Access(this LocalDeclarationStatementSyntax var, object member) =>
             MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, IdentifierName(var.Declaration.Variables.Single().Identifier), ToSimpleName(member));
 
         public static ExpressionSyntax Access(this PropertyDeclarationSyntax prop, object member) =>
@@ -274,5 +281,8 @@ namespace Google.Api.Generator.RoslynUtils
 
         public static SwitchStatementSyntax WithDefault(this SwitchStatementSyntax @switch, object code) =>
             @switch.AddSections(SwitchSection(SingletonList<SwitchLabelSyntax>(DefaultSwitchLabel()), List(ToStatements(code))));
+
+        public static SyntaxToken WithPragmaWarning(this SyntaxToken token, string errorCode) =>
+            token.WithAdditionalAnnotations(new SyntaxAnnotation(PragmaWarnings.AnnotationKind, errorCode));
     }
 }

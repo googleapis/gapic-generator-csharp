@@ -188,6 +188,7 @@ namespace Google.Api.Generator.Generation
                     IsRequired = lastDesc.SafeGetOption(FieldBehaviorExtensions.FieldBehavior).Any(x => x == FieldBehavior.Required);
                     ParameterName = lastDesc.CSharpFieldName();
                     PropertyName = lastDesc.CSharpPropertyName();
+                    IsDeprecated = Descs.Any(x => x.IsDeprecated());
                     DocLines = lastDesc.Declaration.DocLines();
                     FieldResources = svc.Catalog.GetResourceDetailsByField(lastDesc);
                 }
@@ -199,6 +200,7 @@ namespace Google.Api.Generator.Generation
                 public bool IsWrapperType { get; }
                 public string ParameterName { get; }
                 public string PropertyName { get; }
+                public bool IsDeprecated { get; }
                 public IEnumerable<string> DocLines { get; }
                 /// <summary>Resource details if this field respresents a resource. Null if not a resource field.</summary>
                 public IReadOnlyList<ResourceDetails.Field> FieldResources { get; }

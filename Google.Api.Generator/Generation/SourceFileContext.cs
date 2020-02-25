@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Google.Api.Gax;
+using Google.Api.Generator.RoslynUtils;
 using Google.Api.Generator.Utils;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -21,7 +22,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using System.Reflection;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace Google.Api.Generator.Generation
@@ -93,6 +93,10 @@ namespace Google.Api.Generator.Generation
                     _namespaceAliasesOnly.Add(namespaceAlias);
                 }
                 SimpleNameSyntax result = IdentifierName(typ.Name);
+                if (typ.IsDeprecated)
+                {
+                    result = result.WithIdentifier(result.Identifier.WithPragmaWarning(PragmaWarnings.Obsolete));
+                }
                 if (typ.GenericArgTyps != null)
                 {
                     // Generic typ, so return a generic name by recursively calling this method on all type args.
@@ -165,6 +169,10 @@ namespace Google.Api.Generator.Generation
                     aliasable = true;
                 }
                 SimpleNameSyntax result = IdentifierName(typ.Name);
+                if (typ.IsDeprecated)
+                {
+                    result = result.WithIdentifier(result.Identifier.WithPragmaWarning(PragmaWarnings.Obsolete));
+                }
                 if (typ.GenericArgTyps != null)
                 {
                     // Generic typ, so return a generic name by recursively calling this method on all type args.

@@ -57,10 +57,16 @@ namespace Google.Api.Generator.Formatting
         {
             var trivia = xmlDocTrivia.Where(x => !x.Span.IsEmpty).SelectMany(item =>
             {
-                var docComment = (DocumentationCommentTriviaSyntax)item.GetStructure();
-                return docComment.HasAnnotation(XmlDoc.Annotations.Preformatted) ? SplitPreformatted(docComment) : SplitUnformatted(docComment);
+                if (item.GetStructure() is DocumentationCommentTriviaSyntax docComment)
+                {
+                    return (docComment.HasAnnotation(XmlDoc.Annotations.Preformatted) ? SplitPreformatted(docComment) : SplitUnformatted(docComment)).Select(Trivia);
+                }
+                else
+                {
+                    return new[] { item };
+                }
             });
-            return TriviaList(trivia.Select(Trivia));
+            return TriviaList(trivia);
         }
 
         private DocumentationCommentTriviaSyntax OneLine(XmlNodeSyntax xmlNode) => xmlNode == null ? null : OneLine(SingletonList(xmlNode));

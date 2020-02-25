@@ -57,10 +57,12 @@ namespace Google.Api.Generator.Utils
 
         private sealed class FromManual : Typ
         {
-            public FromManual(string ns, string name, bool isEnum = false) => (Namespace, Name, IsEnum) = (ns, name, isEnum);
+            public FromManual(string ns, string name, bool isEnum = false, bool isDeprecated = false) =>
+                (Namespace, Name, IsEnum, IsDeprecated) = (ns, name, isEnum, isDeprecated);
             public override string Namespace { get; }
             public override string Name { get; }
             public override bool IsEnum { get; }
+            public override bool IsDeprecated { get; }
         }
 
         private sealed class FromNested : Typ
@@ -136,7 +138,7 @@ namespace Google.Api.Generator.Utils
         public static Typ Of<T>() => Of(typeof(T));
         public static Typ Of(System.Type type) => new FromType(type);
         public static Typ ArrayOf(Typ typ) => new Array(typ);
-        public static Typ Manual(string ns, string name, bool isEnum = false) => new FromManual(ns, name, isEnum);
+        public static Typ Manual(string ns, string name, bool isEnum = false, bool isDeprecated = false) => new FromManual(ns, name, isEnum, isDeprecated);
         public static Typ Manual(string ns, ClassDeclarationSyntax cls) => new FromManual(ns, cls.Identifier.Text);
         public static Typ Nested(Typ declaringTyp, string name, bool isEnum = false) => new FromNested(declaringTyp, name, isEnum);
         public static Typ Generic(System.Type genericDef, params Typ[] typeArgs) => new FromGeneric(Of(genericDef), typeArgs);
@@ -150,6 +152,7 @@ namespace Google.Api.Generator.Utils
                 return wkt;
             }
             var ns = desc.File.CSharpNamespace();
+            var isDeprecated = desc.IsDeprecated();
             var decls = new List<MessageDescriptor>();
             do
             {
@@ -157,7 +160,7 @@ namespace Google.Api.Generator.Utils
                 desc = desc.ContainingType;
             } while (desc != null);
             decls.Reverse();
-            var typ = Manual(ns, decls[0].Name);
+            var typ = Manual(ns, decls[0].Name, isDeprecated: isDeprecated);
             foreach (var decl in decls.Skip(1))
             {
                 typ = Nested(Nested(typ, "Types"), decl.Name);
@@ -250,6 +253,9 @@ namespace Google.Api.Generator.Utils
 
         /// <summary>The generic arguments of this typ; or <c>null</c> if not a generic typ.</summary>
         public virtual IEnumerable<Typ> GenericArgTyps => null;
+
+        /// <summary>Is this type deprecated</summary>
+        public virtual bool IsDeprecated => false;
 
         public virtual string FullName => $"{Namespace}.{Name}";
 
