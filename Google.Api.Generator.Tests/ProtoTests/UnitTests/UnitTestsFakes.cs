@@ -98,6 +98,7 @@ namespace Testing.UnitTests
         public string MultiPatternResourceName { get; set; }
         public RepeatedField<string> RepeatedMultiPatternResourceName { get; } = new RepeatedField<string>();
         public MapField<int, string> MapIntString { get; } = new MapField<int, string>();
+        [Obsolete] public string ObsoleteField { get; set; }
     }
 
     public partial class AResource : ProtoMsgFake<AResource>

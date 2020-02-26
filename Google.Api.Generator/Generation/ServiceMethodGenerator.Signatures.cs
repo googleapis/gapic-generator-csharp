@@ -182,7 +182,8 @@ namespace Google.Api.Generator.Generation
                                     foreach (var param in f.OrderBy(x => x.FieldDescs?.Last().Index ?? int.MaxValue))
                                     {
                                         yield return (param.InitExpr as ObjectInitExpr) ??
-                                            new ObjectInitExpr(param.ResourcePropertyName ??  param.FieldDescs.Last().CSharpPropertyName(), param.InitExpr);
+                                            new ObjectInitExpr(param.ResourcePropertyName ?? param.FieldDescs.Last().CSharpPropertyName(), param.InitExpr,
+                                                isDeprecated: param.FieldDescs.Last().IsDeprecated());
                                     }
                                 }
                                 else

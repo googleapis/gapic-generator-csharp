@@ -173,14 +173,14 @@ namespace Google.Api.Generator.Generation
             private IEnumerable<ObjectInitExpr> InitMessage(MessageDescriptor msgDesc, IEnumerable<MethodDetails.Signature.Field> onlyFields)
             {
                 var onlyFieldsSet = onlyFields?.Select(x => x.Descs.Last().FieldNumber).ToHashSet();
-                foreach (var fieldDesc in msgDesc.Fields.InFieldNumberOrder().Where(x => !x.IsDeprecated()))
+                foreach (var fieldDesc in msgDesc.Fields.InFieldNumberOrder())
                 {
                     if (!IsPaginationField() && (onlyFieldsSet == null || onlyFieldsSet.Contains(fieldDesc.FieldNumber)))
                     {
                         var resourceField = Svc.Catalog.GetResourceDetailsByField(fieldDesc);
                         yield return new ObjectInitExpr(
                             resourceField?[0].ResourcePropertyName ?? fieldDesc.CSharpPropertyName(),
-                            TestValue(fieldDesc));
+                            TestValue(fieldDesc), isDeprecated: fieldDesc.IsDeprecated());
                     }
 
                     bool IsPaginationField() => Method is MethodDetails.Paginated paged &&
@@ -278,7 +278,17 @@ namespace Google.Api.Generator.Generation
                 private string SyncMethodName => Method.SyncMethodName + (_index is int index ? (index + 1).ToString() : "");
                 private string AsyncMethodName => $"{Method.AsyncMethodName.Substring(0, Method.AsyncMethodName.Length - 5)}{(_index is int index ? (index + 1).ToString() : "")}Async";
 
-                private IEnumerable<object> SigArgs => _sig.Fields.Select(field => _def.Request.Access(field.PropertyName));
+                private ExpressionSyntax Access(LocalDeclarationStatementSyntax request, string name, bool isDeprecated)
+                {
+                    var access = request.Access(name);
+                    if (isDeprecated)
+                    {
+                        access = access.WithName(access.Name.WithIdentifier(access.Name.Identifier.WithPragmaWarning(PragmaWarnings.Obsolete)));
+                    }
+                    return access;
+                }
+
+                private IEnumerable<object> SigArgs => _sig.Fields.Select(field => Access(_def.Request, field.PropertyName, field.IsDeprecated));
 
                 public MethodDeclarationSyntax SyncMethod => _def.Sync(SyncMethodName, _sig.Fields, SigArgs);
 
@@ -292,28 +302,28 @@ namespace Google.Api.Generator.Generation
                         {
                             return Enumerable.Empty<ResourceName>();
                         }
-                        var allOverloads = sig._sig.Fields.Aggregate(ImmutableList.Create(ImmutableList<string>.Empty), (overloads, f) =>
+                        var allOverloads = sig._sig.Fields.Aggregate(ImmutableList.Create(ImmutableList<(string, bool)>.Empty), (overloads, f) =>
                         {
-                            var names = f.FieldResources is null ? new[] { f.PropertyName }
-                                : f.FieldResources.Where(resDetails => resDetails.ContainsWildcard != false).Select(x => x.ResourcePropertyName);
-                            return overloads.SelectMany(overload => names.Select(typ => overload.Add(typ))).ToImmutableList();
+                            var names = f.FieldResources is null ? new[] { (f.PropertyName, f.IsDeprecated) }
+                                : f.FieldResources.Where(resDetails => resDetails.ContainsWildcard != false).Select(x => (x.ResourcePropertyName, false));
+                            return overloads.SelectMany(overload => names.Select(name => overload.Add(name))).ToImmutableList();
                         }).ToList();
-                        return allOverloads.Select((typs, index) => new ResourceName(sig, typs, allOverloads.Count > 1 ? (int?)(index + 1) : null));
+                        return allOverloads.Select((properties, index) => new ResourceName(sig, properties, allOverloads.Count > 1 ? (int?)(index + 1) : null));
                     }
 
-                    private ResourceName(Signature sig, IReadOnlyList<string> propertyNames, int? index) => (_sig, _propertyNames, _index) = (sig, propertyNames, index);
+                    private ResourceName(Signature sig, IReadOnlyList<(string, bool)> properties, int? index) => (_sig, _properties, _index) = (sig, properties, index);
 
                     private readonly Signature _sig;
-                    private readonly IReadOnlyList<string> _propertyNames;
+                    private readonly IReadOnlyList<(string name, bool isDeprecated)> _properties;
                     private readonly int? _index;
                     private string SyncMethodName => $"{_sig.SyncMethodName}ResourceNames{(_index?.ToString() ?? "")}";
                     private string AsyncMethodName => $"{SyncMethodName}Async";
 
                     public MethodDeclarationSyntax SyncMethod => _sig._def.Sync(SyncMethodName, _sig._sig.Fields,
-                        _propertyNames.Select(propertyName => _sig._def.Request.Access(propertyName)));
+                        _properties.Select(property => _sig.Access(_sig._def.Request, property.name, property.isDeprecated)));
 
                     public MethodDeclarationSyntax AsyncMethod => _sig._def.Async(AsyncMethodName, _sig._sig.Fields,
-                        _propertyNames.Select(propertyName => _sig._def.Request.Access(propertyName)));
+                        _properties.Select(property => _sig.Access(_sig._def.Request, property.name, property.isDeprecated)));
                 }
 
                 public IEnumerable<ResourceName> ResourceNames => ResourceName.Create(this);

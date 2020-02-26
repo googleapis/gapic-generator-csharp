@@ -1,0 +1,40 @@
+﻿syntax = "proto3";
+
+package testing.deprecated;
+
+import "google/api/client.proto";
+
+service Deprecated {
+  option (google.api.default_host) = "deprecated.example.com";
+
+  rpc DeprecatedFieldMethod(DeprecatedFieldRequest) returns(Response) {
+    option (google.api.method_signature) = "deprecated_field_1, deprecated_field_2";
+  };
+
+  rpc DeprecatedMessageMethod(DeprecatedMessageRequest) returns(Response);
+
+  rpc DeprecatedMethod(Request) returns(Response) {
+    option deprecated = true;
+  };
+
+  rpc DeprecatedResponseMethod(Request) returns(DeprecatedMessageResponse);
+}
+
+message DeprecatedFieldRequest {
+  string deprecated_field_1 = 1 [deprecated = true];
+  string deprecated_field_2 = 2 [deprecated = true]; // Test consecutive deprecated fields; requires consecutive pragmas.
+}
+
+message DeprecatedMessageRequest {
+  option deprecated = true;
+}
+
+message Request {
+}
+
+message DeprecatedMessageResponse {
+  option deprecated = true;
+}
+
+message Response {
+}

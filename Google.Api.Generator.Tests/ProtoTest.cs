@@ -261,6 +261,9 @@ namespace Google.Api.Generator.Tests
         [Fact]
         public void Keywords() => ProtoTestSingle("Keywords", ignoreCsProj: true);
 
+        [Fact]
+        public void Deprecated() => ProtoTestSingle("Deprecated", ignoreCsProj: true);
+
         // Build tests are testing `csproj` file generation only.
         // All other generated code is effectively "build tested" when this test project is built.
 

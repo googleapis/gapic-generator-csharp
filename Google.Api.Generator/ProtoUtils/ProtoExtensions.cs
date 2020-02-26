@@ -62,6 +62,10 @@ namespace Google.Api.Generator.ProtoUtils
             return string.Join(".", desc.Package.Split('.').Select(x => x.ToUpperCamelCase()));
         }
 
+        public static bool IsDeprecated(this MessageDescriptor desc) => GetOptions(desc)?.Deprecated ?? false;
+
+        public static bool IsDeprecated(this MethodDescriptor desc) => GetOptions(desc)?.Deprecated ?? false;
+
         public static bool IsDeprecated(this FieldDescriptor desc) => GetOptions(desc)?.Deprecated ?? false;
 
         public static IEnumerable<string> DocLines(this DescriptorDeclaration decl) =>
