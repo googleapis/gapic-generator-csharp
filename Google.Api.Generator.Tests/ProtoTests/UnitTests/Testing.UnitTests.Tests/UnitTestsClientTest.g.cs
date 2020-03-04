@@ -57,7 +57,7 @@ namespace Testing.UnitTests.Tests
                 SingleNestedEnum = ValuesRequest.Types.NestedEnum.Default,
                 RepeatedDouble =
                 {
-                    -4.5208902549925389E+17,
+                    -4.520890254992539E+17,
                 },
                 RepeatedFloat = { -1.0048845E+18F, },
                 RepeatedInt32 = { -2077149597, },
@@ -169,7 +169,7 @@ namespace Testing.UnitTests.Tests
                 SingleNestedEnum = ValuesRequest.Types.NestedEnum.Default,
                 RepeatedDouble =
                 {
-                    -4.5208902549925389E+17,
+                    -4.520890254992539E+17,
                 },
                 RepeatedFloat = { -1.0048845E+18F, },
                 RepeatedInt32 = { -2077149597, },
