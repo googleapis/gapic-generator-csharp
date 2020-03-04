@@ -95,7 +95,7 @@ namespace Google.Api.Generator.Generation
 <Project Sdk=""Microsoft.NET.Sdk"">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.2;net461</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;net461</TargetFrameworks>
     <TargetFrameworks Condition=""'$(OS)' != 'Windows_NT'"">netcoreapp2.2</TargetFrameworks>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
@@ -116,7 +116,7 @@ namespace Google.Api.Generator.Generation
 <Project Sdk=""Microsoft.NET.Sdk"">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
