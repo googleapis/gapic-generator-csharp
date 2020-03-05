@@ -29,45 +29,26 @@ namespace Google.Api.Generator.RoslynUtils
     /// </summary>
     internal static class RoslynConverters
     {
-        public static IEnumerable<ExpressionSyntax> ToExpressions(object o)
+        public static IEnumerable<ExpressionSyntax> ToExpressions(object o) => o switch
         {
-            switch (o)
-            {
-                // Order matters.
-                case string value:
-                    return new[] { LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(value)) };
-                case IEnumerable v:
-                    return v.Cast<object>().SelectMany(ToExpressions);
-                case ExpressionSyntax expression:
-                    return new[] { expression };
-                case FieldDeclarationSyntax field:
-                    return new[] { IdentifierName(field.Declaration.Variables.Single().Identifier) };
-                case PropertyDeclarationSyntax prop:
-                    return new[] { IdentifierName(prop.Identifier) };
-                case ParameterSyntax param:
-                    return new[] { IdentifierName(param.Identifier) };
-                case LocalDeclarationStatementSyntax var:
-                    return new[] { IdentifierName(var.Declaration.Variables.Single().Identifier) };
-                case SyntaxToken identifier:
-                    return new[] { IdentifierName(identifier) };
-                case int value:
-                    return new[] { LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(value)) };
-                case bool value:
-                    return new[] { LiteralExpression(value ? SyntaxKind.TrueLiteralExpression : SyntaxKind.FalseLiteralExpression) };
-                case double value:
-                    return new[] { LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(value)) };
-                case float value:
-                    return new[] { LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(value)) };
-                case long value:
-                    return new[] { LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(value)) };
-                case uint value:
-                    return new[] { LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(value)) };
-                case ulong value:
-                    return new[] { LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(value)) };
-                default:
-                    throw new NotSupportedException($"Cannot handle ToExpressions({o.GetType()})");
-            }
-        }
+            // Order matters.
+            string value => new[] { LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(value)) },
+            IEnumerable v => v.Cast<object>().SelectMany(ToExpressions),
+            ExpressionSyntax expression => new[] { expression },
+            FieldDeclarationSyntax field => new[] { IdentifierName(field.Declaration.Variables.Single().Identifier) },
+            PropertyDeclarationSyntax prop => new[] { IdentifierName(prop.Identifier) },
+            ParameterSyntax param => new[] { IdentifierName(param.Identifier) },
+            LocalDeclarationStatementSyntax var => new[] { IdentifierName(var.Declaration.Variables.Single().Identifier) },
+            SyntaxToken identifier => new[] { IdentifierName(identifier) },
+            int value => new[] { LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(value)) },
+            bool value => new[] { LiteralExpression(value ? SyntaxKind.TrueLiteralExpression : SyntaxKind.FalseLiteralExpression) },
+            double value => new[] { LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(value)) },
+            float value => new[] { LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(value)) },
+            long value => new[] { LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(value)) },
+            uint value => new[] { LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(value)) },
+            ulong value => new[] { LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(value)) },
+            _ => throw new NotSupportedException($"Cannot handle ToExpressions({o.GetType()})"),
+        };
 
         public static ExpressionSyntax ToExpression(object o) => ToExpressions(o).Single();
 
@@ -84,19 +65,12 @@ namespace Google.Api.Generator.RoslynUtils
             }
             if (o is ArgModifier argMod)
             {
-                // Handle argument modifiers; e.g. `ref`
-                SyntaxKind kind;
-                switch (argMod.ModType)
+                var kind = argMod.ModType switch
                 {
-                    case ArgModifier.Type.Ref:
-                        kind = SyntaxKind.RefKeyword;
-                        break;
-                    case ArgModifier.Type.Out:
-                        kind = SyntaxKind.OutKeyword;
-                        break;
-                    default:
-                        throw new InvalidOperationException($"Cannot convert modtype: {argMod.ModType}");
-                }
+                    ArgModifier.Type.Ref => SyntaxKind.RefKeyword,
+                    ArgModifier.Type.Out => SyntaxKind.OutKeyword,
+                    _ => throw new InvalidOperationException($"Cannot convert modtype: {argMod.ModType}"),
+                };
                 return new[] { Argument(ToExpressions(argMod.Arg).Single()).WithRefKindKeyword(Token(kind)) };
             }
             if (o is DeclarationExpressionSyntax decl)
@@ -110,25 +84,17 @@ namespace Google.Api.Generator.RoslynUtils
 
         public static IEnumerable<StatementSyntax> ToStatements(object o)
         {
-            switch (o)
+            return o switch
             {
                 // Order matters.
-                case null:
-                    return Enumerable.Empty<StatementSyntax>();
-                case string v:
-                    return new[] { ExpressionStatement(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(v))) };
-                case IEnumerable en:
-                    return HandleEnumerable(en);
-                case StatementSyntax v:
-                    return new[] { v };
-                case ExpressionSyntax v:
-                    return new[] { v.ToStatement() };
-                case FieldDeclarationSyntax field:
-                    return new[] { IdentifierName(field.Declaration.Variables[0].Identifier).ToStatement() };
-                default:
-                    throw new NotSupportedException($"Cannot handle ToStatement({o.GetType()})");
-            }
-
+                null => Enumerable.Empty<StatementSyntax>(),
+                string v => new[] { ExpressionStatement(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(v))) },
+                IEnumerable en => HandleEnumerable(en),
+                StatementSyntax v => new[] { v },
+                ExpressionSyntax v => new[] { v.ToStatement() },
+                FieldDeclarationSyntax field => new[] { IdentifierName(field.Declaration.Variables[0].Identifier).ToStatement() },
+                _ => throw new NotSupportedException($"Cannot handle ToStatement({o.GetType()})"),
+            };
 
             IEnumerable<StatementSyntax> HandleEnumerable(IEnumerable items)
             {
@@ -169,24 +135,14 @@ namespace Google.Api.Generator.RoslynUtils
                 }
                 return IdentifierName(o.ToString());
             }
-            SyntaxToken name;
-            switch (o)
+            var name = o switch
             {
-                case string v:
-                    name = Identifier(v);
-                    break;
-                case PropertyDeclarationSyntax v:
-                    name = v.Identifier;
-                    break;
-                case MethodDeclarationSyntax v:
-                    name = v.Identifier;
-                    break;
-                case EnumMemberDeclarationSyntax v:
-                    name = v.Identifier;
-                    break;
-                default:
-                    throw new NotSupportedException($"Cannot handle ToSimpleName({o.GetType()})");
-            }
+                string v => Identifier(v),
+                PropertyDeclarationSyntax v => v.Identifier,
+                MethodDeclarationSyntax v => v.Identifier,
+                EnumMemberDeclarationSyntax v => v.Identifier,
+                _ => throw new NotSupportedException($"Cannot handle ToSimpleName({o.GetType()})"),
+            };
             name = name.WithoutTrivia();
             return genericArgs.Any() ?
                 GenericName(name, TypeArgumentList(SeparatedList(genericArgs))) :

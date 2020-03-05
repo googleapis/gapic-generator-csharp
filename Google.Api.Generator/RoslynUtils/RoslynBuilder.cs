@@ -174,7 +174,8 @@ namespace Google.Api.Generator.RoslynUtils
                 expr = expr.WithAsyncKeyword(Token(SyntaxKind.AsyncKeyword));
             }
             return expr;
-            CSharpSyntaxNode MakeExpr(CSharpSyntaxNode c) =>
+
+            static CSharpSyntaxNode MakeExpr(CSharpSyntaxNode c) =>
                 c is ReturnStatementSyntax ret ? ret.Expression :
                 c is ExpressionStatementSyntax exprState ? exprState.Expression :
                 c;
@@ -283,7 +284,7 @@ namespace Google.Api.Generator.RoslynUtils
                 }));
             return InterpolatedStringExpression(Token(SyntaxKind.InterpolatedStringStartToken), List(parts));
 
-            void AppendString(string s, List<InterpolatedStringContentSyntax> list)
+            static void AppendString(string s, List<InterpolatedStringContentSyntax> list)
             {
                 if (s.Length > 0)
                 {

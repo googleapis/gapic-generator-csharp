@@ -255,18 +255,16 @@ namespace Google.Api.Generator.RoslynUtils
             var constraint = TypeParameterConstraintClause(IdentifierName(genericParam.Name), SeparatedList(constraints.Select(MakeConstraint)));
             return method.WithConstraintClauses(List(method.ConstraintClauses.Append(constraint)));
 
-            TypeParameterConstraintSyntax MakeConstraint(TypeSyntax type)
+            static TypeParameterConstraintSyntax MakeConstraint(TypeSyntax type)
             {
                 if (type is SimpleNameSyntax simple && simple.Identifier.Text.StartsWith(Typ.Special.NamePrefix))
                 {
                     var special = Enum.Parse<Typ.Special.Type>(simple.Identifier.Text.Substring(Typ.Special.NamePrefix.Length));
-                    switch (special)
+                    return special switch
                     {
-                        case Typ.Special.Type.ClassConstraint:
-                            return ClassOrStructConstraint(SyntaxKind.ClassConstraint);
-                        default:
-                            throw new ArgumentException($"Cannot handle special constraint: '{special}'");
-                    }
+                        Typ.Special.Type.ClassConstraint => ClassOrStructConstraint(SyntaxKind.ClassConstraint),
+                        _ => throw new ArgumentException($"Cannot handle special constraint: '{special}'"),
+                    };
                 }
                 return TypeConstraint(type);
             }
