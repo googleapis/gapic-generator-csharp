@@ -24,6 +24,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using static Google.Api.Generator.RoslynUtils.Modifier;
 using static Google.Api.Generator.RoslynUtils.RoslynBuilder;
+using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace Google.Api.Generator.Generation
 {
@@ -49,8 +50,12 @@ namespace Google.Api.Generator.Generation
             using (_ctx.InClass(cls))
             {
                 cls = cls.AddMembers(Settings());
+                cls = cls.AddMembers(InterceptBuild());
+                cls = cls.AddMembers(InterceptBuildAsync());
                 cls = cls.AddMembers(Build());
                 cls = cls.AddMembers(BuildAsync());
+                cls = cls.AddMembers(BuildImpl());
+                cls = cls.AddMembers(BuildAsyncImpl());
                 cls = cls.AddMembers(GetDefaultEndpoint());
                 cls = cls.AddMembers(GetDefaultScopes());
                 cls = cls.AddMembers(GetChannelPool());
@@ -63,27 +68,54 @@ namespace Google.Api.Generator.Generation
             AutoProperty(Public, _ctx.Type(_svc.SettingsTyp), "Settings", hasSetter: true)
                 .WithXmlDoc(XmlDoc.Summary("The settings to use for RPCs, or ", null, " for the default settings."));
 
+        private MethodDeclarationSyntax InterceptBuild() => PartialMethod("InterceptBuild")(Parameter(_ctx.Type(_svc.ClientAbstractTyp), "client").Ref());
+
+        private MethodDeclarationSyntax InterceptBuildAsync() => PartialMethod("InterceptBuildAsync")(
+            Parameter(_ctx.Type<CancellationToken>(), "cancellationToken"),
+            Parameter(_ctx.Type(Typ.Generic(typeof(Task<>), _svc.ClientAbstractTyp)), "task").Ref());
+
         private MethodDeclarationSyntax Build()
         {
-            var callInvoker = Local(_ctx.Type<CallInvoker>(), "callInvoker");
+            var client = Local(_ctx.Type(_svc.ClientAbstractTyp), "client");
             return Method(Public | Override, _ctx.Type(_svc.ClientAbstractTyp), "Build")()
                 .WithBody(
-                    This.Call("Validate")(),
-                    callInvoker.WithInitializer(This.Call("CreateCallInvoker")()),
-                    Return(_ctx.Type(_svc.ClientAbstractTyp).Call("Create")(callInvoker, Settings())))
+                    client.WithInitializer(Null),
+                    This.Call("InterceptBuild")(Ref(client)),
+                    Return(client.NullCoalesce(This.Call("BuildImpl")())))
                 .WithXmlDoc(XmlDoc.InheritDoc);
         }
 
         private MethodDeclarationSyntax BuildAsync()
         {
             var cancellationToken = Parameter(_ctx.Type<CancellationToken>(), "cancellationToken", @default: Default);
+            var task = Local(_ctx.Type(Typ.Generic(typeof(Task<>), _svc.ClientAbstractTyp)), "task");
+            return Method(Public | Override, _ctx.Type(Typ.Generic(typeof(Task<>), _svc.ClientAbstractTyp)), "BuildAsync")(cancellationToken)
+                .WithBody(
+                    task.WithInitializer(Null),
+                    This.Call("InterceptBuildAsync")(cancellationToken, Ref(task)),
+                    Return(task.NullCoalesce(This.Call("BuildAsyncImpl")(cancellationToken))))
+                .WithXmlDoc(XmlDoc.InheritDoc);
+        }
+
+        private MethodDeclarationSyntax BuildImpl()
+        {
             var callInvoker = Local(_ctx.Type<CallInvoker>(), "callInvoker");
-            return Method(Public | Override | Async, _ctx.Type(Typ.Generic(typeof(Task<>), _svc.ClientAbstractTyp)), "BuildAsync")(cancellationToken)
+            return Method(Private, _ctx.Type(_svc.ClientAbstractTyp), "BuildImpl")()
+                .WithBody(
+                    This.Call("Validate")(),
+                    callInvoker.WithInitializer(This.Call("CreateCallInvoker")()),
+                    Return(_ctx.Type(_svc.ClientAbstractTyp).Call("Create")(callInvoker, Settings())));
+        }
+
+        private MethodDeclarationSyntax BuildAsyncImpl()
+        {
+            var cancellationToken = Parameter(_ctx.Type<CancellationToken>(), "cancellationToken");
+            var callInvoker = Local(_ctx.Type<CallInvoker>(), "callInvoker");
+            return Method(Private | Async, _ctx.Type(Typ.Generic(typeof(Task<>), _svc.ClientAbstractTyp)), "BuildAsyncImpl")(cancellationToken)
                 .WithBody(
                     This.Call("Validate")(),
                     callInvoker.WithInitializer(Await(This.Call("CreateCallInvokerAsync")(cancellationToken).ConfigureAwait())),
-                    Return(_ctx.Type(_svc.ClientAbstractTyp).Call("Create")(callInvoker, Settings())))
-                .WithXmlDoc(XmlDoc.InheritDoc);
+                    Return(_ctx.Type(_svc.ClientAbstractTyp).Call("Create")(callInvoker, Settings())));
         }
 
         private MethodDeclarationSyntax GetDefaultEndpoint() =>

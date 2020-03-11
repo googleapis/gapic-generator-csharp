@@ -113,16 +113,34 @@ namespace Testing.Deprecated
         /// <summary>The settings to use for RPCs, or <c>null</c> for the default settings.</summary>
         public DeprecatedSettings Settings { get; set; }
 
+        partial void InterceptBuild(ref DeprecatedClient client);
+
+        partial void InterceptBuildAsync(st::CancellationToken cancellationToken, ref stt::Task<DeprecatedClient> task);
+
         /// <inheritdoc/>
         public override DeprecatedClient Build()
+        {
+            DeprecatedClient client = null;
+            InterceptBuild(ref client);
+            return client ?? BuildImpl();
+        }
+
+        /// <inheritdoc/>
+        public override stt::Task<DeprecatedClient> BuildAsync(st::CancellationToken cancellationToken = default)
+        {
+            stt::Task<DeprecatedClient> task = null;
+            InterceptBuildAsync(cancellationToken, ref task);
+            return task ?? BuildAsyncImpl(cancellationToken);
+        }
+
+        private DeprecatedClient BuildImpl()
         {
             Validate();
             grpccore::CallInvoker callInvoker = CreateCallInvoker();
             return DeprecatedClient.Create(callInvoker, Settings);
         }
 
-        /// <inheritdoc/>
-        public override async stt::Task<DeprecatedClient> BuildAsync(st::CancellationToken cancellationToken = default)
+        private async stt::Task<DeprecatedClient> BuildAsyncImpl(st::CancellationToken cancellationToken)
         {
             Validate();
             grpccore::CallInvoker callInvoker = await CreateCallInvokerAsync(cancellationToken).ConfigureAwait(false);

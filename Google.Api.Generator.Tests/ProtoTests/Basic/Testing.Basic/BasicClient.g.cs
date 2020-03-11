@@ -74,16 +74,34 @@ namespace Testing.Basic
         /// <summary>The settings to use for RPCs, or <c>null</c> for the default settings.</summary>
         public BasicSettings Settings { get; set; }
 
+        partial void InterceptBuild(ref BasicClient client);
+
+        partial void InterceptBuildAsync(st::CancellationToken cancellationToken, ref stt::Task<BasicClient> task);
+
         /// <inheritdoc/>
         public override BasicClient Build()
+        {
+            BasicClient client = null;
+            InterceptBuild(ref client);
+            return client ?? BuildImpl();
+        }
+
+        /// <inheritdoc/>
+        public override stt::Task<BasicClient> BuildAsync(st::CancellationToken cancellationToken = default)
+        {
+            stt::Task<BasicClient> task = null;
+            InterceptBuildAsync(cancellationToken, ref task);
+            return task ?? BuildAsyncImpl(cancellationToken);
+        }
+
+        private BasicClient BuildImpl()
         {
             Validate();
             grpccore::CallInvoker callInvoker = CreateCallInvoker();
             return BasicClient.Create(callInvoker, Settings);
         }
 
-        /// <inheritdoc/>
-        public override async stt::Task<BasicClient> BuildAsync(st::CancellationToken cancellationToken = default)
+        private async stt::Task<BasicClient> BuildAsyncImpl(st::CancellationToken cancellationToken)
         {
             Validate();
             grpccore::CallInvoker callInvoker = await CreateCallInvokerAsync(cancellationToken).ConfigureAwait(false);
