@@ -87,16 +87,34 @@ namespace Testing.Keywords
         /// <summary>The settings to use for RPCs, or <c>null</c> for the default settings.</summary>
         public KeywordsSettings Settings { get; set; }
 
+        partial void InterceptBuild(ref KeywordsClient client);
+
+        partial void InterceptBuildAsync(st::CancellationToken cancellationToken, ref stt::Task<KeywordsClient> task);
+
         /// <inheritdoc/>
         public override KeywordsClient Build()
+        {
+            KeywordsClient client = null;
+            InterceptBuild(ref client);
+            return client ?? BuildImpl();
+        }
+
+        /// <inheritdoc/>
+        public override stt::Task<KeywordsClient> BuildAsync(st::CancellationToken cancellationToken = default)
+        {
+            stt::Task<KeywordsClient> task = null;
+            InterceptBuildAsync(cancellationToken, ref task);
+            return task ?? BuildAsyncImpl(cancellationToken);
+        }
+
+        private KeywordsClient BuildImpl()
         {
             Validate();
             grpccore::CallInvoker callInvoker = CreateCallInvoker();
             return KeywordsClient.Create(callInvoker, Settings);
         }
 
-        /// <inheritdoc/>
-        public override async stt::Task<KeywordsClient> BuildAsync(st::CancellationToken cancellationToken = default)
+        private async stt::Task<KeywordsClient> BuildAsyncImpl(st::CancellationToken cancellationToken)
         {
             Validate();
             grpccore::CallInvoker callInvoker = await CreateCallInvokerAsync(cancellationToken).ConfigureAwait(false);
