@@ -133,32 +133,41 @@ namespace Google.Api.Generator.Generation
                         var valueValue = TestValue(parts[1]);
                         return CollectionInitializer(ComplexElementInitializer(keyValue, valueValue));
                     }
-                    object value;
                     // See https://developers.google.com/protocol-buffers/docs/proto3#scalar
                     // Switch cases are ordered as in this doc. Please do not re-order.
-                    switch (fieldDesc.FieldType)
+                    object value = fieldDesc.FieldType switch
                     {
-                        case FieldType.Double: value = Double(); break;
-                        case FieldType.Float: value = (float)Double(); break;
-                        case FieldType.Int32: value = Int(); break;
-                        case FieldType.Int64: value = Long(); break;
-                        case FieldType.UInt32: value = (uint)Int(); break;
-                        case FieldType.UInt64: value = (ulong)Long(); break;
-                        case FieldType.SInt32: value = Int(); break;
-                        case FieldType.SInt64: value = Long(); break;
-                        case FieldType.Fixed32: value = (uint)Int(); break;
-                        case FieldType.Fixed64: value = (ulong)Long(); break;
-                        case FieldType.SFixed32: value = Int(); break;
-                        case FieldType.SFixed64: value = Long(); break;
-                        case FieldType.Bool: value = Int() >= 0; break;
-                        case FieldType.String: value = String(); break;
-                        case FieldType.Bytes: value = Ctx.Type<ByteString>().Call(nameof(ByteString.CopyFromUtf8))(String()); break;
-                        case FieldType.Message: value = New(Ctx.Type(Typ.Of(fieldDesc.MessageType)))(); break;
-                        case FieldType.Enum: value = Ctx.Type(Typ.Of(fieldDesc.EnumType)).Access(
-                            fieldDesc.EnumType.Values[Math.Abs(Int()) % fieldDesc.EnumType.Values.Count].CSharpName()); break;
-                        default: throw new InvalidOperationException($"Cannot generate test value for proto type: {fieldDesc.FieldType}");
-
-                    }
+                        FieldType.Double => Double(),
+                        FieldType.Float => (float)Double(),
+                        FieldType.Int32 => Int(),
+                        FieldType.Int64 => Long(),
+                        FieldType.UInt32 => (uint)Int(),
+                        FieldType.UInt64 => (ulong)Long(),
+                        FieldType.SInt32 => Int(),
+                        FieldType.SInt64 => Long(),
+                        FieldType.Fixed32 => (uint)Int(),
+                        FieldType.Fixed64 => (ulong)Long(),
+                        FieldType.SFixed32 => Int(),
+                        FieldType.SFixed64 => Long(),
+                        FieldType.Bool => Int() >= 0,
+                        FieldType.String => String(),
+                        FieldType.Bytes => Ctx.Type<ByteString>().Call(nameof(ByteString.CopyFromUtf8))(String()),
+                        FieldType.Message => fieldDesc.MessageType.FullName switch
+                        {
+                            "google.protobuf.DoubleValue" => Double(),
+                            "google.protobuf.FloatValue" => (float)Double(),
+                            "google.protobuf.Int64Value" => Long(),
+                            "google.protobuf.UInt64Value" => (ulong)Long(),
+                            "google.protobuf.Int32Value" => Int(),
+                            "google.protobuf.UInt32Value" => (uint)Int(),
+                            "google.protobuf.BoolValue" => Int() >= 0,
+                            "google.protobuf.StringValue" => String(),
+                            "google.protobuf.BytesValue" => Ctx.Type<ByteString>().Call(nameof(ByteString.CopyFromUtf8))(String()),
+                            _ => New(Ctx.Type(Typ.Of(fieldDesc.MessageType)))(),
+                        },
+                        FieldType.Enum => Ctx.Type(Typ.Of(fieldDesc.EnumType)).Access(fieldDesc.EnumType.Values[Math.Abs(Int()) % fieldDesc.EnumType.Values.Count].CSharpName()),
+                        _ => throw new InvalidOperationException($"Cannot generate test value for proto type: {fieldDesc.FieldType}"),
+                    };
                     return fieldDesc.IsRepeated ? CollectionInitializer(value) : value;
                 }
 

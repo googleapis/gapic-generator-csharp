@@ -132,6 +132,39 @@ namespace Testing.UnitTests.Tests
 #pragma warning disable CS0612
                 ObsoleteField = "obsolete_field3c966e0f",
 #pragma warning restore CS0612
+                SingleWrappedDouble = 22839531535779308,
+                SingleWrappedFloat = -1.1280357E+18F,
+                SingleWrappedInt64 = 5539411588513130608L,
+                SingleWrappedUint64 = 16318141618769028113UL,
+                SingleWrappedInt32 = -162124917,
+                SingleWrappedUint32 = 185702015U,
+                SingleWrappedBool = false,
+                SingleWrappedString = "single_wrapped_stringf548cb82",
+                SingleWrappedBytes = proto::ByteString.CopyFromUtf8("single_wrapped_bytesd1603531"),
+                RepeatedWrappedDouble =
+                {
+                    9.728582718428364E+17,
+                },
+                RepeatedWrappedFloat = { 1.118602E+18F, },
+                RepeatedWrappedInt64 =
+                {
+                    -7408792260006172347L,
+                },
+                RepeatedWrappedUint64 =
+                {
+                    11638824494023419247UL,
+                },
+                RepeatedWrappedInt32 = { -1631926576, },
+                RepeatedWrappedUint32 = { 3960286655U, },
+                RepeatedWrappedBool = { true, },
+                RepeatedWrappedString =
+                {
+                    "repeated_wrapped_string86f2fee9",
+                },
+                RepeatedWrappedBytes =
+                {
+                    proto::ByteString.CopyFromUtf8("repeated_wrapped_bytesaa9512b2"),
+                },
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.MethodValues(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
@@ -244,6 +277,39 @@ namespace Testing.UnitTests.Tests
 #pragma warning disable CS0612
                 ObsoleteField = "obsolete_field3c966e0f",
 #pragma warning restore CS0612
+                SingleWrappedDouble = 22839531535779308,
+                SingleWrappedFloat = -1.1280357E+18F,
+                SingleWrappedInt64 = 5539411588513130608L,
+                SingleWrappedUint64 = 16318141618769028113UL,
+                SingleWrappedInt32 = -162124917,
+                SingleWrappedUint32 = 185702015U,
+                SingleWrappedBool = false,
+                SingleWrappedString = "single_wrapped_stringf548cb82",
+                SingleWrappedBytes = proto::ByteString.CopyFromUtf8("single_wrapped_bytesd1603531"),
+                RepeatedWrappedDouble =
+                {
+                    9.728582718428364E+17,
+                },
+                RepeatedWrappedFloat = { 1.118602E+18F, },
+                RepeatedWrappedInt64 =
+                {
+                    -7408792260006172347L,
+                },
+                RepeatedWrappedUint64 =
+                {
+                    11638824494023419247UL,
+                },
+                RepeatedWrappedInt32 = { -1631926576, },
+                RepeatedWrappedUint32 = { 3960286655U, },
+                RepeatedWrappedBool = { true, },
+                RepeatedWrappedString =
+                {
+                    "repeated_wrapped_string86f2fee9",
+                },
+                RepeatedWrappedBytes =
+                {
+                    proto::ByteString.CopyFromUtf8("repeated_wrapped_bytesaa9512b2"),
+                },
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.MethodValuesAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
@@ -318,11 +384,16 @@ namespace Testing.UnitTests.Tests
                         "value60c16320"
                     },
                 },
+                SingleWrappedString = "single_wrapped_stringf548cb82",
+                RepeatedWrappedDouble =
+                {
+                    9.728582718428364E+17,
+                },
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.MethodValues(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
             UnitTestsClient client = new UnitTestsClientImpl(mockGrpcClient.Object, null);
-            Response response = client.MethodValues(request.SingleDouble, request.SingleFloat, request.SingleInt32, request.SingleInt64, request.RepeatedBool, request.RepeatedBytes, request.RepeatedResourceName, request.MapIntString);
+            Response response = client.MethodValues(request.SingleDouble, request.SingleFloat, request.SingleInt32, request.SingleInt64, request.RepeatedBool, request.RepeatedBytes, request.RepeatedResourceName, request.MapIntString, request.SingleWrappedString, request.RepeatedWrappedDouble);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
         }
@@ -354,13 +425,18 @@ namespace Testing.UnitTests.Tests
                         "value60c16320"
                     },
                 },
+                SingleWrappedString = "single_wrapped_stringf548cb82",
+                RepeatedWrappedDouble =
+                {
+                    9.728582718428364E+17,
+                },
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.MethodValuesAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
             UnitTestsClient client = new UnitTestsClientImpl(mockGrpcClient.Object, null);
-            Response responseCallSettings = await client.MethodValuesAsync(request.SingleDouble, request.SingleFloat, request.SingleInt32, request.SingleInt64, request.RepeatedBool, request.RepeatedBytes, request.RepeatedResourceName, request.MapIntString, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
+            Response responseCallSettings = await client.MethodValuesAsync(request.SingleDouble, request.SingleFloat, request.SingleInt32, request.SingleInt64, request.RepeatedBool, request.RepeatedBytes, request.RepeatedResourceName, request.MapIntString, request.SingleWrappedString, request.RepeatedWrappedDouble, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
-            Response responseCancellationToken = await client.MethodValuesAsync(request.SingleDouble, request.SingleFloat, request.SingleInt32, request.SingleInt64, request.RepeatedBool, request.RepeatedBytes, request.RepeatedResourceName, request.MapIntString, st::CancellationToken.None);
+            Response responseCancellationToken = await client.MethodValuesAsync(request.SingleDouble, request.SingleFloat, request.SingleInt32, request.SingleInt64, request.RepeatedBool, request.RepeatedBytes, request.RepeatedResourceName, request.MapIntString, request.SingleWrappedString, request.RepeatedWrappedDouble, st::CancellationToken.None);
             xunit::Assert.Same(expectedResponse, responseCancellationToken);
             mockGrpcClient.VerifyAll();
         }
@@ -392,11 +468,16 @@ namespace Testing.UnitTests.Tests
                         "value60c16320"
                     },
                 },
+                SingleWrappedString = "single_wrapped_stringf548cb82",
+                RepeatedWrappedDouble =
+                {
+                    9.728582718428364E+17,
+                },
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.MethodValues(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
             UnitTestsClient client = new UnitTestsClientImpl(mockGrpcClient.Object, null);
-            Response response = client.MethodValues(request.SingleDouble, request.SingleFloat, request.SingleInt32, request.SingleInt64, request.RepeatedBool, request.RepeatedBytes, request.RepeatedResourceNameAsAResourceNames, request.MapIntString);
+            Response response = client.MethodValues(request.SingleDouble, request.SingleFloat, request.SingleInt32, request.SingleInt64, request.RepeatedBool, request.RepeatedBytes, request.RepeatedResourceNameAsAResourceNames, request.MapIntString, request.SingleWrappedString, request.RepeatedWrappedDouble);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
         }
@@ -428,13 +509,18 @@ namespace Testing.UnitTests.Tests
                         "value60c16320"
                     },
                 },
+                SingleWrappedString = "single_wrapped_stringf548cb82",
+                RepeatedWrappedDouble =
+                {
+                    9.728582718428364E+17,
+                },
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.MethodValuesAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
             UnitTestsClient client = new UnitTestsClientImpl(mockGrpcClient.Object, null);
-            Response responseCallSettings = await client.MethodValuesAsync(request.SingleDouble, request.SingleFloat, request.SingleInt32, request.SingleInt64, request.RepeatedBool, request.RepeatedBytes, request.RepeatedResourceNameAsAResourceNames, request.MapIntString, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
+            Response responseCallSettings = await client.MethodValuesAsync(request.SingleDouble, request.SingleFloat, request.SingleInt32, request.SingleInt64, request.RepeatedBool, request.RepeatedBytes, request.RepeatedResourceNameAsAResourceNames, request.MapIntString, request.SingleWrappedString, request.RepeatedWrappedDouble, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
-            Response responseCancellationToken = await client.MethodValuesAsync(request.SingleDouble, request.SingleFloat, request.SingleInt32, request.SingleInt64, request.RepeatedBool, request.RepeatedBytes, request.RepeatedResourceNameAsAResourceNames, request.MapIntString, st::CancellationToken.None);
+            Response responseCancellationToken = await client.MethodValuesAsync(request.SingleDouble, request.SingleFloat, request.SingleInt32, request.SingleInt64, request.RepeatedBool, request.RepeatedBytes, request.RepeatedResourceNameAsAResourceNames, request.MapIntString, request.SingleWrappedString, request.RepeatedWrappedDouble, st::CancellationToken.None);
             xunit::Assert.Same(expectedResponse, responseCancellationToken);
             mockGrpcClient.VerifyAll();
         }
@@ -568,4 +654,3 @@ namespace Testing.UnitTests.Tests
         }
     }
 }
-

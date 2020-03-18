@@ -5,6 +5,7 @@ package testing.snippets;
 import "google/api/client.proto";
 import "google/longrunning/operations.proto";
 import "google/api/resource.proto";
+import "google/protobuf/wrappers.proto";
 
 service Snippets {
   option (google.api.default_host) = "snippets.example.com";
@@ -154,6 +155,24 @@ message DefaultValuesRequest {
   repeated string repeated_multi_pattern_resource_name = 45 [(google.api.resource_reference).type = "unittests.example.com/MultiPatternResource"];
   map<int32, string> map_int_string = 46;
   string obsolete_field = 50 [deprecated = true];
+  google.protobuf.DoubleValue single_wrapped_double = 60;
+  google.protobuf.FloatValue single_wrapped_float = 61;
+  google.protobuf.Int64Value single_wrapped_int64 = 62;
+  google.protobuf.UInt64Value single_wrapped_uint64 = 63;
+  google.protobuf.Int32Value single_wrapped_int32 = 64;
+  google.protobuf.UInt32Value single_wrapped_uint32 = 65;
+  google.protobuf.BoolValue single_wrapped_bool = 66;
+  google.protobuf.StringValue single_wrapped_string = 67;
+  google.protobuf.BytesValue single_wrapped_bytes = 68;
+  repeated google.protobuf.DoubleValue repeated_wrapped_double = 70;
+  repeated google.protobuf.FloatValue repeated_wrapped_float = 71;
+  repeated google.protobuf.Int64Value repeated_wrapped_int64 = 72;
+  repeated google.protobuf.UInt64Value repeated_wrapped_uint64 = 73;
+  repeated google.protobuf.Int32Value repeated_wrapped_int32 = 74;
+  repeated google.protobuf.UInt32Value repeated_wrapped_uint32 = 75;
+  repeated google.protobuf.BoolValue repeated_wrapped_bool = 76;
+  repeated google.protobuf.StringValue repeated_wrapped_string = 77;
+  repeated google.protobuf.BytesValue repeated_wrapped_bytes = 78;
 }
 
 message SignatureRequest {
