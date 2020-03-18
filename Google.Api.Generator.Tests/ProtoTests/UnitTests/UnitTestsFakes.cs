@@ -99,6 +99,24 @@ namespace Testing.UnitTests
         public RepeatedField<string> RepeatedMultiPatternResourceName { get; } = new RepeatedField<string>();
         public MapField<int, string> MapIntString { get; } = new MapField<int, string>();
         [Obsolete] public string ObsoleteField { get; set; }
+        public double? SingleWrappedDouble { get; set; }
+        public float? SingleWrappedFloat { get; set; }
+        public long? SingleWrappedInt64 { get; set; }
+        public ulong? SingleWrappedUint64 { get; set; }
+        public int? SingleWrappedInt32 { get; set; }
+        public uint? SingleWrappedUint32 { get; set; }
+        public bool? SingleWrappedBool { get; set; }
+        public string SingleWrappedString { get; set; }
+        public ByteString SingleWrappedBytes { get; set; }
+        public RepeatedField<double?> RepeatedWrappedDouble { get; } = new RepeatedField<double?>();
+        public RepeatedField<float?> RepeatedWrappedFloat { get; } = new RepeatedField<float?>();
+        public RepeatedField<long?> RepeatedWrappedInt64 { get; } = new RepeatedField<long?>();
+        public RepeatedField<ulong?> RepeatedWrappedUint64 { get; } = new RepeatedField<ulong?>();
+        public RepeatedField<int?> RepeatedWrappedInt32 { get; } = new RepeatedField<int?>();
+        public RepeatedField<uint?> RepeatedWrappedUint32 { get; } = new RepeatedField<uint?>();
+        public RepeatedField<bool?> RepeatedWrappedBool { get; } = new RepeatedField<bool?>();
+        public RepeatedField<string> RepeatedWrappedString { get; } = new RepeatedField<string>();
+        public RepeatedField<ByteString> RepeatedWrappedBytes { get; } = new RepeatedField<ByteString>();
     }
 
     public partial class AResource : ProtoMsgFake<AResource>

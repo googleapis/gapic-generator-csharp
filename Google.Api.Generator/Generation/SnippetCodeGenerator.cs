@@ -198,31 +198,41 @@ namespace Google.Api.Generator.Generation
                                 .WithInitializer(collectionInitializer)
                             : (object) collectionInitializer;
                     }
-                    object @default;
                     // See https://developers.google.com/protocol-buffers/docs/proto3#scalar
                     // Switch cases are ordered as in this doc. Please do not re-order.
-                    switch (fieldDesc.FieldType)
+                    object @default = fieldDesc.FieldType switch
                     {
-                        case FieldType.Double: @default = default(double); break;
-                        case FieldType.Float: @default = default(float); break;
-                        case FieldType.Int32: @default = default(int); break;
-                        case FieldType.Int64: @default = default(long); break;
-                        case FieldType.UInt32: @default = default(uint); break;
-                        case FieldType.UInt64: @default = default(ulong); break;
-                        case FieldType.SInt32: @default = default(int); break;
-                        case FieldType.SInt64: @default = default(long); break;
-                        case FieldType.Fixed32: @default = default(uint); break;
-                        case FieldType.Fixed64: @default = default(ulong); break;
-                        case FieldType.SFixed32: @default = default(int); break;
-                        case FieldType.SFixed64: @default = default(long); break;
-                        case FieldType.Bool: @default = default(bool); break;
-                        case FieldType.String: @default = ""; break;
-                        case FieldType.Bytes: @default = Ctx.Type<ByteString>().Access(nameof(ByteString.Empty)); break;
-                        case FieldType.Message: @default = New(Ctx.Type(Typ.Of(fieldDesc.MessageType)))(); break;
-                        case FieldType.Enum: @default = Ctx.Type(Typ.Of(fieldDesc.EnumType)).Access(fieldDesc.EnumType.Values.First().CSharpName()); break;
-                        default: throw new InvalidOperationException($"Cannot generate default for proto type: {fieldDesc.FieldType}");
-
-                    }
+                        FieldType.Double => default(double),
+                        FieldType.Float => default(float),
+                        FieldType.Int32 => default(int),
+                        FieldType.Int64 => default(long),
+                        FieldType.UInt32 => default(uint),
+                        FieldType.UInt64 => default(ulong),
+                        FieldType.SInt32 => default(int),
+                        FieldType.SInt64 => default(long),
+                        FieldType.Fixed32 => default(uint),
+                        FieldType.Fixed64 => default(ulong),
+                        FieldType.SFixed32 => default(int),
+                        FieldType.SFixed64 => default(long),
+                        FieldType.Bool => default(bool),
+                        FieldType.String => "",
+                        FieldType.Bytes => Ctx.Type<ByteString>().Access(nameof(ByteString.Empty)),
+                        FieldType.Message => fieldDesc.MessageType.FullName switch
+                        {
+                            "google.protobuf.DoubleValue" => default(double),
+                            "google.protobuf.FloatValue" => default(float),
+                            "google.protobuf.Int64Value" => default(long),
+                            "google.protobuf.UInt64Value" => default(ulong),
+                            "google.protobuf.Int32Value" => default(int),
+                            "google.protobuf.UInt32Value" => default(uint),
+                            "google.protobuf.BoolValue" => default(bool),
+                            "google.protobuf.StringValue" => "",
+                            "google.protobuf.BytesValue" => Ctx.Type<ByteString>().Access(nameof(ByteString.Empty)),
+                            _ => New(Ctx.Type(Typ.Of(fieldDesc.MessageType)))()
+                        },
+                        FieldType.Enum => Ctx.Type(Typ.Of(fieldDesc.EnumType)).Access(fieldDesc.EnumType.Values.First().CSharpName()),
+                        _ => throw new InvalidOperationException($"Cannot generate default for proto type: {fieldDesc.FieldType}"),
+                    };
                     return fieldDesc.IsRepeated ? Collection(@default, null) : @default;
                 }
 
