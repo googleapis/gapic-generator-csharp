@@ -7,10 +7,11 @@ option csharp_namespace = "Testing.ResourceNames";
 import "google/api/client.proto";
 import "google/api/resource.proto";
 import "google/api/field_behavior.proto";
+import "google/protobuf/wrappers.proto";
 
 service ResourceNames {
   rpc SinglePatternMethod(SinglePattern) returns(Response) {
-    option (google.api.method_signature) = "real_name, ref, repeated_ref";
+    option (google.api.method_signature) = "real_name, ref, repeated_ref, value_ref, repeated_value_ref";
   }
 
   rpc WildcardOnlyPatternMethod(WildcardOnlyPattern) returns(Response) {
@@ -35,6 +36,8 @@ message SinglePattern {
   string real_name = 1; // Test non-standard field name.
   string ref = 2 [(google.api.resource_reference).type = "resourcenames.example.com/SinglePattern"];
   repeated string repeated_ref = 3 [(google.api.resource_reference).type = "resourcenames.example.com/SinglePattern"];
+  google.protobuf.StringValue value_ref = 4 [(google.api.resource_reference).type = "resourcenames.example.com/SinglePattern"];
+  repeated google.protobuf.StringValue repeated_value_ref = 5 [(google.api.resource_reference).type = "resourcenames.example.com/SinglePattern"];
 }
 
 message WildcardOnlyPattern {

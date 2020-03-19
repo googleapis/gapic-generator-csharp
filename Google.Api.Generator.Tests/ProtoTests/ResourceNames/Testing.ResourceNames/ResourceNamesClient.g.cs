@@ -38,9 +38,13 @@ namespace Testing.ResourceNames
         /// </param>
         /// <param name="repeatedRef">
         /// </param>
+        /// <param name="valueRef">
+        /// </param>
+        /// <param name="repeatedValueRef">
+        /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The RPC response.</returns>
-        public virtual Response SinglePatternMethod(string realName, string @ref, scg::IEnumerable<string> repeatedRef, gaxgrpc::CallSettings callSettings = null) =>
+        public virtual Response SinglePatternMethod(string realName, string @ref, scg::IEnumerable<string> repeatedRef, string valueRef, scg::IEnumerable<string> repeatedValueRef, gaxgrpc::CallSettings callSettings = null) =>
             SinglePatternMethod(new SinglePattern
             {
                 RealName = realName ?? "",
@@ -49,6 +53,11 @@ namespace Testing.ResourceNames
                 {
                     repeatedRef ?? linq::Enumerable.Empty<string>(),
                 },
+                ValueRef = valueRef,
+                RepeatedValueRef =
+                {
+                    repeatedValueRef ?? linq::Enumerable.Empty<string>(),
+                },
             }, callSettings);
 
         /// <summary>
@@ -59,9 +68,13 @@ namespace Testing.ResourceNames
         /// </param>
         /// <param name="repeatedRef">
         /// </param>
+        /// <param name="valueRef">
+        /// </param>
+        /// <param name="repeatedValueRef">
+        /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<Response> SinglePatternMethodAsync(string realName, string @ref, scg::IEnumerable<string> repeatedRef, gaxgrpc::CallSettings callSettings = null) =>
+        public virtual stt::Task<Response> SinglePatternMethodAsync(string realName, string @ref, scg::IEnumerable<string> repeatedRef, string valueRef, scg::IEnumerable<string> repeatedValueRef, gaxgrpc::CallSettings callSettings = null) =>
             SinglePatternMethodAsync(new SinglePattern
             {
                 RealName = realName ?? "",
@@ -70,6 +83,11 @@ namespace Testing.ResourceNames
                 {
                     repeatedRef ?? linq::Enumerable.Empty<string>(),
                 },
+                ValueRef = valueRef,
+                RepeatedValueRef =
+                {
+                    repeatedValueRef ?? linq::Enumerable.Empty<string>(),
+                },
             }, callSettings);
 
         /// <summary>
@@ -80,10 +98,14 @@ namespace Testing.ResourceNames
         /// </param>
         /// <param name="repeatedRef">
         /// </param>
+        /// <param name="valueRef">
+        /// </param>
+        /// <param name="repeatedValueRef">
+        /// </param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
         /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<Response> SinglePatternMethodAsync(string realName, string @ref, scg::IEnumerable<string> repeatedRef, st::CancellationToken cancellationToken) =>
-            SinglePatternMethodAsync(realName, @ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+        public virtual stt::Task<Response> SinglePatternMethodAsync(string realName, string @ref, scg::IEnumerable<string> repeatedRef, string valueRef, scg::IEnumerable<string> repeatedValueRef, st::CancellationToken cancellationToken) =>
+            SinglePatternMethodAsync(realName, @ref, repeatedRef, valueRef, repeatedValueRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
         /// </summary>
@@ -93,9 +115,13 @@ namespace Testing.ResourceNames
         /// </param>
         /// <param name="repeatedRef">
         /// </param>
+        /// <param name="valueRef">
+        /// </param>
+        /// <param name="repeatedValueRef">
+        /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The RPC response.</returns>
-        public virtual Response SinglePatternMethod(SinglePatternName realName, SinglePatternName @ref, scg::IEnumerable<SinglePatternName> repeatedRef, gaxgrpc::CallSettings callSettings = null) =>
+        public virtual Response SinglePatternMethod(SinglePatternName realName, SinglePatternName @ref, scg::IEnumerable<SinglePatternName> repeatedRef, SinglePatternName valueRef, scg::IEnumerable<SinglePatternName> repeatedValueRef, gaxgrpc::CallSettings callSettings = null) =>
             SinglePatternMethod(new SinglePattern
             {
                 RealNameAsSinglePatternName = realName,
@@ -104,26 +130,10 @@ namespace Testing.ResourceNames
                 {
                     repeatedRef ?? linq::Enumerable.Empty<SinglePatternName>(),
                 },
-            }, callSettings);
-
-        /// <summary>
-        /// </summary>
-        /// <param name="realName">
-        /// </param>
-        /// <param name="ref">
-        /// </param>
-        /// <param name="repeatedRef">
-        /// </param>
-        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
-        /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<Response> SinglePatternMethodAsync(SinglePatternName realName, SinglePatternName @ref, scg::IEnumerable<SinglePatternName> repeatedRef, gaxgrpc::CallSettings callSettings = null) =>
-            SinglePatternMethodAsync(new SinglePattern
-            {
-                RealNameAsSinglePatternName = realName,
-                RefAsSinglePatternName = @ref,
-                RepeatedRefAsSinglePatternNames =
+                ValueRefAsSinglePatternName = valueRef,
+                RepeatedValueRefAsSinglePatternNames =
                 {
-                    repeatedRef ?? linq::Enumerable.Empty<SinglePatternName>(),
+                    repeatedValueRef ?? linq::Enumerable.Empty<SinglePatternName>(),
                 },
             }, callSettings);
 
@@ -135,10 +145,44 @@ namespace Testing.ResourceNames
         /// </param>
         /// <param name="repeatedRef">
         /// </param>
+        /// <param name="valueRef">
+        /// </param>
+        /// <param name="repeatedValueRef">
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<Response> SinglePatternMethodAsync(SinglePatternName realName, SinglePatternName @ref, scg::IEnumerable<SinglePatternName> repeatedRef, SinglePatternName valueRef, scg::IEnumerable<SinglePatternName> repeatedValueRef, gaxgrpc::CallSettings callSettings = null) =>
+            SinglePatternMethodAsync(new SinglePattern
+            {
+                RealNameAsSinglePatternName = realName,
+                RefAsSinglePatternName = @ref,
+                RepeatedRefAsSinglePatternNames =
+                {
+                    repeatedRef ?? linq::Enumerable.Empty<SinglePatternName>(),
+                },
+                ValueRefAsSinglePatternName = valueRef,
+                RepeatedValueRefAsSinglePatternNames =
+                {
+                    repeatedValueRef ?? linq::Enumerable.Empty<SinglePatternName>(),
+                },
+            }, callSettings);
+
+        /// <summary>
+        /// </summary>
+        /// <param name="realName">
+        /// </param>
+        /// <param name="ref">
+        /// </param>
+        /// <param name="repeatedRef">
+        /// </param>
+        /// <param name="valueRef">
+        /// </param>
+        /// <param name="repeatedValueRef">
+        /// </param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
         /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<Response> SinglePatternMethodAsync(SinglePatternName realName, SinglePatternName @ref, scg::IEnumerable<SinglePatternName> repeatedRef, st::CancellationToken cancellationToken) =>
-            SinglePatternMethodAsync(realName, @ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+        public virtual stt::Task<Response> SinglePatternMethodAsync(SinglePatternName realName, SinglePatternName @ref, scg::IEnumerable<SinglePatternName> repeatedRef, SinglePatternName valueRef, scg::IEnumerable<SinglePatternName> repeatedValueRef, st::CancellationToken cancellationToken) =>
+            SinglePatternMethodAsync(realName, @ref, repeatedRef, valueRef, repeatedValueRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
         // TEST_END
 
         public Response WildcardOnlyPatternMethod(WildcardOnlyPattern request, gaxgrpc::CallSettings callSettings = null) => throw new sys::NotImplementedException();

@@ -849,6 +849,23 @@ namespace Testing.ResourceNames
         {
             get => new gax::ResourceNameList<SinglePatternName>(RepeatedRef, s => string.IsNullOrEmpty(s) ? null : SinglePatternName.Parse(s, allowUnparsed: true));
         }
+
+        /// <summary>
+        /// <see cref="SinglePatternName"/>-typed view over the <see cref="ValueRef"/> resource name property.
+        /// </summary>
+        public SinglePatternName ValueRefAsSinglePatternName
+        {
+            get => string.IsNullOrEmpty(ValueRef) ? null : SinglePatternName.Parse(ValueRef, allowUnparsed: true);
+            set => ValueRef = value?.ToString() ?? "";
+        }
+
+        /// <summary>
+        /// <see cref="SinglePatternName"/>-typed view over the <see cref="RepeatedValueRef"/> resource name property.
+        /// </summary>
+        public gax::ResourceNameList<SinglePatternName> RepeatedValueRefAsSinglePatternNames
+        {
+            get => new gax::ResourceNameList<SinglePatternName>(RepeatedValueRef, s => string.IsNullOrEmpty(s) ? null : SinglePatternName.Parse(s, allowUnparsed: true));
+        }
     }
 
     public partial class WildcardOnlyPattern
