@@ -21,6 +21,8 @@ namespace Testing.ResourceNames
         public string RealName { get; set; }
         public string Ref { get; set; }
         public RepeatedField<string> RepeatedRef { get; }
+        public string ValueRef { get; set; }
+        public RepeatedField<string> RepeatedValueRef { get; }
     }
 
     public partial class WildcardOnlyPattern : ProtoMsgFake<WildcardOnlyPattern>
