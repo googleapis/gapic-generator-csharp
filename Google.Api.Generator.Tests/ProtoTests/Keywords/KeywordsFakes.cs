@@ -50,6 +50,7 @@ namespace Testing.Keywords
         public string Event { get; set; }
         public int Switch { get; set; }
         public Enum Void { get; set; }
+        public string Request_ { get; set; }
     }
 
     public partial class Response : ProtoMsgFake<Response> { }
