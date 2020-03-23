@@ -9,7 +9,7 @@ import "google/api/resource.proto";
 
 service Keywords {
   rpc Method1(Request) returns(Response) {
-    option (google.api.method_signature) = "event, switch, void";
+    option (google.api.method_signature) = "event, switch, void, request";
   }
 
   rpc Method2(Resource) returns(Response) {
@@ -37,6 +37,7 @@ message Request {
   string event = 1 [(google.api.resource_reference).type = "keywords.example.com/Resource"];
   int32 switch = 2;
   Enum void = 3;
+  string request = 4; // Also check a field named the same as the enclosing message.
 }
 
 message Response{

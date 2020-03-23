@@ -73,7 +73,11 @@ namespace Google.Api.Generator.ProtoUtils
                 .SkipWhile(string.IsNullOrWhiteSpace).Reverse().SkipWhile(string.IsNullOrWhiteSpace).Reverse() ??
                     Enumerable.Empty<string>();
 
-        public static string CSharpPropertyName(this FieldDescriptor field) => field.Name.ToUpperCamelCase();
+        public static string CSharpPropertyName(this FieldDescriptor field)
+        {
+            var result = field.Name.ToUpperCamelCase();
+            return field.ContainingType.Name == result ? $"{result}_" : result; // Matches protoc naming
+        }
 
         public static string CSharpFieldName(this FieldDescriptor field) => field.Name.ToLowerCamelCase();
 
