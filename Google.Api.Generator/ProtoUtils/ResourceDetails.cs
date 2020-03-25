@@ -289,22 +289,22 @@ namespace Google.Api.Generator.ProtoUtils
                     throw new InvalidOperationException("type or child_type must be set.");
                 }
             }
+        }
 
-            string ParentPattern(string pattern)
+        // Note: this could be a local method within LoadResourceReference, but making it a regular
+        // internal method allows it to be unit tested.
+        internal static string ParentPattern(string pattern)
+        {
+            if (pattern == "*")
             {
-                if (pattern == "*")
-                {
-                    // Parent of wildcard is a wildcard.
-                    return "*";
-                }
-                var lastIndex = pattern.LastIndexOf('}');
-                var last2Index = pattern.LastIndexOf('}', startIndex: Math.Max(lastIndex - 1, 0));
-                if (lastIndex < 0 || last2Index < 0)
-                {
-                    throw new InvalidOperationException("Cannot create the parent of a single-piece resource name.");
-                }
-                return pattern.Substring(0, last2Index + 1);
+                // Parent of wildcard is a wildcard.
+                return "*";
             }
+            var segments = pattern.Split('/');
+            var lastSegment = segments.Last();
+            var segmentsToConsume = lastSegment.StartsWith("{") && lastSegment.EndsWith("}") ? 2 : 1;
+            var parentSegments = segments.Take(segments.Length - segmentsToConsume);
+            return string.Join('/', parentSegments);
         }
     }
 }
