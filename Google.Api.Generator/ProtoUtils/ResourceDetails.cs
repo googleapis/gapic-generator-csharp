@@ -303,7 +303,10 @@ namespace Google.Api.Generator.ProtoUtils
             var segments = pattern.Split('/');
             var lastSegment = segments.Last();
             var segmentsToConsume = lastSegment.StartsWith("{") && lastSegment.EndsWith("}") ? 2 : 1;
-            var parentSegments = segments.Take(segments.Length - segmentsToConsume);
+            int remainingSegments = segments.Length - segmentsToConsume;
+            // We must have at least one segment afterwards. (It would be very odd to have *only* one, but valid in a theoretical way.)
+            GaxPreconditions.CheckArgument(remainingSegments > 1, nameof(pattern), "Pattern '{0}' has no parent pattern", pattern);
+            var parentSegments = segments.Take(remainingSegments);
             return string.Join('/', parentSegments);
         }
     }
