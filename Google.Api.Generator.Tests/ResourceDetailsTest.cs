@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Google.Api.Generator.ProtoUtils;
+using System;
 using Xunit;
 
 namespace Google.Api.Generator.Tests
@@ -26,7 +27,15 @@ namespace Google.Api.Generator.Tests
         [InlineData("projects/{project}/singleton", "projects/{project}")]
         [InlineData("projects/{project}/singleton/publishers/{publisher}", "projects/{project}/singleton")]
         [InlineData("projects/{project}/singleton/publishers/{publisher}/books/{book}", "projects/{project}/singleton/publishers/{publisher}")]
-        public void ParentPattern(string pattern, string expectedParent) =>
+        public void ParentPattern_Valid(string pattern, string expectedParent) =>
             Assert.Equal(expectedParent, ResourceDetails.ParentPattern(pattern));
+
+        [Theory]
+        [InlineData("")]
+        [InlineData("projects/{project}")]
+        [InlineData("projects")]
+        [InlineData("{bizarrePattern}")]
+        public void ParentPattern_Invalid(string pattern) =>
+            Assert.Throws<ArgumentException>(() => ResourceDetails.ParentPattern(pattern));
     }
 }
