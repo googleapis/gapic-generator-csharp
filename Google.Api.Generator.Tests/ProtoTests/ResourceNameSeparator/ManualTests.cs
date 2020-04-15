@@ -40,5 +40,23 @@ namespace Testing.ResourceNameSeparator
             Assert.Equal("B2", r2.B2Id);
             Assert.Equal("B3", r2.B3Id);
         }
+
+        [Fact]
+        public void ParseErrors()
+        {
+            Assert.Throws<ArgumentException>(() => RequestName.Parse("items/a~/details/da_db:dc/extra/e"));
+            Assert.Throws<ArgumentException>(() => RequestName.Parse("items/ab/details/da_db:dc/extra/e"));
+            Assert.Throws<ArgumentException>(() => RequestName.Parse("items/a~b/details/da:db:dc/extra/e"));
+            Assert.Throws<ArgumentException>(() => RequestName.Parse("items/a~b/details/da_db_dc/extra/e"));
+        }
+
+        [Fact]
+        public void Format()
+        {
+            Assert.Equal("items/a~b/details/da_db:dc/extra/e",
+                RequestName.FormatItemAItemBDetailsADetailsBDetailsCExtra("a", "b", "da", "db", "dc", "e"));
+            Assert.Equal("as/aaaAaaa/bs/~B1~B2~B3~",
+                RequestName.FormatAB1B2B3("A", "B1", "B2", "B3"));
+        }
     }
 }
