@@ -251,7 +251,7 @@ namespace Google.Api.Generator.Generation
                 }
             }
 
-            private IEnumerable<MemberDeclarationSyntax> ParseMethods()
+            private IEnumerable<MethodDeclarationSyntax> ParseMethods()
             {
                 var paramName = _def.ResourceNameTyp.Name.ToLowerCamelCase();
                 var name = Parameter(_ctx.Type<string>(), paramName);
