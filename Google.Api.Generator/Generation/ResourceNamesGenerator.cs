@@ -278,9 +278,9 @@ namespace Google.Api.Generator.Generation
                                 i1.WithInitializer(separators.ElementAccess(i).Equality("").ConditionalOperator(
                                     s.Access(nameof(string.Length)), s.Call(nameof(string.IndexOf))(separators.ElementAccess(i), i0))),
                                 If(i1.LessThan(0)).Then(Return(Null)),
-                                result.ElementAccess(i.Minus(1)).Assign(s.Call(nameof(string.Substring))(i0, i1.Minus(i0))),
+                                pshResult.ElementAccess(i.Minus(1)).Assign(s.Call(nameof(string.Substring))(i0, i1.Minus(i0))),
                                 i0.Assign(i1.Plus(separators.ElementAccess(i).Access(nameof(string.Length))))),
-                            Return(result));
+                            Return(pshResult));
                 }
                 else
                 {
