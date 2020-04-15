@@ -235,6 +235,15 @@ namespace Google.Api.Generator.Tests
                 }
             }
 
+            // Test `for`
+            public void For()
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    Console.WriteLine(i);
+                }
+            }
+
             // Test a simple lambda expression.
             public IEnumerable<int> SimpleLambda() => new string[0].Select(x => x.Length);
 

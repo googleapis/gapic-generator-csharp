@@ -256,6 +256,9 @@ namespace Google.Api.Generator.Tests
         public void UnknownResource() => ProtoTestSingle("UnknownResource", ignoreCsProj: true, ignoreUnitTests: true, ignoreSnippets: true);
 
         [Fact]
+        public void ResourceNameSeparator() => ProtoTestSingle("ResourceNameSeparator", ignoreCsProj: true, ignoreUnitTests: true, ignoreSnippets: true);
+
+        [Fact]
         public void VoidReturn() => ProtoTestSingle("VoidReturn", ignoreCsProj: true);
 
         [Fact]

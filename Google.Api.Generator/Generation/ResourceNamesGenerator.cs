@@ -84,11 +84,23 @@ namespace Google.Api.Generator.Generation
                 public PropertyDeclarationSyntax Property { get; }
             }
 
+            public class PathSegment
+            {
+                public PathSegment(SourceFileContext ctx, ResourceDetails.Definition def, ResourcePattern.Segment segment)
+                {
+                    Segment = segment;
+                    Elements = segment.ParameterNames.Select(x => new PathElement(ctx, def, x)).ToList();
+                }
+
+                public ResourcePattern.Segment Segment { get; }
+                public IReadOnlyList<PathElement> Elements { get; }
+            }
+
             public PatternDetails(SourceFileContext ctx, ResourceDetails.Definition def, ResourceDetails.Definition.Pattern pattern)
             {
                 PatternString = pattern.PatternString;
-                PathElements = pattern.Template.ParameterNames.Select(name => new PathElement(ctx, def, name)).ToList();
-                if (PathElements.Count == 0)
+                PathSegments = pattern.Template.Segments.Select(x => new PathSegment(ctx, def, x)).ToList();
+                if (pattern.Template.ParameterNames.Count() == 0)
                 {
                     // Path-template contains no parameters, special naming required.
                     UpperName = PatternString.ToUpperCamelCase();
@@ -100,13 +112,14 @@ namespace Google.Api.Generator.Generation
                     UpperName = string.Join("", PathElements.Select(x => x.UpperCamel));
                     LowerName = string.Join("", PathElements.Take(1).Select(x => x.LowerCamel).Concat(PathElements.Skip(1).Select(x => x.UpperCamel)));
                 }
-                PathTemplateField = Field(Private | Static, ctx.Type<PathTemplate>(), $"s_{LowerName}").WithInitializer(New(ctx.Type<PathTemplate>())(pattern.PatternString));
+                PathTemplateField = Field(Private | Static, ctx.Type<PathTemplate>(), $"s_{LowerName}").WithInitializer(New(ctx.Type<PathTemplate>())(pattern.Template.PathTemplateString));
             }
 
             public string PatternString { get; }
             public string UpperName { get; }
             public string LowerName { get; }
-            public IReadOnlyList<PathElement> PathElements { get; }
+            public IReadOnlyList<PathSegment> PathSegments { get; }
+            public IEnumerable<PathElement> PathElements => PathSegments.SelectMany(x => x.Elements);
             public FieldDeclarationSyntax PathTemplateField { get; }
         }
 
@@ -210,9 +223,22 @@ namespace Google.Api.Generator.Generation
                             " with pattern ", XmlDoc.C(pattern.PatternString), "."))
                         .Append(XmlDoc.Returns("The string representation of this ", _ctx.Type(_def.ResourceNameTyp), " with pattern ", XmlDoc.C(pattern.PatternString), "."))
                         .ToArray();
+                    var expandArgs = pattern.PathSegments.Where(x => x.Segment.ParameterCount > 0).Select(x =>
+                    {
+                        if (x.Segment.IsComplex)
+                        {
+                            var dollarItems = x.Elements.Zip(x.Segment.Separators.Skip(1), (element, sep) => (FormattableString)
+                                $"{Parens(_ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNullOrEmpty))(element.Parameter, Nameof(element.Parameter)))}{sep:raw}")
+                                .Prepend((FormattableString)$"{x.Segment.Separators[0]:raw}");
+                            return (object)Dollar(dollarItems.ToArray());
+                        }
+                        else
+                        {
+                            return _ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNullOrEmpty))(x.Elements[0].Parameter, Nameof(x.Elements[0].Parameter));
+                        }
+                    });
                     var method = Method(Public | Static, _ctx.Type<string>(), $"Format{pattern.UpperName}")(pattern.PathElements.Select(x => x.Parameter).ToArray())
-                        .WithBody(Return(pattern.PathTemplateField.Call(nameof(PathTemplate.Expand))(pattern.PathElements.Select(x =>
-                            _ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNullOrEmpty))(x.Parameter, Nameof(x.Parameter))))))
+                        .WithBody(Return(pattern.PathTemplateField.Call(nameof(PathTemplate.Expand))(expandArgs)))
                         .WithXmlDoc(xmlDoc);
                     if (first)
                     {
@@ -234,14 +260,61 @@ namespace Google.Api.Generator.Generation
                 var resultLocal = Local(_ctx.Type(_def.ResourceNameTyp), "result");
                 var resourceName = Local(_ctx.Type<TemplatedResourceName>(), paramName == "resourceName" ? "resourceName2" : "resourceName");
                 var unparsedResourceName = Local(_ctx.Type<UnparsedResourceName>(), "unparsedResourceName");
+                MethodDeclarationSyntax parseSplitHelper;
+                if (PatternDetails.SelectMany(x => x.PathSegments).Any(x => x.Segment.IsComplex))
+                {
+                    var s = Parameter(_ctx.Type<string>(), "s");
+                    var separators = Parameter(_ctx.ArrayType<string[]>(), "separators");
+                    var i0 = Local(_ctx.Type<int>(), "i0");
+                    var i1 = Local(_ctx.Type<int>(), "i1");
+                    var i = Local(_ctx.Type<int>(), "i");
+                    var pshResult = Local(_ctx.ArrayType<string[]>(), "result");
+                    parseSplitHelper = Method(Private | Static, _ctx.ArrayType<string[]>(), "ParseSplitHelper")(s, separators)
+                        .WithBody(
+                            If(Not(s.Call(nameof(string.StartsWith))(separators.ElementAccess(0)))).Then(Return(Null)),
+                            i0.WithInitializer(separators.ElementAccess(0).Access(nameof(string.Length))),
+                            pshResult.WithInitializer(NewArray(_ctx.ArrayType<string[]>(), separators.Access(nameof(Array.Length)).Minus(1))),
+                            For(i.WithInitializer(1), i.LessThan(separators.Access(nameof(Array.Length))), i.PlusPlus())(
+                                i1.WithInitializer(separators.ElementAccess(i).Equality("").ConditionalOperator(
+                                    s.Access(nameof(string.Length)), s.Call(nameof(string.IndexOf))(separators.ElementAccess(i), i0))),
+                                If(i1.LessThan(0)).Then(Return(Null)),
+                                pshResult.ElementAccess(i.Minus(1)).Assign(s.Call(nameof(string.Substring))(i0, i1.Minus(i0))),
+                                i0.Assign(i1.Plus(separators.ElementAccess(i).Access(nameof(string.Length))))),
+                            Return(pshResult));
+                }
+                else
+                {
+                    parseSplitHelper = null;
+                }
                 var tryParse2 = Method(Public | Static, _ctx.Type<bool>(), "TryParse")(name, allowUnparsed, result)
                     .WithBody(
                         _ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(name, Nameof(name)),
                         resourceName,
                         PatternDetails.Zip(FromMethods(), (pattern, create) =>
                         {
-                            var elements = Enumerable.Range(0, pattern.PathElements.Count).Select(i => resourceName.ElementAccess(i));
+                            IEnumerable<(object code, IEnumerable<ExpressionSyntax> args)> codeAndArgs = pattern.PathSegments
+                                .Where(x => x.Segment.ParameterCount > 0)
+                                .Select((seg, segmentIndex) =>
+                                {
+                                    if (seg.Segment.IsComplex)
+                                    {
+                                        var splitResult = Local(_ctx.ArrayType<string[]>(), $"split{segmentIndex}")
+                                            .WithInitializer(This.Call(parseSplitHelper)(
+                                                resourceName.ElementAccess(segmentIndex), NewArray(_ctx.ArrayType<string[]>())(seg.Segment.Separators.ToArray())));
+                                        var splitIf = If(splitResult.Equality(Null)).Then(
+                                            result.Assign(Null),
+                                            Return(false));
+                                        var args = Enumerable.Range(0, seg.Segment.ParameterCount).Select(i => splitResult.ElementAccess(i));
+                                        return ((object)new object[] { splitResult, splitIf }, args);
+                                    }
+                                    else
+                                    {
+                                        return ((object)null, new[] { resourceName.ElementAccess(segmentIndex) });
+                                    }
+                                });
+                            var elements = codeAndArgs.SelectMany(x => x.args);
                             return If(pattern.PathTemplateField.Call(nameof(PathTemplate.TryParseName))(name, Out(resourceName))).Then(
+                                codeAndArgs.Select(x => x.code),
                                 result.Assign(This.Call(create)(elements.ToArray())),
                                 Return(true));
                         }),
@@ -290,6 +363,10 @@ namespace Google.Api.Generator.Generation
                         XmlDoc.Param(result, "When this method returns, the parsed ", _ctx.Type(_def.ResourceNameTyp), ", or ", null, " if parsing failed."),
                         XmlDoc.Returns(true, " if the name was parsed successfully; ", false, " otherwise."));
                 yield return tryParse2;
+                if (parseSplitHelper != null)
+                {
+                    yield return parseSplitHelper;
+                }
 
                 DocumentationCommentTriviaSyntax XmlDocRemarks(bool includeUnparsed)
                 {
@@ -354,13 +431,30 @@ namespace Google.Api.Generator.Generation
             {
                 var switchCases = PatternDetails.Select(pattern =>
                     ((object)_ctx.Type(ResourceNameTypeTyp).Access(pattern.UpperName),
-                        (object)Return(pattern.PathTemplateField.Call(nameof(PathTemplate.Expand))(pattern.PathElements.Select(x => x.Property).ToArray()))))
+                        (object)Return(pattern.PathTemplateField.Call(nameof(PathTemplate.Expand))(ExpandArgs(pattern)))))
                     .Prepend((_ctx.Type(ResourceNameTypeTyp).Access("Unparsed"), Return(UnparsedResourceNameProperty().Call(nameof(object.ToString))())));
                 return Method(Public | Override, _ctx.Type<string>(), nameof(object.ToString))()
                     .WithBody(
                         Switch(ResourceType())(switchCases.ToArray()).WithDefault(
                             Throw(New(_ctx.Type<InvalidOperationException>())("Unrecognized resource-type."))))
                     .WithXmlDoc(XmlDoc.InheritDoc);
+
+                static IEnumerable<object> ExpandArgs(ResourceNamesGenerator.PatternDetails pattern)
+                {
+                    return pattern.PathSegments.Where(x => x.Segment.ParameterCount > 0).Select(x =>
+                    {
+                        if (x.Segment.IsComplex)
+                        {
+                            var dollarItems = x.Elements.Zip(x.Segment.Separators.Skip(1), (element, sep) => (FormattableString)$"{element.Property}{sep:raw}")
+                                .Prepend((FormattableString)$"{x.Segment.Separators[0]:raw}");
+                            return (object)Dollar(dollarItems.ToArray());
+                        }
+                        else
+                        {
+                            return x.Elements[0].Property;
+                        }
+                    });
+                }
             }
 
             private new MethodDeclarationSyntax GetHashCode()
