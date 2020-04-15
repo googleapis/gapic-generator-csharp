@@ -216,8 +216,14 @@ namespace Google.Api.Generator.RoslynUtils
             ArrayCreationExpression(arrayType)
                 .WithInitializer(InitializerExpression(SyntaxKind.ArrayInitializerExpression, SeparatedList(args.SelectMany(ToExpressions))));
 
+        public static ArrayCreationExpressionSyntax NewArray(ArrayTypeSyntax arrayType, ExpressionSyntax rank) =>
+            ArrayCreationExpression(arrayType.WithRankSpecifiers(SingletonList(ArrayRankSpecifier(SingletonSeparatedList(rank)))));
+
         public static CodeFunc<ForEachStatementSyntax> ForEach(TypeSyntax type, SyntaxToken varName, object expr) => code =>
             ForEachStatement(type, varName, ToExpression(expr), Block(ToStatements(code)));
+
+        public static CodeFunc<ForStatementSyntax> For(LocalDeclarationStatementSyntax decl, ExpressionSyntax condition, ExpressionSyntax incr) => code =>
+            ForStatement(decl.Declaration, SeparatedList<ExpressionSyntax>(), condition, SingletonSeparatedList(incr), Block(ToStatements(code)));
 
         public static CodeFunc<WhileStatementSyntax> While(object conditionExpr) => code =>
             WhileStatement(ToExpression(conditionExpr), Block(ToStatements(code)));

@@ -169,15 +169,16 @@ namespace Google.Api.Generator.RoslynUtils
             expr.Call(nameof(Task.ConfigureAwait))(false);
 
         public static AssignmentExpressionSyntax Assign(this PropertyDeclarationSyntax assignTo, object assignFrom) =>
-            AssignmentExpression(
-                SyntaxKind.SimpleAssignmentExpression, IdentifierName(assignTo.Identifier), ToExpressions(assignFrom).Single());
+            AssignmentExpression(SyntaxKind.SimpleAssignmentExpression, IdentifierName(assignTo.Identifier), ToExpression(assignFrom));
 
         public static AssignmentExpressionSyntax Assign(this ParameterSyntax assignTo, object assignFrom) =>
-            AssignmentExpression(SyntaxKind.SimpleAssignmentExpression, IdentifierName(assignTo.Identifier), ToExpressions(assignFrom).Single());
+            AssignmentExpression(SyntaxKind.SimpleAssignmentExpression, IdentifierName(assignTo.Identifier), ToExpression(assignFrom));
 
         public static AssignmentExpressionSyntax Assign(this FieldDeclarationSyntax assignTo, object assignFrom) =>
-            AssignmentExpression(SyntaxKind.SimpleAssignmentExpression,
-                IdentifierName(assignTo.Declaration.Variables.Single().Identifier), ToExpressions(assignFrom).Single());
+            AssignmentExpression(SyntaxKind.SimpleAssignmentExpression, IdentifierName(assignTo.Declaration.Variables.Single().Identifier), ToExpression(assignFrom));
+
+        public static AssignmentExpressionSyntax Assign(this ExpressionSyntax assignTo, object assignFrom) =>
+            AssignmentExpression(SyntaxKind.SimpleAssignmentExpression, assignTo, ToExpression(assignFrom));
 
         public static AssignmentExpressionSyntax Assign(this LocalDeclarationStatementSyntax assignTo, object assignFrom) =>
             AssignmentExpression(SyntaxKind.SimpleAssignmentExpression,
@@ -205,11 +206,15 @@ namespace Google.Api.Generator.RoslynUtils
 
         public static ExpressionSyntax ElementAccess(this LocalDeclarationStatementSyntax var, object element) =>
             ElementAccessExpression(IdentifierName(var.Declaration.Variables.Single().Identifier),
-                BracketedArgumentList(SeparatedList(ToExpressions(element).Select(x => Argument(x)))));
+                BracketedArgumentList(SeparatedList(ToExpressions(element).Select(Argument))));
 
         public static ExpressionSyntax ElementAccess(this DeclarationExpressionSyntax decl, object element) =>
             ElementAccessExpression(IdentifierName(((SingleVariableDesignationSyntax)decl.Designation).Identifier),
-                BracketedArgumentList(SeparatedList(ToExpressions(element).Select(x => Argument(x)))));
+                BracketedArgumentList(SeparatedList(ToExpressions(element).Select(Argument))));
+
+        public static ExpressionSyntax ElementAccess(this ParameterSyntax var, object element) =>
+            ElementAccessExpression(IdentifierName(var.Identifier),
+                BracketedArgumentList(SeparatedList(ToExpressions(element).Select(Argument))));
 
         public static ExpressionSyntax NullCoalesce(this ExpressionSyntax lhs, object rhs) =>
             BinaryExpression(SyntaxKind.CoalesceExpression, ToExpression(lhs), ToExpression(rhs));
@@ -238,6 +243,9 @@ namespace Google.Api.Generator.RoslynUtils
         public static BinaryExpressionSyntax As(this ParameterSyntax parameter, TypeSyntax type) =>
             BinaryExpression(SyntaxKind.AsExpression, IdentifierName(parameter.Identifier), type);
 
+        public static BinaryExpressionSyntax Equality(this LocalDeclarationStatementSyntax lhs, object rhs) =>
+            BinaryExpression(SyntaxKind.EqualsExpression, ToExpression(lhs), ToExpression(rhs));
+
         public static BinaryExpressionSyntax Equality(this ExpressionSyntax lhs, object rhs) =>
             BinaryExpression(SyntaxKind.EqualsExpression, lhs, ToExpression(rhs));
 
@@ -246,6 +254,21 @@ namespace Google.Api.Generator.RoslynUtils
 
         public static ExpressionSyntax Equality(this PropertyDeclarationSyntax lhs, object rhs) =>
             BinaryExpression(SyntaxKind.EqualsExpression, ToExpression(lhs), ToExpression(rhs));
+
+        public static BinaryExpressionSyntax LessThan(this LocalDeclarationStatementSyntax lhs, object rhs) =>
+            BinaryExpression(SyntaxKind.LessThanExpression, ToExpression(lhs), ToExpression(rhs));
+
+        public static BinaryExpressionSyntax Minus(this ExpressionSyntax lhs, object rhs) =>
+            BinaryExpression(SyntaxKind.SubtractExpression, lhs, ToExpression(rhs));
+
+        public static BinaryExpressionSyntax Minus(this LocalDeclarationStatementSyntax lhs, object rhs) =>
+            BinaryExpression(SyntaxKind.SubtractExpression, ToExpression(lhs), ToExpression(rhs));
+
+        public static BinaryExpressionSyntax Plus(this LocalDeclarationStatementSyntax lhs, object rhs) =>
+            BinaryExpression(SyntaxKind.AddExpression, ToExpression(lhs), ToExpression(rhs));
+
+        public static PostfixUnaryExpressionSyntax PlusPlus(this LocalDeclarationStatementSyntax var) =>
+            PostfixUnaryExpression(SyntaxKind.PostIncrementExpression, ToExpression(var));
 
         public static BinaryExpressionSyntax Or(this ExpressionSyntax lhs, object rhs) =>
             BinaryExpression(SyntaxKind.LogicalOrExpression, lhs, ToExpression(rhs));

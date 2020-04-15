@@ -44,13 +44,13 @@ namespace Google.Api.Generator.ProtoUtils
                     IsWildcard = pattern == "*";
                     if (!IsWildcard)
                     {
-                        Template = new PathTemplate(pattern);
+                        Template = new ResourcePattern(pattern);
                     }
                 }
 
                 public bool IsWildcard { get; }
                 public string PatternString { get; }
-                public PathTemplate Template { get; }
+                public ResourcePattern Template { get; }
             }
 
             public static Definition WildcardResource { get; } = new Definition();

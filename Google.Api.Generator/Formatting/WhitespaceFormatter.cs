@@ -548,6 +548,15 @@ namespace Google.Api.Generator.Formatting
             return node;
         }
 
+        public override SyntaxNode VisitForStatement(ForStatementSyntax node)
+        {
+            node = (ForStatementSyntax)base.VisitForStatement(node);
+            node = node.WithForKeyword(node.ForKeyword.WithTrailingSpace());
+            node = node.WithFirstSemicolonToken(node.FirstSemicolonToken.WithTrailingSpace());
+            node = node.WithSecondSemicolonToken(node.SecondSemicolonToken.WithTrailingSpace());
+            return node;
+        }
+
         public override SyntaxNode VisitWhileStatement(WhileStatementSyntax node)
         {
             node = (WhileStatementSyntax)base.VisitWhileStatement(node);
