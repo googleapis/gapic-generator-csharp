@@ -30,6 +30,7 @@ namespace Google.Api.Generator.Utils
                 var inSep = true;
                 var separators = new List<string>();
                 var parameterNames = new List<string>();
+                var parameterNamesWithSuffix = new List<string>();
                 foreach (var c in segment)
                 {
                     if (c == '{')
@@ -53,6 +54,7 @@ namespace Google.Api.Generator.Utils
                             throw new ArgumentException($"Segment '{segment}' is ill-formed; incorrect '}}' found.");
                         }
                         var s = sb.ToString();
+                        parameterNamesWithSuffix.Add(s);
                         if (s.EndsWith("=**"))
                         {
                             s = s[0..^3];
@@ -83,19 +85,25 @@ namespace Google.Api.Generator.Utils
                     throw new ArgumentException($"Segment '{segment}' is ill-formed; missing final '}}'.");
                 }
                 separators.Add(sb.ToString());
+                if (separators.Any(x => x != "") && parameterNames.Zip(parameterNamesWithSuffix, (a, b) => (a, b)).Any(x => x.a != x.b))
+                {
+                    throw new ArgumentException($"Segment '{segment}' is ill-formed; multi-id segment may not use '=*' or '=**' suffix.");
+                }
                 Separators = separators;
                 ParameterNames = parameterNames;
+                ParameterNamesWithSuffix = parameterNamesWithSuffix;
             }
 
             // Seperators include pre- and post- non-parameter-names; there will always be one more seperator than parameter-name.
             public IReadOnlyList<string> Separators { get; }
             public IReadOnlyList<string> ParameterNames { get; }
+            public IReadOnlyList<string> ParameterNamesWithSuffix { get; }
             public int ParameterCount => ParameterNames.Count;
             public bool IsComplex => ParameterCount > 1 || (ParameterCount == 1 && Separators.Any(x => x != ""));
 
             public string Expand(IEnumerable<string> parameters) => Separators[0] + string.Join("", parameters.Zip(Separators.Skip(1), (p, s) => p + s));
 
-            public string PathTemplateString => ParameterCount > 0 ? "{" + string.Join('_', ParameterNames) + "}" : Separators.Single();
+            public string PathTemplateString => ParameterCount > 0 ? "{" + string.Join('_', ParameterNamesWithSuffix) + "}" : Separators.Single();
         }
 
         public ResourcePattern(string pattern) => Segments = pattern.Split('/').Select(x => new Segment(x)).ToList();
