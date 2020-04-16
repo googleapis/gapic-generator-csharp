@@ -440,10 +440,10 @@ namespace Testing.ResourceNames
             /// <summary>A resource name with pattern <c>items_a/{item_a_id}</c>.</summary>
             ItemA = 4,
 
-            /// <summary>A resource name with pattern <c>items_b/{item_b_id}</c>.</summary>
+            /// <summary>A resource name with pattern <c>items_b/{item_b_id=*}</c>.</summary>
             ItemB = 5,
 
-            /// <summary>A resource name with pattern <c>items_c/{item_c_id}</c>.</summary>
+            /// <summary>A resource name with pattern <c>items_c/{item_c_id=**}</c>.</summary>
             ItemC = 6
         }
 
@@ -509,7 +509,7 @@ namespace Testing.ResourceNames
             new WildcardMultiPatternMultipleName(ResourceNameType.ItemA, itemAId: gax::GaxPreconditions.CheckNotNullOrEmpty(itemAId, nameof(itemAId)));
 
         /// <summary>
-        /// Creates a <see cref="WildcardMultiPatternMultipleName"/> with the pattern <c>items_b/{item_b_id}</c>.
+        /// Creates a <see cref="WildcardMultiPatternMultipleName"/> with the pattern <c>items_b/{item_b_id=*}</c>.
         /// </summary>
         /// <param name="itemBId">The <c>ItemB</c> ID. Must not be <c>null</c> or empty.</param>
         /// <returns>
@@ -519,7 +519,7 @@ namespace Testing.ResourceNames
             new WildcardMultiPatternMultipleName(ResourceNameType.ItemB, itemBId: gax::GaxPreconditions.CheckNotNullOrEmpty(itemBId, nameof(itemBId)));
 
         /// <summary>
-        /// Creates a <see cref="WildcardMultiPatternMultipleName"/> with the pattern <c>items_c/{item_c_id}</c>.
+        /// Creates a <see cref="WildcardMultiPatternMultipleName"/> with the pattern <c>items_c/{item_c_id=**}</c>.
         /// </summary>
         /// <param name="itemCId">The <c>ItemC</c> ID. Must not be <c>null</c> or empty.</param>
         /// <returns>
@@ -582,24 +582,24 @@ namespace Testing.ResourceNames
 
         /// <summary>
         /// Formats the IDs into the string representation of this <see cref="WildcardMultiPatternMultipleName"/> with
-        /// pattern <c>items_b/{item_b_id}</c>.
+        /// pattern <c>items_b/{item_b_id=*}</c>.
         /// </summary>
         /// <param name="itemBId">The <c>ItemB</c> ID. Must not be <c>null</c> or empty.</param>
         /// <returns>
         /// The string representation of this <see cref="WildcardMultiPatternMultipleName"/> with pattern
-        /// <c>items_b/{item_b_id}</c>.
+        /// <c>items_b/{item_b_id=*}</c>.
         /// </returns>
         public static string FormatItemB(string itemBId) =>
             s_itemB.Expand(gax::GaxPreconditions.CheckNotNullOrEmpty(itemBId, nameof(itemBId)));
 
         /// <summary>
         /// Formats the IDs into the string representation of this <see cref="WildcardMultiPatternMultipleName"/> with
-        /// pattern <c>items_c/{item_c_id}</c>.
+        /// pattern <c>items_c/{item_c_id=**}</c>.
         /// </summary>
         /// <param name="itemCId">The <c>ItemC</c> ID. Must not be <c>null</c> or empty.</param>
         /// <returns>
         /// The string representation of this <see cref="WildcardMultiPatternMultipleName"/> with pattern
-        /// <c>items_c/{item_c_id}</c>.
+        /// <c>items_c/{item_c_id=**}</c>.
         /// </returns>
         public static string FormatItemC(string itemCId) =>
             s_itemC.Expand(gax::GaxPreconditions.CheckNotNullOrEmpty(itemCId, nameof(itemCId)));
@@ -614,8 +614,8 @@ namespace Testing.ResourceNames
         /// <item><description><c>Const-Pattern-Upper</c></description></item>
         /// <item><description><c>__const_pattern_trimmable__</c></description></item>
         /// <item><description><c>items_a/{item_a_id}</c></description></item>
-        /// <item><description><c>items_b/{item_b_id}</c></description></item>
-        /// <item><description><c>items_c/{item_c_id}</c></description></item>
+        /// <item><description><c>items_b/{item_b_id=*}</c></description></item>
+        /// <item><description><c>items_c/{item_c_id=**}</c></description></item>
         /// </list>
         /// </remarks>
         /// <param name="wildcardMultiPatternMultipleName">
@@ -636,8 +636,8 @@ namespace Testing.ResourceNames
         /// <item><description><c>Const-Pattern-Upper</c></description></item>
         /// <item><description><c>__const_pattern_trimmable__</c></description></item>
         /// <item><description><c>items_a/{item_a_id}</c></description></item>
-        /// <item><description><c>items_b/{item_b_id}</c></description></item>
-        /// <item><description><c>items_c/{item_c_id}</c></description></item>
+        /// <item><description><c>items_b/{item_b_id=*}</c></description></item>
+        /// <item><description><c>items_c/{item_c_id=**}</c></description></item>
         /// </list>
         /// Or may be in any format if <paramref name="allowUnparsed"/> is <c>true</c>.
         /// </remarks>
@@ -664,8 +664,8 @@ namespace Testing.ResourceNames
         /// <item><description><c>Const-Pattern-Upper</c></description></item>
         /// <item><description><c>__const_pattern_trimmable__</c></description></item>
         /// <item><description><c>items_a/{item_a_id}</c></description></item>
-        /// <item><description><c>items_b/{item_b_id}</c></description></item>
-        /// <item><description><c>items_c/{item_c_id}</c></description></item>
+        /// <item><description><c>items_b/{item_b_id=*}</c></description></item>
+        /// <item><description><c>items_c/{item_c_id=**}</c></description></item>
         /// </list>
         /// </remarks>
         /// <param name="wildcardMultiPatternMultipleName">
@@ -690,8 +690,8 @@ namespace Testing.ResourceNames
         /// <item><description><c>Const-Pattern-Upper</c></description></item>
         /// <item><description><c>__const_pattern_trimmable__</c></description></item>
         /// <item><description><c>items_a/{item_a_id}</c></description></item>
-        /// <item><description><c>items_b/{item_b_id}</c></description></item>
-        /// <item><description><c>items_c/{item_c_id}</c></description></item>
+        /// <item><description><c>items_b/{item_b_id=*}</c></description></item>
+        /// <item><description><c>items_c/{item_c_id=**}</c></description></item>
         /// </list>
         /// Or may be in any format if <paramref name="allowUnparsed"/> is <c>true</c>.
         /// </remarks>
