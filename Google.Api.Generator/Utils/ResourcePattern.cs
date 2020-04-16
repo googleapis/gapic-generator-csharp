@@ -52,7 +52,24 @@ namespace Google.Api.Generator.Utils
                         {
                             throw new ArgumentException($"Segment '{segment}' is ill-formed; incorrect '}}' found.");
                         }
-                        parameterNames.Add(sb.ToString());
+                        var s = sb.ToString();
+                        if (s.EndsWith("=**"))
+                        {
+                            s = s[0..^3];
+                        }
+                        else if (s.EndsWith("=*"))
+                        {
+                            s = s[0..^2];
+                        }
+                        if (s == "")
+                        {
+                            throw new ArgumentException($"Segment '{segment}' is ill-formed; it is empty.");
+                        }
+                        if (!(s[0] >= 'a' && s[0] <= 'z' && s.All(c => (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_')))
+                        {
+                            throw new ArgumentException($"Segment '{segment}' is ill-formed; it must conform to /[a-z][a-zA-Z0-9_]*/");
+                        }
+                        parameterNames.Add(s);
                         sb.Clear();
                         inSep = true;
                     }

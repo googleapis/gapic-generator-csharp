@@ -72,8 +72,8 @@ message WildcardMultiPatternMultiple {
     pattern: "Const-Pattern-Upper" // Test upper-case constant pattern
     pattern: "__const_pattern_trimmable__" // Test non-letter-digits at either end of pattern
     pattern: "items_a/{item_a_id}"
-    pattern: "items_b/{item_b_id}"
-    pattern: "items_c/{item_c_id}"
+    pattern: "items_b/{item_b_id=*}" // Test `=*` path-segment
+    pattern: "items_c/{item_c_id=**}" // Test `=**` path-segment
   };
   string name = 1;
   string ref = 2 [(google.api.resource_reference).type = "resourcenames.example.com/WildcardMultiPatternMultiple"];
