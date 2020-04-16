@@ -455,9 +455,9 @@ namespace Testing.ResourceNames
 
         private static gax::PathTemplate s_itemA = new gax::PathTemplate("items_a/{item_a_id}");
 
-        private static gax::PathTemplate s_itemB = new gax::PathTemplate("items_b/{item_b_id}");
+        private static gax::PathTemplate s_itemB = new gax::PathTemplate("items_b/{item_b_id=*}");
 
-        private static gax::PathTemplate s_itemC = new gax::PathTemplate("items_c/{item_c_id}");
+        private static gax::PathTemplate s_itemC = new gax::PathTemplate("items_c/{item_c_id=**}");
 
         /// <summary>
         /// Creates a <see cref="WildcardMultiPatternMultipleName"/> containing an unparsed resource name.
