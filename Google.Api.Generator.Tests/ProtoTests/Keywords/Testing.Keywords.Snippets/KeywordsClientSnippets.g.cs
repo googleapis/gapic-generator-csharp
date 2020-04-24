@@ -34,6 +34,7 @@ namespace Testing.Keywords.Snippets
                 Switch = 0,
                 Void = Enum.Void,
                 Request_ = "",
+                Types_ = "",
             };
             // Make the request
             Response response = keywordsClient.Method1(request);
@@ -54,6 +55,7 @@ namespace Testing.Keywords.Snippets
                 Switch = 0,
                 Void = Enum.Void,
                 Request_ = "",
+                Types_ = "",
             };
             // Make the request
             Response response = await keywordsClient.Method1Async(request);
@@ -63,7 +65,7 @@ namespace Testing.Keywords.Snippets
         /// <summary>Snippet for Method1</summary>
         public void Method1()
         {
-            // Snippet: Method1(string, int, Enum, string, CallSettings)
+            // Snippet: Method1(string, int, Enum, string, string, CallSettings)
             // Create client
             KeywordsClient keywordsClient = KeywordsClient.Create();
             // Initialize request argument(s)
@@ -71,16 +73,17 @@ namespace Testing.Keywords.Snippets
             int @switch = 0;
             Enum @void = Enum.Void;
             string request = "";
+            string types = "";
             // Make the request
-            Response response = keywordsClient.Method1(@event, @switch, @void, request);
+            Response response = keywordsClient.Method1(@event, @switch, @void, request, types);
             // End snippet
         }
 
         /// <summary>Snippet for Method1Async</summary>
         public async Task Method1Async()
         {
-            // Snippet: Method1Async(string, int, Enum, string, CallSettings)
-            // Additional: Method1Async(string, int, Enum, string, CancellationToken)
+            // Snippet: Method1Async(string, int, Enum, string, string, CallSettings)
+            // Additional: Method1Async(string, int, Enum, string, string, CancellationToken)
             // Create client
             KeywordsClient keywordsClient = await KeywordsClient.CreateAsync();
             // Initialize request argument(s)
@@ -88,15 +91,16 @@ namespace Testing.Keywords.Snippets
             int @switch = 0;
             Enum @void = Enum.Void;
             string request = "";
+            string types = "";
             // Make the request
-            Response response = await keywordsClient.Method1Async(@event, @switch, @void, request);
+            Response response = await keywordsClient.Method1Async(@event, @switch, @void, request, types);
             // End snippet
         }
 
         /// <summary>Snippet for Method1</summary>
         public void Method1ResourceNames()
         {
-            // Snippet: Method1(ResourceName, int, Enum, string, CallSettings)
+            // Snippet: Method1(ResourceName, int, Enum, string, string, CallSettings)
             // Create client
             KeywordsClient keywordsClient = KeywordsClient.Create();
             // Initialize request argument(s)
@@ -104,16 +108,17 @@ namespace Testing.Keywords.Snippets
             int @switch = 0;
             Enum @void = Enum.Void;
             string request = "";
+            string types = "";
             // Make the request
-            Response response = keywordsClient.Method1(@event, @switch, @void, request);
+            Response response = keywordsClient.Method1(@event, @switch, @void, request, types);
             // End snippet
         }
 
         /// <summary>Snippet for Method1Async</summary>
         public async Task Method1ResourceNamesAsync()
         {
-            // Snippet: Method1Async(ResourceName, int, Enum, string, CallSettings)
-            // Additional: Method1Async(ResourceName, int, Enum, string, CancellationToken)
+            // Snippet: Method1Async(ResourceName, int, Enum, string, string, CallSettings)
+            // Additional: Method1Async(ResourceName, int, Enum, string, string, CancellationToken)
             // Create client
             KeywordsClient keywordsClient = await KeywordsClient.CreateAsync();
             // Initialize request argument(s)
@@ -121,8 +126,9 @@ namespace Testing.Keywords.Snippets
             int @switch = 0;
             Enum @void = Enum.Void;
             string request = "";
+            string types = "";
             // Make the request
-            Response response = await keywordsClient.Method1Async(@event, @switch, @void, request);
+            Response response = await keywordsClient.Method1Async(@event, @switch, @void, request, types);
             // End snippet
         }
 

@@ -36,6 +36,7 @@ namespace Testing.Keywords.Tests
                 Switch = -1514770765,
                 Void = Enum.Foreach,
                 Request_ = "request873b5710",
+                Types_ = "types22804ad1",
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.Method1(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
@@ -55,6 +56,7 @@ namespace Testing.Keywords.Tests
                 Switch = -1514770765,
                 Void = Enum.Foreach,
                 Request_ = "request873b5710",
+                Types_ = "types22804ad1",
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.Method1Async(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
@@ -76,11 +78,12 @@ namespace Testing.Keywords.Tests
                 Switch = -1514770765,
                 Void = Enum.Foreach,
                 Request_ = "request873b5710",
+                Types_ = "types22804ad1",
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.Method1(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
             KeywordsClient client = new KeywordsClientImpl(mockGrpcClient.Object, null);
-            Response response = client.Method1(request.Event, request.Switch, request.Void, request.Request_);
+            Response response = client.Method1(request.Event, request.Switch, request.Void, request.Request_, request.Types_);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
         }
@@ -95,13 +98,14 @@ namespace Testing.Keywords.Tests
                 Switch = -1514770765,
                 Void = Enum.Foreach,
                 Request_ = "request873b5710",
+                Types_ = "types22804ad1",
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.Method1Async(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
             KeywordsClient client = new KeywordsClientImpl(mockGrpcClient.Object, null);
-            Response responseCallSettings = await client.Method1Async(request.Event, request.Switch, request.Void, request.Request_, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
+            Response responseCallSettings = await client.Method1Async(request.Event, request.Switch, request.Void, request.Request_, request.Types_, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
-            Response responseCancellationToken = await client.Method1Async(request.Event, request.Switch, request.Void, request.Request_, st::CancellationToken.None);
+            Response responseCancellationToken = await client.Method1Async(request.Event, request.Switch, request.Void, request.Request_, request.Types_, st::CancellationToken.None);
             xunit::Assert.Same(expectedResponse, responseCancellationToken);
             mockGrpcClient.VerifyAll();
         }
@@ -116,11 +120,12 @@ namespace Testing.Keywords.Tests
                 Switch = -1514770765,
                 Void = Enum.Foreach,
                 Request_ = "request873b5710",
+                Types_ = "types22804ad1",
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.Method1(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
             KeywordsClient client = new KeywordsClientImpl(mockGrpcClient.Object, null);
-            Response response = client.Method1(request.EventAsResourceName, request.Switch, request.Void, request.Request_);
+            Response response = client.Method1(request.EventAsResourceName, request.Switch, request.Void, request.Request_, request.Types_);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
         }
@@ -135,13 +140,14 @@ namespace Testing.Keywords.Tests
                 Switch = -1514770765,
                 Void = Enum.Foreach,
                 Request_ = "request873b5710",
+                Types_ = "types22804ad1",
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.Method1Async(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
             KeywordsClient client = new KeywordsClientImpl(mockGrpcClient.Object, null);
-            Response responseCallSettings = await client.Method1Async(request.EventAsResourceName, request.Switch, request.Void, request.Request_, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
+            Response responseCallSettings = await client.Method1Async(request.EventAsResourceName, request.Switch, request.Void, request.Request_, request.Types_, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
-            Response responseCancellationToken = await client.Method1Async(request.EventAsResourceName, request.Switch, request.Void, request.Request_, st::CancellationToken.None);
+            Response responseCancellationToken = await client.Method1Async(request.EventAsResourceName, request.Switch, request.Void, request.Request_, request.Types_, st::CancellationToken.None);
             xunit::Assert.Same(expectedResponse, responseCancellationToken);
             mockGrpcClient.VerifyAll();
         }

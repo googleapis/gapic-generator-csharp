@@ -234,15 +234,18 @@ namespace Testing.Keywords
         /// </param>
         /// <param name="request">
         /// </param>
+        /// <param name="types">
+        /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The RPC response.</returns>
-        public virtual Response Method1(string @event, int @switch, Enum @void, string request, gaxgrpc::CallSettings callSettings = null) =>
+        public virtual Response Method1(string @event, int @switch, Enum @void, string request, string types, gaxgrpc::CallSettings callSettings = null) =>
             Method1(new Request
             {
                 Event = @event ?? "",
                 Switch = @switch,
                 Void = @void,
                 Request_ = request ?? "",
+                Types_ = types ?? "",
             }, callSettings);
 
         /// <summary>
@@ -255,15 +258,18 @@ namespace Testing.Keywords
         /// </param>
         /// <param name="request">
         /// </param>
+        /// <param name="types">
+        /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<Response> Method1Async(string @event, int @switch, Enum @void, string request, gaxgrpc::CallSettings callSettings = null) =>
+        public virtual stt::Task<Response> Method1Async(string @event, int @switch, Enum @void, string request, string types, gaxgrpc::CallSettings callSettings = null) =>
             Method1Async(new Request
             {
                 Event = @event ?? "",
                 Switch = @switch,
                 Void = @void,
                 Request_ = request ?? "",
+                Types_ = types ?? "",
             }, callSettings);
 
         /// <summary>
@@ -276,10 +282,12 @@ namespace Testing.Keywords
         /// </param>
         /// <param name="request">
         /// </param>
+        /// <param name="types">
+        /// </param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
         /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<Response> Method1Async(string @event, int @switch, Enum @void, string request, st::CancellationToken cancellationToken) =>
-            Method1Async(@event, @switch, @void, request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+        public virtual stt::Task<Response> Method1Async(string @event, int @switch, Enum @void, string request, string types, st::CancellationToken cancellationToken) =>
+            Method1Async(@event, @switch, @void, request, types, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
         /// </summary>
@@ -291,15 +299,18 @@ namespace Testing.Keywords
         /// </param>
         /// <param name="request">
         /// </param>
+        /// <param name="types">
+        /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The RPC response.</returns>
-        public virtual Response Method1(ResourceName @event, int @switch, Enum @void, string request, gaxgrpc::CallSettings callSettings = null) =>
+        public virtual Response Method1(ResourceName @event, int @switch, Enum @void, string request, string types, gaxgrpc::CallSettings callSettings = null) =>
             Method1(new Request
             {
                 EventAsResourceName = @event,
                 Switch = @switch,
                 Void = @void,
                 Request_ = request ?? "",
+                Types_ = types ?? "",
             }, callSettings);
 
         /// <summary>
@@ -312,15 +323,18 @@ namespace Testing.Keywords
         /// </param>
         /// <param name="request">
         /// </param>
+        /// <param name="types">
+        /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<Response> Method1Async(ResourceName @event, int @switch, Enum @void, string request, gaxgrpc::CallSettings callSettings = null) =>
+        public virtual stt::Task<Response> Method1Async(ResourceName @event, int @switch, Enum @void, string request, string types, gaxgrpc::CallSettings callSettings = null) =>
             Method1Async(new Request
             {
                 EventAsResourceName = @event,
                 Switch = @switch,
                 Void = @void,
                 Request_ = request ?? "",
+                Types_ = types ?? "",
             }, callSettings);
 
         /// <summary>
@@ -333,10 +347,12 @@ namespace Testing.Keywords
         /// </param>
         /// <param name="request">
         /// </param>
+        /// <param name="types">
+        /// </param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
         /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<Response> Method1Async(ResourceName @event, int @switch, Enum @void, string request, st::CancellationToken cancellationToken) =>
-            Method1Async(@event, @switch, @void, request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+        public virtual stt::Task<Response> Method1Async(ResourceName @event, int @switch, Enum @void, string request, string types, st::CancellationToken cancellationToken) =>
+            Method1Async(@event, @switch, @void, request, types, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
         /// </summary>
