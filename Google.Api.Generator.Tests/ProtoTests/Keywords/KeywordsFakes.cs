@@ -51,6 +51,7 @@ namespace Testing.Keywords
         public int Switch { get; set; }
         public Enum Void { get; set; }
         public string Request_ { get; set; }
+        public string Types_ { get; set; }
     }
 
     public partial class Response : ProtoMsgFake<Response> { }

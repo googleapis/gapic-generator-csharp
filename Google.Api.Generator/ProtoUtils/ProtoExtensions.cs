@@ -76,7 +76,9 @@ namespace Google.Api.Generator.ProtoUtils
         public static string CSharpPropertyName(this FieldDescriptor field)
         {
             var result = field.Name.ToUpperCamelCase();
-            return field.ContainingType.Name == result ? $"{result}_" : result; // Matches protoc naming
+            // Note: Types is reserved in C# because any nested types are nested within an already-nested Types class.
+            return field.ContainingType.Name == result || result == "Types" ? $"{result}_"
+                : result; // Matches protoc naming
         }
 
         public static string CSharpFieldName(this FieldDescriptor field) => field.Name.ToLowerCamelCase();

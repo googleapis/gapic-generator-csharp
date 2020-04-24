@@ -9,7 +9,7 @@ import "google/api/resource.proto";
 
 service Keywords {
   rpc Method1(Request) returns(Response) {
-    option (google.api.method_signature) = "event, switch, void, request";
+    option (google.api.method_signature) = "event, switch, void, request, types";
   }
 
   rpc Method2(Resource) returns(Response) {
@@ -38,6 +38,7 @@ message Request {
   int32 switch = 2;
   Enum void = 3;
   string request = 4; // Also check a field named the same as the enclosing message.
+  string types = 5; // Types is a reserved name in the generated code, due to nested types.
 }
 
 message Response{
