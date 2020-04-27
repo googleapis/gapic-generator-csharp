@@ -258,11 +258,14 @@ namespace Google.Api.Generator.RoslynUtils
         public static BinaryExpressionSyntax LessThan(this LocalDeclarationStatementSyntax lhs, object rhs) =>
             BinaryExpression(SyntaxKind.LessThanExpression, ToExpression(lhs), ToExpression(rhs));
 
-        public static BinaryExpressionSyntax Minus(this ExpressionSyntax lhs, object rhs) =>
-            BinaryExpression(SyntaxKind.SubtractExpression, lhs, ToExpression(rhs));
+        public static BinaryExpressionSyntax LessThanOrEqual(this LocalDeclarationStatementSyntax lhs, object rhs) =>
+            BinaryExpression(SyntaxKind.LessThanOrEqualExpression, ToExpression(lhs), ToExpression(rhs));
 
         public static BinaryExpressionSyntax Minus(this LocalDeclarationStatementSyntax lhs, object rhs) =>
             BinaryExpression(SyntaxKind.SubtractExpression, ToExpression(lhs), ToExpression(rhs));
+
+        public static BinaryExpressionSyntax Plus(this ExpressionSyntax lhs, object rhs) =>
+            BinaryExpression(SyntaxKind.AddExpression, lhs, ToExpression(rhs));
 
         public static BinaryExpressionSyntax Plus(this LocalDeclarationStatementSyntax lhs, object rhs) =>
             BinaryExpression(SyntaxKind.AddExpression, ToExpression(lhs), ToExpression(rhs));

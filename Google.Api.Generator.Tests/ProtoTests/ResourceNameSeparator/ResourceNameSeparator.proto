@@ -18,8 +18,8 @@ service ResourceNameSeparator {
 message Request {
   option (google.api.resource) = {
     type: "resourcenameseparator.example.com/Request"
-    pattern: "items/{item_a_id}~{item_b_id}/details/{details_a_id}_{details_b_id}:{details_c_id}/extra/{extra_id}"
-    pattern: "as/aaa{a_id}aaa/bs/~{b1_id}~{b2_id}~{b3_id}~"
+    pattern: "items/{item_a_id}.{item_b_id}/details/{details_a_id}_{details_b_id}-{details_c_id}/extra/{extra_id}"
+    pattern: "as/{a_id}/bs/{b1_id}~{b2_id}~{b3_id}"
   };
   string name = 1;
   string ref = 2 [(google.api.resource_reference).type = "resourcenameseparator.example.com/Request"];

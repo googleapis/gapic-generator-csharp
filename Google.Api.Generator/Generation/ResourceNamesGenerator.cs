@@ -227,9 +227,8 @@ namespace Google.Api.Generator.Generation
                     {
                         if (x.Segment.IsComplex)
                         {
-                            var dollarItems = x.Elements.Zip(x.Segment.Separators.Skip(1), (element, sep) => (FormattableString)
-                                $"{Parens(_ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNullOrEmpty))(element.Parameter, Nameof(element.Parameter)))}{sep:raw}")
-                                .Prepend((FormattableString)$"{x.Segment.Separators[0]:raw}");
+                            var dollarItems = x.Elements.Zip(x.Segment.Separators.Select(x => x.ToString()).Append(""), (element, sep) => (FormattableString)
+                                $"{Parens(_ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNullOrEmpty))(element.Parameter, Nameof(element.Parameter)))}{sep:raw}");
                             return (object)Dollar(dollarItems.ToArray());
                         }
                         else
@@ -264,22 +263,21 @@ namespace Google.Api.Generator.Generation
                 if (PatternDetails.SelectMany(x => x.PathSegments).Any(x => x.Segment.IsComplex))
                 {
                     var s = Parameter(_ctx.Type<string>(), "s");
-                    var separators = Parameter(_ctx.ArrayType<string[]>(), "separators");
+                    var separators = Parameter(_ctx.ArrayType<char[]>(), "separators");
                     var i0 = Local(_ctx.Type<int>(), "i0");
                     var i1 = Local(_ctx.Type<int>(), "i1");
                     var i = Local(_ctx.Type<int>(), "i");
                     var pshResult = Local(_ctx.ArrayType<string[]>(), "result");
                     parseSplitHelper = Method(Private | Static, _ctx.ArrayType<string[]>(), "ParseSplitHelper")(s, separators)
                         .WithBody(
-                            If(Not(s.Call(nameof(string.StartsWith))(separators.ElementAccess(0)))).Then(Return(Null)),
-                            i0.WithInitializer(separators.ElementAccess(0).Access(nameof(string.Length))),
-                            pshResult.WithInitializer(NewArray(_ctx.ArrayType<string[]>(), separators.Access(nameof(Array.Length)).Minus(1))),
-                            For(i.WithInitializer(1), i.LessThan(separators.Access(nameof(Array.Length))), i.PlusPlus())(
-                                i1.WithInitializer(separators.ElementAccess(i).Equality("").ConditionalOperator(
-                                    s.Access(nameof(string.Length)), s.Call(nameof(string.IndexOf))(separators.ElementAccess(i), i0))),
-                                If(i1.LessThan(0)).Then(Return(Null)),
-                                pshResult.ElementAccess(i.Minus(1)).Assign(s.Call(nameof(string.Substring))(i0, i1.Minus(i0))),
-                                i0.Assign(i1.Plus(separators.ElementAccess(i).Access(nameof(string.Length))))),
+                            pshResult.WithInitializer(NewArray(_ctx.ArrayType<string[]>(), separators.Access(nameof(Array.Length)).Plus(1))),
+                            i0.WithInitializer(0),
+                            For(i.WithInitializer(0), i.LessThanOrEqual(separators.Access(nameof(Array.Length))), i.PlusPlus())(
+                                i1.WithInitializer(i.LessThan(separators.Access(nameof(Array.Length))).ConditionalOperator(
+                                    s.Call(nameof(string.IndexOf))(separators.ElementAccess(i), i0), s.Access(nameof(string.Length)))),
+                                If(i1.LessThan(0).Or(i1.Equality(i0))).Then(Return(Null)),
+                                pshResult.ElementAccess(i).Assign(s.Call(nameof(string.Substring))(i0, i1.Minus(i0))),
+                                i0.Assign(i1.Plus(1))),
                             Return(pshResult));
                 }
                 else
@@ -300,7 +298,7 @@ namespace Google.Api.Generator.Generation
                                     {
                                         var splitResult = Local(_ctx.ArrayType<string[]>(), $"split{segmentIndex}")
                                             .WithInitializer(This.Call(parseSplitHelper)(
-                                                resourceName.ElementAccess(segmentIndex), NewArray(_ctx.ArrayType<string[]>())(seg.Segment.Separators.ToArray())));
+                                                resourceName.ElementAccess(segmentIndex), NewArray(_ctx.ArrayType<char[]>())(seg.Segment.Separators.ToArray())));
                                         var splitIf = If(splitResult.Equality(Null)).Then(
                                             result.Assign(Null),
                                             Return(false));
@@ -445,8 +443,8 @@ namespace Google.Api.Generator.Generation
                     {
                         if (x.Segment.IsComplex)
                         {
-                            var dollarItems = x.Elements.Zip(x.Segment.Separators.Skip(1), (element, sep) => (FormattableString)$"{element.Property}{sep:raw}")
-                                .Prepend((FormattableString)$"{x.Segment.Separators[0]:raw}");
+                            var dollarItems = x.Elements.Zip(x.Segment.Separators, (element, sep) => (FormattableString)$"{element.Property}{sep:raw}")
+                                .Append((FormattableString)$"{x.Elements[^1].Property}");
                             return (object)Dollar(dollarItems.ToArray());
                         }
                         else

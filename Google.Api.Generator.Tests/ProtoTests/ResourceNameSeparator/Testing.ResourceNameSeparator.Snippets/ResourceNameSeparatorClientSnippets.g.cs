@@ -63,8 +63,8 @@ namespace Testing.ResourceNameSeparator.Snippets
             // Create client
             ResourceNameSeparatorClient resourceNameSeparatorClient = ResourceNameSeparatorClient.Create();
             // Initialize request argument(s)
-            string name = "items/[ITEM_A_ID]~[ITEM_B_ID]/details/[DETAILS_A_ID]_[DETAILS_B_ID]:[DETAILS_C_ID]/extra/[EXTRA_ID]";
-            string @ref = "items/[ITEM_A_ID]~[ITEM_B_ID]/details/[DETAILS_A_ID]_[DETAILS_B_ID]:[DETAILS_C_ID]/extra/[EXTRA_ID]";
+            string name = "items/[ITEM_A_ID].[ITEM_B_ID]/details/[DETAILS_A_ID]_[DETAILS_B_ID]-[DETAILS_C_ID]/extra/[EXTRA_ID]";
+            string @ref = "items/[ITEM_A_ID].[ITEM_B_ID]/details/[DETAILS_A_ID]_[DETAILS_B_ID]-[DETAILS_C_ID]/extra/[EXTRA_ID]";
             // Make the request
             Response response = resourceNameSeparatorClient.Method1(name, @ref);
             // End snippet
@@ -78,8 +78,8 @@ namespace Testing.ResourceNameSeparator.Snippets
             // Create client
             ResourceNameSeparatorClient resourceNameSeparatorClient = await ResourceNameSeparatorClient.CreateAsync();
             // Initialize request argument(s)
-            string name = "items/[ITEM_A_ID]~[ITEM_B_ID]/details/[DETAILS_A_ID]_[DETAILS_B_ID]:[DETAILS_C_ID]/extra/[EXTRA_ID]";
-            string @ref = "items/[ITEM_A_ID]~[ITEM_B_ID]/details/[DETAILS_A_ID]_[DETAILS_B_ID]:[DETAILS_C_ID]/extra/[EXTRA_ID]";
+            string name = "items/[ITEM_A_ID].[ITEM_B_ID]/details/[DETAILS_A_ID]_[DETAILS_B_ID]-[DETAILS_C_ID]/extra/[EXTRA_ID]";
+            string @ref = "items/[ITEM_A_ID].[ITEM_B_ID]/details/[DETAILS_A_ID]_[DETAILS_B_ID]-[DETAILS_C_ID]/extra/[EXTRA_ID]";
             // Make the request
             Response response = await resourceNameSeparatorClient.Method1Async(name, @ref);
             // End snippet

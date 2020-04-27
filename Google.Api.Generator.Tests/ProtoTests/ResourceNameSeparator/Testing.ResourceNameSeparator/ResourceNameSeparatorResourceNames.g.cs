@@ -31,12 +31,12 @@ namespace Testing.ResourceNameSeparator
 
             /// <summary>
             /// A resource name with pattern
-            /// <c>items/{item_a_id}~{item_b_id}/details/{details_a_id}_{details_b_id}:{details_c_id}/extra/{extra_id}</c>
+            /// <c>items/{item_a_id}.{item_b_id}/details/{details_a_id}_{details_b_id}-{details_c_id}/extra/{extra_id}</c>
             /// .
             /// </summary>
             ItemAItemBDetailsADetailsBDetailsCExtra = 1,
 
-            /// <summary>A resource name with pattern <c>as/aaa{a_id}aaa/bs/~{b1_id}~{b2_id}~{b3_id}~</c>.</summary>
+            /// <summary>A resource name with pattern <c>as/{a_id}/bs/{b1_id}~{b2_id}~{b3_id}</c>.</summary>
             AB1B2B3 = 2
         }
 
@@ -54,7 +54,7 @@ namespace Testing.ResourceNameSeparator
 
         /// <summary>
         /// Creates a <see cref="RequestName"/> with the pattern
-        /// <c>items/{item_a_id}~{item_b_id}/details/{details_a_id}_{details_b_id}:{details_c_id}/extra/{extra_id}</c>.
+        /// <c>items/{item_a_id}.{item_b_id}/details/{details_a_id}_{details_b_id}-{details_c_id}/extra/{extra_id}</c>.
         /// </summary>
         /// <param name="itemAId">The <c>ItemA</c> ID. Must not be <c>null</c> or empty.</param>
         /// <param name="itemBId">The <c>ItemB</c> ID. Must not be <c>null</c> or empty.</param>
@@ -67,7 +67,7 @@ namespace Testing.ResourceNameSeparator
             new RequestName(ResourceNameType.ItemAItemBDetailsADetailsBDetailsCExtra, itemAId: gax::GaxPreconditions.CheckNotNullOrEmpty(itemAId, nameof(itemAId)), itemBId: gax::GaxPreconditions.CheckNotNullOrEmpty(itemBId, nameof(itemBId)), detailsAId: gax::GaxPreconditions.CheckNotNullOrEmpty(detailsAId, nameof(detailsAId)), detailsBId: gax::GaxPreconditions.CheckNotNullOrEmpty(detailsBId, nameof(detailsBId)), detailsCId: gax::GaxPreconditions.CheckNotNullOrEmpty(detailsCId, nameof(detailsCId)), extraId: gax::GaxPreconditions.CheckNotNullOrEmpty(extraId, nameof(extraId)));
 
         /// <summary>
-        /// Creates a <see cref="RequestName"/> with the pattern <c>as/aaa{a_id}aaa/bs/~{b1_id}~{b2_id}~{b3_id}~</c>.
+        /// Creates a <see cref="RequestName"/> with the pattern <c>as/{a_id}/bs/{b1_id}~{b2_id}~{b3_id}</c>.
         /// </summary>
         /// <param name="aId">The <c>A</c> ID. Must not be <c>null</c> or empty.</param>
         /// <param name="b1Id">The <c>B1</c> ID. Must not be <c>null</c> or empty.</param>
@@ -79,7 +79,7 @@ namespace Testing.ResourceNameSeparator
 
         /// <summary>
         /// Formats the IDs into the string representation of this <see cref="RequestName"/> with pattern
-        /// <c>items/{item_a_id}~{item_b_id}/details/{details_a_id}_{details_b_id}:{details_c_id}/extra/{extra_id}</c>.
+        /// <c>items/{item_a_id}.{item_b_id}/details/{details_a_id}_{details_b_id}-{details_c_id}/extra/{extra_id}</c>.
         /// </summary>
         /// <param name="itemAId">The <c>ItemA</c> ID. Must not be <c>null</c> or empty.</param>
         /// <param name="itemBId">The <c>ItemB</c> ID. Must not be <c>null</c> or empty.</param>
@@ -89,14 +89,14 @@ namespace Testing.ResourceNameSeparator
         /// <param name="extraId">The <c>Extra</c> ID. Must not be <c>null</c> or empty.</param>
         /// <returns>
         /// The string representation of this <see cref="RequestName"/> with pattern
-        /// <c>items/{item_a_id}~{item_b_id}/details/{details_a_id}_{details_b_id}:{details_c_id}/extra/{extra_id}</c>.
+        /// <c>items/{item_a_id}.{item_b_id}/details/{details_a_id}_{details_b_id}-{details_c_id}/extra/{extra_id}</c>.
         /// </returns>
         public static string Format(string itemAId, string itemBId, string detailsAId, string detailsBId, string detailsCId, string extraId) =>
             FormatItemAItemBDetailsADetailsBDetailsCExtra(itemAId, itemBId, detailsAId, detailsBId, detailsCId, extraId);
 
         /// <summary>
         /// Formats the IDs into the string representation of this <see cref="RequestName"/> with pattern
-        /// <c>items/{item_a_id}~{item_b_id}/details/{details_a_id}_{details_b_id}:{details_c_id}/extra/{extra_id}</c>.
+        /// <c>items/{item_a_id}.{item_b_id}/details/{details_a_id}_{details_b_id}-{details_c_id}/extra/{extra_id}</c>.
         /// </summary>
         /// <param name="itemAId">The <c>ItemA</c> ID. Must not be <c>null</c> or empty.</param>
         /// <param name="itemBId">The <c>ItemB</c> ID. Must not be <c>null</c> or empty.</param>
@@ -106,14 +106,14 @@ namespace Testing.ResourceNameSeparator
         /// <param name="extraId">The <c>Extra</c> ID. Must not be <c>null</c> or empty.</param>
         /// <returns>
         /// The string representation of this <see cref="RequestName"/> with pattern
-        /// <c>items/{item_a_id}~{item_b_id}/details/{details_a_id}_{details_b_id}:{details_c_id}/extra/{extra_id}</c>.
+        /// <c>items/{item_a_id}.{item_b_id}/details/{details_a_id}_{details_b_id}-{details_c_id}/extra/{extra_id}</c>.
         /// </returns>
         public static string FormatItemAItemBDetailsADetailsBDetailsCExtra(string itemAId, string itemBId, string detailsAId, string detailsBId, string detailsCId, string extraId) =>
-            s_itemAItemBDetailsADetailsBDetailsCExtra.Expand($"{(gax::GaxPreconditions.CheckNotNullOrEmpty(itemAId, nameof(itemAId)))}~{(gax::GaxPreconditions.CheckNotNullOrEmpty(itemBId, nameof(itemBId)))}", $"{(gax::GaxPreconditions.CheckNotNullOrEmpty(detailsAId, nameof(detailsAId)))}_{(gax::GaxPreconditions.CheckNotNullOrEmpty(detailsBId, nameof(detailsBId)))}:{(gax::GaxPreconditions.CheckNotNullOrEmpty(detailsCId, nameof(detailsCId)))}", gax::GaxPreconditions.CheckNotNullOrEmpty(extraId, nameof(extraId)));
+            s_itemAItemBDetailsADetailsBDetailsCExtra.Expand($"{(gax::GaxPreconditions.CheckNotNullOrEmpty(itemAId, nameof(itemAId)))}.{(gax::GaxPreconditions.CheckNotNullOrEmpty(itemBId, nameof(itemBId)))}", $"{(gax::GaxPreconditions.CheckNotNullOrEmpty(detailsAId, nameof(detailsAId)))}_{(gax::GaxPreconditions.CheckNotNullOrEmpty(detailsBId, nameof(detailsBId)))}-{(gax::GaxPreconditions.CheckNotNullOrEmpty(detailsCId, nameof(detailsCId)))}", gax::GaxPreconditions.CheckNotNullOrEmpty(extraId, nameof(extraId)));
 
         /// <summary>
         /// Formats the IDs into the string representation of this <see cref="RequestName"/> with pattern
-        /// <c>as/aaa{a_id}aaa/bs/~{b1_id}~{b2_id}~{b3_id}~</c>.
+        /// <c>as/{a_id}/bs/{b1_id}~{b2_id}~{b3_id}</c>.
         /// </summary>
         /// <param name="aId">The <c>A</c> ID. Must not be <c>null</c> or empty.</param>
         /// <param name="b1Id">The <c>B1</c> ID. Must not be <c>null</c> or empty.</param>
@@ -121,10 +121,10 @@ namespace Testing.ResourceNameSeparator
         /// <param name="b3Id">The <c>B3</c> ID. Must not be <c>null</c> or empty.</param>
         /// <returns>
         /// The string representation of this <see cref="RequestName"/> with pattern
-        /// <c>as/aaa{a_id}aaa/bs/~{b1_id}~{b2_id}~{b3_id}~</c>.
+        /// <c>as/{a_id}/bs/{b1_id}~{b2_id}~{b3_id}</c>.
         /// </returns>
         public static string FormatAB1B2B3(string aId, string b1Id, string b2Id, string b3Id) =>
-            s_aB1B2B3.Expand($"aaa{(gax::GaxPreconditions.CheckNotNullOrEmpty(aId, nameof(aId)))}aaa", $"~{(gax::GaxPreconditions.CheckNotNullOrEmpty(b1Id, nameof(b1Id)))}~{(gax::GaxPreconditions.CheckNotNullOrEmpty(b2Id, nameof(b2Id)))}~{(gax::GaxPreconditions.CheckNotNullOrEmpty(b3Id, nameof(b3Id)))}~");
+            s_aB1B2B3.Expand(gax::GaxPreconditions.CheckNotNullOrEmpty(aId, nameof(aId)), $"{(gax::GaxPreconditions.CheckNotNullOrEmpty(b1Id, nameof(b1Id)))}~{(gax::GaxPreconditions.CheckNotNullOrEmpty(b2Id, nameof(b2Id)))}~{(gax::GaxPreconditions.CheckNotNullOrEmpty(b3Id, nameof(b3Id)))}");
 
         /// <summary>Parses the given resource name string into a new <see cref="RequestName"/> instance.</summary>
         /// <remarks>
@@ -132,10 +132,10 @@ namespace Testing.ResourceNameSeparator
         /// <list type="bullet">
         /// <item>
         /// <description>
-        /// <c>items/{item_a_id}~{item_b_id}/details/{details_a_id}_{details_b_id}:{details_c_id}/extra/{extra_id}</c>
+        /// <c>items/{item_a_id}.{item_b_id}/details/{details_a_id}_{details_b_id}-{details_c_id}/extra/{extra_id}</c>
         /// </description>
         /// </item>
-        /// <item><description><c>as/aaa{a_id}aaa/bs/~{b1_id}~{b2_id}~{b3_id}~</c></description></item>
+        /// <item><description><c>as/{a_id}/bs/{b1_id}~{b2_id}~{b3_id}</c></description></item>
         /// </list>
         /// </remarks>
         /// <param name="requestName">The resource name in string form. Must not be <c>null</c>.</param>
@@ -151,10 +151,10 @@ namespace Testing.ResourceNameSeparator
         /// <list type="bullet">
         /// <item>
         /// <description>
-        /// <c>items/{item_a_id}~{item_b_id}/details/{details_a_id}_{details_b_id}:{details_c_id}/extra/{extra_id}</c>
+        /// <c>items/{item_a_id}.{item_b_id}/details/{details_a_id}_{details_b_id}-{details_c_id}/extra/{extra_id}</c>
         /// </description>
         /// </item>
-        /// <item><description><c>as/aaa{a_id}aaa/bs/~{b1_id}~{b2_id}~{b3_id}~</c></description></item>
+        /// <item><description><c>as/{a_id}/bs/{b1_id}~{b2_id}~{b3_id}</c></description></item>
         /// </list>
         /// Or may be in any format if <paramref name="allowUnparsed"/> is <c>true</c>.
         /// </remarks>
@@ -176,10 +176,10 @@ namespace Testing.ResourceNameSeparator
         /// <list type="bullet">
         /// <item>
         /// <description>
-        /// <c>items/{item_a_id}~{item_b_id}/details/{details_a_id}_{details_b_id}:{details_c_id}/extra/{extra_id}</c>
+        /// <c>items/{item_a_id}.{item_b_id}/details/{details_a_id}_{details_b_id}-{details_c_id}/extra/{extra_id}</c>
         /// </description>
         /// </item>
-        /// <item><description><c>as/aaa{a_id}aaa/bs/~{b1_id}~{b2_id}~{b3_id}~</c></description></item>
+        /// <item><description><c>as/{a_id}/bs/{b1_id}~{b2_id}~{b3_id}</c></description></item>
         /// </list>
         /// </remarks>
         /// <param name="requestName">The resource name in string form. Must not be <c>null</c>.</param>
@@ -198,10 +198,10 @@ namespace Testing.ResourceNameSeparator
         /// <list type="bullet">
         /// <item>
         /// <description>
-        /// <c>items/{item_a_id}~{item_b_id}/details/{details_a_id}_{details_b_id}:{details_c_id}/extra/{extra_id}</c>
+        /// <c>items/{item_a_id}.{item_b_id}/details/{details_a_id}_{details_b_id}-{details_c_id}/extra/{extra_id}</c>
         /// </description>
         /// </item>
-        /// <item><description><c>as/aaa{a_id}aaa/bs/~{b1_id}~{b2_id}~{b3_id}~</c></description></item>
+        /// <item><description><c>as/{a_id}/bs/{b1_id}~{b2_id}~{b3_id}</c></description></item>
         /// </list>
         /// Or may be in any format if <paramref name="allowUnparsed"/> is <c>true</c>.
         /// </remarks>
@@ -221,13 +221,13 @@ namespace Testing.ResourceNameSeparator
             gax::TemplatedResourceName resourceName;
             if (s_itemAItemBDetailsADetailsBDetailsCExtra.TryParseName(requestName, out resourceName))
             {
-                string[] split0 = ParseSplitHelper(resourceName[0], new string[] { "", "~", "", });
+                string[] split0 = ParseSplitHelper(resourceName[0], new char[] { '.', });
                 if (split0 == null)
                 {
                     result = null;
                     return false;
                 }
-                string[] split1 = ParseSplitHelper(resourceName[1], new string[] { "", "_", ":", "", });
+                string[] split1 = ParseSplitHelper(resourceName[1], new char[] { '_', '-', });
                 if (split1 == null)
                 {
                     result = null;
@@ -238,19 +238,13 @@ namespace Testing.ResourceNameSeparator
             }
             if (s_aB1B2B3.TryParseName(requestName, out resourceName))
             {
-                string[] split0 = ParseSplitHelper(resourceName[0], new string[] { "aaa", "aaa", });
-                if (split0 == null)
-                {
-                    result = null;
-                    return false;
-                }
-                string[] split1 = ParseSplitHelper(resourceName[1], new string[] { "~", "~", "~", "~", });
+                string[] split1 = ParseSplitHelper(resourceName[1], new char[] { '~', '~', });
                 if (split1 == null)
                 {
                     result = null;
                     return false;
                 }
-                result = FromAB1B2B3(split0[0], split1[0], split1[1], split1[2]);
+                result = FromAB1B2B3(resourceName[0], split1[0], split1[1], split1[2]);
                 return true;
             }
             if (allowUnparsed)
@@ -265,23 +259,19 @@ namespace Testing.ResourceNameSeparator
             return false;
         }
 
-        private static string[] ParseSplitHelper(string s, string[] separators)
+        private static string[] ParseSplitHelper(string s, char[] separators)
         {
-            if (!s.StartsWith(separators[0]))
+            string[] result = new string[separators.Length + 1];
+            int i0 = 0;
+            for (int i = 0; i <= separators.Length; i++)
             {
-                return null;
-            }
-            int i0 = separators[0].Length;
-            string[] result = new string[separators.Length - 1];
-            for (int i = 1; i < separators.Length; i++)
-            {
-                int i1 = separators[i] == "" ? s.Length : s.IndexOf(separators[i], i0);
-                if (i1 < 0)
+                int i1 = i < separators.Length ? s.IndexOf(separators[i], i0) : s.Length;
+                if (i1 < 0 || i1 == i0)
                 {
                     return null;
                 }
-                result[i - 1] = s.Substring(i0, i1 - i0);
-                i0 = i1 + separators[i].Length;
+                result[i] = s.Substring(i0, i1 - i0);
+                i0 = i1 + 1;
             }
             return result;
         }
@@ -304,7 +294,7 @@ namespace Testing.ResourceNameSeparator
 
         /// <summary>
         /// Constructs a new instance of a <see cref="RequestName"/> class from the component parts of pattern
-        /// <c>items/{item_a_id}~{item_b_id}/details/{details_a_id}_{details_b_id}:{details_c_id}/extra/{extra_id}</c>
+        /// <c>items/{item_a_id}.{item_b_id}/details/{details_a_id}_{details_b_id}-{details_c_id}/extra/{extra_id}</c>
         /// </summary>
         /// <param name="itemAId">The <c>ItemA</c> ID. Must not be <c>null</c> or empty.</param>
         /// <param name="itemBId">The <c>ItemB</c> ID. Must not be <c>null</c> or empty.</param>
@@ -384,8 +374,8 @@ namespace Testing.ResourceNameSeparator
             switch (Type)
             {
                 case ResourceNameType.Unparsed: return UnparsedResource.ToString();
-                case ResourceNameType.ItemAItemBDetailsADetailsBDetailsCExtra: return s_itemAItemBDetailsADetailsBDetailsCExtra.Expand($"{ItemAId}~{ItemBId}", $"{DetailsAId}_{DetailsBId}:{DetailsCId}", ExtraId);
-                case ResourceNameType.AB1B2B3: return s_aB1B2B3.Expand($"aaa{AId}aaa", $"~{B1Id}~{B2Id}~{B3Id}~");
+                case ResourceNameType.ItemAItemBDetailsADetailsBDetailsCExtra: return s_itemAItemBDetailsADetailsBDetailsCExtra.Expand($"{ItemAId}.{ItemBId}", $"{DetailsAId}_{DetailsBId}-{DetailsCId}", ExtraId);
+                case ResourceNameType.AB1B2B3: return s_aB1B2B3.Expand(AId, $"{B1Id}~{B2Id}~{B3Id}");
                 default: throw new sys::InvalidOperationException("Unrecognized resource-type.");
             }
         }
