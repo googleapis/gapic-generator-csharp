@@ -39,14 +39,14 @@ namespace Testing.ResourceNameSeparator
         [Fact]
         public void Parse()
         {
-            var r1 = RequestName.Parse("items/a~b/details/da_db:dc/extra/e");
+            var r1 = RequestName.Parse("items/a.b/details/da_db-dc/extra/e");
             Assert.Equal("a", r1.ItemAId);
             Assert.Equal("b", r1.ItemBId);
             Assert.Equal("da", r1.DetailsAId);
             Assert.Equal("db", r1.DetailsBId);
             Assert.Equal("dc", r1.DetailsCId);
             Assert.Equal("e", r1.ExtraId);
-            var r2 = RequestName.Parse("as/aaaAaaa/bs/~B1~B2~B3~");
+            var r2 = RequestName.Parse("as/A/bs/B1~B2~B3");
             Assert.Equal("A", r2.AId);
             Assert.Equal("B1", r2.B1Id);
             Assert.Equal("B2", r2.B2Id);
@@ -56,18 +56,18 @@ namespace Testing.ResourceNameSeparator
         [Fact]
         public void ParseErrors()
         {
-            Assert.Throws<ArgumentException>(() => RequestName.Parse("items/a~/details/da_db:dc/extra/e"));
-            Assert.Throws<ArgumentException>(() => RequestName.Parse("items/ab/details/da_db:dc/extra/e"));
-            Assert.Throws<ArgumentException>(() => RequestName.Parse("items/a~b/details/da:db:dc/extra/e"));
-            Assert.Throws<ArgumentException>(() => RequestName.Parse("items/a~b/details/da_db_dc/extra/e"));
+            Assert.Throws<ArgumentException>(() => RequestName.Parse("items/a./details/da_db-dc/extra/e"));
+            Assert.Throws<ArgumentException>(() => RequestName.Parse("items/ab/details/da_db-dc/extra/e"));
+            Assert.Throws<ArgumentException>(() => RequestName.Parse("items/a.b/details/da-db-dc/extra/e"));
+            Assert.Throws<ArgumentException>(() => RequestName.Parse("items/a.b/details/da_db_dc/extra/e"));
         }
 
         [Fact]
         public void Format()
         {
-            Assert.Equal("items/a~b/details/da_db:dc/extra/e",
+            Assert.Equal("items/a.b/details/da_db-dc/extra/e",
                 RequestName.FormatItemAItemBDetailsADetailsBDetailsCExtra("a", "b", "da", "db", "dc", "e"));
-            Assert.Equal("as/aaaAaaa/bs/~B1~B2~B3~",
+            Assert.Equal("as/A/bs/B1~B2~B3",
                 RequestName.FormatAB1B2B3("A", "B1", "B2", "B3"));
         }
     }

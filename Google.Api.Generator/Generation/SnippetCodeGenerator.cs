@@ -171,7 +171,7 @@ namespace Google.Api.Generator.Generation
                     {
                         @default = pattern is null ?
                             "a/wildcard/resource" :
-                            pattern.Template.Expand(pattern.Template.ParameterNames.Select(x => $"[{x.ToUpperInvariant()}]"));
+                            pattern.Template.Expand(pattern.Template.ParameterNames.Select(x => $"[{x.ToUpperInvariant()}]").ToList());
                     }
                     else
                     {

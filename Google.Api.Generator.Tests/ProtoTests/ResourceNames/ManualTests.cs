@@ -22,22 +22,22 @@ namespace Testing.ResourceNames
         [Fact]
         public void ParseNoSuffix()
         {
-            Assert.Equal("a", WildcardMultiPatternMultipleName.Parse("items_a/a").ItemAId);
-            Assert.Throws<ArgumentException>(() => WildcardMultiPatternMultipleName.Parse("items_a/a/a"));
+            Assert.Equal("a", WildcardMultiPatternMultipleName.Parse("itemsA/a").ItemAId);
+            Assert.Throws<ArgumentException>(() => WildcardMultiPatternMultipleName.Parse("itemsA/a/a"));
         }
 
         [Fact]
         public void ParseSingleStarSuffix()
         {
-            Assert.Equal("b", WildcardMultiPatternMultipleName.Parse("items_b/b").ItemBId);
-            Assert.Throws<ArgumentException>(() => WildcardMultiPatternMultipleName.Parse("items_b/b/b"));
+            Assert.Equal("b", WildcardMultiPatternMultipleName.Parse("itemsB/b").ItemBId);
+            Assert.Throws<ArgumentException>(() => WildcardMultiPatternMultipleName.Parse("itemsB/b/b"));
         }
 
         [Fact]
         public void ParseDoubleStarSuffix()
         {
-            Assert.Equal("c", WildcardMultiPatternMultipleName.Parse("items_c/c").ItemCId);
-            Assert.Equal("c/c", WildcardMultiPatternMultipleName.Parse("items_c/c/c").ItemCId);
+            Assert.Equal("c", WildcardMultiPatternMultipleName.Parse("itemsC/c").ItemCId);
+            Assert.Equal("c/c", WildcardMultiPatternMultipleName.Parse("itemsC/c/c").ItemCId);
         }
     }
 }

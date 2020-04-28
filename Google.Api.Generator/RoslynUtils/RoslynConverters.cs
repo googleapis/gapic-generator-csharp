@@ -47,6 +47,7 @@ namespace Google.Api.Generator.RoslynUtils
             long value => new[] { LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(value)) },
             uint value => new[] { LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(value)) },
             ulong value => new[] { LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(value)) },
+            char value => new[] {LiteralExpression(SyntaxKind.CharacterLiteralExpression, Literal(value)) },
             _ => throw new NotSupportedException($"Cannot handle ToExpressions({o.GetType()})"),
         };
 

@@ -32,15 +32,16 @@ namespace Google.Api.Generator.ProtoUtils
             _resourcesByFileName = ResourceDetails.LoadResourceDefinitionsByFileName(descs, commonResourcesConfigs).GroupBy(x => x.FileName)
                 .ToImmutableDictionary(x => x.Key, x => (IReadOnlyList<ResourceDetails.Definition>)x.ToImmutableList());
             var resourcesByUrt = _resourcesByFileName.Values.SelectMany(x => x).ToDictionary(x => x.UnifiedResourceTypeName);
-            var resourcesByPattern = _resourcesByFileName.Values.SelectMany(x => x)
-                .SelectMany(def => def.Patterns.Where(x => !x.IsWildcard).Select(x => (x.PatternString, def)))
-                .GroupBy(x => x.PatternString, x => x.def)
+            var resourcesByPatternComparison = _resourcesByFileName.Values.SelectMany(x => x)
+                .SelectMany(def => def.Patterns.Where(x => !x.IsWildcard).Select(x => (x.Template.ParentComparisonString, def)))
+                .GroupBy(x => x.ParentComparisonString, x => x.def)
                 .ToImmutableDictionary(x => x.Key, x => (IReadOnlyList<ResourceDetails.Definition>)x.ToImmutableList());
             _resourcesByFieldName = descs
                 .SelectMany(desc => desc.MessageTypes)
                 .SelectMany(MsgPlusNested)
                 .SelectMany(msg => msg.Fields.InFieldNumberOrder().Select(field =>
-                    (field, res: (IReadOnlyList<ResourceDetails.Field>)ResourceDetails.LoadResourceReference(msg, field, resourcesByUrt, resourcesByPattern).ToList()))
+                    (field, res: (IReadOnlyList<ResourceDetails.Field>)ResourceDetails.LoadResourceReference(
+                        msg, field, resourcesByUrt, resourcesByPatternComparison).ToList()))
                     .Where(x => x.res.Any()))
                 .ToDictionary(x => x.field.FullName, x => x.res);
 

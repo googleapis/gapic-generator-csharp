@@ -202,7 +202,7 @@ namespace Google.Api.Generator.ProtoUtils
         }
 
         public static IEnumerable<Field> LoadResourceReference(MessageDescriptor msgDesc, FieldDescriptor fieldDesc,
-            IReadOnlyDictionary<string, Definition> resourcesByUrt, IReadOnlyDictionary<string, IReadOnlyList<Definition>> resourcesByPattern)
+            IReadOnlyDictionary<string, Definition> resourcesByUrt, IReadOnlyDictionary<string, IReadOnlyList<Definition>> resourcesByParentComparison)
         {
             // Is this field the name-field of a resource descriptor?
             var resourceDesc = msgDesc.SafeGetOption(ResourceExtensions.Resource);
@@ -260,18 +260,18 @@ namespace Google.Api.Generator.ProtoUtils
                     // Find all resources in which the patterns are a subset of the child patterns; a wildcard matches a child wildcard.
                     // Verify that these resources together match all parent patterns of the child resource.
                     // Order by most-specific-parent first, then by order in child-type patterns (then alphabetically as a last resort, to keep it deterministic).
-                    var parentPatterns = childDef.Patterns.Select(x => ParentPattern(x.PatternString)).ToImmutableList();
+                    var parentPatterns = childDef.Patterns.Select(x => x.IsWildcard ? "*" : x.Template.Parent().ParentComparisonString).ToImmutableList();
                     var parentPatternsSet = parentPatterns.ToImmutableHashSet();
                     var parentDefs = parentPatterns
-                        .SelectMany(x => resourcesByPattern.TryGetValue(x, out var defs) ? defs : Enumerable.Empty<Definition>())
-                        .Where(def => def.Patterns.All(x => parentPatternsSet.Contains(x.PatternString)))
+                        .SelectMany(x => resourcesByParentComparison.TryGetValue(x, out var defs) ? defs : Enumerable.Empty<Definition>())
+                        .Where(def => def.Patterns.All(x => parentPatternsSet.Contains(x.Template.ParentComparisonString)))
                         .Distinct(Definition.TypeComparer.Instance)
                         .OrderBy(def => def.Patterns.Count)
-                        .ThenBy(def => def.Patterns.Select(x => parentPatterns.IndexOf(x.PatternString)).Where(x => x >= 0).Min())
+                        .ThenBy(def => def.Patterns.Select(x => parentPatterns.IndexOf(x.Template.ParentComparisonString)).Where(x => x >= 0).Min())
                         .ThenBy(def => def.UnifiedResourceTypeName)
                         .ToImmutableList();
                     // "*" pattern is not required to be matched; all others are required.
-                    if (parentPatternsSet.Except(parentDefs.SelectMany(x => x.Patterns).Select(x => x.PatternString).Append("*")).Any())
+                    if (parentPatternsSet.Except(parentDefs.SelectMany(x => x.Patterns).Select(x => x.Template.ParentComparisonString).Append("*")).Any())
                     {
                         throw new InvalidOperationException($"Not all patterns can be matched to a parent resource for field {msgDesc.Name}.{fieldDesc.Name}");
                     }
@@ -289,25 +289,6 @@ namespace Google.Api.Generator.ProtoUtils
                     throw new InvalidOperationException("type or child_type must be set.");
                 }
             }
-        }
-
-        // Note: this could be a local method within LoadResourceReference, but making it a regular
-        // internal method allows it to be unit tested.
-        internal static string ParentPattern(string pattern)
-        {
-            if (pattern == "*")
-            {
-                // Parent of wildcard is a wildcard.
-                return "*";
-            }
-            var segments = pattern.Split('/');
-            var lastSegment = segments.Last();
-            var segmentsToConsume = lastSegment.StartsWith("{") && lastSegment.EndsWith("}") ? 2 : 1;
-            int remainingSegments = segments.Length - segmentsToConsume;
-            // We must have at least one segment afterwards. (It would be very odd to have *only* one, but valid in a theoretical way.)
-            GaxPreconditions.CheckArgument(remainingSegments > 1, nameof(pattern), "Pattern '{0}' has no parent pattern", pattern);
-            var parentSegments = segments.Take(remainingSegments);
-            return string.Join('/', parentSegments);
         }
     }
 }
