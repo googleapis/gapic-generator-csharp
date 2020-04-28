@@ -119,6 +119,10 @@ namespace Google.Api.Generator.Utils
             public override IReadOnlyList<char> Separators { get; }
             public override IReadOnlyList<string> ParameterNames { get; }
             public override IReadOnlyList<string> ParameterNamesWithSuffix { get; }
+            /// <summary>
+            /// Construct a segment suitable for using in Gax::PathTemplate.
+            /// If this segment has exactly one segment, then it's returned as-is; otherwise the parameter-names are concatenated and suffixes removed.
+            /// </summary>
             public override string PathTemplateString => $"{{{(ParameterCount == 1 ? ParameterNamesWithSuffix[0] : string.Join('_', ParameterNames))}}}";
             public override string Expand(IEnumerable<string> parameters) =>
                 parameters.First() + string.Join("", Separators.Zip(parameters.Skip(1), (s, p) => $"{s}{p}"));
@@ -142,6 +146,12 @@ namespace Google.Api.Generator.Utils
 
         public string PathTemplateString => string.Join('/', Segments.Select(x => x.PathTemplateString));
 
+        /// <summary>
+        /// Construct the string used in comparisons when determining resource-name parent(s).
+        /// Parent comparisons are on the pattern with all resource-ID segments removed.
+        /// Therefore the following match: users/{user} and users/{user_a}-{user_b}
+        /// The following do not match: users/{user} and users/{user_a}/{user_b}
+        /// </summary>
         public string ParentComparisonString => string.Join('/', Segments.Select(seg => seg switch
         {
             CollectionIdentifierSegment colId => colId.Identifier,
