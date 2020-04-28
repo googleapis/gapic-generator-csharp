@@ -41,13 +41,21 @@ namespace Google.Api.Generator.Utils
         {
             public CollectionIdentifierSegment(string segment)
             {
-                bool valid = segment != "" &&
-                    segment[0] >= 'a' && segment[0] <= 'z' && segment.All(c => (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'));
+                Identifier = segment;
+                Validate(tightValidation: false);
+            }
+
+            public void Validate(bool tightValidation)
+            {
+                var s = Identifier;
+                // Loose validation is required to support pubsub's legacy use of the pattern '_deleted-topic_'
+                bool valid = tightValidation ?
+                    s != "" && s[0] >= 'a' && s[0] <= 'z' && s.All(c => (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9')) :
+                    s != "" && s.All(c => (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '-' || c == '_');
                 if (!valid)
                 {
-                    throw new ArgumentException($"Segment '{segment}' is ill-formed; contains invalid characters.");
+                    throw new ArgumentException($"Segment '{s}' is ill-formed; contains invalid characters.");
                 }
-                Identifier = segment;
             }
 
             public string Identifier { get; }
@@ -131,7 +139,19 @@ namespace Google.Api.Generator.Utils
                 string.Join("", ParameterNamesWithSuffix.Zip(Separators, (p, s) => $"{{{p}}}{s}").Append($"{{{ParameterNamesWithSuffix[^1]}}}"));
         }
 
-        public ResourcePattern(string pattern) => Segments = pattern.Split('/').Select(Segment.Create).ToImmutableList();
+        public ResourcePattern(string pattern)
+        {
+            Segments = pattern.Split('/').Select(Segment.Create).ToImmutableList();
+            if (Segments.OfType<ResourceIdSegment>().Any())
+            {
+                // Perform tight (standard) validation if there are any resource-id path-segments in this pattern.
+                // Loose validation is required to support pubsub's legacy use of the pattern '_deleted-topic_'
+                foreach (var segment in Segments.OfType<CollectionIdentifierSegment>())
+                {
+                    segment.Validate(tightValidation: true);
+                }
+            }
+        }
 
         private ResourcePattern(IEnumerable<Segment> segments) => Segments = segments.ToImmutableList();
 
