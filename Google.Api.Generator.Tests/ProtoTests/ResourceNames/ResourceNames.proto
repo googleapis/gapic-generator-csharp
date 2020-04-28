@@ -69,6 +69,7 @@ message WildcardMultiPatternMultiple {
     type: "resourcenames.example.com/WildcardMultiPatternMultiple"
     pattern: "*" // Test wildcard pattern first
     pattern: "constPattern" // Test constant pattern
+    pattern: "_invalid-character-pattern_" // Test pattern containing characters which would normally be invalid; required for pubsub legacy support.
     pattern: "itemsA/{item_a_id}"
     pattern: "itemsB/{item_b_id=*}" // Test `=*` path-segment
     pattern: "itemsC/{item_c_id=**}" // Test `=**` path-segment
