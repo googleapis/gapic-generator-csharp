@@ -82,7 +82,7 @@ namespace Google.Api.Generator.Generation
                     client.WithInitializer(Null),
                     This.Call("InterceptBuild")(Ref(client)),
                     Return(client.NullCoalesce(This.Call("BuildImpl")())))
-                .WithXmlDoc(XmlDoc.InheritDoc);
+                .WithXmlDoc(XmlDoc.Summary("Builds the resulting client."));
         }
 
         private MethodDeclarationSyntax BuildAsync()
@@ -94,7 +94,7 @@ namespace Google.Api.Generator.Generation
                     task.WithInitializer(Null),
                     This.Call("InterceptBuildAsync")(cancellationToken, Ref(task)),
                     Return(task.NullCoalesce(This.Call("BuildAsyncImpl")(cancellationToken))))
-                .WithXmlDoc(XmlDoc.InheritDoc);
+                .WithXmlDoc(XmlDoc.Summary("Builds the resulting client asynchronously."));
         }
 
         private MethodDeclarationSyntax BuildImpl()
@@ -121,21 +121,21 @@ namespace Google.Api.Generator.Generation
         private MethodDeclarationSyntax GetDefaultEndpoint() =>
             Method(Protected|Override, _ctx.Type<string>(), "GetDefaultEndpoint")()
                 .WithBody(_ctx.Type(_svc.ClientAbstractTyp).Access("DefaultEndpoint"))
-                .WithXmlDoc(XmlDoc.InheritDoc);
+                .WithXmlDoc(XmlDoc.Summary("Returns the endpoint for this builder type, used if no endpoint is otherwise specified."));
 
         private MethodDeclarationSyntax GetDefaultScopes() =>
             Method(Protected | Override, _ctx.Type<IReadOnlyList<string>>(), "GetDefaultScopes")()
                 .WithBody(_ctx.Type(_svc.ClientAbstractTyp).Access("DefaultScopes"))
-                .WithXmlDoc(XmlDoc.InheritDoc);
+                .WithXmlDoc(XmlDoc.Summary("Returns the default scopes for this builder type, used if no scopes are otherwise specified."));
 
         private MethodDeclarationSyntax GetChannelPool() =>
             Method(Protected | Override, _ctx.Type<ChannelPool>(), "GetChannelPool")()
                 .WithBody(_ctx.Type(_svc.ClientAbstractTyp).Access("ChannelPool"))
-                .WithXmlDoc(XmlDoc.InheritDoc);
+                .WithXmlDoc(XmlDoc.Summary("Returns the channel pool to use when no other options are specified."));
 
         private PropertyDeclarationSyntax DefaultGrpcAdapter() =>
             Property(Protected | Override, _ctx.Type<GrpcAdapter>(), "DefaultGrpcAdapter")
                 .WithGetBody(_ctx.Type<GrpcCoreAdapter>().Access(nameof(GrpcCoreAdapter.Instance)))
-                .WithXmlDoc(XmlDoc.InheritDoc);
+                .WithXmlDoc(XmlDoc.Summary("Returns the default ", _ctx.Type<GrpcAdapter>(), "to use if not otherwise specified."));
     }
 }

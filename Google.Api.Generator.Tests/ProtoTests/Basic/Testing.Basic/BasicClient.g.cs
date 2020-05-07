@@ -78,7 +78,7 @@ namespace Testing.Basic
 
         partial void InterceptBuildAsync(st::CancellationToken cancellationToken, ref stt::Task<BasicClient> task);
 
-        /// <inheritdoc/>
+        /// <summary>Builds the resulting client.</summary>
         public override BasicClient Build()
         {
             BasicClient client = null;
@@ -86,7 +86,7 @@ namespace Testing.Basic
             return client ?? BuildImpl();
         }
 
-        /// <inheritdoc/>
+        /// <summary>Builds the resulting client asynchronously.</summary>
         public override stt::Task<BasicClient> BuildAsync(st::CancellationToken cancellationToken = default)
         {
             stt::Task<BasicClient> task = null;
@@ -108,16 +108,18 @@ namespace Testing.Basic
             return BasicClient.Create(callInvoker, Settings);
         }
 
-        /// <inheritdoc/>
+        /// <summary>Returns the endpoint for this builder type, used if no endpoint is otherwise specified.</summary>
         protected override string GetDefaultEndpoint() => BasicClient.DefaultEndpoint;
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Returns the default scopes for this builder type, used if no scopes are otherwise specified.
+        /// </summary>
         protected override scg::IReadOnlyList<string> GetDefaultScopes() => BasicClient.DefaultScopes;
 
-        /// <inheritdoc/>
+        /// <summary>Returns the channel pool to use when no other options are specified.</summary>
         protected override gaxgrpc::ChannelPool GetChannelPool() => BasicClient.ChannelPool;
 
-        /// <inheritdoc/>
+        /// <summary>Returns the default <see cref="gaxgrpc::GrpcAdapter"/>to use if not otherwise specified.</summary>
         protected override gaxgrpc::GrpcAdapter DefaultGrpcAdapter => gaxgrpccore::GrpcCoreAdapter.Instance;
     }
 
