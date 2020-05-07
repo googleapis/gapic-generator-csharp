@@ -423,7 +423,7 @@ namespace Google.Api.Generator.Generation
 
             private PropertyDeclarationSyntax IsKnownPattern() => Property(Public, _ctx.Type<bool>(), nameof(IResourceName.IsKnownPattern))
                 .WithGetBody(ResourceType().NotEqualTo(_ctx.Type(ResourceNameTypeTyp).Access("Unparsed")))
-                .WithXmlDoc(XmlDoc.InheritDoc);
+                .WithXmlDoc(XmlDoc.Summary("Whether this instance contains a resource name with a known pattern."));
 
             private new MethodDeclarationSyntax ToString()
             {
@@ -435,7 +435,10 @@ namespace Google.Api.Generator.Generation
                     .WithBody(
                         Switch(ResourceType())(switchCases.ToArray()).WithDefault(
                             Throw(New(_ctx.Type<InvalidOperationException>())("Unrecognized resource-type."))))
-                    .WithXmlDoc(XmlDoc.InheritDoc);
+                    .WithXmlDoc(
+                        XmlDoc.Summary("The string representation of the resource name."),
+                        XmlDoc.Returns("The string representation of the resource name.")
+                    );
 
                 static IEnumerable<object> ExpandArgs(ResourceNamesGenerator.PatternDetails pattern)
                 {
@@ -459,7 +462,7 @@ namespace Google.Api.Generator.Generation
             {
                 return Method(Public | Override, _ctx.Type<int>(), nameof(object.GetHashCode))()
                     .WithBody(Return(This.Call(ToString())().Call(nameof(object.GetHashCode))()))
-                    .WithXmlDoc(XmlDoc.InheritDoc);
+                    .WithXmlDoc(XmlDoc.Summary("Returns a hash code for this resource name."));
             }
 
             private MethodDeclarationSyntax Equals()
