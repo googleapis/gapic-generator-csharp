@@ -6,4 +6,7 @@ service Test {
   rpc Method(Msg) returns(Msg);
 }
 
-message Msg { }
+message Msg {
+  // Add an optional field, as the generator requires specific support for this when running as a plugin.
+  optional int32 number = 1;
+}
