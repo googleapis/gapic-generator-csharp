@@ -33,7 +33,7 @@ namespace Google.Api.Generator.Tests
             var protoPaths = protoFilenames.Select(x => Path.Combine(Invoker.GeneratorTestsDir, x));
             using (var desc = Invoker.TempFile())
             {
-                Invoker.Protoc($"-o {desc} --include_imports --include_source_info " +
+                Invoker.Protoc($"-o {desc} --experimental_allow_proto3_optional --include_imports --include_source_info " +
                     $"-I{Invoker.CommonProtosDir} -I{Invoker.ProtobufDir} -I{Invoker.GeneratorTestsDir} {string.Join(" ", protoPaths)}");
                 var descriptorBytes = File.ReadAllBytes(desc.Path);
                 return CodeGenerator.Generate(descriptorBytes, package, clock, grpcServiceConfigPath, commonResourcesConfigPaths);
@@ -266,6 +266,9 @@ namespace Google.Api.Generator.Tests
 
         [Fact]
         public void Deprecated() => ProtoTestSingle("Deprecated", ignoreCsProj: true);
+
+        [Fact]
+        public void OptionalFields() => ProtoTestSingle("OptionalFields", ignoreCsProj: true, ignoreUnitTests: true, ignoreSnippets: true);
 
         // Build tests are testing `csproj` file generation only.
         // All other generated code is effectively "build tested" when this test project is built.

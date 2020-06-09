@@ -1,0 +1,26 @@
+﻿syntax = "proto3";
+
+package testing.optionalfields;
+
+option csharp_namespace = "Testing.OptionalFields";
+
+import "google/api/client.proto";
+import "google/api/resource.proto";
+
+service OptionalFields {
+  rpc Method1(Request) returns(Response) {
+    option (google.api.method_signature) = "name,number";
+  }
+}
+
+message Request {
+  option (google.api.resource) = {
+    type: "optionalfields.example.com/Resource"
+    pattern: "items/{item_id}"
+  };
+  optional string name = 1;
+  optional int32 number = 2;
+}
+
+message Response {
+}

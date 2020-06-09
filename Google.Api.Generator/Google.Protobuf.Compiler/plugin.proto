@@ -44,7 +44,7 @@
 // plugin should be named "protoc-gen-$NAME", and will then be used when the
 // flag "--${NAME}_out" is passed to protoc.
 
-// Copied from: https://github.com/protocolbuffers/protobuf/blob/3.7.x/src/google/protobuf/compiler/plugin.proto
+// Copied from: https://github.com/protocolbuffers/protobuf/blob/3.12.x/src/google/protobuf/compiler/plugin.proto
 // And converted to proto3 syntax, so it can produce C#.
 
 syntax = "proto3";
@@ -109,6 +109,16 @@ message CodeGeneratorResponse {
   // unparseable -- should be reported by writing a message to stderr and
   // exiting with a non-zero status code.
   string error = 1;
+
+  // A bitmask of supported features that the code generator supports.
+  // This is a bitwise "or" of values from the Feature enum.
+  uint64 supported_features = 2;
+
+  // Sync with code_generator.h.
+  enum Feature {
+    FEATURE_NONE = 0;
+    FEATURE_PROTO3_OPTIONAL = 1;
+  }
 
   // Represents a single generated file.
   message File {

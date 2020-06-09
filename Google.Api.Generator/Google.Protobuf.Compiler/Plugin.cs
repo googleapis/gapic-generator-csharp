@@ -29,20 +29,22 @@ namespace Google.Protobuf.Compiler {
             "GAMgASgFEg4KBnN1ZmZpeBgEIAEoCSKUAQoUQ29kZUdlbmVyYXRvclJlcXVl",
             "c3QSGAoQZmlsZV90b19nZW5lcmF0ZRgBIAMoCRIRCglwYXJhbWV0ZXIYAiAB",
             "KAkSEgoKcHJvdG9fZmlsZRgPIAMoDBI7ChBjb21waWxlcl92ZXJzaW9uGAMg",
-            "ASgLMiEuZ29vZ2xlLnByb3RvYnVmLmNvbXBpbGVyLlZlcnNpb24iqgEKFUNv",
-            "ZGVHZW5lcmF0b3JSZXNwb25zZRINCgVlcnJvchgBIAEoCRJCCgRmaWxlGA8g",
-            "AygLMjQuZ29vZ2xlLnByb3RvYnVmLmNvbXBpbGVyLkNvZGVHZW5lcmF0b3JS",
-            "ZXNwb25zZS5GaWxlGj4KBEZpbGUSDAoEbmFtZRgBIAEoCRIXCg9pbnNlcnRp",
-            "b25fcG9pbnQYAiABKAkSDwoHY29udGVudBgPIAEoCUJnChxjb20uZ29vZ2xl",
-            "LnByb3RvYnVmLmNvbXBpbGVyQgxQbHVnaW5Qcm90b3NaOWdpdGh1Yi5jb20v",
-            "Z29sYW5nL3Byb3RvYnVmL3Byb3RvYy1nZW4tZ28vcGx1Z2luO3BsdWdpbl9n",
-            "b2IGcHJvdG8z"));
+            "ASgLMiEuZ29vZ2xlLnByb3RvYnVmLmNvbXBpbGVyLlZlcnNpb24igAIKFUNv",
+            "ZGVHZW5lcmF0b3JSZXNwb25zZRINCgVlcnJvchgBIAEoCRIaChJzdXBwb3J0",
+            "ZWRfZmVhdHVyZXMYAiABKAQSQgoEZmlsZRgPIAMoCzI0Lmdvb2dsZS5wcm90",
+            "b2J1Zi5jb21waWxlci5Db2RlR2VuZXJhdG9yUmVzcG9uc2UuRmlsZRo+CgRG",
+            "aWxlEgwKBG5hbWUYASABKAkSFwoPaW5zZXJ0aW9uX3BvaW50GAIgASgJEg8K",
+            "B2NvbnRlbnQYDyABKAkiOAoHRmVhdHVyZRIQCgxGRUFUVVJFX05PTkUQABIb",
+            "ChdGRUFUVVJFX1BST1RPM19PUFRJT05BTBABQmcKHGNvbS5nb29nbGUucHJv",
+            "dG9idWYuY29tcGlsZXJCDFBsdWdpblByb3Rvc1o5Z2l0aHViLmNvbS9nb2xh",
+            "bmcvcHJvdG9idWYvcHJvdG9jLWdlbi1nby9wbHVnaW47cGx1Z2luX2dvYgZw",
+            "cm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
-          new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Compiler.Version), global::Google.Protobuf.Compiler.Version.Parser, new[]{ "Major", "Minor", "Patch", "Suffix" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Compiler.CodeGeneratorRequest), global::Google.Protobuf.Compiler.CodeGeneratorRequest.Parser, new[]{ "FileToGenerate", "Parameter", "ProtoFile", "CompilerVersion" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Compiler.CodeGeneratorResponse), global::Google.Protobuf.Compiler.CodeGeneratorResponse.Parser, new[]{ "Error", "File" }, null, null, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Compiler.CodeGeneratorResponse.Types.File), global::Google.Protobuf.Compiler.CodeGeneratorResponse.Types.File.Parser, new[]{ "Name", "InsertionPoint", "Content" }, null, null, null)})
+          new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Compiler.Version), global::Google.Protobuf.Compiler.Version.Parser, new[]{ "Major", "Minor", "Patch", "Suffix" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Compiler.CodeGeneratorRequest), global::Google.Protobuf.Compiler.CodeGeneratorRequest.Parser, new[]{ "FileToGenerate", "Parameter", "ProtoFile", "CompilerVersion" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Compiler.CodeGeneratorResponse), global::Google.Protobuf.Compiler.CodeGeneratorResponse.Parser, new[]{ "Error", "SupportedFeatures", "File" }, null, new[]{ typeof(global::Google.Protobuf.Compiler.CodeGeneratorResponse.Types.Feature) }, null, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Compiler.CodeGeneratorResponse.Types.File), global::Google.Protobuf.Compiler.CodeGeneratorResponse.Types.File.Parser, new[]{ "Name", "InsertionPoint", "Content" }, null, null, null, null)})
           }));
     }
     #endregion
@@ -463,7 +465,7 @@ namespace Google.Protobuf.Compiler {
       protoFile_.Add(other.protoFile_);
       if (other.compilerVersion_ != null) {
         if (compilerVersion_ == null) {
-          compilerVersion_ = new global::Google.Protobuf.Compiler.Version();
+          CompilerVersion = new global::Google.Protobuf.Compiler.Version();
         }
         CompilerVersion.MergeFrom(other.CompilerVersion);
       }
@@ -488,9 +490,9 @@ namespace Google.Protobuf.Compiler {
           }
           case 26: {
             if (compilerVersion_ == null) {
-              compilerVersion_ = new global::Google.Protobuf.Compiler.Version();
+              CompilerVersion = new global::Google.Protobuf.Compiler.Version();
             }
-            input.ReadMessage(compilerVersion_);
+            input.ReadMessage(CompilerVersion);
             break;
           }
           case 122: {
@@ -532,6 +534,7 @@ namespace Google.Protobuf.Compiler {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public CodeGeneratorResponse(CodeGeneratorResponse other) : this() {
       error_ = other.error_;
+      supportedFeatures_ = other.supportedFeatures_;
       file_ = other.file_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
@@ -562,6 +565,21 @@ namespace Google.Protobuf.Compiler {
       }
     }
 
+    /// <summary>Field number for the "supported_features" field.</summary>
+    public const int SupportedFeaturesFieldNumber = 2;
+    private ulong supportedFeatures_;
+    /// <summary>
+    /// A bitmask of supported features that the code generator supports.
+    /// This is a bitwise "or" of values from the Feature enum.
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public ulong SupportedFeatures {
+      get { return supportedFeatures_; }
+      set {
+        supportedFeatures_ = value;
+      }
+    }
+
     /// <summary>Field number for the "file" field.</summary>
     public const int FileFieldNumber = 15;
     private static readonly pb::FieldCodec<global::Google.Protobuf.Compiler.CodeGeneratorResponse.Types.File> _repeated_file_codec
@@ -586,6 +604,7 @@ namespace Google.Protobuf.Compiler {
         return true;
       }
       if (Error != other.Error) return false;
+      if (SupportedFeatures != other.SupportedFeatures) return false;
       if(!file_.Equals(other.file_)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -594,6 +613,7 @@ namespace Google.Protobuf.Compiler {
     public override int GetHashCode() {
       int hash = 1;
       if (Error.Length != 0) hash ^= Error.GetHashCode();
+      if (SupportedFeatures != 0UL) hash ^= SupportedFeatures.GetHashCode();
       hash ^= file_.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -612,6 +632,10 @@ namespace Google.Protobuf.Compiler {
         output.WriteRawTag(10);
         output.WriteString(Error);
       }
+      if (SupportedFeatures != 0UL) {
+        output.WriteRawTag(16);
+        output.WriteUInt64(SupportedFeatures);
+      }
       file_.WriteTo(output, _repeated_file_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -623,6 +647,9 @@ namespace Google.Protobuf.Compiler {
       int size = 0;
       if (Error.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Error);
+      }
+      if (SupportedFeatures != 0UL) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(SupportedFeatures);
       }
       size += file_.CalculateSize(_repeated_file_codec);
       if (_unknownFields != null) {
@@ -638,6 +665,9 @@ namespace Google.Protobuf.Compiler {
       }
       if (other.Error.Length != 0) {
         Error = other.Error;
+      }
+      if (other.SupportedFeatures != 0UL) {
+        SupportedFeatures = other.SupportedFeatures;
       }
       file_.Add(other.file_);
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
@@ -655,6 +685,10 @@ namespace Google.Protobuf.Compiler {
             Error = input.ReadString();
             break;
           }
+          case 16: {
+            SupportedFeatures = input.ReadUInt64();
+            break;
+          }
           case 122: {
             file_.AddEntriesFrom(input, _repeated_file_codec);
             break;
@@ -667,6 +701,14 @@ namespace Google.Protobuf.Compiler {
     /// <summary>Container for nested types declared in the CodeGeneratorResponse message type.</summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static partial class Types {
+      /// <summary>
+      /// Sync with code_generator.h.
+      /// </summary>
+      public enum Feature {
+        [pbr::OriginalName("FEATURE_NONE")] None = 0,
+        [pbr::OriginalName("FEATURE_PROTO3_OPTIONAL")] Proto3Optional = 1,
+      }
+
       /// <summary>
       /// Represents a single generated file.
       /// </summary>

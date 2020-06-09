@@ -156,6 +156,7 @@ namespace Google.Api.Generator
                     extraParams.GetValueOrDefault(nameGrpcServiceConfig)?.SingleOrDefault(), extraParams.GetValueOrDefault(nameCommonResourcesConfig));
                 codeGenResponse = new CodeGeneratorResponse
                 {
+                    SupportedFeatures = (int)CodeGeneratorResponse.Types.Feature.Proto3Optional,
                     File =
                     {
                         results.Select(x => new CodeGeneratorResponse.Types.File
