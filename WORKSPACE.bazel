@@ -1,0 +1,4 @@
+workspace(name = "com_googleapis_gapic_generator_csharp")
+
+load("//repositories.bzl", "com_googleapis_gapic_generator_csharp_repositories")
+com_googleapis_gapic_generator_csharp_repositories()

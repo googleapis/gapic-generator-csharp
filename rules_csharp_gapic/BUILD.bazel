@@ -1,0 +1,12 @@
+
+load(":csharp_compiler.bzl", "csharp_binary")
+
+csharp_binary(
+    name = "generator_binary",
+    visibility = ["//visibility:public"],
+    restore_packages = "@gapic_generator_restore//:packages",
+    restore_obj = "@gapic_generator_restore//:obj",
+    src_base = "@gapic_generator_src//:gen_dest/gapic-generator-csharp-1.0.0-beta05/Google.Api.Generator",
+    csproj_name = "Google.Api.Generator.csproj",
+    runtime = "linux-x64",
+)
