@@ -14,7 +14,7 @@
 
 load("@com_google_api_codegen//rules_gapic:gapic.bzl", "proto_custom_library")
 
-def _full_gapic_impl(ctx):
+def _csharp_gapic_library_full(ctx):
     out_dir = ctx.actions.declare_directory('full')
     ctx.actions.run_shell(
         inputs = [ctx.file.proto, ctx.file.grpc, ctx.file.gapic],
@@ -37,8 +37,8 @@ CLIENT_NAME=$(ls -1 {out} | head -n 1)
         files = depset(direct = [out_dir])
     )]
 
-full_gapic = rule(
-    implementation = _full_gapic_impl,
+csharp_gapic_library_full = rule(
+    implementation = _csharp_gapic_library_full,
     attrs = {
         "proto": attr.label(allow_single_file=True),
         "grpc": attr.label(allow_single_file=True),
@@ -54,9 +54,6 @@ def csharp_proto_library(name, deps, **kwargs):
         deps = deps,
         output_type = "csharp",
         output_suffix = ".zip",
-        extra_args = [
-            "--include_source_info",
-        ],
         **kwargs
     )
 
@@ -68,9 +65,6 @@ def csharp_grpc_library(name, srcs, **kwargs):
         plugin = Label("@com_github_grpc_grpc//src/compiler:grpc_csharp_plugin"),
         output_type = "grpc",
         output_suffix = ".zip",
-        extra_args = [
-            "--include_source_info",
-        ],
         **kwargs
     )
 
@@ -79,18 +73,15 @@ def csharp_gapic_library(name, srcs, proto = None, grpc = None, **kwargs):
     proto_custom_library(
         name = name,
         deps = srcs,
-        plugin = Label("//rules_csharp_gapic:generator_binary"),
+        plugin = Label("//rules_csharp_gapic:csharp_gapic_generator_binary"),
         output_type = "gapic",
         output_suffix = ".zip",
-        extra_args = [
-            "--include_source_info",
-        ],
         **kwargs
     )
     if proto and grpc:
         # Build 'full' output of proto+grpc+gapic output, with all files in the correct locations
         # for building. This target is named '{name}_full' is created in the 'full/' directory.
-        full_gapic(
+        csharp_gapic_library_full(
             name = "{name}_full".format(name = name),
             proto = proto,
             grpc = grpc,

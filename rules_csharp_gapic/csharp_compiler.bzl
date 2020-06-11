@@ -31,7 +31,7 @@ mkdir {build_path};
 cp -r {src_base_path}/* {build_path};
 cp -r {restore_packages_path} {build_path};
 cp -rH {restore_obj_path} {build_path};
-{csharp_compiler_path}/dotnet {verb} {build_path}/{csproj_name} --no-restore --packages {restore_packages_path} {publish_args};
+{csharp_compiler_path}/dotnet {verb} {build_path}/{csproj_name} --no-restore --nologo --verbosity=quiet --packages {restore_packages_path} {publish_args};
 cp -r {build_path}/obj/* {obj_out_path};
 cp -r {build_path}/bin/* {bin_out_path};
 """.format(
@@ -52,7 +52,7 @@ cp -r {build_path}/bin/* {bin_out_path};
         inputs = ctx.files.srcs + [ctx.file.csproj]
         command = """
 cp -rH {restore_obj_path} .
-{csharp_compiler_path}/dotnet {verb} ./{csproj_name} --framework {framework} --configuration {configuration} --no-restore --packages {restore_packages_path} {publish_args};
+{csharp_compiler_path}/dotnet {verb} ./{csproj_name} --framework {framework} --configuration {configuration} --no-restore --nologo --verbosity=quiet --packages {restore_packages_path} {publish_args};
 cp -r ./obj/* {obj_out_path};
 cp -r ./bin/* {bin_out_path};
 """.format(

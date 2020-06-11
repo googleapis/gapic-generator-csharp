@@ -58,6 +58,7 @@ def _dotnet_restore_impl(ctx):
             csharp_compiler_path,
             "restore",
             csproj_name,
+            "--verbosity=quiet",
             "--packages=packages",
         ] + runtime_arg,
         environment = {

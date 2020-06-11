@@ -15,7 +15,7 @@
 load(":csharp_compiler.bzl", "csharp_binary")
 
 csharp_binary(
-    name = "generator_binary",
+    name = "csharp_gapic_generator_binary",
     visibility = ["//visibility:public"],
     restore_packages = "@gapic_generator_restore//:packages",
     restore_obj = "@gapic_generator_restore//:obj",
