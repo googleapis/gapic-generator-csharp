@@ -1,7 +1,7 @@
 
 def _csharp_compiler_impl(ctx):
     ctx.download_and_extract(
-        url="https://download.visualstudio.microsoft.com/download/pr/f65a8eb0-4537-4e69-8ff3-1a80a80d9341/cc0ca9ff8b9634f3d9780ec5915c1c66/dotnet-sdk-3.1.201-linux-x64.tar.gz",
+        url="https://download.visualstudio.microsoft.com/download/pr/8db2b522-7fa2-4903-97ec-d6d04d297a01/f467006b9098c2de256e40d2e2f36fea/dotnet-sdk-3.1.301-linux-x64.tar.gz",
         sha256="222f5363d2ab9f2aa852846bc0745c449677d1cccf8c8407cd0a44d3299cc7be",
         output="dotnet_compiler",
     )
@@ -75,19 +75,4 @@ dotnet_restore = repository_rule(
         "csproj": attr.label(allow_single_file=True),
         "runtime": attr.string(), # Empty to for no runtime
     },
-)
-
-def _gapic_generator_src_impl(ctx):
-    ctx.download_and_extract(
-        url="https://github.com/googleapis/gapic-generator-csharp/archive/v1.0.0-beta05.tar.gz",
-        sha256="08dc5ed561326d80ccce591bbb663a607bf6d3fc37211e75183474f1908206a1",
-        output="gen_dest",
-    )
-    ctx.file(
-        "BUILD",
-        """exports_files(glob(include = ["gen_dest/**"], exclude_directories = 0))""",
-    )
-
-gapic_generator_src = repository_rule(
-    implementation = _gapic_generator_src_impl,
 )
