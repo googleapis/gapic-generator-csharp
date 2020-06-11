@@ -76,7 +76,7 @@ bin/{configuration}/{framework}/{runtime}/publish/{exe_name}
             configuration = ctx.attr.configuration,
             framework = ctx.attr.framework,
             runtime = ctx.attr.runtime,
-            exe_name = csproj_name[:-7], # remove tailing `.csproj`
+            exe_name = csproj_name[:csproj_name.rindex('.')], # remove tailing `.csproj`
         )
         ctx.actions.write(out_run_sh, run_sh_contents, is_executable=True)
         runfiles = ctx.runfiles(files=[out_run_sh, bin_out_dir])
