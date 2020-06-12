@@ -47,11 +47,11 @@ csharp_gapic_library_full = rule(
     },
 )
 
-def csharp_proto_library(name, deps, **kwargs):
+def csharp_proto_library(name, srcs, **kwargs):
     # Build zip file of protoc output
     proto_custom_library(
         name = name,
-        deps = deps,
+        deps = srcs,
         output_type = "csharp",
         output_suffix = ".zip",
         **kwargs
