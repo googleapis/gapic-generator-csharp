@@ -15,3 +15,6 @@ and is suitable for production use.
 ## Bazel support
 
 Bazel support is currently experimental, and may change without warning.
+
+See [`bazel_example/README.md`](./bazel_example/README.md) for an example
+of using the C# bazel rules.
