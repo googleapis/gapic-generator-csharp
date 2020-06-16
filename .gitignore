@@ -7,3 +7,4 @@ bin
 project.lock.json
 _site
 site
+bazel-*
