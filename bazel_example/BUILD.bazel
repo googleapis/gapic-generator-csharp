@@ -1,4 +1,3 @@
-
 load("@com_googleapis_gapic_generator_csharp//rules_csharp_gapic:csharp_gapic.bzl", "csharp_proto_library", "csharp_grpc_library", "csharp_gapic_library")
 
 proto_library(
