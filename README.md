@@ -15,3 +15,4 @@ and is suitable for production use.
 ## Bazel support
 
 Bazel support is currently experimental, and may change without warning.
+See [BAZEL.md](./BAZEL.md) for bazel usage instructions.
