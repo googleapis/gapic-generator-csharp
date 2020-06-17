@@ -36,7 +36,7 @@ namespace Google.Api.Generator.Generation
             // Must come early; used by `MethodDetails.Create()`
             MethodGrpcConfigsByName = grpcServiceConfig?.MethodConfig
                 .SelectMany(conf => conf.Name.Select(name => (name, conf)))
-                .Where(x => x.name.Service == desc.FullName && x.conf.RetryOrHedgingPolicyCase == MethodConfig.RetryOrHedgingPolicyOneofCase.RetryPolicy)
+                .Where(x => x.name.Service == desc.FullName)
                 .ToImmutableDictionary(x => $"{x.name.Service}/{x.name.Method}", x => x.conf) ??
                 ImmutableDictionary<string, MethodConfig>.Empty;
             ServiceFullName = desc.FullName;

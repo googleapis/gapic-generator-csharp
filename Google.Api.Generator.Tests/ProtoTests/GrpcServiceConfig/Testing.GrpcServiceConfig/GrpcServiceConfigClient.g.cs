@@ -71,6 +71,26 @@ namespace Testing.GrpcServiceConfig
         /// </summary>
         /// <remarks>Timeout: 20 seconds.</remarks>
         public gaxgrpc::CallSettings MethodWithBidiRetrySettings { get; set; } = gaxgrpc::CallSettings.FromExpiration(gax::Expiration.FromTimeout(sys::TimeSpan.FromMilliseconds(20000)));
+
+        /// <summary>
+        /// <see cref="gaxgrpc::BidirectionalStreamingSettings"/> for calls to
+        /// <c>GrpcServiceConfigClient.MethodWithBidiRetry</c> and <c>GrpcServiceConfigClient.MethodWithBidiRetryAsync</c>
+        /// .
+        /// </summary>
+        /// <remarks>The default local send queue size is 100.</remarks>
+        public gaxgrpc::BidirectionalStreamingSettings MethodWithBidiRetryStreamingSettings { get; set; } = new gaxgrpc::BidirectionalStreamingSettings(100);
+
+        /// <summary>
+        /// <see cref="gaxgrpc::CallSettings"/> for synchronous and asynchronous calls to
+        /// <c>GrpcServiceConfigClient.MethodTimeoutOnly</c> and <c>GrpcServiceConfigClient.MethodTimeoutOnlyAsync</c>.
+        /// </summary>
+        /// <remarks>
+        /// <list type="bullet">
+        /// <item><description>This call will not be retried.</description></item>
+        /// <item><description>Timeout: 120 seconds.</description></item>
+        /// </list>
+        /// </remarks>
+        public gaxgrpc::CallSettings MethodTimeoutOnlySettings { get; set; } = gaxgrpc::CallSettings.FromExpiration(gax::Expiration.FromTimeout(sys::TimeSpan.FromMilliseconds(120000)));
         // TEST_END
     }
 }
