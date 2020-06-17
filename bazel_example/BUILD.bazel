@@ -1,4 +1,5 @@
 load("@com_googleapis_gapic_generator_csharp//rules_csharp_gapic:csharp_gapic.bzl", "csharp_proto_library", "csharp_grpc_library", "csharp_gapic_library")
+load("@com_googleapis_gapic_generator_csharp//rules_csharp_gapic:csharp_gapic_pkg.bzl", "csharp_gapic_assembly_pkg")
 
 proto_library(
     name = "example_src",
@@ -9,7 +10,7 @@ proto_library(
 
 csharp_proto_library(
     name = "example_proto",
-    srcs = [
+    deps = [
         ":example_src",
     ],
 )
@@ -19,14 +20,27 @@ csharp_grpc_library(
     srcs = [
         ":example_src",
     ],
+    deps = [
+        ":example_proto",
+    ]
 )
 
-# This also creates a "example_gapic_full" target, which will contain all required source, not just gapic source.
 csharp_gapic_library(
     name = "example_gapic",
     srcs = [
         ":example_src",
     ],
-    proto = ":example_proto",
-    grpc = ":example_grpc",
+    deps = [
+        ":example_proto",
+        ":example_grpc",
+    ]
+)
+
+csharp_gapic_assembly_pkg(
+    name = "example_pkg",
+    deps = [
+        ":example_proto",
+        ":example_grpc",
+        ":example_gapic",
+    ]
 )

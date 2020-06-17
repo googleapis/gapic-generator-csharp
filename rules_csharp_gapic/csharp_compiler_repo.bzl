@@ -49,6 +49,7 @@ def _dotnet_restore_impl(ctx):
     # So only copy the single csproj for now.
     ctx.execute(["cp", src_base_path+"/"+csproj_name, "."])
     ctx.execute(["mkdir", "packages"])
+    ctx.execute(["mkdir", "local_tmp"])
     if ctx.attr.runtime:
         runtime_arg = ["--runtime=" + ctx.attr.runtime]
     else:
@@ -62,17 +63,16 @@ def _dotnet_restore_impl(ctx):
             "--packages=packages",
         ] + runtime_arg,
         environment = {
-            "DOTNET_CLI_HOME": "/tmp/",
+            "DOTNET_CLI_HOME": "./local_tmp/",
             "DOTNET_SKIP_FIRST_TIME_EXPERIENCE": "1",
             "DOTNET_CLI_TELEMETRY_OPTOUT": "1",
         },
     )
     if res.return_code != 0:
-        fail("""Failed to execute command: `{command}`{newline}Exit Code: {code}{newline}STDERR: {stderr}{newline}""".format(
+        fail("Failed to execute command: `{command}`\nExit Code: {code}\nSTDERR: {stderr}\n".format(
             command = "dotnet",
             code = res.return_code,
             stderr = res.stderr,
-            newline = "\n"
         ))
     ctx.file(
         "BUILD",
