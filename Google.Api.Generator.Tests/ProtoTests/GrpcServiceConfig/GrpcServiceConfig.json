@@ -29,6 +29,15 @@
         "backoff_multiplier": 3.0,
         "retryable_status_codes": [ "UNAVAILABLE" ]
       }
+    },
+    {
+      "name": [
+        {
+          "service": "testing.grpcserviceconfig.GrpcServiceConfig",
+          "method": "MethodTimeoutOnly"
+        }
+      ],
+      "timeout": "120s"
     }
   ]
 }

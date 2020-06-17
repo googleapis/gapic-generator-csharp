@@ -20,6 +20,7 @@ using Google.LongRunning;
 using Google.Protobuf.Reflection;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
+using Grpc.ServiceConfig;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -305,16 +306,26 @@ namespace Google.Api.Generator.Generation
             {
                 return default;
             }
-            var rp = config.RetryPolicy;
-            // `retry` is the delay duration between calls.
-            // float -> double conversion via string to avoid unpleasent results from unrepresentable floats (e.g. 1.3 -> 1.2999999523162842)
-            var multiplier = double.Parse(rp.BackoffMultiplier.ToString());
-            // gRPC uses maxAttempts = 0 to mean unlimited; GAX wants a positive number. int.MaxValue is fine.
-            int maxAttempts = rp.MaxAttempts == 0 ? int.MaxValue : (int) rp.MaxAttempts;
-            // The retry filter here is irrelevant. We'll generate code with the right status codes later.
-            var retry = RetrySettings.FromExponentialBackoff(maxAttempts, rp.InitialBackoff.ToTimeSpan(), rp.MaxBackoff.ToTimeSpan(), multiplier, error => false);
-            // `Google.Rpc.Code` and `Grpc.Core.StatusCode` enums are identically defined.
-            var statusCodes = rp.RetryableStatusCodes.Select(x => (StatusCode)x).ToList();
+            RetrySettings retry;
+            IReadOnlyList<StatusCode> statusCodes;
+            if (config.RetryOrHedgingPolicyCase == MethodConfig.RetryOrHedgingPolicyOneofCase.RetryPolicy)
+            {
+                var rp = config.RetryPolicy;
+                // `retry` is the delay duration between calls.
+                // float -> double conversion via string to avoid unpleasent results from unrepresentable floats (e.g. 1.3 -> 1.2999999523162842)
+                var multiplier = double.Parse(rp.BackoffMultiplier.ToString());
+                // gRPC uses maxAttempts = 0 to mean unlimited; GAX wants a positive number. int.MaxValue is fine.
+                int maxAttempts = rp.MaxAttempts == 0 ? int.MaxValue : (int)rp.MaxAttempts;
+                // The retry filter here is irrelevant. We'll generate code with the right status codes later.
+                retry = RetrySettings.FromExponentialBackoff(maxAttempts, rp.InitialBackoff.ToTimeSpan(), rp.MaxBackoff.ToTimeSpan(), multiplier, error => false);
+                // `Google.Rpc.Code` and `Grpc.Core.StatusCode` enums are identically defined.
+                statusCodes = rp.RetryableStatusCodes.Select(x => (StatusCode)x).ToList();
+            }
+            else
+            {
+                retry = null;
+                statusCodes = ImmutableList<StatusCode>.Empty;
+            }
             var expiration = config.Timeout is null ? null : Expiration.FromTimeout(config.Timeout.ToTimeSpan());
             return (retry, statusCodes, expiration);
         }

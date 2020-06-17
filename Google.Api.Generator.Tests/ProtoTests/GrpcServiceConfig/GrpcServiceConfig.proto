@@ -21,6 +21,8 @@ service GrpcServiceConfig {
 
   rpc MethodWithServerRetry(Request) returns(stream Response);
   rpc MethodWithBidiRetry(stream Request) returns(stream Response);
+
+  rpc MethodTimeoutOnly(Request) returns(Response);
 }
 
 message Request {
