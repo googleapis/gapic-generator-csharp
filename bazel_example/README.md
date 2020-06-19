@@ -9,7 +9,7 @@ on your machine.
 Then execute the following bazel build command in this directory:
 
 ```bash
-$ bazel build :example_pkg
+$ bazel build :example_csharp_pkg
 ```
 
 The full C# source code for the client library will be generator into the

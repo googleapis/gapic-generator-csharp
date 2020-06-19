@@ -122,7 +122,7 @@ csharp_binary = rule(
         "csproj_name": attr.string(), # Must be directly in `src_base` directory
         "srcs": attr.label_list(allow_files=True),
         "csproj": attr.label(allow_single_file=True),
-        "runtime": attr.string(), # Empty to not build a specific runtime
+        "runtime": attr.string(), # Empty to not build a specific native runtime
         "framework": attr.string(default="netcoreapp3.1"),
         "configuration": attr.string(default="Debug"),
     },

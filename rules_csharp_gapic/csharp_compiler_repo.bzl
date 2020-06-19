@@ -87,6 +87,6 @@ dotnet_restore = repository_rule(
         "src_base": attr.label(allow_single_file=True),
         "csproj_name": attr.string(), # Must be directly in `src_base` directory.
         "csproj": attr.label(allow_single_file=True),
-        "runtime": attr.string(), # Empty to for no runtime
+        "runtime": attr.string(), # Empty to not build a specific native runtime
     },
 )
