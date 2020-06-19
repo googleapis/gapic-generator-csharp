@@ -17,7 +17,7 @@ load("@bazel_tools//tools/build_defs/repo:utils.bzl", "maybe")
 load("//rules_csharp_gapic:csharp_compiler_repo.bzl", "csharp_compiler", "dotnet_restore")
 load("//rules_csharp_gapic:csharp_gapic_repo.bzl", "gapic_generator_src")
 
-def com_googleapis_gapic_generator_csharp_repositories():
+def gapic_generator_csharp_repositories():
     maybe(
         http_archive,
         name = "com_google_api_codegen",

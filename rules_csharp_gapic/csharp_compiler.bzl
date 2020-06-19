@@ -27,6 +27,7 @@ def _csharp_binary_impl(ctx):
         inputs = [ctx.file.src_base]
         build_path = "build"
         command = """
+mkdir local_tmp;
 mkdir {build_path};
 cp -r {src_base_path}/* {build_path};
 cp -r {restore_packages_path} {build_path};
@@ -34,7 +35,7 @@ cp -rH {restore_obj_path} {build_path};
 {csharp_compiler_path}/dotnet {verb} {build_path}/{csproj_name} --no-restore --nologo --verbosity=quiet --packages {restore_packages_path} {publish_args};
 cp -r {build_path}/obj/* {obj_out_path};
 cp -r {build_path}/bin/* {bin_out_path};
-""".format(
+        """.format(
             build_path = build_path,
             src_base_path = src_base_path, #ctx.file.src_base.path,
             restore_packages_path = ctx.file.restore_packages.path,
@@ -51,11 +52,12 @@ cp -r {build_path}/bin/* {bin_out_path};
         csproj_name = ctx.file.csproj.basename
         inputs = ctx.files.srcs + [ctx.file.csproj]
         command = """
-cp -rH {restore_obj_path} .
+mkdir local_tmp;
+cp -rH {restore_obj_path} .;
 {csharp_compiler_path}/dotnet {verb} ./{csproj_name} --framework {framework} --configuration {configuration} --no-restore --nologo --verbosity=quiet --packages {restore_packages_path} {publish_args};
 cp -r ./obj/* {obj_out_path};
 cp -r ./bin/* {bin_out_path};
-""".format(
+        """.format(
             restore_packages_path = ctx.file.restore_packages.path,
             restore_obj_path = ctx.file.restore_obj.path,
             csproj_name = csproj_name, #ctx.attr.csproj_name,
@@ -74,7 +76,7 @@ cp -r ./bin/* {bin_out_path};
         inputs = [ctx.file.restore_packages, ctx.file.restore_obj] + inputs,
         outputs = [obj_out_dir, bin_out_dir],
         env = {
-            "DOTNET_CLI_HOME": "/tmp/",
+            "DOTNET_CLI_HOME": "./local_tmp/",
             "DOTNET_SKIP_FIRST_TIME_EXPERIENCE": "1",
             "DOTNET_CLI_TELEMETRY_OPTOUT": "1",
         },
@@ -85,7 +87,7 @@ cp -r ./bin/* {bin_out_path};
         run_sh_contents = """#!/bin/bash
 cd $(dirname $0)
 bin/{configuration}/{framework}/{runtime}/publish/{exe_name}
-""".format(
+        """.format(
             configuration = ctx.attr.configuration,
             framework = ctx.attr.framework,
             runtime = ctx.attr.runtime,
@@ -97,7 +99,7 @@ bin/{configuration}/{framework}/{runtime}/publish/{exe_name}
         out_run_sh = ctx.actions.declare_file("run.sh")
         run_sh_contents = """#!/bin/bash
 {csharp_compiler}/dotnet run --project ./{csproj} --no-restore --no-build
-""".format(
+        """.format(
             csharp_compiler = ctx.file.csharp_compiler.path,
             csproj = ctx.file.csproj.path,
         )
@@ -120,7 +122,7 @@ csharp_binary = rule(
         "csproj_name": attr.string(), # Must be directly in `src_base` directory
         "srcs": attr.label_list(allow_files=True),
         "csproj": attr.label(allow_single_file=True),
-        "runtime": attr.string(), # Empty to not build a specific runtime
+        "runtime": attr.string(), # Empty to not build a specific native runtime
         "framework": attr.string(default="netcoreapp3.1"),
         "configuration": attr.string(default="Debug"),
     },

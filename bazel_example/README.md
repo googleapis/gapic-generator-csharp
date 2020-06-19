@@ -9,10 +9,11 @@ on your machine.
 Then execute the following bazel build command in this directory:
 
 ```bash
-$ bazel build :example_gapic_full
+$ bazel build :example_csharp_pkg
 ```
 
 The full C# source code for the client library will be generator into the
-`./bazel-bin/full/` directory.
+`./bazel-bin/example_pkg/` directory; and zipped into
+`./bazel-bin/example_pkg.tar.gz`
 
 This is currently only supported on the `linux-x64` platform.
