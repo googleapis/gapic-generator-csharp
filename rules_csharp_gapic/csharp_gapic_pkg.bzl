@@ -35,17 +35,18 @@ CLIENT_NAME=$(ls -1 {out_dir} | sort | head -n 1)
 for extra in {extras}; do
     {zipper} x $extra -d {out_dir}/$CLIENT_NAME
 done
-tar -czhpf {out_tar} {out_dir}
+tar -czhpf {out_tar} -C {out_dir}/.. {pkg_name}
         """.format(
             zipper = ctx.executable._zipper.path,
             gapic_zip = gapic_zip.path,
             extras = " ".join(["'%s'" % f.path for f in extras]),
             out_dir = out_dir.path,
             out_tar = out_tar.path,
+            pkg_name = ctx.attr.name,
         )
     )
     return [DefaultInfo(
-        files = depset(direct = [out_dir, out_tar])
+        files = depset(direct = [out_tar])
     )]
 
 _csharp_gapic_assembly_pkg = rule(
