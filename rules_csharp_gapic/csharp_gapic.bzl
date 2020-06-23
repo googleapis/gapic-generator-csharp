@@ -48,12 +48,20 @@ _csharp_gapic_library_add_gapicinfo = rule(
     }
 )
 
-def csharp_gapic_library(name, srcs, deps, grpc_service_config = None, **kwargs):
+def csharp_gapic_library(
+        name,
+        srcs,
+        deps,
+        grpc_service_config = None,
+        common_resources_config = None,
+        **kwargs):
     # Build zip file of gapic-generator output
     name_srcjar = "{name}_srcjar".format(name = name)
     plugin_file_args = {}
     if grpc_service_config:
         plugin_file_args[grpc_service_config] = "grpc-service-config"
+    if common_resources_config:
+        plugin_file_args[common_resources_config] = "common-resources-config"
     proto_custom_library(
         name = name_srcjar,
         deps = srcs,

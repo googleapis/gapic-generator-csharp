@@ -1,0 +1,10 @@
+{
+    "common_resources": [
+        {
+            "type": "example.com/CommonResource",
+            "csharp_package_name": "Common.Package",
+            "csharp_namespace": "Common.Namespace",
+            "csharp_class_name":  "CommonResourceName"
+        }
+    ]
+}
