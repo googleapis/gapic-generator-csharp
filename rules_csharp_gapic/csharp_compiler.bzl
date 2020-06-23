@@ -85,8 +85,7 @@ cp -r ./bin/* {bin_out_path};
     if ctx.attr.runtime:
         out_run_sh = ctx.actions.declare_file("run.sh")
         run_sh_contents = """#!/bin/bash
-cd $(dirname $0)
-bin/{configuration}/{framework}/{runtime}/publish/{exe_name}
+$(dirname $0)/bin/{configuration}/{framework}/{runtime}/publish/{exe_name}
         """.format(
             configuration = ctx.attr.configuration,
             framework = ctx.attr.framework,
