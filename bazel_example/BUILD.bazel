@@ -6,6 +6,10 @@ proto_library(
     srcs = [
         "example.proto",
     ],
+    deps = [
+        "@com_google_googleapis//google/api:client_proto",
+        "@com_google_googleapis//google/api:resource_proto",
+    ],
 )
 
 csharp_proto_library(
@@ -35,6 +39,7 @@ csharp_gapic_library(
         ":example_csharp_grpc",
     ],
     grpc_service_config = "grpc_service_config.json",
+    common_resources_config = "common_resources_config.json",
 )
 
 csharp_gapic_assembly_pkg(

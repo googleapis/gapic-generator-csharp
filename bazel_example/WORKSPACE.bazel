@@ -35,6 +35,15 @@ load("@rules_proto//proto:repositories.bzl", "rules_proto_dependencies", "rules_
 rules_proto_dependencies()
 rules_proto_toolchains()
 
+# Latest version as of 2020-06-23
+http_archive(
+    name = "com_google_googleapis",
+    strip_prefix = "googleapis-cf41866c6f14f10a07aa1e2a1260fc0a2727d889",
+    urls = ["https://github.com/googleapis/googleapis/archive/cf41866c6f14f10a07aa1e2a1260fc0a2727d889.zip"],
+)
+load("@com_google_googleapis//:repository_rules.bzl", "switched_rules_by_language")
+switched_rules_by_language(name = "com_google_googleapis_imports", gapic = True)
+
 http_archive(
     name = "gapic_generator_csharp",
     urls = ["https://github.com/googleapis/gapic-generator-csharp/archive/master.zip"],

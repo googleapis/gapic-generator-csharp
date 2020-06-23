@@ -2,12 +2,23 @@ syntax = "proto3";
 
 package example;
 
+import "google/api/client.proto";
+import "google/api/resource.proto";
+
 service Example {
+    option (google.api.default_host) = "example.com";
+
     rpc ExampleMethod(Request) returns(Response);
 }
 
+// This is defined as a common resource, so is not generated.
+option (google.api.resource_definition) = {
+  type: "example.com/CommonResource",
+  pattern: "items/{item}"
+};
+
 message Request {
-    string name = 1;
+    string name = 1 [(google.api.resource_reference).type = "example.com/CommonResource"];
     optional int32 number = 2;
 }
 
