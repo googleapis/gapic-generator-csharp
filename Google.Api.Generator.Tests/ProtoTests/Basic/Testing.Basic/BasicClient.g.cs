@@ -124,6 +124,9 @@ namespace Testing.Basic
     }
 
     /// <summary>Basic client wrapper, for convenient use.</summary>
+    /// <remarks>
+    /// This is a basic service.
+    /// </remarks>
     public abstract partial class BasicClient
     {
         /// <summary>
@@ -226,6 +229,9 @@ namespace Testing.Basic
     }
 
     /// <summary>Basic client wrapper implementation, for convenient use.</summary>
+    /// <remarks>
+    /// This is a basic service.
+    /// </remarks>
     public sealed partial class BasicClientImpl : BasicClient
     {
         private readonly gaxgrpc::ApiCall<Request, Response> _callAMethod;

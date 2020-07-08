@@ -158,6 +158,8 @@ namespace Testing.UnitTests
     }
 
     /// <summary>UnitTests client wrapper, for convenient use.</summary>
+    /// <remarks>
+    /// </remarks>
     public abstract partial class UnitTestsClient
     {
         /// <summary>
@@ -790,6 +792,8 @@ namespace Testing.UnitTests
     }
 
     /// <summary>UnitTests client wrapper implementation, for convenient use.</summary>
+    /// <remarks>
+    /// </remarks>
     public sealed partial class UnitTestsClientImpl : UnitTestsClient
     {
         private readonly gaxgrpc::ApiCall<ValuesRequest, Response> _callMethodValues;

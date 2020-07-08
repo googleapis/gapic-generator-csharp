@@ -44,7 +44,9 @@ namespace Google.Api.Generator.Generation
         private ClassDeclarationSyntax Generate()
         {
             var cls = Class(Public | Abstract | Partial, _svc.ClientAbstractTyp)
-                .WithXmlDoc(XmlDoc.Summary($"{_svc.DocumentationName} client wrapper, for convenient use."));
+                .WithXmlDoc(
+                    XmlDoc.Summary($"{_svc.DocumentationName} client wrapper, for convenient use."),
+                    XmlDoc.RemarksPreFormatted(_svc.DocLines));
             using (_ctx.InClass(cls))
             {
                 var defaultEndpoint = DefaultEndpoint();

@@ -31,6 +31,7 @@ namespace Google.Api.Generator.Generation
         {
             Catalog = catalog;
             Namespace = ns;
+            DocLines = desc.Declaration.DocLines().ToList();
             SnippetsNamespace = $"{ns}.Snippets";
             UnitTestsNamespace = $"{ns}.Tests";
             // Must come early; used by `MethodDetails.Create()`
@@ -56,6 +57,9 @@ namespace Google.Api.Generator.Generation
             SnippetsClientName = $"{desc.Name.ToLowerCamelCase()}Client";
             UnitTestsTyp = Typ.Manual(UnitTestsNamespace, $"Generated{desc.Name}ClientTest");
         }
+
+        /// <summary>The lines of service documentation from the proto.</summary>
+        public IEnumerable<string> DocLines { get; }
 
         public ProtoCatalog Catalog { get; }
         public string Namespace { get; }

@@ -137,6 +137,8 @@ namespace Testing.Keywords
     }
 
     /// <summary>Keywords client wrapper, for convenient use.</summary>
+    /// <remarks>
+    /// </remarks>
     public abstract partial class KeywordsClient
     {
         /// <summary>The default endpoint for the Keywords service, which is a host of "" and a port of 443.</summary>
@@ -464,6 +466,8 @@ namespace Testing.Keywords
     }
 
     /// <summary>Keywords client wrapper implementation, for convenient use.</summary>
+    /// <remarks>
+    /// </remarks>
     public sealed partial class KeywordsClientImpl : KeywordsClient
     {
         private readonly gaxgrpc::ApiCall<Request, Response> _callMethod1;
