@@ -59,7 +59,9 @@ namespace Google.Api.Generator.Generation
         private ClassDeclarationSyntax Generate()
         {
             var cls = Class(Public | Sealed | Partial, _svc.ClientImplTyp, baseTypes: _ctx.Type(_svc.ClientAbstractTyp))
-                .WithXmlDoc(XmlDoc.Summary($"{_svc.DocumentationName} client wrapper implementation, for convenient use."));
+                .WithXmlDoc(
+                    XmlDoc.Summary($"{_svc.DocumentationName} client wrapper implementation, for convenient use."),
+                    XmlDoc.RemarksPreFormatted(_svc.DocLines));
             using (_ctx.InClass(cls))
             {
                 var apiCallFields = ApiCallFields().ToArray();

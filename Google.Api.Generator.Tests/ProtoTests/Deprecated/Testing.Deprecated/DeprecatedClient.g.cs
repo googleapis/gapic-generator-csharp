@@ -163,6 +163,8 @@ namespace Testing.Deprecated
     }
 
     /// <summary>Deprecated client wrapper, for convenient use.</summary>
+    /// <remarks>
+    /// </remarks>
     public abstract partial class DeprecatedClient
     {
         /// <summary>
@@ -386,6 +388,8 @@ namespace Testing.Deprecated
     }
 
     /// <summary>Deprecated client wrapper implementation, for convenient use.</summary>
+    /// <remarks>
+    /// </remarks>
     public sealed partial class DeprecatedClientImpl : DeprecatedClient
     {
         private readonly gaxgrpc::ApiCall<DeprecatedFieldRequest, Response> _callDeprecatedFieldMethod;
