@@ -12,18 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace Google.Api.Generator.Utils
+namespace Google.Api.Generator.Utils.Formatting
 {
-    /// <summary>
-    /// A general implementation of IDisposable that allows an arbitrary
-    /// action to be executed on disposal.
-    /// </summary>
-    internal class Disposable : IDisposable
+    public static class CodeFormatter
     {
-        public Disposable(Action action) => _action = action;
-        private readonly Action _action;
-        public void Dispose() => _action();
+        public static CompilationUnitSyntax Format(CompilationUnitSyntax code)
+        {
+            var whitespace = new WhitespaceFormatter(maxLineLength: 120);
+            code = (CompilationUnitSyntax)whitespace.Visit(code);
+            code = PragmaWarningFormatter.Visit(code);
+            // TODO: Line length formatting
+            return code;
+        }
     }
 }

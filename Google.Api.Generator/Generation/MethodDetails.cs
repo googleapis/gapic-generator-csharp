@@ -58,7 +58,7 @@ namespace Google.Api.Generator.Generation
             public Paginated(ServiceDetails svc, MethodDescriptor desc,
                 FieldDescriptor responseResourceField, int pageSizeFieldNumber, int pageTokenFieldNumber) : base(svc, desc)
             {
-                ResourceTyp = Typ.Of(responseResourceField, forceRepeated: false);
+                ResourceTyp = ProtoTyp.Of(responseResourceField, forceRepeated: false);
                 ApiCallTyp = Typ.Generic(typeof(ApiCall<,>), RequestTyp, ResponseTyp);
                 SyncReturnTyp = Typ.Generic(typeof(PagedEnumerable<,>), ResponseTyp, ResourceTyp);
                 AsyncReturnTyp = Typ.Generic(typeof(PagedAsyncEnumerable<,>), ResponseTyp, ResourceTyp);
@@ -103,8 +103,8 @@ namespace Google.Api.Generator.Generation
                     throw new InvalidOperationException(
                         $"Response-type and Metadata-type must both exist in method '{desc.FullName}': '{lroData.ResponseType}', '{lroData.MetadataType}'.");
                 }
-                OperationResponseTyp = Typ.Of(responseTypeMsg);
-                OperationMetadataTyp = Typ.Of(metadataTypeMsg);
+                OperationResponseTyp = ProtoTyp.Of(responseTypeMsg);
+                OperationMetadataTyp = ProtoTyp.Of(metadataTypeMsg);
                 SyncReturnTyp = Typ.Generic(typeof(Operation<,>), OperationResponseTyp, OperationMetadataTyp);
                 LroSettingsName = $"{desc.Name}OperationsSettings";
                 LroClientName = $"{desc.Name}OperationsClient";
@@ -182,10 +182,10 @@ namespace Google.Api.Generator.Generation
                         return (fieldDesc.FieldType == FieldType.Message ? fieldDesc.MessageType : null, acc.result.Add(fieldDesc));
                     }, acc => acc.result);
                     var lastDesc = Descs.Last();
-                    Typ = Typ.Of(lastDesc);
+                    Typ = ProtoTyp.Of(lastDesc);
                     IsMap = lastDesc.IsMap;
                     IsRepeated = lastDesc.IsRepeated;
-                    IsWrapperType = Typ.IsWrapperType(lastDesc);
+                    IsWrapperType = ProtoTyp.IsWrapperType(lastDesc);
                     IsRequired = lastDesc.SafeGetOption(FieldBehaviorExtensions.FieldBehavior).Any(x => x == FieldBehavior.Required);
                     ParameterName = lastDesc.CSharpFieldName();
                     PropertyName = lastDesc.CSharpPropertyName();
@@ -284,8 +284,8 @@ namespace Google.Api.Generator.Generation
             AsyncSnippetMethodName = $"{desc.Name}RequestObjectAsync";
             AsyncTestMethodName = $"{desc.Name}RequestObjectAsync";
             SettingsName = $"{desc.Name}Settings";
-            RequestTyp = Typ.Of(desc.InputType);
-            ResponseTyp = Typ.Of(desc.OutputType);
+            RequestTyp = ProtoTyp.Of(desc.InputType);
+            ResponseTyp = ProtoTyp.Of(desc.OutputType);
             ApiCallFieldName = $"_call{desc.Name}";
             ModifyApiCallMethodName = $"Modify_{desc.Name}ApiCall";
             ModifyRequestMethodName = $"Modify_{RequestTyp.Name}";

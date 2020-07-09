@@ -21,12 +21,12 @@ using System.Globalization;
 using System.Linq;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
-namespace Google.Api.Generator.RoslynUtils
+namespace Google.Api.Generator.Utils.Roslyn
 {
     /// <summary>
     /// Helper methods to assist with creating XmlDoc elements.
     /// </summary>
-    internal static class XmlDoc
+    public static class XmlDoc
     {
         public static class Annotations
         {

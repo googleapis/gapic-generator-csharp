@@ -15,7 +15,7 @@
 // This is not a general-purpose C# code formatter.
 // It makes various assumptions about the Roslyn input.
 
-using Google.Api.Generator.RoslynUtils;
+using Google.Api.Generator.Utils.Roslyn;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -24,9 +24,9 @@ using System.Collections.Generic;
 using System.Linq;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
-namespace Google.Api.Generator.Formatting
+namespace Google.Api.Generator.Utils.Formatting
 {
-    internal class XmlDocSplitter
+    public class XmlDocSplitter
     {
         private static readonly XmlElementStartTagSyntax s_missingStartTag = XmlElementStartTag(
             MissingToken(SyntaxKind.LessThanToken), XmlName(MissingToken(SyntaxKind.IdentifierToken)), List<XmlAttributeSyntax>(), MissingToken(SyntaxKind.GreaterThanToken));

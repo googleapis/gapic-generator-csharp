@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Google.Api.Generator.Utils;
+using Google.Api.Generator.ProtoUtils;
 using System;
 using Xunit;
 

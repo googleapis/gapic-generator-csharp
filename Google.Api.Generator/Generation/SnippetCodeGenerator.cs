@@ -15,7 +15,7 @@
 using Google.Api.Gax;
 using Google.Api.Gax.Grpc;
 using Google.Api.Generator.ProtoUtils;
-using Google.Api.Generator.RoslynUtils;
+using Google.Api.Generator.Utils.Roslyn;
 using Google.Api.Generator.Utils;
 using Google.LongRunning;
 using Google.Protobuf;
@@ -28,8 +28,8 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using static Google.Api.Generator.RoslynUtils.Modifier;
-using static Google.Api.Generator.RoslynUtils.RoslynBuilder;
+using static Google.Api.Generator.Utils.Roslyn.Modifier;
+using static Google.Api.Generator.Utils.Roslyn.RoslynBuilder;
 
 namespace Google.Api.Generator.Generation
 {
@@ -192,7 +192,7 @@ namespace Google.Api.Generator.Generation
                         var valueValue = DefaultValue(parts[1]);
                         var collectionInitializer = CollectionInitializer(ComplexElementInitializer(keyValue, valueValue));
                         return topLevel
-                            ? New(Ctx.Type(Typ.Generic(typeof(Dictionary<,>), Typ.Of(fieldDesc).GenericArgTyps.ToArray())))()
+                            ? New(Ctx.Type(Typ.Generic(typeof(Dictionary<,>), ProtoTyp.Of(fieldDesc).GenericArgTyps.ToArray())))()
                                 // We want new Dictionary<int, int> { ... } rather than new Dictionary<int, int>() { ... }
                                 .WithArgumentList(null)
                                 .WithInitializer(collectionInitializer)
@@ -228,16 +228,16 @@ namespace Google.Api.Generator.Generation
                             "google.protobuf.BoolValue" => default(bool),
                             "google.protobuf.StringValue" => "",
                             "google.protobuf.BytesValue" => Ctx.Type<ByteString>().Access(nameof(ByteString.Empty)),
-                            _ => New(Ctx.Type(Typ.Of(fieldDesc.MessageType)))()
+                            _ => New(Ctx.Type(ProtoTyp.Of(fieldDesc.MessageType)))()
                         },
-                        FieldType.Enum => Ctx.Type(Typ.Of(fieldDesc.EnumType)).Access(fieldDesc.EnumType.Values.First().CSharpName()),
+                        FieldType.Enum => Ctx.Type(ProtoTyp.Of(fieldDesc.EnumType)).Access(fieldDesc.EnumType.Values.First().CSharpName()),
                         _ => throw new InvalidOperationException($"Cannot generate default for proto type: {fieldDesc.FieldType}"),
                     };
                     return fieldDesc.IsRepeated ? Collection(@default, null) : @default;
                 }
 
                 object Collection(object value, Typ typ) => topLevel ?
-                    NewArray(Ctx.ArrayType(Typ.ArrayOf(typ ?? Typ.Of(fieldDesc).GenericArgTyps.First())))(value) :
+                    NewArray(Ctx.ArrayType(Typ.ArrayOf(typ ?? ProtoTyp.Of(fieldDesc).GenericArgTyps.First())))(value) :
                     (object)CollectionInitializer(value);
             }
 

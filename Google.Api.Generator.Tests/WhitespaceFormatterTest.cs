@@ -26,7 +26,7 @@
 // into multiple source files, and/or multiple tests.
 
 // TEST_SOURCE_START
-using Google.Api.Generator.Formatting;
+using Google.Api.Generator.Utils.Formatting;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using System;

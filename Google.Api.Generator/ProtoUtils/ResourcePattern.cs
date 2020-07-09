@@ -17,7 +17,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 
-namespace Google.Api.Generator.Utils
+namespace Google.Api.Generator.ProtoUtils
 {
     internal class ResourcePattern
     {

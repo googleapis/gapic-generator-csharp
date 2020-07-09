@@ -22,6 +22,10 @@
     <Folder Include="Google.Protobuf.Compiler\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Google.Api.Generator.Utils\Google.Api.Generator.Utils.csproj" />
+  </ItemGroup>
+
   <!-- Invariant mode reduces docker image size, and allows docker image to not have ICU support. -->
   <ItemGroup>
     <RuntimeHostConfigurationOption Include="System.Globalization.Invariant" Value="true" />

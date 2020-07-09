@@ -22,12 +22,12 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
-namespace Google.Api.Generator.RoslynUtils
+namespace Google.Api.Generator.Utils.Roslyn
 {
     /// <summary>
     /// Converters between .NET objects and Roslyn types.
     /// </summary>
-    internal static class RoslynConverters
+    public static class RoslynConverters
     {
         public static IEnumerable<ExpressionSyntax> ToExpressions(object o) => o switch
         {
