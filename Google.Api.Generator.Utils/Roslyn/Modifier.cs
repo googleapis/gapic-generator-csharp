@@ -17,10 +17,10 @@ using Microsoft.CodeAnalysis.CSharp;
 using System;
 using System.Collections.Generic;
 
-namespace Google.Api.Generator.RoslynUtils
+namespace Google.Api.Generator.Utils.Roslyn
 {
     [Flags]
-    internal enum Modifier
+    public enum Modifier
     {
         DontCare = 0,
         None = 0,
@@ -39,7 +39,7 @@ namespace Google.Api.Generator.RoslynUtils
         Protected = 0x800,
     }
 
-    internal static class ModifierExtensions
+    public static class ModifierExtensions
     {
         private static readonly SyntaxToken s_publicToken = SyntaxFactory.Token(SyntaxKind.PublicKeyword);
         private static readonly SyntaxToken s_abstractToken = SyntaxFactory.Token(SyntaxKind.AbstractKeyword);

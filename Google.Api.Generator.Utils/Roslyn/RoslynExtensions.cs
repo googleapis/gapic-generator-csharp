@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Google.Api.Generator.Utils;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -20,12 +19,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using static Google.Api.Generator.RoslynUtils.RoslynConverters;
+using static Google.Api.Generator.Utils.Roslyn.RoslynConverters;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
-namespace Google.Api.Generator.RoslynUtils
+namespace Google.Api.Generator.Utils.Roslyn
 {
-    internal static class RoslynExtensions
+    public static class RoslynExtensions
     {
         private static readonly SyntaxToken s_semicolonToken = Token(SyntaxKind.SemicolonToken);
 

@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Google.Api.Generator.Formatting;
-using Google.Api.Generator.RoslynUtils;
+using Google.Api.Generator.Utils.Formatting;
+using Google.Api.Generator.Utils.Roslyn;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;

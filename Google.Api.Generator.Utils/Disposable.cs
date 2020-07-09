@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Google Inc. All Rights Reserved.
+﻿// Copyright 2018 Google Inc. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,12 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Google.Api.Generator.RoslynUtils
-{
-    internal static class PragmaWarnings
-    {
-        public const string AnnotationKind = "pragma_warning";
+using System;
 
-        public const string Obsolete = "CS0612";
+namespace Google.Api.Generator.Utils
+{
+    /// <summary>
+    /// A general implementation of IDisposable that allows an arbitrary
+    /// action to be executed on disposal.
+    /// </summary>
+    public class Disposable : IDisposable
+    {
+        public Disposable(Action action) => _action = action;
+        private readonly Action _action;
+        public void Dispose() => _action();
     }
 }

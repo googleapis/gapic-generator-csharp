@@ -13,7 +13,7 @@
 // limitations under the License.
 
 using Google.Api.Gax;
-using Google.Api.Generator.Formatting;
+using Google.Api.Generator.Utils.Formatting;
 using Google.Api.Generator.Generation;
 using Google.Api.Generator.ProtoUtils;
 using Google.Api.Generator.Utils;

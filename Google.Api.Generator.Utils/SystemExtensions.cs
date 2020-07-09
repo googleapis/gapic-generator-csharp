@@ -17,7 +17,7 @@ using System.Text;
 
 namespace Google.Api.Generator.Utils
 {
-    internal static class SystemExtensions
+    public static class SystemExtensions
     {
         private static char MaybeForceCase(char c, bool? toUpper) =>
             toUpper is bool upper ? upper ? char.ToUpperInvariant(c) : char.ToLowerInvariant(c) : c;

@@ -13,7 +13,7 @@
 // limitations under the License.
 
 using Google.Api.Gax.Grpc;
-using Google.Api.Generator.RoslynUtils;
+using Google.Api.Generator.Utils.Roslyn;
 using Google.Api.Generator.Utils;
 using Google.LongRunning;
 using Grpc.ServiceConfig;
@@ -22,8 +22,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using static Google.Api.Generator.RoslynUtils.Modifier;
-using static Google.Api.Generator.RoslynUtils.RoslynBuilder;
+using static Google.Api.Generator.Utils.Roslyn.Modifier;
+using static Google.Api.Generator.Utils.Roslyn.RoslynBuilder;
 
 namespace Google.Api.Generator.Generation
 {

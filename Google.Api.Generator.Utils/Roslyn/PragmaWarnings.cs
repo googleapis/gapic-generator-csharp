@@ -1,4 +1,4 @@
-﻿// Copyright 2018 Google Inc. All Rights Reserved.
+﻿// Copyright 2020 Google Inc. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,19 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-
-namespace Google.Api.Generator.Formatting
+namespace Google.Api.Generator.Utils.Roslyn
 {
-    internal static class CodeFormatter
+    public static class PragmaWarnings
     {
-        public static CompilationUnitSyntax Format(CompilationUnitSyntax code)
-        {
-            var whitespace = new WhitespaceFormatter(maxLineLength: 120);
-            code = (CompilationUnitSyntax)whitespace.Visit(code);
-            code = PragmaWarningFormatter.Visit(code);
-            // TODO: Line length formatting
-            return code;
-        }
+        public const string AnnotationKind = "pragma_warning";
+
+        public const string Obsolete = "CS0612";
     }
 }

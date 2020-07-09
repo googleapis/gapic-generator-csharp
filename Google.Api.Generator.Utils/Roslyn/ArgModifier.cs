@@ -12,13 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Google.Api.Generator.RoslynUtils
+namespace Google.Api.Generator.Utils.Roslyn
 {
-    internal class ObjectInitExpr
+    public class ArgModifier
     {
-        public ObjectInitExpr(string propertyName, object code, bool isDeprecated = false) => (PropertyName, Code, IsDeprecated) = (propertyName, code, isDeprecated);
-        public string PropertyName { get; }
-        public object Code { get; }
-        public bool IsDeprecated { get; }
+        public enum Type
+        {
+            Ref,
+            Out,
+        }
+
+        public ArgModifier(Type type, object arg) => (ModType, Arg) = (type, arg);
+
+        public Type ModType { get; }
+        public object Arg { get; }
     }
 }

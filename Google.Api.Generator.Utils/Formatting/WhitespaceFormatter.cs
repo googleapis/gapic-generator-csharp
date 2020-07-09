@@ -12,8 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Google.Api.Generator.RoslynUtils;
-using Google.Api.Generator.Utils;
+using Google.Api.Generator.Utils.Roslyn;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -22,9 +21,9 @@ using System.Collections.Generic;
 using System.Linq;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
-namespace Google.Api.Generator.Formatting
+namespace Google.Api.Generator.Utils.Formatting
 {
-    internal static class WhitespaceFormatterNewLine
+    public static class WhitespaceFormatterNewLine
     {
         public static SyntaxTrivia NewLine { get; } = SyntaxTrivia(SyntaxKind.EndOfLineTrivia, Environment.NewLine);
 
@@ -35,7 +34,7 @@ namespace Google.Api.Generator.Formatting
             token.WithTrailingTrivia(Enumerable.Repeat(NewLine, count));
     }
 
-    internal class WhitespaceFormatter : CSharpSyntaxRewriter
+    public class WhitespaceFormatter : CSharpSyntaxRewriter
     {
         private static readonly SyntaxToken s_commaSpace = Token(SyntaxKind.CommaToken).WithTrailingSpace();
         private static IEnumerable<SyntaxToken> CommaSpaces(int count) => Enumerable.Repeat(s_commaSpace, Math.Max(0, count));

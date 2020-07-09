@@ -14,7 +14,7 @@
 
 using Google.Api.Gax;
 using Google.Api.Generator.ProtoUtils;
-using Google.Api.Generator.RoslynUtils;
+using Google.Api.Generator.Utils.Roslyn;
 using Google.Api.Generator.Utils;
 using Google.Protobuf.Reflection;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -22,8 +22,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using static Google.Api.Generator.RoslynUtils.Modifier;
-using static Google.Api.Generator.RoslynUtils.RoslynBuilder;
+using static Google.Api.Generator.Utils.Roslyn.Modifier;
+using static Google.Api.Generator.Utils.Roslyn.RoslynBuilder;
 
 namespace Google.Api.Generator.Generation
 {
@@ -523,7 +523,7 @@ namespace Google.Api.Generator.Generation
                     .ToList();
                 if (resources.Any())
                 {
-                    var cls = Class(Public | Partial, Typ.Of(msg));
+                    var cls = Class(Public | Partial, ProtoTyp.Of(msg));
                     using (_ctx.InClass(cls))
                     {
                         _ctx.RegisterClassMemberNames(resources

@@ -14,7 +14,7 @@
 
 using Google.Api.Gax;
 using Google.Api.Gax.Grpc;
-using Google.Api.Generator.RoslynUtils;
+using Google.Api.Generator.Utils.Roslyn;
 using Google.Api.Generator.Utils;
 using Grpc.Core;
 using Grpc.Core.Interceptors;
@@ -25,8 +25,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using static Google.Api.Generator.RoslynUtils.Modifier;
-using static Google.Api.Generator.RoslynUtils.RoslynBuilder;
+using static Google.Api.Generator.Utils.Roslyn.Modifier;
+using static Google.Api.Generator.Utils.Roslyn.RoslynBuilder;
 
 namespace Google.Api.Generator.Generation
 {

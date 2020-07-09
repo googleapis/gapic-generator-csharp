@@ -15,7 +15,7 @@
 using Google.Api.Gax;
 using Google.Api.Gax.Grpc;
 using Google.Api.Generator.ProtoUtils;
-using Google.Api.Generator.RoslynUtils;
+using Google.Api.Generator.Utils.Roslyn;
 using Google.Api.Generator.Utils;
 using Google.LongRunning;
 using Google.Protobuf;
@@ -33,8 +33,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
-using static Google.Api.Generator.RoslynUtils.Modifier;
-using static Google.Api.Generator.RoslynUtils.RoslynBuilder;
+using static Google.Api.Generator.Utils.Roslyn.Modifier;
+using static Google.Api.Generator.Utils.Roslyn.RoslynBuilder;
 
 namespace Google.Api.Generator.Generation
 {
@@ -163,9 +163,9 @@ namespace Google.Api.Generator.Generation
                             "google.protobuf.BoolValue" => Int() >= 0,
                             "google.protobuf.StringValue" => String(),
                             "google.protobuf.BytesValue" => Ctx.Type<ByteString>().Call(nameof(ByteString.CopyFromUtf8))(String()),
-                            _ => New(Ctx.Type(Typ.Of(fieldDesc.MessageType)))(),
+                            _ => New(Ctx.Type(ProtoTyp.Of(fieldDesc.MessageType)))(),
                         },
-                        FieldType.Enum => Ctx.Type(Typ.Of(fieldDesc.EnumType)).Access(fieldDesc.EnumType.Values[Math.Abs(Int()) % fieldDesc.EnumType.Values.Count].CSharpName()),
+                        FieldType.Enum => Ctx.Type(ProtoTyp.Of(fieldDesc.EnumType)).Access(fieldDesc.EnumType.Values[Math.Abs(Int()) % fieldDesc.EnumType.Values.Count].CSharpName()),
                         _ => throw new InvalidOperationException($"Cannot generate test value for proto type: {fieldDesc.FieldType}"),
                     };
                     return fieldDesc.IsRepeated ? CollectionInitializer(value) : value;

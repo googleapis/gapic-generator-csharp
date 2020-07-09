@@ -13,7 +13,7 @@
 // limitations under the License.
 
 using Google.Api.Gax;
-using Google.Api.Generator.RoslynUtils;
+using Google.Api.Generator.Utils.Roslyn;
 using Google.Api.Generator.Utils;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
