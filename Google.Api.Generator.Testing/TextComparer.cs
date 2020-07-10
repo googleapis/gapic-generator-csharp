@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Google.Api.Generator.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,7 +27,7 @@ namespace Google.Api.Generator.Testing
     /// </summary>
     public static class TextComparer
     {
-        public static void CompareText(string expectedFilePath, Func<string> actualContentProvider, string actualRelativePath)
+        public static void CompareText(string expectedFilePath, ResultFile actualFile)
         {
             Assert.True(File.Exists(expectedFilePath), $"Expected file does not exist: '{expectedFilePath}'");
 
@@ -35,7 +36,7 @@ namespace Google.Api.Generator.Testing
             {
                 return;
             }
-            var actualLines = actualContentProvider().Split('\n').Select(x => x.Trim('\r')).ToList();
+            var actualLines = actualFile.Content.Split('\n').Select(x => x.Trim('\r')).ToList();
             var fullFile = !expectedLines.Any(x => x.Trim() == "// TEST_START");
             var expectedBlocks = fullFile ? new[] { expectedLines.Select((s, i) => (i, s)).ToList() } : TestBlocks();
             // Check that all expected code blocks in the expected code exist in the generated (actual) code.
@@ -71,7 +72,7 @@ namespace Google.Api.Generator.Testing
                 if (missing.line != null)
                 {
                     Console.WriteLine(string.Join(Environment.NewLine, actualLines));
-                    throw new XunitException($"Failed to find expected line {missing.lineNumber + 1} in '{Path.GetFileName(actualRelativePath)}'\n" +
+                    throw new XunitException($"Failed to find expected line {missing.lineNumber + 1} in '{Path.GetFileName(actualFile.RelativePath)}'\n" +
                         $"  Expected line:  '{missing.line}'\n" +
                         $"  Generated line: '{missingActualLine}'");
                 }

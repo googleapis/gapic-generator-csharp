@@ -14,20 +14,19 @@
 
 using Google.Api.Gax.Testing;
 using Google.Api.Generator.Testing;
-using Microsoft.CodeAnalysis;
+using Google.Api.Generator.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using Xunit;
-using Xunit.Sdk;
 
 namespace Google.Api.Generator.Tests
 {
     public class ProtoTest
     {
-        private IEnumerable<CodeGenerator.ResultFile> Run(IEnumerable<string> protoFilenames, string package,
+        private IEnumerable<ResultFile> Run(IEnumerable<string> protoFilenames, string package,
             string grpcServiceConfigPath, IEnumerable<string> commonResourcesConfigPaths)
         {
             var clock = new FakeClock(new DateTime(2019, 1, 1));
@@ -76,7 +75,7 @@ namespace Google.Api.Generator.Tests
                 }
                 var expectedFilePath = Path.Combine(Invoker.GeneratorTestsDir, "ProtoTests", dirName, file.RelativePath);
 
-                TextComparer.CompareText(expectedFilePath, () => Encoding.UTF8.GetString(file.Content), file.RelativePath);
+                TextComparer.CompareText(expectedFilePath, file);
             }
         }
 

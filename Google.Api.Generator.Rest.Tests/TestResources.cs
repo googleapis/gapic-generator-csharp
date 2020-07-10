@@ -54,7 +54,7 @@ namespace Google.Api.Generator.Rest.Tests
                 }
                 var expectedFilePath = Path.Combine(TestDirectory, "GoldenTestData", directory, file.RelativePath);
 
-                TextComparer.CompareText(expectedFilePath, () => file.Content, file.RelativePath);
+                TextComparer.CompareText(expectedFilePath, file);
             }
         }
     }
