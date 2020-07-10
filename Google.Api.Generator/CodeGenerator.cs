@@ -30,13 +30,6 @@ namespace Google.Api.Generator
 {
     internal static class CodeGenerator
     {
-        public class ResultFile
-        {
-            public ResultFile(string relativePath, byte[] content) => (RelativePath, Content) = (relativePath, content);
-            public string RelativePath { get; }
-            public byte[] Content { get; }
-        }
-
         public static IEnumerable<ResultFile> Generate(byte[] descriptorBytes, string package, IClock clock,
             string grpcServiceConfigPath, IEnumerable<string> commonResourcesConfigPaths)
         {
@@ -92,24 +85,18 @@ namespace Google.Api.Generator
                     var serviceDetails = new ServiceDetails(catalog, ns, service, grpcServiceConfig);
                     var ctx = SourceFileContext.Create(SourceFileContext.ImportStyle.FullyAliased, clock);
                     var code = ServiceCodeGenerator.Generate(ctx, serviceDetails);
-                    var formattedCode = CodeFormatter.Format(code);
                     var filename = $"{clientPathPrefix}{serviceDetails.ClientAbstractTyp.Name}.g.cs";
-                    var content = Encoding.UTF8.GetBytes(formattedCode.ToFullString());
-                    yield return new ResultFile(filename, content);
+                    yield return new ResultFile(filename, code);
                     // Generate snippets for the service
                     var snippetCtx = SourceFileContext.Create(SourceFileContext.ImportStyle.Unaliased, clock);
                     var snippetCode = SnippetCodeGenerator.Generate(snippetCtx, serviceDetails);
-                    var snippetFormattedCode = CodeFormatter.Format(snippetCode);
                     var snippetFilename = $"{snippetsPathPrefix}{serviceDetails.ClientAbstractTyp.Name}Snippets.g.cs";
-                    var snippetContent = Encoding.UTF8.GetBytes(snippetFormattedCode.ToFullString());
-                    yield return new ResultFile(snippetFilename, snippetContent);
+                    yield return new ResultFile(snippetFilename, snippetCode);
                     // Generate unit tests for the the service.
                     var unitTestCtx = SourceFileContext.Create(SourceFileContext.ImportStyle.FullyAliased, clock);
                     var unitTestCode = UnitTestCodeGeneration.Generate(unitTestCtx, serviceDetails);
-                    var unitTestFormattedCode = CodeFormatter.Format(unitTestCode);
                     var unitTestFilename = $"{unitTestsPathPrefix}{serviceDetails.ClientAbstractTyp.Name}Test.g.cs";
-                    var unitTestContent = Encoding.UTF8.GetBytes(unitTestFormattedCode.ToFullString());
-                    yield return new ResultFile(unitTestFilename, unitTestContent);
+                    yield return new ResultFile(unitTestFilename, unitTestCode);
                     // Record whether LRO is used.
                     hasLro |= serviceDetails.Methods.Any(x => x is MethodDetails.Lro);
                     hasContent = true;
@@ -119,11 +106,9 @@ namespace Google.Api.Generator
                 // Only produce an output file if it contains >0 [partial] classes.
                 if (resCodeClassCount > 0)
                 {
-                    var formattedResCode = CodeFormatter.Format(resCode);
                     var filenamePrefix = Path.GetFileNameWithoutExtension(fileDesc.Name).ToUpperCamelCase();
                     var resFilename = $"{clientPathPrefix}{filenamePrefix}ResourceNames.g.cs";
-                    var resContent = Encoding.UTF8.GetBytes(formattedResCode.ToFullString());
-                    yield return new ResultFile(resFilename, resContent);
+                    yield return new ResultFile(resFilename, resCode);
                     hasContent = true;
                 }
             }
@@ -132,15 +117,15 @@ namespace Google.Api.Generator
             if (hasContent)
             {
                 // Generate client csproj.
-                var csprojContent = Encoding.UTF8.GetBytes(CsProjGenerator.GenerateClient(hasLro));
+                var csprojContent = CsProjGenerator.GenerateClient(hasLro);
                 var csprojFilename = $"{clientPathPrefix}{ns}.csproj";
                 yield return new ResultFile(csprojFilename, csprojContent);
                 // Generate snippets csproj.
-                var snippetsCsprojContent = Encoding.UTF8.GetBytes(CsProjGenerator.GenerateSnippets(ns));
+                var snippetsCsprojContent = CsProjGenerator.GenerateSnippets(ns);
                 var snippetsCsProjFilename = $"{snippetsPathPrefix}{ns}.Snippets.csproj";
                 yield return new ResultFile(snippetsCsProjFilename, snippetsCsprojContent);
                 // Generate unit-tests csproj.
-                var unitTestsCsprojContent = Encoding.UTF8.GetBytes(CsProjGenerator.GenerateUnitTests(ns));
+                var unitTestsCsprojContent = CsProjGenerator.GenerateUnitTests(ns);
                 var unitTestsCsprojFilename = $"{unitTestsPathPrefix}{ns}.Tests.csproj";
                 yield return new ResultFile(unitTestsCsprojFilename, unitTestsCsprojContent);
             }

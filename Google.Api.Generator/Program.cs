@@ -162,7 +162,7 @@ namespace Google.Api.Generator
                         results.Select(x => new CodeGeneratorResponse.Types.File
                         {
                             Name = x.RelativePath.Replace('\\', '/'),
-                            Content = Encoding.UTF8.GetString(x.Content),
+                            Content = x.Content,
                         })
                     }
                 };
@@ -213,7 +213,7 @@ namespace Google.Api.Generator
             {
                 var path = Path.Combine(options.Output, file.RelativePath);
                 Directory.CreateDirectory(Path.GetDirectoryName(path));
-                File.WriteAllBytes(path, file.Content);
+                File.WriteAllText(path, file.Content);
             }
         }
     }

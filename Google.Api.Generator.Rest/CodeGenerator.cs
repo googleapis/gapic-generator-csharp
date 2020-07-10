@@ -12,21 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
+using Google.Api.Generator.Utils;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Google.Api.Generator.Rest
 {
     internal class CodeGenerator
     {
-        // TODO: Move this to the Utils package, and refactor the GAPIC generator to use it.
-        internal class ResultFile
-        {
-            public string Content { get; }
-            public string RelativePath { get; }
-        }
-
         public static IEnumerable<ResultFile> Generate(string discoveryJson)
         {
             yield break;
