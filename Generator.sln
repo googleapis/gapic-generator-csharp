@@ -7,7 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Google.Api.Generator", "Goo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Google.Api.Generator.Tests", "Google.Api.Generator.Tests\Google.Api.Generator.Tests.csproj", "{7F2B20B6-4F23-49D7-9D12-EC767631E5D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Google.Api.Generator.Utils", "Google.Api.Generator.Utils\Google.Api.Generator.Utils.csproj", "{5C1198FB-4BF1-4A8A-9CCC-94FF22D57BDC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Google.Api.Generator.Utils", "Google.Api.Generator.Utils\Google.Api.Generator.Utils.csproj", "{5C1198FB-4BF1-4A8A-9CCC-94FF22D57BDC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Google.Api.Generator.Rest", "Google.Api.Generator.Rest\Google.Api.Generator.Rest.csproj", "{2932433B-9F1A-4FBD-A13B-F55C23F8B7D0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Google.Api.Generator.Rest.Tests", "Google.Api.Generator.Rest.Tests\Google.Api.Generator.Rest.Tests.csproj", "{36C6BBAE-FBF8-4C38-9231-57E71F67D71F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Google.Api.Generator.Testing", "Google.Api.Generator.Testing\Google.Api.Generator.Testing.csproj", "{7B7E19A1-38E8-460A-BC86-90FC9AADC483}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +33,18 @@ Global
 		{5C1198FB-4BF1-4A8A-9CCC-94FF22D57BDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C1198FB-4BF1-4A8A-9CCC-94FF22D57BDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C1198FB-4BF1-4A8A-9CCC-94FF22D57BDC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2932433B-9F1A-4FBD-A13B-F55C23F8B7D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2932433B-9F1A-4FBD-A13B-F55C23F8B7D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2932433B-9F1A-4FBD-A13B-F55C23F8B7D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2932433B-9F1A-4FBD-A13B-F55C23F8B7D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36C6BBAE-FBF8-4C38-9231-57E71F67D71F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36C6BBAE-FBF8-4C38-9231-57E71F67D71F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36C6BBAE-FBF8-4C38-9231-57E71F67D71F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36C6BBAE-FBF8-4C38-9231-57E71F67D71F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B7E19A1-38E8-460A-BC86-90FC9AADC483}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B7E19A1-38E8-460A-BC86-90FC9AADC483}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B7E19A1-38E8-460A-BC86-90FC9AADC483}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B7E19A1-38E8-460A-BC86-90FC9AADC483}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
