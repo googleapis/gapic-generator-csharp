@@ -30,6 +30,25 @@ namespace Google.Api.Generator
 {
     internal static class CodeGenerator
     {
+        private static readonly IReadOnlyDictionary<string, string> s_wellknownNamespaceAliases = new Dictionary<string, string>
+            {
+                { typeof(System.Int32).Namespace, "sys" }, // Don't use "s"; one-letter aliases cause a compilation error!
+                { typeof(System.Net.WebUtility).Namespace, "sysnet" },
+                { typeof(System.Collections.Generic.IEnumerable<>).Namespace, "scg" },
+                { typeof(System.Collections.ObjectModel.Collection<>).Namespace, "sco" },
+                { typeof(System.Linq.Enumerable).Namespace, "linq" },
+                { typeof(Google.Api.Gax.Expiration).Namespace, "gax" },
+                { typeof(Google.Api.Gax.Grpc.CallSettings).Namespace, "gaxgrpc" },
+                { typeof(Google.Api.Gax.Grpc.GrpcCore.GrpcCoreAdapter).Namespace, "gaxgrpccore" },
+                { typeof(Grpc.Core.CallCredentials).Namespace, "grpccore" },
+                { typeof(Grpc.Core.Interceptors.Interceptor).Namespace, "grpcinter" },
+                { typeof(Google.Protobuf.WellKnownTypes.Any).Namespace, "wkt" },
+                { typeof(Google.LongRunning.Operation).Namespace, "lro" },
+                { typeof(Google.Protobuf.ByteString).Namespace, "proto" },
+                { typeof(Moq.Mock).Namespace, "moq" },
+                { typeof(Xunit.Assert).Namespace, "xunit" },
+            };
+
         public static IEnumerable<ResultFile> Generate(byte[] descriptorBytes, string package, IClock clock,
             string grpcServiceConfigPath, IEnumerable<string> commonResourcesConfigPaths)
         {
@@ -83,17 +102,17 @@ namespace Google.Api.Generator
                 {
                     // Generate settings and client code for requested package.
                     var serviceDetails = new ServiceDetails(catalog, ns, service, grpcServiceConfig);
-                    var ctx = SourceFileContext.Create(SourceFileContext.ImportStyle.FullyAliased, clock);
+                    var ctx = SourceFileContext.CreateFullyAliased(clock, s_wellknownNamespaceAliases);
                     var code = ServiceCodeGenerator.Generate(ctx, serviceDetails);
                     var filename = $"{clientPathPrefix}{serviceDetails.ClientAbstractTyp.Name}.g.cs";
                     yield return new ResultFile(filename, code);
                     // Generate snippets for the service
-                    var snippetCtx = SourceFileContext.Create(SourceFileContext.ImportStyle.Unaliased, clock);
+                    var snippetCtx = SourceFileContext.CreateUnaliased(clock);
                     var snippetCode = SnippetCodeGenerator.Generate(snippetCtx, serviceDetails);
                     var snippetFilename = $"{snippetsPathPrefix}{serviceDetails.ClientAbstractTyp.Name}Snippets.g.cs";
                     yield return new ResultFile(snippetFilename, snippetCode);
                     // Generate unit tests for the the service.
-                    var unitTestCtx = SourceFileContext.Create(SourceFileContext.ImportStyle.FullyAliased, clock);
+                    var unitTestCtx = SourceFileContext.CreateFullyAliased(clock, s_wellknownNamespaceAliases);
                     var unitTestCode = UnitTestCodeGeneration.Generate(unitTestCtx, serviceDetails);
                     var unitTestFilename = $"{unitTestsPathPrefix}{serviceDetails.ClientAbstractTyp.Name}Test.g.cs";
                     yield return new ResultFile(unitTestFilename, unitTestCode);
@@ -101,7 +120,7 @@ namespace Google.Api.Generator
                     hasLro |= serviceDetails.Methods.Any(x => x is MethodDetails.Lro);
                     hasContent = true;
                 }
-                var resCtx = SourceFileContext.Create(SourceFileContext.ImportStyle.FullyAliased, clock);
+                var resCtx = SourceFileContext.CreateFullyAliased(clock, s_wellknownNamespaceAliases);
                 var (resCode, resCodeClassCount) = ResourceNamesGenerator.Generate(catalog, resCtx, fileDesc);
                 // Only produce an output file if it contains >0 [partial] classes.
                 if (resCodeClassCount > 0)

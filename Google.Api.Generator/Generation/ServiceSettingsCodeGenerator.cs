@@ -14,6 +14,7 @@
 
 using Google.Api.Gax;
 using Google.Api.Gax.Grpc;
+using Google.Api.Generator.Utils;
 using Google.Api.Generator.Utils.Roslyn;
 using Google.LongRunning;
 using Grpc.Core;
