@@ -14,7 +14,6 @@
 
 using Google.Api.Gax;
 using Google.Api.Generator.Utils.Roslyn;
-using Google.Api.Generator.Utils;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -24,35 +23,20 @@ using System.Collections.Immutable;
 using System.Linq;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
-namespace Google.Api.Generator.Generation
+namespace Google.Api.Generator.Utils
 {
     /// <summary>
     /// The context tracking the state for a single C# source file.
     /// </summary>
-    internal abstract class SourceFileContext
+    public abstract class SourceFileContext
     {
         private sealed class FullyAliased : SourceFileContext
         {
-            private static readonly IReadOnlyDictionary<string, string> s_wellknownNamespaceAliases = new Dictionary<string, string>
-            {
-                { typeof(System.Int32).Namespace, "sys" }, // Don't use "s"; one-letter aliases cause a compilation error!
-                { typeof(System.Net.WebUtility).Namespace, "sysnet" },
-                { typeof(System.Collections.Generic.IEnumerable<>).Namespace, "scg" },
-                { typeof(System.Collections.ObjectModel.Collection<>).Namespace, "sco" },
-                { typeof(System.Linq.Enumerable).Namespace, "linq" },
-                { typeof(Google.Api.Gax.Expiration).Namespace, "gax" },
-                { typeof(Google.Api.Gax.Grpc.CallSettings).Namespace, "gaxgrpc" },
-                { typeof(Google.Api.Gax.Grpc.GrpcCore.GrpcCoreAdapter).Namespace, "gaxgrpccore" },
-                { typeof(Grpc.Core.CallCredentials).Namespace, "grpccore" },
-                { typeof(Grpc.Core.Interceptors.Interceptor).Namespace, "grpcinter" },
-                { typeof(Google.Protobuf.WellKnownTypes.Any).Namespace, "wkt" },
-                { typeof(Google.LongRunning.Operation).Namespace, "lro" },
-                { typeof(Google.Protobuf.ByteString).Namespace, "proto" },
-                { typeof(Moq.Mock).Namespace, "moq" },
-                { typeof(Xunit.Assert).Namespace, "xunit" },
-            };
+            private readonly IReadOnlyDictionary<string, string> _wellKnownNamespaceAliases;
 
-            public FullyAliased(IClock clock) : base(clock) { }
+            public FullyAliased(IClock clock, IReadOnlyDictionary<string, string> wellKnownNamespaceAliases)
+                : base(clock) =>
+                _wellKnownNamespaceAliases = wellKnownNamespaceAliases;
 
             // Namespace -> alias
             private readonly Dictionary<string, string> _namespaceAliases = new Dictionary<string, string>();
@@ -71,7 +55,7 @@ namespace Google.Api.Generator.Generation
                 else if (!_namespaceAliases.TryGetValue(typ.Namespace, out namespaceAlias))
                 {
                     // A namespace that hasn't been seen before. Create an alias for it.
-                    if (!s_wellknownNamespaceAliases.TryGetValue(typ.Namespace, out var rawAlias))
+                    if (!_wellKnownNamespaceAliases.TryGetValue(typ.Namespace, out var rawAlias))
                     {
                         // If it's not a well-known namespace (e.g. "System"), then create an alias 
                         // using the first character of each namespace part.
@@ -103,7 +87,7 @@ namespace Google.Api.Generator.Generation
                     result = GenericName(result.Identifier, TypeArgumentList(SeparatedList(typ.GenericArgTyps.Select(Type))));
                 }
                 // Return the final TypeSyntax, aliased or not as required.
-                return namespaceAlias == null ? (TypeSyntax)result : AliasQualifiedName(namespaceAlias, result);
+                return namespaceAlias == null ? (TypeSyntax) result : AliasQualifiedName(namespaceAlias, result);
             }
 
             public override CompilationUnitSyntax CreateCompilationUnit(NamespaceDeclarationSyntax ns)
@@ -233,7 +217,7 @@ namespace Google.Api.Generator.Generation
                 // Rewrite as fully-aliased any types for which there are name collisions.
                 // This has to be done post-generation, as we don't know the complete set of types & imports until generation is complete.
                 var typeAliaser = new TypeAliaser(_importedClassNames);
-                ns = (NamespaceDeclarationSyntax)typeAliaser.Visit(ns);
+                ns = (NamespaceDeclarationSyntax) typeAliaser.Visit(ns);
                 // Add using statements for standard imports, and for fully-qualifying name collisions.
                 var usings = _imports.OrderBy(x => x).Select(x => UsingDirective(IdentifierName(x)))
                     .Concat(typeAliaser.NamespaceAliases.OrderBy(x => x.Key).Select(x => UsingDirective(NameEquals(x.Value), IdentifierName(x.Key))));
@@ -242,12 +226,6 @@ namespace Google.Api.Generator.Generation
                 var compilationUnit = CompilationUnit().AddMembers(ns);
                 return AddLicense(compilationUnit);
             }
-        }
-
-        public enum ImportStyle
-        {
-            FullyAliased,
-            Unaliased,
         }
 
         private static readonly IReadOnlyDictionary<string, TypeSyntax> s_predefinedTypes = new Dictionary<string, TypeSyntax>
@@ -269,18 +247,10 @@ namespace Google.Api.Generator.Generation
             { typeof(object).FullName, PredefinedType(Token(SyntaxKind.ObjectKeyword)) },
         };
 
-        public static SourceFileContext Create(ImportStyle importStyle, IClock clock)
-        {
-            switch (importStyle)
-            {
-                case ImportStyle.FullyAliased:
-                    return new FullyAliased(clock);
-                case ImportStyle.Unaliased:
-                    return new Unaliased(clock);
-                default:
-                    throw new NotImplementedException($"Unrecognised import style: {importStyle}");
-            }
-        }
+        public static SourceFileContext CreateUnaliased(IClock clock) => new Unaliased(clock);
+
+        public static SourceFileContext CreateFullyAliased(IClock clock, IReadOnlyDictionary<string, string> wellKnownNamespaceAliases) =>
+            new FullyAliased(clock, wellKnownNamespaceAliases);
 
         protected SourceFileContext(IClock clock) => _clock = clock;
 
@@ -393,7 +363,7 @@ namespace Google.Api.Generator.Generation
                     return IdentifierName(typ.Name);
                 }
                 var outerType = Type(typ.DeclaringTyp);
-                return QualifiedName((NameSyntax)outerType, IdentifierName(typ.Name));
+                return QualifiedName((NameSyntax) outerType, IdentifierName(typ.Name));
             }
             if (s_predefinedTypes.TryGetValue(typ.FullName, out var predefinedType))
             {
@@ -413,7 +383,7 @@ namespace Google.Api.Generator.Generation
             {
                 throw new ArgumentException("Array size specification not yet supported", nameof(size));
             }
-            return ((ArrayTypeSyntax)Type(arrayTyp)).WithRankSpecifiers(SingletonList(ArrayRankSpecifier()));
+            return ((ArrayTypeSyntax) Type(arrayTyp)).WithRankSpecifiers(SingletonList(ArrayRankSpecifier()));
         }
 
         public ArrayTypeSyntax ArrayType<T>(int? size = null) => ArrayType(Typ.Of<T>(), size);
