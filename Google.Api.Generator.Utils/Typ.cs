@@ -115,6 +115,7 @@ namespace Google.Api.Generator.Utils
         public static Typ Manual(string ns, ClassDeclarationSyntax cls) => new FromManual(ns, cls.Identifier.Text);
         public static Typ Nested(Typ declaringTyp, string name, bool isEnum = false) => new FromNested(declaringTyp, name, isEnum);
         public static Typ Generic(System.Type genericDef, params Typ[] typeArgs) => new FromGeneric(Of(genericDef), typeArgs);
+        public static Typ Generic(Typ genericDef, params Typ[] typeArgs) => new FromGeneric(genericDef, typeArgs);
         public static Typ.GenericParameter GenericParam(string name) => new Typ.GenericParameter(name);
         public static Typ.Special ClassConstraint { get; } = new Special(Special.Type.ClassConstraint);
 

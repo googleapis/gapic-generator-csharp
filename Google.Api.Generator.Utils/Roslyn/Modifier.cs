@@ -37,6 +37,7 @@ namespace Google.Api.Generator.Utils.Roslyn
         Override = 0x200,
         Internal = 0x400,
         Protected = 0x800,
+        Const = 0x1000
     }
 
     public static class ModifierExtensions
@@ -53,6 +54,7 @@ namespace Google.Api.Generator.Utils.Roslyn
         private static readonly SyntaxToken s_overrideToken = SyntaxFactory.Token(SyntaxKind.OverrideKeyword);
         private static readonly SyntaxToken s_internalToken = SyntaxFactory.Token(SyntaxKind.InternalKeyword);
         private static readonly SyntaxToken s_protectedToken = SyntaxFactory.Token(SyntaxKind.ProtectedKeyword);
+        private static readonly SyntaxToken s_constToken = SyntaxFactory.Token(SyntaxKind.ConstKeyword);
 
         public static SyntaxToken[] ToSyntaxTokens(this Modifier m)
         {
@@ -70,6 +72,7 @@ namespace Google.Api.Generator.Utils.Roslyn
             if ((m & Modifier.Sealed) != 0) result.Add(s_sealedToken);
             if ((m & Modifier.Async) != 0) result.Add(s_asyncToken);
             if ((m & Modifier.Partial) != 0) result.Add(s_partialToken);
+            if ((m & Modifier.Const) != 0) result.Add(s_constToken);
             return result.ToArray();
         }
     }
