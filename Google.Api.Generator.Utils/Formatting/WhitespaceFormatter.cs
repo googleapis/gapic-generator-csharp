@@ -185,7 +185,7 @@ namespace Google.Api.Generator.Utils.Formatting
 
         public override SyntaxNode VisitAttributeList(AttributeListSyntax node)
         {
-            var lineBreak = node.Parent is MethodDeclarationSyntax || node.Parent is ClassDeclarationSyntax;
+            var lineBreak = node.Parent is MethodDeclarationSyntax || node.Parent is ClassDeclarationSyntax || node.Parent is PropertyDeclarationSyntax;
             node = (AttributeListSyntax)base.VisitAttributeList(node);
             if (lineBreak)
             {

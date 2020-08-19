@@ -65,6 +65,10 @@ namespace Google.Api.Generator.Utils.Roslyn
             {
                 cls = cls.WithBaseList(BaseList(SeparatedList<BaseTypeSyntax>(baseTypes.Select(SimpleBaseType))));
             }
+            if (typ.GenericArgTyps is IEnumerable<Typ> typeParameters)
+            {
+                cls = cls.AddTypeParameterListParameters(typeParameters.Select(tp => TypeParameter(tp.Name)).ToArray());
+            }
             return cls;
         }
 

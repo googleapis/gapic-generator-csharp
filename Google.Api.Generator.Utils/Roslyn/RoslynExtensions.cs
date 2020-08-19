@@ -60,6 +60,15 @@ namespace Google.Api.Generator.Utils.Roslyn
             return fnBlock(Block(statements));
         }
 
+        public static ConstructorDeclarationSyntax WithBlockBody(this ConstructorDeclarationSyntax ctor, params object[] code) =>
+            WithBody(code, null, ctor.WithBody);
+
+        public static MethodDeclarationSyntax WithBlockBody(this MethodDeclarationSyntax method, params object[] code) =>
+            WithBody(code, null, method.WithBody);
+
+        public static OperatorDeclarationSyntax WithBlockBody(this OperatorDeclarationSyntax method, params object[] code) =>
+            WithBody(code, null, method.WithBody);
+
         public static ConstructorDeclarationSyntax WithBody(this ConstructorDeclarationSyntax ctor, params object[] code) =>
             WithBody(code, x => ctor.WithExpressionBody(x).WithSemicolonToken(s_semicolonToken), ctor.WithBody);
 
@@ -300,6 +309,9 @@ namespace Google.Api.Generator.Utils.Roslyn
 
         public static MethodDeclarationSyntax WithAttribute(this MethodDeclarationSyntax method, TypeSyntax attrType) =>
             method.WithAttributeLists(SingletonList(AttributeList(SingletonSeparatedList(Attribute((NameSyntax)attrType)))));
+
+        public static PropertyDeclarationSyntax WithAttribute(this PropertyDeclarationSyntax property, TypeSyntax attrType) =>
+            property.WithAttributeLists(SingletonList(AttributeList(SingletonSeparatedList(Attribute((NameSyntax) attrType)))));
 
         public static BinaryExpressionSyntax Is(this ExpressionSyntax expr, TypeSyntax type) => BinaryExpression(SyntaxKind.IsExpression, expr, type);
 
