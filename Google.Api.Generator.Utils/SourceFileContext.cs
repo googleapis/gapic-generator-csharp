@@ -228,6 +228,43 @@ namespace Google.Api.Generator.Utils
             }
         }
 
+        private sealed class FullyQualified : SourceFileContext
+        {
+            public FullyQualified(IClock clock) : base(clock) { }
+
+            public override CompilationUnitSyntax CreateCompilationUnit(NamespaceDeclarationSyntax ns)
+            {
+                var compilationUnit = CompilationUnit().AddMembers(ns);
+                return AddLicense(compilationUnit);
+            }
+
+            public override TypeSyntax Type(Typ typ) => base.Type(typ) ?? Type0(typ);
+
+            public TypeSyntax Type0(Typ typ)
+            {
+                SimpleNameSyntax simpleName = IdentifierName(typ.Name);
+                if (typ.GenericArgTyps != null)
+                {
+                    // Generic typ, so return a generic name by recursively calling this method on all type args.
+                    simpleName = GenericName(simpleName.Identifier, TypeArgumentList(SeparatedList(typ.GenericArgTyps.Select(Type))));
+                }
+                NameSyntax result = simpleName;
+                if (typ.Namespace != Namespace)
+                {
+                    // TODO: It feels like there must be a better way of doing this...
+                    var segments = typ.Namespace.Split('.');
+                    NameSyntax namespaceName = IdentifierName(segments[0]);
+                    foreach (var segment in segments.Skip(1))
+                    {
+                        namespaceName = QualifiedName(namespaceName, IdentifierName(segment));
+                    }
+                    result = QualifiedName(namespaceName, simpleName);
+                }
+
+                return result;
+            }
+        }
+
         private static readonly IReadOnlyDictionary<string, TypeSyntax> s_predefinedTypes = new Dictionary<string, TypeSyntax>
         {
             { typeof(bool).FullName, PredefinedType(Token(SyntaxKind.BoolKeyword)) },
@@ -248,6 +285,8 @@ namespace Google.Api.Generator.Utils
         };
 
         public static SourceFileContext CreateUnaliased(IClock clock) => new Unaliased(clock);
+
+        public static SourceFileContext CreateFullyQualified(IClock clock) => new FullyQualified(clock);
 
         public static SourceFileContext CreateFullyAliased(IClock clock, IReadOnlyDictionary<string, string> wellKnownNamespaceAliases) =>
             new FullyAliased(clock, wellKnownNamespaceAliases);
