@@ -8,3 +8,5 @@ project.lock.json
 _site
 site
 bazel-*
+tmp
+launchSettings.json
