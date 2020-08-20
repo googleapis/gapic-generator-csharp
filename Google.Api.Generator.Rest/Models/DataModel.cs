@@ -39,7 +39,6 @@ namespace Google.Api.Generator.Rest.Models
             _schema = schema;
         }
 
-
         public ClassDeclarationSyntax GenerateClass(SourceFileContext ctx)
         {
             var cls = Class(Modifier.Public, Typ);
