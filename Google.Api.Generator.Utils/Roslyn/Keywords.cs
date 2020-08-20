@@ -99,7 +99,7 @@ namespace Google.Api.Generator.Utils.Roslyn
             "while"
             );
 
-        public static string PrependAtIfKeyword(string word) => s_keywords.Contains(word) ? $"@{word}" : word;
+        public static string PrependAtIfKeyword(string word) => IsKeyword(word) ? $"@{word}" : word;
 
         public static bool IsKeyword(string word) => s_keywords.Contains(word);
     }
