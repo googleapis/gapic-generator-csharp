@@ -177,7 +177,7 @@ namespace Google.Api.Generator.Generation
                     {
                         @default = pattern is null ?
                             (object)New(Ctx.Type<UnparsedResourceName>())("a/wildcard/resource") :
-                            Ctx.Type(resourceTyp).Call($"From{string.Join("", pattern.Template.ParameterNames.Select(x => x.RemoveSuffix("_id").ToUpperCamelCase()))}")
+                            Ctx.Type(resourceTyp).Call(FactoryMethodName(pattern))
                                 (pattern.Template.ParameterNames.Select(x => $"[{x.ToUpperInvariant()}]"));
                     }
                     return fieldDesc.IsRepeated ? Collection(@default, resourceTyp) : @default;
@@ -239,6 +239,17 @@ namespace Google.Api.Generator.Generation
                 object Collection(object value, Typ typ) => topLevel ?
                     NewArray(Ctx.ArrayType(Typ.ArrayOf(typ ?? ProtoTyp.Of(fieldDesc).GenericArgTyps.First())))(value) :
                     (object)CollectionInitializer(value);
+
+                string FactoryMethodName(ResourceDetails.Definition.Pattern pattern)
+                {
+                    // Use the parameter names as a suffix, or the pattern string instead if there are no parameters.
+                    string suffix = string.Join("", pattern.Template.ParameterNames.Select(x => x.RemoveSuffix("_id").ToUpperCamelCase()));
+                    if (suffix == "")
+                    {
+                        suffix = pattern.PatternString.ToUpperCamelCase();
+                    }
+                    return $"From{suffix}";
+                }
             }
 
             private IEnumerable<ObjectInitExpr> InitRequest()

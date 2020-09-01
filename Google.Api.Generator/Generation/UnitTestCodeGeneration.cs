@@ -119,7 +119,7 @@ namespace Google.Api.Generator.Generation
                     var pattern = def.Patterns.FirstOrDefault(x => !x.IsWildcard);
                     object value = pattern is null ?
                         (object)New(Ctx.Type<UnparsedResourceName>())("a/wildcard/resource") :
-                        Ctx.Type(def.ResourceNameTyp).Call($"From{string.Join("", pattern.Template.ParameterNames.Select(x => x.RemoveSuffix("_id").ToUpperCamelCase()))}")
+                        Ctx.Type(def.ResourceNameTyp).Call(FactoryMethodName(pattern))
                                 (pattern.Template.ParameterNames.Select(x => $"[{x.ToUpperInvariant()}]"));
                     return fieldDesc.IsRepeated ? CollectionInitializer(value) : value;
                 }
@@ -177,6 +177,17 @@ namespace Google.Api.Generator.Generation
                 long Long() => BitConverter.ToInt64(FieldHash());
                 double Double() => ((double)Long()) / 8;
                 string String() => $"{fieldDesc.Name}{Int():x8}";
+
+                string FactoryMethodName(ResourceDetails.Definition.Pattern pattern)
+                {
+                    // Use the parameter names as a suffix, or the pattern string instead if there are no parameters.
+                    string suffix = string.Join("", pattern.Template.ParameterNames.Select(x => x.RemoveSuffix("_id").ToUpperCamelCase()));
+                    if (suffix == "")
+                    {
+                        suffix = pattern.PatternString.ToUpperCamelCase();
+                    }
+                    return $"From{suffix}";
+                }
             }
 
             private IEnumerable<ObjectInitExpr> InitMessage(MessageDescriptor msgDesc, IEnumerable<MethodDetails.Signature.Field> onlyFields)
