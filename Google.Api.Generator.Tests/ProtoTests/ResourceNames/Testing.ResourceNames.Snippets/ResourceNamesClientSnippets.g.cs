@@ -314,11 +314,11 @@ namespace Testing.ResourceNames.Snippets
             // Initialize request argument(s)
             WildcardMultiPattern request = new WildcardMultiPattern
             {
-                WildcardMultiPatternName = WildcardMultiPatternName.FromItem("[ITEM_ID]"),
-                RefAsWildcardMultiPatternName = WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                WildcardMultiPatternName = WildcardMultiPatternName.FromSingularItem(),
+                RefAsWildcardMultiPatternName = WildcardMultiPatternName.FromSingularItem(),
                 RepeatedRefAsWildcardMultiPatternNames =
                 {
-                    WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                    WildcardMultiPatternName.FromSingularItem(),
                 },
             };
             // Make the request
@@ -336,11 +336,11 @@ namespace Testing.ResourceNames.Snippets
             // Initialize request argument(s)
             WildcardMultiPattern request = new WildcardMultiPattern
             {
-                WildcardMultiPatternName = WildcardMultiPatternName.FromItem("[ITEM_ID]"),
-                RefAsWildcardMultiPatternName = WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                WildcardMultiPatternName = WildcardMultiPatternName.FromSingularItem(),
+                RefAsWildcardMultiPatternName = WildcardMultiPatternName.FromSingularItem(),
                 RepeatedRefAsWildcardMultiPatternNames =
                 {
-                    WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                    WildcardMultiPatternName.FromSingularItem(),
                 },
             };
             // Make the request
@@ -355,9 +355,9 @@ namespace Testing.ResourceNames.Snippets
             // Create client
             ResourceNamesClient resourceNamesClient = ResourceNamesClient.Create();
             // Initialize request argument(s)
-            string name = "items/[ITEM_ID]";
-            string @ref = "items/[ITEM_ID]";
-            IEnumerable<string> repeatedRef = new string[] { "items/[ITEM_ID]", };
+            string name = "singular_item";
+            string @ref = "singular_item";
+            IEnumerable<string> repeatedRef = new string[] { "singular_item", };
             // Make the request
             Response response = resourceNamesClient.WildcardMultiPatternMethod(name, @ref, repeatedRef);
             // End snippet
@@ -371,9 +371,9 @@ namespace Testing.ResourceNames.Snippets
             // Create client
             ResourceNamesClient resourceNamesClient = await ResourceNamesClient.CreateAsync();
             // Initialize request argument(s)
-            string name = "items/[ITEM_ID]";
-            string @ref = "items/[ITEM_ID]";
-            IEnumerable<string> repeatedRef = new string[] { "items/[ITEM_ID]", };
+            string name = "singular_item";
+            string @ref = "singular_item";
+            IEnumerable<string> repeatedRef = new string[] { "singular_item", };
             // Make the request
             Response response = await resourceNamesClient.WildcardMultiPatternMethodAsync(name, @ref, repeatedRef);
             // End snippet
@@ -386,11 +386,11 @@ namespace Testing.ResourceNames.Snippets
             // Create client
             ResourceNamesClient resourceNamesClient = ResourceNamesClient.Create();
             // Initialize request argument(s)
-            WildcardMultiPatternName name = WildcardMultiPatternName.FromItem("[ITEM_ID]");
-            WildcardMultiPatternName @ref = WildcardMultiPatternName.FromItem("[ITEM_ID]");
+            WildcardMultiPatternName name = WildcardMultiPatternName.FromSingularItem();
+            WildcardMultiPatternName @ref = WildcardMultiPatternName.FromSingularItem();
             IEnumerable<WildcardMultiPatternName> repeatedRef = new WildcardMultiPatternName[]
             {
-                WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                WildcardMultiPatternName.FromSingularItem(),
             };
             // Make the request
             Response response = resourceNamesClient.WildcardMultiPatternMethod(name, @ref, repeatedRef);
@@ -405,11 +405,11 @@ namespace Testing.ResourceNames.Snippets
             // Create client
             ResourceNamesClient resourceNamesClient = await ResourceNamesClient.CreateAsync();
             // Initialize request argument(s)
-            WildcardMultiPatternName name = WildcardMultiPatternName.FromItem("[ITEM_ID]");
-            WildcardMultiPatternName @ref = WildcardMultiPatternName.FromItem("[ITEM_ID]");
+            WildcardMultiPatternName name = WildcardMultiPatternName.FromSingularItem();
+            WildcardMultiPatternName @ref = WildcardMultiPatternName.FromSingularItem();
             IEnumerable<WildcardMultiPatternName> repeatedRef = new WildcardMultiPatternName[]
             {
-                WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                WildcardMultiPatternName.FromSingularItem(),
             };
             // Make the request
             Response response = await resourceNamesClient.WildcardMultiPatternMethodAsync(name, @ref, repeatedRef);
@@ -423,8 +423,8 @@ namespace Testing.ResourceNames.Snippets
             // Create client
             ResourceNamesClient resourceNamesClient = ResourceNamesClient.Create();
             // Initialize request argument(s)
-            WildcardMultiPatternName name = WildcardMultiPatternName.FromItem("[ITEM_ID]");
-            WildcardMultiPatternName @ref = WildcardMultiPatternName.FromItem("[ITEM_ID]");
+            WildcardMultiPatternName name = WildcardMultiPatternName.FromSingularItem();
+            WildcardMultiPatternName @ref = WildcardMultiPatternName.FromSingularItem();
             IEnumerable<IResourceName> repeatedRef = new IResourceName[]
             {
                 new UnparsedResourceName("a/wildcard/resource"),
@@ -442,8 +442,8 @@ namespace Testing.ResourceNames.Snippets
             // Create client
             ResourceNamesClient resourceNamesClient = await ResourceNamesClient.CreateAsync();
             // Initialize request argument(s)
-            WildcardMultiPatternName name = WildcardMultiPatternName.FromItem("[ITEM_ID]");
-            WildcardMultiPatternName @ref = WildcardMultiPatternName.FromItem("[ITEM_ID]");
+            WildcardMultiPatternName name = WildcardMultiPatternName.FromSingularItem();
+            WildcardMultiPatternName @ref = WildcardMultiPatternName.FromSingularItem();
             IEnumerable<IResourceName> repeatedRef = new IResourceName[]
             {
                 new UnparsedResourceName("a/wildcard/resource"),
@@ -460,11 +460,11 @@ namespace Testing.ResourceNames.Snippets
             // Create client
             ResourceNamesClient resourceNamesClient = ResourceNamesClient.Create();
             // Initialize request argument(s)
-            WildcardMultiPatternName name = WildcardMultiPatternName.FromItem("[ITEM_ID]");
+            WildcardMultiPatternName name = WildcardMultiPatternName.FromSingularItem();
             IResourceName @ref = new UnparsedResourceName("a/wildcard/resource");
             IEnumerable<WildcardMultiPatternName> repeatedRef = new WildcardMultiPatternName[]
             {
-                WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                WildcardMultiPatternName.FromSingularItem(),
             };
             // Make the request
             Response response = resourceNamesClient.WildcardMultiPatternMethod(name, @ref, repeatedRef);
@@ -479,11 +479,11 @@ namespace Testing.ResourceNames.Snippets
             // Create client
             ResourceNamesClient resourceNamesClient = await ResourceNamesClient.CreateAsync();
             // Initialize request argument(s)
-            WildcardMultiPatternName name = WildcardMultiPatternName.FromItem("[ITEM_ID]");
+            WildcardMultiPatternName name = WildcardMultiPatternName.FromSingularItem();
             IResourceName @ref = new UnparsedResourceName("a/wildcard/resource");
             IEnumerable<WildcardMultiPatternName> repeatedRef = new WildcardMultiPatternName[]
             {
-                WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                WildcardMultiPatternName.FromSingularItem(),
             };
             // Make the request
             Response response = await resourceNamesClient.WildcardMultiPatternMethodAsync(name, @ref, repeatedRef);
@@ -497,7 +497,7 @@ namespace Testing.ResourceNames.Snippets
             // Create client
             ResourceNamesClient resourceNamesClient = ResourceNamesClient.Create();
             // Initialize request argument(s)
-            WildcardMultiPatternName name = WildcardMultiPatternName.FromItem("[ITEM_ID]");
+            WildcardMultiPatternName name = WildcardMultiPatternName.FromSingularItem();
             IResourceName @ref = new UnparsedResourceName("a/wildcard/resource");
             IEnumerable<IResourceName> repeatedRef = new IResourceName[]
             {
@@ -516,7 +516,7 @@ namespace Testing.ResourceNames.Snippets
             // Create client
             ResourceNamesClient resourceNamesClient = await ResourceNamesClient.CreateAsync();
             // Initialize request argument(s)
-            WildcardMultiPatternName name = WildcardMultiPatternName.FromItem("[ITEM_ID]");
+            WildcardMultiPatternName name = WildcardMultiPatternName.FromSingularItem();
             IResourceName @ref = new UnparsedResourceName("a/wildcard/resource");
             IEnumerable<IResourceName> repeatedRef = new IResourceName[]
             {
@@ -535,10 +535,10 @@ namespace Testing.ResourceNames.Snippets
             ResourceNamesClient resourceNamesClient = ResourceNamesClient.Create();
             // Initialize request argument(s)
             IResourceName name = new UnparsedResourceName("a/wildcard/resource");
-            WildcardMultiPatternName @ref = WildcardMultiPatternName.FromItem("[ITEM_ID]");
+            WildcardMultiPatternName @ref = WildcardMultiPatternName.FromSingularItem();
             IEnumerable<WildcardMultiPatternName> repeatedRef = new WildcardMultiPatternName[]
             {
-                WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                WildcardMultiPatternName.FromSingularItem(),
             };
             // Make the request
             Response response = resourceNamesClient.WildcardMultiPatternMethod(name, @ref, repeatedRef);
@@ -554,10 +554,10 @@ namespace Testing.ResourceNames.Snippets
             ResourceNamesClient resourceNamesClient = await ResourceNamesClient.CreateAsync();
             // Initialize request argument(s)
             IResourceName name = new UnparsedResourceName("a/wildcard/resource");
-            WildcardMultiPatternName @ref = WildcardMultiPatternName.FromItem("[ITEM_ID]");
+            WildcardMultiPatternName @ref = WildcardMultiPatternName.FromSingularItem();
             IEnumerable<WildcardMultiPatternName> repeatedRef = new WildcardMultiPatternName[]
             {
-                WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                WildcardMultiPatternName.FromSingularItem(),
             };
             // Make the request
             Response response = await resourceNamesClient.WildcardMultiPatternMethodAsync(name, @ref, repeatedRef);
@@ -572,7 +572,7 @@ namespace Testing.ResourceNames.Snippets
             ResourceNamesClient resourceNamesClient = ResourceNamesClient.Create();
             // Initialize request argument(s)
             IResourceName name = new UnparsedResourceName("a/wildcard/resource");
-            WildcardMultiPatternName @ref = WildcardMultiPatternName.FromItem("[ITEM_ID]");
+            WildcardMultiPatternName @ref = WildcardMultiPatternName.FromSingularItem();
             IEnumerable<IResourceName> repeatedRef = new IResourceName[]
             {
                 new UnparsedResourceName("a/wildcard/resource"),
@@ -591,7 +591,7 @@ namespace Testing.ResourceNames.Snippets
             ResourceNamesClient resourceNamesClient = await ResourceNamesClient.CreateAsync();
             // Initialize request argument(s)
             IResourceName name = new UnparsedResourceName("a/wildcard/resource");
-            WildcardMultiPatternName @ref = WildcardMultiPatternName.FromItem("[ITEM_ID]");
+            WildcardMultiPatternName @ref = WildcardMultiPatternName.FromSingularItem();
             IEnumerable<IResourceName> repeatedRef = new IResourceName[]
             {
                 new UnparsedResourceName("a/wildcard/resource"),
@@ -612,7 +612,7 @@ namespace Testing.ResourceNames.Snippets
             IResourceName @ref = new UnparsedResourceName("a/wildcard/resource");
             IEnumerable<WildcardMultiPatternName> repeatedRef = new WildcardMultiPatternName[]
             {
-                WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                WildcardMultiPatternName.FromSingularItem(),
             };
             // Make the request
             Response response = resourceNamesClient.WildcardMultiPatternMethod(name, @ref, repeatedRef);
@@ -631,7 +631,7 @@ namespace Testing.ResourceNames.Snippets
             IResourceName @ref = new UnparsedResourceName("a/wildcard/resource");
             IEnumerable<WildcardMultiPatternName> repeatedRef = new WildcardMultiPatternName[]
             {
-                WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                WildcardMultiPatternName.FromSingularItem(),
             };
             // Make the request
             Response response = await resourceNamesClient.WildcardMultiPatternMethodAsync(name, @ref, repeatedRef);
