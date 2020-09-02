@@ -56,7 +56,7 @@ message WildcardMultiPattern {
   // This also tests combinatorial overloading of method signatures.
   option (google.api.resource) = {
     type: "resourcenames.example.com/WildcardMultiPattern"
-    pattern: "items/{item_id}"
+    pattern: "singular_item" // Test parameterless pattern first.
     pattern: "*" // Test wildcard pattern not first
   };
   string name = 1;

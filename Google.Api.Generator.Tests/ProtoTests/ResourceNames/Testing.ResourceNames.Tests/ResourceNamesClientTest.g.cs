@@ -357,11 +357,11 @@ namespace Testing.ResourceNames.Tests
             moq::Mock<ResourceNames.ResourceNamesClient> mockGrpcClient = new moq::Mock<ResourceNames.ResourceNamesClient>(moq::MockBehavior.Strict);
             WildcardMultiPattern request = new WildcardMultiPattern
             {
-                WildcardMultiPatternName = WildcardMultiPatternName.FromItem("[ITEM_ID]"),
-                RefAsWildcardMultiPatternName = WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                WildcardMultiPatternName = WildcardMultiPatternName.FromSingularItem(),
+                RefAsWildcardMultiPatternName = WildcardMultiPatternName.FromSingularItem(),
                 RepeatedRefAsWildcardMultiPatternNames =
                 {
-                    WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                    WildcardMultiPatternName.FromSingularItem(),
                 },
             };
             Response expectedResponse = new Response { };
@@ -378,11 +378,11 @@ namespace Testing.ResourceNames.Tests
             moq::Mock<ResourceNames.ResourceNamesClient> mockGrpcClient = new moq::Mock<ResourceNames.ResourceNamesClient>(moq::MockBehavior.Strict);
             WildcardMultiPattern request = new WildcardMultiPattern
             {
-                WildcardMultiPatternName = WildcardMultiPatternName.FromItem("[ITEM_ID]"),
-                RefAsWildcardMultiPatternName = WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                WildcardMultiPatternName = WildcardMultiPatternName.FromSingularItem(),
+                RefAsWildcardMultiPatternName = WildcardMultiPatternName.FromSingularItem(),
                 RepeatedRefAsWildcardMultiPatternNames =
                 {
-                    WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                    WildcardMultiPatternName.FromSingularItem(),
                 },
             };
             Response expectedResponse = new Response { };
@@ -401,11 +401,11 @@ namespace Testing.ResourceNames.Tests
             moq::Mock<ResourceNames.ResourceNamesClient> mockGrpcClient = new moq::Mock<ResourceNames.ResourceNamesClient>(moq::MockBehavior.Strict);
             WildcardMultiPattern request = new WildcardMultiPattern
             {
-                WildcardMultiPatternName = WildcardMultiPatternName.FromItem("[ITEM_ID]"),
-                RefAsWildcardMultiPatternName = WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                WildcardMultiPatternName = WildcardMultiPatternName.FromSingularItem(),
+                RefAsWildcardMultiPatternName = WildcardMultiPatternName.FromSingularItem(),
                 RepeatedRefAsWildcardMultiPatternNames =
                 {
-                    WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                    WildcardMultiPatternName.FromSingularItem(),
                 },
             };
             Response expectedResponse = new Response { };
@@ -422,11 +422,11 @@ namespace Testing.ResourceNames.Tests
             moq::Mock<ResourceNames.ResourceNamesClient> mockGrpcClient = new moq::Mock<ResourceNames.ResourceNamesClient>(moq::MockBehavior.Strict);
             WildcardMultiPattern request = new WildcardMultiPattern
             {
-                WildcardMultiPatternName = WildcardMultiPatternName.FromItem("[ITEM_ID]"),
-                RefAsWildcardMultiPatternName = WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                WildcardMultiPatternName = WildcardMultiPatternName.FromSingularItem(),
+                RefAsWildcardMultiPatternName = WildcardMultiPatternName.FromSingularItem(),
                 RepeatedRefAsWildcardMultiPatternNames =
                 {
-                    WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                    WildcardMultiPatternName.FromSingularItem(),
                 },
             };
             Response expectedResponse = new Response { };
@@ -445,11 +445,11 @@ namespace Testing.ResourceNames.Tests
             moq::Mock<ResourceNames.ResourceNamesClient> mockGrpcClient = new moq::Mock<ResourceNames.ResourceNamesClient>(moq::MockBehavior.Strict);
             WildcardMultiPattern request = new WildcardMultiPattern
             {
-                WildcardMultiPatternName = WildcardMultiPatternName.FromItem("[ITEM_ID]"),
-                RefAsWildcardMultiPatternName = WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                WildcardMultiPatternName = WildcardMultiPatternName.FromSingularItem(),
+                RefAsWildcardMultiPatternName = WildcardMultiPatternName.FromSingularItem(),
                 RepeatedRefAsWildcardMultiPatternNames =
                 {
-                    WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                    WildcardMultiPatternName.FromSingularItem(),
                 },
             };
             Response expectedResponse = new Response { };
@@ -466,11 +466,11 @@ namespace Testing.ResourceNames.Tests
             moq::Mock<ResourceNames.ResourceNamesClient> mockGrpcClient = new moq::Mock<ResourceNames.ResourceNamesClient>(moq::MockBehavior.Strict);
             WildcardMultiPattern request = new WildcardMultiPattern
             {
-                WildcardMultiPatternName = WildcardMultiPatternName.FromItem("[ITEM_ID]"),
-                RefAsWildcardMultiPatternName = WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                WildcardMultiPatternName = WildcardMultiPatternName.FromSingularItem(),
+                RefAsWildcardMultiPatternName = WildcardMultiPatternName.FromSingularItem(),
                 RepeatedRefAsWildcardMultiPatternNames =
                 {
-                    WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                    WildcardMultiPatternName.FromSingularItem(),
                 },
             };
             Response expectedResponse = new Response { };
@@ -489,11 +489,11 @@ namespace Testing.ResourceNames.Tests
             moq::Mock<ResourceNames.ResourceNamesClient> mockGrpcClient = new moq::Mock<ResourceNames.ResourceNamesClient>(moq::MockBehavior.Strict);
             WildcardMultiPattern request = new WildcardMultiPattern
             {
-                WildcardMultiPatternName = WildcardMultiPatternName.FromItem("[ITEM_ID]"),
-                RefAsWildcardMultiPatternName = WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                WildcardMultiPatternName = WildcardMultiPatternName.FromSingularItem(),
+                RefAsWildcardMultiPatternName = WildcardMultiPatternName.FromSingularItem(),
                 RepeatedRefAsWildcardMultiPatternNames =
                 {
-                    WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                    WildcardMultiPatternName.FromSingularItem(),
                 },
             };
             Response expectedResponse = new Response { };
@@ -510,11 +510,11 @@ namespace Testing.ResourceNames.Tests
             moq::Mock<ResourceNames.ResourceNamesClient> mockGrpcClient = new moq::Mock<ResourceNames.ResourceNamesClient>(moq::MockBehavior.Strict);
             WildcardMultiPattern request = new WildcardMultiPattern
             {
-                WildcardMultiPatternName = WildcardMultiPatternName.FromItem("[ITEM_ID]"),
-                RefAsWildcardMultiPatternName = WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                WildcardMultiPatternName = WildcardMultiPatternName.FromSingularItem(),
+                RefAsWildcardMultiPatternName = WildcardMultiPatternName.FromSingularItem(),
                 RepeatedRefAsWildcardMultiPatternNames =
                 {
-                    WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                    WildcardMultiPatternName.FromSingularItem(),
                 },
             };
             Response expectedResponse = new Response { };
@@ -533,11 +533,11 @@ namespace Testing.ResourceNames.Tests
             moq::Mock<ResourceNames.ResourceNamesClient> mockGrpcClient = new moq::Mock<ResourceNames.ResourceNamesClient>(moq::MockBehavior.Strict);
             WildcardMultiPattern request = new WildcardMultiPattern
             {
-                WildcardMultiPatternName = WildcardMultiPatternName.FromItem("[ITEM_ID]"),
-                RefAsWildcardMultiPatternName = WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                WildcardMultiPatternName = WildcardMultiPatternName.FromSingularItem(),
+                RefAsWildcardMultiPatternName = WildcardMultiPatternName.FromSingularItem(),
                 RepeatedRefAsWildcardMultiPatternNames =
                 {
-                    WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                    WildcardMultiPatternName.FromSingularItem(),
                 },
             };
             Response expectedResponse = new Response { };
@@ -554,11 +554,11 @@ namespace Testing.ResourceNames.Tests
             moq::Mock<ResourceNames.ResourceNamesClient> mockGrpcClient = new moq::Mock<ResourceNames.ResourceNamesClient>(moq::MockBehavior.Strict);
             WildcardMultiPattern request = new WildcardMultiPattern
             {
-                WildcardMultiPatternName = WildcardMultiPatternName.FromItem("[ITEM_ID]"),
-                RefAsWildcardMultiPatternName = WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                WildcardMultiPatternName = WildcardMultiPatternName.FromSingularItem(),
+                RefAsWildcardMultiPatternName = WildcardMultiPatternName.FromSingularItem(),
                 RepeatedRefAsWildcardMultiPatternNames =
                 {
-                    WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                    WildcardMultiPatternName.FromSingularItem(),
                 },
             };
             Response expectedResponse = new Response { };
@@ -577,11 +577,11 @@ namespace Testing.ResourceNames.Tests
             moq::Mock<ResourceNames.ResourceNamesClient> mockGrpcClient = new moq::Mock<ResourceNames.ResourceNamesClient>(moq::MockBehavior.Strict);
             WildcardMultiPattern request = new WildcardMultiPattern
             {
-                WildcardMultiPatternName = WildcardMultiPatternName.FromItem("[ITEM_ID]"),
-                RefAsWildcardMultiPatternName = WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                WildcardMultiPatternName = WildcardMultiPatternName.FromSingularItem(),
+                RefAsWildcardMultiPatternName = WildcardMultiPatternName.FromSingularItem(),
                 RepeatedRefAsWildcardMultiPatternNames =
                 {
-                    WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                    WildcardMultiPatternName.FromSingularItem(),
                 },
             };
             Response expectedResponse = new Response { };
@@ -598,11 +598,11 @@ namespace Testing.ResourceNames.Tests
             moq::Mock<ResourceNames.ResourceNamesClient> mockGrpcClient = new moq::Mock<ResourceNames.ResourceNamesClient>(moq::MockBehavior.Strict);
             WildcardMultiPattern request = new WildcardMultiPattern
             {
-                WildcardMultiPatternName = WildcardMultiPatternName.FromItem("[ITEM_ID]"),
-                RefAsWildcardMultiPatternName = WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                WildcardMultiPatternName = WildcardMultiPatternName.FromSingularItem(),
+                RefAsWildcardMultiPatternName = WildcardMultiPatternName.FromSingularItem(),
                 RepeatedRefAsWildcardMultiPatternNames =
                 {
-                    WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                    WildcardMultiPatternName.FromSingularItem(),
                 },
             };
             Response expectedResponse = new Response { };
@@ -621,11 +621,11 @@ namespace Testing.ResourceNames.Tests
             moq::Mock<ResourceNames.ResourceNamesClient> mockGrpcClient = new moq::Mock<ResourceNames.ResourceNamesClient>(moq::MockBehavior.Strict);
             WildcardMultiPattern request = new WildcardMultiPattern
             {
-                WildcardMultiPatternName = WildcardMultiPatternName.FromItem("[ITEM_ID]"),
-                RefAsWildcardMultiPatternName = WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                WildcardMultiPatternName = WildcardMultiPatternName.FromSingularItem(),
+                RefAsWildcardMultiPatternName = WildcardMultiPatternName.FromSingularItem(),
                 RepeatedRefAsWildcardMultiPatternNames =
                 {
-                    WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                    WildcardMultiPatternName.FromSingularItem(),
                 },
             };
             Response expectedResponse = new Response { };
@@ -642,11 +642,11 @@ namespace Testing.ResourceNames.Tests
             moq::Mock<ResourceNames.ResourceNamesClient> mockGrpcClient = new moq::Mock<ResourceNames.ResourceNamesClient>(moq::MockBehavior.Strict);
             WildcardMultiPattern request = new WildcardMultiPattern
             {
-                WildcardMultiPatternName = WildcardMultiPatternName.FromItem("[ITEM_ID]"),
-                RefAsWildcardMultiPatternName = WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                WildcardMultiPatternName = WildcardMultiPatternName.FromSingularItem(),
+                RefAsWildcardMultiPatternName = WildcardMultiPatternName.FromSingularItem(),
                 RepeatedRefAsWildcardMultiPatternNames =
                 {
-                    WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                    WildcardMultiPatternName.FromSingularItem(),
                 },
             };
             Response expectedResponse = new Response { };
@@ -665,11 +665,11 @@ namespace Testing.ResourceNames.Tests
             moq::Mock<ResourceNames.ResourceNamesClient> mockGrpcClient = new moq::Mock<ResourceNames.ResourceNamesClient>(moq::MockBehavior.Strict);
             WildcardMultiPattern request = new WildcardMultiPattern
             {
-                WildcardMultiPatternName = WildcardMultiPatternName.FromItem("[ITEM_ID]"),
-                RefAsWildcardMultiPatternName = WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                WildcardMultiPatternName = WildcardMultiPatternName.FromSingularItem(),
+                RefAsWildcardMultiPatternName = WildcardMultiPatternName.FromSingularItem(),
                 RepeatedRefAsWildcardMultiPatternNames =
                 {
-                    WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                    WildcardMultiPatternName.FromSingularItem(),
                 },
             };
             Response expectedResponse = new Response { };
@@ -686,11 +686,11 @@ namespace Testing.ResourceNames.Tests
             moq::Mock<ResourceNames.ResourceNamesClient> mockGrpcClient = new moq::Mock<ResourceNames.ResourceNamesClient>(moq::MockBehavior.Strict);
             WildcardMultiPattern request = new WildcardMultiPattern
             {
-                WildcardMultiPatternName = WildcardMultiPatternName.FromItem("[ITEM_ID]"),
-                RefAsWildcardMultiPatternName = WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                WildcardMultiPatternName = WildcardMultiPatternName.FromSingularItem(),
+                RefAsWildcardMultiPatternName = WildcardMultiPatternName.FromSingularItem(),
                 RepeatedRefAsWildcardMultiPatternNames =
                 {
-                    WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                    WildcardMultiPatternName.FromSingularItem(),
                 },
             };
             Response expectedResponse = new Response { };
@@ -709,11 +709,11 @@ namespace Testing.ResourceNames.Tests
             moq::Mock<ResourceNames.ResourceNamesClient> mockGrpcClient = new moq::Mock<ResourceNames.ResourceNamesClient>(moq::MockBehavior.Strict);
             WildcardMultiPattern request = new WildcardMultiPattern
             {
-                WildcardMultiPatternName = WildcardMultiPatternName.FromItem("[ITEM_ID]"),
-                RefAsWildcardMultiPatternName = WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                WildcardMultiPatternName = WildcardMultiPatternName.FromSingularItem(),
+                RefAsWildcardMultiPatternName = WildcardMultiPatternName.FromSingularItem(),
                 RepeatedRefAsWildcardMultiPatternNames =
                 {
-                    WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                    WildcardMultiPatternName.FromSingularItem(),
                 },
             };
             Response expectedResponse = new Response { };
@@ -730,11 +730,11 @@ namespace Testing.ResourceNames.Tests
             moq::Mock<ResourceNames.ResourceNamesClient> mockGrpcClient = new moq::Mock<ResourceNames.ResourceNamesClient>(moq::MockBehavior.Strict);
             WildcardMultiPattern request = new WildcardMultiPattern
             {
-                WildcardMultiPatternName = WildcardMultiPatternName.FromItem("[ITEM_ID]"),
-                RefAsWildcardMultiPatternName = WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                WildcardMultiPatternName = WildcardMultiPatternName.FromSingularItem(),
+                RefAsWildcardMultiPatternName = WildcardMultiPatternName.FromSingularItem(),
                 RepeatedRefAsWildcardMultiPatternNames =
                 {
-                    WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                    WildcardMultiPatternName.FromSingularItem(),
                 },
             };
             Response expectedResponse = new Response { };
@@ -753,11 +753,11 @@ namespace Testing.ResourceNames.Tests
             moq::Mock<ResourceNames.ResourceNamesClient> mockGrpcClient = new moq::Mock<ResourceNames.ResourceNamesClient>(moq::MockBehavior.Strict);
             WildcardMultiPattern request = new WildcardMultiPattern
             {
-                WildcardMultiPatternName = WildcardMultiPatternName.FromItem("[ITEM_ID]"),
-                RefAsWildcardMultiPatternName = WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                WildcardMultiPatternName = WildcardMultiPatternName.FromSingularItem(),
+                RefAsWildcardMultiPatternName = WildcardMultiPatternName.FromSingularItem(),
                 RepeatedRefAsWildcardMultiPatternNames =
                 {
-                    WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                    WildcardMultiPatternName.FromSingularItem(),
                 },
             };
             Response expectedResponse = new Response { };
@@ -774,11 +774,11 @@ namespace Testing.ResourceNames.Tests
             moq::Mock<ResourceNames.ResourceNamesClient> mockGrpcClient = new moq::Mock<ResourceNames.ResourceNamesClient>(moq::MockBehavior.Strict);
             WildcardMultiPattern request = new WildcardMultiPattern
             {
-                WildcardMultiPatternName = WildcardMultiPatternName.FromItem("[ITEM_ID]"),
-                RefAsWildcardMultiPatternName = WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                WildcardMultiPatternName = WildcardMultiPatternName.FromSingularItem(),
+                RefAsWildcardMultiPatternName = WildcardMultiPatternName.FromSingularItem(),
                 RepeatedRefAsWildcardMultiPatternNames =
                 {
-                    WildcardMultiPatternName.FromItem("[ITEM_ID]"),
+                    WildcardMultiPatternName.FromSingularItem(),
                 },
             };
             Response expectedResponse = new Response { };
