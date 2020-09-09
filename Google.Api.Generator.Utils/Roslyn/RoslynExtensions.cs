@@ -313,6 +313,9 @@ namespace Google.Api.Generator.Utils.Roslyn
         public static RoslynBuilder.ArgumentsFunc<PropertyDeclarationSyntax> WithAttribute(this PropertyDeclarationSyntax property, TypeSyntax attrType) =>
             args => property.WithAttributeLists(SingletonList(AttributeList(SingletonSeparatedList(Attribute((NameSyntax) attrType, CreateAttributeArgList(args))))));
 
+        public static RoslynBuilder.ArgumentsFunc<EnumMemberDeclarationSyntax> WithAttribute(this EnumMemberDeclarationSyntax enumDeclaration, TypeSyntax attrType) =>
+            args => enumDeclaration.WithAttributeLists(SingletonList(AttributeList(SingletonSeparatedList(Attribute((NameSyntax) attrType, CreateAttributeArgList(args))))));
+
         public static BinaryExpressionSyntax Is(this ExpressionSyntax expr, TypeSyntax type) => BinaryExpression(SyntaxKind.IsExpression, expr, type);
 
         public static BinaryExpressionSyntax Is(this ParameterSyntax expr, TypeSyntax type) => IdentifierName(expr.Identifier).Is(type);
