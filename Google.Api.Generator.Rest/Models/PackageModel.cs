@@ -20,7 +20,6 @@ using Google.Apis.Requests;
 using Google.Apis.Services;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
@@ -198,32 +197,36 @@ namespace Google.Api.Generator.Rest.Models
 
         public ClassDeclarationSyntax GenerateBaseRequestClass(SourceFileContext ctx)
         {
+            Typ requestTyp = Typ.Generic(Typ.Manual(PackageName, $"{ClassName}BaseServiceRequest"), Typ.GenericParam("TResponse"));
             var cls = Class(
                 Modifier.Public,
-                Typ.Generic(Typ.Manual(PackageName, $"{ClassName}BaseServiceRequest"), Typ.GenericParam("TResponse")),
+                requestTyp,
                 ctx.Type(Typ.Generic(typeof(ClientServiceRequest<>), Typ.GenericParam("TResponse"))))
                 .WithXmlDoc(XmlDoc.Summary($"A base abstract class for {ClassName} requests."));
 
-            var serviceParam = Parameter(ctx.Type<IClientService>(), "service");
-            var ctor = Ctor(Modifier.Protected, cls, BaseInitializer(serviceParam))(serviceParam)
-                .WithBody()
-                .WithXmlDoc(XmlDoc.Summary($"Constructs a new {ClassName}BaseServiceRequest instance."));
+            using (ctx.InClass(cls))
+            {
+                var serviceParam = Parameter(ctx.Type<IClientService>(), "service");
+                var ctor = Ctor(Modifier.Protected, cls, BaseInitializer(serviceParam))(serviceParam)
+                    .WithBody()
+                    .WithXmlDoc(XmlDoc.Summary($"Constructs a new {ClassName}BaseServiceRequest instance."));
 
-            cls = cls.AddMembers(ctor);
+                cls = cls.AddMembers(ctor);
 
-            var parameters = _discoveryDoc.Parameters.Select(p => new ParameterModel(p.Key, p.Value))
-                .OrderBy(p => p.PropertyName)
-                .ToList();
+                var parameters = _discoveryDoc.Parameters.Select(p => new ParameterModel(p.Key, p.Value))
+                    .OrderBy(p => p.Name)
+                    .ToList();
 
-            cls = cls.AddMembers(parameters.Select(p => p.GenerateProperty(ctx)).ToArray());
+                cls = cls.AddMembers(parameters.SelectMany(p => p.GenerateDeclarations(ctx)).ToArray());
 
-            var initParameters = Method(Modifier.Protected | Modifier.Override, VoidType, "InitParameters")()
-                .WithBlockBody(
-                    BaseExpression().Call("InitParameters")(),
-                    parameters.Select(p => p.GenerateInitializer(ctx)).ToArray())
-                .WithXmlDoc(XmlDoc.Summary($"Initializes {ClassName} parameter list."));
+                var initParameters = Method(Modifier.Protected | Modifier.Override, VoidType, "InitParameters")()
+                    .WithBlockBody(
+                        BaseExpression().Call("InitParameters")(),
+                        parameters.Select(p => p.GenerateInitializer(ctx)).ToArray())
+                    .WithXmlDoc(XmlDoc.Summary($"Initializes {ClassName} parameter list."));
 
-            cls = cls.AddMembers(initParameters);
+                cls = cls.AddMembers(initParameters);
+            }
             return cls;
         }
 
