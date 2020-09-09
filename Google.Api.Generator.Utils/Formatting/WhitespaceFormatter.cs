@@ -211,6 +211,13 @@ namespace Google.Api.Generator.Utils.Formatting
             return node;
         }
 
+        public override SyntaxNode VisitAttributeArgumentList(AttributeArgumentListSyntax node)
+        {
+            node = (AttributeArgumentListSyntax) base.VisitAttributeArgumentList(node);
+            node = node.WithArguments(SeparatedList(node.Arguments, CommaSpaces(node.Arguments.Count - 1)));
+            return node;
+        }
+
         public override SyntaxNode VisitArgument(ArgumentSyntax node)
         {
             node = (ArgumentSyntax)base.VisitArgument(node);

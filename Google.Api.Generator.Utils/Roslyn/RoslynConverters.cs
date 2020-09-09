@@ -83,6 +83,20 @@ namespace Google.Api.Generator.Utils.Roslyn
             return ToExpressions(o).Select(Argument);
         }
 
+        private static IEnumerable<AttributeArgumentSyntax> ToAttributeArgs(object o)
+        {
+            if (o is null)
+            {
+                return Enumerable.Empty<AttributeArgumentSyntax>();
+            }
+            if (o is ITuple tuple && tuple.Length == 2 && tuple[0] is string argName)
+            {
+                // Property setter
+                return new[] { ToAttributeArgs(tuple[1]).Single().WithNameEquals(NameEquals(argName)) };
+            }
+            return ToExpressions(o).Select(AttributeArgument);
+        }
+
         public static IEnumerable<StatementSyntax> ToStatements(object o)
         {
             return o switch
@@ -122,6 +136,12 @@ namespace Google.Api.Generator.Utils.Roslyn
                 return result;
             }
         }
+
+        public static AttributeArgumentListSyntax CreateAttributeArgList(params object[] args) =>
+            // With no arguments, omit the argument list entirely, so we get [Attr] instead of [Attr()]
+            args is null || args.Length == 0
+            ? null
+            : AttributeArgumentList(SeparatedList(args.SelectMany(ToAttributeArgs)));
 
         public static ArgumentListSyntax CreateArgList(params object[] args) =>
             ArgumentList(SeparatedList(args.SelectMany(ToArgs)));
