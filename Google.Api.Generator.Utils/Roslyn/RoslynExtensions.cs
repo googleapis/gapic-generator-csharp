@@ -307,11 +307,11 @@ namespace Google.Api.Generator.Utils.Roslyn
             }
         }
 
-        public static MethodDeclarationSyntax WithAttribute(this MethodDeclarationSyntax method, TypeSyntax attrType) =>
-            method.WithAttributeLists(SingletonList(AttributeList(SingletonSeparatedList(Attribute((NameSyntax)attrType)))));
+        public static RoslynBuilder.ArgumentsFunc<MethodDeclarationSyntax> WithAttribute(this MethodDeclarationSyntax method, TypeSyntax attrType) =>
+            args => method.WithAttributeLists(SingletonList(AttributeList(SingletonSeparatedList(Attribute((NameSyntax)attrType, CreateAttributeArgList(args))))));
 
-        public static PropertyDeclarationSyntax WithAttribute(this PropertyDeclarationSyntax property, TypeSyntax attrType) =>
-            property.WithAttributeLists(SingletonList(AttributeList(SingletonSeparatedList(Attribute((NameSyntax) attrType)))));
+        public static RoslynBuilder.ArgumentsFunc<PropertyDeclarationSyntax> WithAttribute(this PropertyDeclarationSyntax property, TypeSyntax attrType) =>
+            args => property.WithAttributeLists(SingletonList(AttributeList(SingletonSeparatedList(Attribute((NameSyntax) attrType, CreateAttributeArgList(args))))));
 
         public static BinaryExpressionSyntax Is(this ExpressionSyntax expr, TypeSyntax type) => BinaryExpression(SyntaxKind.IsExpression, expr, type);
 

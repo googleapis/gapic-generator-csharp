@@ -230,7 +230,7 @@ namespace Google.Api.Generator.Generation
                         Ctx.Type<Assert>().Call(nameof(Assert.Same))(ExpectedResponse, Response),
                     };
                 return Method(Public, VoidType, methodName)()
-                    .WithAttribute(Ctx.Type<FactAttribute>())
+                    .WithAttribute(Ctx.Type<FactAttribute>())()
                     .WithBody(
                         MockGrpcClient.WithInitializer(New(Ctx.Type(Typ.Generic(typeof(Mock<>), Svc.GrpcClientTyp)))(Ctx.Type<MockBehavior>().Access(MockBehavior.Strict))),
                         LroSetup(),
@@ -265,7 +265,7 @@ namespace Google.Api.Generator.Generation
                         Ctx.Type<Assert>().Call(nameof(Assert.Same))(ExpectedResponse, ResponseCancellationToken),
                     };
                 return Method(Public | Modifier.Async, Ctx.Type<Task>(), methodName)()
-                    .WithAttribute(Ctx.Type<FactAttribute>())
+                    .WithAttribute(Ctx.Type<FactAttribute>())()
                     .WithBody(
                         MockGrpcClient.WithInitializer(New(Ctx.Type(Typ.Generic(typeof(Mock<>), Svc.GrpcClientTyp)))(Ctx.Type<MockBehavior>().Access(MockBehavior.Strict))),
                         LroSetup(),
