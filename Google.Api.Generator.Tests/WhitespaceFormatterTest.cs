@@ -31,6 +31,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -40,6 +41,7 @@ using sys = System;
 
 namespace Google.Api.Generator.Tests
 {
+    [Description("ClassDescription")]
     public class WhitespaceFormatterTest
     {
         // Test nested class; base-list with multiple items.
@@ -315,6 +317,17 @@ namespace Google.Api.Generator.Tests
             C,
 
             D
+        }
+
+        // Test enum with attributes.
+        [Flags]
+        public enum AnEnumWithFlags
+        {
+            [Description("DescriptionA")]
+            A = 1,
+
+            [Description("DescriptionB")]
+            B = 2
         }
         // TEST_SOURCE_END
 

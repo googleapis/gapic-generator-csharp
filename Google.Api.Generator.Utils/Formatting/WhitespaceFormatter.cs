@@ -46,14 +46,20 @@ namespace Google.Api.Generator.Utils.Formatting
 
         private readonly int _maxLineLength;
         private SyntaxTrivia _indentTrivia = SyntaxTrivia(SyntaxKind.WhitespaceTrivia, "");
+        private SyntaxTrivia _previousIndentTrivia = SyntaxTrivia(SyntaxKind.WhitespaceTrivia, "");
 
         private IDisposable WithIndent(bool withIndent = true)
         {
             if (withIndent)
             {
-                var orgIndentTrivia = _indentTrivia;
-                _indentTrivia = SyntaxTrivia(SyntaxKind.WhitespaceTrivia, new string(' ', orgIndentTrivia.Span.Length + 4));
-                return new Disposable(() => _indentTrivia = orgIndentTrivia);
+                var orgPreviousIndentTrivia = _previousIndentTrivia;
+                _previousIndentTrivia = _indentTrivia;
+                _indentTrivia = SyntaxTrivia(SyntaxKind.WhitespaceTrivia, new string(' ', _indentTrivia.Span.Length + 4));
+                return new Disposable(() =>
+                {
+                    _indentTrivia = _previousIndentTrivia;
+                    _previousIndentTrivia = orgPreviousIndentTrivia;
+                });
             }
             else
             {
@@ -190,10 +196,17 @@ namespace Google.Api.Generator.Utils.Formatting
                 node.Parent is PropertyDeclarationSyntax ||
                 node.Parent is EnumMemberDeclarationSyntax ||
                 node.Parent is EnumDeclarationSyntax;
+            // For class and enum declarations, VisitAttributeList happens *within* the base declaration visit...
+            // which means we've already called WithIndent by the time we get here. We need to indent by
+            // the previous amount of whitespace instead.
+            var indentTrivia = node.Parent is ClassDeclarationSyntax || node.Parent is EnumDeclarationSyntax
+                ? _previousIndentTrivia
+                : _indentTrivia;
+
             node = (AttributeListSyntax)base.VisitAttributeList(node);
             if (lineBreak)
             {
-                node = node.WithCloseBracketToken(node.CloseBracketToken.WithTrailingTrivia(NewLine, _indentTrivia));
+                node = node.WithCloseBracketToken(node.CloseBracketToken.WithTrailingTrivia(NewLine, indentTrivia));
             }
             return node;
         }
