@@ -17,6 +17,8 @@ using Google.Api.Generator.Utils.Roslyn;
 using Google.Apis.Discovery.v1.Data;
 using Google.Apis.Util;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
+using System.Collections.Generic;
 using static Google.Api.Generator.Utils.Roslyn.RoslynBuilder;
 using static Google.Api.Generator.Utils.Roslyn.RoslynExtensions;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
@@ -27,22 +29,48 @@ namespace Google.Api.Generator.Rest.Models
     {
         private readonly JsonSchema _schema;
 
+        public RequestParameterType Location { get; }
         public string Name { get; }
         public string PropertyName { get; }
+        public EnumModel EnumModel { get; }
+        public bool IsRequired => _schema.Required ?? false;
+        public bool IsRepeated => _schema.Repeated ?? false;
 
         public ParameterModel(string name, JsonSchema schema)
         {
             Name = name;
             PropertyName = name.ToUpperCamelCase();
+            Location = schema.Location switch
+            {
+                "query" => RequestParameterType.Query,
+                "path" => RequestParameterType.Path,
+                _ => throw new InvalidOperationException($"Unhandled parameter location: '{_schema.Location}'")
+            };
+            EnumModel = schema.Enum__ is object ? new EnumModel(name, schema) : null;
             _schema = schema;
         }
 
-        public PropertyDeclarationSyntax GenerateProperty(SourceFileContext ctx)
+        private PropertyDeclarationSyntax GenerateProperty(SourceFileContext ctx)
         {
-            var property = AutoProperty(Modifier.Public | Modifier.Virtual, ctx.Type<string>(), PropertyName)
-                // TODO: Attribute arguments
-                // TODO: Default, Minimum, Maximum? Commented out...
-                .WithAttribute(ctx.Type<RequestParameterAttribute>());
+            Typ propertyTyp;
+            if (EnumModel is object)
+            {                
+                Typ enumTyp = Typ.Nested(ctx.CurrentTyp, EnumModel.TypeName, isEnum: true);
+                propertyTyp = IsRequired ? enumTyp : Typ.Generic(Typ.Of(typeof(Nullable<>)), enumTyp);
+            }
+            else if (IsRepeated)
+            {
+                propertyTyp = Typ.Of<Repeatable<string>>();
+            }
+            else
+            {
+                propertyTyp = SchemaTypes.GetTypFromSchema(_schema.Type, _schema.Format, IsRequired);
+            }
+            var propertyType = ctx.Type(propertyTyp);
+
+            var locationExpression = ctx.Type<RequestParameterType>().Access(Location.ToString());
+            var property = AutoProperty(Modifier.Public | Modifier.Virtual, propertyType, PropertyName, hasSetter: true)
+                .WithAttribute(ctx.Type<RequestParameterAttribute>())(Name, locationExpression);
             if (_schema.Description is string description)
             {
                 property = property.WithXmlDoc(XmlDoc.Summary(description));
@@ -50,8 +78,25 @@ namespace Google.Api.Generator.Rest.Models
             return property;
         }
 
-        // TODO: Arguments
-        internal object GenerateInitializer(SourceFileContext ctx) =>
-            IdentifierName("RequestParameters").Call("Add")(Name);
+        public IEnumerable<MemberDeclarationSyntax> GenerateDeclarations(SourceFileContext ctx)
+        {
+            yield return GenerateProperty(ctx);
+            if (EnumModel is object)
+            {
+                yield return EnumModel.GenerateDeclaration(ctx);
+            }
+        }
+
+        internal object GenerateInitializer(SourceFileContext ctx)
+        {
+            var parameterCtor = New(ctx.Type<Google.Apis.Discovery.Parameter>())()
+                .WithInitializer(
+                    new ObjectInitExpr("Name", Name),
+                    new ObjectInitExpr("IsRequired", IsRequired),
+                    new ObjectInitExpr("ParameterType", _schema.Location),
+                    new ObjectInitExpr("DefaultValue", _schema.Default__ ?? (object) Null),
+                    new ObjectInitExpr("Pattern", _schema.Pattern ?? (object) Null));
+            return IdentifierName("RequestParameters").Call("Add")(Name, parameterCtor);
+        }
     }
 }
