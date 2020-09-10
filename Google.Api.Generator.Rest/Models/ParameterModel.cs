@@ -35,6 +35,8 @@ namespace Google.Api.Generator.Rest.Models
         public EnumModel EnumModel { get; }
         public bool IsRequired => _schema.Required ?? false;
         public bool IsRepeated => _schema.Repeated ?? false;
+        public Typ Typ { get; }
+        public string Description => _schema.Description;
 
         public ParameterModel(string name, JsonSchema schema)
         {
@@ -48,6 +50,8 @@ namespace Google.Api.Generator.Rest.Models
             };
             EnumModel = schema.Enum__ is object ? new EnumModel(name, schema) : null;
             _schema = schema;
+            // FIXME
+            Typ = Typ.Of<string>();
         }
 
         private PropertyDeclarationSyntax GenerateProperty(SourceFileContext ctx)

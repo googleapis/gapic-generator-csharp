@@ -49,6 +49,7 @@ namespace Google.Api.Generator.Rest.Models
         public IReadOnlyList<AuthScope> AuthScopes { get; }
         public IReadOnlyList<MethodModel> Methods { get; }
         public IReadOnlyList<DataModel> DataModels { get; }
+        public Typ BaseRequestTyp { get; }
         public Typ ServiceTyp { get; }
         public string BaseUri { get; }
         public string BasePath { get; }
@@ -69,6 +70,7 @@ namespace Google.Api.Generator.Rest.Models
             // TODO: Ordering?
             AuthScopes = (discoveryDoc.Auth?.Oauth2?.Scopes).ToReadOnlyList(pair => new AuthScope(pair.Key, pair.Value.Description));
             ServiceTyp = Typ.Manual(PackageName, ServiceClassName);
+            BaseRequestTyp = Typ.Generic(Typ.Manual(PackageName, $"{ClassName}BaseServiceRequest"), Typ.GenericParam("TResponse")); 
             BaseUri = discoveryDoc.RootUrl + discoveryDoc.ServicePath;
             BasePath = discoveryDoc.ServicePath;
             BatchUri = discoveryDoc.RootUrl + discoveryDoc.BatchPath;
@@ -76,7 +78,7 @@ namespace Google.Api.Generator.Rest.Models
             Title = discoveryDoc.Title;
             // TODO: Add in the anonymous schemas from method definitions
             DataModels = discoveryDoc.Schemas.ToReadOnlyList(pair => new DataModel(this, pair.Key, pair.Value));
-            Methods = discoveryDoc.Methods.ToReadOnlyList(pair => new MethodModel(this, pair.Key, pair.Value));            
+            Methods = discoveryDoc.Methods.ToReadOnlyList(pair => new MethodModel(this, null, pair.Key, pair.Value));            
         }
 
         /// <summary>
@@ -182,9 +184,10 @@ namespace Google.Api.Generator.Rest.Models
                     cls = cls.AddMembers(scopeClass, scopeConstantsClass);
                 }
 
+                // TODO: Find an example of this...
                 foreach (var method in Methods)
                 {
-                    cls = cls.AddMembers(method.GenerateMethodDeclaration(ctx));
+                    cls = cls.AddMembers(method.GenerateDeclarations(ctx).ToArray());
                 }
 
                 cls = cls.AddMembers(resourceProperties);
@@ -194,10 +197,9 @@ namespace Google.Api.Generator.Rest.Models
 
         public ClassDeclarationSyntax GenerateBaseRequestClass(SourceFileContext ctx)
         {
-            Typ requestTyp = Typ.Generic(Typ.Manual(PackageName, $"{ClassName}BaseServiceRequest"), Typ.GenericParam("TResponse"));
             var cls = Class(
                 Modifier.Public | Modifier.Abstract,
-                requestTyp,
+                BaseRequestTyp,
                 ctx.Type(Typ.Generic(typeof(ClientServiceRequest<>), Typ.GenericParam("TResponse"))))
                 .WithXmlDoc(XmlDoc.Summary($"A base abstract class for {ClassName} requests."));
 
