@@ -33,7 +33,7 @@ namespace Google.Api.Generator.Rest.Models
 
         public MethodDeclarationSyntax GenerateMethodDeclaration(SourceFileContext ctx)
         {
-            return Method(Modifier.Public, ctx.Type<string>(), Name)();
+            return Method(Modifier.Public, ctx.Type<string>(), Name)().WithBody();
         }
     }
 }
