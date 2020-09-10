@@ -42,9 +42,9 @@ namespace Google.Apis.Webfonts.v1
         /// <summary>Gets the service base URI.</summary>
         public override string BaseUri =>
         #if NETSTANDARD1_3 || NETSTANDARD2_0 || NET45
-            BaseUriOverride ?? "https://www.googleapis.com/";
+            BaseUriOverride ?? "https://webfonts.googleapis.com/";
         #else
-            "https://www.googleapis.com/";
+            "https://webfonts.googleapis.com/";
         #endif
 
         /// <summary>Gets the service base path.</summary>
@@ -52,10 +52,10 @@ namespace Google.Apis.Webfonts.v1
 
         #if !NET40
         /// <summary>Gets the batch base URI; <c>null</c> if unspecified.</summary>
-        public override string BatchUri => "https://www.googleapis.com/batch/webfonts/v1";
+        public override string BatchUri => "https://webfonts.googleapis.com/batch";
 
         /// <summary>Gets the batch base path; <c>null</c> if unspecified.</summary>
-        public override string BatchPath => "batch/webfonts/v1";
+        public override string BatchPath => "batch";
         #endif
 
 
@@ -95,7 +95,6 @@ namespace Google.Apis.Webfonts.v1
         public virtual string AccessToken { get; set; }
 
         /// <summary>Data format for response.</summary>
-        /// [default: json]
         [Google.Apis.Util.RequestParameterAttribute("alt", Google.Apis.Util.RequestParameterType.Query)]
         public virtual System.Nullable<AltEnum> Alt { get; set; }
 
@@ -131,7 +130,6 @@ namespace Google.Apis.Webfonts.v1
         public virtual string OauthToken { get; set; }
 
         /// <summary>Returns response with indentations and line breaks.</summary>
-        /// [default: true]
         [Google.Apis.Util.RequestParameterAttribute("prettyPrint", Google.Apis.Util.RequestParameterType.Query)]
         public virtual System.Nullable<bool> PrettyPrint { get; set; }
 
@@ -295,16 +293,22 @@ namespace Google.Apis.Webfonts.v1
             /// <summary>Enables sorting of the list.</summary>
             public enum SortEnum
             {
+                /// <summary>No sorting specified, use the default sorting method.</summary>
                 [Google.Apis.Util.StringValueAttribute("SORT_UNDEFINED")]
                 SORTUNDEFINED,
+                /// <summary>Sort alphabetically</summary>
                 [Google.Apis.Util.StringValueAttribute("ALPHA")]
                 ALPHA,
+                /// <summary>Sort by date added</summary>
                 [Google.Apis.Util.StringValueAttribute("DATE")]
                 DATE,
+                /// <summary>Sort by popularity</summary>
                 [Google.Apis.Util.StringValueAttribute("POPULARITY")]
                 POPULARITY,
+                /// <summary>Sort by number of styles</summary>
                 [Google.Apis.Util.StringValueAttribute("STYLE")]
                 STYLE,
+                /// <summary>Sort by trending</summary>
                 [Google.Apis.Util.StringValueAttribute("TRENDING")]
                 TRENDING,
             }
