@@ -59,7 +59,7 @@ namespace Google.Api.Generator.Rest.Models
         {
             _discoveryDoc = discoveryDoc;
             ApiName = discoveryDoc.Name;
-            ClassName = ToClassName(discoveryDoc.CanonicalName);
+            ClassName = ToClassName(discoveryDoc.CanonicalName ?? discoveryDoc.Name);
             ServiceClassName = $"{ClassName}Service";
             ApiVersion = discoveryDoc.Version;
             PackageName = $"Google.Apis.{ClassName}.{ApiVersion}";
@@ -96,7 +96,7 @@ namespace Google.Api.Generator.Rest.Models
 
         public ClassDeclarationSyntax GenerateServiceClass(SourceFileContext ctx)
         {
-            var cls = Class(Modifier.Public, ServiceTyp).WithXmlDoc(XmlDoc.Summary($"The {ClassName} Service."));
+            var cls = Class(Modifier.Public, ServiceTyp, ctx.Type<BaseClientService>()).WithXmlDoc(XmlDoc.Summary($"The {ClassName} Service."));
             using (ctx.InClass(cls))
             {
                 var discoveryVersionTyp = Typ.Manual("Google.Apis.Discovery", "DiscoveryVersion");
@@ -199,7 +199,7 @@ namespace Google.Api.Generator.Rest.Models
         {
             Typ requestTyp = Typ.Generic(Typ.Manual(PackageName, $"{ClassName}BaseServiceRequest"), Typ.GenericParam("TResponse"));
             var cls = Class(
-                Modifier.Public,
+                Modifier.Public | Modifier.Abstract,
                 requestTyp,
                 ctx.Type(Typ.Generic(typeof(ClientServiceRequest<>), Typ.GenericParam("TResponse"))))
                 .WithXmlDoc(XmlDoc.Summary($"A base abstract class for {ClassName} requests."));
