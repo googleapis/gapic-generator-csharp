@@ -335,6 +335,18 @@ namespace Google.Api.Generator.Utils
             return new Disposable(() => Namespace = restoreNamespace);
         }
 
+        // TODO: make InClass(ClassDeclarationSyntax) work for nested classes.
+
+        /// <summary>
+        /// Move the current context into a class.
+        /// This is relevant for type references to nested classes.
+        /// Disposing of the return value moves the context back out of the class.
+        /// Note: this method currently fails when called within a nested class.
+        /// </summary>
+        /// <param name="cls">The class into which to move.</param>
+        /// <returns>An <c>IDisposable</c> value that must be disposed of to move out of this class.</returns>
+        public IDisposable InClass(ClassDeclarationSyntax cls) => InClass(Typ.Manual(Namespace, cls));
+
         /// <summary>
         /// Move the current context into a class.
         /// This is relevant for type references to nested classes.
@@ -342,11 +354,11 @@ namespace Google.Api.Generator.Utils
         /// </summary>
         /// <param name="cls">The class into which to move.</param>
         /// <returns>An <c>IDisposable</c> value that must be disposed of to move out of this class.</returns>
-        public IDisposable InClass(ClassDeclarationSyntax cls)
+        public IDisposable InClass(Typ typ)
         {
             var restoreTypes = Typs;
             var restoreMemberNames = RegisteredMemberNames;
-            Typs = Typs.Append(Typ.Manual(Namespace, cls)).ToList();
+            Typs = Typs.Append(typ).ToList();
             return new Disposable(() =>
             {
                 Typs = restoreTypes;
