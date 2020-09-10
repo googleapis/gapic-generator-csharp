@@ -64,7 +64,7 @@ namespace Google.Api.Generator.Rest.Models
             ApiVersion = discoveryDoc.Version;
             PackageName = $"Google.Apis.{ClassName}.{ApiVersion}";
             VersionNoDots = discoveryDoc.Version.Replace('.', '_');
-            Resources = discoveryDoc.Resources.ToReadOnlyList(pair => new ResourceModel(this, pair.Key, pair.Value));
+            Resources = discoveryDoc.Resources.ToReadOnlyList(pair => new ResourceModel(this, parent: null, pair.Key, pair.Value));
             Features = discoveryDoc.Features.ToReadOnlyList();
             // TODO: Ordering?
             AuthScopes = (discoveryDoc.Auth?.Oauth2?.Scopes).ToReadOnlyList(pair => new AuthScope(pair.Key, pair.Value.Description));
@@ -141,10 +141,7 @@ namespace Google.Api.Generator.Rest.Models
                     .WithGetBody(BatchPath)
                     .WithXmlDoc(XmlDoc.Summary("Gets the batch base path; ", XmlDoc.C("null"), " if unspecified."));
 
-                var resourceProperties = Resources
-                    .Select(resource => AutoProperty(Modifier.Public | Modifier.Virtual, ctx.Type(resource.Typ), resource.PropertyName)
-                        .WithXmlDoc(XmlDoc.Summary($"Gets the {resource.PropertyName} resource.")))
-                    .ToArray();
+                var resourceProperties = Resources.Select(resource => resource.GenerateProperty(ctx)).ToArray();
 
                 var parameterizedCtor = Ctor(Modifier.Public, cls, BaseInitializer(initializerParam))(initializerParam)
                     .WithBlockBody(resourceProperties.Zip(Resources).Select(pair => pair.First.Assign(New(ctx.Type(pair.Second.Typ))(This))).ToArray())

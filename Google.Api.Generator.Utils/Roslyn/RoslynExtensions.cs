@@ -185,6 +185,12 @@ namespace Google.Api.Generator.Utils.Roslyn
         public static AssignmentExpressionSyntax Assign(this FieldDeclarationSyntax assignTo, object assignFrom) =>
             AssignmentExpression(SyntaxKind.SimpleAssignmentExpression, IdentifierName(assignTo.Declaration.Variables.Single().Identifier), ToExpression(assignFrom));
 
+        public static AssignmentExpressionSyntax AssignThisQualified(this FieldDeclarationSyntax assignTo, object assignFrom) =>
+            AssignmentExpression(
+                SyntaxKind.SimpleAssignmentExpression,
+                MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, ThisExpression(), IdentifierName(assignTo.Declaration.Variables.Single().Identifier)),
+                ToExpression(assignFrom));
+
         public static AssignmentExpressionSyntax Assign(this ExpressionSyntax assignTo, object assignFrom) =>
             AssignmentExpression(SyntaxKind.SimpleAssignmentExpression, assignTo, ToExpression(assignFrom));
 
