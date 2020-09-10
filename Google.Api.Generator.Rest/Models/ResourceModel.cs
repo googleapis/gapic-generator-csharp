@@ -49,9 +49,10 @@ namespace Google.Api.Generator.Rest.Models
             Name = name;
             PropertyName = package.ToClassName(name);
             ClassName = $"{PropertyName}Resource";
+            Parent = parent;
             Typ = parent is null ? Typ.Manual(package.PackageName, ClassName) : Typ.Nested(parent.Typ, ClassName);
             Subresources = discoveryResource.Resources.ToReadOnlyList(pair => new ResourceModel(package, this, pair.Key, pair.Value));
-            Methods = discoveryResource.Methods.ToReadOnlyList(pair => new MethodModel(package, pair.Key, pair.Value));
+            Methods = discoveryResource.Methods.ToReadOnlyList(pair => new MethodModel(package, this, pair.Key, pair.Value));
         }
 
         public PropertyDeclarationSyntax GenerateProperty(SourceFileContext ctx) => 
@@ -62,7 +63,7 @@ namespace Google.Api.Generator.Rest.Models
         {
             var cls = Class(Modifier.Public, Typ)
                 .WithXmlDoc(XmlDoc.Summary($"The {Name} collection of methods."));
-            using (ctx.InClass(cls))
+            using (ctx.InClass(Typ))
             {
                 var resourceString = Field(Modifier.Private | Modifier.Const, ctx.Type<string>(), "Resource")
                     // TODO: Validate this does the right thing. It's "codeName" in the Python generator.
@@ -91,7 +92,7 @@ namespace Google.Api.Generator.Rest.Models
 
                 foreach (var method in Methods)
                 {
-                    cls = cls.AddMembers(method.GenerateMethodDeclaration(ctx));
+                    cls = cls.AddMembers(method.GenerateDeclarations(ctx).ToArray());
                 }
             }
             return cls;
