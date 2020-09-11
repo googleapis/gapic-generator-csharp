@@ -44,8 +44,7 @@ namespace Google.Api.Generator.Rest.Models
             var cls = Class(Modifier.Public, Typ);
             if (_schema.Description is string description)
             {
-                // TODO: Canonicalize whitespace for "description" properties globally, or change XmlDoc.Summary to handle it.
-                cls = cls.WithXmlDoc(XmlDoc.Summary(description.Replace("\n", " ")));
+                cls = cls.WithXmlDoc(XmlDoc.Summary(description));
             }
             return cls;
         }
