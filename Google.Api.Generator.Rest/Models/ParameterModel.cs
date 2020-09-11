@@ -16,6 +16,8 @@ using Google.Api.Generator.Utils;
 using Google.Api.Generator.Utils.Roslyn;
 using Google.Apis.Discovery.v1.Data;
 using Google.Apis.Util;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
@@ -73,8 +75,17 @@ namespace Google.Api.Generator.Rest.Models
             var propertyType = ctx.Type(propertyTyp);
 
             var locationExpression = ctx.Type<RequestParameterType>().Access(Location.ToString());
-            var property = AutoProperty(Modifier.Public | Modifier.Virtual, propertyType, PropertyName, hasSetter: true)
+            var property = AutoProperty(Modifier.Public | Modifier.Virtual, propertyType, PropertyName)
                 .WithAttribute(ctx.Type<RequestParameterAttribute>())(Name, locationExpression);
+
+            // We always have a setter, but it's private if the parameter is required.
+            var setter = AccessorDeclaration(SyntaxKind.SetAccessorDeclaration).WithSemicolonToken(Token(SyntaxKind.SemicolonToken));
+            if (IsRequired)
+            {
+                setter = setter.WithModifiers(TokenList(Token(SyntaxKind.PrivateKeyword).WithTrailingSpace()));
+            }
+            property = property.AddAccessorListAccessors(setter);
+
             if (_schema.Description is string description)
             {
                 property = property.WithXmlDoc(XmlDoc.Summary(description));

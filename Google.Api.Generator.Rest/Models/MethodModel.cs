@@ -20,6 +20,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections.Generic;
 using System.Linq;
 using static Google.Api.Generator.Utils.Roslyn.RoslynBuilder;
+using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace Google.Api.Generator.Rest.Models
 {
@@ -37,14 +38,16 @@ namespace Google.Api.Generator.Rest.Models
         public Typ ParentTyp { get; }
         public Typ RequestTyp { get; }
         public string Name { get; }
+        public string PascalCasedName { get; }
 
         public MethodModel(PackageModel package, ResourceModel resource, string name, RestMethod restMethod)
         {
             Package = package;
             Resource = resource;
-            Name = name.ToUpperCamelCase();
+            Name = name;
+            PascalCasedName = name.ToUpperCamelCase();
             ParentTyp = resource?.Typ ?? package.ServiceTyp;
-            RequestTyp = Typ.Nested(ParentTyp, $"{Name}Request");
+            RequestTyp = Typ.Nested(ParentTyp, $"{PascalCasedName}Request");
             Parameters = CreateParameterList(package, restMethod);
             _restMethod = restMethod;
         }
@@ -79,10 +82,11 @@ namespace Google.Api.Generator.Rest.Models
             }
             docs.AddRange(methodParameters.Zip(parameterDeclarations).Select(pair => XmlDoc.Param(pair.Second, pair.First.Description)));
 
+            // TODO: "body" argument if necessary.
             var ctorArguments = new object[] { Field(0, ctx.Type<IClientService>(), "service") }
                 .Concat(parameterDeclarations)
                 .ToArray();
-            var method = Method(Modifier.Public, ctx.Type(RequestTyp), Name)(parameterDeclarations.ToArray())
+            var method = Method(Modifier.Public, ctx.Type(RequestTyp), PascalCasedName)(parameterDeclarations.ToArray())
                 .WithBlockBody(Return(New(ctx.Type(RequestTyp))(ctorArguments)))
                 .WithXmlDoc(docs.ToArray());
             return method;
@@ -92,6 +96,55 @@ namespace Google.Api.Generator.Rest.Models
         {
             // FIXME: Need to specify the type argument for the base request type.
             var cls = Class(Modifier.Public, RequestTyp, ctx.Type(Package.BaseRequestTyp));
+
+            using (ctx.InClass(RequestTyp))
+            {
+                // Service and optionally "body"
+                var serviceParam = Parameter(ctx.Type<IClientService>(), "service");
+                var extraParameters = new List<ParameterSyntax> { serviceParam };
+                // TODO: "body"
+
+                var requiredParameters = Parameters
+                    .TakeWhile(p => p.IsRequired)
+                    .Select(p => (param: p, decl: Parameter(ctx.Type(p.Typ), p.Name)))
+                    .ToList();
+
+                var assignments = requiredParameters
+                    .Select(p => Field(0, ctx.Type(p.param.Typ), p.param.PropertyName).Assign(p.decl));
+                // TODO: Add body and media download support
+
+                var allCtorParameters = extraParameters.Concat(requiredParameters.Select(p => p.decl)).ToArray();
+
+                var ctor = Ctor(Modifier.Public, cls, BaseInitializer(serviceParam))(allCtorParameters)
+                    .WithXmlDoc(XmlDoc.Summary($"Constructs a new {PascalCasedName} request."))
+                    .WithBlockBody(assignments.ToArray());
+
+                // TODO: Body property and GetBody() method
+
+                var methodName = Property(Modifier.Public, ctx.Type<string>(), "MethodName")
+                    .WithGetBody(Name)
+                    .WithXmlDoc(XmlDoc.Summary("Gets the method name"));
+
+                var httpMethod = Property(Modifier.Public, ctx.Type<string>(), "HttpMethod")
+                    .WithGetBody(_restMethod.HttpMethod)
+                    .WithXmlDoc(XmlDoc.Summary("Gets the HTTP method."));
+
+                var restPath = Property(Modifier.Public, ctx.Type<string>(), "RestPath")
+                    .WithGetBody(_restMethod.Path)
+                    .WithXmlDoc(XmlDoc.Summary("Gets the REST path."));
+
+                var initParameters = Method(Modifier.Protected | Modifier.Override, VoidType, "InitParameters")()
+                    .WithBlockBody(
+                        BaseExpression().Call("InitParameters")(),
+                        Parameters.Select(p => p.GenerateInitializer(ctx)).ToArray())
+                    .WithXmlDoc(XmlDoc.Summary($"Initializes {PascalCasedName} parameter list."));
+
+                // TODO: Media downloader members
+
+                cls = cls.AddMembers(ctor);
+                cls = cls.AddMembers(Parameters.SelectMany(p => p.GenerateDeclarations(ctx)).ToArray());
+                cls = cls.AddMembers(methodName, httpMethod, restPath, initParameters);
+            }
             return cls;
         }
     }
