@@ -17,6 +17,7 @@ using Google.Api.Generator.Rest.Models;
 using Google.Api.Generator.Utils;
 using Google.Apis.Discovery.v1.Data;
 using Google.Apis.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -29,12 +30,29 @@ namespace Google.Api.Generator.Rest
     {
         public static IEnumerable<ResultFile> Generate(string discoveryJson)
         {
+            discoveryJson = NormalizeDescriptions(discoveryJson);
+
             var discoveryDescription = NewtonsoftJsonSerializer.Instance.Deserialize<RestDescription>(discoveryJson);
+
             var package = new PackageModel(discoveryDescription);
             yield return GenerateCSharpCode(package);
             yield return GenerateProjectFile(package);
             yield return GenerateNet40Config();
             yield return GenerateNetStandard10Config();
+        }
+
+        private static string NormalizeDescriptions(string discoveryJson)
+        {
+            JObject raw = JObject.Parse(discoveryJson);
+            var descriptions = raw.Descendants()
+                .OfType<JProperty>()
+                .Where(prop => prop.Name == "description" && prop.Value.Type == JTokenType.String);
+            foreach (var description in descriptions)
+            {
+                string text = (string) (description.Value);
+                description.Value = text.Replace("\n", " ");
+            }
+            return raw.ToString();
         }
 
         private static ResultFile GenerateCSharpCode(PackageModel package)
