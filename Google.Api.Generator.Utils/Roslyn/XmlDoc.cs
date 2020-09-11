@@ -79,6 +79,7 @@ namespace Google.Api.Generator.Utils.Roslyn
         public static DocumentationCommentTriviaSyntax RemarksPreFormatted(IEnumerable<string> lines) => Remarks(lines.ToArray()).WithAdditionalAnnotations(Annotations.Preformatted);
         public static DocumentationCommentTriviaSyntax Example(params object[] parts) => XmlDocElement(parts, XmlExampleElement);
         public static DocumentationCommentTriviaSyntax Param(ParameterSyntax param, params object[] parts) => XmlDocElement(parts, x => XmlParamElement(TextNoAt(param), x));
+        public static DocumentationCommentTriviaSyntax Param(string name, params object[] parts) => XmlDocElement(parts, x => XmlParamElement(name, x));
         public static DocumentationCommentTriviaSyntax ParamPreFormatted(ParameterSyntax param, IEnumerable<string> lines) => Param(param, lines.ToArray()).WithAdditionalAnnotations(Annotations.Preformatted);
         public static DocumentationCommentTriviaSyntax Returns(params object[] parts) => XmlDocElement(parts, XmlReturnsElement);
 
