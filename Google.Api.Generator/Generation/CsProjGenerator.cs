@@ -20,9 +20,10 @@ namespace Google.Api.Generator.Generation
 {
     internal static class CsProjGenerator
     {
-        private const string GaxGrpcCoreVersion = "3.0.0-beta01";
-        private const string GrpcCoreVersion = "2.27.0";
-        private const string LroVersion = "2.0.0-beta01";
+        private const string GaxGrpcCoreVersion = "3.1.0";
+        private const string GrpcCoreVersion = "2.32.0";
+        private const string LroVersion = "2.0.0";
+        private const string ProtobufVersion = "3.13.0"; // Required due to incompatibility between GAX and the protoc version used by the bazel rules.
 
         public static string GenerateClient(bool hasLro)
         {
@@ -72,7 +73,8 @@ namespace Google.Api.Generator.Generation
 
   <ItemGroup>
     <PackageReference Include=""Google.Api.Gax.Grpc.GrpcCore"" Version=""{GaxGrpcCoreVersion}"" />
-    <PackageReference Include=""Grpc.Core"" Version=""{GrpcCoreVersion}"" />{packageRefs}
+    <PackageReference Include=""Grpc.Core"" Version=""{GrpcCoreVersion}"" />
+    <PackageReference Include=""Google.Protobuf"" Version=""{ProtobufVersion}"" />{packageRefs}
   </ItemGroup>
 
 </Project>
