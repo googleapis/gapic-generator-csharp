@@ -20,6 +20,7 @@ using Google.Apis.Requests;
 using Google.Apis.Services;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
@@ -213,7 +214,7 @@ namespace Google.Api.Generator.Rest.Models
                 cls = cls.AddMembers(ctor);
 
                 var parameters = _discoveryDoc.Parameters.Select(p => new ParameterModel(p.Key, p.Value))
-                    .OrderBy(p => p.Name)
+                    .OrderBy(p => p.Name, StringComparer.Ordinal)
                     .ToList();
 
                 cls = cls.AddMembers(parameters.SelectMany(p => p.GenerateDeclarations(ctx)).ToArray());
