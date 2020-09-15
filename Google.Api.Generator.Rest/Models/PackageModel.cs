@@ -126,7 +126,8 @@ namespace Google.Api.Generator.Rest.Models
                     .WithGetBody(ApiName)
                     .WithXmlDoc(XmlDoc.Summary("Gets the service name."));
 
-                // TODO: BaseURI without BaseUriOverride, via #if
+                // Note: the following 4 properties have special handling post-generation, in terms
+                // of adding the #if directives in.
                 var baseUri = Property(Modifier.Public | Modifier.Override, ctx.Type<string>(), "BaseUri")
                     .WithGetBody(IdentifierName("BaseUriOverride").NullCoalesce(BaseUri))
                     .WithXmlDoc(XmlDoc.Summary("Gets the service base URI."));
@@ -135,7 +136,6 @@ namespace Google.Api.Generator.Rest.Models
                     .WithGetBody(BasePath)
                     .WithXmlDoc(XmlDoc.Summary("Gets the service base path."));
 
-                // TODO: #if !NET40 for both of these
                 var batchUri = Property(Modifier.Public | Modifier.Override, ctx.Type<string>(), "BatchUri")
                     .WithGetBody(BatchUri)
                     .WithXmlDoc(XmlDoc.Summary("Gets the batch base URI; ", XmlDoc.C("null"), " if unspecified."));
