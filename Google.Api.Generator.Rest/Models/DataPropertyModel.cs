@@ -55,7 +55,7 @@ namespace Google.Api.Generator.Rest.Models
         public PropertyDeclarationSyntax GenerateDeclaration(SourceFileContext ctx)
         {
             // FIXME: Type, and handle DateTime? differently.
-            var property = AutoProperty(Modifier.Public, ctx.Type<string>(), PropertyName, hasSetter: true)
+            var property = AutoProperty(Modifier.Public | Modifier.Virtual, ctx.Type<string>(), PropertyName, hasSetter: true)
                 .WithAttribute(ctx.Type<JsonPropertyAttribute>())(Name);
             if (_schema.Description is object)
             {
