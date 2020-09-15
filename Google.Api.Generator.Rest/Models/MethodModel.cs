@@ -86,7 +86,7 @@ namespace Google.Api.Generator.Rest.Models
             var ctorArguments = new object[] { Field(0, ctx.Type<IClientService>(), "service") }
                 .Concat(parameterDeclarations)
                 .ToArray();
-            var method = Method(Modifier.Public, ctx.Type(RequestTyp), PascalCasedName)(parameterDeclarations.ToArray())
+            var method = Method(Modifier.Public | Modifier.Virtual, ctx.Type(RequestTyp), PascalCasedName)(parameterDeclarations.ToArray())
                 .WithBlockBody(Return(New(ctx.Type(RequestTyp))(ctorArguments)))
                 .WithXmlDoc(docs.ToArray());
             return method;
@@ -96,6 +96,10 @@ namespace Google.Api.Generator.Rest.Models
         {
             // FIXME: Need to specify the type argument for the base request type.
             var cls = Class(Modifier.Public, RequestTyp, ctx.Type(Package.BaseRequestTyp));
+            if (_restMethod.Description is object)
+            {
+                cls = cls.WithXmlDoc(XmlDoc.Summary(_restMethod.Description));
+            }
 
             using (ctx.InClass(RequestTyp))
             {
@@ -121,15 +125,15 @@ namespace Google.Api.Generator.Rest.Models
 
                 // TODO: Body property and GetBody() method
 
-                var methodName = Property(Modifier.Public, ctx.Type<string>(), "MethodName")
+                var methodName = Property(Modifier.Public | Modifier.Override, ctx.Type<string>(), "MethodName")
                     .WithGetBody(Name)
                     .WithXmlDoc(XmlDoc.Summary("Gets the method name"));
 
-                var httpMethod = Property(Modifier.Public, ctx.Type<string>(), "HttpMethod")
+                var httpMethod = Property(Modifier.Public | Modifier.Override, ctx.Type<string>(), "HttpMethod")
                     .WithGetBody(_restMethod.HttpMethod)
                     .WithXmlDoc(XmlDoc.Summary("Gets the HTTP method."));
 
-                var restPath = Property(Modifier.Public, ctx.Type<string>(), "RestPath")
+                var restPath = Property(Modifier.Public | Modifier.Override, ctx.Type<string>(), "RestPath")
                     .WithGetBody(_restMethod.Path)
                     .WithXmlDoc(XmlDoc.Summary("Gets the REST path."));
 
