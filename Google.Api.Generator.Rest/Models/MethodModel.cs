@@ -121,13 +121,13 @@ namespace Google.Api.Generator.Rest.Models
 
                 var ctor = Ctor(Modifier.Public, cls, BaseInitializer(serviceParam))(allCtorParameters)
                     .WithXmlDoc(XmlDoc.Summary($"Constructs a new {PascalCasedName} request."))
-                    .WithBlockBody(assignments.ToArray());
+                    .WithBlockBody(assignments.Concat<object>(new[] { InvocationExpression(IdentifierName("InitParameters")) }).ToArray());
 
                 // TODO: Body property and GetBody() method
 
                 var methodName = Property(Modifier.Public | Modifier.Override, ctx.Type<string>(), "MethodName")
                     .WithGetBody(Name)
-                    .WithXmlDoc(XmlDoc.Summary("Gets the method name"));
+                    .WithXmlDoc(XmlDoc.Summary("Gets the method name."));
 
                 var httpMethod = Property(Modifier.Public | Modifier.Override, ctx.Type<string>(), "HttpMethod")
                     .WithGetBody(_restMethod.HttpMethod)
