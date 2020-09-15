@@ -30,7 +30,7 @@ namespace Testing.ResourceNames
             Unparsed = 0,
 
             /// <summary>A resource name with pattern <c>items/{item_id}</c>.</summary>
-            Item = 1
+            Item = 1,
         }
 
         private static gax::PathTemplate s_item = new gax::PathTemplate("items/{item_id}");
@@ -227,7 +227,7 @@ namespace Testing.ResourceNames
             Unparsed = 0,
 
             /// <summary>A resource name with pattern <c>singular_item</c>.</summary>
-            SingularItem = 1
+            SingularItem = 1,
         }
 
         private static gax::PathTemplate s_singularItem = new gax::PathTemplate("singular_item");
@@ -430,7 +430,7 @@ namespace Testing.ResourceNames
             ItemB = 4,
 
             /// <summary>A resource name with pattern <c>itemsC/{item_c_id=**}</c>.</summary>
-            ItemC = 5
+            ItemC = 5,
         }
 
         private static gax::PathTemplate s_constPattern = new gax::PathTemplate("constPattern");

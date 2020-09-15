@@ -37,7 +37,7 @@ namespace Testing.ResourceNameSeparator
             ItemAItemBDetailsADetailsBDetailsCExtra = 1,
 
             /// <summary>A resource name with pattern <c>as/{a_id}/bs/{b1_id}~{b2_id}~{b3_id}</c>.</summary>
-            AB1B2B3 = 2
+            AB1B2B3 = 2,
         }
 
         private static gax::PathTemplate s_itemAItemBDetailsADetailsBDetailsCExtra = new gax::PathTemplate("items/{item_a_id_item_b_id}/details/{details_a_id_details_b_id_details_c_id}/extra/{extra_id}");

@@ -29,7 +29,7 @@ namespace Testing.ChildResource
             Unparsed = 0,
 
             /// <summary>A resource name with pattern <c>projects/{project}</c>.</summary>
-            Project = 1
+            Project = 1,
         }
 
         private static gax::PathTemplate s_project = new gax::PathTemplate("projects/{project}");
@@ -222,7 +222,7 @@ namespace Testing.ChildResource
             Unparsed = 0,
 
             /// <summary>A resource name with pattern <c>projects/{project}/items/{item_id}</c>.</summary>
-            ProjectItem = 1
+            ProjectItem = 1,
         }
 
         private static gax::PathTemplate s_projectItem = new gax::PathTemplate("projects/{project}/items/{item_id}");
@@ -441,7 +441,7 @@ namespace Testing.ChildResource
             Unparsed = 0,
 
             /// <summary>A resource name with pattern <c>orgs/{org}</c>.</summary>
-            Org = 1
+            Org = 1,
         }
 
         private static gax::PathTemplate s_org = new gax::PathTemplate("orgs/{org}");
@@ -625,7 +625,7 @@ namespace Testing.ChildResource
             Unparsed = 0,
 
             /// <summary>A resource name with pattern <c>depts/{dept}</c>.</summary>
-            Dept = 1
+            Dept = 1,
         }
 
         private static gax::PathTemplate s_dept = new gax::PathTemplate("depts/{dept}");
@@ -822,7 +822,7 @@ namespace Testing.ChildResource
             OrgItem = 2,
 
             /// <summary>A resource name with pattern <c>depts/{dept}/items/{item_id}</c>.</summary>
-            DeptItem = 3
+            DeptItem = 3,
         }
 
         private static gax::PathTemplate s_projectItem = new gax::PathTemplate("projects/{project}/items/{item_id}");
@@ -1127,7 +1127,7 @@ namespace Testing.ChildResource
             OrgItem = 2,
 
             /// <summary>A resource name with pattern <c>depts/{dept}/items/{item_id}</c>.</summary>
-            DeptItem = 3
+            DeptItem = 3,
         }
 
         private static gax::PathTemplate s_projectItem = new gax::PathTemplate("projects/{project}/items/{item_id}");
@@ -1429,7 +1429,7 @@ namespace Testing.ChildResource
             Project = 1,
 
             /// <summary>A resource name with pattern <c>overlaps/{overlap}</c>.</summary>
-            Overlap = 2
+            Overlap = 2,
         }
 
         private static gax::PathTemplate s_project = new gax::PathTemplate("projects/{project}");
@@ -1672,7 +1672,7 @@ namespace Testing.ChildResource
             Org = 1,
 
             /// <summary>A resource name with pattern <c>overlaps/{overlap}</c>.</summary>
-            Overlap = 2
+            Overlap = 2,
         }
 
         private static gax::PathTemplate s_org = new gax::PathTemplate("orgs/{org}");
@@ -1919,7 +1919,7 @@ namespace Testing.ChildResource
             Dept = 3,
 
             /// <summary>A resource name with pattern <c>overlaps/{overlap}</c>.</summary>
-            Overlap = 4
+            Overlap = 4,
         }
 
         private static gax::PathTemplate s_project = new gax::PathTemplate("projects/{project}");
@@ -2236,7 +2236,7 @@ namespace Testing.ChildResource
             DeptItem = 3,
 
             /// <summary>A resource name with pattern <c>overlaps/{overlap}/items/{item_id}</c>.</summary>
-            OverlapItem = 4
+            OverlapItem = 4,
         }
 
         private static gax::PathTemplate s_projectItem = new gax::PathTemplate("projects/{project}/items/{item_id}");
