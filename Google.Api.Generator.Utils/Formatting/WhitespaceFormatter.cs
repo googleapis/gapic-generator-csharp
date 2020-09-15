@@ -599,8 +599,13 @@ namespace Google.Api.Generator.Utils.Formatting
             node = node.WithOpenBraceToken(node.OpenBraceToken.WithLeadingTrivia(NewLine, _indentTrivia).WithTrailingNewLine());
             node = node.WithCloseBraceToken(node.CloseBraceToken.WithLeadingTrivia(_indentTrivia).WithTrailingNewLine());
             node = node.WithMembers(SeparatedList(
-                node.Members.SkipLast(1).Concat(node.Members.TakeLast(1).Select(x => x.WithTrailingNewLine())),
-                node.Members.SkipLast(1).Select(_ => Token(SyntaxKind.CommaToken).WithTrailingNewLine(count: 2))));
+                node.Members,
+                // Members before the final one have a comma and two new lines.
+                // The final member only has a single new line, but does still have the comma.
+                // The comma is optional, but means that there's no diff on that line when a new member is added.
+                node.Members
+                    .SkipLast(1).Select(_ => Token(SyntaxKind.CommaToken).WithTrailingNewLine(count: 2))
+                    .Concat(new[] { Token(SyntaxKind.CommaToken).WithTrailingNewLine(count: 1) })));
             return node;
         }
 
