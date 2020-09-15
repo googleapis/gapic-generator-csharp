@@ -62,7 +62,7 @@ namespace Google.Api.Generator.Rest.Models
         public ClassDeclarationSyntax GenerateClass(SourceFileContext ctx)
         {
             var cls = Class(Modifier.Public, Typ)
-                .WithXmlDoc(XmlDoc.Summary($"The {Name} collection of methods."));
+                .WithXmlDoc(XmlDoc.Summary($"The \"{Name}\" collection of methods."));
             using (ctx.InClass(Typ))
             {
                 var resourceString = Field(Modifier.Private | Modifier.Const, ctx.Type<string>(), "Resource")
