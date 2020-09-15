@@ -316,7 +316,7 @@ namespace Google.Api.Generator.Tests
             // Enum members without value.
             C,
 
-            D
+            D,
         }
 
         // Test enum with attributes.
@@ -327,7 +327,7 @@ namespace Google.Api.Generator.Tests
             A = 1,
 
             [Description("DescriptionB")]
-            B = 2
+            B = 2,
         }
         // TEST_SOURCE_END
 

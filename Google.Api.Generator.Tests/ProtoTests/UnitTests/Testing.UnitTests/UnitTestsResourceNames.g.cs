@@ -30,7 +30,7 @@ namespace Testing.UnitTests
             Unparsed = 0,
 
             /// <summary>A resource name with pattern <c>items/{item_id}/parts/{part_id}</c>.</summary>
-            ItemPart = 1
+            ItemPart = 1,
         }
 
         private static gax::PathTemplate s_itemPart = new gax::PathTemplate("items/{item_id}/parts/{part_id}");
@@ -241,7 +241,7 @@ namespace Testing.UnitTests
             RootAItem = 1,
 
             /// <summary>A resource name with pattern <c>root/{root_b_id}/items/{item_id}</c>.</summary>
-            RootBItem = 2
+            RootBItem = 2,
         }
 
         private static gax::PathTemplate s_rootAItem = new gax::PathTemplate("root/{root_a_id}/items/{item_id}");
