@@ -15,7 +15,11 @@
 using Google.Api.Generator.Utils;
 using Google.Api.Generator.Utils.Roslyn;
 using Google.Apis.Discovery.v1.Data;
+using Google.Apis.Requests;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using static Google.Api.Generator.Utils.Roslyn.RoslynBuilder;
 
 namespace Google.Api.Generator.Rest.Models
@@ -26,26 +30,47 @@ namespace Google.Api.Generator.Rest.Models
 
         public PackageModel Package { get; }
 
-        // TODO: work out what this should be.
-        public string Parent => null;
+        /// <summary>
+        /// The ID for the model, used in "$ref" properties.
+        /// </summary>
+        public string Id { get; }
+
+        /// <summary>
+        /// The parent of this data model, if any. (This could be a method
+        /// or another data model.)
+        /// </summary>
+        public object Parent { get; }
         public string Name { get; }
         public Typ Typ { get; }
+        public IReadOnlyList<DataModel> Children { get; }
+        public IReadOnlyList<DataPropertyModel> Properties { get; }
 
-        public DataModel(PackageModel package, string name, JsonSchema schema)
+        public DataModel(PackageModel package, object parent, string name, JsonSchema schema)
         {
+            // TODO: Not sure about this...
+            Id = name;
             Package = package;
+            Parent = parent;
             Name = name;
+            // FIXME: Nested models
             Typ = Typ.Manual(Package.PackageName, Name);
+            Properties = schema.Properties.ToReadOnlyList(pair => new DataPropertyModel(this, pair.Key, pair.Value));
             _schema = schema;
         }
 
         public ClassDeclarationSyntax GenerateClass(SourceFileContext ctx)
         {
-            var cls = Class(Modifier.Public, Typ);
-            if (_schema.Description is string description)
+            var cls = Class(Modifier.Public, Typ, Parent is null ? Array.Empty<TypeSyntax>() : new[] { ctx.Type<IDirectResponseSchema>() });
+            using (ctx.InClass(Typ))
             {
-                cls = cls.WithXmlDoc(XmlDoc.Summary(description));
+                if (_schema.Description is string description)
+                {
+                    cls = cls.WithXmlDoc(XmlDoc.Summary(description));
+                    cls = cls.AddMembers(Properties.Select(p => p.GenerateDeclaration(ctx)).ToArray());
+                }
             }
+
+            // TODO: Add ETag if it doesn't otherwise exist. (Why?)
             return cls;
         }
 

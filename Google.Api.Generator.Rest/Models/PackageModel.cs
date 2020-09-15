@@ -77,8 +77,8 @@ namespace Google.Api.Generator.Rest.Models
             BatchPath = discoveryDoc.BatchPath;
             Title = discoveryDoc.Title;
             // TODO: Add in the anonymous schemas from method definitions
-            DataModels = discoveryDoc.Schemas.ToReadOnlyList(pair => new DataModel(this, pair.Key, pair.Value));
-            Methods = discoveryDoc.Methods.ToReadOnlyList(pair => new MethodModel(this, null, pair.Key, pair.Value));            
+            DataModels = discoveryDoc.Schemas.ToReadOnlyList(pair => new DataModel(this, parent: null, name: pair.Key, schema: pair.Value));
+            Methods = discoveryDoc.Methods.ToReadOnlyList(pair => new MethodModel(this, null, pair.Key, pair.Value));
         }
 
         /// <summary>
