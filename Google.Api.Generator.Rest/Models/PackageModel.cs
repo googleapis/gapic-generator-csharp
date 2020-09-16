@@ -212,7 +212,7 @@ namespace Google.Api.Generator.Rest.Models
                 ctx.Type(Typ.Generic(typeof(ClientServiceRequest<>), Typ.GenericParam("TResponse"))))
                 .WithXmlDoc(XmlDoc.Summary($"A base abstract class for {ClassName} requests."));
 
-            using (ctx.InClass(cls))
+            using (ctx.InClass(BaseRequestTyp))
             {
                 var serviceParam = Parameter(ctx.Type<IClientService>(), "service");
                 var ctor = Ctor(Modifier.Protected, cls, BaseInitializer(serviceParam))(serviceParam)
