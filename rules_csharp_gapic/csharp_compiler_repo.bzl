@@ -27,66 +27,63 @@ csharp_compiler = repository_rule(
     implementation = _csharp_compiler_impl,
 )
 
+def _find_ws_root(path):
+    for _ in range(10):
+        if path.get_child('WORKSPACE').exists or path.get_child('WORKSPACE.bazel').exists:
+            return path
+        path = path.dirname
+    fail("Cannot find workspace root.")
+
 def _dotnet_restore_impl(ctx):
-    if ctx.attr.src_base and ctx.attr.csproj_name:
-        if ctx.attr.csproj:
-          fail("csproj cannot be specified as well as src_base and csproj_name")
-        # See: https://github.com/bazelbuild/bazel/issues/3901
-        csproj = ctx.path(Label(str(ctx.attr.src_base) + "/" + ctx.attr.csproj_name))
-        src_base_path = str(csproj.dirname)
-        csproj_name = ctx.attr.csproj_name
-    elif ctx.attr.csproj:
-        if ctx.attr.src_base or ctx.attr.csproj_name:
-            fail("csproj cannot be specified as well as src_base and csproj_name")
-        csproj = ctx.path(ctx.attr.csproj)
-        src_base_path = str(csproj.dirname)
-        csproj_name = csproj.basename
-    else:
-        fail("no csproj specified")
-    csharp_compiler_path = ctx.path(ctx.attr.csharp_compiler)
-    # The entire directory tree should really be copied,
-    # but doing so causes a bazel error.
-    # So only copy the single csproj for now.
-    ctx.execute(["cp", src_base_path+"/"+csproj_name, "."])
-    ctx.execute(["mkdir", "packages"])
+    ws_path = _find_ws_root(ctx.path(ctx.attr.csproj).dirname)
+    csproj_relative = str(ctx.path(ctx.attr.csproj))[len(str(ws_path)):]
+    # Copy entire source workspace into the restored repo, then run `dotnet restore`.
+    # The entire workspace is required, as the entry csproj may reference
+    # arbitrary other files and projects.
+    # This copy is also used during the build phase, as it has all files available
+    # and arbitrary files may be accessed.
+    ctx.execute(["mkdir", "restore"])
+    ctx.execute(["mkdir", "restore/packages"])
     ctx.execute(["mkdir", "local_tmp"])
-    if ctx.attr.runtime:
-        runtime_arg = ["--runtime=" + ctx.attr.runtime]
-    else:
-        runtime_arg = []
-    res = ctx.execute(
-        [
-            csharp_compiler_path,
+    ctx.execute(["cp", "-rHs", "--preserve=links", str(ws_path), "restore"])
+    ctx.execute(["mv", "restore/" + ws_path.basename, "restore/src"])
+    command = [
+            str(ctx.path(ctx.attr.csharp_compiler)),
             "restore",
-            csproj_name,
+            "restore/src" + csproj_relative,
+            "--packages=restore/packages",
             "--verbosity=quiet",
-            "--packages=packages",
-        ] + runtime_arg,
-        environment = {
-            "DOTNET_CLI_HOME": "./local_tmp/",
-            "DOTNET_SKIP_FIRST_TIME_EXPERIENCE": "1",
-            "DOTNET_CLI_TELEMETRY_OPTOUT": "1",
-        },
-    )
+        ]
+    for _ in range(3):
+        # This is flakey for unknown reason(s).
+        # So try it up to three times
+        res = ctx.execute(
+            command,
+            environment = {
+                "DOTNET_CLI_HOME": str(ctx.path('.')) + "/local_tmp/",
+                "DOTNET_SKIP_FIRST_TIME_EXPERIENCE": "1",
+                "DOTNET_CLI_TELEMETRY_OPTOUT": "1",
+                "DOTNET_NOLOGO": "1",
+            },
+        )
+        if res.return_code == 0:
+            break
     if res.return_code != 0:
-        fail("Failed to execute command: `{command}`\nExit Code: {code}\nSTDERR: {stderr}\n".format(
-            command = "dotnet",
+        fail("Failed to execute command: `{command}`\nExit Code: {code}\nSTDERR: {stderr}\nSTDOUT: {stdout}".format(
+            command = " ".join(command),
             code = res.return_code,
             stderr = res.stderr,
+            stdout = res.stdout,
         ))
     ctx.file(
         "BUILD",
-        """exports_files(glob(include = ["packages/**", "obj/**"], exclude_directories = 0))"""
+        'exports_files(["restore"])'
     )
 
 dotnet_restore = repository_rule(
     implementation = _dotnet_restore_impl,
     attrs = {
         "csharp_compiler": attr.label(default=Label("@csharp_compiler//:dotnet_compiler/dotnet"), allow_single_file=True, executable=True, cfg="host"),
-        # Specify src_base and csproj_name or only csproj
-        "src_base": attr.label(allow_single_file=True),
-        "csproj_name": attr.string(), # Must be directly in `src_base` directory.
         "csproj": attr.label(allow_single_file=True),
-        "runtime": attr.string(), # Empty to not build a specific native runtime
     },
 )

@@ -31,7 +31,5 @@ def gapic_generator_csharp_repositories():
     maybe(
         dotnet_restore,
         name = "gapic_generator_restore",
-        src_base = "@//:Google.Api.Generator",
-        csproj_name = "Google.Api.Generator.csproj",
-        runtime = "linux-x64",
+        csproj = "@gapic_generator_csharp//:Google.Api.Generator/Google.Api.Generator.csproj",
     )
