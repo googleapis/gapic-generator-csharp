@@ -48,8 +48,8 @@ DOTNET_CLI_HOME="$(pwd)/local_tmp" \
 DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1 \
 DOTNET_CLI_TELEMETRY_OPTOUT=1 \
 DOTNET_NOLOGO=1 \
-$(dirname $0)/run.sh.runfiles/__main__/{csharp_compiler}/dotnet run \
-  --project $(dirname $0)/run.sh.runfiles/__main__/{out}/{csproj_relative} \
+$(dirname $0)/run.sh.runfiles/$(basename $(pwd))/{csharp_compiler}/dotnet run \
+  --project $(dirname $0)/run.sh.runfiles/$(basename $(pwd))/{out}/{csproj_relative} \
   --no-restore --no-build
     """.format(
         csharp_compiler = ctx.file.csharp_compiler.short_path,
