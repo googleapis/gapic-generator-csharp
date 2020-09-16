@@ -13,6 +13,8 @@
 // limitations under the License.
 
 using Google.Api.Generator.Utils;
+using Google.Apis.Discovery.v1.Data;
+using Google.Apis.Util;
 using System;
 using System.Collections.Generic;
 
@@ -41,7 +43,43 @@ namespace Google.Api.Generator.Rest.Models
                 { ("object", null), typeof(object) },
             };
 
-        internal static Typ GetTypFromSchema(string schemaType, string schemaFormat, bool isRequired)
+        internal static Typ GetTypFromSchema(PackageModel package, JsonSchema schema, string name, Typ currentTyp)
+        {
+            // TODO: Additional properties, becoming a dictionary.
+            if (schema.Repeated ?? false)
+            {
+                return Typ.Of<Repeatable<string>>();
+            }
+            if (schema.Ref__ is object)
+            {
+                return package.GetDataModelByReference(schema.Ref__).Typ;
+            }
+            else if (schema.Type == "array")
+            {
+                Typ elementType = GetTypFromSchema(package, schema.Items, name, currentTyp);
+                return Typ.Generic(typeof(IList<>), elementType);
+            }
+            else if (schema.Properties is object)
+            {
+                // Anonymous schema embedded in the current type.
+                return Typ.Nested(currentTyp, name.ToUpperCamelCase() + "Data");
+            }
+            if (schema.Enum__ is object)
+            {
+                Typ enumTyp = Typ.Nested(currentTyp, name.ToUpperCamelCase() + "Enum", isEnum: true);
+                return (schema.Required ?? false) ? enumTyp : Typ.Generic(Typ.Of(typeof(Nullable<>)), enumTyp);
+            }
+            else if (schema.Type is object)
+            {
+                return GetSimpleTypeFromTypeAndFormat(schema.Type, schema.Format, schema.Required ?? false);
+            }
+            else
+            {
+                throw new ArgumentException($"Unhandled data model for {name}");
+            }
+        }
+
+        private static Typ GetSimpleTypeFromTypeAndFormat(string schemaType, string schemaFormat, bool isRequired)
         {
             // Note: we return a Typ rather than a Type as this way we end up with Nullable<bool> etc instead of bool?
             Type requiredType = s_schemaTypeAndFormatToType[(schemaType, schemaFormat)];

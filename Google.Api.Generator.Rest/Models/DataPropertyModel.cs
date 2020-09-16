@@ -15,8 +15,11 @@
 using Google.Api.Generator.Utils;
 using Google.Api.Generator.Utils.Roslyn;
 using Google.Apis.Discovery.v1.Data;
+using Google.Apis.Util;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using static Google.Api.Generator.Utils.Roslyn.RoslynBuilder;
 
 namespace Google.Api.Generator.Rest.Models
@@ -52,16 +55,47 @@ namespace Google.Api.Generator.Rest.Models
             _schema = schema;
         }
 
-        public PropertyDeclarationSyntax GenerateDeclaration(SourceFileContext ctx)
+        public IEnumerable<PropertyDeclarationSyntax> GeneratePropertyDeclarations(SourceFileContext ctx)
         {
-            // FIXME: Type, and handle DateTime? differently.
-            var property = AutoProperty(Modifier.Public | Modifier.Virtual, ctx.Type<string>(), PropertyName, hasSetter: true)
-                .WithAttribute(ctx.Type<JsonPropertyAttribute>())(Name);
-            if (_schema.Description is object)
+            var propertyTyp = SchemaTypes.GetTypFromSchema(Parent.Package, _schema, Name, ctx.CurrentTyp);
+            if (propertyTyp.FullName == "System.Nullable<System.DateTime>")
             {
-                property = property.WithXmlDoc(XmlDoc.Summary(_schema.Description));
+                // DateTime values generate two properties: one raw as a string, and one DateTime version.
+                var rawProperty = AutoProperty(Modifier.Public | Modifier.Virtual, ctx.Type<string>(), PropertyName + "Raw", hasSetter: true)
+                    .WithAttribute(ctx.Type<JsonPropertyAttribute>())(Name);
+                if (_schema.Description is object)
+                {
+                    rawProperty = rawProperty.WithXmlDoc(XmlDoc.Summary(_schema.Description));
+                }
+                yield return rawProperty;
+
+                var valueParameter = Parameter(ctx.Type(propertyTyp), "value");
+                yield return Property(Modifier.Public | Modifier.Virtual, ctx.Type(propertyTyp), PropertyName)
+                    .WithAttribute(ctx.Type<JsonIgnoreAttribute>())()
+                    .WithXmlDoc(XmlDoc.Summary(XmlDoc.SeeAlso(ctx.Type<DateTime>()), " representation of ", rawProperty, "."))
+                    .WithGetBody(Return(ctx.Type(typeof(Utilities)).Call(nameof(Utilities.GetDateTimeFromString))(rawProperty)))
+                    .WithSetBody(rawProperty.Assign(ctx.Type(typeof(Utilities)).Call(nameof(Utilities.GetStringFromDateTime))(valueParameter)));
             }
-            return property;
+            else
+            {
+                var property = AutoProperty(Modifier.Public | Modifier.Virtual, ctx.Type(propertyTyp), PropertyName, hasSetter: true)
+                    .WithAttribute(ctx.Type<JsonPropertyAttribute>())(Name);
+                if (_schema.Description is object)
+                {
+                    property = property.WithXmlDoc(XmlDoc.Summary(_schema.Description));
+                }
+                yield return property;
+            }
+        }
+
+        public IEnumerable<ClassDeclarationSyntax> GenerateAnonymousModels(SourceFileContext ctx)
+        {
+            if ((_schema.Properties ?? _schema.Items?.Properties) is null)
+            {
+                yield break;
+            }
+            var dataModel = new DataModel(Parent.Package, Parent, PropertyName + "Data", _schema);
+            yield return dataModel.GenerateClass(ctx);
         }
     }
 }

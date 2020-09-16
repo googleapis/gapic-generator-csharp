@@ -32,6 +32,7 @@ namespace Google.Api.Generator.Rest.Models
     public class PackageModel
     {
         private readonly RestDescription _discoveryDoc;
+        private readonly Dictionary<string, DataModel> _dataModels = new Dictionary<string, DataModel>();
 
         /// <summary>
         /// The name of the package, suitable for both namespace declarations and the NuGet
@@ -51,6 +52,7 @@ namespace Google.Api.Generator.Rest.Models
         public IReadOnlyList<MethodModel> Methods { get; }
         public IReadOnlyList<DataModel> DataModels { get; }
         public Typ BaseRequestTyp { get; }
+        public Typ GenericBaseRequestTypDef { get; }
         public Typ ServiceTyp { get; }
         public string BaseUri { get; }
         public string BasePath { get; }
@@ -66,19 +68,25 @@ namespace Google.Api.Generator.Rest.Models
             ApiVersion = discoveryDoc.Version;
             PackageName = $"Google.Apis.{ClassName}.{ApiVersion}";
             VersionNoDots = discoveryDoc.Version.Replace('.', '_');
+            DataModels = discoveryDoc.Schemas.ToReadOnlyList(pair => new DataModel(this, parent: null, name: pair.Key, schema: pair.Value));
+
+            // Populate the data model dictionary early, as methods and resources refer to the data model types.
+            foreach (var dm in DataModels)
+            {
+                _dataModels[dm.Id] = dm;
+            }
             Resources = discoveryDoc.Resources.ToReadOnlyList(pair => new ResourceModel(this, parent: null, pair.Key, pair.Value));
             Features = discoveryDoc.Features.ToReadOnlyList();
             // TODO: Ordering?
             AuthScopes = (discoveryDoc.Auth?.Oauth2?.Scopes).ToReadOnlyList(pair => new AuthScope(pair.Key, pair.Value.Description));
             ServiceTyp = Typ.Manual(PackageName, ServiceClassName);
-            BaseRequestTyp = Typ.Generic(Typ.Manual(PackageName, $"{ClassName}BaseServiceRequest"), Typ.GenericParam("TResponse")); 
+            BaseRequestTyp = Typ.Generic(Typ.Manual(PackageName, $"{ClassName}BaseServiceRequest"), Typ.GenericParam("TResponse"));
+            GenericBaseRequestTypDef = Typ.Manual(PackageName, $"{ClassName}BaseServiceRequest");
             BaseUri = discoveryDoc.RootUrl + discoveryDoc.ServicePath;
             BasePath = discoveryDoc.ServicePath;
             BatchUri = discoveryDoc.RootUrl + discoveryDoc.BatchPath;
             BatchPath = discoveryDoc.BatchPath;
             Title = discoveryDoc.Title;
-            // TODO: Add in the anonymous schemas from method definitions
-            DataModels = discoveryDoc.Schemas.ToReadOnlyList(pair => new DataModel(this, parent: null, name: pair.Key, schema: pair.Value));
             Methods = discoveryDoc.Methods.ToReadOnlyList(pair => new MethodModel(this, null, pair.Key, pair.Value));
         }
 
@@ -213,7 +221,7 @@ namespace Google.Api.Generator.Rest.Models
 
                 cls = cls.AddMembers(ctor);
 
-                var parameters = _discoveryDoc.Parameters.Select(p => new ParameterModel(p.Key, p.Value))
+                var parameters = _discoveryDoc.Parameters.Select(p => new ParameterModel(this, p.Key, p.Value, BaseRequestTyp))
                     .OrderBy(p => p.Name, StringComparer.Ordinal)
                     .ToList();
 
@@ -233,5 +241,7 @@ namespace Google.Api.Generator.Rest.Models
         // TODO: The rest...
         public XDocument GenerateProjectFile() =>
             new XDocument(new XElement("Project", new XAttribute("Sdk", "Microsoft.NET.Sdk"), new XAttribute("ToolsVersion", "15.0")));
+
+        internal DataModel GetDataModelByReference(string @ref) => _dataModels[@ref];
     }
 }

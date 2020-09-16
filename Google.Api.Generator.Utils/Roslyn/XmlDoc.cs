@@ -86,6 +86,7 @@ namespace Google.Api.Generator.Utils.Roslyn
         public static DocumentationCommentTriviaSyntax InheritDoc =>
             DocumentationCommentTrivia(SyntaxKind.SingleLineDocumentationCommentTrivia, SingletonList<XmlNodeSyntax>(XmlEmptyElement("inheritdoc")));
 
+        public static XmlNodeSyntax SeeAlso(TypeSyntax cref) => XmlSeeAlsoElement(TypeCref(cref));
         public static XmlNodeSyntax C(string c) => XmlElement("c", SingletonList<XmlNodeSyntax>(XmlText(c)));
         public static XmlNodeSyntax Code(params string[] lines) => XmlElement("code", List(lines.Select(ToNode)));
 
