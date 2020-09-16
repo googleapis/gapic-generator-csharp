@@ -12,4 +12,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-exports_files(["Google.Api.Generator"])
+exports_files(["Google.Api.Generator/Google.Api.Generator.csproj"])
