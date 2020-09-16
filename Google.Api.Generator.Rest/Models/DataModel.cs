@@ -36,41 +36,47 @@ namespace Google.Api.Generator.Rest.Models
         public string Id { get; }
 
         /// <summary>
-        /// The parent of this data model, if any. (This could be a method
-        /// or another data model.)
+        /// The parent of this data model, if any.
         /// </summary>
-        public object Parent { get; }
+        public DataModel Parent { get; }
         public string Name { get; }
         public Typ Typ { get; }
         public IReadOnlyList<DataModel> Children { get; }
         public IReadOnlyList<DataPropertyModel> Properties { get; }
 
-        public DataModel(PackageModel package, object parent, string name, JsonSchema schema)
+        public DataModel(PackageModel package, DataModel parent, string name, JsonSchema schema)
         {
-            // TODO: Not sure about this...
-            Id = name;
+            Id = schema.Id;
             Package = package;
             Parent = parent;
             Name = name;
-            // FIXME: Nested models
-            Typ = Typ.Manual(Package.PackageName, Name);
-            Properties = schema.Properties.ToReadOnlyList(pair => new DataPropertyModel(this, pair.Key, pair.Value));
+            Typ = parent is null ? Typ.Manual(Package.PackageName + ".Data", Name) : Typ.Nested(parent.Typ, Name);
+
+            // We may get a JsonSchema for an array as a nested model. Just use the properties from schema.Items for simplicity.
+            Properties = (schema.Properties ?? schema.Items.Properties).ToReadOnlyList(pair => new DataPropertyModel(this, pair.Key, pair.Value));
             _schema = schema;
         }
 
         public ClassDeclarationSyntax GenerateClass(SourceFileContext ctx)
         {
-            var cls = Class(Modifier.Public, Typ, Parent is null ? Array.Empty<TypeSyntax>() : new[] { ctx.Type<IDirectResponseSchema>() });
+            var cls = Class(Modifier.Public, Typ, Parent is null ? new[] { ctx.Type<IDirectResponseSchema>() } : Array.Empty<TypeSyntax>());
             using (ctx.InClass(Typ))
             {
                 if (_schema.Description is string description)
                 {
                     cls = cls.WithXmlDoc(XmlDoc.Summary(description));
-                    cls = cls.AddMembers(Properties.Select(p => p.GenerateDeclaration(ctx)).ToArray());
+                }
+                cls = cls.AddMembers(Properties.SelectMany(p => p.GeneratePropertyDeclarations(ctx)).ToArray());
+                cls = cls.AddMembers(Properties.SelectMany(p => p.GenerateAnonymousModels(ctx)).ToArray());
+
+                // Top-level data models automatically have an etag property if one isn't otherwise generated.
+                if (Parent is null && !Properties.Any(p => p.Name == "etag"))
+                {
+                    var etag = AutoProperty(Modifier.Public | Modifier.Virtual, ctx.Type<string>(), "ETag", hasSetter: true)
+                        .WithXmlDoc(XmlDoc.Summary("The ETag of the item."));
+                    cls = cls.AddMembers(etag);
                 }
             }
-
-            // TODO: Add ETag if it doesn't otherwise exist. (Why?)
             return cls;
         }
 

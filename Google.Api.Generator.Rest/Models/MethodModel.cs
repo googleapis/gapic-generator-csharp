@@ -37,6 +37,8 @@ namespace Google.Api.Generator.Rest.Models
         public IReadOnlyList<ParameterModel> Parameters { get; }
         public Typ ParentTyp { get; }
         public Typ RequestTyp { get; }
+        public Typ ResponseTyp { get; }
+        public Typ BodyTyp { get; }
         public string Name { get; }
         public string PascalCasedName { get; }
 
@@ -48,17 +50,19 @@ namespace Google.Api.Generator.Rest.Models
             PascalCasedName = name.ToUpperCamelCase();
             ParentTyp = resource?.Typ ?? package.ServiceTyp;
             RequestTyp = Typ.Nested(ParentTyp, $"{PascalCasedName}Request");
-            Parameters = CreateParameterList(package, restMethod);
+            BodyTyp = restMethod.Request is object ? package.GetDataModelByReference(restMethod.Request.Ref__).Typ : null;
+            ResponseTyp = restMethod.Response is object ? package.GetDataModelByReference(restMethod.Response.Ref__).Typ : Typ.Of<string>();
+            Parameters = CreateParameterList(package, restMethod, RequestTyp);
             _restMethod = restMethod;
         }
 
-        private static IReadOnlyList<ParameterModel> CreateParameterList(PackageModel package, RestMethod restMethod)
+        private static IReadOnlyList<ParameterModel> CreateParameterList(PackageModel package, RestMethod restMethod, Typ parentTyp)
         {
             var parameterOrder = restMethod.ParameterOrder ?? new List<string>();
             // TODO: Skip the Alt parameter
             // TODO: Handle the body parameter if restMethod.Request is non-null
             return (restMethod.Parameters ?? new Dictionary<string, JsonSchema>())
-                .Select(pair => new ParameterModel(pair.Key, pair.Value))
+                .Select(pair => new ParameterModel(package, pair.Key, pair.Value, parentTyp))
                 .OrderBy(p => !p.IsRequired)
                 .ThenBy(p => parameterOrder.IndexOf(p.Name))
                 .ToList()
@@ -75,14 +79,18 @@ namespace Google.Api.Generator.Rest.Models
         {
             var docs = new List<DocumentationCommentTriviaSyntax>();
             var methodParameters = Parameters.TakeWhile(p => p.IsRequired).ToList();
-            var parameterDeclarations = methodParameters.Select(p => Parameter(ctx.Type(p.Typ), p.Name)); 
+            var parameterDeclarations = methodParameters.Select(p => Parameter(ctx.Type(p.Typ), p.CodeParameterName)).ToList();
             if (_restMethod.Description is object)
             {
                 docs.Add(XmlDoc.Summary(_restMethod.Description));
             }
             docs.AddRange(methodParameters.Zip(parameterDeclarations).Select(pair => XmlDoc.Param(pair.Second, pair.First.Description)));
+            if (BodyTyp is object)
+            {
+                parameterDeclarations.Insert(0, Parameter(ctx.Type(BodyTyp), "body"));
+                docs.Insert(1, XmlDoc.Param(parameterDeclarations[0], "The body of the request."));
+            }
 
-            // TODO: "body" argument if necessary.
             var ctorArguments = new object[] { Field(0, ctx.Type<IClientService>(), "service") }
                 .Concat(parameterDeclarations)
                 .ToArray();
@@ -94,8 +102,8 @@ namespace Google.Api.Generator.Rest.Models
 
         private ClassDeclarationSyntax GenerateRequestType(SourceFileContext ctx)
         {
-            // FIXME: Need to specify the type argument for the base request type.
-            var cls = Class(Modifier.Public, RequestTyp, ctx.Type(Package.BaseRequestTyp));
+            var baseType = ctx.Type(Typ.Generic(Package.GenericBaseRequestTypDef, ResponseTyp));
+            var cls = Class(Modifier.Public, RequestTyp, baseType);
             if (_restMethod.Description is object)
             {
                 cls = cls.WithXmlDoc(XmlDoc.Summary(_restMethod.Description));
@@ -105,25 +113,43 @@ namespace Google.Api.Generator.Rest.Models
             {
                 // Service and optionally "body"
                 var serviceParam = Parameter(ctx.Type<IClientService>(), "service");
+                ParameterSyntax bodyParam = null;
                 var extraParameters = new List<ParameterSyntax> { serviceParam };
-                // TODO: "body"
+
+                var bodyDeclarations = new MemberDeclarationSyntax[0];
+                if (BodyTyp is object)
+                {
+                    var bodyProperty = AutoProperty(Modifier.None, ctx.Type(BodyTyp), "Body", hasSetter: true)
+                        .WithXmlDoc(XmlDoc.Summary("Gets or sets the body of this request."));
+                    var bodyMethod = Method(Modifier.Protected | Modifier.Override, ctx.Type<object>(), "GetBody")()
+                        .WithBody(Return(bodyProperty))
+                        .WithXmlDoc(XmlDoc.Summary("Returns the body of the request."));
+                    bodyDeclarations = new MemberDeclarationSyntax[] { bodyProperty, bodyMethod };
+                    bodyParam = Parameter(ctx.Type(BodyTyp), "body");
+                    extraParameters.Add(bodyParam);
+                }
 
                 var requiredParameters = Parameters
                     .TakeWhile(p => p.IsRequired)
-                    .Select(p => (param: p, decl: Parameter(ctx.Type(p.Typ), p.Name)))
+                    .Select(p => (param: p, decl: Parameter(ctx.Type(p.Typ), p.CodeParameterName)))
                     .ToList();
 
                 var assignments = requiredParameters
-                    .Select(p => Field(0, ctx.Type(p.param.Typ), p.param.PropertyName).Assign(p.decl));
-                // TODO: Add body and media download support
+                    .Select(p => Field(0, ctx.Type(p.param.Typ), p.param.PropertyName).Assign(p.decl)).ToList();
+
+                if (BodyTyp is object)
+                {
+                    var bodyProperty = (PropertyDeclarationSyntax) bodyDeclarations[0];
+                    assignments.Add(bodyProperty.Assign(bodyParam));
+                }
+
+                // TODO: Add media download support
 
                 var allCtorParameters = extraParameters.Concat(requiredParameters.Select(p => p.decl)).ToArray();
 
                 var ctor = Ctor(Modifier.Public, cls, BaseInitializer(serviceParam))(allCtorParameters)
                     .WithXmlDoc(XmlDoc.Summary($"Constructs a new {PascalCasedName} request."))
                     .WithBlockBody(assignments.Concat<object>(new[] { InvocationExpression(IdentifierName("InitParameters")) }).ToArray());
-
-                // TODO: Body property and GetBody() method
 
                 var methodName = Property(Modifier.Public | Modifier.Override, ctx.Type<string>(), "MethodName")
                     .WithGetBody(Name)
@@ -147,6 +173,7 @@ namespace Google.Api.Generator.Rest.Models
 
                 cls = cls.AddMembers(ctor);
                 cls = cls.AddMembers(Parameters.SelectMany(p => p.GenerateDeclarations(ctx)).ToArray());
+                cls = cls.AddMembers(bodyDeclarations);
                 cls = cls.AddMembers(methodName, httpMethod, restPath, initParameters);
             }
             return cls;

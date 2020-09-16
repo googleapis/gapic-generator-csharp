@@ -16,7 +16,6 @@ using Google.Api.Generator.Utils;
 using Google.Api.Generator.Utils.Roslyn;
 using Google.Apis.Discovery.v1.Data;
 using Google.Apis.Util;
-using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
@@ -30,19 +29,24 @@ namespace Google.Api.Generator.Rest.Models
     public class ParameterModel
     {
         private readonly JsonSchema _schema;
+        private readonly PackageModel _package;
 
         public RequestParameterType Location { get; }
         public string Name { get; }
+        public string CodeParameterName { get; }
         public string PropertyName { get; }
         public EnumModel EnumModel { get; }
         public bool IsRequired => _schema.Required ?? false;
         public bool IsRepeated => _schema.Repeated ?? false;
-        public Typ Typ { get; }
         public string Description => _schema.Description;
+        public Typ Typ { get; }
 
-        public ParameterModel(string name, JsonSchema schema)
+        public ParameterModel(PackageModel package, string name, JsonSchema schema, Typ parentTyp)
         {
+            _package = package;
             Name = name;
+            // TODO: Move this to a helper method and make sure we apply it consistently.
+            CodeParameterName = Keywords.IsKeyword(name) ? package.ApiName + name.ToUpperCamelCase() : name;
             PropertyName = name.ToUpperCamelCase();
             Location = schema.Location switch
             {
@@ -52,28 +56,12 @@ namespace Google.Api.Generator.Rest.Models
             };
             EnumModel = schema.Enum__ is object ? new EnumModel(name, schema) : null;
             _schema = schema;
-            // FIXME
-            Typ = Typ.Of<string>();
+            Typ = SchemaTypes.GetTypFromSchema(package, schema, name, currentTyp: parentTyp);
         }
 
         private PropertyDeclarationSyntax GenerateProperty(SourceFileContext ctx)
         {
-            Typ propertyTyp;
-            if (EnumModel is object)
-            {                
-                Typ enumTyp = Typ.Nested(ctx.CurrentTyp, EnumModel.TypeName, isEnum: true);
-                propertyTyp = IsRequired ? enumTyp : Typ.Generic(Typ.Of(typeof(Nullable<>)), enumTyp);
-            }
-            else if (IsRepeated)
-            {
-                propertyTyp = Typ.Of<Repeatable<string>>();
-            }
-            else
-            {
-                propertyTyp = SchemaTypes.GetTypFromSchema(_schema.Type, _schema.Format, IsRequired);
-            }
-            var propertyType = ctx.Type(propertyTyp);
-
+            var propertyType = ctx.Type(Typ);
             var locationExpression = ctx.Type<RequestParameterType>().Access(Location.ToString());
             var property = AutoProperty(Modifier.Public | Modifier.Virtual, propertyType, PropertyName)
                 .WithAttribute(ctx.Type<RequestParameterAttribute>())(Name, locationExpression);

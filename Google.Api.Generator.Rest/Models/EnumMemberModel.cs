@@ -37,6 +37,11 @@ namespace Google.Api.Generator.Rest.Models
             {
                 MemberName = "Value" + MemberName;
             }
+            // Not really needed here, as the Pascal case version won't be a keyword, but...
+            else if (Keywords.IsKeyword(value))
+            {
+                MemberName += "__";
+            }
             Description = description;
         }
 
