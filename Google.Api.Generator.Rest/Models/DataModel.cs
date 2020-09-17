@@ -39,22 +39,23 @@ namespace Google.Api.Generator.Rest.Models
         /// The parent of this data model, if any.
         /// </summary>
         public DataModel Parent { get; }
-        public string Name { get; }
         public Typ Typ { get; }
+        public bool IsArray => _schema.Type == "array";
+
         public IReadOnlyList<DataModel> Children { get; }
         public IReadOnlyList<DataPropertyModel> Properties { get; }
 
         public DataModel(PackageModel package, DataModel parent, string name, JsonSchema schema)
         {
+            _schema = schema;
             Id = schema.Id;
             Package = package;
             Parent = parent;
-            Name = name;
-            Typ = parent is null ? Typ.Manual(Package.PackageName + ".Data", Name) : Typ.Nested(parent.Typ, Name);
+            string className = schema.Id is object && IsArray ? name + "Items" : name;
+            Typ = parent is null ? Typ.Manual(Package.PackageName + ".Data", className) : Typ.Nested(parent.Typ, className);
 
             // We may get a JsonSchema for an array as a nested model. Just use the properties from schema.Items for simplicity.
             Properties = (schema.Properties ?? schema.Items.Properties).ToReadOnlyList(pair => new DataPropertyModel(this, pair.Key, pair.Value));
-            _schema = schema;
         }
 
         public ClassDeclarationSyntax GenerateClass(SourceFileContext ctx)

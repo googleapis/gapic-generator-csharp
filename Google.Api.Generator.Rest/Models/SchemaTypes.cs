@@ -45,14 +45,14 @@ namespace Google.Api.Generator.Rest.Models
 
         internal static Typ GetTypFromSchema(PackageModel package, JsonSchema schema, string name, Typ currentTyp)
         {
-            // TODO: Additional properties, becoming a dictionary.
             if (schema.Repeated ?? false)
             {
                 return Typ.Of<Repeatable<string>>();
             }
             if (schema.Ref__ is object)
             {
-                return package.GetDataModelByReference(schema.Ref__).Typ;
+                var model = package.GetDataModelByReference(schema.Ref__);
+                return model.IsArray ? Typ.Generic(typeof(IList<>), model.Typ) : model.Typ;
             }
             else if (schema.Type == "array")
             {
