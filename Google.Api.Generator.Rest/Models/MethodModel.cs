@@ -47,7 +47,7 @@ namespace Google.Api.Generator.Rest.Models
             Package = package;
             Resource = resource;
             Name = name;
-            PascalCasedName = name.ToUpperCamelCase();
+            PascalCasedName = name.ToMemberName();
             ParentTyp = resource?.Typ ?? package.ServiceTyp;
             RequestTyp = Typ.Nested(ParentTyp, $"{PascalCasedName}Request");
             BodyTyp = restMethod.Request is object ? package.GetDataModelByReference(restMethod.Request.Ref__).Typ : null;

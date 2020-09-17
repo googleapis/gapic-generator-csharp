@@ -17,7 +17,6 @@ using Google.Api.Generator.Utils.Roslyn;
 using Google.Apis.Discovery.v1.Data;
 using Google.Apis.Services;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using static Google.Api.Generator.Utils.Roslyn.RoslynBuilder;
@@ -47,8 +46,8 @@ namespace Google.Api.Generator.Rest.Models
         {
             Package = package;
             Name = name;
-            PropertyName = package.ToClassName(name);
-            ClassName = $"{PropertyName}Resource";
+            PropertyName = name.ToMemberName();
+            ClassName = name.ToClassName(package) + "Resource";
             Parent = parent;
             Typ = parent is null ? Typ.Manual(package.PackageName, ClassName) : Typ.Nested(parent.Typ, ClassName);
             Subresources = discoveryResource.Resources.ToReadOnlyList(pair => new ResourceModel(package, this, pair.Key, pair.Value));

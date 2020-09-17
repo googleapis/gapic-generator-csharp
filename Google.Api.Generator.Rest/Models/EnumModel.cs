@@ -36,7 +36,7 @@ namespace Google.Api.Generator.Rest.Models
             IList<string> values = schema.Enum__;
             IList<string> description = schema.EnumDescriptions;
             Description = schema.Description;
-            TypeName = name.ToUpperCamelCase() + "Enum";
+            TypeName = name.ToMemberName() + "Enum";
             Members = schema.Enum__
                 .Zip(schema.EnumDescriptions)
                 .ToReadOnlyList(pair => new EnumMemberModel(pair.First, pair.Second));
