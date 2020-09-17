@@ -67,7 +67,6 @@ namespace Google.Api.Generator.Rest.Models
                     cls = cls.WithXmlDoc(XmlDoc.Summary(description));
                 }
                 cls = cls.AddMembers(Properties.SelectMany(p => p.GeneratePropertyDeclarations(ctx)).ToArray());
-                cls = cls.AddMembers(Properties.SelectMany(p => p.GenerateAnonymousModels(ctx)).ToArray());
 
                 // Top-level data models automatically have an etag property if one isn't otherwise generated.
                 if (Parent is null && !Properties.Any(p => p.Name == "etag"))
@@ -76,6 +75,8 @@ namespace Google.Api.Generator.Rest.Models
                         .WithXmlDoc(XmlDoc.Summary("The ETag of the item."));
                     cls = cls.AddMembers(etag);
                 }
+
+                cls = cls.AddMembers(Properties.SelectMany(p => p.GenerateAnonymousModels(ctx)).ToArray());
             }
             return cls;
         }
