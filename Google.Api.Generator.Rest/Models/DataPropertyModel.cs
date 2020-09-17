@@ -51,7 +51,7 @@ namespace Google.Api.Generator.Rest.Models
             Parent = parent;
             Name = name;
             // Not sure why this special-casing exists in the template, but it does...
-            PropertyName = name == "etag" && parent.Parent is null ? "ETag" : name.ToUpperCamelCase();
+            PropertyName = name == "etag" && parent.Parent is null ? "ETag" : name.ToMemberName();
             _schema = schema;
         }
 

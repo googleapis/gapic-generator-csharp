@@ -38,7 +38,7 @@ namespace Google.Api.Generator.Rest.Models
             {
                 value = value[HttpsPrefix.Length..];
             }
-            Name = value.ToUpperCamelCase();
+            Name = value.ToMemberName();
         }
     }
 }

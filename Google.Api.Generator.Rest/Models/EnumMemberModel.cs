@@ -32,16 +32,7 @@ namespace Google.Api.Generator.Rest.Models
         public EnumMemberModel(string value, string description)
         {
             OriginalValue = value;
-            MemberName = value.ToUpperCamelCase();
-            if (char.IsDigit(MemberName[0]))
-            {
-                MemberName = "Value" + MemberName;
-            }
-            // Not really needed here, as the Pascal case version won't be a keyword, but...
-            else if (Keywords.IsKeyword(value))
-            {
-                MemberName += "__";
-            }
+            MemberName = value.ToMemberName();
             Description = description;
         }
 

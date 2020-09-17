@@ -63,7 +63,7 @@ namespace Google.Api.Generator.Rest.Models
         {
             _discoveryDoc = discoveryDoc;
             ApiName = discoveryDoc.Name;
-            ClassName = ToClassName(discoveryDoc.CanonicalName ?? discoveryDoc.Name);
+            ClassName = (discoveryDoc.CanonicalName ?? discoveryDoc.Name).ToClassName(this);
             ServiceClassName = $"{ClassName}Service";
             ApiVersion = discoveryDoc.Version;
             PackageName = $"Google.Apis.{ClassName}.{ApiVersion}";
@@ -88,21 +88,6 @@ namespace Google.Api.Generator.Rest.Models
             BatchPath = discoveryDoc.BatchPath;
             Title = discoveryDoc.Title;
             Methods = discoveryDoc.Methods.ToReadOnlyList(pair => new MethodModel(this, null, pair.Key, pair.Value));
-        }
-
-        /// <summary>
-        /// Equivalent to ToClassName in csharp_generator.py
-        /// </summary>
-        /// <param name="text"></param>
-        /// <returns></returns>
-        internal string ToClassName(string text)
-        {
-            if (Keywords.IsKeyword(text))
-            {
-                return PackageName.ToUpperCamelCase() + text.ToUpperCamelCase();
-            }
-            string[] bits = text.Split('.');
-            return string.Join('.', bits.Select(bit => bit.ToUpperCamelCase()));
         }
 
         public ClassDeclarationSyntax GenerateServiceClass(SourceFileContext ctx)

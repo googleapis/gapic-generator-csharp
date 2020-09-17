@@ -22,16 +22,16 @@ namespace Google.Api.Generator.Utils
         private static char MaybeForceCase(char c, bool? toUpper) =>
             toUpper is bool upper ? upper ? char.ToUpperInvariant(c) : char.ToLowerInvariant(c) : c;
 
-        private static string Camelizer(string s, bool firstUpper, bool forceAllChars) =>
+        private static string Camelizer(string s, bool firstUpper, bool forceAllChars, bool? upperAfterDigit) =>
             s.Aggregate((upper: (bool?)firstUpper, prev: '\0', sb: new StringBuilder()), (acc, c) =>
                 !char.IsLetterOrDigit(c) ?
                     (acc.sb.Length > 0 ? true : firstUpper, c, acc.sb) :
-                    (char.IsDigit(c) ? true : forceAllChars ? (bool?)false : null, c,
+                    (char.IsDigit(c) ? upperAfterDigit : forceAllChars ? (bool?)false : null, c,
                         acc.sb.Append(MaybeForceCase(c, char.IsLower(acc.prev) && char.IsUpper(c) ? true : acc.upper))),
                 acc => acc.sb.ToString());
 
-        public static string ToLowerCamelCase(this string s) => Camelizer(s, firstUpper: false, forceAllChars: false);
-        public static string ToUpperCamelCase(this string s, bool forceAllChars = false) => Camelizer(s, firstUpper: true, forceAllChars);
+        public static string ToLowerCamelCase(this string s) => Camelizer(s, firstUpper: false, forceAllChars: false, upperAfterDigit: true);
+        public static string ToUpperCamelCase(this string s, bool forceAllChars = false, bool? upperAfterDigit = true) => Camelizer(s, firstUpper: true, forceAllChars, upperAfterDigit);
 
         public static string RemoveSuffix(this string s, string suffix) => s.EndsWith(suffix) ? s.Substring(0, s.Length - suffix.Length) : s;
     }

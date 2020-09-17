@@ -45,9 +45,10 @@ namespace Google.Api.Generator.Rest.Models
         {
             _package = package;
             Name = name;
-            // TODO: Move this to a helper method and make sure we apply it consistently.
-            CodeParameterName = Keywords.IsKeyword(name) ? package.ApiName + name.ToUpperCamelCase() : name;
-            PropertyName = name.ToUpperCamelCase();
+            CodeParameterName = name.ToLocalVariableName(package);
+
+            // It's unclear why these properties don't get the "__" treatment, but apparently they don't.
+            PropertyName = name.ToMemberName(addUnderscoresToEscape: false);
             Location = schema.Location switch
             {
                 "query" => RequestParameterType.Query,

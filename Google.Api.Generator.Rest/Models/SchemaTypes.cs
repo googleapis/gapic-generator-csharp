@@ -62,11 +62,16 @@ namespace Google.Api.Generator.Rest.Models
             else if (schema.Properties is object)
             {
                 // Anonymous schema embedded in the current type.
-                return Typ.Nested(currentTyp, name.ToUpperCamelCase() + "Data");
+                return Typ.Nested(currentTyp, name.ToClassName(package) + "Data");
+            }
+            else if (schema.AdditionalProperties is object)
+            {
+                var valueTyp = GetTypFromSchema(package, schema.AdditionalProperties, schema.AdditionalProperties.Id ?? name + "Element", currentTyp);
+                return Typ.Generic(Typ.Of(typeof(IDictionary<,>)), Typ.Of<string>(), valueTyp);
             }
             if (schema.Enum__ is object)
             {
-                Typ enumTyp = Typ.Nested(currentTyp, name.ToUpperCamelCase() + "Enum", isEnum: true);
+                Typ enumTyp = Typ.Nested(currentTyp, name.ToClassName(package) + "Enum", isEnum: true);
                 return (schema.Required ?? false) ? enumTyp : Typ.Generic(Typ.Of(typeof(Nullable<>)), enumTyp);
             }
             else if (schema.Type is object)
