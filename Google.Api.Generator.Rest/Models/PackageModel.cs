@@ -90,6 +90,11 @@ namespace Google.Api.Generator.Rest.Models
             Methods = discoveryDoc.Methods.ToReadOnlyList(pair => new MethodModel(this, null, pair.Key, pair.Value));
         }
 
+        public IReadOnlyList<ParameterModel> CreateParameterList(Typ baseTyp) =>
+            _discoveryDoc.Parameters.Select(p => new ParameterModel(this, p.Key, p.Value, baseTyp))
+                .OrderBy(p => p.Name, StringComparer.Ordinal)
+                .ToList();
+
         public ClassDeclarationSyntax GenerateServiceClass(SourceFileContext ctx)
         {
             var cls = Class(Modifier.Public, ServiceTyp, ctx.Type<BaseClientService>()).WithXmlDoc(XmlDoc.Summary($"The {ClassName} Service."));
@@ -204,12 +209,9 @@ namespace Google.Api.Generator.Rest.Models
                     .WithBody()
                     .WithXmlDoc(XmlDoc.Summary($"Constructs a new {ClassName}BaseServiceRequest instance."));
 
+                var parameters = CreateParameterList(BaseRequestTyp);
+
                 cls = cls.AddMembers(ctor);
-
-                var parameters = _discoveryDoc.Parameters.Select(p => new ParameterModel(this, p.Key, p.Value, BaseRequestTyp))
-                    .OrderBy(p => p.Name, StringComparer.Ordinal)
-                    .ToList();
-
                 cls = cls.AddMembers(parameters.SelectMany(p => p.GenerateDeclarations(ctx)).ToArray());
 
                 var initParameters = Method(Modifier.Protected | Modifier.Override, VoidType, "InitParameters")()
