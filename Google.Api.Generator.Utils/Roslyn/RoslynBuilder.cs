@@ -153,7 +153,7 @@ namespace Google.Api.Generator.Utils.Roslyn
         public static PropertyDeclarationSyntax Property(Modifier modifiers, TypeSyntax type, string name) =>
             PropertyDeclaration(type, name).AddModifiers(modifiers.ToSyntaxTokens());
 
-        public static PropertyDeclarationSyntax AutoProperty(Modifier modifiers, TypeSyntax type, string name, bool hasSetter = false)
+        public static PropertyDeclarationSyntax AutoProperty(Modifier modifiers, TypeSyntax type, string name, bool hasSetter = false, bool setterIsPrivate = false)
         {
             var accessors = new List<AccessorDeclarationSyntax>
             {
@@ -161,7 +161,12 @@ namespace Google.Api.Generator.Utils.Roslyn
             };
             if (hasSetter)
             {
-                accessors.Add(AccessorDeclaration(SyntaxKind.SetAccessorDeclaration).WithSemicolonToken(s_semicolonToken));
+                var setter = AccessorDeclaration(SyntaxKind.SetAccessorDeclaration).WithSemicolonToken(s_semicolonToken);
+                if (setterIsPrivate)
+                {
+                    setter = setter.WithModifiers(TokenList(Token(SyntaxKind.PrivateKeyword).WithTrailingSpace()));
+                }
+                accessors.Add(setter);
             }
             return PropertyDeclaration(type, name)
                 .AddModifiers(modifiers.ToSyntaxTokens())
@@ -312,5 +317,9 @@ namespace Google.Api.Generator.Utils.Roslyn
         public static CastExpressionSyntax Cast(TypeSyntax type, ExpressionSyntax expr) => CastExpression(type, expr);
 
         public static CastExpressionSyntax Cast(TypeSyntax type, PropertyDeclarationSyntax expr) => Cast(type, IdentifierName(expr.Identifier));
+
+        public static ArgumentsFunc<ExpressionSyntax> ThisQualifiedCall(object method, params TypeSyntax[] genericArgs) => args =>
+            InvocationExpression(MemberAccessExpression(
+                SyntaxKind.SimpleMemberAccessExpression, This, ToSimpleName(method, genericArgs)), CreateArgList(args));
     }
 }

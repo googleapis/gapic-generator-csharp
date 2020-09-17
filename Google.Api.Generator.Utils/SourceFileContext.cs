@@ -395,6 +395,10 @@ namespace Google.Api.Generator.Utils
             {
                 return PredefinedType(Token(SyntaxKind.VoidKeyword));
             }
+            if (typ is Typ.VarTyp)
+            {
+                return IdentifierName("var");
+            }
             if (typ.ElementTyp != null)
             {
                 // Handle array typs.
