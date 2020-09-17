@@ -288,7 +288,7 @@ namespace Google.Api.Generator.Rest.Models
 
             // This doc comment is common between the method and the constructor.
             var remarks = XmlDoc.Remarks("Considerations regarding ", streamParam, ":",
-                XmlDoc.UL(
+                XmlDoc.BulletListOfItemNodes(
                     XmlDoc.Item("If ", streamParam, " is seekable, then the stream position will be reset to ", 0, " before reading commences. If ", streamParam, " is not seekable, then it will be read from its current position"),
                     XmlDoc.Item("Caller is responsible for maintaining the ", streamParam, " open until the upload is completed"),
                     XmlDoc.Item("Caller is responsible for closing the ", streamParam)));
