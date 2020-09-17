@@ -15,10 +15,15 @@
 using Google.Api.Generator.Utils;
 using Google.Api.Generator.Utils.Roslyn;
 using Google.Apis.Discovery.v1.Data;
+using Google.Apis.Download;
 using Google.Apis.Services;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
+using System.Threading;
+using System.Threading.Tasks;
 using static Google.Api.Generator.Utils.Roslyn.RoslynBuilder;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
@@ -41,6 +46,8 @@ namespace Google.Api.Generator.Rest.Models
         public Typ BodyTyp { get; }
         public string Name { get; }
         public string PascalCasedName { get; }
+        public bool SupportsMediaDownload => _restMethod.SupportsMediaDownload ?? false;
+        public bool SupportsMediaUpload => _restMethod.SupportsMediaUpload ?? false;
 
         public MethodModel(PackageModel package, ResourceModel resource, string name, RestMethod restMethod)
         {
@@ -129,6 +136,11 @@ namespace Google.Api.Generator.Rest.Models
                     extraParameters.Add(bodyParam);
                 }
 
+                var mediaDownloaderProperty = SupportsMediaDownload
+                    ? AutoProperty(Modifier.Public, ctx.Type<IMediaDownloader>(), "MediaDownloader", hasSetter: true, setterIsPrivate: true)
+                        .WithXmlDoc(XmlDoc.Summary("Gets the media downloader."))
+                    : null;
+
                 var requiredParameters = Parameters
                     .TakeWhile(p => p.IsRequired)
                     .Select(p => (param: p, decl: Parameter(ctx.Type(p.Typ), p.CodeParameterName)))
@@ -143,7 +155,10 @@ namespace Google.Api.Generator.Rest.Models
                     assignments.Add(bodyProperty.Assign(bodyParam));
                 }
 
-                // TODO: Add media download support
+                if (SupportsMediaDownload)
+                {
+                    assignments.Add(mediaDownloaderProperty.Assign(New(ctx.Type<MediaDownloader>())(serviceParam)));
+                }
 
                 var allCtorParameters = extraParameters.Concat(requiredParameters.Select(p => p.decl)).ToArray();
 
@@ -175,7 +190,72 @@ namespace Google.Api.Generator.Rest.Models
                 cls = cls.AddMembers(Parameters.SelectMany(p => p.GenerateDeclarations(ctx)).ToArray());
                 cls = cls.AddMembers(bodyDeclarations);
                 cls = cls.AddMembers(methodName, httpMethod, restPath, initParameters);
+
+                if (SupportsMediaDownload)
+                {
+                    cls = cls.AddMembers(mediaDownloaderProperty);
+                    cls = AddMediaDownloadMethods(mediaDownloaderProperty, cls, ctx);
+                }
+
+                if (SupportsMediaUpload)
+                {
+                    cls = AddMediaUploadMethods(cls, ctx);
+                }
             }
+            return cls;
+        }
+
+        private static ClassDeclarationSyntax AddMediaDownloadMethods(PropertyDeclarationSyntax mediaDownloader, ClassDeclarationSyntax cls, SourceFileContext ctx)
+        {
+            var stream = Parameter(ctx.Type<Stream>(), "stream");
+            var cancellationToken = Parameter(ctx.Type<CancellationToken>(), "cancellationToken");
+            var cancellationTokenWithDefault = Parameter(ctx.Type<CancellationToken>(), "cancellationToken", DefaultExpression(ctx.Type<CancellationToken>()));
+            var range = Parameter(ctx.Type<RangeHeaderValue>(), "range");
+
+             var syncDownloadWithStatus = Method(Modifier.Public | Modifier.Virtual, ctx.Type<IDownloadProgress>(), "DownloadWithStatus")(stream)
+                .WithBlockBody(Return(mediaDownloader.Call("Download")(ThisQualifiedCall("GenerateRequestUri")(), stream)))
+                .WithXmlDoc(
+                    XmlDoc.Summary("Synchronously download the media into the given stream."),
+                    XmlDoc.Returns("The final status of the download; including whether the download succeeded or failed."));
+
+            var syncDownload = Method(Modifier.Public | Modifier.Virtual, ctx.Type(Typ.Void), "Download")(stream)
+                .WithBlockBody(mediaDownloader.Call("Download")(ThisQualifiedCall("GenerateRequestUri")(), stream))
+                .WithXmlDoc(XmlDoc.Summary(
+                    XmlDoc.Para("Synchronously download the media into the given stream."),
+                    XmlDoc.Para("Warning: This method hides download errors; use ", syncDownloadWithStatus, " instead.")));
+
+            var asyncDownloadNoToken = Method(Modifier.Public | Modifier.Virtual, ctx.Type<Task<IDownloadProgress>>(), "DownloadAsync")(stream)
+                .WithBlockBody(Return(mediaDownloader.Call("DownloadAsync")(ThisQualifiedCall("GenerateRequestUri")(), stream)))
+                .WithXmlDoc(XmlDoc.Summary("Asynchronously download the media into the given stream."));
+
+            var asyncDownloadWithToken = Method(Modifier.Public | Modifier.Virtual, ctx.Type<Task<IDownloadProgress>>(), "DownloadAsync")(stream, cancellationToken)
+                .WithParameterLineBreaks()
+                .WithBlockBody(Return(mediaDownloader.Call("DownloadAsync")(ThisQualifiedCall("GenerateRequestUri")(), stream, cancellationToken)))
+                .WithXmlDoc(XmlDoc.Summary("Asynchronously download the media into the given stream."));
+
+            var mediaDownloaderLocal = Local(ctx.Type(Typ.Var), "mediaDownloader")
+                .WithInitializer(New(ctx.Type<MediaDownloader>())(Property(0, ctx.Type<IClientService>(), "Service")));
+            var syncRange = Method(Modifier.Public | Modifier.Virtual, ctx.Type<IDownloadProgress>(), "DownloadRange")(stream, range)
+                .WithBlockBody(
+                    mediaDownloaderLocal,
+                    mediaDownloaderLocal.Access("Range").Assign(range),
+                    Return(mediaDownloaderLocal.Call("Download")(ThisQualifiedCall("GenerateRequestUri")(), stream)))
+                .WithXmlDoc(XmlDoc.Summary("Synchronously download a range of the media into the given stream."));
+
+            var asyncRange = Method(Modifier.Public | Modifier.Virtual, ctx.Type<Task<IDownloadProgress>>(), "DownloadRangeAsync")(stream, range, cancellationTokenWithDefault)
+                .WithParameterLineBreaks()
+                .WithBlockBody(
+                    mediaDownloaderLocal,
+                    mediaDownloaderLocal.Access("Range").Assign(range),
+                    Return(mediaDownloaderLocal.Call("DownloadAsync")(ThisQualifiedCall("GenerateRequestUri")(), stream, cancellationTokenWithDefault)))
+                .WithXmlDoc(XmlDoc.Summary("Asynchronously download a range of the media into the given stream."));
+
+            return cls.AddMembers(syncDownload, syncDownloadWithStatus, asyncDownloadNoToken, asyncDownloadWithToken, syncRange, asyncRange);
+        }
+
+        private static ClassDeclarationSyntax AddMediaUploadMethods(ClassDeclarationSyntax cls, SourceFileContext ctx)
+        {
+            // TODO: add the members
             return cls;
         }
     }

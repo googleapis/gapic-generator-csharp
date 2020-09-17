@@ -108,16 +108,24 @@ namespace Google.Api.Generator.Rest
                 "        #endif"
             });
 
-            int batchBaseUriIndex = lines.FindIndex(line => line.Contains("/// <summary>Gets the batch base URI; <c>null</c> if unspecified.</summary>"));
-            lines.Insert(batchBaseUriIndex, "        #if !NET40");
+            InsertLine("/// <summary>Gets the batch base URI; <c>null</c> if unspecified.</summary>", 0, "        #if !NET40");
+            InsertLine("public override string BatchPath =>", 1, "        #endif");
 
-            int batchPathIndex = lines.FindIndex(line => line.Contains("public override string BatchPath =>"));
-            lines.Insert(batchPathIndex + 1, "        #endif");
-
-            // TODO: Media downloads have #if as well, for the DownloadRange and DownloadRangeAsync methods.
+            InsertLine("/// <summary>Synchronously download a range of the media into the given stream.</summary>", 0, "            #if !NET40");
+            // We need to insert the line two lines lower, after the closing } of the method
+            InsertLine("return mediaDownloader.DownloadAsync(this.GenerateRequestUri(), stream, cancellationToken);", 2, "            #endif");
 
             string separator = usesCarriageReturn ? "\r\n" : "\n";
             return string.Join(separator, lines);
+
+            void InsertLine(string contentToFind, int offset, string extraLine)
+            {
+                int index = lines.FindIndex(line => line.Contains(contentToFind));
+                if (index != -1)
+                {
+                    lines.Insert(index + offset, extraLine);
+                }
+            }
         }
 
         private static ResultFile GenerateProjectFile(PackageModel package)
