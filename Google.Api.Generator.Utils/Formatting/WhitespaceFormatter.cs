@@ -48,6 +48,14 @@ namespace Google.Api.Generator.Utils.Formatting
         private SyntaxTrivia _indentTrivia = SyntaxTrivia(SyntaxKind.WhitespaceTrivia, "");
         private SyntaxTrivia _previousIndentTrivia = SyntaxTrivia(SyntaxKind.WhitespaceTrivia, "");
 
+        private IEnumerable<SyntaxToken> CommaLineBreakIndents(int count)
+        {
+            using (WithIndent())
+            {
+                return Enumerable.Repeat(Token(SyntaxKind.CommaToken).WithTrailingTrivia(WhitespaceFormatterNewLine.NewLine, _indentTrivia), Math.Max(0, count)).ToList();
+            }
+        }
+
         private IDisposable WithIndent(bool withIndent = true)
         {
             if (withIndent)
@@ -266,7 +274,10 @@ namespace Google.Api.Generator.Utils.Formatting
         public override SyntaxNode VisitParameterList(ParameterListSyntax node)
         {
             node = (ParameterListSyntax)base.VisitParameterList(node);
-            node = node.WithParameters(SeparatedList(node.Parameters, CommaSpaces(node.Parameters.Count - 1)));
+            var separators = node.HasAnnotation(Annotations.LineBreakAnnotation)
+                ? CommaLineBreakIndents(node.Parameters.Count - 1)
+                : CommaSpaces(node.Parameters.Count - 1);
+            node = node.WithParameters(SeparatedList(node.Parameters, separators));
             return node;
         }
 

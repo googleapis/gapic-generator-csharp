@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Google.Api.Generator.Utils.Formatting;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -331,5 +332,8 @@ namespace Google.Api.Generator.Utils.Roslyn
 
         public static SyntaxToken WithPragmaWarning(this SyntaxToken token, string errorCode) =>
             token.WithAdditionalAnnotations(new SyntaxAnnotation(PragmaWarnings.AnnotationKind, errorCode));
+
+        public static MethodDeclarationSyntax WithParameterLineBreaks(this MethodDeclarationSyntax method) =>
+            method.WithParameterList(method.ParameterList.WithAdditionalAnnotations(Annotations.LineBreakAnnotation));
     }
 }

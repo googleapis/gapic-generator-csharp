@@ -32,6 +32,12 @@ namespace Google.Api.Generator.Utils
             public override string Name => "void";
         }
 
+        public sealed class VarTyp : Typ
+        {
+            public override string Namespace => null;
+            public override string Name => "var";
+        }
+
         private sealed class FromType : Typ
         {
             public FromType(System.Type type) => _type = type;
@@ -107,6 +113,7 @@ namespace Google.Api.Generator.Utils
         }
 
         public static Typ Void { get; } = new VoidTyp();
+        public static Typ Var { get; } = new VarTyp();
 
         public static Typ Of<T>() => Of(typeof(T));
         public static Typ Of(System.Type type) => new FromType(type);
