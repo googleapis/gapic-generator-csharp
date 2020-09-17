@@ -14,7 +14,6 @@
 
 using Google.Api.Generator.Utils;
 using Google.Api.Generator.Utils.Roslyn;
-using System.Linq;
 
 namespace Google.Api.Generator.Rest.Models
 {
@@ -54,8 +53,9 @@ namespace Google.Api.Generator.Rest.Models
             {
                 return package.PackageName.ToUpperCamelCase() + name.ToUpperCamelCase();
             }
-            string[] bits = name.Split('.');
-            return string.Join('.', bits.Select(bit => bit.ToMemberName()));
+            // csharp_generator.py splits by dots and then joins the bits together with dots,
+            // but we never need that (and it causes issues with names like "$.xgafv").
+            return ToMemberName(name);
         }
 
         /// <summary>

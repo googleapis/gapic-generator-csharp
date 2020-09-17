@@ -80,8 +80,8 @@ namespace Google.Api.Generator.Rest.Models
             // TODO: Ordering?
             AuthScopes = (discoveryDoc.Auth?.Oauth2?.Scopes).ToReadOnlyList(pair => new AuthScope(pair.Key, pair.Value.Description));
             ServiceTyp = Typ.Manual(PackageName, ServiceClassName);
-            BaseRequestTyp = Typ.Generic(Typ.Manual(PackageName, $"{ClassName}BaseServiceRequest"), Typ.GenericParam("TResponse"));
             GenericBaseRequestTypDef = Typ.Manual(PackageName, $"{ClassName}BaseServiceRequest");
+            BaseRequestTyp = Typ.Generic(GenericBaseRequestTypDef, Typ.GenericParam("TResponse"));
             BaseUri = discoveryDoc.RootUrl + discoveryDoc.ServicePath;
             BasePath = discoveryDoc.ServicePath;
             BatchUri = discoveryDoc.RootUrl + discoveryDoc.BatchPath;
