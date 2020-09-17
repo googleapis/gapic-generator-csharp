@@ -184,7 +184,17 @@ namespace Google.Api.Generator.Utils.Formatting
         public override SyntaxNode VisitConstructorInitializer(ConstructorInitializerSyntax node)
         {
             node = (ConstructorInitializerSyntax)base.VisitConstructorInitializer(node);
-            node = node.WithColonToken(node.ColonToken.WithLeadingSpace().WithTrailingSpace());
+            if (node.HasAnnotation(Annotations.LineBreakAnnotation))
+            {
+                using (WithIndent())
+                {
+                    node = node.WithColonToken(node.ColonToken.WithLeadingTrivia(WhitespaceFormatterNewLine.NewLine, _indentTrivia).WithTrailingSpace());
+                }
+            }
+            else
+            {
+                node = node.WithColonToken(node.ColonToken.WithLeadingSpace().WithTrailingSpace());
+            }
             return node;
         }
 
