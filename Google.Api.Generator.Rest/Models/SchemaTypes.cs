@@ -41,6 +41,13 @@ namespace Google.Api.Generator.Rest.Models
                 { ("string", "int64"), typeof(long) },
                 { ("string", "uint64"), typeof(ulong) },
                 { ("object", null), typeof(object) },
+
+                // TODO: this happens because we didn't know about the google-datetime (etc) formats in time.
+                // It would be nice to generate more appropriate properties, but we'd need to work out how
+                // to handle the breaking changes.
+                { ("string", "google-datetime"), typeof(object) },
+                { ("string", "google-fieldmask"), typeof(object) },
+                { ("string", "google-duration"), typeof(object) },
             };
 
         internal static Typ GetTypFromSchema(PackageModel package, JsonSchema schema, string name, Typ currentTyp)
