@@ -36,9 +36,16 @@ namespace Google.Api.Generator.Rest.Models
             Description = description;
         }
 
-        public EnumMemberDeclarationSyntax GenerateDeclaration(SourceFileContext ctx) =>
+        public EnumMemberDeclarationSyntax GenerateDeclaration(SourceFileContext ctx)
+        {
+            var declaration =
             EnumMember(MemberName)
-                .WithAttribute(ctx.Type<StringValueAttribute>())(OriginalValue)
-                .WithXmlDoc(XmlDoc.Summary(Description));
+                .WithAttribute(ctx.Type<StringValueAttribute>())(OriginalValue);
+            if (Description is object)
+            {
+                declaration = declaration.WithXmlDoc(XmlDoc.Summary(Description));
+            }
+            return declaration;
+        }
     }
 }
