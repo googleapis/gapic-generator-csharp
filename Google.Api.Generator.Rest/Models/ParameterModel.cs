@@ -56,7 +56,7 @@ namespace Google.Api.Generator.Rest.Models
             };
             EnumModel = schema.Enum__ is object ? new EnumModel(name, schema) : null;
             _schema = schema;
-            Typ = SchemaTypes.GetTypFromSchema(package, schema, name, currentTyp: parentTyp);
+            Typ = SchemaTypes.GetTypFromSchema(package, schema, name, currentTyp: parentTyp, inParameter: true);
         }
 
         private PropertyDeclarationSyntax GenerateProperty(SourceFileContext ctx)
