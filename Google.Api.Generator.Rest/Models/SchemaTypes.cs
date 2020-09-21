@@ -50,7 +50,7 @@ namespace Google.Api.Generator.Rest.Models
                 { ("string", "google-duration"), typeof(object) },
             };
 
-        internal static Typ GetTypFromSchema(PackageModel package, JsonSchema schema, string name, Typ currentTyp)
+        internal static Typ GetTypFromSchema(PackageModel package, JsonSchema schema, string name, Typ currentTyp, bool inParameter)
         {
             if (schema.Ref__ is object)
             {
@@ -60,7 +60,7 @@ namespace Google.Api.Generator.Rest.Models
             }
             else if (schema.Type == "array")
             {
-                Typ elementType = GetTypFromSchema(package, schema.Items, name, currentTyp);
+                Typ elementType = GetTypFromSchema(package, schema.Items, name, currentTyp, inParameter);
                 return Typ.Generic(typeof(IList<>), elementType);
             }
             else if (schema.Properties is object)
@@ -70,10 +70,10 @@ namespace Google.Api.Generator.Rest.Models
             }
             else if (schema.AdditionalProperties is object)
             {
-                var valueTyp = GetTypFromSchema(package, schema.AdditionalProperties, schema.AdditionalProperties.Id ?? name + "Element", currentTyp);
+                var valueTyp = GetTypFromSchema(package, schema.AdditionalProperties, schema.AdditionalProperties.Id ?? name + "Element", currentTyp, inParameter);
                 return Typ.Generic(Typ.Of(typeof(IDictionary<,>)), Typ.Of<string>(), valueTyp);
             }
-            else if (schema.Enum__ is object)
+            else if (inParameter && schema.Enum__ is object)
             {
                 Typ enumTyp = Typ.Nested(currentTyp, name.ToClassName(package) + "Enum", isEnum: true);
                 return (schema.Required ?? false) ? enumTyp : Typ.Generic(Typ.Of(typeof(Nullable<>)), enumTyp);

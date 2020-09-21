@@ -57,7 +57,7 @@ namespace Google.Api.Generator.Rest.Models
 
         public IEnumerable<PropertyDeclarationSyntax> GeneratePropertyDeclarations(SourceFileContext ctx)
         {
-            var propertyTyp = SchemaTypes.GetTypFromSchema(Parent.Package, _schema, Name, ctx.CurrentTyp);
+            var propertyTyp = SchemaTypes.GetTypFromSchema(Parent.Package, _schema, Name, ctx.CurrentTyp, inParameter: false);
             if (propertyTyp.FullName == "System.Nullable<System.DateTime>")
             {
                 // DateTime values generate two properties: one raw as a string, and one DateTime version.
