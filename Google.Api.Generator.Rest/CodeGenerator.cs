@@ -18,7 +18,6 @@ using Google.Api.Generator.Utils;
 using Google.Api.Generator.Utils.Formatting;
 using Google.Apis.Discovery.v1.Data;
 using Google.Apis.Json;
-using Microsoft.CodeAnalysis;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -39,8 +38,8 @@ namespace Google.Api.Generator.Rest
             var package = new PackageModel(discoveryDescription);
             yield return GenerateCSharpCode(package);
             yield return GenerateProjectFile(package);
-            yield return GenerateNet40Config();
-            yield return GenerateNetStandard10Config();
+            yield return GenerateNet40Config(package);
+            yield return GenerateNetStandard10Config(package);
         }
 
         private static string NormalizeDescriptions(string discoveryJson)
@@ -84,7 +83,7 @@ namespace Google.Api.Generator.Rest
             var syntax = ctx.CreateCompilationUnit(ns).AddMembers(dataNs);
             
             string content = ApplyIfDirectives(CodeFormatter.Format(syntax).ToFullString());
-            return new ResultFile($"{package.PackageName}.cs", content);
+            return new ResultFile($"{package.PackageName}/{package.PackageName}.cs", content);
         }
 
         /// <summary>
@@ -131,14 +130,14 @@ namespace Google.Api.Generator.Rest
         private static ResultFile GenerateProjectFile(PackageModel package)
         {
             var doc = package.GenerateProjectFile();
-            return new ResultFile($"{package.PackageName}.csproj", doc.ToString());
+            return new ResultFile($"{package.PackageName}/{package.PackageName}.csproj", doc.ToString());
         }
 
-        private static ResultFile GenerateNet40Config() =>
-            new ResultFile("app.net40.config", LoadResource("Net40Config.xml"));
+        private static ResultFile GenerateNet40Config(PackageModel package) =>
+            new ResultFile($"{package.PackageName}/app.net40.config", LoadResource("Net40Config.xml"));
 
-        private static ResultFile GenerateNetStandard10Config() =>
-            new ResultFile("app.netstandard10.config", LoadResource("NetStandard10Config.xml"));
+        private static ResultFile GenerateNetStandard10Config(PackageModel package) =>
+            new ResultFile($"{package.PackageName}/app.netstandard10.config", LoadResource("NetStandard10Config.xml"));
 
         private static string LoadResource(string name)
         {
