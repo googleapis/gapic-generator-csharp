@@ -55,7 +55,8 @@ namespace Google.Api.Generator.Rest.Models
             if (schema.Ref__ is object)
             {
                 var model = package.GetDataModelByReference(schema.Ref__);
-                return model.IsArray ? Typ.Generic(typeof(IList<>), model.Typ) : model.Typ;
+                var modelTyp = model.IsPlaceholder ? Typ.Of<object>() : model.Typ;
+                return model.IsArray ? Typ.Generic(typeof(IList<>), modelTyp) : modelTyp;
             }
             else if (schema.Type == "array")
             {

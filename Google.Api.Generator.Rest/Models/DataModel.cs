@@ -45,6 +45,11 @@ namespace Google.Api.Generator.Rest.Models
         public IReadOnlyList<DataModel> Children { get; }
         public IReadOnlyList<DataPropertyModel> Properties { get; }
 
+        /// <summary>
+        /// Placeholder models aren't generated, and are represented as just "object" when referenced.
+        /// </summary>
+        public bool IsPlaceholder => _schema.Properties is null && _schema.Items is null;
+
         public DataModel(PackageModel package, DataModel parent, string name, JsonSchema schema)
         {
             _schema = schema;
@@ -55,7 +60,7 @@ namespace Google.Api.Generator.Rest.Models
             Typ = parent is null ? Typ.Manual(Package.PackageName + ".Data", className) : Typ.Nested(parent.Typ, className);
 
             // We may get a JsonSchema for an array as a nested model. Just use the properties from schema.Items for simplicity.
-            Properties = (schema.Properties ?? schema.Items.Properties).ToReadOnlyList(pair => new DataPropertyModel(this, pair.Key, pair.Value));
+            Properties = (schema.Properties ?? schema.Items?.Properties).ToReadOnlyList(pair => new DataPropertyModel(this, pair.Key, pair.Value));
         }
 
         public ClassDeclarationSyntax GenerateClass(SourceFileContext ctx)
