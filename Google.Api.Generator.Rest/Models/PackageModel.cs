@@ -66,8 +66,8 @@ namespace Google.Api.Generator.Rest.Models
             ClassName = (discoveryDoc.CanonicalName ?? discoveryDoc.Name).ToClassName(this);
             ServiceClassName = $"{ClassName}Service";
             ApiVersion = discoveryDoc.Version;
-            PackageName = $"Google.Apis.{ClassName}.{ApiVersion}";
             VersionNoDots = discoveryDoc.Version.Replace('.', '_');
+            PackageName = $"Google.Apis.{ClassName}.{VersionNoDots}";
             DataModels = discoveryDoc.Schemas.ToReadOnlyList(pair => new DataModel(this, parent: null, name: pair.Key, schema: pair.Value));
 
             // Populate the data model dictionary early, as methods and resources refer to the data model types.
