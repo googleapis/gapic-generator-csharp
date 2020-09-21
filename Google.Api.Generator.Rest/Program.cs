@@ -28,11 +28,11 @@ namespace Google.Api.Generator.Rest
             }
             string json = File.ReadAllText(args[0]);
             string outputDirectory = args[1];
-            Directory.CreateDirectory(outputDirectory);
             var files = CodeGenerator.Generate(json);
             foreach (var file in files)
             {
                 var path = Path.Combine(outputDirectory, file.RelativePath);
+                Directory.CreateDirectory(Path.GetDirectoryName(path));
                 File.WriteAllText(path, file.Content);
             }
             return 0;
