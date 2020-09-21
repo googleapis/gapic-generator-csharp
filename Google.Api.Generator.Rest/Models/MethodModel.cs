@@ -295,7 +295,7 @@ namespace Google.Api.Generator.Rest.Models
 
             var methodDocComments = new List<DocumentationCommentTriviaSyntax>
             {
-                XmlDoc.Summary("Stores a new object and metadata"),
+                XmlDoc.Summary(_restMethod.Description),
                 remarks
             };
             if (BodyTyp is object)
