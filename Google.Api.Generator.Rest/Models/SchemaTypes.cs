@@ -52,10 +52,6 @@ namespace Google.Api.Generator.Rest.Models
 
         internal static Typ GetTypFromSchema(PackageModel package, JsonSchema schema, string name, Typ currentTyp)
         {
-            if (schema.Repeated ?? false)
-            {
-                return Typ.Of<Repeatable<string>>();
-            }
             if (schema.Ref__ is object)
             {
                 var model = package.GetDataModelByReference(schema.Ref__);
@@ -76,10 +72,14 @@ namespace Google.Api.Generator.Rest.Models
                 var valueTyp = GetTypFromSchema(package, schema.AdditionalProperties, schema.AdditionalProperties.Id ?? name + "Element", currentTyp);
                 return Typ.Generic(Typ.Of(typeof(IDictionary<,>)), Typ.Of<string>(), valueTyp);
             }
-            if (schema.Enum__ is object)
+            else if (schema.Enum__ is object)
             {
                 Typ enumTyp = Typ.Nested(currentTyp, name.ToClassName(package) + "Enum", isEnum: true);
                 return (schema.Required ?? false) ? enumTyp : Typ.Generic(Typ.Of(typeof(Nullable<>)), enumTyp);
+            }
+            else if (schema.Repeated ?? false)
+            {
+                return Typ.Of<Repeatable<string>>();
             }
             else if (schema.Type is object)
             {
