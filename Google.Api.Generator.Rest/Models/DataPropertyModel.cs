@@ -52,6 +52,12 @@ namespace Google.Api.Generator.Rest.Models
             Name = name;
             // Not sure why this special-casing exists in the template, but it does...
             PropertyName = name == "etag" && parent.Parent is null ? "ETag" : name.ToMemberName();
+
+            // Avoid collisions between properties and their containing classes.
+            if (PropertyName == parent.Typ.Name)
+            {
+                PropertyName += "Value";
+            }
             _schema = schema;
         }
 
@@ -94,7 +100,7 @@ namespace Google.Api.Generator.Rest.Models
             {
                 yield break;
             }
-            var dataModel = new DataModel(Parent.Package, Parent, PropertyName + "Data", _schema);
+            var dataModel = new DataModel(Parent.Package, Parent, (Name + "Data").ToClassName(Parent.Package, Parent.Typ.Name), _schema);
             yield return dataModel.GenerateClass(ctx);
         }
     }

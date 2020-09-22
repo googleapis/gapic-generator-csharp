@@ -37,7 +37,7 @@ namespace Google.Api.Generator.Rest.Models
 
             // We don't really need to escape keywords given that we've upper-cased it,
             // but this is what the Python code does.
-            if (addUnderscoresToEscape && Keywords.IsKeyword(name))
+            if (addUnderscoresToEscape && Keywords.IsKeyword(upper.ToLowerInvariant()))
             {
                 upper += "__";
             }
@@ -47,22 +47,27 @@ namespace Google.Api.Generator.Rest.Models
         /// <summary>
         /// Equivalent to ToClassName in csharp_generator.py
         /// </summary>
-        internal static string ToClassName(this string name, PackageModel package)
+        internal static string ToClassName(this string name, PackageModel package, string containingClass)
         {
-            if (Keywords.IsKeyword(name))
+            if (Keywords.IsKeyword(name.ToLowerInvariant()))
             {
-                return package.PackageName.ToUpperCamelCase() + name.ToUpperCamelCase();
+                return package.ClassName.ToUpperCamelCase() + name.ToUpperCamelCase();
             }
             // csharp_generator.py splits by dots and then joins the bits together with dots,
             // but we never need that (and it causes issues with names like "$.xgafv").
-            return ToMemberName(name);
+            var candidate = ToMemberName(name);
+            var suffix = candidate == containingClass ? "Schema" : "";
+            return candidate + suffix;
         }
 
         /// <summary>
         /// Creates a name suitable for a local variable or parameter, using the package name
         /// as a prefix if necessary.
         /// </summary>
-        internal static string ToLocalVariableName(this string name, PackageModel package) =>
-            Keywords.IsKeyword(name) ? package.ApiName + name.ToUpperCamelCase() : name;
+        internal static string ToLocalVariableName(this string name, PackageModel package)
+        {
+            string lowerCamel = name.ToLowerCamelCase();
+            return Keywords.IsKeyword(lowerCamel) ? package.ApiName + name.ToUpperCamelCase() : lowerCamel;
+        }
     }
 }

@@ -63,7 +63,11 @@ namespace Google.Api.Generator.Rest.Models
         {
             _discoveryDoc = discoveryDoc;
             ApiName = discoveryDoc.Name;
-            ClassName = (discoveryDoc.CanonicalName ?? discoveryDoc.Name).ToClassName(this);
+
+            // Note that spaces are removed first, because the Python code doesn't Pascal-case them. For example,
+            // the "Cloud Memorystore for Memcached" API has a package name of "CloudMemorystoreforMemcached".
+            // It's awful, but that's the way it works...
+            ClassName = (discoveryDoc.CanonicalName ?? discoveryDoc.Name).Replace(" ", "").ToMemberName();
             ServiceClassName = $"{ClassName}Service";
             ApiVersion = discoveryDoc.Version;
             VersionNoDots = discoveryDoc.Version.Replace('.', '_');

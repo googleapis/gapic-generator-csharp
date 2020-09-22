@@ -22,6 +22,7 @@ namespace Google.Api.Generator.Utils.Roslyn
         private static IImmutableSet<string> s_keywords = ImmutableHashSet.Create(
             "abstract",
             "as",
+            "async", // Not actually a keyword, but should almost always be treated as one, in terms of escaping etc.
             "base",
             "bool",
             "break",

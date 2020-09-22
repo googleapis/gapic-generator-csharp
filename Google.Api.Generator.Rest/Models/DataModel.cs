@@ -56,7 +56,13 @@ namespace Google.Api.Generator.Rest.Models
             Id = schema.Id;
             Package = package;
             Parent = parent;
+            // TODO: Move this logic into Naming somehow, but noting that we *don't* escape keywords here. <sigh>
             string className = schema.Id is object && IsArray ? name + "Items" : name;
+            className = className.ToUpperCamelCase(upperAfterDigit: null);
+            if (className == parent?.Typ.Name)
+            {
+                className += "Schema";
+            }
             Typ = parent is null ? Typ.Manual(Package.PackageName + ".Data", className) : Typ.Nested(parent.Typ, className);
 
             // We may get a JsonSchema for an array as a nested model. Just use the properties from schema.Items for simplicity.
