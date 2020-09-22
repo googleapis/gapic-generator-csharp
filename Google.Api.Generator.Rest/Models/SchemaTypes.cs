@@ -66,7 +66,7 @@ namespace Google.Api.Generator.Rest.Models
             else if (schema.Properties is object)
             {
                 // Anonymous schema embedded in the current type.
-                return Typ.Nested(currentTyp, name.ToClassName(package) + "Data");
+                return Typ.Nested(currentTyp, (name + "Data").ToClassName(package, currentTyp?.Name));
             }
             else if (schema.AdditionalProperties is object)
             {
@@ -75,7 +75,7 @@ namespace Google.Api.Generator.Rest.Models
             }
             else if (inParameter && schema.Enum__ is object)
             {
-                Typ enumTyp = Typ.Nested(currentTyp, name.ToClassName(package) + "Enum", isEnum: true);
+                Typ enumTyp = Typ.Nested(currentTyp, name.ToClassName(package, currentTyp.Name) + "Enum", isEnum: true);
                 return (schema.Required ?? false) ? enumTyp : Typ.Generic(Typ.Of(typeof(Nullable<>)), enumTyp);
             }
             else if (schema.Repeated ?? false)

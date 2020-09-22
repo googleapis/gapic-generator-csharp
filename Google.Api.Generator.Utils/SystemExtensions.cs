@@ -30,7 +30,7 @@ namespace Google.Api.Generator.Utils
                         acc.sb.Append(MaybeForceCase(c, char.IsLower(acc.prev) && char.IsUpper(c) ? true : acc.upper))),
                 acc => acc.sb.ToString());
 
-        public static string ToLowerCamelCase(this string s) => Camelizer(s, firstUpper: false, forceAllChars: false, upperAfterDigit: true);
+        public static string ToLowerCamelCase(this string s, bool forceAllChars = false, bool? upperAfterDigit = true) => Camelizer(s, firstUpper: false, forceAllChars, upperAfterDigit);
         public static string ToUpperCamelCase(this string s, bool forceAllChars = false, bool? upperAfterDigit = true) => Camelizer(s, firstUpper: true, forceAllChars, upperAfterDigit);
 
         public static string RemoveSuffix(this string s, string suffix) => s.EndsWith(suffix) ? s.Substring(0, s.Length - suffix.Length) : s;

@@ -47,7 +47,7 @@ namespace Google.Api.Generator.Rest.Models
             Package = package;
             Name = name;
             PropertyName = name.ToMemberName();
-            ClassName = name.ToClassName(package) + "Resource";
+            ClassName = name.ToClassName(package, parent?.ClassName) + "Resource";
             Parent = parent;
             Typ = parent is null ? Typ.Manual(package.PackageName, ClassName) : Typ.Nested(parent.Typ, ClassName);
             Subresources = discoveryResource.Resources.ToReadOnlyList(pair => new ResourceModel(package, this, pair.Key, pair.Value));
@@ -64,9 +64,9 @@ namespace Google.Api.Generator.Rest.Models
                 .WithXmlDoc(XmlDoc.Summary($"The \"{Name}\" collection of methods."));
             using (ctx.InClass(Typ))
             {
+                // TODO: validate that lower camel case is the right option here.
                 var resourceString = Field(Modifier.Private | Modifier.Const, ctx.Type<string>(), "Resource")
-                    // TODO: Validate this does the right thing. It's "codeName" in the Python generator.
-                    .WithInitializer(Name);
+                    .WithInitializer(Name.ToLowerCamelCase(upperAfterDigit: null));
 
                 var service = Field(Modifier.Private | Modifier.Readonly, ctx.Type<IClientService>(), "service")
                     .WithXmlDoc(XmlDoc.Summary("The service which this resource belongs to."));
