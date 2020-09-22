@@ -9,11 +9,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Google.Api.Generator.Tests"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Google.Api.Generator.Utils", "Google.Api.Generator.Utils\Google.Api.Generator.Utils.csproj", "{5C1198FB-4BF1-4A8A-9CCC-94FF22D57BDC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Google.Api.Generator.Rest", "Google.Api.Generator.Rest\Google.Api.Generator.Rest.csproj", "{2932433B-9F1A-4FBD-A13B-F55C23F8B7D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Google.Api.Generator.Rest", "Google.Api.Generator.Rest\Google.Api.Generator.Rest.csproj", "{2932433B-9F1A-4FBD-A13B-F55C23F8B7D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Google.Api.Generator.Rest.Tests", "Google.Api.Generator.Rest.Tests\Google.Api.Generator.Rest.Tests.csproj", "{36C6BBAE-FBF8-4C38-9231-57E71F67D71F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Google.Api.Generator.Rest.Tests", "Google.Api.Generator.Rest.Tests\Google.Api.Generator.Rest.Tests.csproj", "{36C6BBAE-FBF8-4C38-9231-57E71F67D71F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Google.Api.Generator.Testing", "Google.Api.Generator.Testing\Google.Api.Generator.Testing.csproj", "{7B7E19A1-38E8-460A-BC86-90FC9AADC483}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Google.Api.Generator.Testing", "Google.Api.Generator.Testing\Google.Api.Generator.Testing.csproj", "{7B7E19A1-38E8-460A-BC86-90FC9AADC483}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Google.Api.Generator.DiffSimplifier", "Google.Api.Generator.DiffSimplifier\Google.Api.Generator.DiffSimplifier.csproj", "{450302B1-89F3-4108-9B82-C7731E7661A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{7B7E19A1-38E8-460A-BC86-90FC9AADC483}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B7E19A1-38E8-460A-BC86-90FC9AADC483}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B7E19A1-38E8-460A-BC86-90FC9AADC483}.Release|Any CPU.Build.0 = Release|Any CPU
+		{450302B1-89F3-4108-9B82-C7731E7661A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{450302B1-89F3-4108-9B82-C7731E7661A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{450302B1-89F3-4108-9B82-C7731E7661A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{450302B1-89F3-4108-9B82-C7731E7661A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
