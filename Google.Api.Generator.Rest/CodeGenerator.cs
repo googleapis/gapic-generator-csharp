@@ -107,22 +107,32 @@ namespace Google.Api.Generator.Rest
                 "        #endif"
             });
 
-            InsertLine("/// <summary>Gets the batch base URI; <c>null</c> if unspecified.</summary>", 0, "        #if !NET40");
-            InsertLine("public override string BatchPath =>", 1, "        #endif");
+            InsertLine("/// <summary>Gets the batch base URI; <c>null</c> if unspecified.</summary>", 0, "#if !NET40");
+            InsertLine("public override string BatchPath =>", 1, "#endif");
 
-            InsertLine("/// <summary>Synchronously download a range of the media into the given stream.</summary>", 0, "            #if !NET40");
+            InsertLine("/// <summary>Synchronously download a range of the media into the given stream.</summary>", 0, "#if !NET40");
             // We need to insert the line two lines lower, after the closing } of the method
-            InsertLine("return mediaDownloader.DownloadAsync(this.GenerateRequestUri(), stream, cancellationToken);", 2, "            #endif");
+            // Note that the additional spaces here are to ensure that the #endif lines up with the brace instead of the return statement.
+            InsertLine("    return mediaDownloader.DownloadAsync(this.GenerateRequestUri(), stream, cancellationToken);", 2, "#endif");
 
             string separator = usesCarriageReturn ? "\r\n" : "\n";
             return string.Join(separator, lines);
 
             void InsertLine(string contentToFind, int offset, string extraLine)
             {
-                int index = lines.FindIndex(line => line.Contains(contentToFind));
-                if (index != -1)
+                int startIndex = 0;
+                while (true)
                 {
-                    lines.Insert(index + offset, extraLine);
+                    int index = lines.FindIndex(startIndex, line => line.Contains(contentToFind, StringComparison.Ordinal));
+                    if (index == -1)
+                    {
+                        return;
+                    }
+                    // Use the leading whitespace of the existing line to work out how far to indent the new content.
+                    string extraWhitespace = lines[index].Substring(0, lines[index].IndexOf(contentToFind, StringComparison.Ordinal));
+                    lines.Insert(index + offset, extraWhitespace + extraLine);
+                    // Start after the existing line - which may now be one later than it was before.
+                    startIndex = index + 2;
                 }
             }
         }
