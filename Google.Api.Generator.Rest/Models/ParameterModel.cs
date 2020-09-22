@@ -16,6 +16,7 @@ using Google.Api.Generator.Utils;
 using Google.Api.Generator.Utils.Roslyn;
 using Google.Apis.Discovery.v1.Data;
 using Google.Apis.Util;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
@@ -89,8 +90,19 @@ namespace Google.Api.Generator.Rest.Models
                     new ObjectInitExpr("IsRequired", IsRequired),
                     new ObjectInitExpr("ParameterType", _schema.Location),
                     new ObjectInitExpr("DefaultValue", _schema.Default__ ?? (object) Null),
-                    new ObjectInitExpr("Pattern", _schema.Pattern ?? (object) Null));
+                    new ObjectInitExpr("Pattern", PatternCode(_schema.Pattern)));
             return IdentifierName("RequestParameters").Call("Add")(Name, parameterCtor);
+
+            object PatternCode(string pattern)
+            {
+                if (pattern is null)
+                {
+                    return Null;
+                }
+                // Escape double-quotes to "double double-quotes".
+                var escaped = pattern.Replace("\"", "\"\"");
+                return LiteralExpression(SyntaxKind.StringLiteralExpression, Literal($"@\"{escaped}\"", pattern));
+            }
         }
     }
 }
