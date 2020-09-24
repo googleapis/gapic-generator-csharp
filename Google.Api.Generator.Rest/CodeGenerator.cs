@@ -75,7 +75,10 @@ namespace Google.Api.Generator.Rest
             var dataNs = Namespace(package.PackageName + ".Data");
             using (ctx.InNamespace(dataNs))
             {
-                foreach (var dataModel in package.DataModels.Where(dm => dm.Parent is null && !dm.IsPlaceholder))
+                var dataModels = package.DataModels
+                    .Where(dm => dm.Parent is null && !dm.IsPlaceholder)
+                    .OrderBy(dm => dm.Typ.Name, StringComparer.Ordinal);
+                foreach (var dataModel in dataModels)
                 {
                     dataNs = dataNs.AddMembers(dataModel.GenerateClass(ctx));
                 }
