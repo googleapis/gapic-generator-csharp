@@ -89,7 +89,7 @@ namespace Google.Api.Generator.Rest.Models
                     new ObjectInitExpr("Name", Name),
                     new ObjectInitExpr("IsRequired", IsRequired),
                     new ObjectInitExpr("ParameterType", _schema.Location),
-                    new ObjectInitExpr("DefaultValue", _schema.Default__ ?? (object) Null),
+                    new ObjectInitExpr("DefaultValue", string.IsNullOrEmpty(_schema.Default__) ? (object) Null : _schema.Default__),
                     new ObjectInitExpr("Pattern", PatternCode(_schema.Pattern)));
             return IdentifierName("RequestParameters").Call("Add")(Name, parameterCtor);
 
