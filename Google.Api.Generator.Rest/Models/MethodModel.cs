@@ -261,7 +261,7 @@ namespace Google.Api.Generator.Rest.Models
             var uploadTyp = Typ.Nested(ctx.CurrentTyp, PascalCasedName + "MediaUpload");
 
             var baseTypArgument1 = BodyTyp ?? Typ.Of<string>();
-            var baseTyp = ResponseTyp is object
+            var baseTyp = _restMethod.Response is object
                 ? Typ.Generic(Typ.Of(typeof(ResumableUpload<,>)), baseTypArgument1, ResponseTyp)
                 : Typ.Generic(Typ.Of(typeof(ResumableUpload<>)), baseTypArgument1);
 
