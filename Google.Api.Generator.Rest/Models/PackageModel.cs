@@ -22,6 +22,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Xml.Linq;
 using static Google.Api.Generator.Utils.Roslyn.RoslynBuilder;
@@ -47,7 +48,7 @@ namespace Google.Api.Generator.Rest.Models
         public string VersionNoDots { get; }
         public string ApiVersion { get; }
         public IReadOnlyList<ResourceModel> Resources { get; }
-        public IReadOnlyList<string> Features { get; }
+        public IReadOnlyList<string> ApiFeatures { get; }
         public IReadOnlyList<AuthScope> AuthScopes { get; }
         public IReadOnlyList<MethodModel> Methods { get; }
         public IReadOnlyList<DataModel> DataModels { get; }
@@ -80,7 +81,7 @@ namespace Google.Api.Generator.Rest.Models
                 _dataModels[dm.Id] = dm;
             }
             Resources = discoveryDoc.Resources.ToReadOnlyList(pair => new ResourceModel(this, parent: null, pair.Key, pair.Value));
-            Features = discoveryDoc.Features.ToReadOnlyList();
+            ApiFeatures = discoveryDoc.Features.ToReadOnlyList();
             // TODO: Ordering?
             AuthScopes = (discoveryDoc.Auth?.Oauth2?.Scopes).ToReadOnlyList(pair => new AuthScope(pair.Key, pair.Value.Description));
             ServiceTyp = Typ.Manual(PackageName, ServiceClassName);
@@ -118,8 +119,8 @@ namespace Google.Api.Generator.Rest.Models
 
                 var initializerParam = Parameter(ctx.Type<BaseClientService.Initializer>(), "initializer");
 
-                var featuresArrayInitializer = Features.Any()
-                    ? NewArray(ctx.ArrayType(Typ.Of<string[]>()))(Features.ToArray())
+                var featuresArrayInitializer = ApiFeatures.Any()
+                    ? NewArray(ctx.ArrayType(Typ.Of<string[]>()))(ApiFeatures.ToArray())
                     : NewArray(ctx.ArrayType(Typ.Of<string[]>()), LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(0)));
                 var features = Property(Modifier.Public | Modifier.Override, ctx.Type<IList<string>>(), "Features")
                     .WithGetBody(featuresArrayInitializer)
@@ -229,9 +230,152 @@ namespace Google.Api.Generator.Rest.Models
             return cls;
         }
 
-        // TODO: The rest...
-        public XDocument GenerateProjectFile() =>
-            new XDocument(new XElement("Project", new XAttribute("Sdk", "Microsoft.NET.Sdk"), new XAttribute("ToolsVersion", "15.0")));
+        public XDocument GenerateProjectFile()
+        {
+            // This comment is turned into a line break later (in CodeGenerator).
+            // While this is ugly, it's the simplest way of getting line breaks exactly where we want them.
+            var lineBreak = new XComment("linebreak");
+            var packageProperties = new XElement("PropertyGroup",
+                    new XElement("Title", $"{PackageName} Client Library"),
+                    new XElement("Version", $"{Features.ReleaseVersion}.{GetRevision()}"),
+                    new XElement("Authors", "Google Inc."),
+                    // TODO: Update this to the current year, both here and in Python?
+                    new XElement("Copyright", $"Copyright 2017 {(_discoveryDoc.OwnerName == "Google" ? "Google Inc." : _discoveryDoc.OwnerName)}"),
+                    new XElement("PackageTags", "Google"),
+                    new XElement("PackageProjectUrl", "https://github.com/google/google-api-dotnet-client"),
+                    new XElement("PackageLicenseFile", "LICENSE"),
+                    new XElement("RepositoryType", "git"),
+                    new XElement("RepositoryUrl", "https://github.com/google/google-api-dotnet-client"),
+                    new XElement("PackageIconUrl", "https://www.gstatic.com/images/branding/product/1x/google_developers_64dp.png"),
+                    new XElement("Description", GetApiDescription())
+                );
+
+            var licenseItemGroup = new XElement("ItemGroup",
+                new XElement("None", new XAttribute("Include", "../../../LICENSE"), new XAttribute("Pack", "true"), new XAttribute("PackagePath", ""))
+            );
+
+            var buildProperties = new XElement("PropertyGroup",
+                new XElement("TargetFrameworks", "netstandard2.0;netstandard1.3;netstandard1.0;net45;net40"),
+                new XElement("SignAssembly", "true"),
+                new XElement("AssemblyOriginatorKeyFile", @"..\..\..\google.apis.snk"),
+                new XElement("DebugType", "portable"),
+                new XElement("GenerateDocumentationFile", "true"),
+                new XElement("NoWarn", "1570,1587,1591")
+            );
+
+            var commonDependencies = new XElement("ItemGroup",
+                PackageReference("ConfigureAwaitChecker.Analyzer", "1.0.1", new XAttribute("PrivateAssets", "All")),
+                PackageReference("SourceLink.Create.CommandLine", "2.8.0", new XAttribute("PrivateAssets", "All"))
+            );
+
+            var netstandard20 = new XElement("ItemGroup", FrameworkCondition("netstandard2.0"),
+                PackageReference("Google.Apis", Features.CurrentSupportVersion),
+                AuthScopes.Any() ? PackageReference("Google.Apis.Auth", Features.CurrentSupportVersion) : null
+            );
+
+            var netstandard13 = new XElement("ItemGroup", FrameworkCondition("netstandard1.3"),
+                PackageReference("Google.Apis", Features.CurrentSupportVersion),
+                AuthScopes.Any() ? PackageReference("Google.Apis.Auth", Features.CurrentSupportVersion) : null
+            );
+
+            var netstandard10Properties = new XElement("PropertyGroup", FrameworkCondition("netstandard1.0"),
+                new XElement("PackageTargetFallback", "portable-net45+win8+wpa81+wp8"),
+                new XElement("AppConfig", "app.netstandard10.config")
+            );
+            var netstandard10Items = new XElement("ItemGroup", FrameworkCondition("netstandard1.0"),
+                PackageReference("Google.Apis", $"[{Features.PclSupportVersion}]", new XAttribute("ExcludeAssets", "build")),
+                AuthScopes.Any() ? PackageReference("Google.Apis.Auth", $"[{Features.PclSupportVersion}]", new XAttribute("ExcludeAssets", "build")) : null,
+                PackageReference("Microsoft.NETCore.Portable.Compatibility", "1.0.1")
+            );
+
+            var net45 = new XElement("ItemGroup", FrameworkCondition("net45"),
+                PackageReference("Google.Apis", Features.CurrentSupportVersion),
+                AuthScopes.Any() ? PackageReference("Google.Apis.Auth", Features.CurrentSupportVersion) : null
+            );
+
+            var net40Properties = new XElement("PropertyGroup", FrameworkCondition("net40"),
+                new XElement("AutoUnifyAssemblyReferences", "false"),
+                new XElement("AppConfig", "app.net40.config")
+            );
+            var net40Items = new XElement("ItemGroup", FrameworkCondition("net40"),
+                PackageReference("Google.Apis", $"[{Features.Net40SupportVersion}]", new XAttribute("ExcludeAssets", "build")),
+                AuthScopes.Any() ? PackageReference("Google.Apis.Auth", $"[{Features.Net40SupportVersion}]", new XAttribute("ExcludeAssets", "build")) : null
+            );
+
+            var project = new XElement("Project", new XAttribute("Sdk", "Microsoft.NET.Sdk"), new XAttribute("ToolsVersion", "15.0"),
+                lineBreak, new XComment(" nupkg information "), packageProperties,
+                lineBreak, licenseItemGroup,
+                lineBreak, new XComment(" build properties "), buildProperties,
+                lineBreak, new XComment(" common dependencies "), commonDependencies,
+                lineBreak, new XComment(" per-target dependencies "),
+                netstandard20,
+                lineBreak, netstandard13,
+                lineBreak, netstandard10Properties, netstandard10Items,
+                lineBreak, net45,
+                lineBreak, net40Properties, net40Items,
+                lineBreak
+            );
+
+            return new XDocument(project);
+
+            int GetRevision()
+            {
+                // For some reason we don't rev the Discovery API...
+                if (ApiName == "discovery")
+                {
+                    return 0;
+                }
+                string discoveryRevision = _discoveryDoc.Revision;
+                // If the revision is a date string, the revision is the number of days since 2015-01-01,
+                // unless the revision is before 2015, in which case it's 0.
+                if (DateTime.TryParseExact(discoveryRevision, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeUniversal, out var date))
+                {
+                    return date.Year < 2015 ? 0 : (int) (date - new DateTime(2015, 1, 1)).TotalDays;
+                }
+                return int.Parse(discoveryRevision);
+            }
+
+            string GetApiDescription()
+            {
+                var prefix = Features.CloudPackageMap.TryGetValue(PackageName, out var cloudPackage)
+                    ? $@"
+      This is not the recommended package for working with {ApiName.ToUpperCamelCase()}, please use the {cloudPackage} package.
+      This Google APIs Client Library for working with {ApiName.ToUpperCamelCase()} {ApiVersion} uses older code generation, and is harder to use."
+                    : $"\n      Google APIs Client Library for working with {ApiName.ToUpperCamelCase()} {ApiVersion}.";
+                // The part of the package description that's the same for all packages - but can't be a constant due to the ApiName/ApiVersion part of the link.
+                string suffix = @$"
+
+      Supported Platforms:
+      - .NET Framework 4.5+
+      - .NET Standard 1.3 and .NET Standard 2.0; providing .NET Core support.
+
+      Legacy platforms:
+      - .NET Framework 4.0
+      - Windows 8 Apps
+      - Windows Phone 8.1
+      - Windows Phone Silverlight 8.0
+
+      Incompatible platforms:
+      - .NET Framework < 4.0
+      - Silverlight
+      - UWP (will build, but is known not to work at runtime)
+      - Xamarin
+
+      More documentation on the API is available at:
+      https://developers.google.com/api-client-library/dotnet/apis/{ApiName}/{ApiVersion}
+
+      The package source code is available at:
+      https://github.com/google/google-api-dotnet-client/tree/master/Src/Generated
+    ";
+
+                return prefix + suffix;
+        }
+
+        XElement PackageReference(string name, string version, params XAttribute[] extraAttributes) =>
+                new XElement("PackageReference", new[] { new XAttribute("Include", name), new XAttribute("Version", version) }.Concat(extraAttributes));
+
+            XAttribute FrameworkCondition(string framework) => new XAttribute("Condition", $"'$(TargetFramework)'=='{framework}'");
+        }
 
         internal DataModel GetDataModelByReference(string @ref) => _dataModels[@ref];
     }

@@ -49,7 +49,7 @@ namespace Google.Api.Generator.DiffSimplifier
             {
                 NormalizeSourceFile(csharpFile);
             }
-            // TODO: csproj
+            // No need to normalize csproj files - we already generate the same file.
         }
 
         private static void NormalizeSourceFile(string file)
