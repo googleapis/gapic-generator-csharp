@@ -143,7 +143,12 @@ namespace Google.Api.Generator.Rest
         private static ResultFile GenerateProjectFile(PackageModel package)
         {
             var doc = package.GenerateProjectFile();
-            return new ResultFile($"{package.PackageName}/{package.PackageName}.csproj", doc.ToString());
+            // Take care of fine-grained line-break placement, and add a final line break for compatibility
+            // with existing generator (which really doesn't need to be changed for this).
+            // Note that the built-in XDocument formatting puts the comment on a line on its own, so
+            // all we need to do is replace the line with an empty line, and we have a line break.
+            string text = doc.ToString().Replace("  <!--linebreak-->", "") + Environment.NewLine;
+            return new ResultFile($"{package.PackageName}/{package.PackageName}.csproj", text);
         }
 
         private static ResultFile GenerateNet40Config(PackageModel package) =>
