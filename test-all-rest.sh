@@ -12,19 +12,33 @@ then
   exit 1
 fi
 
-declare -r CLIENT_REPO=$1
+declare -r CLIENT_REPO=$(realpath $1)
 
 rm -rf tmp
 mkdir tmp
 
 dotnet build -nologo -clp:NoSummary -v quiet Google.Api.Generator.Rest
 
-# Generate all the code with the C# generator
+# Generate all the code with the C# generator, into a "Src/Generated" directory
+# to make it easier to run the existing post-generation patching code.
 for json in $CLIENT_REPO/DiscoveryJson/*.json
 do
   echo "Generating $(basename $json)"
-  dotnet run --no-build -p Google.Api.Generator.Rest -- $json tmp/csharp
+  dotnet run --no-build -p Google.Api.Generator.Rest -- $json tmp/Src/Generated
+
+  # Run a post-generation script if there is one
+  IFS='/'; names=($json); unset IFS
+  name=$(echo ${names[-1]} | sed 's/.json//g')
+  if [[ -f $CLIENT_REPO/PostGeneration/$name.sh ]]
+  then
+    echo "Running post-generation step for $name"
+    $(cd tmp && $CLIENT_REPO/PostGeneration/$name.sh)
+  fi
 done
+
+# Put the generated-by-C# code into a more obvious directory
+mv tmp/Src/Generated tmp/csharp
+rm -rf tmp/Src
 
 # Copy the Python-generated code
 for package_dir in tmp/csharp/*
