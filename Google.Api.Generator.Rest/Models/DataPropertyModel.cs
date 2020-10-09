@@ -96,7 +96,7 @@ namespace Google.Api.Generator.Rest.Models
 
         public IEnumerable<ClassDeclarationSyntax> GenerateAnonymousModels(SourceFileContext ctx)
         {
-            if ((_schema.Properties ?? _schema.Items?.Properties) is null)
+            if (DataModel.GetProperties(_schema) is null)
             {
                 yield break;
             }
