@@ -30,6 +30,8 @@ namespace Google.Api.Generator.Rest.Models
 
         public PackageModel Package { get; }
 
+        private string Name { get; }
+
         /// <summary>
         /// The ID for the model, used in "$ref" properties.
         /// </summary>
@@ -39,7 +41,12 @@ namespace Google.Api.Generator.Rest.Models
         /// The parent of this data model, if any.
         /// </summary>
         public DataModel Parent { get; }
+        
+        /// <summary>
+        /// The type that will be generated for this data model.
+        /// </summary>
         public Typ Typ { get; }
+
         public bool IsArray => _schema.Type == "array";
 
         public IReadOnlyList<DataModel> Children { get; }
@@ -53,6 +60,7 @@ namespace Google.Api.Generator.Rest.Models
         public DataModel(PackageModel package, DataModel parent, string name, JsonSchema schema)
         {
             _schema = schema;
+            Name = name;
             Id = schema.Id;
             Package = package;
             Parent = parent;
@@ -67,6 +75,27 @@ namespace Google.Api.Generator.Rest.Models
 
             // We may get a JsonSchema for an array as a nested model. Just use the properties from schema.Items for simplicity.
             Properties = GetProperties(schema).ToReadOnlyList(pair => new DataPropertyModel(this, pair.Key, pair.Value));
+
+        }
+
+        /// <summary>
+        /// Determines how code referring to this data model should be refer to it; this takes
+        /// into account whether it's a placeholder, an array etc.
+        /// </summary>
+        internal Typ GetTypForReference()
+        {
+            var ret = IsPlaceholder ? Typ.Of<object>() : Typ;
+            if (IsArray)
+            {
+                ret = Typ.Generic(typeof(IList<>), ret);
+            }
+            if (_schema.AdditionalProperties is object)
+            {
+                // TODO: Check all of this. It's a bit dodgy...
+                var valueTyp = SchemaTypes.GetTypFromSchema(Package, _schema.AdditionalProperties, _schema.AdditionalProperties.Id ?? Name + "Element", ret, inParameter: false);
+                ret = Typ.Generic(Typ.Of(typeof(IDictionary<,>)), Typ.Of<string>(), valueTyp);
+            }
+            return ret;
         }
 
         internal static IDictionary<string, JsonSchema> GetProperties(JsonSchema schema) =>
