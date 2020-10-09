@@ -96,12 +96,16 @@ namespace Google.Api.Generator.Rest.Models
 
         public IEnumerable<ClassDeclarationSyntax> GenerateAnonymousModels(SourceFileContext ctx)
         {
-            if (DataModel.GetProperties(_schema) is null)
+            if (_schema.AdditionalProperties is object && DataModel.GetProperties(_schema.AdditionalProperties) is object)
             {
-                yield break;
+                var dataModel = new DataModel(Parent.Package, Parent, (Name + "Element").ToAnonymousModelClassName(Parent.Package, Parent.Typ.Name, true), _schema.AdditionalProperties);
+                yield return dataModel.GenerateClass(ctx);
             }
-            var dataModel = new DataModel(Parent.Package, Parent, (Name + "Data").ToClassName(Parent.Package, Parent.Typ.Name), _schema);
-            yield return dataModel.GenerateClass(ctx);
+            else if (DataModel.GetProperties(_schema) is object)
+            {
+                var dataModel = new DataModel(Parent.Package, Parent, Name.ToAnonymousModelClassName(Parent.Package, Parent.Typ.Name, false), _schema);
+                yield return dataModel.GenerateClass(ctx);
+            }
         }
     }
 }

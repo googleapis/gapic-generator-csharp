@@ -60,6 +60,14 @@ namespace Google.Api.Generator.Rest.Models
             return candidate + suffix;
         }
 
+        internal static string ToAnonymousModelClassName(this string name, PackageModel package, string containingClass, bool inAdditionalProperties)
+        {
+            // This is ugly, but when we've got an anonymous model that's also a dictionary, we end up with things round the
+            // wrong way otherwise :( It's hard to fix the recursion to get this in the right order.
+            name = inAdditionalProperties ? name[..^7] + "DataElement" : name + "Data";
+            return name.ToClassName(package, containingClass);
+        }
+
         /// <summary>
         /// Creates a name suitable for a local variable or parameter, using the package name
         /// as a prefix if necessary.
