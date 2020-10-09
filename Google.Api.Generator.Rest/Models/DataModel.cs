@@ -91,9 +91,7 @@ namespace Google.Api.Generator.Rest.Models
             }
             if (_schema.AdditionalProperties is object)
             {
-                // TODO: Check all of this. It's a bit dodgy...
-                var valueTyp = SchemaTypes.GetTypFromSchema(Package, _schema.AdditionalProperties, _schema.AdditionalProperties.Id ?? Name + "Element", ret, inParameter: false);
-                ret = Typ.Generic(Typ.Of(typeof(IDictionary<,>)), Typ.Of<string>(), valueTyp);
+                ret = SchemaTypes.GetTypFromAdditionalProperties(Package, _schema.AdditionalProperties, Name, ret, inParameter: false);                
             }
             return ret;
         }

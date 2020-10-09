@@ -50,7 +50,13 @@ namespace Google.Api.Generator.Rest.Models
                 { ("string", "google-duration"), typeof(object) },
             };
 
-        internal static Typ GetTypFromSchema(PackageModel package, JsonSchema schema, string name, Typ currentTyp, bool inParameter)
+        internal static Typ GetTypFromAdditionalProperties(PackageModel package, JsonSchema additionalProperties, string name, Typ currentTyp, bool inParameter)
+        {
+            var valueTyp = GetTypFromSchema(package, additionalProperties, additionalProperties.Id ?? name + "Element", currentTyp, inParameter, true);
+            return Typ.Generic(Typ.Of(typeof(IDictionary<,>)), Typ.Of<string>(), valueTyp);
+        }
+
+        internal static Typ GetTypFromSchema(PackageModel package, JsonSchema schema, string name, Typ currentTyp, bool inParameter, bool inAdditionalProperties = false)
         {
             if (schema.Ref__ is object)
             {
@@ -64,12 +70,11 @@ namespace Google.Api.Generator.Rest.Models
             else if (schema.Properties is object)
             {
                 // Anonymous schema embedded in the current type.
-                return Typ.Nested(currentTyp, (name + "Data").ToClassName(package, currentTyp?.Name));
+                return Typ.Nested(currentTyp, name.ToAnonymousModelClassName(package, currentTyp?.Name, inAdditionalProperties));
             }
             else if (schema.AdditionalProperties is object)
             {
-                var valueTyp = GetTypFromSchema(package, schema.AdditionalProperties, schema.AdditionalProperties.Id ?? name + "Element", currentTyp, inParameter);
-                return Typ.Generic(Typ.Of(typeof(IDictionary<,>)), Typ.Of<string>(), valueTyp);
+                return GetTypFromAdditionalProperties(package, schema.AdditionalProperties, name, currentTyp, inParameter);
             }
             else if (inParameter && schema.Enum__ is object)
             {
