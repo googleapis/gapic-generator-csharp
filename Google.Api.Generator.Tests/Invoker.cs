@@ -98,7 +98,8 @@ namespace Google.Api.Generator.Tests
                         $"'{Path.GetFileName(executable)}' did not complete:{Environment.NewLine}{string.Join(Environment.NewLine, output)}");
                 }
                 Assert.True(process.ExitCode == exitCode,
-                    $"'{Path.GetFileName(executable)}' failed:{Environment.NewLine}{string.Join(Environment.NewLine, output)}");
+                    $"'{Path.GetFileName(executable)}' failed:{Environment.NewLine}{string.Join(Environment.NewLine, output)}{Environment.NewLine}" +
+                    $"Expected exit code: {exitCode}; was {process.ExitCode}");
             }
         }
 
