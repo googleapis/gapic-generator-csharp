@@ -1,9 +1,0 @@
-language: csharp
-mono: none
-dotnet: 3.1.101
-dist: xenial
-
-script:
-  - dotnet build
-  - dotnet test Google.Api.Generator.Tests --logger:"console;noprogress=true"
-  - dotnet test Google.Api.Generator.Rest.Tests --logger:"console;noprogress=true"
