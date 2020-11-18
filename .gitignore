@@ -10,3 +10,4 @@ site
 bazel-*
 tmp
 launchSettings.json
+.cr/
