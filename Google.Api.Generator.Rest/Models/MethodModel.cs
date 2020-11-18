@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Google.Api.Gax;
 using Google.Api.Generator.Utils;
 using Google.Api.Generator.Utils.Roslyn;
 using Google.Apis.Discovery.v1.Data;
@@ -52,10 +53,10 @@ namespace Google.Api.Generator.Rest.Models
 
         public MethodModel(PackageModel package, ResourceModel resource, string name, RestMethod restMethod)
         {
-            Package = package;
+            Package = GaxPreconditions.CheckNotNull(package, nameof(package));
             Resource = resource;
-            Name = name;
-            PascalCasedName = name.ToClassName(package, resource.ClassName);
+            Name = GaxPreconditions.CheckNotNullOrEmpty(name, nameof(name));
+            PascalCasedName = name.ToClassName(package, resource?.ClassName);
             ParentTyp = resource?.Typ ?? package.ServiceTyp;
             RequestTyp = Typ.Nested(ParentTyp, $"{PascalCasedName}Request");
             BodyTyp = restMethod.Request is object ? package.GetDataModelByReference(restMethod.Request.Ref__).GetTypForReference() : null;
