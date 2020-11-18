@@ -337,11 +337,12 @@ namespace Google.Api.Generator.Rest.Models
 
             string GetApiDescription()
             {
+                string upperCamelApiName = ApiName.ToUpperCamelCase(upperAfterDigit: false);
                 var prefix = Features.CloudPackageMap.TryGetValue(PackageName, out var cloudPackage)
                     ? $@"
-      This is not the recommended package for working with {ApiName.ToUpperCamelCase()}, please use the {cloudPackage} package.
-      This Google APIs Client Library for working with {ApiName.ToUpperCamelCase()} {ApiVersion} uses older code generation, and is harder to use."
-                    : $"\n      Google APIs Client Library for working with {ApiName.ToUpperCamelCase()} {ApiVersion}.";
+      This is not the recommended package for working with {upperCamelApiName}, please use the {cloudPackage} package.
+      This Google APIs Client Library for working with {upperCamelApiName} {ApiVersion} uses older code generation, and is harder to use."
+                    : $"\n      Google APIs Client Library for working with {upperCamelApiName} {ApiVersion}.";
                 // The part of the package description that's the same for all packages - but can't be a constant due to the ApiName/ApiVersion part of the link.
                 string suffix = @$"
 
