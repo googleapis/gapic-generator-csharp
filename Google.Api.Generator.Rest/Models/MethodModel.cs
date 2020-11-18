@@ -20,6 +20,7 @@ using Google.Apis.Download;
 using Google.Apis.Services;
 using Google.Apis.Upload;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections.Generic;
 using System.IO;
@@ -106,7 +107,8 @@ namespace Google.Api.Generator.Rest.Models
                 docs.Insert(1, XmlDoc.Param(parameterDeclarations[0], "The body of the request."));
             }
 
-            var ctorArguments = new object[] { Field(0, ctx.Type<IClientService>(), "service") }
+            var serviceArg = Resource is null ? (CSharpSyntaxNode) This: Field(0, ctx.Type<IClientService>(), "service");
+            var ctorArguments = new object[] { serviceArg }
                 .Concat(parameterDeclarations)
                 .ToArray();
             var method = Method(Modifier.Public | Modifier.Virtual, ctx.Type(RequestTyp), PascalCasedName)(parameterDeclarations.ToArray())
