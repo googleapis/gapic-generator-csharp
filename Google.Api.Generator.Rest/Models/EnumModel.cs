@@ -27,9 +27,20 @@ namespace Google.Api.Generator.Rest.Models
     /// </summary>
     public class EnumModel
     {
-        public string Description { get; }
-        public IReadOnlyList<EnumMemberModel> Members { get; }
-        public string TypeName { get; }
+        /// <summary>
+        /// Description of the enum within the Discovery doc, if any.
+        /// </summary>
+        private string Description { get; }
+
+        /// <summary>
+        /// The members of the enum.
+        /// </summary>
+        private IReadOnlyList<EnumMemberModel> Members { get; }
+
+        /// <summary>
+        /// The name of the generated enum type.
+        /// </summary>
+        private string TypeName { get; }
 
         public EnumModel(string name, JsonSchema schema)
         {
@@ -41,7 +52,6 @@ namespace Google.Api.Generator.Rest.Models
                 .Zip(schema.EnumDescriptions ?? Enumerable.Repeat((string) null, schema.Enum__.Count))
                 .ToReadOnlyList(pair => new EnumMemberModel(pair.First, pair.Second));
         }
-
 
         public EnumDeclarationSyntax GenerateDeclaration(SourceFileContext ctx)
         {

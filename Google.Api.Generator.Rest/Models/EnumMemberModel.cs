@@ -25,9 +25,20 @@ namespace Google.Api.Generator.Rest.Models
     /// </summary>
     public class EnumMemberModel
     {
-        public string MemberName { get; }
-        public string OriginalValue { get; }
-        public string Description { get; }
+        /// <summary>
+        /// The name of the member in C#, within the enum.
+        /// </summary>
+        private string MemberName { get; }
+
+        /// <summary>
+        /// The original string value as specified in the Discovery doc.
+        /// </summary>
+        private string OriginalValue { get; }
+
+        /// <summary>
+        /// The description of the value (if any) for use in documentation.
+        /// </summary>
+        private string Description { get; }
 
         public EnumMemberModel(string value, string description)
         {

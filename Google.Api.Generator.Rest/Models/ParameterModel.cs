@@ -29,21 +29,44 @@ namespace Google.Api.Generator.Rest.Models
     public class ParameterModel
     {
         private readonly JsonSchema _schema;
-        private readonly PackageModel _package;
 
-        public RequestParameterType Location { get; }
+        private RequestParameterType Location { get; }
+
+        /// <summary>
+        /// The name of the parameter as it appears in the Discovery doc.
+        /// </summary>
         public string Name { get; }
+
+        /// <summary>
+        /// The name to use when declaring a parameter in a method/constructor that
+        /// corresponds with this parameter model.
+        /// </summary>
         public string CodeParameterName { get; }
+
+        /// <summary>
+        /// The name to use in a request for a property representing the value of
+        /// this parameter model.
+        /// </summary>
         public string PropertyName { get; }
-        public EnumModel EnumModel { get; }
+        private EnumModel EnumModel { get; }
+
+        /// <summary>
+        /// Indicates whether this parameter is required for the containing method or not.
+        /// </summary>
         public bool IsRequired => _schema.Required ?? false;
-        public bool IsRepeated => _schema.Repeated ?? false;
+
+        /// <summary>
+        /// The description of the parameter, if any.
+        /// </summary>
         public string Description => _schema.Description;
+
+        /// <summary>
+        /// The type of the parameter, which may be generated or a built-in type such as string.
+        /// </summary>
         public Typ Typ { get; }
 
         public ParameterModel(PackageModel package, string name, JsonSchema schema, Typ parentTyp)
         {
-            _package = package;
             Name = name;
             CodeParameterName = name.ToLocalVariableName(package);
 

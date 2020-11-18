@@ -25,31 +25,43 @@ namespace Google.Api.Generator.Rest.Models
 {
     public class ResourceModel
     {
-        public PackageModel Package { get; }
-
         /// <summary>
         /// The name as it appears as the key within the JSON dictionary.
         /// </summary>
         public string Name { get; }
 
-        public string ClassName { get; }
+        /// <summary>
+        /// The name to use when referring to this resource within another resource.
+        /// </summary>
+        private string PropertyName { get; }
 
-        public string PropertyName { get; }
+        /// <summary>
+        /// The methods declared in this resource.
+        /// </summary>
+        private IReadOnlyList<MethodModel> Methods { get; }
 
-        public IReadOnlyList<MethodModel> Methods { get; }
-        public IReadOnlyList<ResourceModel> Subresources { get; }
+        /// <summary>
+        /// The resources nested within this resource.
+        /// </summary>
+        private IReadOnlyList<ResourceModel> Subresources { get; }
+
+        /// <summary>
+        /// The parent of this resource, if any.
+        /// </summary>
         public ResourceModel Parent { get; }
 
+        /// <summary>
+        /// The type generated to represent this resource.
+        /// </summary>
         public Typ Typ { get; }
 
         public ResourceModel(PackageModel package, ResourceModel parent, string name, RestResource discoveryResource)
         {
-            Package = package;
             Name = name;
             PropertyName = name.ToMemberName();
-            ClassName = name.ToClassName(package, parent?.ClassName) + "Resource";
+            string className = name.ToClassName(package, parent?.Typ.Name) + "Resource";
             Parent = parent;
-            Typ = parent is null ? Typ.Manual(package.PackageName, ClassName) : Typ.Nested(parent.Typ, ClassName);
+            Typ = parent is null ? Typ.Manual(package.PackageName, className) : Typ.Nested(parent.Typ, className);
             Subresources = discoveryResource.Resources.ToReadOnlyList(pair => new ResourceModel(package, this, pair.Key, pair.Value));
             Methods = discoveryResource.Methods.ToReadOnlyList(pair => new MethodModel(package, this, pair.Key, pair.Value));
         }

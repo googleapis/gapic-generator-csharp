@@ -165,7 +165,7 @@ namespace Google.Api.Generator.Rest.Models
                     {
                         foreach (var scope in AuthScopes)
                         {
-                            var field = Field(Modifier.Public | Modifier.Static, ctx.Type<string>(), scope.Name)
+                            var field = Field(Modifier.Public | Modifier.Static, ctx.Type<string>(), scope.FieldName)
                                 .WithInitializer(scope.Value)
                                 .WithXmlDoc(XmlDoc.Summary(scope.Description));
                             scopeClass = scopeClass.AddMembers(field);
@@ -178,7 +178,7 @@ namespace Google.Api.Generator.Rest.Models
                     {
                         foreach (var scope in AuthScopes)
                         {
-                            var field = Field(Modifier.Public | Modifier.Const, ctx.Type<string>(), scope.Name)
+                            var field = Field(Modifier.Public | Modifier.Const, ctx.Type<string>(), scope.FieldName)
                                 .WithInitializer(scope.Value)
                                 .WithXmlDoc(XmlDoc.Summary(scope.Description));
                             scopeConstantsClass = scopeConstantsClass.AddMembers(field);

@@ -34,7 +34,7 @@ namespace Google.Api.Generator.Rest.Models
         /// <summary>
         /// The data model containing this property.
         /// </summary>
-        public DataModel Parent { get; }
+        private DataModel Parent { get; }
 
         /// <summary>
         /// The name in the discovery doc
@@ -44,7 +44,7 @@ namespace Google.Api.Generator.Rest.Models
         /// <summary>
         /// The name in the C# code.
         /// </summary>
-        public string PropertyName { get; }
+        private string PropertyName { get; }
 
         public DataPropertyModel(DataModel parent, string name, JsonSchema schema)
         {

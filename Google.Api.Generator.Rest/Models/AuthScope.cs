@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Google.Api.Generator.Utils;
-
 namespace Google.Api.Generator.Rest.Models
 {
     public class AuthScope
@@ -21,8 +19,20 @@ namespace Google.Api.Generator.Rest.Models
         private const string GooglePrefix = "https://www.googleapis.com/auth/";
         private const string HttpsPrefix = "https://";
 
-        public string Name { get; }
+        /// <summary>
+        /// The name of the field to generate, based on a trimmed and Pascal-cased
+        /// version of <see cref="Value"/>.
+        /// </summary>
+        public string FieldName { get; }
+
+        /// <summary>
+        /// The value of the scope, as defined by the key within the Discovery doc.
+        /// </summary>
         public string Value { get; }
+
+        /// <summary>
+        /// The description of the scope, as defined in the Discovery doc.
+        /// </summary>
         public string Description { get; }
 
         public AuthScope(string value, string description)
@@ -38,7 +48,7 @@ namespace Google.Api.Generator.Rest.Models
             {
                 value = value[HttpsPrefix.Length..];
             }
-            Name = value.ToMemberName();
+            FieldName = value.ToMemberName();
         }
     }
 }
