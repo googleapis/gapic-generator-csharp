@@ -28,6 +28,9 @@ namespace Google.Api.Generator.Rest.Models
     {
         private readonly JsonSchema _schema;
 
+        /// <summary>
+        /// The package this model is part of.
+        /// </summary>
         public PackageModel Package { get; }
 
         private string Name { get; }
@@ -38,19 +41,22 @@ namespace Google.Api.Generator.Rest.Models
         public string Id { get; }
 
         /// <summary>
-        /// The parent of this data model, if any.
+        /// The parent of this data model, if any. (This is non-null if and only
+        /// if this data model is nested within another.)
         /// </summary>
         public DataModel Parent { get; }
-        
+
         /// <summary>
         /// The type that will be generated for this data model.
         /// </summary>
         public Typ Typ { get; }
 
-        public bool IsArray => _schema.Type == "array";
+        private bool IsArray => _schema.Type == "array";
 
-        public IReadOnlyList<DataModel> Children { get; }
-        public IReadOnlyList<DataPropertyModel> Properties { get; }
+        /// <summary>
+        /// The properties within this data model.
+        /// </summary>
+        private IReadOnlyList<DataPropertyModel> Properties { get; }
 
         /// <summary>
         /// Placeholder models aren't generated, and are represented as just "object" when referenced.
@@ -75,7 +81,6 @@ namespace Google.Api.Generator.Rest.Models
 
             // We may get a JsonSchema for an array as a nested model. Just use the properties from schema.Items for simplicity.
             Properties = GetProperties(schema).ToReadOnlyList(pair => new DataPropertyModel(this, pair.Key, pair.Value));
-
         }
 
         /// <summary>

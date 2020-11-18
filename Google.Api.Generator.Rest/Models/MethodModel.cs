@@ -37,27 +37,28 @@ namespace Google.Api.Generator.Rest.Models
     {
         private RestMethod _restMethod;
 
-        public PackageModel Package { get; }
+        private PackageModel Package { get; }
+
         /// <summary>
         /// Resource that owns this method, if any.
         /// </summary>
-        public ResourceModel Resource { get; }
-        
-        public Typ ParentTyp { get; }
-        public Typ RequestTyp { get; }
-        public Typ ResponseTyp { get; }
-        public Typ BodyTyp { get; }
-        public string Name { get; }
-        public string PascalCasedName { get; }
-        public bool SupportsMediaDownload => _restMethod.SupportsMediaDownload ?? false;
-        public bool SupportsMediaUpload => _restMethod.SupportsMediaUpload ?? false;
+        private ResourceModel Resource { get; }
+
+        private Typ ParentTyp { get; }
+        private Typ RequestTyp { get; }
+        private Typ ResponseTyp { get; }
+        private Typ BodyTyp { get; }
+        private string Name { get; }
+        private string PascalCasedName { get; }
+        private bool SupportsMediaDownload => _restMethod.SupportsMediaDownload ?? false;
+        private bool SupportsMediaUpload => _restMethod.SupportsMediaUpload ?? false;
 
         public MethodModel(PackageModel package, ResourceModel resource, string name, RestMethod restMethod)
         {
             Package = GaxPreconditions.CheckNotNull(package, nameof(package));
             Resource = resource;
             Name = GaxPreconditions.CheckNotNullOrEmpty(name, nameof(name));
-            PascalCasedName = name.ToClassName(package, resource?.ClassName);
+            PascalCasedName = name.ToClassName(package, resource?.Typ.Name);
             ParentTyp = resource?.Typ ?? package.ServiceTyp;
             RequestTyp = Typ.Nested(ParentTyp, $"{PascalCasedName}Request");
             BodyTyp = restMethod.Request is object ? package.GetDataModelByReference(restMethod.Request.Ref__).GetTypForReference() : null;
