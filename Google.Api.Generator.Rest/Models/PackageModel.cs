@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Google.Api.Gax;
 using Google.Api.Generator.Utils;
 using Google.Api.Generator.Utils.Roslyn;
 using Google.Apis.Discovery;
@@ -30,10 +31,13 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace Google.Api.Generator.Rest.Models
 {
+    /// <summary>
+    /// Model for a package, i.e. everything associated with an API.
+    /// </summary>
     public class PackageModel
     {
         private readonly RestDescription _discoveryDoc;
-        private readonly Dictionary<string, DataModel> _dataModels = new Dictionary<string, DataModel>();
+        private readonly Dictionary<string, DataModel> _dataModelsById = new Dictionary<string, DataModel>();
 
         /// <summary>
         /// The name of the package, suitable for both namespace declarations and the NuGet
@@ -41,24 +45,52 @@ namespace Google.Api.Generator.Rest.Models
         /// </summary>
         public string PackageName { get; }
 
-        public string Title { get; }
-        public string ApiName { get; }
-        public string ClassName { get; } // e.g. Webfonts
-        public string ServiceClassName { get; } // e.g. WebfontsService
-        public string VersionNoDots { get; }
-        public string ApiVersion { get; }
-        public IReadOnlyList<ResourceModel> Resources { get; }
-        public IReadOnlyList<string> ApiFeatures { get; }
-        public IReadOnlyList<AuthScope> AuthScopes { get; }
-        public IReadOnlyList<MethodModel> Methods { get; }
-        public IReadOnlyList<DataModel> DataModels { get; }
-        public Typ BaseRequestTyp { get; }
-        public Typ GenericBaseRequestTypDef { get; }
-        public Typ ServiceTyp { get; }
-        public string BaseUri { get; }
-        public string BasePath { get; }
-        public string BatchUri { get; }
-        public string BatchPath { get; }
+        /// <summary>
+        /// The API name, as specified by the "name" property in the Discovery Doc.
+        /// </summary>
+        internal string ApiName { get; }
+
+        /// <summary>
+        /// The name of the top-level class that's generated, taken from the Discovery Doc canonical
+        /// name or ApiName, with spaces removed, and then converted to a member name.
+        /// </summary>
+        internal string ClassName { get; }
+
+        /// <summary>
+        /// The API version, as specified by the "version" property in the Discovery Doc, e.g. "v1".
+        /// </summary>
+        private string ApiVersion { get; }
+
+        /// <summary>
+        /// The top-level resources. (Other resources may be nested.)
+        /// </summary>
+        private IReadOnlyList<ResourceModel> Resources { get; }
+
+        /// <summary>
+        /// The auth scopes specified within the Discovery Doc in auth/oauth2/scopes.
+        /// </summary>
+        private IReadOnlyList<AuthScope> AuthScopes { get; }
+
+        /// <summary>
+        /// The top-level methods for the API. (Most methods belong to resources, but some may be top-level.)
+        /// </summary>
+        private IReadOnlyList<MethodModel> Methods { get; }
+
+        /// <summary>
+        /// The top-level data models within the API. (Other data models may be nested within these.)
+        /// </summary>
+        private IReadOnlyList<DataModel> DataModels { get; }
+
+        /// <summary>
+        /// The base request type for all requests in this package. This does not have any type arguments, but
+        /// is ready to be parameterized via a call to <see cref="Typ.Generic(Typ, Typ[])"/> to specify the response type.
+        /// </summary>
+        internal Typ GenericBaseRequestTypDef { get; }
+
+        /// <summary>
+        /// The type generated for the service.
+        /// </summary>
+        internal Typ ServiceTyp { get; }
 
         public PackageModel(RestDescription discoveryDoc)
         {
@@ -69,30 +101,52 @@ namespace Google.Api.Generator.Rest.Models
             // the "Cloud Memorystore for Memcached" API has a package name of "CloudMemorystoreforMemcached".
             // It's awful, but that's the way it works...
             ClassName = (discoveryDoc.CanonicalName ?? discoveryDoc.Name).Replace(" ", "").ToMemberName();
-            ServiceClassName = $"{ClassName}Service";
             ApiVersion = discoveryDoc.Version;
-            VersionNoDots = discoveryDoc.Version.Replace('.', '_');
-            PackageName = $"Google.Apis.{ClassName}.{VersionNoDots}";
+            string versionNoDots = discoveryDoc.Version.Replace('.', '_');
+            PackageName = $"Google.Apis.{ClassName}.{versionNoDots}";
             DataModels = discoveryDoc.Schemas.ToReadOnlyList(pair => new DataModel(this, parent: null, name: pair.Key, schema: pair.Value));
 
             // Populate the data model dictionary early, as methods and resources refer to the data model types.
             foreach (var dm in DataModels)
             {
-                _dataModels[dm.Id] = dm;
+                _dataModelsById[dm.Id] = dm;
             }
             Resources = discoveryDoc.Resources.ToReadOnlyList(pair => new ResourceModel(this, parent: null, pair.Key, pair.Value));
-            ApiFeatures = discoveryDoc.Features.ToReadOnlyList();
             // TODO: Ordering?
             AuthScopes = (discoveryDoc.Auth?.Oauth2?.Scopes).ToReadOnlyList(pair => new AuthScope(pair.Key, pair.Value.Description));
-            ServiceTyp = Typ.Manual(PackageName, ServiceClassName);
+            ServiceTyp = Typ.Manual(PackageName, $"{ClassName}Service");
             GenericBaseRequestTypDef = Typ.Manual(PackageName, $"{ClassName}BaseServiceRequest");
-            BaseRequestTyp = Typ.Generic(GenericBaseRequestTypDef, Typ.GenericParam("TResponse"));
-            BaseUri = discoveryDoc.RootUrl + discoveryDoc.ServicePath;
-            BasePath = discoveryDoc.ServicePath;
-            BatchUri = discoveryDoc.RootUrl + discoveryDoc.BatchPath;
-            BatchPath = discoveryDoc.BatchPath;
-            Title = discoveryDoc.Title;
             Methods = discoveryDoc.Methods.ToReadOnlyList(pair => new MethodModel(this, null, pair.Key, pair.Value));
+        }
+
+        internal CompilationUnitSyntax GenerateCompilationUnit()
+        {
+            var ctx = SourceFileContext.CreateFullyQualified(SystemClock.Instance);
+            var ns = Namespace(PackageName);
+            using (ctx.InNamespace(ns))
+            {
+                var serviceClass = GenerateServiceClass(ctx);
+                var baseRequestClass = GenerateBaseRequestClass(ctx);
+                ns = ns.AddMembers(serviceClass, baseRequestClass);
+
+                foreach (var resource in Resources)
+                {
+                    var resourceClass = resource.GenerateClass(ctx);
+                    ns = ns.AddMembers(resourceClass);
+                }
+            }
+            var dataNs = Namespace(PackageName + ".Data");
+            using (ctx.InNamespace(dataNs))
+            {
+                var dataModels = DataModels
+                    .Where(dm => !dm.IsPlaceholder)
+                    .OrderBy(dm => dm.Typ.Name, StringComparer.Ordinal);
+                foreach (var dataModel in dataModels)
+                {
+                    dataNs = dataNs.AddMembers(dataModel.GenerateClass(ctx));
+                }
+            }
+            return ctx.CreateCompilationUnit(ns).AddMembers(dataNs);
         }
 
         public IReadOnlyList<ParameterModel> CreateParameterList(Typ baseTyp) =>
@@ -100,7 +154,7 @@ namespace Google.Api.Generator.Rest.Models
                 .OrderBy(p => p.Name, StringComparer.Ordinal)
                 .ToList();
 
-        public ClassDeclarationSyntax GenerateServiceClass(SourceFileContext ctx)
+        private ClassDeclarationSyntax GenerateServiceClass(SourceFileContext ctx)
         {
             var cls = Class(Modifier.Public, ServiceTyp, ctx.Type<BaseClientService>()).WithXmlDoc(XmlDoc.Summary($"The {ClassName} Service."));
             using (ctx.InClass(cls))
@@ -119,8 +173,8 @@ namespace Google.Api.Generator.Rest.Models
 
                 var initializerParam = Parameter(ctx.Type<BaseClientService.Initializer>(), "initializer");
 
-                var featuresArrayInitializer = ApiFeatures.Any()
-                    ? NewArray(ctx.ArrayType(Typ.Of<string[]>()))(ApiFeatures.ToArray())
+                var featuresArrayInitializer = _discoveryDoc.Features?.Any() ?? false
+                    ? NewArray(ctx.ArrayType(Typ.Of<string[]>()))(_discoveryDoc.Features.ToArray())
                     : NewArray(ctx.ArrayType(Typ.Of<string[]>()), LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(0)));
                 var features = Property(Modifier.Public | Modifier.Override, ctx.Type<IList<string>>(), "Features")
                     .WithGetBody(featuresArrayInitializer)
@@ -132,19 +186,24 @@ namespace Google.Api.Generator.Rest.Models
 
                 // Note: the following 4 properties have special handling post-generation, in terms
                 // of adding the #if directives in.
-                var baseUri = Property(Modifier.Public | Modifier.Override, ctx.Type<string>(), "BaseUri")
-                    .WithGetBody(IdentifierName("BaseUriOverride").NullCoalesce(BaseUri))
+                var baseUriValue = _discoveryDoc.RootUrl + _discoveryDoc.ServicePath;
+                var basePathValue = _discoveryDoc.ServicePath;
+                var batchUriValue = _discoveryDoc.RootUrl + _discoveryDoc.BatchPath;
+                var batchPathValue = _discoveryDoc.BatchPath;
+
+                var baseUriProperty = Property(Modifier.Public | Modifier.Override, ctx.Type<string>(), "BaseUri")
+                    .WithGetBody(IdentifierName("BaseUriOverride").NullCoalesce(baseUriValue))
                     .WithXmlDoc(XmlDoc.Summary("Gets the service base URI."));
 
-                var basePath = Property(Modifier.Public | Modifier.Override, ctx.Type<string>(), "BasePath")
-                    .WithGetBody(BasePath)
+                var basePathProperty = Property(Modifier.Public | Modifier.Override, ctx.Type<string>(), "BasePath")
+                    .WithGetBody(basePathValue)
                     .WithXmlDoc(XmlDoc.Summary("Gets the service base path."));
 
-                var batchUri = Property(Modifier.Public | Modifier.Override, ctx.Type<string>(), "BatchUri")
-                    .WithGetBody(BatchUri)
+                var batchUriProperty = Property(Modifier.Public | Modifier.Override, ctx.Type<string>(), "BatchUri")
+                    .WithGetBody(batchUriValue)
                     .WithXmlDoc(XmlDoc.Summary("Gets the batch base URI; ", XmlDoc.C("null"), " if unspecified."));
-                var batchPath = Property(Modifier.Public | Modifier.Override, ctx.Type<string>(), "BatchPath")
-                    .WithGetBody(BatchPath)
+                var batchPathProperty = Property(Modifier.Public | Modifier.Override, ctx.Type<string>(), "BatchPath")
+                    .WithGetBody(batchPathValue)
                     .WithXmlDoc(XmlDoc.Summary("Gets the batch base path; ", XmlDoc.C("null"), " if unspecified."));
 
                 var resourceProperties = Resources.Select(resource => resource.GenerateProperty(ctx)).ToArray();
@@ -155,12 +214,12 @@ namespace Google.Api.Generator.Rest.Models
                         XmlDoc.Summary("Constructs a new service."),
                         XmlDoc.Param(initializerParam, "The service initializer."));
 
-                cls = cls.AddMembers(version, discoveryVersion, parameterlessCtor, parameterizedCtor, features, nameProperty, baseUri, basePath, batchUri, batchPath);
+                cls = cls.AddMembers(version, discoveryVersion, parameterlessCtor, parameterizedCtor, features, nameProperty, baseUriProperty, basePathProperty, batchUriProperty, batchPathProperty);
 
                 if (AuthScopes.Any())
                 {
                     var scopeClass = Class(Modifier.Public, Typ.Manual(PackageName, "Scope"))
-                        .WithXmlDoc(XmlDoc.Summary($"Available OAuth 2.0 scopes for use with the {Title}."));
+                        .WithXmlDoc(XmlDoc.Summary($"Available OAuth 2.0 scopes for use with the {_discoveryDoc.Title}."));
                     using (ctx.InClass(scopeClass))
                     {
                         foreach (var scope in AuthScopes)
@@ -173,7 +232,7 @@ namespace Google.Api.Generator.Rest.Models
                     }
 
                     var scopeConstantsClass = Class(Modifier.Public | Modifier.Static, Typ.Manual(PackageName, "ScopeConstants"))
-                        .WithXmlDoc(XmlDoc.Summary($"Available OAuth 2.0 scope constants for use with the {Title}."));
+                        .WithXmlDoc(XmlDoc.Summary($"Available OAuth 2.0 scope constants for use with the {_discoveryDoc.Title}."));
                     using (ctx.InClass(scopeConstantsClass))
                     {
                         foreach (var scope in AuthScopes)
@@ -188,7 +247,8 @@ namespace Google.Api.Generator.Rest.Models
                     cls = cls.AddMembers(scopeClass, scopeConstantsClass);
                 }
 
-                // TODO: Find an example of this...
+                // Top-level methods (as opposed to resource-based methods) are relatively rare, but they do exist.
+                // Example: oauth2 has a "tokeninfo" top-level method.
                 foreach (var method in Methods)
                 {
                     cls = cls.AddMembers(method.GenerateDeclarations(ctx).ToArray());
@@ -199,22 +259,24 @@ namespace Google.Api.Generator.Rest.Models
             return cls;
         }
 
-        public ClassDeclarationSyntax GenerateBaseRequestClass(SourceFileContext ctx)
+        private ClassDeclarationSyntax GenerateBaseRequestClass(SourceFileContext ctx)
         {
+            var baseRequestTyp = Typ.Generic(GenericBaseRequestTypDef, Typ.GenericParam("TResponse"));
+
             var cls = Class(
                 Modifier.Public | Modifier.Abstract,
-                BaseRequestTyp,
+                baseRequestTyp,
                 ctx.Type(Typ.Generic(typeof(ClientServiceRequest<>), Typ.GenericParam("TResponse"))))
                 .WithXmlDoc(XmlDoc.Summary($"A base abstract class for {ClassName} requests."));
 
-            using (ctx.InClass(BaseRequestTyp))
+            using (ctx.InClass(baseRequestTyp))
             {
                 var serviceParam = Parameter(ctx.Type<IClientService>(), "service");
                 var ctor = Ctor(Modifier.Protected, cls, BaseInitializer(serviceParam))(serviceParam)
                     .WithBody()
                     .WithXmlDoc(XmlDoc.Summary($"Constructs a new {ClassName}BaseServiceRequest instance."));
 
-                var parameters = CreateParameterList(BaseRequestTyp);
+                var parameters = CreateParameterList(baseRequestTyp);
 
                 cls = cls.AddMembers(ctor);
                 cls = cls.AddMembers(parameters.SelectMany(p => p.GenerateDeclarations(ctx)).ToArray());
@@ -378,6 +440,6 @@ namespace Google.Api.Generator.Rest.Models
             XAttribute FrameworkCondition(string framework) => new XAttribute("Condition", $"'$(TargetFramework)'=='{framework}'");
         }
 
-        internal DataModel GetDataModelByReference(string @ref) => _dataModels[@ref];
+        internal DataModel GetDataModelByReference(string @ref) => _dataModelsById[@ref];
     }
 }

@@ -46,11 +46,6 @@ namespace Google.Api.Generator.Rest.Models
         private IReadOnlyList<ResourceModel> Subresources { get; }
 
         /// <summary>
-        /// The parent of this resource, if any.
-        /// </summary>
-        public ResourceModel Parent { get; }
-
-        /// <summary>
         /// The type generated to represent this resource.
         /// </summary>
         public Typ Typ { get; }
@@ -60,7 +55,6 @@ namespace Google.Api.Generator.Rest.Models
             Name = name;
             PropertyName = name.ToMemberName();
             string className = name.ToClassName(package, parent?.Typ.Name) + "Resource";
-            Parent = parent;
             Typ = parent is null ? Typ.Manual(package.PackageName, className) : Typ.Nested(parent.Typ, className);
             Subresources = discoveryResource.Resources.ToReadOnlyList(pair => new ResourceModel(package, this, pair.Key, pair.Value));
             Methods = discoveryResource.Methods.ToReadOnlyList(pair => new MethodModel(package, this, pair.Key, pair.Value));
