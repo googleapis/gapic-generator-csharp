@@ -58,33 +58,7 @@ namespace Google.Api.Generator.Rest
 
         private static ResultFile GenerateCSharpCode(PackageModel package)
         {
-            var ctx = SourceFileContext.CreateFullyQualified(SystemClock.Instance);
-            var ns = Namespace(package.PackageName);
-            using (ctx.InNamespace(ns))
-            {
-                var serviceClass = package.GenerateServiceClass(ctx);
-                var baseRequestClass = package.GenerateBaseRequestClass(ctx);
-                ns = ns.AddMembers(serviceClass, baseRequestClass);
-
-                foreach (var resource in package.Resources)
-                {
-                    var resourceClass = resource.GenerateClass(ctx);
-                    ns = ns.AddMembers(resourceClass);
-                }
-            }
-            var dataNs = Namespace(package.PackageName + ".Data");
-            using (ctx.InNamespace(dataNs))
-            {
-                var dataModels = package.DataModels
-                    .Where(dm => dm.Parent is null && !dm.IsPlaceholder)
-                    .OrderBy(dm => dm.Typ.Name, StringComparer.Ordinal);
-                foreach (var dataModel in dataModels)
-                {
-                    dataNs = dataNs.AddMembers(dataModel.GenerateClass(ctx));
-                }
-            }
-            var syntax = ctx.CreateCompilationUnit(ns).AddMembers(dataNs);
-            
+            var syntax = package.GenerateCompilationUnit();
             string content = ApplyIfDirectives(CodeFormatter.Format(syntax).ToFullString());
             return new ResultFile($"{package.PackageName}/{package.PackageName}.cs", content);
         }
