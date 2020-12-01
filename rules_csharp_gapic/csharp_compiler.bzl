@@ -25,9 +25,11 @@ DOTNET_CLI_HOME="$(pwd)/local_tmp" \
 DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1 \
 DOTNET_CLI_TELEMETRY_OPTOUT=1 \
 DOTNET_NOLOGO=1 \
-{csharp_compiler}/dotnet build src/{csproj_relative} \
+cmd="{csharp_compiler}/dotnet build src/{csproj_relative} \
   --framework {framework} --configuration {configuration} \
-  --no-restore --nologo --verbosity=quiet --packages packages
+  --no-restore --nologo --verbosity=quiet --packages packages"
+# If the first invocation fails, try once more
+$cmd || $cmd
 cp -r src/* {out}/
     """.format(
         restore = ctx.file.restore.path,
@@ -48,9 +50,11 @@ DOTNET_CLI_HOME="$(pwd)/local_tmp" \
 DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1 \
 DOTNET_CLI_TELEMETRY_OPTOUT=1 \
 DOTNET_NOLOGO=1 \
-$(dirname $0)/run.sh.runfiles/$(basename $(pwd))/{csharp_compiler}/dotnet run \
+cmd="$(dirname $0)/run.sh.runfiles/$(basename $(pwd))/{csharp_compiler}/dotnet run \
   --project $(dirname $0)/run.sh.runfiles/$(basename $(pwd))/{out}/{csproj_relative} \
-  --no-restore --no-build
+  --no-restore --no-build"
+# If the first invocation fails, try once more
+$cmd || $cmd
     """.format(
         csharp_compiler = ctx.file.csharp_compiler.short_path,
         out = out_dir.short_path,
