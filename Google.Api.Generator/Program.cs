@@ -144,6 +144,14 @@ namespace Google.Api.Generator
                 Parser.Default.ParseArguments<Options>(Enumerable.Empty<string>());
                 return 1;
             }
+            if (codeGenRequest.Equals(new CodeGeneratorRequest()))
+            {
+                // No data was provided on stdin.
+                // This has probably been called from the cmd-line, not from protoc,
+                // so output an error message to the console.
+                Parser.Default.ParseArguments<Options>(Enumerable.Empty<string>());
+                return 1;
+            }
             CodeGeneratorResponse codeGenResponse;
             try
             {

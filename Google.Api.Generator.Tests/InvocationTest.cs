@@ -19,7 +19,7 @@ namespace Google.Api.Generator.Tests
 {
     public class InvocationTest
     {
-        [Fact(Skip = "https://github.com/googleapis/gapic-generator-csharp/issues/287")]
+        [Fact]
         public void BadCmdLineInvocation()
         {
             // Test that the generator doesn't just hang if executed manually with no cmd-line args.
