@@ -40,22 +40,11 @@ done
 mv tmp/Src/Generated tmp/csharp
 rm -rf tmp/Src
 
-# Copy the Python-generated code
-for package_dir in tmp/csharp/*
-do
-  package=$(basename $package_dir)
-  if [[ ! -d $CLIENT_REPO/Src/Generated/${package} ]]
-  then
-    echo "Python directory for ${package} does not exist; deleting C# code"
-    rm -rf $package_dir
-  else
-    echo "Copying Python code for ${package}"
-    mkdir -p tmp/python/$package
-    cp $CLIENT_REPO/Src/Generated/${package}/*.cs tmp/python/$package
-    cp $CLIENT_REPO/Src/Generated/${package}/*.config tmp/python/$package
-    cp $CLIENT_REPO/Src/Generated/${package}/*.csproj tmp/python/$package
-  fi
-done
+# We don't generate IdentityToolkit
+rm -rf tmp/csharp/Google.Apis.IdentityToolkit.v3
+
+echo "Copying Python-generated APIs"
+cp -r $CLIENT_REPO/Src/Generated tmp/python
 
 # Normalize files from both generators in order to make diffing simpler
 dotnet run -p Google.Api.Generator.DiffSimplifier -- tmp/csharp tmp/python
