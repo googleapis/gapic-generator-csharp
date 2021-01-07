@@ -103,7 +103,10 @@ namespace Google.Api.Generator.Rest.Models
             ClassName = (discoveryDoc.CanonicalName ?? discoveryDoc.Name).Replace(" ", "").ToMemberName();
             ApiVersion = discoveryDoc.Version;
             string versionNoDots = discoveryDoc.Version.Replace('.', '_');
-            PackageName = $"Google.Apis.{ClassName}.{versionNoDots}";
+            var camelizedPackagePath = discoveryDoc.PackagePath is null
+                ? ""
+                : string.Join('.', discoveryDoc.PackagePath.Split('/').Select(part => part.ToUpperCamelCase())) + ".";
+            PackageName = $"Google.Apis.{camelizedPackagePath}{ClassName}.{versionNoDots}";
             DataModels = discoveryDoc.Schemas.ToReadOnlyList(pair => new DataModel(this, parent: null, name: pair.Key, schema: pair.Value));
 
             // Populate the data model dictionary early, as methods and resources refer to the data model types.
