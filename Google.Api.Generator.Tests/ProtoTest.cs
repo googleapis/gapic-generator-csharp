@@ -19,7 +19,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using Xunit;
 
 namespace Google.Api.Generator.Tests
@@ -69,6 +68,7 @@ namespace Google.Api.Generator.Tests
             {
                 if ((ignoreCsProj && file.RelativePath.EndsWith(".csproj")) ||
                     (ignoreSnippets && file.RelativePath.Contains($".Snippets{Path.DirectorySeparatorChar}")) ||
+                    (ignoreSnippets && file.RelativePath.Contains($".StandaloneSnippets{Path.DirectorySeparatorChar}")) ||
                     (ignoreUnitTests && file.RelativePath.Contains($".Tests{Path.DirectorySeparatorChar}")))
                 {
                     continue;
