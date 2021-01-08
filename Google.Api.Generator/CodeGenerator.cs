@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using Google.Api.Gax;
-using Google.Api.Generator.Utils.Formatting;
 using Google.Api.Generator.Generation;
 using Google.Api.Generator.ProtoUtils;
 using Google.Api.Generator.Utils;
@@ -24,7 +23,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace Google.Api.Generator
 {
@@ -93,6 +91,7 @@ namespace Google.Api.Generator
         {
             var clientPathPrefix = $"{ns}{Path.DirectorySeparatorChar}";
             var snippetsPathPrefix = $"{ns}.Snippets{Path.DirectorySeparatorChar}";
+            var standaloneSnippetsPathPrefix = $"{ns}.StandaloneSnippets{Path.DirectorySeparatorChar}";
             var unitTestsPathPrefix = $"{ns}.Tests{Path.DirectorySeparatorChar}";
             bool hasLro = false;
             bool hasContent = false;
@@ -107,10 +106,22 @@ namespace Google.Api.Generator
                     var filename = $"{clientPathPrefix}{serviceDetails.ClientAbstractTyp.Name}.g.cs";
                     yield return new ResultFile(filename, code);
                     // Generate snippets for the service
+                    // TODO: Consider removing this once we have integrated the standalone snippets
+                    // with docs generation.
                     var snippetCtx = SourceFileContext.CreateUnaliased(clock);
                     var snippetCode = SnippetCodeGenerator.Generate(snippetCtx, serviceDetails);
                     var snippetFilename = $"{snippetsPathPrefix}{serviceDetails.ClientAbstractTyp.Name}Snippets.g.cs";
                     yield return new ResultFile(snippetFilename, snippetCode);
+                    // Generate standalone snippets for the service
+                    // TODO: Integrate standalone snippets with docs generation.
+                    // TODO: Once (and if we) generate just one set of snippets, stop using "standalone" as a differentiatior.
+                    foreach (var snippetGenerator in SnippetCodeGenerator.StandaloneGenerators(serviceDetails))
+                    {
+                        var standaloneSnippetCtx = SourceFileContext.CreateUnaliased(clock);
+                        var standaloneSnippetCode = snippetGenerator.Generate(standaloneSnippetCtx);
+                        var standaloneSnippetFilename = $"{standaloneSnippetsPathPrefix}{serviceDetails.ClientAbstractTyp.Name}.{snippetGenerator.SnippetMethodName}Snippet.g.cs";
+                        yield return new ResultFile(standaloneSnippetFilename, standaloneSnippetCode);
+                    }
                     // Generate unit tests for the the service.
                     var unitTestCtx = SourceFileContext.CreateFullyAliased(clock, s_wellknownNamespaceAliases);
                     var unitTestCode = UnitTestCodeGeneration.Generate(unitTestCtx, serviceDetails);
@@ -143,6 +154,10 @@ namespace Google.Api.Generator
                 var snippetsCsprojContent = CsProjGenerator.GenerateSnippets(ns);
                 var snippetsCsProjFilename = $"{snippetsPathPrefix}{ns}.Snippets.csproj";
                 yield return new ResultFile(snippetsCsProjFilename, snippetsCsprojContent);
+                // Generate standalone snippets csproj.
+                var standaloneSnippetsCsprojContent = CsProjGenerator.GenerateSnippets(ns);
+                var standaloneSnippetsCsProjFilename = $"{standaloneSnippetsPathPrefix}{ns}.StandaloneSnippets.csproj";
+                yield return new ResultFile(standaloneSnippetsCsProjFilename, standaloneSnippetsCsprojContent);
                 // Generate unit-tests csproj.
                 var unitTestsCsprojContent = CsProjGenerator.GenerateUnitTests(ns);
                 var unitTestsCsprojFilename = $"{unitTestsPathPrefix}{ns}.Tests.csproj";
