@@ -54,6 +54,7 @@ namespace Google.Api.Generator.Generation
             DefaultScopes = string.IsNullOrEmpty(oauthScopes) ? Enumerable.Empty<string>() : oauthScopes.Split(',', ' ');
             Methods = desc.Methods.Select(x => MethodDetails.Create(this, x)).ToList();
             SnippetsTyp = Typ.Manual(SnippetsNamespace, $"Generated{desc.Name}ClientSnippets");
+            StandaloneSnippetsTyp = Typ.Manual(SnippetsNamespace, $"Generated{desc.Name}ClientStandaloneSnippets");
             SnippetsClientName = $"{desc.Name.ToLowerCamelCase()}Client";
             UnitTestsTyp = Typ.Manual(UnitTestsNamespace, $"Generated{desc.Name}ClientTest");
         }
@@ -104,6 +105,9 @@ namespace Google.Api.Generator.Generation
 
         /// <summary>The typ of the snippets class for this service.</summary>
         public Typ SnippetsTyp { get; }
+
+        /// <summary>The typ of the standalone snippets class for this service.</summary>
+        public Typ StandaloneSnippetsTyp { get; }
 
         /// <summary>The name of the variable to hold the client instance.</summary>
         public string SnippetsClientName { get; }
