@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Google.Api.Generator.Rest.Models;
+using Newtonsoft.Json;
 using System;
 using System.IO;
 
@@ -21,14 +23,16 @@ namespace Google.Api.Generator.Rest
     {
         static int Main(string[] args)
         {
-            if (args.Length != 2)
+            if (args.Length != 3)
             {
-                Console.WriteLine("Expected arguments: <JSON file> <output directory>");
+                Console.WriteLine("Expected arguments: <JSON file> <output directory> <features file>");
                 return 1;
             }
             string json = File.ReadAllText(args[0]);
             string outputDirectory = args[1];
-            var files = CodeGenerator.Generate(json);
+            string featuresJson = File.ReadAllText(args[2]);
+            var features = JsonConvert.DeserializeObject<Features>(featuresJson);
+            var files = CodeGenerator.Generate(json, features);
             foreach (var file in files)
             {
                 var path = Path.Combine(outputDirectory, file.RelativePath);

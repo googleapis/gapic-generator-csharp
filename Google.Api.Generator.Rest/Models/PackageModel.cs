@@ -36,6 +36,7 @@ namespace Google.Api.Generator.Rest.Models
     /// </summary>
     public class PackageModel
     {
+        private readonly Features _features;
         private readonly RestDescription _discoveryDoc;
         private readonly Dictionary<string, DataModel> _dataModelsById = new Dictionary<string, DataModel>();
 
@@ -92,8 +93,9 @@ namespace Google.Api.Generator.Rest.Models
         /// </summary>
         internal Typ ServiceTyp { get; }
 
-        public PackageModel(RestDescription discoveryDoc)
+        public PackageModel(RestDescription discoveryDoc, Features features)
         {
+            _features = features;
             _discoveryDoc = discoveryDoc;
             ApiName = discoveryDoc.Name;
 
@@ -302,7 +304,7 @@ namespace Google.Api.Generator.Rest.Models
             var lineBreak = new XComment("linebreak");
             var packageProperties = new XElement("PropertyGroup",
                     new XElement("Title", $"{PackageName} Client Library"),
-                    new XElement("Version", $"{Features.ReleaseVersion}.{GetRevision()}"),
+                    new XElement("Version", $"{_features.ReleaseVersion}.{GetRevision()}"),
                     new XElement("Authors", "Google Inc."),
                     // TODO: Update this to the current year, both here and in Python?
                     new XElement("Copyright", $"Copyright 2017 {(_discoveryDoc.OwnerName == "Google" ? "Google Inc." : _discoveryDoc.OwnerName)}"),
@@ -334,13 +336,13 @@ namespace Google.Api.Generator.Rest.Models
             );
 
             var netstandard20 = new XElement("ItemGroup", FrameworkCondition("netstandard2.0"),
-                PackageReference("Google.Apis", Features.CurrentSupportVersion),
-                AuthScopes.Any() ? PackageReference("Google.Apis.Auth", Features.CurrentSupportVersion) : null
+                PackageReference("Google.Apis", _features.CurrentSupportVersion),
+                AuthScopes.Any() ? PackageReference("Google.Apis.Auth", _features.CurrentSupportVersion) : null
             );
 
             var netstandard13 = new XElement("ItemGroup", FrameworkCondition("netstandard1.3"),
-                PackageReference("Google.Apis", Features.CurrentSupportVersion),
-                AuthScopes.Any() ? PackageReference("Google.Apis.Auth", Features.CurrentSupportVersion) : null
+                PackageReference("Google.Apis", _features.CurrentSupportVersion),
+                AuthScopes.Any() ? PackageReference("Google.Apis.Auth", _features.CurrentSupportVersion) : null
             );
 
             var netstandard10Properties = new XElement("PropertyGroup", FrameworkCondition("netstandard1.0"),
@@ -348,14 +350,14 @@ namespace Google.Api.Generator.Rest.Models
                 new XElement("AppConfig", "app.netstandard10.config")
             );
             var netstandard10Items = new XElement("ItemGroup", FrameworkCondition("netstandard1.0"),
-                PackageReference("Google.Apis", $"[{Features.PclSupportVersion}]", new XAttribute("ExcludeAssets", "build")),
-                AuthScopes.Any() ? PackageReference("Google.Apis.Auth", $"[{Features.PclSupportVersion}]", new XAttribute("ExcludeAssets", "build")) : null,
+                PackageReference("Google.Apis", $"[{_features.PclSupportVersion}]", new XAttribute("ExcludeAssets", "build")),
+                AuthScopes.Any() ? PackageReference("Google.Apis.Auth", $"[{_features.PclSupportVersion}]", new XAttribute("ExcludeAssets", "build")) : null,
                 PackageReference("Microsoft.NETCore.Portable.Compatibility", "1.0.1")
             );
 
             var net45 = new XElement("ItemGroup", FrameworkCondition("net45"),
-                PackageReference("Google.Apis", Features.CurrentSupportVersion),
-                AuthScopes.Any() ? PackageReference("Google.Apis.Auth", Features.CurrentSupportVersion) : null
+                PackageReference("Google.Apis", _features.CurrentSupportVersion),
+                AuthScopes.Any() ? PackageReference("Google.Apis.Auth", _features.CurrentSupportVersion) : null
             );
 
             var net40Properties = new XElement("PropertyGroup", FrameworkCondition("net40"),
@@ -363,8 +365,8 @@ namespace Google.Api.Generator.Rest.Models
                 new XElement("AppConfig", "app.net40.config")
             );
             var net40Items = new XElement("ItemGroup", FrameworkCondition("net40"),
-                PackageReference("Google.Apis", $"[{Features.Net40SupportVersion}]", new XAttribute("ExcludeAssets", "build")),
-                AuthScopes.Any() ? PackageReference("Google.Apis.Auth", $"[{Features.Net40SupportVersion}]", new XAttribute("ExcludeAssets", "build")) : null
+                PackageReference("Google.Apis", $"[{_features.Net40SupportVersion}]", new XAttribute("ExcludeAssets", "build")),
+                AuthScopes.Any() ? PackageReference("Google.Apis.Auth", $"[{_features.Net40SupportVersion}]", new XAttribute("ExcludeAssets", "build")) : null
             );
 
             var project = new XElement("Project", new XAttribute("Sdk", "Microsoft.NET.Sdk"), new XAttribute("ToolsVersion", "15.0"),
@@ -403,7 +405,7 @@ namespace Google.Api.Generator.Rest.Models
             string GetApiDescription()
             {
                 string upperCamelApiName = ApiName.ToUpperCamelCase(upperAfterDigit: false);
-                var prefix = Features.CloudPackageMap.TryGetValue(PackageName, out var cloudPackage)
+                var prefix = _features.CloudPackageMap.TryGetValue(PackageName, out var cloudPackage)
                     ? $@"
       This is not the recommended package for working with {upperCamelApiName}, please use the {cloudPackage} package.
       This Google APIs Client Library for working with {upperCamelApiName} {ApiVersion} uses older code generation, and is harder to use."
