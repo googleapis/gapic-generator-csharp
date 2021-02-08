@@ -42,6 +42,13 @@ namespace Google.Api.Generator.Rest.Models
         /// <summary>
         /// Map from REST library to GAPIC library to inform uses of the preferred package.
         /// </summary>
-        public IReadOnlyDictionary<string, string> CloudPackageMap { get; set; }
+        public IReadOnlyDictionary<string, string> CloudPackageMap { get; set; } =
+            new Dictionary<string, string>();
+
+        /// <summary>
+        /// Allows individual APIs to have a different major version number to the one in ReleaseVersion.
+        /// </summary>
+        public IReadOnlyDictionary<string, int> MajorVersionOverrideMap { get; set; } =
+            new Dictionary<string, int>();
     }
 }
