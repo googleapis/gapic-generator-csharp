@@ -299,12 +299,22 @@ namespace Google.Api.Generator.Rest.Models
 
         public XDocument GenerateProjectFile()
         {
+            string releaseVersion = _features.ReleaseVersion;
+
+            // Allow the major version to be overridden
+            if (_features.MajorVersionOverrideMap.TryGetValue(PackageName, out var major))
+            {
+                string[] bits = releaseVersion.Split('.');
+                bits[0] = major.ToString(CultureInfo.InvariantCulture);
+                releaseVersion = string.Join('.', bits);
+            }
+
             // This comment is turned into a line break later (in CodeGenerator).
             // While this is ugly, it's the simplest way of getting line breaks exactly where we want them.
             var lineBreak = new XComment("linebreak");
             var packageProperties = new XElement("PropertyGroup",
                     new XElement("Title", $"{PackageName} Client Library"),
-                    new XElement("Version", $"{_features.ReleaseVersion}.{GetRevision()}"),
+                    new XElement("Version", $"{releaseVersion}.{GetRevision()}"),
                     new XElement("Authors", "Google Inc."),
                     // TODO: Update this to the current year, both here and in Python?
                     new XElement("Copyright", $"Copyright 2017 {(_discoveryDoc.OwnerName == "Google" ? "Google Inc." : _discoveryDoc.OwnerName)}"),

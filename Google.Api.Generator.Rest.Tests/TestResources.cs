@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Google.Api.Generator.Rest.Models;
 using Google.Api.Generator.Testing;
 using System;
 using System.IO;
@@ -41,7 +42,14 @@ namespace Google.Api.Generator.Rest.Tests
         {
             var resourceDirectory = Path.Combine(TestDirectory, "GoldenTestData", directory);
             var json = File.ReadAllText(Path.Combine(resourceDirectory, "discovery.json"));
-            var files = CodeGenerator.Generate(json).ToList();
+            var features = new Features
+            {
+                ReleaseVersion = "1.49.0",
+                CurrentSupportVersion = "1.49.0",
+                Net40SupportVersion = "1.25.0",
+                PclSupportVersion = "1.10.0"
+            };
+            var files = CodeGenerator.Generate(json, features).ToList();
             // Check output is present.
             Assert.NotEmpty(files);
 
