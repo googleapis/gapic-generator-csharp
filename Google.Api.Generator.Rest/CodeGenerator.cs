@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Google.Api.Gax;
 using Google.Api.Generator.Rest.Models;
 using Google.Api.Generator.Utils;
 using Google.Api.Generator.Utils.Formatting;
@@ -23,19 +22,18 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using static Google.Api.Generator.Utils.Roslyn.RoslynBuilder;
 
 namespace Google.Api.Generator.Rest
 {
     internal class CodeGenerator
     {
-        public static IEnumerable<ResultFile> Generate(string discoveryJson)
+        public static IEnumerable<ResultFile> Generate(string discoveryJson, Features features)
         {
             discoveryJson = NormalizeDescriptions(discoveryJson);
 
             var discoveryDescription = NewtonsoftJsonSerializer.Instance.Deserialize<RestDescription>(discoveryJson);
 
-            var package = new PackageModel(discoveryDescription);
+            var package = new PackageModel(discoveryDescription, features);
             yield return GenerateCSharpCode(package);
             yield return GenerateProjectFile(package);
             yield return GenerateNet40Config(package);
