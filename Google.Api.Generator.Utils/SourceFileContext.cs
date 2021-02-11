@@ -109,12 +109,15 @@ namespace Google.Api.Generator.Utils
             // however, this isn't necessary as we completely control which namespaces are imported,
             // and we know that there are no collisions.
 
-            public Unaliased(IClock clock) : base(clock) { }
+            public Unaliased(IClock clock, bool importOwnNamespace) : base(clock) => _importOwnNamespace = importOwnNamespace;
 
             // Imported namespaces.
             private readonly HashSet<string> _imports = new HashSet<string>();
             // All type-names that have been imported through namespace imports. Used to detect name collisions.
             private readonly HashSet<string> _importedClassNames = new HashSet<string>();
+            // Whether to import or not the current or parent namespaces if a type from them is used.
+            // Used when generating samples, where we want to show all namespaces client code would have to add.
+            private readonly bool _importOwnNamespace;
 
             private void AddImport(string ns)
             {
@@ -143,7 +146,7 @@ namespace Google.Api.Generator.Utils
             public TypeSyntax Type0(Typ typ)
             {
                 bool aliasable;
-                if (!$"{Namespace}.".StartsWith($"{typ.Namespace}."))
+                if (_importOwnNamespace || !$"{Namespace}.".StartsWith($"{typ.Namespace}."))
                 {
                     AddImport(typ.Namespace);
                     aliasable = false;
@@ -284,7 +287,9 @@ namespace Google.Api.Generator.Utils
             { typeof(object).FullName, PredefinedType(Token(SyntaxKind.ObjectKeyword)) },
         };
 
-        public static SourceFileContext CreateUnaliased(IClock clock) => new Unaliased(clock);
+        public static SourceFileContext CreateUnaliased(IClock clock) => new Unaliased(clock, false);
+
+        public static SourceFileContext CreateUnaliasedWithOwnNamespace(IClock clock) => new Unaliased(clock, true);
 
         public static SourceFileContext CreateFullyQualified(IClock clock) => new FullyQualified(clock);
 
