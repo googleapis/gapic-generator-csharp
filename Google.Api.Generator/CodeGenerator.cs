@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Google.Api.Generator
 {
@@ -64,7 +65,18 @@ namespace Google.Api.Generator
                 { typeof(Xunit.Assert).Namespace, "xunit" },
             };
 
-        public static IEnumerable<ResultFile> Generate(FileDescriptorSet descriptorSet, string package, IClock clock,
+        /// <summary>
+        /// For unaliased source file context, we still have to sometimes aliase some namespaces to avoid
+        /// name collisions.
+        /// This collection is used to influence the order in which colliding namespaces are picked for
+        /// aliasing.
+        /// </summary>
+        private static readonly IReadOnlyCollection<Regex> s_avoidAliasingNamespaceRegex = new HashSet<Regex>
+        {
+            new Regex(@"^System\.?.*", RegexOptions.Compiled | RegexOptions.CultureInvariant),
+        };
+
+                public static IEnumerable<ResultFile> Generate(FileDescriptorSet descriptorSet, string package, IClock clock,
             string grpcServiceConfigPath, IEnumerable<string> commonResourcesConfigPaths)
         {
             var descriptors = descriptorSet.File;
@@ -126,7 +138,7 @@ namespace Google.Api.Generator
                     // Generate snippets for the service
                     // TODO: Consider removing this once we have integrated the standalone snippets
                     // with docs generation.
-                    var snippetCtx = SourceFileContext.CreateUnaliased(clock);
+                    var snippetCtx = SourceFileContext.CreateUnaliased(clock, s_wellknownNamespaceAliases, s_avoidAliasingNamespaceRegex);
                     var snippetCode = SnippetCodeGenerator.Generate(snippetCtx, serviceDetails);
                     var snippetFilename = $"{snippetsPathPrefix}{serviceDetails.ClientAbstractTyp.Name}Snippets.g.cs";
                     yield return new ResultFile(snippetFilename, snippetCode);
@@ -135,7 +147,7 @@ namespace Google.Api.Generator
                     // TODO: Once (and if we) generate just one set of snippets, stop using "standalone" as a differentiatior.
                     foreach (var snippetGenerator in SnippetCodeGenerator.StandaloneGenerators(serviceDetails))
                     {
-                        var standaloneSnippetCtx = SourceFileContext.CreateUnaliased(clock);
+                        var standaloneSnippetCtx = SourceFileContext.CreateUnaliased(clock, s_wellknownNamespaceAliases, s_avoidAliasingNamespaceRegex);
                         var standaloneSnippetCode = snippetGenerator.Generate(standaloneSnippetCtx);
                         var standaloneSnippetFilename = $"{standaloneSnippetsPathPrefix}{serviceDetails.ClientAbstractTyp.Name}.{snippetGenerator.SnippetMethodName}Snippet.g.cs";
                         yield return new ResultFile(standaloneSnippetFilename, standaloneSnippetCode);
