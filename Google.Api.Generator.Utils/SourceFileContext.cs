@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Text.RegularExpressions;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace Google.Api.Generator.Utils
@@ -103,55 +104,26 @@ namespace Google.Api.Generator.Utils
         {
             // TODO: Handle nested types.
 
-            // Name collisions between types in imported namespaces and types from generated
-            // code in the current & base namespaces are handled.
-            // Name collisions between types imported from two different namespaces are not handled;
-            // however, this isn't necessary as we completely control which namespaces are imported,
-            // and we know that there are no collisions.
+            public Unaliased(
+                IClock clock, IReadOnlyDictionary<string, string> wellKnownNamespaceAliases, IReadOnlyCollection<Regex> avoidAliasingNamespaceRegex) : base(clock) =>
+                (_wellKnownNamespaceAliases, _avoidAliasingNamespaceRegex) = (wellKnownNamespaceAliases, avoidAliasingNamespaceRegex);
 
-            public Unaliased(IClock clock) : base(clock) { }
-
-            // Imported namespaces.
-            private readonly HashSet<string> _imports = new HashSet<string>();
-            // All type-names that have been imported through namespace imports. Used to detect name collisions.
-            private readonly HashSet<string> _importedClassNames = new HashSet<string>();
-
-            private void AddImport(string ns)
-            {
-                // Add import.
-                if (_imports.Add(ns))
-                {
-                    // Track all available type names that can be used unalised.
-                    // This mechanism isn't fool-proof, but will work fine in most cases because this generator
-                    // depends on all assemblies that a generated library will depend on.
-                    var typeNamesInNs = AppDomain.CurrentDomain.GetAssemblies()
-                        .Where(a => !a.IsDynamic)
-                        .SelectMany(a => a.GetExportedTypes())
-                        .Where(t => t.Namespace == ns)
-                        .Select(t => t.Name);
-                    foreach (var typeNameInNs in typeNamesInNs)
-                    {
-                        _importedClassNames.Add(typeNameInNs);
-                    }
-                }
-            }
+            private readonly IReadOnlyDictionary<string, string> _wellKnownNamespaceAliases;
+            private readonly IReadOnlyCollection<Regex> _avoidAliasingNamespaceRegex;
+            // Seen namespaces. The associated bool value indicates whether we may skip import or not.
+            private readonly Dictionary<string, bool> _seenNamespaces = new Dictionary<string, bool>();
+            // Seen types. This will be used to avoid name collisions.
+            private readonly HashSet<Typ> _seenTypes = new HashSet<Typ>();
 
             public override TypeSyntax Type(Typ typ) => base.Type(typ) ?? Type0(typ);
 
-            private const string AliasableType = "rewriteable-type";
+            private const string FromNamespace = "from-namespace";
+            private const string ContextNamespace = "context-namespace";
 
             public TypeSyntax Type0(Typ typ)
             {
-                bool aliasable;
-                if (!$"{Namespace}.".StartsWith($"{typ.Namespace}."))
-                {
-                    AddImport(typ.Namespace);
-                    aliasable = false;
-                }
-                else
-                {
-                    aliasable = true;
-                }
+                TrackAsSeen(typ);
+
                 SimpleNameSyntax result = IdentifierName(typ.Name);
                 if (typ.IsDeprecated)
                 {
@@ -162,39 +134,151 @@ namespace Google.Api.Generator.Utils
                     // Generic typ, so return a generic name by recursively calling this method on all type args.
                     result = GenericName(result.Identifier, TypeArgumentList(SeparatedList(typ.GenericArgTyps.Select(Type))));
                 }
-                if (aliasable)
-                {
-                    // Annotate this type to show it might need fully aliasing if there is a name collision.
-                    result = result.WithAdditionalAnnotations(new SyntaxAnnotation(AliasableType, typ.Namespace));
-                }
+                // Always annotate with the namespace information.
+                result = result.WithAdditionalAnnotations(
+                    new SyntaxAnnotation(FromNamespace, typ.Namespace),
+                    new SyntaxAnnotation(ContextNamespace, Namespace));
                 return result;
+            }
+
+            private void TrackAsSeen(Typ typ)
+            {
+                // Track the namespace as seen and whether import may be skipped or not.
+                // Let's not override any explicit import.
+                // Current Namespace may change, so once we must include an import, let's not override
+                // that either.
+                if (!_seenNamespaces.TryGetValue(typ.Namespace, out bool maySkipImport) || maySkipImport)
+                {
+                    _seenNamespaces[typ.Namespace] = IsParentOrSameNamespace(typ.Namespace, Namespace);
+                }
+                // Track the type as seen.
+                _seenTypes.Add(typ);
             }
 
             public override T Import<T>(System.Type t, T o)
             {
-                AddImport(t.Namespace);
+                // An explicit import can never be skipped.
+                _seenNamespaces[t.Namespace] = false;
                 return o;
             }
 
+            private static bool IsParentOrSameNamespace(string supposedParent, string supposedChild) =>
+                $"{supposedChild}.".StartsWith($"{supposedParent}.");
+
             private class TypeAliaser : CSharpSyntaxRewriter
             {
-                public TypeAliaser(HashSet<string> importedClassNames) => _importedClassNames = importedClassNames;
+                // Collection of aliased namespaces as generated by this class. Namespace -> alias.
+                private readonly Dictionary<string, string> _aliasedNamespaces = new Dictionary<string, string>();
+                // Collection of unaliased namespaces as generated by this class.
+                private readonly HashSet<string> _unaliasedNamespaces = new HashSet<string>();
+                // Collection of types that need to be aliased as generated by this class.
+                // These were colliding types whose namespaces were aliased to avoid the collision. Type -> namespaces.
+                private readonly Dictionary<string, HashSet<string>> _collidingAliasedTypes = new Dictionary<string, HashSet<string>>();
+                // Collection of types that may need to be aliased because their namespaces were aliased to avoid collisions
+                // from other types. These types may not be aliased if used in the context of their own namespace. Type -> namespaces.
+                private readonly Dictionary<string, HashSet<string>> _nonCollidingAliasedTypes = new Dictionary<string, HashSet<string>>();
 
-                private readonly HashSet<string> _importedClassNames;
+                public IReadOnlyDictionary<string, string> AliasedNamespaces => _aliasedNamespaces;
+                public IReadOnlyCollection<string> UnaliasedNamespaces => _unaliasedNamespaces;
 
-                // Namespace -> alias
-                private readonly Dictionary<string, string> _namespaceAliases = new Dictionary<string, string>();
-
-                public IReadOnlyDictionary<string, string> NamespaceAliases => _namespaceAliases;
-
-                public override SyntaxNode VisitIdentifierName(IdentifierNameSyntax node)
+                public static TypeAliaser Create(
+                    IReadOnlyDictionary<string, bool> seenNamespaces,
+                    IReadOnlyCollection<Typ> seenTypes,
+                    IReadOnlyDictionary<string, string> wellKnownNamespaceAliases,
+                    IReadOnlyCollection<Regex> avoidAliasingNamespaceRegex)
                 {
-                    var aliasable = node.GetAnnotations(AliasableType).FirstOrDefault();
-                    if (aliasable != null && _importedClassNames.Contains(node.Identifier.ValueText))
+                    // Let's copy some of these collections over so we can make changes.
+                    // Also, copy them to more usable collections.
+                    var mustImportNs = seenNamespaces.Where(nsInfo => !nsInfo.Value).Select(nsInfo => nsInfo.Key).ToHashSet();
+                    // Get type names and the namespeces through which they would be imported if those namespaces were to be
+                    // imported unaliased. We don't look at skippable namespaces because those are only imported aliased, if imported.
+                    // We can safely exclude generic types because we don't generate any generic types and we know there
+                    // are no clashes between generic types in the non generated dependencies.
+                    // This mechanism isn't fool-proof, but will work fine in most cases because this generator
+                    // depends on all assemblies that a generated library will depend on.
+                    // Type name -> namespaces through which it could be imported.
+                    var couldBeImportedTypes = AppDomain.CurrentDomain.GetAssemblies()
+                        .Where(a => !a.IsDynamic)
+                        .SelectMany(a => a.GetExportedTypes())
+                        .Where(t => !t.IsGenericTypeDefinition && mustImportNs.Contains(t.Namespace))
+                        .GroupBy(t => t.Name, t => t.Namespace);
+                    // Colliding types are either seen types that collide between them or seen types that collide with a type
+                    // that would be imported (even if unused) when importing an unaliased namespace, or both.
+                    // We also skip generic types here.
+                    // Notice that in collidingTypes we always have at least one seen type of each name (because of the join);
+                    // we don't care about collisions from unseen imported types between them.
+                    var collidingTypes = seenTypes
+                        .Where(t => t.GenericArgTyps?.Any() != true)
+                        .GroupBy(t => t.Name, t => t.Namespace)
+                        .Join(
+                            couldBeImportedTypes,
+                            seen => seen.Key,
+                            imported => imported.Key,
+                            (seen, imported) => (type: seen.Key, namespaces: new HashSet<string>(seen.Concat(imported))))
+                        .Where(tNs => tNs.namespaces.Count > 1)
+                        .ToDictionary(tNs => tNs.type, tNs => tNs.namespaces);
+
+                    // We now have all the information we need to know which types and namespaces need aliasing.
+                    // This is what we'll generate:
+                    // Collection of aliased namespaces. Namespace -> alias.
+                    Dictionary<string, string> aliasedNamespaces = new Dictionary<string, string>();
+                    // Collection of unaliased namespaces.
+                    HashSet<string> unaliasedNamespaces = new HashSet<string>();
+                    // Collection of types that need to be aliased. Type -> namespaces.
+                    Dictionary<string, HashSet<string>> collidingAliasedTypes = new Dictionary<string, HashSet<string>>();
+                    // Collection of types that may need to be aliased because their namespaces were aliased to avoid collisions
+                    // from other types. These types may not be aliased if used in the context of their own namespace. Type -> namespaces.
+                    Dictionary<string, HashSet<string>> nonCollidingAliasedTypes = new Dictionary<string, HashSet<string>>();
+
+                    // Let's alias namespaces until we have no collisions.
+                    while (GetTopCollidingNamespace() is string topCollidingNamespace)
                     {
-                        // Type name needs fully aliasing; there is a name collision with another type.
-                        var ns = aliasable.Data;
-                        if (!_namespaceAliases.TryGetValue(ns, out var alias))
+                        // First alias the namespace.
+                        var alias = ImportAliased(topCollidingNamespace);
+                        // Now alias all seen types from that namespace, colliding or not.
+                        foreach (var t in seenTypes.Where(t => t.Namespace == topCollidingNamespace))
+                        {
+                            AliasType(t.Name, topCollidingNamespace);
+                        }
+                        // If there are still colliding types from this namespace, we can safely remove them.
+                        // They are not seen types that we need to alias, they are types that would have
+                        // been imported if the namespace were to be imported unaliased, but we just aliased
+                        // the namespace.
+                        RemoveNamespaceFromColliding(topCollidingNamespace);
+                    }
+
+                    // We have no collisions now. We can safely import remaining namespaces.
+                    unaliasedNamespaces.UnionWith(mustImportNs);
+
+                    return new TypeAliaser(aliasedNamespaces, unaliasedNamespaces, collidingAliasedTypes, nonCollidingAliasedTypes);
+
+                    // Find the next namespace to be aliased.
+                    string GetTopCollidingNamespace() =>
+                        collidingTypes
+                            // This just flips the collection from type => namespace to namespace => type.
+                            .SelectMany(tNs => tNs.Value.Select(ns => (ns, t: tNs.Key)))
+                            // Now we group by namespace.
+                            .GroupBy(nsT => nsT.ns, nsT => nsT.t)
+                            // Prioritize the ones that we are free to alias.
+                            .OrderBy(nsG => avoidAliasingNamespaceRegex.Any(regex => regex.IsMatch(nsG.Key)))
+                            // Then the ones that introduce the most collisions for seen types.
+                            // Think about Google.Cloud.Spanner.V1.Type, System.Type and Google.Protobuf.WellKnownTypes.Type:
+                            // the only one actually used in snippets is the one from Spanner, but the other two are imported because
+                            // the namespaces are imported. If we alias the Spanner namespace then we don't need to alias the other two
+                            // but if we alias Protobuf, then we still need to alias one of the two remaining.
+                            .ThenByDescending(nsg => nsg.Where(tn => seenTypes.Any(t => t.Name == tn && t.Namespace == nsg.Key)).Count())
+                            // Then the ones that introduce the most collisions overall.
+                            .ThenByDescending(nsg => nsg.Count())
+                            // Then the ones that that have well known aliases, it's preferably to alias those.
+                            .ThenByDescending(nsg => wellKnownNamespaceAliases.ContainsKey(nsg.Key))
+                            // Then lastly avoid introducing unnecessary imports.
+                            .ThenByDescending(nsg => mustImportNs.Contains(nsg.Key))
+                            .FirstOrDefault()?.Key;
+
+                    // Creates an alias for the given namespace and imports it as such.
+                    string ImportAliased(string ns)
+                    {
+                        if (!wellKnownNamespaceAliases.TryGetValue(ns, out var alias))
                         {
                             // Create alias using the first character of each namespace part.
                             // TODO: Ensure single-character aliased are not generated; they cause a compilation error.
@@ -202,13 +286,115 @@ namespace Google.Api.Generator.Utils
                                 .Split('.', StringSplitOptions.RemoveEmptyEntries)
                                 .Select(x => char.ToLowerInvariant(x[0]))
                                 .Aggregate("", (a, c) => a + c);
-                            _namespaceAliases.Add(ns, alias);
                         }
+                        // Add this namespace and it's alias to the aliased collection.
+                        aliasedNamespaces.Add(ns, alias);
+                        // We have now imported this namespace as aliased so remove it from pending namespaces.
+                        // Note that this may have been a skippable namespace, in which case it wasn't in the
+                        // mustImportNs collection to start with.
+                        mustImportNs.Remove(ns);
+                        return alias;
+                    }
+
+                    void AliasType(string t, string ns)
+                    {
+                        // Remove the pair from colliding types if this was a colliding type.
+                        // Add the pair to the corresponding aliased types collection.
+                        if (RemoveTypeFromColliding(t, ns))
+                        {
+                            Add(collidingAliasedTypes, t, ns);
+                        }
+                        else
+                        {
+                            Add(nonCollidingAliasedTypes, t, ns);
+                        }
+                    }
+
+                    void Add(IDictionary<string, HashSet<string>> tNamespaces, string t, string ns)
+                    {
+                        if (!tNamespaces.TryGetValue(t, out HashSet<string> namespaces))
+                        {
+                            namespaces = tNamespaces[t] = new HashSet<string>();
+                        }
+                        namespaces.Add(ns);
+                    }
+
+                    void RemoveNamespaceFromColliding(string ns)
+                    {
+                        foreach(var tNs in collidingTypes.Where(ctNs => ctNs.Value.Contains(ns)).ToList())
+                        {
+                            RemoveTypeFromColliding(tNs.Key, ns);
+                        }
+                    }
+
+                    bool RemoveTypeFromColliding(string t, string ns)
+                    {
+                        if (collidingTypes.TryGetValue(t, out var collidingTypeNamespaces) && collidingTypeNamespaces.Contains(ns))
+                        {
+                            if (collidingTypeNamespaces.Count == 2 || // If we remove one of the remaining two collisions...
+                                // or if after removal the remaining collisions are between unseen imported types...
+                                !collidingTypeNamespaces.Any(ctNs => ctNs != ns && seenTypes.Any(typ => typ.Name == t && typ.Namespace == ctNs)))
+                            {
+                                // ... then this type is not colliding anymore
+                                collidingTypes.Remove(t);
+                            }
+                            else
+                            {
+                                // Even after removal of this collision, there are remaining collisions from seen types
+                                // with this name, so we just remove this particular collision.
+                                collidingTypeNamespaces.Remove(ns);
+                            }
+                            return true;
+                        }
+                        return false;
+                    }
+                }
+
+                private TypeAliaser(
+                    Dictionary<string, string> aliasedNamespaces,
+                    HashSet<string> unaliasedNamespaces,
+                    Dictionary<string, HashSet<string>> collidingAliasedTypes,
+                    Dictionary<string, HashSet<string>> nonCollidingAliasedTypes) =>
+                    (_aliasedNamespaces, _unaliasedNamespaces, _collidingAliasedTypes, _nonCollidingAliasedTypes) = 
+                    (aliasedNamespaces, unaliasedNamespaces, collidingAliasedTypes, nonCollidingAliasedTypes);
+
+                public override SyntaxNode VisitIdentifierName(IdentifierNameSyntax node) =>
+                    VisitSimpleNameSyntax(node) ?? base.VisitIdentifierName(node);
+
+                public override SyntaxNode VisitGenericName(GenericNameSyntax node) =>
+                    VisitSimpleNameSyntax(node) ?? base.VisitGenericName(node);
+
+                private SyntaxNode VisitSimpleNameSyntax(SimpleNameSyntax node)
+                {
+                    if (GetAlias(node) is string alias)
+                    {
                         // Move any comments to the new node, and return it.
                         var aliasedName = AliasQualifiedName(alias, node.WithoutTrivia());
                         return aliasedName.WithTriviaFrom(node);
                     }
-                    return base.VisitIdentifierName(node);
+
+                    return null;
+                }
+
+                private string GetAlias(SimpleNameSyntax node)
+                {
+                    if (node.GetAnnotations(FromNamespace).FirstOrDefault()?.Data is string typNs)
+                    {
+                        var typName = node.Identifier.ValueText;
+
+                        // We alias if this was an aliased colliding type, or if it was an aliased not colliding type that's beeing used
+                        // outside of it's own namespace.
+                        if (ContainsType(_collidingAliasedTypes, typName, typNs) ||
+                            (ContainsType(_nonCollidingAliasedTypes, typName, typNs) && !IsParentOrSameNamespace(typNs, node.GetAnnotations(ContextNamespace).Single().Data)))
+                        {
+                            // Type name needs fully aliasing; there is a name collision with another type.
+                            return _aliasedNamespaces[typNs];
+                        }
+                    }
+                    return null;
+
+                    static bool ContainsType(IDictionary<string, HashSet<string>> types, string typ, string ns) =>
+                       types.TryGetValue(typ, out HashSet<string> namespaces) && namespaces.Contains(ns);
                 }
             }
 
@@ -216,11 +402,11 @@ namespace Google.Api.Generator.Utils
             {
                 // Rewrite as fully-aliased any types for which there are name collisions.
                 // This has to be done post-generation, as we don't know the complete set of types & imports until generation is complete.
-                var typeAliaser = new TypeAliaser(_importedClassNames);
+                var typeAliaser = TypeAliaser.Create(_seenNamespaces, _seenTypes, _wellKnownNamespaceAliases, _avoidAliasingNamespaceRegex);
                 ns = (NamespaceDeclarationSyntax) typeAliaser.Visit(ns);
                 // Add using statements for standard imports, and for fully-qualifying name collisions.
-                var usings = _imports.OrderBy(x => x).Select(x => UsingDirective(IdentifierName(x)))
-                    .Concat(typeAliaser.NamespaceAliases.OrderBy(x => x.Key).Select(x => UsingDirective(NameEquals(x.Value), IdentifierName(x.Key))));
+                var usings = typeAliaser.UnaliasedNamespaces.OrderBy(x => x).Select(x => UsingDirective(IdentifierName(x)))
+                    .Concat(typeAliaser.AliasedNamespaces.OrderBy(x => x.Key).Select(x => UsingDirective(NameEquals(x.Value), IdentifierName(x.Key))));
                 ns = ns.AddUsings(usings.ToArray());
                 // Return compilation-unit with license.
                 var compilationUnit = CompilationUnit().AddMembers(ns);
@@ -284,7 +470,9 @@ namespace Google.Api.Generator.Utils
             { typeof(object).FullName, PredefinedType(Token(SyntaxKind.ObjectKeyword)) },
         };
 
-        public static SourceFileContext CreateUnaliased(IClock clock) => new Unaliased(clock);
+        public static SourceFileContext CreateUnaliased(
+            IClock clock, IReadOnlyDictionary<string, string> wellKnownNamespaceAliases, IReadOnlyCollection<Regex> avoidAliasingNamespaceRegex) =>
+            new Unaliased(clock, wellKnownNamespaceAliases, avoidAliasingNamespaceRegex);
 
         public static SourceFileContext CreateFullyQualified(IClock clock) => new FullyQualified(clock);
 
