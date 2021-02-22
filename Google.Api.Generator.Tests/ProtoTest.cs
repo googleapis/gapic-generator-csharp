@@ -15,6 +15,7 @@
 using Google.Api.Gax.Testing;
 using Google.Api.Generator.Testing;
 using Google.Api.Generator.Utils;
+using Google.Protobuf.Reflection;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -35,7 +36,8 @@ namespace Google.Api.Generator.Tests
                 Invoker.Protoc($"-o {desc} --experimental_allow_proto3_optional --include_imports --include_source_info " +
                     $"-I{Invoker.CommonProtosDir} -I{Invoker.ProtobufDir} -I{Invoker.GeneratorTestsDir} {string.Join(" ", protoPaths)}");
                 var descriptorBytes = File.ReadAllBytes(desc.Path);
-                return CodeGenerator.Generate(descriptorBytes, package, clock, grpcServiceConfigPath, commonResourcesConfigPaths);
+                FileDescriptorSet descriptorSet = FileDescriptorSet.Parser.ParseFrom(descriptorBytes);
+                return CodeGenerator.Generate(descriptorSet, package, clock, grpcServiceConfigPath, commonResourcesConfigPaths);
             }
         }
 

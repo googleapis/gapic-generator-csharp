@@ -159,8 +159,7 @@ namespace Google.Api.Generator
                 var extraParams = ParseExtraParameters(codeGenRequest.Parameter);
                 // Generate code.
                 // On success, send all generated files back to protoc.
-                var descriptors = FileDescriptor.BuildFromByteStrings(codeGenRequest.ProtoFile);
-                var results = CodeGenerator.Generate(descriptors, codeGenRequest.FileToGenerate, SystemClock.Instance,
+                var results = CodeGenerator.Generate(codeGenRequest.ProtoFile, codeGenRequest.FileToGenerate, SystemClock.Instance,
                     extraParams.GetValueOrDefault(nameGrpcServiceConfig)?.SingleOrDefault(), extraParams.GetValueOrDefault(nameCommonResourcesConfig));
                 codeGenResponse = new CodeGeneratorResponse
                 {
@@ -216,7 +215,8 @@ namespace Google.Api.Generator
         private static void GenerateFromArgs(Options options)
         {
             var descriptorBytes = File.ReadAllBytes(options.Descriptor);
-            var files = CodeGenerator.Generate(descriptorBytes, options.Package, SystemClock.Instance, options.GrpcServiceConfig, options.CommonResourcesConfigs);
+            var fileDescriptorSet = FileDescriptorSet.Parser.ParseFrom(descriptorBytes);
+            var files = CodeGenerator.Generate(fileDescriptorSet, options.Package, SystemClock.Instance, options.GrpcServiceConfig, options.CommonResourcesConfigs);
             foreach (var file in files)
             {
                 var path = Path.Combine(options.Output, file.RelativePath);

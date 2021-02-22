@@ -24,23 +24,24 @@ namespace Google.Protobuf.Compiler {
     static PluginReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "CgxwbHVnaW4ucHJvdG8SGGdvb2dsZS5wcm90b2J1Zi5jb21waWxlciJGCgdW",
-            "ZXJzaW9uEg0KBW1ham9yGAEgASgFEg0KBW1pbm9yGAIgASgFEg0KBXBhdGNo",
-            "GAMgASgFEg4KBnN1ZmZpeBgEIAEoCSKUAQoUQ29kZUdlbmVyYXRvclJlcXVl",
-            "c3QSGAoQZmlsZV90b19nZW5lcmF0ZRgBIAMoCRIRCglwYXJhbWV0ZXIYAiAB",
-            "KAkSEgoKcHJvdG9fZmlsZRgPIAMoDBI7ChBjb21waWxlcl92ZXJzaW9uGAMg",
-            "ASgLMiEuZ29vZ2xlLnByb3RvYnVmLmNvbXBpbGVyLlZlcnNpb24igAIKFUNv",
-            "ZGVHZW5lcmF0b3JSZXNwb25zZRINCgVlcnJvchgBIAEoCRIaChJzdXBwb3J0",
-            "ZWRfZmVhdHVyZXMYAiABKAQSQgoEZmlsZRgPIAMoCzI0Lmdvb2dsZS5wcm90",
-            "b2J1Zi5jb21waWxlci5Db2RlR2VuZXJhdG9yUmVzcG9uc2UuRmlsZRo+CgRG",
-            "aWxlEgwKBG5hbWUYASABKAkSFwoPaW5zZXJ0aW9uX3BvaW50GAIgASgJEg8K",
-            "B2NvbnRlbnQYDyABKAkiOAoHRmVhdHVyZRIQCgxGRUFUVVJFX05PTkUQABIb",
-            "ChdGRUFUVVJFX1BST1RPM19PUFRJT05BTBABQmcKHGNvbS5nb29nbGUucHJv",
-            "dG9idWYuY29tcGlsZXJCDFBsdWdpblByb3Rvc1o5Z2l0aHViLmNvbS9nb2xh",
-            "bmcvcHJvdG9idWYvcHJvdG9jLWdlbi1nby9wbHVnaW47cGx1Z2luX2dvYgZw",
-            "cm90bzM="));
+            "CgxwbHVnaW4ucHJvdG8SGGdvb2dsZS5wcm90b2J1Zi5jb21waWxlchogZ29v",
+            "Z2xlL3Byb3RvYnVmL2Rlc2NyaXB0b3IucHJvdG8iRgoHVmVyc2lvbhINCgVt",
+            "YWpvchgBIAEoBRINCgVtaW5vchgCIAEoBRINCgVwYXRjaBgDIAEoBRIOCgZz",
+            "dWZmaXgYBCABKAkiugEKFENvZGVHZW5lcmF0b3JSZXF1ZXN0EhgKEGZpbGVf",
+            "dG9fZ2VuZXJhdGUYASADKAkSEQoJcGFyYW1ldGVyGAIgASgJEjgKCnByb3Rv",
+            "X2ZpbGUYDyADKAsyJC5nb29nbGUucHJvdG9idWYuRmlsZURlc2NyaXB0b3JQ",
+            "cm90bxI7ChBjb21waWxlcl92ZXJzaW9uGAMgASgLMiEuZ29vZ2xlLnByb3Rv",
+            "YnVmLmNvbXBpbGVyLlZlcnNpb24igAIKFUNvZGVHZW5lcmF0b3JSZXNwb25z",
+            "ZRINCgVlcnJvchgBIAEoCRIaChJzdXBwb3J0ZWRfZmVhdHVyZXMYAiABKAQS",
+            "QgoEZmlsZRgPIAMoCzI0Lmdvb2dsZS5wcm90b2J1Zi5jb21waWxlci5Db2Rl",
+            "R2VuZXJhdG9yUmVzcG9uc2UuRmlsZRo+CgRGaWxlEgwKBG5hbWUYASABKAkS",
+            "FwoPaW5zZXJ0aW9uX3BvaW50GAIgASgJEg8KB2NvbnRlbnQYDyABKAkiOAoH",
+            "RmVhdHVyZRIQCgxGRUFUVVJFX05PTkUQABIbChdGRUFUVVJFX1BST1RPM19P",
+            "UFRJT05BTBABQmcKHGNvbS5nb29nbGUucHJvdG9idWYuY29tcGlsZXJCDFBs",
+            "dWdpblByb3Rvc1o5Z2l0aHViLmNvbS9nb2xhbmcvcHJvdG9idWYvcHJvdG9j",
+            "LWdlbi1nby9wbHVnaW47cGx1Z2luX2dvYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { },
+          new pbr::FileDescriptor[] { global::Google.Protobuf.Reflection.DescriptorReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Compiler.Version), global::Google.Protobuf.Compiler.Version.Parser, new[]{ "Major", "Minor", "Patch", "Suffix" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Compiler.CodeGeneratorRequest), global::Google.Protobuf.Compiler.CodeGeneratorRequest.Parser, new[]{ "FileToGenerate", "Parameter", "ProtoFile", "CompilerVersion" }, null, null, null, null),
@@ -342,9 +343,9 @@ namespace Google.Protobuf.Compiler {
 
     /// <summary>Field number for the "proto_file" field.</summary>
     public const int ProtoFileFieldNumber = 15;
-    private static readonly pb::FieldCodec<pb::ByteString> _repeated_protoFile_codec
-        = pb::FieldCodec.ForBytes(122);
-    private readonly pbc::RepeatedField<pb::ByteString> protoFile_ = new pbc::RepeatedField<pb::ByteString>();
+    private static readonly pb::FieldCodec<global::Google.Protobuf.Reflection.FileDescriptorProto> _repeated_protoFile_codec
+        = pb::FieldCodec.ForMessage(122, global::Google.Protobuf.Reflection.FileDescriptorProto.Parser);
+    private readonly pbc::RepeatedField<global::Google.Protobuf.Reflection.FileDescriptorProto> protoFile_ = new pbc::RepeatedField<global::Google.Protobuf.Reflection.FileDescriptorProto>();
     /// <summary>
     /// FileDescriptorProtos for all files in files_to_generate and everything
     /// they import.  The files will appear in topological order, so each file
@@ -360,10 +361,9 @@ namespace Google.Protobuf.Compiler {
     ///
     /// Type names of fields and extensions in the FileDescriptorProto are always
     /// fully qualified.
-    ///repeated FileDescriptorProto proto_file = 15;
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<pb::ByteString> ProtoFile {
+    public pbc::RepeatedField<global::Google.Protobuf.Reflection.FileDescriptorProto> ProtoFile {
       get { return protoFile_; }
     }
 
