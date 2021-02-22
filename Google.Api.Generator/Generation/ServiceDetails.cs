@@ -48,9 +48,9 @@ namespace Google.Api.Generator.Generation
             BuilderTyp = Typ.Manual(ns, $"{desc.Name}ClientBuilder");
             ClientAbstractTyp = Typ.Manual(ns, $"{desc.Name}Client");
             ClientImplTyp = Typ.Manual(ns, $"{desc.Name}ClientImpl");
-            DefaultHost = desc.SafeGetOption(ClientExtensions.DefaultHost) ?? "";
+            DefaultHost = desc.GetExtension(ClientExtensions.DefaultHost) ?? "";
             DefaultPort = 443; // Hardcoded; this is not specifiable by proto annotation.
-            var oauthScopes = desc.SafeGetOption(ClientExtensions.OauthScopes);
+            var oauthScopes = desc.GetExtension(ClientExtensions.OauthScopes);
             DefaultScopes = string.IsNullOrEmpty(oauthScopes) ? Enumerable.Empty<string>() : oauthScopes.Split(',', ' ');
             Methods = desc.Methods.Select(x => MethodDetails.Create(this, x)).ToList();
             SnippetsTyp = Typ.Manual(SnippetsNamespace, $"Generated{desc.Name}ClientSnippets");

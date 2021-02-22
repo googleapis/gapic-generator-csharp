@@ -86,7 +86,7 @@ namespace Google.Api.Generator.Generation
         {
             public Lro(ServiceDetails svc, MethodDescriptor desc) : base(svc, desc)
             {
-                OperationInfo lroData = desc.SafeGetOption(OperationsExtensions.OperationInfo);
+                OperationInfo lroData = desc.GetExtension(OperationsExtensions.OperationInfo);
                 if (lroData is null)
                 {
                     throw new InvalidOperationException("LRO method must contain a `google.api.operation` option.");
@@ -186,7 +186,7 @@ namespace Google.Api.Generator.Generation
                     IsMap = lastDesc.IsMap;
                     IsRepeated = lastDesc.IsRepeated;
                     IsWrapperType = ProtoTyp.IsWrapperType(lastDesc);
-                    IsRequired = lastDesc.SafeGetOption(FieldBehaviorExtensions.FieldBehavior).Any(x => x == FieldBehavior.Required);
+                    IsRequired = lastDesc.GetExtension(FieldBehaviorExtensions.FieldBehavior).Any(x => x == FieldBehavior.Required);
                     ParameterName = lastDesc.CSharpFieldName();
                     PropertyName = lastDesc.CSharpPropertyName();
                     IsDeprecated = Descs.Any(x => x.IsDeprecated());
@@ -290,10 +290,10 @@ namespace Google.Api.Generator.Generation
             ModifyApiCallMethodName = $"Modify_{desc.Name}ApiCall";
             ModifyRequestMethodName = $"Modify_{RequestTyp.Name}";
             DocLines = desc.Declaration.DocLines().ToList();
-            Signatures = desc.SafeGetOption(ClientExtensions.MethodSignature).Select(sig => new Signature(svc, desc.InputType, sig)).ToList();
+            Signatures = desc.GetExtension(ClientExtensions.MethodSignature).Select(sig => new Signature(svc, desc.InputType, sig)).ToList();
             RequestMessageDesc = desc.InputType;
             ResponseMessageDesc = desc.OutputType;
-            var http = desc.SafeGetOption(AnnotationsExtensions.Http);
+            var http = desc.GetExtension(AnnotationsExtensions.Http);
             RoutingHeaders = ReadRoutingHeaders(http, desc.InputType).ToList();
             (MethodRetry, MethodRetryStatusCodes, Expiration) = LoadTiming(svc, desc);
         }
