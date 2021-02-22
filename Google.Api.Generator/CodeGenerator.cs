@@ -47,17 +47,19 @@ namespace Google.Api.Generator
                 { typeof(Xunit.Assert).Namespace, "xunit" },
             };
 
-        public static IEnumerable<ResultFile> Generate(byte[] descriptorBytes, string package, IClock clock,
+        public static IEnumerable<ResultFile> Generate(FileDescriptorSet descriptorSet, string package, IClock clock,
             string grpcServiceConfigPath, IEnumerable<string> commonResourcesConfigPaths)
         {
-            var descriptors = GetFileDescriptors(descriptorBytes);
+            var descriptors = descriptorSet.File;
             var filesToGenerate = descriptors.Where(x => x.Package == package).Select(x => x.Name).ToList();
             return Generate(descriptors, filesToGenerate, clock, grpcServiceConfigPath, commonResourcesConfigPaths);
         }
 
-        public static IEnumerable<ResultFile> Generate(IReadOnlyList<FileDescriptor> descriptors, IEnumerable<string> filesToGenerate, IClock clock,
+        public static IEnumerable<ResultFile> Generate(IReadOnlyList<FileDescriptorProto> descriptorProtos, IEnumerable<string> filesToGenerate, IClock clock,
             string grpcServiceConfigPath, IEnumerable<string> commonResourcesConfigPaths)
         {
+            // TODO: Extension registry.
+            var descriptors = FileDescriptor.BuildFromByteStrings(descriptorProtos.Select(proto => proto.ToByteString()));
             // Load side-loaded configurations; both optional.
             var grpcServiceConfig = grpcServiceConfigPath != null ? ServiceConfig.Parser.ParseJson(File.ReadAllText(grpcServiceConfigPath)) : null;
             var commonResourcesConfigs = commonResourcesConfigPaths != null ?
@@ -163,38 +165,6 @@ namespace Google.Api.Generator
                 var unitTestsCsprojFilename = $"{unitTestsPathPrefix}{ns}.Tests.csproj";
                 yield return new ResultFile(unitTestsCsprojFilename, unitTestsCsprojContent);
             }
-        }
-
-        private static IReadOnlyList<FileDescriptor> GetFileDescriptors(byte[] bytes)
-        {
-            // TODO: Remove this when equivalent is in Protobuf.
-            // Manually read repeated field of `FileDescriptorProto` messages.
-            int i = 0;
-            var bss = new List<ByteString>();
-            while (i < bytes.Length)
-            {
-                if (bytes[i] != 0xa)
-                {
-                    throw new InvalidOperationException($"Expected 0xa at offset {i}");
-                }
-                i += 1;
-                int len = 0;
-                int shift = 0;
-                while (true)
-                {
-                    var b = bytes[i];
-                    i += 1;
-                    len |= (b & 0x7f) << shift;
-                    shift += 7;
-                    if ((b & 0x80) == 0)
-                    {
-                        break;
-                    }
-                }
-                bss.Add(ByteString.CopyFrom(bytes, i, len));
-                i += len;
-            }
-            return FileDescriptor.BuildFromByteStrings(bss);
         }
     }
 }

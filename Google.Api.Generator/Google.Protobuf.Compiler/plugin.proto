@@ -54,7 +54,7 @@ option java_outer_classname = "PluginProtos";
 
 option go_package = "github.com/golang/protobuf/protoc-gen-go/plugin;plugin_go";
 
-//import "google/protobuf/descriptor.proto";
+import "google/protobuf/descriptor.proto";
 
 // The version number of protocol compiler.
 message Version {
@@ -90,8 +90,7 @@ message CodeGeneratorRequest {
   //
   // Type names of fields and extensions in the FileDescriptorProto are always
   // fully qualified.
-  //repeated FileDescriptorProto proto_file = 15;
-  repeated bytes proto_file = 15;
+  repeated FileDescriptorProto proto_file = 15;
 
   // The version number of protocol compiler.
   Version compiler_version = 3;
