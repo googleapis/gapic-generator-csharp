@@ -16,6 +16,7 @@ using Google.Api.Gax;
 using Google.Api.Generator.Generation;
 using Google.Api.Generator.ProtoUtils;
 using Google.Api.Generator.Utils;
+using Google.LongRunning;
 using Google.Protobuf;
 using Google.Protobuf.Reflection;
 using Grpc.ServiceConfig;
@@ -28,6 +29,22 @@ namespace Google.Api.Generator
 {
     internal static class CodeGenerator
     {
+        /// <summary>
+        /// Extension registry with everything we need in.
+        /// </summary>
+        private static readonly ExtensionRegistry s_registry = new ExtensionRegistry
+        {
+            ClientExtensions.DefaultHost,
+            ClientExtensions.MethodSignature,
+            ClientExtensions.OauthScopes,
+            OperationsExtensions.OperationInfo,
+            FieldBehaviorExtensions.FieldBehavior,
+            AnnotationsExtensions.Http,
+            ResourceExtensions.Resource,
+            ResourceExtensions.ResourceDefinition,
+            ResourceExtensions.ResourceReference
+        };
+
         private static readonly IReadOnlyDictionary<string, string> s_wellknownNamespaceAliases = new Dictionary<string, string>
             {
                 { typeof(System.Int32).Namespace, "sys" }, // Don't use "s"; one-letter aliases cause a compilation error!
@@ -58,8 +75,7 @@ namespace Google.Api.Generator
         public static IEnumerable<ResultFile> Generate(IReadOnlyList<FileDescriptorProto> descriptorProtos, IEnumerable<string> filesToGenerate, IClock clock,
             string grpcServiceConfigPath, IEnumerable<string> commonResourcesConfigPaths)
         {
-            // TODO: Extension registry.
-            var descriptors = FileDescriptor.BuildFromByteStrings(descriptorProtos.Select(proto => proto.ToByteString()));
+            var descriptors = FileDescriptor.BuildFromByteStrings(descriptorProtos.Select(proto => proto.ToByteString()), s_registry);
             // Load side-loaded configurations; both optional.
             var grpcServiceConfig = grpcServiceConfigPath != null ? ServiceConfig.Parser.ParseJson(File.ReadAllText(grpcServiceConfigPath)) : null;
             var commonResourcesConfigs = commonResourcesConfigPaths != null ?
