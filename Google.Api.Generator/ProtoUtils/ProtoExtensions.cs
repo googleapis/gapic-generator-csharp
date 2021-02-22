@@ -81,34 +81,34 @@ namespace Google.Api.Generator.ProtoUtils
 
         // Convenience methods for accessing extensions, where repeated extensions
         // return an empty repeated field instead of null if they're absent.
-        internal static T SafeGetOption<T>(this FileDescriptor descriptor, Extension<FileOptions, T> extension) =>
+        internal static T GetExtension<T>(this FileDescriptor descriptor, Extension<FileOptions, T> extension) =>
             descriptor.GetOptions() is FileOptions options ? options.GetExtension(extension) : default;
 
-        internal static RepeatedField<T> SafeGetOption<T>(this FileDescriptor descriptor, RepeatedExtension<FileOptions, T> extension) =>
+        internal static RepeatedField<T> GetExtension<T>(this FileDescriptor descriptor, RepeatedExtension<FileOptions, T> extension) =>
             descriptor.GetOptions()?.GetExtension(extension) ?? new RepeatedField<T>();
 
-        internal static T SafeGetOption<T>(this MessageDescriptor descriptor, Extension<MessageOptions, T> extension) =>
+        internal static T GetExtension<T>(this MessageDescriptor descriptor, Extension<MessageOptions, T> extension) =>
             descriptor.GetOptions() is MessageOptions options ? options.GetExtension(extension) : default;
 
-        internal static RepeatedField<T> SafeGetOption<T>(this MessageDescriptor descriptor, RepeatedExtension<MessageOptions, T> extension) =>
+        internal static RepeatedField<T> GetExtension<T>(this MessageDescriptor descriptor, RepeatedExtension<MessageOptions, T> extension) =>
             descriptor.GetOptions()?.GetExtension(extension) ?? new RepeatedField<T>();
 
-        internal static T SafeGetOption<T>(this FieldDescriptor descriptor, Extension<FieldOptions, T> extension) =>
+        internal static T GetExtension<T>(this FieldDescriptor descriptor, Extension<FieldOptions, T> extension) =>
             descriptor.GetOptions() is FieldOptions options ? options.GetExtension(extension) : default;
 
-        internal static RepeatedField<T> SafeGetOption<T>(this FieldDescriptor descriptor, RepeatedExtension<FieldOptions, T> extension) =>
+        internal static RepeatedField<T> GetExtension<T>(this FieldDescriptor descriptor, RepeatedExtension<FieldOptions, T> extension) =>
             descriptor.GetOptions()?.GetExtension(extension) ?? new RepeatedField<T>();
 
-        internal static T SafeGetOption<T>(this ServiceDescriptor descriptor, Extension<ServiceOptions, T> extension) =>
+        internal static T GetExtension<T>(this ServiceDescriptor descriptor, Extension<ServiceOptions, T> extension) =>
             descriptor.GetOptions() is ServiceOptions options ? options.GetExtension(extension) : default;
 
-        internal static RepeatedField<T> SafeGetOption<T>(this ServiceDescriptor descriptor, RepeatedExtension<ServiceOptions, T> extension) =>
+        internal static RepeatedField<T> GetExtension<T>(this ServiceDescriptor descriptor, RepeatedExtension<ServiceOptions, T> extension) =>
             descriptor.GetOptions()?.GetExtension(extension) ?? new RepeatedField<T>();
 
-        internal static T SafeGetOption<T>(this MethodDescriptor descriptor, Extension<MethodOptions, T> extension) =>
+        internal static T GetExtension<T>(this MethodDescriptor descriptor, Extension<MethodOptions, T> extension) =>
             descriptor.GetOptions() is MethodOptions options ? options.GetExtension(extension) : default;
 
-        internal static RepeatedField<T> SafeGetOption<T>(this MethodDescriptor descriptor, RepeatedExtension<MethodOptions, T> extension) =>
+        internal static RepeatedField<T> GetExtension<T>(this MethodDescriptor descriptor, RepeatedExtension<MethodOptions, T> extension) =>
             descriptor.GetOptions()?.GetExtension(extension) ?? new RepeatedField<T>();
     }
 }

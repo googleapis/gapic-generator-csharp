@@ -170,12 +170,12 @@ namespace Google.Api.Generator.ProtoUtils
             var msgsFromProtoMsgs = descs
                 .SelectMany(fileDesc => fileDesc.MessageTypes
                     .SelectMany(GetMessagesAndSelf)
-                    .Select(msgDesc =>(fileDesc, msgDesc, resDesc: msgDesc.SafeGetOption(ResourceExtensions.Resource))))
+                    .Select(msgDesc =>(fileDesc, msgDesc, resDesc: msgDesc.GetExtension(ResourceExtensions.Resource))))
                 .Where(x => x.resDesc != null)
                 .Select(x => (x.fileDesc, x.msgDesc, x.resDesc, shortName: GetShortName(x.resDesc)));
             var msgsFromFileAnnotation = descs
                 .SelectMany(fileDesc =>
-                    fileDesc.SafeGetOption(ResourceExtensions.ResourceDefinition)
+                    fileDesc.GetExtension(ResourceExtensions.ResourceDefinition)
                         .Select(resDesc => (fileDesc, msgDesc: (MessageDescriptor)null, resDesc, shortName: GetShortName(resDesc))));
             var msgs = msgsFromProtoMsgs.Concat(msgsFromFileAnnotation).ToImmutableList();
             return msgs.Select(x =>
@@ -205,7 +205,7 @@ namespace Google.Api.Generator.ProtoUtils
             IReadOnlyDictionary<string, Definition> resourcesByUrt, IReadOnlyDictionary<string, IReadOnlyList<Definition>> resourcesByParentComparison)
         {
             // Is this field the name-field of a resource descriptor?
-            var resourceDesc = msgDesc.SafeGetOption(ResourceExtensions.Resource);
+            var resourceDesc = msgDesc.GetExtension(ResourceExtensions.Resource);
             if (resourceDesc is object)
             {
                 var def = resourcesByUrt[resourceDesc.Type];
@@ -223,7 +223,7 @@ namespace Google.Api.Generator.ProtoUtils
                 }
             }
             // Is this field a resource reference?
-            var resourceRef = fieldDesc.SafeGetOption(ResourceExtensions.ResourceReference);
+            var resourceRef = fieldDesc.GetExtension(ResourceExtensions.ResourceReference);
             if (resourceRef is object)
             {
                 if (!string.IsNullOrEmpty(resourceRef.Type))
