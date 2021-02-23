@@ -78,17 +78,17 @@ namespace Grpc.ServiceConfig {
             "BnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.DurationReflection.Descriptor, global::Google.Protobuf.WellKnownTypes.WrappersReflection.Descriptor, global::Google.Rpc.CodeReflection.Descriptor, },
-          new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Grpc.ServiceConfig.MethodConfig), global::Grpc.ServiceConfig.MethodConfig.Parser, new[]{ "Name", "WaitForReady", "Timeout", "MaxRequestMessageBytes", "MaxResponseMessageBytes", "RetryPolicy", "HedgingPolicy" }, new[]{ "RetryOrHedgingPolicy" }, null, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::Grpc.ServiceConfig.MethodConfig.Types.Name), global::Grpc.ServiceConfig.MethodConfig.Types.Name.Parser, new[]{ "Service", "Method" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Grpc.ServiceConfig.MethodConfig.Types.RetryPolicy), global::Grpc.ServiceConfig.MethodConfig.Types.RetryPolicy.Parser, new[]{ "MaxAttempts", "InitialBackoff", "MaxBackoff", "BackoffMultiplier", "RetryableStatusCodes" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Grpc.ServiceConfig.MethodConfig.Types.HedgingPolicy), global::Grpc.ServiceConfig.MethodConfig.Types.HedgingPolicy.Parser, new[]{ "MaxAttempts", "HedgingDelay", "NonFatalStatusCodes" }, null, null, null)}),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Grpc.ServiceConfig.PickFirstConfig), global::Grpc.ServiceConfig.PickFirstConfig.Parser, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Grpc.ServiceConfig.RoundRobinConfig), global::Grpc.ServiceConfig.RoundRobinConfig.Parser, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Grpc.ServiceConfig.GrpcLbConfig), global::Grpc.ServiceConfig.GrpcLbConfig.Parser, new[]{ "ChildPolicy" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Grpc.ServiceConfig.XdsConfig), global::Grpc.ServiceConfig.XdsConfig.Parser, new[]{ "BalancerName", "ChildPolicy", "FallbackPolicy" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Grpc.ServiceConfig.LoadBalancingConfig), global::Grpc.ServiceConfig.LoadBalancingConfig.Parser, new[]{ "PickFirst", "RoundRobin", "Grpclb", "Xds", "XdsExperimental" }, new[]{ "Policy" }, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Grpc.ServiceConfig.ServiceConfig), global::Grpc.ServiceConfig.ServiceConfig.Parser, new[]{ "LoadBalancingPolicy", "LoadBalancingConfig", "MethodConfig", "RetryThrottling", "HealthCheckConfig" }, null, new[]{ typeof(global::Grpc.ServiceConfig.ServiceConfig.Types.LoadBalancingPolicy) }, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::Grpc.ServiceConfig.ServiceConfig.Types.RetryThrottlingPolicy), global::Grpc.ServiceConfig.ServiceConfig.Types.RetryThrottlingPolicy.Parser, new[]{ "MaxTokens", "TokenRatio" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Grpc.ServiceConfig.ServiceConfig.Types.HealthCheckConfig), global::Grpc.ServiceConfig.ServiceConfig.Types.HealthCheckConfig.Parser, new[]{ "ServiceName" }, null, null, null)})
+          new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
+            new pbr::GeneratedClrTypeInfo(typeof(global::Grpc.ServiceConfig.MethodConfig), global::Grpc.ServiceConfig.MethodConfig.Parser, new[]{ "Name", "WaitForReady", "Timeout", "MaxRequestMessageBytes", "MaxResponseMessageBytes", "RetryPolicy", "HedgingPolicy" }, new[]{ "RetryOrHedgingPolicy" }, null, null, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::Grpc.ServiceConfig.MethodConfig.Types.Name), global::Grpc.ServiceConfig.MethodConfig.Types.Name.Parser, new[]{ "Service", "Method" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Grpc.ServiceConfig.MethodConfig.Types.RetryPolicy), global::Grpc.ServiceConfig.MethodConfig.Types.RetryPolicy.Parser, new[]{ "MaxAttempts", "InitialBackoff", "MaxBackoff", "BackoffMultiplier", "RetryableStatusCodes" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Grpc.ServiceConfig.MethodConfig.Types.HedgingPolicy), global::Grpc.ServiceConfig.MethodConfig.Types.HedgingPolicy.Parser, new[]{ "MaxAttempts", "HedgingDelay", "NonFatalStatusCodes" }, null, null, null, null)}),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Grpc.ServiceConfig.PickFirstConfig), global::Grpc.ServiceConfig.PickFirstConfig.Parser, null, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Grpc.ServiceConfig.RoundRobinConfig), global::Grpc.ServiceConfig.RoundRobinConfig.Parser, null, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Grpc.ServiceConfig.GrpcLbConfig), global::Grpc.ServiceConfig.GrpcLbConfig.Parser, new[]{ "ChildPolicy" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Grpc.ServiceConfig.XdsConfig), global::Grpc.ServiceConfig.XdsConfig.Parser, new[]{ "BalancerName", "ChildPolicy", "FallbackPolicy" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Grpc.ServiceConfig.LoadBalancingConfig), global::Grpc.ServiceConfig.LoadBalancingConfig.Parser, new[]{ "PickFirst", "RoundRobin", "Grpclb", "Xds", "XdsExperimental" }, new[]{ "Policy" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Grpc.ServiceConfig.ServiceConfig), global::Grpc.ServiceConfig.ServiceConfig.Parser, new[]{ "LoadBalancingPolicy", "LoadBalancingConfig", "MethodConfig", "RetryThrottling", "HealthCheckConfig" }, null, new[]{ typeof(global::Grpc.ServiceConfig.ServiceConfig.Types.LoadBalancingPolicy) }, null, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::Grpc.ServiceConfig.ServiceConfig.Types.RetryThrottlingPolicy), global::Grpc.ServiceConfig.ServiceConfig.Types.RetryThrottlingPolicy.Parser, new[]{ "MaxTokens", "TokenRatio" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Grpc.ServiceConfig.ServiceConfig.Types.HealthCheckConfig), global::Grpc.ServiceConfig.ServiceConfig.Types.HealthCheckConfig.Parser, new[]{ "ServiceName" }, null, null, null, null)})
           }));
     }
     #endregion
@@ -179,6 +179,7 @@ namespace Grpc.ServiceConfig {
       }
     }
 
+
     /// <summary>Field number for the "timeout" field.</summary>
     public const int TimeoutFieldNumber = 3;
     private global::Google.Protobuf.WellKnownTypes.Duration timeout_;
@@ -230,6 +231,7 @@ namespace Grpc.ServiceConfig {
       }
     }
 
+
     /// <summary>Field number for the "max_response_message_bytes" field.</summary>
     public const int MaxResponseMessageBytesFieldNumber = 5;
     private static readonly pb::FieldCodec<uint?> _single_maxResponseMessageBytes_codec = pb::FieldCodec.ForStructWrapper<uint>(42);
@@ -258,6 +260,7 @@ namespace Grpc.ServiceConfig {
         maxResponseMessageBytes_ = value;
       }
     }
+
 
     /// <summary>Field number for the "retry_policy" field.</summary>
     public const int RetryPolicyFieldNumber = 6;
@@ -416,7 +419,7 @@ namespace Grpc.ServiceConfig {
       }
       if (other.timeout_ != null) {
         if (timeout_ == null) {
-          timeout_ = new global::Google.Protobuf.WellKnownTypes.Duration();
+          Timeout = new global::Google.Protobuf.WellKnownTypes.Duration();
         }
         Timeout.MergeFrom(other.Timeout);
       }
@@ -469,9 +472,9 @@ namespace Grpc.ServiceConfig {
           }
           case 26: {
             if (timeout_ == null) {
-              timeout_ = new global::Google.Protobuf.WellKnownTypes.Duration();
+              Timeout = new global::Google.Protobuf.WellKnownTypes.Duration();
             }
-            input.ReadMessage(timeout_);
+            input.ReadMessage(Timeout);
             break;
           }
           case 34: {
@@ -906,13 +909,13 @@ namespace Grpc.ServiceConfig {
           }
           if (other.initialBackoff_ != null) {
             if (initialBackoff_ == null) {
-              initialBackoff_ = new global::Google.Protobuf.WellKnownTypes.Duration();
+              InitialBackoff = new global::Google.Protobuf.WellKnownTypes.Duration();
             }
             InitialBackoff.MergeFrom(other.InitialBackoff);
           }
           if (other.maxBackoff_ != null) {
             if (maxBackoff_ == null) {
-              maxBackoff_ = new global::Google.Protobuf.WellKnownTypes.Duration();
+              MaxBackoff = new global::Google.Protobuf.WellKnownTypes.Duration();
             }
             MaxBackoff.MergeFrom(other.MaxBackoff);
           }
@@ -937,16 +940,16 @@ namespace Grpc.ServiceConfig {
               }
               case 18: {
                 if (initialBackoff_ == null) {
-                  initialBackoff_ = new global::Google.Protobuf.WellKnownTypes.Duration();
+                  InitialBackoff = new global::Google.Protobuf.WellKnownTypes.Duration();
                 }
-                input.ReadMessage(initialBackoff_);
+                input.ReadMessage(InitialBackoff);
                 break;
               }
               case 26: {
                 if (maxBackoff_ == null) {
-                  maxBackoff_ = new global::Google.Protobuf.WellKnownTypes.Duration();
+                  MaxBackoff = new global::Google.Protobuf.WellKnownTypes.Duration();
                 }
-                input.ReadMessage(maxBackoff_);
+                input.ReadMessage(MaxBackoff);
                 break;
               }
               case 37: {
@@ -1136,7 +1139,7 @@ namespace Grpc.ServiceConfig {
           }
           if (other.hedgingDelay_ != null) {
             if (hedgingDelay_ == null) {
-              hedgingDelay_ = new global::Google.Protobuf.WellKnownTypes.Duration();
+              HedgingDelay = new global::Google.Protobuf.WellKnownTypes.Duration();
             }
             HedgingDelay.MergeFrom(other.HedgingDelay);
           }
@@ -1158,9 +1161,9 @@ namespace Grpc.ServiceConfig {
               }
               case 18: {
                 if (hedgingDelay_ == null) {
-                  hedgingDelay_ = new global::Google.Protobuf.WellKnownTypes.Duration();
+                  HedgingDelay = new global::Google.Protobuf.WellKnownTypes.Duration();
                 }
-                input.ReadMessage(hedgingDelay_);
+                input.ReadMessage(HedgingDelay);
                 break;
               }
               case 26:
@@ -2094,7 +2097,7 @@ namespace Grpc.ServiceConfig {
 
     /// <summary>Field number for the "load_balancing_policy" field.</summary>
     public const int LoadBalancingPolicyFieldNumber = 1;
-    private global::Grpc.ServiceConfig.ServiceConfig.Types.LoadBalancingPolicy loadBalancingPolicy_ = 0;
+    private global::Grpc.ServiceConfig.ServiceConfig.Types.LoadBalancingPolicy loadBalancingPolicy_ = global::Grpc.ServiceConfig.ServiceConfig.Types.LoadBalancingPolicy.Unspecified;
     [global::System.ObsoleteAttribute]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Grpc.ServiceConfig.ServiceConfig.Types.LoadBalancingPolicy LoadBalancingPolicy {
@@ -2178,7 +2181,7 @@ namespace Grpc.ServiceConfig {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (LoadBalancingPolicy != 0) hash ^= LoadBalancingPolicy.GetHashCode();
+      if (LoadBalancingPolicy != global::Grpc.ServiceConfig.ServiceConfig.Types.LoadBalancingPolicy.Unspecified) hash ^= LoadBalancingPolicy.GetHashCode();
       hash ^= loadBalancingConfig_.GetHashCode();
       hash ^= methodConfig_.GetHashCode();
       if (retryThrottling_ != null) hash ^= RetryThrottling.GetHashCode();
@@ -2196,7 +2199,7 @@ namespace Grpc.ServiceConfig {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (LoadBalancingPolicy != 0) {
+      if (LoadBalancingPolicy != global::Grpc.ServiceConfig.ServiceConfig.Types.LoadBalancingPolicy.Unspecified) {
         output.WriteRawTag(8);
         output.WriteEnum((int) LoadBalancingPolicy);
       }
@@ -2218,7 +2221,7 @@ namespace Grpc.ServiceConfig {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (LoadBalancingPolicy != 0) {
+      if (LoadBalancingPolicy != global::Grpc.ServiceConfig.ServiceConfig.Types.LoadBalancingPolicy.Unspecified) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) LoadBalancingPolicy);
       }
       size += loadBalancingConfig_.CalculateSize(_repeated_loadBalancingConfig_codec);
@@ -2240,20 +2243,20 @@ namespace Grpc.ServiceConfig {
       if (other == null) {
         return;
       }
-      if (other.LoadBalancingPolicy != 0) {
+      if (other.LoadBalancingPolicy != global::Grpc.ServiceConfig.ServiceConfig.Types.LoadBalancingPolicy.Unspecified) {
         LoadBalancingPolicy = other.LoadBalancingPolicy;
       }
       loadBalancingConfig_.Add(other.loadBalancingConfig_);
       methodConfig_.Add(other.methodConfig_);
       if (other.retryThrottling_ != null) {
         if (retryThrottling_ == null) {
-          retryThrottling_ = new global::Grpc.ServiceConfig.ServiceConfig.Types.RetryThrottlingPolicy();
+          RetryThrottling = new global::Grpc.ServiceConfig.ServiceConfig.Types.RetryThrottlingPolicy();
         }
         RetryThrottling.MergeFrom(other.RetryThrottling);
       }
       if (other.healthCheckConfig_ != null) {
         if (healthCheckConfig_ == null) {
-          healthCheckConfig_ = new global::Grpc.ServiceConfig.ServiceConfig.Types.HealthCheckConfig();
+          HealthCheckConfig = new global::Grpc.ServiceConfig.ServiceConfig.Types.HealthCheckConfig();
         }
         HealthCheckConfig.MergeFrom(other.HealthCheckConfig);
       }
@@ -2269,7 +2272,7 @@ namespace Grpc.ServiceConfig {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
-            loadBalancingPolicy_ = (global::Grpc.ServiceConfig.ServiceConfig.Types.LoadBalancingPolicy) input.ReadEnum();
+            LoadBalancingPolicy = (global::Grpc.ServiceConfig.ServiceConfig.Types.LoadBalancingPolicy) input.ReadEnum();
             break;
           }
           case 18: {
@@ -2278,9 +2281,9 @@ namespace Grpc.ServiceConfig {
           }
           case 26: {
             if (retryThrottling_ == null) {
-              retryThrottling_ = new global::Grpc.ServiceConfig.ServiceConfig.Types.RetryThrottlingPolicy();
+              RetryThrottling = new global::Grpc.ServiceConfig.ServiceConfig.Types.RetryThrottlingPolicy();
             }
-            input.ReadMessage(retryThrottling_);
+            input.ReadMessage(RetryThrottling);
             break;
           }
           case 34: {
@@ -2289,9 +2292,9 @@ namespace Grpc.ServiceConfig {
           }
           case 42: {
             if (healthCheckConfig_ == null) {
-              healthCheckConfig_ = new global::Grpc.ServiceConfig.ServiceConfig.Types.HealthCheckConfig();
+              HealthCheckConfig = new global::Grpc.ServiceConfig.ServiceConfig.Types.HealthCheckConfig();
             }
-            input.ReadMessage(healthCheckConfig_);
+            input.ReadMessage(HealthCheckConfig);
             break;
           }
         }
@@ -2560,6 +2563,7 @@ namespace Grpc.ServiceConfig {
             serviceName_ = value;
           }
         }
+
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public override bool Equals(object other) {

@@ -2,6 +2,8 @@
 
 package google.api.generator;
 
+// A common resource that an API can depend on,
+// usually defined in a separate NuGet package.
 message CommonResource {
   string type = 1;
   string csharp_package_name = 2;
@@ -9,6 +11,22 @@ message CommonResource {
   string csharp_class_name = 4;
 }
 
+// Details of how the generated resource name class for a
+// resource type should be renamed to handle naming collisions.
+message RenamedResource {
+  // The unified resource type name.
+  string type = 1;
+  // The namespace in which to generate the resource name class.
+  // If this is not specified, the file namespace is used.
+  string csharp_namespace = 2;
+  // The name of the class within the namespace. If this is not
+  // specified, the name that would have been generated anyway
+  // is used.
+  string csharp_class_name = 3;
+}
+
+// TODO: Rename to ResourceConfig or similar.
 message CommonResources {
   repeated CommonResource common_resources = 1;
+  repeated RenamedResource renamed_resources = 2;
 }

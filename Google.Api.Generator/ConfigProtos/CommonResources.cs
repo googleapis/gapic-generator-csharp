@@ -27,20 +27,28 @@ namespace Google.Api.Generator {
             "ChZjb21tb25fcmVzb3VyY2VzLnByb3RvEhRnb29nbGUuYXBpLmdlbmVyYXRv",
             "ciJwCg5Db21tb25SZXNvdXJjZRIMCgR0eXBlGAEgASgJEhsKE2NzaGFycF9w",
             "YWNrYWdlX25hbWUYAiABKAkSGAoQY3NoYXJwX25hbWVzcGFjZRgDIAEoCRIZ",
-            "ChFjc2hhcnBfY2xhc3NfbmFtZRgEIAEoCSJRCg9Db21tb25SZXNvdXJjZXMS",
-            "PgoQY29tbW9uX3Jlc291cmNlcxgBIAMoCzIkLmdvb2dsZS5hcGkuZ2VuZXJh",
-            "dG9yLkNvbW1vblJlc291cmNlYgZwcm90bzM="));
+            "ChFjc2hhcnBfY2xhc3NfbmFtZRgEIAEoCSJUCg9SZW5hbWVkUmVzb3VyY2US",
+            "DAoEdHlwZRgBIAEoCRIYChBjc2hhcnBfbmFtZXNwYWNlGAIgASgJEhkKEWNz",
+            "aGFycF9jbGFzc19uYW1lGAMgASgJIpMBCg9Db21tb25SZXNvdXJjZXMSPgoQ",
+            "Y29tbW9uX3Jlc291cmNlcxgBIAMoCzIkLmdvb2dsZS5hcGkuZ2VuZXJhdG9y",
+            "LkNvbW1vblJlc291cmNlEkAKEXJlbmFtZWRfcmVzb3VyY2VzGAIgAygLMiUu",
+            "Z29vZ2xlLmFwaS5nZW5lcmF0b3IuUmVuYW1lZFJlc291cmNlYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
-          new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Api.Generator.CommonResource), global::Google.Api.Generator.CommonResource.Parser, new[]{ "Type", "CsharpPackageName", "CsharpNamespace", "CsharpClassName" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Api.Generator.CommonResources), global::Google.Api.Generator.CommonResources.Parser, new[]{ "CommonResources_" }, null, null, null)
+          new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Api.Generator.CommonResource), global::Google.Api.Generator.CommonResource.Parser, new[]{ "Type", "CsharpPackageName", "CsharpNamespace", "CsharpClassName" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Api.Generator.RenamedResource), global::Google.Api.Generator.RenamedResource.Parser, new[]{ "Type", "CsharpNamespace", "CsharpClassName" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Api.Generator.CommonResources), global::Google.Api.Generator.CommonResources.Parser, new[]{ "CommonResources_", "RenamedResources" }, null, null, null, null)
           }));
     }
     #endregion
 
   }
   #region Messages
+  /// <summary>
+  /// A common resource that an API can depend on,
+  /// usually defined in a separate NuGet package.
+  /// </summary>
   public sealed partial class CommonResource : pb::IMessage<CommonResource> {
     private static readonly pb::MessageParser<CommonResource> _parser = new pb::MessageParser<CommonResource>(() => new CommonResource());
     private pb::UnknownFieldSet _unknownFields;
@@ -254,6 +262,198 @@ namespace Google.Api.Generator {
 
   }
 
+  /// <summary>
+  /// Details of how the generated resource name class for a
+  /// resource type should be renamed to handle naming collisions.
+  /// </summary>
+  public sealed partial class RenamedResource : pb::IMessage<RenamedResource> {
+    private static readonly pb::MessageParser<RenamedResource> _parser = new pb::MessageParser<RenamedResource>(() => new RenamedResource());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<RenamedResource> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Google.Api.Generator.CommonResourcesReflection.Descriptor.MessageTypes[1]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public RenamedResource() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public RenamedResource(RenamedResource other) : this() {
+      type_ = other.type_;
+      csharpNamespace_ = other.csharpNamespace_;
+      csharpClassName_ = other.csharpClassName_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public RenamedResource Clone() {
+      return new RenamedResource(this);
+    }
+
+    /// <summary>Field number for the "type" field.</summary>
+    public const int TypeFieldNumber = 1;
+    private string type_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Type {
+      get { return type_; }
+      set {
+        type_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "csharp_namespace" field.</summary>
+    public const int CsharpNamespaceFieldNumber = 2;
+    private string csharpNamespace_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string CsharpNamespace {
+      get { return csharpNamespace_; }
+      set {
+        csharpNamespace_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "csharp_class_name" field.</summary>
+    public const int CsharpClassNameFieldNumber = 3;
+    private string csharpClassName_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string CsharpClassName {
+      get { return csharpClassName_; }
+      set {
+        csharpClassName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as RenamedResource);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(RenamedResource other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Type != other.Type) return false;
+      if (CsharpNamespace != other.CsharpNamespace) return false;
+      if (CsharpClassName != other.CsharpClassName) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Type.Length != 0) hash ^= Type.GetHashCode();
+      if (CsharpNamespace.Length != 0) hash ^= CsharpNamespace.GetHashCode();
+      if (CsharpClassName.Length != 0) hash ^= CsharpClassName.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (Type.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(Type);
+      }
+      if (CsharpNamespace.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(CsharpNamespace);
+      }
+      if (CsharpClassName.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteString(CsharpClassName);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (Type.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Type);
+      }
+      if (CsharpNamespace.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(CsharpNamespace);
+      }
+      if (CsharpClassName.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(CsharpClassName);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(RenamedResource other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Type.Length != 0) {
+        Type = other.Type;
+      }
+      if (other.CsharpNamespace.Length != 0) {
+        CsharpNamespace = other.CsharpNamespace;
+      }
+      if (other.CsharpClassName.Length != 0) {
+        CsharpClassName = other.CsharpClassName;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            Type = input.ReadString();
+            break;
+          }
+          case 18: {
+            CsharpNamespace = input.ReadString();
+            break;
+          }
+          case 26: {
+            CsharpClassName = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  /// <summary>
+  /// TODO: Rename to ResourceConfig or similar.
+  /// </summary>
   public sealed partial class CommonResources : pb::IMessage<CommonResources> {
     private static readonly pb::MessageParser<CommonResources> _parser = new pb::MessageParser<CommonResources>(() => new CommonResources());
     private pb::UnknownFieldSet _unknownFields;
@@ -262,7 +462,7 @@ namespace Google.Api.Generator {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Google.Api.Generator.CommonResourcesReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Google.Api.Generator.CommonResourcesReflection.Descriptor.MessageTypes[2]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -280,6 +480,7 @@ namespace Google.Api.Generator {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public CommonResources(CommonResources other) : this() {
       commonResources_ = other.commonResources_.Clone();
+      renamedResources_ = other.renamedResources_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -298,6 +499,16 @@ namespace Google.Api.Generator {
       get { return commonResources_; }
     }
 
+    /// <summary>Field number for the "renamed_resources" field.</summary>
+    public const int RenamedResourcesFieldNumber = 2;
+    private static readonly pb::FieldCodec<global::Google.Api.Generator.RenamedResource> _repeated_renamedResources_codec
+        = pb::FieldCodec.ForMessage(18, global::Google.Api.Generator.RenamedResource.Parser);
+    private readonly pbc::RepeatedField<global::Google.Api.Generator.RenamedResource> renamedResources_ = new pbc::RepeatedField<global::Google.Api.Generator.RenamedResource>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<global::Google.Api.Generator.RenamedResource> RenamedResources {
+      get { return renamedResources_; }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as CommonResources);
@@ -312,6 +523,7 @@ namespace Google.Api.Generator {
         return true;
       }
       if(!commonResources_.Equals(other.commonResources_)) return false;
+      if(!renamedResources_.Equals(other.renamedResources_)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -319,6 +531,7 @@ namespace Google.Api.Generator {
     public override int GetHashCode() {
       int hash = 1;
       hash ^= commonResources_.GetHashCode();
+      hash ^= renamedResources_.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -333,6 +546,7 @@ namespace Google.Api.Generator {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
       commonResources_.WriteTo(output, _repeated_commonResources_codec);
+      renamedResources_.WriteTo(output, _repeated_renamedResources_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -342,6 +556,7 @@ namespace Google.Api.Generator {
     public int CalculateSize() {
       int size = 0;
       size += commonResources_.CalculateSize(_repeated_commonResources_codec);
+      size += renamedResources_.CalculateSize(_repeated_renamedResources_codec);
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -354,6 +569,7 @@ namespace Google.Api.Generator {
         return;
       }
       commonResources_.Add(other.commonResources_);
+      renamedResources_.Add(other.renamedResources_);
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -367,6 +583,10 @@ namespace Google.Api.Generator {
             break;
           case 10: {
             commonResources_.AddEntriesFrom(input, _repeated_commonResources_codec);
+            break;
+          }
+          case 18: {
+            renamedResources_.AddEntriesFrom(input, _repeated_renamedResources_codec);
             break;
           }
         }
