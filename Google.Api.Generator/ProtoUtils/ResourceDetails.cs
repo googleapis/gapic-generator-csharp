@@ -64,7 +64,7 @@ namespace Google.Api.Generator.ProtoUtils
                 IsUnparsed = true;
             }
 
-            public Definition(FileDescriptor fileDesc, MessageDescriptor msgDesc, string type, string nameField, CommonResource common, IEnumerable<string> patterns)
+            public Definition(FileDescriptor fileDesc, MessageDescriptor msgDesc, string type, string nameField, CommonResource common, RenamedResource rename, IEnumerable<string> patterns)
             {
                 MsgDesc = msgDesc;
                 FileName = fileDesc.Name;
@@ -86,9 +86,11 @@ namespace Google.Api.Generator.ProtoUtils
                 IsCommon = common != null;
                 ResourceNameTyp = IsCommon ?
                     Typ.Manual(common.CsharpNamespace, common.CsharpClassName) :
-                    Typ.Manual(fileDesc.CSharpNamespace(), $"{ShortName}Name");
+                    Typ.Manual(EmptyToNull(rename?.CsharpNamespace) ?? fileDesc.CSharpNamespace(), EmptyToNull(rename?.CsharpClassName) ?? $"{ShortName}Name");
                 ResourceParserTyp = ResourceNameTyp;
                 IsUnparsed = false;
+
+                static string EmptyToNull(string text) => text == "" ? null : text;
             }
 
             public MessageDescriptor MsgDesc { get; }
@@ -166,6 +168,8 @@ namespace Google.Api.Generator.ProtoUtils
         {
             var commonsByType = commonResourcesConfigs?.SelectMany(x => x.CommonResources_).ToImmutableDictionary(x => x.Type) ??
                 ImmutableDictionary<string, CommonResource>.Empty;
+            var renamesByType = commonResourcesConfigs?.SelectMany(x => x.RenamedResources).ToImmutableDictionary(x => x.Type) ??
+                ImmutableDictionary<string, RenamedResource>.Empty;
             // TODO: Support new (Sept 2019) `name_descriptor` way of specifying resource-names.
             var msgsFromProtoMsgs = descs
                 .SelectMany(fileDesc => fileDesc.MessageTypes
@@ -181,7 +185,8 @@ namespace Google.Api.Generator.ProtoUtils
             return msgs.Select(x =>
             {
                 commonsByType.TryGetValue(x.resDesc.Type, out var common);
-                return new Definition(x.fileDesc, x.msgDesc, x.resDesc.Type, x.resDesc.NameField, common, x.resDesc.Pattern);
+                renamesByType.TryGetValue(x.resDesc.Type, out var rename);
+                return new Definition(x.fileDesc, x.msgDesc, x.resDesc.Type, x.resDesc.NameField, common, rename, x.resDesc.Pattern);
             }).ToList();
 
             string GetShortName(ResourceDescriptor resDesc)
