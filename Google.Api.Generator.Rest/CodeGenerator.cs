@@ -85,10 +85,15 @@ namespace Google.Api.Generator.Rest
             InsertLine("/// <summary>Gets the batch base URI; <c>null</c> if unspecified.</summary>", 0, "#if !NET40");
             InsertLine("public override string BatchPath =>", 1, "#endif");
 
+            // We clear the range in all download methods for non-obsolete platforms, but the old support library
+            // doesn't have the Range property.
+            InsertLine("mediaDownloader.Range = null;", 0, "#if !NET40");
+            InsertLine("mediaDownloader.Range = null;", 1, "#endif");
+
             InsertLine("/// <summary>Synchronously download a range of the media into the given stream.</summary>", 0, "#if !NET40");
-            // We need to insert the line two lines lower, after the closing } of the method
-            // Note that the additional spaces here are to ensure that the #endif lines up with the brace instead of the return statement.
-            InsertLine("    return mediaDownloader.DownloadAsync(this.GenerateRequestUri(), stream, cancellationToken);", 2, "#endif");
+            // We need to insert the line, after the closing } of the method. We can't use the code to detect the method, as
+            // the same statements are used in multiple methods.
+            InsertLine("public virtual System.Threading.Tasks.Task<Google.Apis.Download.IDownloadProgress> DownloadRangeAsync", 8, "#endif");
 
             string separator = usesCarriageReturn ? "\r\n" : "\n";
             return string.Join(separator, lines);
