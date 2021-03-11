@@ -219,35 +219,53 @@ namespace Google.Api.Generator.Rest.Models
             var cancellationTokenWithDefault = Parameter(ctx.Type<CancellationToken>(), "cancellationToken", DefaultExpression(ctx.Type<CancellationToken>()));
             var range = Parameter(ctx.Type<RangeHeaderValue>(), "range");
 
-             var syncDownloadWithStatus = Method(Modifier.Public | Modifier.Virtual, ctx.Type<IDownloadProgress>(), "DownloadWithStatus")(stream)
-                .WithBlockBody(Return(mediaDownloader.Call("Download")(ThisQualifiedCall("GenerateRequestUri")(), stream)))
+            var downloadRemarks = XmlDoc.Remarks("This method uses the ", mediaDownloader, " property to perform the download. " +
+                "Progress event handlers and other configuration may be performed using that property prior to calling this method.");
+
+            var mediaDownloaderLocal = Local(ctx.Type(Typ.Var), "mediaDownloader")
+                .WithInitializer(Cast(ctx.Type<MediaDownloader>(), mediaDownloader));
+            var mediaDownloaderLocalResetRange = mediaDownloaderLocal.Access("Range").Assign(Null);
+            var syncDownloadWithStatus = Method(Modifier.Public | Modifier.Virtual, ctx.Type<IDownloadProgress>(), "DownloadWithStatus")(stream)
+                .WithBlockBody(
+                    mediaDownloaderLocal,
+                    mediaDownloaderLocalResetRange,
+                    Return(mediaDownloaderLocal.Call("Download")(ThisQualifiedCall("GenerateRequestUri")(), stream)))
                 .WithXmlDoc(
                     XmlDoc.Summary("Synchronously download the media into the given stream."),
+                    downloadRemarks,
                     XmlDoc.Returns("The final status of the download; including whether the download succeeded or failed."));
 
             var syncDownload = Method(Modifier.Public | Modifier.Virtual, ctx.Type(Typ.Void), "Download")(stream)
-                .WithBlockBody(mediaDownloader.Call("Download")(ThisQualifiedCall("GenerateRequestUri")(), stream))
+                .WithBlockBody(
+                    mediaDownloaderLocal,
+                    mediaDownloaderLocalResetRange,
+                    mediaDownloaderLocal.Call("Download")(ThisQualifiedCall("GenerateRequestUri")(), stream))
                 .WithXmlDoc(XmlDoc.Summary(
                     XmlDoc.Para("Synchronously download the media into the given stream."),
-                    XmlDoc.Para("Warning: This method hides download errors; use ", syncDownloadWithStatus, " instead.")));
+                    XmlDoc.Para("Warning: This method hides download errors; use ", syncDownloadWithStatus, " instead.")),
+                    downloadRemarks);
 
             var asyncDownloadNoToken = Method(Modifier.Public | Modifier.Virtual, ctx.Type<Task<IDownloadProgress>>(), "DownloadAsync")(stream)
-                .WithBlockBody(Return(mediaDownloader.Call("DownloadAsync")(ThisQualifiedCall("GenerateRequestUri")(), stream)))
-                .WithXmlDoc(XmlDoc.Summary("Asynchronously download the media into the given stream."));
+                .WithBlockBody(
+                    mediaDownloaderLocal,
+                    mediaDownloaderLocalResetRange,
+                    Return(mediaDownloaderLocal.Call("DownloadAsync")(ThisQualifiedCall("GenerateRequestUri")(), stream)))
+                .WithXmlDoc(XmlDoc.Summary("Asynchronously download the media into the given stream."), downloadRemarks);
 
             var asyncDownloadWithToken = Method(Modifier.Public | Modifier.Virtual, ctx.Type<Task<IDownloadProgress>>(), "DownloadAsync")(stream, cancellationToken)
                 .WithParameterLineBreaks()
-                .WithBlockBody(Return(mediaDownloader.Call("DownloadAsync")(ThisQualifiedCall("GenerateRequestUri")(), stream, cancellationToken)))
-                .WithXmlDoc(XmlDoc.Summary("Asynchronously download the media into the given stream."));
+                .WithBlockBody(
+                    mediaDownloaderLocal,
+                    mediaDownloaderLocalResetRange,
+                    Return(mediaDownloaderLocal.Call("DownloadAsync")(ThisQualifiedCall("GenerateRequestUri")(), stream, cancellationToken)))
+                .WithXmlDoc(XmlDoc.Summary("Asynchronously download the media into the given stream."), downloadRemarks);
 
-            var mediaDownloaderLocal = Local(ctx.Type(Typ.Var), "mediaDownloader")
-                .WithInitializer(New(ctx.Type<MediaDownloader>())(Property(0, ctx.Type<IClientService>(), "Service")));
             var syncRange = Method(Modifier.Public | Modifier.Virtual, ctx.Type<IDownloadProgress>(), "DownloadRange")(stream, range)
                 .WithBlockBody(
                     mediaDownloaderLocal,
                     mediaDownloaderLocal.Access("Range").Assign(range),
                     Return(mediaDownloaderLocal.Call("Download")(ThisQualifiedCall("GenerateRequestUri")(), stream)))
-                .WithXmlDoc(XmlDoc.Summary("Synchronously download a range of the media into the given stream."));
+                .WithXmlDoc(XmlDoc.Summary("Synchronously download a range of the media into the given stream."), downloadRemarks);
 
             var asyncRange = Method(Modifier.Public | Modifier.Virtual, ctx.Type<Task<IDownloadProgress>>(), "DownloadRangeAsync")(stream, range, cancellationTokenWithDefault)
                 .WithParameterLineBreaks()
@@ -255,7 +273,7 @@ namespace Google.Api.Generator.Rest.Models
                     mediaDownloaderLocal,
                     mediaDownloaderLocal.Access("Range").Assign(range),
                     Return(mediaDownloaderLocal.Call("DownloadAsync")(ThisQualifiedCall("GenerateRequestUri")(), stream, cancellationTokenWithDefault)))
-                .WithXmlDoc(XmlDoc.Summary("Asynchronously download a range of the media into the given stream."));
+                .WithXmlDoc(XmlDoc.Summary("Asynchronously download a range of the media into the given stream."), downloadRemarks);
 
             return cls.AddMembers(syncDownload, syncDownloadWithStatus, asyncDownloadNoToken, asyncDownloadWithToken, syncRange, asyncRange);
         }
