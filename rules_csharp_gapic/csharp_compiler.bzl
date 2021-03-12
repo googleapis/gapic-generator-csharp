@@ -21,15 +21,19 @@ def _csharp_binary_impl(ctx):
 mkdir local_tmp
 ln -s {restore}/packages .
 cp -r {restore}/src .
+
+# Running this command twice, if the first invocation fails, try once more
+# [virost, 03/2021] temporarily until I figure out what causes intermittent Kokoro failures
+cmd="{csharp_compiler}/dotnet build src/{csproj_relative} \
+  --framework {framework} --configuration {configuration} \
+  --no-restore --nologo --verbosity=quiet --packages packages"
+
 DOTNET_CLI_HOME="$(pwd)/local_tmp" \
 DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1 \
 DOTNET_CLI_TELEMETRY_OPTOUT=1 \
 DOTNET_NOLOGO=1 \
-cmd="{csharp_compiler}/dotnet build src/{csproj_relative} \
-  --framework {framework} --configuration {configuration} \
-  --no-restore --nologo --verbosity=quiet --packages packages"
-# If the first invocation fails, try once more
 $cmd || $cmd
+
 cp -r src/* {out}/
     """.format(
         restore = ctx.file.restore.path,
@@ -46,14 +50,16 @@ cp -r src/* {out}/
         command = command,
     )
     run_sh = """#!/bin/bash
+# Running this command twice, if the first invocation fails, try once more
+# [virost, 03/2021] temporarily until I figure out what causes intermittent Kokoro failures
+cmd="$(dirname $0)/run.sh.runfiles/$(basename $(pwd))/{csharp_compiler}/dotnet run \
+  --project $(dirname $0)/run.sh.runfiles/$(basename $(pwd))/{out}/{csproj_relative} \
+  --no-restore --no-build"
+
 DOTNET_CLI_HOME="$(pwd)/local_tmp" \
 DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1 \
 DOTNET_CLI_TELEMETRY_OPTOUT=1 \
 DOTNET_NOLOGO=1 \
-cmd="$(dirname $0)/run.sh.runfiles/$(basename $(pwd))/{csharp_compiler}/dotnet run \
-  --project $(dirname $0)/run.sh.runfiles/$(basename $(pwd))/{out}/{csproj_relative} \
-  --no-restore --no-build"
-# If the first invocation fails, try once more
 $cmd || $cmd
     """.format(
         csharp_compiler = ctx.file.csharp_compiler.short_path,
