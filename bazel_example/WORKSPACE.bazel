@@ -62,16 +62,17 @@ http_archive(
 load("@com_google_googleapis//:repository_rules.bzl", "switched_rules_by_language")
 switched_rules_by_language(name = "com_google_googleapis_imports", gapic = True)
 
-http_archive(
-    name = "gapic_generator_csharp",
-    urls = ["https://github.com/googleapis/gapic-generator-csharp/archive/master.zip"],
-    strip_prefix = "gapic-generator-csharp-master",
-)
+# http_archive(
+#     name = "gapic_generator_csharp",
+#     urls = ["https://github.com/googleapis/gapic-generator-csharp/archive/master.zip"],
+#     strip_prefix = "gapic-generator-csharp-master",
+# )
+
 # Use the following to use the bazel rules defined locally, rather than fetched from github.
-#local_repository(
-#    name = "gapic_generator_csharp",
-#    path = "../",
-#)
+local_repository(
+    name = "gapic_generator_csharp",
+    path = "../",
+)
 
 load("@gapic_generator_csharp//:repositories.bzl", "gapic_generator_csharp_repositories")
 gapic_generator_csharp_repositories()
