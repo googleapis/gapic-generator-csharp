@@ -31,6 +31,7 @@ namespace Google.Api.Generator.Generation
         {
             Catalog = catalog;
             Namespace = ns;
+            Package = desc.File.Package;
             DocLines = desc.Declaration.DocLines().ToList();
             SnippetsNamespace = $"{ns}.Snippets";
             UnitTestsNamespace = $"{ns}.Tests";
@@ -117,5 +118,8 @@ namespace Google.Api.Generator.Generation
 
         /// <summary>Grpc Service-Config Method configs, includes both service-level and method-level.</summary>
         public IReadOnlyDictionary<string, MethodConfig> MethodGrpcConfigsByName { get; }
+
+        /// <summary>Name of the proto package for this service</summary>
+        public string Package { get; }
     }
 }

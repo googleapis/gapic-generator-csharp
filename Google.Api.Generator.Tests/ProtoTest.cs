@@ -56,7 +56,7 @@ namespace Google.Api.Generator.Tests
         private void ProtoTestSingle(IEnumerable<string> testProtoNames, bool ignoreCsProj = false, bool ignoreSnippets = false, bool ignoreUnitTests = false,
             string grpcServiceConfigPath = null, IEnumerable<string> commonResourcesConfigPaths = null)
         {
-            // Confirm each generated file is idential to the expected output.
+            // Confirm each generated file is identical to the expected output.
             // Use `// TEST_START` and `// TEST_END` lines in the expected file to test subsets of output files.
             // Or include `// TEST_DISABLE` to disable testing of the entire file.
             var dirName = testProtoNames.First();

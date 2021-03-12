@@ -77,7 +77,7 @@ namespace Google.Api.Generator
             new Regex(@"^System\.?.*", RegexOptions.Compiled | RegexOptions.CultureInvariant),
         };
 
-                public static IEnumerable<ResultFile> Generate(FileDescriptorSet descriptorSet, string package, IClock clock,
+        public static IEnumerable<ResultFile> Generate(FileDescriptorSet descriptorSet, string package, IClock clock,
             string grpcServiceConfigPath, IEnumerable<string> commonResourcesConfigPaths)
         {
             var descriptors = descriptorSet.File;
@@ -128,12 +128,16 @@ namespace Google.Api.Generator
             bool hasContent = false;
             HashSet<string> allResourceNameClasses = new HashSet<string>();
             HashSet<string> duplicateResourceNameClasses = new HashSet<string>();
+
+            var allServiceDetails = new List<ServiceDetails>();
             foreach (var fileDesc in packageFileDescriptors)
             {
                 foreach (var service in fileDesc.Services)
                 {
                     // Generate settings and client code for requested package.
                     var serviceDetails = new ServiceDetails(catalog, ns, service, grpcServiceConfig);
+                    allServiceDetails.Add(serviceDetails);
+
                     var ctx = SourceFileContext.CreateFullyAliased(clock, s_wellknownNamespaceAliases);
                     var code = ServiceCodeGenerator.Generate(ctx, serviceDetails);
                     var filename = $"{clientPathPrefix}{serviceDetails.ClientAbstractTyp.Name}.g.cs";
@@ -170,7 +174,7 @@ namespace Google.Api.Generator
                 var (resCode, resCodeClassCount) = ResourceNamesGenerator.Generate(catalog, resCtx, fileDesc);
                 // Only produce an output file if it contains >0 [partial] classes.
                 if (resCodeClassCount > 0)
-                {
+                {                    
                     // Keep track of the resource names, to spot duplicates
                     var resourceNameClasses = catalog.GetResourceDefsByFile(fileDesc)
                         .Where(def => def.HasNotWildcard && !def.IsCommon)
@@ -215,6 +219,10 @@ namespace Google.Api.Generator
                 var unitTestsCsprojContent = CsProjGenerator.GenerateUnitTests(ns);
                 var unitTestsCsprojFilename = $"{unitTestsPathPrefix}{ns}.Tests.csproj";
                 yield return new ResultFile(unitTestsCsprojFilename, unitTestsCsprojContent);
+                // Generate gapic_metadata.json
+                var gapicMetadataJsonContent = MetadataGenerator.GenerateGapicMedatataJson(allServiceDetails);
+                var gapicMetadataJsonFilename = $"{clientPathPrefix}gapic_metadata.json";
+                yield return new ResultFile(gapicMetadataJsonFilename, gapicMetadataJsonContent);
             }
         }
     }
