@@ -20,6 +20,7 @@ namespace Testing.Paginated.Snippets
     using System;
     using System.Linq;
     using System.Threading.Tasks;
+    using Testing.Paginated;
 
     public sealed partial class GeneratedPaginatedClientStandaloneSnippets
     {

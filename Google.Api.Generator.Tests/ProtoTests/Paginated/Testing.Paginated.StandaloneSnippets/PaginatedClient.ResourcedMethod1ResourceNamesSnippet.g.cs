@@ -18,6 +18,7 @@ namespace Testing.Paginated.Snippets
 {
     using Google.Api.Gax;
     using System;
+    using Testing.Paginated;
 
     public sealed partial class GeneratedPaginatedClientStandaloneSnippets
     {

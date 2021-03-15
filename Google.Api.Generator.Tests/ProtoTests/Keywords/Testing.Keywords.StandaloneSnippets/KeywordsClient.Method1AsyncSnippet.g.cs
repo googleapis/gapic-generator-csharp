@@ -17,6 +17,7 @@
 namespace Testing.Keywords.Snippets
 {
     using System.Threading.Tasks;
+    using Testing.Keywords;
 
     public sealed partial class GeneratedKeywordsClientStandaloneSnippets
     {

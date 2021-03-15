@@ -17,6 +17,7 @@
 namespace Testing.BasicLro.Snippets
 {
     using Google.LongRunning;
+    using Testing.BasicLro;
 
     public sealed partial class GeneratedBasicLroClientStandaloneSnippets
     {

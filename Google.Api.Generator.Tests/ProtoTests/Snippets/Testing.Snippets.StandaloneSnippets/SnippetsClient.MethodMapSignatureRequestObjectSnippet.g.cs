@@ -16,6 +16,8 @@
 
 namespace Testing.Snippets.Snippets
 {
+    using Testing.Snippets;
+
     public sealed partial class GeneratedSnippetsClientStandaloneSnippets
     {
         /// <summary>Snippet for MethodMapSignature</summary>

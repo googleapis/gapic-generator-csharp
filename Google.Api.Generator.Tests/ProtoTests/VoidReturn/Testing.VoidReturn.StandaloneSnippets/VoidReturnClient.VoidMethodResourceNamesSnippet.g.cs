@@ -16,6 +16,8 @@
 
 namespace Testing.VoidReturn.Snippets
 {
+    using Testing.VoidReturn;
+
     public sealed partial class GeneratedVoidReturnClientStandaloneSnippets
     {
         /// <summary>Snippet for VoidMethod</summary>

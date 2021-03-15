@@ -17,6 +17,7 @@
 namespace Testing.Deprecated.Snippets
 {
     using System.Threading.Tasks;
+    using Testing.Deprecated;
 
     public sealed partial class GeneratedDeprecatedClientStandaloneSnippets
     {

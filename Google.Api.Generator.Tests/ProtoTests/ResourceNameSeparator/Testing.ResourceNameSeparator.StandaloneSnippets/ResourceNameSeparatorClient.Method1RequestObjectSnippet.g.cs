@@ -16,6 +16,8 @@
 
 namespace Testing.ResourceNameSeparator.Snippets
 {
+    using Testing.ResourceNameSeparator;
+
     public sealed partial class GeneratedResourceNameSeparatorClientStandaloneSnippets
     {
         /// <summary>Snippet for Method1</summary>

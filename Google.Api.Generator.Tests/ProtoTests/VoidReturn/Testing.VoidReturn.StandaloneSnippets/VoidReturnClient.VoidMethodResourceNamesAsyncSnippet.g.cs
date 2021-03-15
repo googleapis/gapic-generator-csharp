@@ -17,6 +17,7 @@
 namespace Testing.VoidReturn.Snippets
 {
     using System.Threading.Tasks;
+    using Testing.VoidReturn;
 
     public sealed partial class GeneratedVoidReturnClientStandaloneSnippets
     {

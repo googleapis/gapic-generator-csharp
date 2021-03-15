@@ -16,6 +16,8 @@
 
 namespace Testing.Basic.Snippets
 {
+    using Testing.Basic;
+
     public sealed partial class GeneratedBasicClientStandaloneSnippets
     {
         /// <summary>Snippet for AMethod</summary>

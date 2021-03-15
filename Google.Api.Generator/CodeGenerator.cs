@@ -138,7 +138,8 @@ namespace Google.Api.Generator
                     // Generate snippets for the service
                     // TODO: Consider removing this once we have integrated the standalone snippets
                     // with docs generation.
-                    var snippetCtx = SourceFileContext.CreateUnaliased(clock, s_wellknownNamespaceAliases, s_avoidAliasingNamespaceRegex);
+                    var snippetCtx = SourceFileContext.CreateUnaliased(
+                        clock, s_wellknownNamespaceAliases, s_avoidAliasingNamespaceRegex, maySkipOwnNamespaceImport: true);
                     var snippetCode = SnippetCodeGenerator.Generate(snippetCtx, serviceDetails);
                     var snippetFilename = $"{snippetsPathPrefix}{serviceDetails.ClientAbstractTyp.Name}Snippets.g.cs";
                     yield return new ResultFile(snippetFilename, snippetCode);
@@ -147,7 +148,8 @@ namespace Google.Api.Generator
                     // TODO: Once (and if we) generate just one set of snippets, stop using "standalone" as a differentiatior.
                     foreach (var snippetGenerator in SnippetCodeGenerator.StandaloneGenerators(serviceDetails))
                     {
-                        var standaloneSnippetCtx = SourceFileContext.CreateUnaliased(clock, s_wellknownNamespaceAliases, s_avoidAliasingNamespaceRegex);
+                        var standaloneSnippetCtx = SourceFileContext.CreateUnaliased(
+                            clock, s_wellknownNamespaceAliases, s_avoidAliasingNamespaceRegex, maySkipOwnNamespaceImport: false);
                         var standaloneSnippetCode = snippetGenerator.Generate(standaloneSnippetCtx);
                         var standaloneSnippetFilename = $"{standaloneSnippetsPathPrefix}{serviceDetails.ClientAbstractTyp.Name}.{snippetGenerator.SnippetMethodName}Snippet.g.cs";
                         yield return new ResultFile(standaloneSnippetFilename, standaloneSnippetCode);
