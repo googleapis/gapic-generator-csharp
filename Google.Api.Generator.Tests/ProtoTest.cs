@@ -144,7 +144,7 @@ namespace Google.Api.Generator.Tests
         public void BasicPaginated() => ProtoTestSingle("BasicPaginated", ignoreCsProj: true, ignoreSnippets: true, ignoreUnitTests: true);
 
         [Fact]
-        public void MethodSignatures() => ProtoTestSingle("MethodSignatures", ignoreCsProj: true, ignoreSnippets: true, ignoreUnitTests: true);
+        public void MethodSignatures() => ProtoTestSingle("MethodSignatures", ignoreCsProj: true, ignoreSnippets: true);
 
         [Fact]
         public void ResourceNames() => ProtoTestSingle("ResourceNames", ignoreCsProj: true);

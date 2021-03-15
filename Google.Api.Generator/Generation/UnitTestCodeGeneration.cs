@@ -163,7 +163,7 @@ namespace Google.Api.Generator.Generation
                             "google.protobuf.BoolValue" => Int() >= 0,
                             "google.protobuf.StringValue" => String(),
                             "google.protobuf.BytesValue" => Ctx.Type<ByteString>().Call(nameof(ByteString.CopyFromUtf8))(String()),
-                            _ => New(Ctx.Type(ProtoTyp.Of(fieldDesc.MessageType)))(),
+                            _ => New(Ctx.Type(ProtoTyp.Of(fieldDesc.MessageType)))().WithInitializer(InitMessage(fieldDesc.MessageType, null).ToArray()),
                         },
                         FieldType.Enum => Ctx.Type(ProtoTyp.Of(fieldDesc.EnumType)).Access(fieldDesc.EnumType.Values[Math.Abs(Int()) % fieldDesc.EnumType.Values.Count].CSharpName()),
                         _ => throw new InvalidOperationException($"Cannot generate test value for proto type: {fieldDesc.FieldType}"),
@@ -298,9 +298,8 @@ namespace Google.Api.Generator.Generation
                 private string SyncMethodName => Method.SyncMethodName + (_index is int index ? (index + 1).ToString() : "");
                 private string AsyncMethodName => $"{Method.AsyncMethodName.Substring(0, Method.AsyncMethodName.Length - 5)}{(_index is int index ? (index + 1).ToString() : "")}Async";
 
-                private ExpressionSyntax Access(LocalDeclarationStatementSyntax request, string name, bool isDeprecated)
+                private ExpressionSyntax Access(MemberAccessExpressionSyntax access, bool isDeprecated)
                 {
-                    var access = request.Access(name);
                     if (isDeprecated)
                     {
                         access = access.WithName(access.Name.WithIdentifier(access.Name.Identifier.WithPragmaWarning(PragmaWarnings.Obsolete)));
@@ -308,7 +307,9 @@ namespace Google.Api.Generator.Generation
                     return access;
                 }
 
-                private IEnumerable<object> SigArgs => _sig.Fields.Select(field => Access(_def.Request, field.PropertyName, field.IsDeprecated));
+                private IEnumerable<object> SigArgs => _sig.Fields.Select(field => Access(
+                    field.Descs.Skip(1).Aggregate(_def.Request.Access(field.Descs.First().CSharpPropertyName()), (acc, desc) => (MemberAccessExpressionSyntax)acc.Access(desc.CSharpPropertyName())),
+                    field.IsDeprecated));
 
                 public MethodDeclarationSyntax SyncMethod => _def.Sync(SyncMethodName, _sig.Fields, SigArgs);
 
@@ -340,10 +341,10 @@ namespace Google.Api.Generator.Generation
                     private string AsyncMethodName => $"{SyncMethodName}Async";
 
                     public MethodDeclarationSyntax SyncMethod => _sig._def.Sync(SyncMethodName, _sig._sig.Fields,
-                        _properties.Select(property => _sig.Access(_sig._def.Request, property.name, property.isDeprecated)));
+                        _properties.Select(property => _sig.Access(_sig._def.Request.Access(property.name), property.isDeprecated)));
 
                     public MethodDeclarationSyntax AsyncMethod => _sig._def.Async(AsyncMethodName, _sig._sig.Fields,
-                        _properties.Select(property => _sig.Access(_sig._def.Request, property.name, property.isDeprecated)));
+                        _properties.Select(property => _sig.Access(_sig._def.Request.Access(property.name), property.isDeprecated)));
                 }
 
                 public IEnumerable<ResourceName> ResourceNames => ResourceName.Create(this);
