@@ -308,7 +308,17 @@ namespace Google.Api.Generator.Generation
                 }
 
                 private IEnumerable<object> SigArgs => _sig.Fields.Select(field => Access(
-                    field.Descs.Skip(1).Aggregate(_def.Request.Access(field.Descs.First().CSharpPropertyName()), (acc, desc) => (MemberAccessExpressionSyntax)acc.Access(desc.CSharpPropertyName())),
+                    // Generate code to access the correct property, including nesting.
+                    // field.Descs contains all proto FieldDescriptors from outermost to most-nested field, so aggregate Access(...)
+                    // from the request proto (_def.Request) through all nesting fields.
+                    // Note that often there will be no nested, so the aggregation will not be used. In this case
+                    // this code is equivilent to: _def.Request.Access(field.Descs.First().CSharpPropertyName());
+                    // i.e. access the required field within the request object.
+                    field.Descs
+                        .Skip(1)
+                        .Aggregate(
+                            _def.Request.Access(field.Descs.First().CSharpPropertyName()),
+                            (acc, desc) => (MemberAccessExpressionSyntax)acc.Access(desc.CSharpPropertyName())),
                     field.IsDeprecated));
 
                 public MethodDeclarationSyntax SyncMethod => _def.Sync(SyncMethodName, _sig.Fields, SigArgs);
