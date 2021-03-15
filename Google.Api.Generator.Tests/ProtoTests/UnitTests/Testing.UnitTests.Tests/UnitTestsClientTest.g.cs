@@ -51,8 +51,8 @@ namespace Testing.UnitTests.Tests
                 SingleBool = false,
                 SingleString = "single_string96cd7d30",
                 SingleBytes = proto::ByteString.CopyFromUtf8("single_bytes7f9384e7"),
-                SingleMessage = new AnotherMessage(),
-                SingleNestedMessage = new ValuesRequest.Types.NestedMessage(),
+                SingleMessage = new AnotherMessage { },
+                SingleNestedMessage = new ValuesRequest.Types.NestedMessage { },
                 SingleEnum = Enum.Default,
                 SingleNestedEnum = ValuesRequest.Types.NestedEnum.Default,
                 RepeatedDouble =
@@ -96,11 +96,11 @@ namespace Testing.UnitTests.Tests
                 },
                 RepeatedMessage =
                 {
-                    new AnotherMessage(),
+                    new AnotherMessage { },
                 },
                 RepeatedNestedMessage =
                 {
-                    new ValuesRequest.Types.NestedMessage(),
+                    new ValuesRequest.Types.NestedMessage { },
                 },
                 RepeatedEnum = { Enum.Default, },
                 RepeatedNestedEnum =
@@ -196,8 +196,8 @@ namespace Testing.UnitTests.Tests
                 SingleBool = false,
                 SingleString = "single_string96cd7d30",
                 SingleBytes = proto::ByteString.CopyFromUtf8("single_bytes7f9384e7"),
-                SingleMessage = new AnotherMessage(),
-                SingleNestedMessage = new ValuesRequest.Types.NestedMessage(),
+                SingleMessage = new AnotherMessage { },
+                SingleNestedMessage = new ValuesRequest.Types.NestedMessage { },
                 SingleEnum = Enum.Default,
                 SingleNestedEnum = ValuesRequest.Types.NestedEnum.Default,
                 RepeatedDouble =
@@ -241,11 +241,11 @@ namespace Testing.UnitTests.Tests
                 },
                 RepeatedMessage =
                 {
-                    new AnotherMessage(),
+                    new AnotherMessage { },
                 },
                 RepeatedNestedMessage =
                 {
-                    new ValuesRequest.Types.NestedMessage(),
+                    new ValuesRequest.Types.NestedMessage { },
                 },
                 RepeatedEnum = { Enum.Default, },
                 RepeatedNestedEnum =
