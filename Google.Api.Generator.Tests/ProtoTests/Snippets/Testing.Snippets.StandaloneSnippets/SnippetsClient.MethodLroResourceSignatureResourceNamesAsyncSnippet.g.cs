@@ -18,6 +18,7 @@ namespace Testing.Snippets.Snippets
 {
     using Google.LongRunning;
     using System.Threading.Tasks;
+    using ts = Testing.Snippets;
 
     public sealed partial class GeneratedSnippetsClientStandaloneSnippets
     {

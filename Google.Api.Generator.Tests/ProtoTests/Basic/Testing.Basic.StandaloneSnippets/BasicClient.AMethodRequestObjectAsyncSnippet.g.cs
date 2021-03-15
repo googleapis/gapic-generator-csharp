@@ -17,6 +17,7 @@
 namespace Testing.Basic.Snippets
 {
     using System.Threading.Tasks;
+    using Testing.Basic;
 
     public sealed partial class GeneratedBasicClientStandaloneSnippets
     {

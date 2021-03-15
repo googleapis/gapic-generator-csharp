@@ -105,9 +105,14 @@ namespace Google.Api.Generator.Utils
             // TODO: Handle nested types.
 
             public Unaliased(
-                IClock clock, IReadOnlyDictionary<string, string> wellKnownNamespaceAliases, IReadOnlyCollection<Regex> avoidAliasingNamespaceRegex) : base(clock) =>
-                (_wellKnownNamespaceAliases, _avoidAliasingNamespaceRegex) = (wellKnownNamespaceAliases, avoidAliasingNamespaceRegex);
+                IClock clock,
+                IReadOnlyDictionary<string, string> wellKnownNamespaceAliases,
+                IReadOnlyCollection<Regex> avoidAliasingNamespaceRegex,
+                bool maySkipOwnNamespaceImport) : base(clock) =>
+                (_wellKnownNamespaceAliases, _avoidAliasingNamespaceRegex, _maySkipOwnNamespaceImport) = 
+                (wellKnownNamespaceAliases, avoidAliasingNamespaceRegex, maySkipOwnNamespaceImport);
 
+            private readonly bool _maySkipOwnNamespaceImport;
             private readonly IReadOnlyDictionary<string, string> _wellKnownNamespaceAliases;
             private readonly IReadOnlyCollection<Regex> _avoidAliasingNamespaceRegex;
             // Seen namespaces. The associated bool value indicates whether we may skip import or not.
@@ -149,7 +154,7 @@ namespace Google.Api.Generator.Utils
                 // that either.
                 if (!_seenNamespaces.TryGetValue(typ.Namespace, out bool maySkipImport) || maySkipImport)
                 {
-                    _seenNamespaces[typ.Namespace] = IsParentOrSameNamespace(typ.Namespace, Namespace);
+                    _seenNamespaces[typ.Namespace] = _maySkipOwnNamespaceImport && IsParentOrSameNamespace(typ.Namespace, Namespace);
                 }
                 // Track the type as seen.
                 _seenTypes.Add(typ);
@@ -471,8 +476,11 @@ namespace Google.Api.Generator.Utils
         };
 
         public static SourceFileContext CreateUnaliased(
-            IClock clock, IReadOnlyDictionary<string, string> wellKnownNamespaceAliases, IReadOnlyCollection<Regex> avoidAliasingNamespaceRegex) =>
-            new Unaliased(clock, wellKnownNamespaceAliases, avoidAliasingNamespaceRegex);
+            IClock clock,
+            IReadOnlyDictionary<string, string> wellKnownNamespaceAliases,
+            IReadOnlyCollection<Regex> avoidAliasingNamespaceRegex,
+            bool maySkipOwnNamespaceImport) =>
+            new Unaliased(clock, wellKnownNamespaceAliases, avoidAliasingNamespaceRegex, maySkipOwnNamespaceImport);
 
         public static SourceFileContext CreateFullyQualified(IClock clock) => new FullyQualified(clock);
 

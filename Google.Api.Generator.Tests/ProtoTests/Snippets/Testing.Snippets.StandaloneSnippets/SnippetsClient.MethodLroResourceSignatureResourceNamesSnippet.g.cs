@@ -17,6 +17,7 @@
 namespace Testing.Snippets.Snippets
 {
     using Google.LongRunning;
+    using Testing.Snippets;
 
     public sealed partial class GeneratedSnippetsClientStandaloneSnippets
     {

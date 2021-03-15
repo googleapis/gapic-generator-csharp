@@ -16,6 +16,8 @@
 
 namespace Testing.Keywords.Snippets
 {
+    using Testing.Keywords;
+
     public sealed partial class GeneratedKeywordsClientStandaloneSnippets
     {
         /// <summary>Snippet for Method2</summary>

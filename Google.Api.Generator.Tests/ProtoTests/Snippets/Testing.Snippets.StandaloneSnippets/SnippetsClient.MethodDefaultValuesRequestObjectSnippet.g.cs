@@ -18,6 +18,7 @@ namespace Testing.Snippets.Snippets
 {
     using Google.Api.Gax;
     using Google.Protobuf;
+    using Testing.Snippets;
 
     public sealed partial class GeneratedSnippetsClientStandaloneSnippets
     {

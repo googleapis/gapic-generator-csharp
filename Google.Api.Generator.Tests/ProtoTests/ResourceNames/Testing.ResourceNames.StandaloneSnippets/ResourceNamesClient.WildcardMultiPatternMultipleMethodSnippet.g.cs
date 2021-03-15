@@ -17,6 +17,7 @@
 namespace Testing.ResourceNames.Snippets
 {
     using System.Collections.Generic;
+    using Testing.ResourceNames;
 
     public sealed partial class GeneratedResourceNamesClientStandaloneSnippets
     {

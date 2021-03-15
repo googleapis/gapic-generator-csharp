@@ -16,6 +16,8 @@
 
 namespace Testing.Deprecated.Snippets
 {
+    using Testing.Deprecated;
+
     public sealed partial class GeneratedDeprecatedClientStandaloneSnippets
     {
         /// <summary>Snippet for DeprecatedMessageMethod</summary>

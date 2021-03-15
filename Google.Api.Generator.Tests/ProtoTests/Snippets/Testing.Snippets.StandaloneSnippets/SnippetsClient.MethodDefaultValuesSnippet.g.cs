@@ -17,6 +17,7 @@
 namespace Testing.Snippets.Snippets
 {
     using System.Collections.Generic;
+    using Testing.Snippets;
 
     public sealed partial class GeneratedSnippetsClientStandaloneSnippets
     {

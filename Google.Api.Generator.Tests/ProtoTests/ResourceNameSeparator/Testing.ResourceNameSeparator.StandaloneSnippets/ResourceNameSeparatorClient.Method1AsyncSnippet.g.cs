@@ -17,6 +17,7 @@
 namespace Testing.ResourceNameSeparator.Snippets
 {
     using System.Threading.Tasks;
+    using Testing.ResourceNameSeparator;
 
     public sealed partial class GeneratedResourceNameSeparatorClientStandaloneSnippets
     {

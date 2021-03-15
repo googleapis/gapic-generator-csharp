@@ -18,6 +18,7 @@ namespace Testing.ResourceNames.Snippets
 {
     using Google.Api.Gax;
     using System.Threading.Tasks;
+    using Testing.ResourceNames;
 
     public sealed partial class GeneratedResourceNamesClientStandaloneSnippets
     {

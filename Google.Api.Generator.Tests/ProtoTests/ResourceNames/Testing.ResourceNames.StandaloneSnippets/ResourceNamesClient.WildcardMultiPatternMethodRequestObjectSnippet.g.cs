@@ -16,6 +16,8 @@
 
 namespace Testing.ResourceNames.Snippets
 {
+    using Testing.ResourceNames;
+
     public sealed partial class GeneratedResourceNamesClientStandaloneSnippets
     {
         /// <summary>Snippet for WildcardMultiPatternMethod</summary>
