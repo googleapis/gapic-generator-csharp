@@ -7,6 +7,7 @@ option csharp_namespace = "Testing.UnitTests";
 import "google/api/client.proto";
 import "google/longrunning/operations.proto";
 import "google/api/resource.proto";
+import "google/protobuf/struct.proto";
 import "google/protobuf/wrappers.proto";
 
 service UnitTests {
@@ -121,6 +122,7 @@ message ValuesRequest {
   google.protobuf.BoolValue single_wrapped_bool = 66;
   google.protobuf.StringValue single_wrapped_string = 67;
   google.protobuf.BytesValue single_wrapped_bytes = 68;
+  google.protobuf.Struct single_struct = 69;
   repeated google.protobuf.DoubleValue repeated_wrapped_double = 70;
   repeated google.protobuf.FloatValue repeated_wrapped_float = 71;
   repeated google.protobuf.Int64Value repeated_wrapped_int64 = 72;
@@ -130,6 +132,7 @@ message ValuesRequest {
   repeated google.protobuf.BoolValue repeated_wrapped_bool = 76;
   repeated google.protobuf.StringValue repeated_wrapped_string = 77;
   repeated google.protobuf.BytesValue repeated_wrapped_bytes = 78;
+  repeated google.protobuf.Struct repeated_struct = 79;
 }
 
 message Response {

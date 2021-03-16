@@ -539,15 +539,15 @@ namespace Testing.MethodSignatures.Tests
             moq::Mock<MethodSignatures.MethodSignaturesClient> mockGrpcClient = new moq::Mock<MethodSignatures.MethodSignaturesClient>(moq::MockBehavior.Strict);
             MessageRequest request = new MessageRequest
             {
-                Optional = new MessageRequest.Types.Msg { },
-                Required = new MessageRequest.Types.Msg { },
+                Optional = new MessageRequest.Types.Msg(),
+                Required = new MessageRequest.Types.Msg(),
                 RepeatedOptional =
                 {
-                    new MessageRequest.Types.Msg { },
+                    new MessageRequest.Types.Msg(),
                 },
                 RepeatedRequired =
                 {
-                    new MessageRequest.Types.Msg { },
+                    new MessageRequest.Types.Msg(),
                 },
             };
             Response expectedResponse = new Response { };
@@ -564,15 +564,15 @@ namespace Testing.MethodSignatures.Tests
             moq::Mock<MethodSignatures.MethodSignaturesClient> mockGrpcClient = new moq::Mock<MethodSignatures.MethodSignaturesClient>(moq::MockBehavior.Strict);
             MessageRequest request = new MessageRequest
             {
-                Optional = new MessageRequest.Types.Msg { },
-                Required = new MessageRequest.Types.Msg { },
+                Optional = new MessageRequest.Types.Msg(),
+                Required = new MessageRequest.Types.Msg(),
                 RepeatedOptional =
                 {
-                    new MessageRequest.Types.Msg { },
+                    new MessageRequest.Types.Msg(),
                 },
                 RepeatedRequired =
                 {
-                    new MessageRequest.Types.Msg { },
+                    new MessageRequest.Types.Msg(),
                 },
             };
             Response expectedResponse = new Response { };
@@ -591,15 +591,15 @@ namespace Testing.MethodSignatures.Tests
             moq::Mock<MethodSignatures.MethodSignaturesClient> mockGrpcClient = new moq::Mock<MethodSignatures.MethodSignaturesClient>(moq::MockBehavior.Strict);
             MessageRequest request = new MessageRequest
             {
-                Optional = new MessageRequest.Types.Msg { },
-                Required = new MessageRequest.Types.Msg { },
+                Optional = new MessageRequest.Types.Msg(),
+                Required = new MessageRequest.Types.Msg(),
                 RepeatedOptional =
                 {
-                    new MessageRequest.Types.Msg { },
+                    new MessageRequest.Types.Msg(),
                 },
                 RepeatedRequired =
                 {
-                    new MessageRequest.Types.Msg { },
+                    new MessageRequest.Types.Msg(),
                 },
             };
             Response expectedResponse = new Response { };
@@ -616,15 +616,15 @@ namespace Testing.MethodSignatures.Tests
             moq::Mock<MethodSignatures.MethodSignaturesClient> mockGrpcClient = new moq::Mock<MethodSignatures.MethodSignaturesClient>(moq::MockBehavior.Strict);
             MessageRequest request = new MessageRequest
             {
-                Optional = new MessageRequest.Types.Msg { },
-                Required = new MessageRequest.Types.Msg { },
+                Optional = new MessageRequest.Types.Msg(),
+                Required = new MessageRequest.Types.Msg(),
                 RepeatedOptional =
                 {
-                    new MessageRequest.Types.Msg { },
+                    new MessageRequest.Types.Msg(),
                 },
                 RepeatedRequired =
                 {
-                    new MessageRequest.Types.Msg { },
+                    new MessageRequest.Types.Msg(),
                 },
             };
             Response expectedResponse = new Response { };
@@ -654,7 +654,7 @@ namespace Testing.MethodSignatures.Tests
                 {
                     {
                         -1978962372,
-                        new MapRequest.Types.Msg { }
+                        new MapRequest.Types.Msg()
                     },
                 },
             };
@@ -683,7 +683,7 @@ namespace Testing.MethodSignatures.Tests
                 {
                     {
                         -1978962372,
-                        new MapRequest.Types.Msg { }
+                        new MapRequest.Types.Msg()
                     },
                 },
             };
@@ -714,7 +714,7 @@ namespace Testing.MethodSignatures.Tests
                 {
                     {
                         -1978962372,
-                        new MapRequest.Types.Msg { }
+                        new MapRequest.Types.Msg()
                     },
                 },
             };
@@ -743,7 +743,7 @@ namespace Testing.MethodSignatures.Tests
                 {
                     {
                         -1978962372,
-                        new MapRequest.Types.Msg { }
+                        new MapRequest.Types.Msg()
                     },
                 },
             };
@@ -907,16 +907,7 @@ namespace Testing.MethodSignatures.Tests
             moq::Mock<MethodSignatures.MethodSignaturesClient> mockGrpcClient = new moq::Mock<MethodSignatures.MethodSignaturesClient>(moq::MockBehavior.Strict);
             NestedRequest request = new NestedRequest
             {
-                Nest1 = new NestedRequest.Types.Nest1
-                {
-                    AString = "a_string5c3f0d7a",
-                    Nest2 = new NestedRequest.Types.Nest1.Types.Nest2
-                    {
-                        ANumber = -208788734,
-                        AnotherNumber = -1687928571,
-                    },
-                    NestOuter = new NestedOuter { ABool = false, },
-                },
+                Nest1 = new NestedRequest.Types.Nest1(),
                 TopLevelString = "top_level_string96fd379a",
             };
             Response expectedResponse = new Response { };
@@ -933,16 +924,7 @@ namespace Testing.MethodSignatures.Tests
             moq::Mock<MethodSignatures.MethodSignaturesClient> mockGrpcClient = new moq::Mock<MethodSignatures.MethodSignaturesClient>(moq::MockBehavior.Strict);
             NestedRequest request = new NestedRequest
             {
-                Nest1 = new NestedRequest.Types.Nest1
-                {
-                    AString = "a_string5c3f0d7a",
-                    Nest2 = new NestedRequest.Types.Nest1.Types.Nest2
-                    {
-                        ANumber = -208788734,
-                        AnotherNumber = -1687928571,
-                    },
-                    NestOuter = new NestedOuter { ABool = false, },
-                },
+                Nest1 = new NestedRequest.Types.Nest1(),
                 TopLevelString = "top_level_string96fd379a",
             };
             Response expectedResponse = new Response { };
