@@ -18,6 +18,7 @@ using gax = Google.Api.Gax;
 using gaxgrpc = Google.Api.Gax.Grpc;
 using lro = Google.LongRunning;
 using proto = Google.Protobuf;
+using wkt = Google.Protobuf.WellKnownTypes;
 using grpccore = Grpc.Core;
 using moq = Moq;
 using st = System.Threading;
@@ -51,8 +52,8 @@ namespace Testing.UnitTests.Tests
                 SingleBool = false,
                 SingleString = "single_string96cd7d30",
                 SingleBytes = proto::ByteString.CopyFromUtf8("single_bytes7f9384e7"),
-                SingleMessage = new AnotherMessage { },
-                SingleNestedMessage = new ValuesRequest.Types.NestedMessage { },
+                SingleMessage = new AnotherMessage(),
+                SingleNestedMessage = new ValuesRequest.Types.NestedMessage(),
                 SingleEnum = Enum.Default,
                 SingleNestedEnum = ValuesRequest.Types.NestedEnum.Default,
                 RepeatedDouble =
@@ -96,11 +97,11 @@ namespace Testing.UnitTests.Tests
                 },
                 RepeatedMessage =
                 {
-                    new AnotherMessage { },
+                    new AnotherMessage(),
                 },
                 RepeatedNestedMessage =
                 {
-                    new ValuesRequest.Types.NestedMessage { },
+                    new ValuesRequest.Types.NestedMessage(),
                 },
                 RepeatedEnum = { Enum.Default, },
                 RepeatedNestedEnum =
@@ -141,6 +142,7 @@ namespace Testing.UnitTests.Tests
                 SingleWrappedBool = false,
                 SingleWrappedString = "single_wrapped_stringf548cb82",
                 SingleWrappedBytes = proto::ByteString.CopyFromUtf8("single_wrapped_bytesd1603531"),
+                SingleStruct = new wkt::Struct(),
                 RepeatedWrappedDouble =
                 {
                     9.728582718428364E+17,
@@ -165,6 +167,7 @@ namespace Testing.UnitTests.Tests
                 {
                     proto::ByteString.CopyFromUtf8("repeated_wrapped_bytesaa9512b2"),
                 },
+                RepeatedStruct = { new wkt::Struct(), },
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.MethodValues(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
@@ -196,8 +199,8 @@ namespace Testing.UnitTests.Tests
                 SingleBool = false,
                 SingleString = "single_string96cd7d30",
                 SingleBytes = proto::ByteString.CopyFromUtf8("single_bytes7f9384e7"),
-                SingleMessage = new AnotherMessage { },
-                SingleNestedMessage = new ValuesRequest.Types.NestedMessage { },
+                SingleMessage = new AnotherMessage(),
+                SingleNestedMessage = new ValuesRequest.Types.NestedMessage(),
                 SingleEnum = Enum.Default,
                 SingleNestedEnum = ValuesRequest.Types.NestedEnum.Default,
                 RepeatedDouble =
@@ -241,11 +244,11 @@ namespace Testing.UnitTests.Tests
                 },
                 RepeatedMessage =
                 {
-                    new AnotherMessage { },
+                    new AnotherMessage(),
                 },
                 RepeatedNestedMessage =
                 {
-                    new ValuesRequest.Types.NestedMessage { },
+                    new ValuesRequest.Types.NestedMessage(),
                 },
                 RepeatedEnum = { Enum.Default, },
                 RepeatedNestedEnum =
@@ -286,6 +289,7 @@ namespace Testing.UnitTests.Tests
                 SingleWrappedBool = false,
                 SingleWrappedString = "single_wrapped_stringf548cb82",
                 SingleWrappedBytes = proto::ByteString.CopyFromUtf8("single_wrapped_bytesd1603531"),
+                SingleStruct = new wkt::Struct(),
                 RepeatedWrappedDouble =
                 {
                     9.728582718428364E+17,
@@ -310,6 +314,7 @@ namespace Testing.UnitTests.Tests
                 {
                     proto::ByteString.CopyFromUtf8("repeated_wrapped_bytesaa9512b2"),
                 },
+                RepeatedStruct = { new wkt::Struct(), },
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.MethodValuesAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));

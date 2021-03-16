@@ -163,7 +163,7 @@ namespace Google.Api.Generator.Generation
                             "google.protobuf.BoolValue" => Int() >= 0,
                             "google.protobuf.StringValue" => String(),
                             "google.protobuf.BytesValue" => Ctx.Type<ByteString>().Call(nameof(ByteString.CopyFromUtf8))(String()),
-                            _ => New(Ctx.Type(ProtoTyp.Of(fieldDesc.MessageType)))().WithInitializer(InitMessage(fieldDesc.MessageType, null).ToArray()),
+                            _ => New(Ctx.Type(ProtoTyp.Of(fieldDesc.MessageType)))()
                         },
                         FieldType.Enum => Ctx.Type(ProtoTyp.Of(fieldDesc.EnumType)).Access(fieldDesc.EnumType.Values[Math.Abs(Int()) % fieldDesc.EnumType.Values.Count].CSharpName()),
                         _ => throw new InvalidOperationException($"Cannot generate test value for proto type: {fieldDesc.FieldType}"),
@@ -190,22 +190,57 @@ namespace Google.Api.Generator.Generation
                 }
             }
 
-            private IEnumerable<ObjectInitExpr> InitMessage(MessageDescriptor msgDesc, IEnumerable<MethodDetails.Signature.Field> onlyFields)
+            private IEnumerable<ObjectInitExpr> InitMessage(MessageDescriptor msgDesc, IEnumerable<MethodDetails.Signature.Field> onlyFields, int fieldDepth = 0)
             {
-                var onlyFieldsSet = onlyFields?.Select(x => x.Descs.Last().FieldNumber).ToHashSet();
-                foreach (var fieldDesc in msgDesc.Fields.InFieldNumberOrder())
+                if (onlyFields is null)
                 {
-                    if (!IsPaginationField() && (onlyFieldsSet == null || onlyFieldsSet.Contains(fieldDesc.FieldNumber)))
+                    // Generate all the non-paginated fields.
+                    foreach (var fieldDesc in msgDesc.Fields.InFieldNumberOrder())
                     {
-                        var resourceField = Svc.Catalog.GetResourceDetailsByField(fieldDesc);
-                        yield return new ObjectInitExpr(
-                            resourceField?[0].ResourcePropertyName ?? fieldDesc.CSharpPropertyName(),
-                            TestValue(fieldDesc), isDeprecated: fieldDesc.IsDeprecated());
+                        if (!IsPaginationField(fieldDesc))
+                        {
+                            var resourceField = Svc.Catalog.GetResourceDetailsByField(fieldDesc);
+                            yield return new ObjectInitExpr(
+                                resourceField?[0].ResourcePropertyName ?? fieldDesc.CSharpPropertyName(),
+                                TestValue(fieldDesc), isDeprecated: fieldDesc.IsDeprecated());
+                        }
                     }
-
-                    bool IsPaginationField() => Method is MethodDetails.Paginated paged &&
-                        (fieldDesc.FieldNumber == paged.PageSizeFieldNumber || fieldDesc.FieldNumber == paged.PageTokenFieldNumber);
                 }
+                else
+                {
+                    // Find all the field paths (x.y.z) which start with the same field.
+                    // So for a signature with "x.y1.z1", "x.y1.z2", "x.y2", "abc",
+                    // we'd get groups of { "x.y1.z1", "x.y1.z2", "x.y2" } and { "abc" }.
+                    // We'd then create two initialization expressions: one for x (recursing to populate y1 and y2) and one for abc.
+                    foreach (var fieldGroup in onlyFields.GroupBy(path => path.Descs[fieldDepth]).OrderBy(group => group.Key.FieldNumber))
+                    {
+                        var fieldDesc = fieldGroup.Key;
+                        if (IsPaginationField(fieldDesc))
+                        {
+                            continue;
+                        }
+                        var resourceField = Svc.Catalog.GetResourceDetailsByField(fieldDesc);
+                        var propertyName = resourceField?[0].ResourcePropertyName ?? fieldDesc.CSharpPropertyName();
+                        // If we've reached the end of the path, just yield a single value.
+                        if (fieldGroup.Count() == 1 && fieldGroup.Single().Descs.Count == fieldDepth + 1)
+                        {
+                            yield return new ObjectInitExpr(
+                                propertyName,
+                                TestValue(fieldDesc), isDeprecated: fieldDesc.IsDeprecated());
+                        }
+                        // Otherwise, create a new message, populated by all the fields.
+                        else
+                        {
+                            yield return new ObjectInitExpr(
+                                propertyName,
+                                New(Ctx.Type(ProtoTyp.Of(fieldDesc.MessageType)))()
+                                    .WithInitializer(InitMessage(fieldDesc.MessageType, fieldGroup, fieldDepth + 1).ToArray()));
+                        }
+                    }
+                }
+
+                bool IsPaginationField(FieldDescriptor fieldDesc) => Method is MethodDetails.Paginated paged &&
+                    (fieldDesc.FieldNumber == paged.PageSizeFieldNumber || fieldDesc.FieldNumber == paged.PageTokenFieldNumber);
             }
 
             private IEnumerable<object> LroSetup()

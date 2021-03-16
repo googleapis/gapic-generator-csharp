@@ -15,6 +15,7 @@
 using Google.LongRunning;
 using Google.Protobuf;
 using Google.Protobuf.Collections;
+using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using System;
 
@@ -108,6 +109,7 @@ namespace Testing.UnitTests
         public bool? SingleWrappedBool { get; set; }
         public string SingleWrappedString { get; set; }
         public ByteString SingleWrappedBytes { get; set; }
+        public Struct SingleStruct { get; set; }
         public RepeatedField<double?> RepeatedWrappedDouble { get; } = new RepeatedField<double?>();
         public RepeatedField<float?> RepeatedWrappedFloat { get; } = new RepeatedField<float?>();
         public RepeatedField<long?> RepeatedWrappedInt64 { get; } = new RepeatedField<long?>();
@@ -117,6 +119,7 @@ namespace Testing.UnitTests
         public RepeatedField<bool?> RepeatedWrappedBool { get; } = new RepeatedField<bool?>();
         public RepeatedField<string> RepeatedWrappedString { get; } = new RepeatedField<string>();
         public RepeatedField<ByteString> RepeatedWrappedBytes { get; } = new RepeatedField<ByteString>();
+        public RepeatedField<Struct> RepeatedStruct { get; } = new RepeatedField<Struct>();
     }
 
     public partial class AResource : ProtoMsgFake<AResource>
