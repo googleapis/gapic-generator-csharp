@@ -203,7 +203,7 @@ namespace Google.Api.Generator.Generation
                 public string PropertyName { get; }
                 public bool IsDeprecated { get; }
                 public IEnumerable<string> DocLines { get; }
-                /// <summary>Resource details if this field respresents a resource. Null if not a resource field.</summary>
+                /// <summary>Resource details if this field represents a resource. Null if not a resource field.</summary>
                 public IReadOnlyList<ResourceDetails.Field> FieldResources { get; }
             }
             public Signature(ServiceDetails svc, MessageDescriptor msg , string sig)
