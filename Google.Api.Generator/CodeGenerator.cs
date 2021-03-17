@@ -20,6 +20,7 @@ using Google.LongRunning;
 using Google.Protobuf;
 using Google.Protobuf.Reflection;
 using Grpc.ServiceConfig;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -125,6 +126,8 @@ namespace Google.Api.Generator
             var unitTestsPathPrefix = $"{ns}.Tests{Path.DirectorySeparatorChar}";
             bool hasLro = false;
             bool hasContent = false;
+            HashSet<string> allResourceNameClasses = new HashSet<string>();
+            HashSet<string> duplicateResourceNameClasses = new HashSet<string>();
             foreach (var fileDesc in packageFileDescriptors)
             {
                 foreach (var service in fileDesc.Services)
@@ -168,11 +171,29 @@ namespace Google.Api.Generator
                 // Only produce an output file if it contains >0 [partial] classes.
                 if (resCodeClassCount > 0)
                 {
+                    // Keep track of the resource names, to spot duplicates
+                    var resourceNameClasses = catalog.GetResourceDefsByFile(fileDesc)
+                        .Where(def => def.HasNotWildcard && !def.IsCommon)
+                        .Select(def => def.ResourceNameTyp.Name);
+                    foreach (var resourceNameClass in resourceNameClasses)
+                    {
+                        if (!allResourceNameClasses.Add(resourceNameClass))
+                        {
+                            duplicateResourceNameClasses.Add(resourceNameClass);
+                        }
+                    }
+
+                    // Yield the file to be generated.
                     var filenamePrefix = Path.GetFileNameWithoutExtension(fileDesc.Name).ToUpperCamelCase();
                     var resFilename = $"{clientPathPrefix}{filenamePrefix}ResourceNames.g.cs";
                     yield return new ResultFile(resFilename, resCode);
                     hasContent = true;
                 }
+            }
+            // Now we've processed all the files, check for duplicate resource names.
+            if (duplicateResourceNameClasses.Count > 0)
+            {
+                throw new InvalidOperationException($"The following resource name classes were created multiple times: {string.Join(", ", duplicateResourceNameClasses)}");
             }
             // Only output csproj's if there is any other generated content.
             // When processing a (proto) package without any services there will be no generated content.
