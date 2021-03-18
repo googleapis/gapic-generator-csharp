@@ -323,11 +323,13 @@ namespace Google.Api.Generator.Rest.Models
                     new XElement("RepositoryType", "git"),
                     new XElement("RepositoryUrl", "https://github.com/google/google-api-dotnet-client"),
                     new XElement("PackageIconUrl", "https://www.gstatic.com/images/branding/product/1x/google_developers_64dp.png"),
+                    new XElement("PackageIcon", "NuGetIcon.png"),
                     new XElement("Description", GetApiDescription())
                 );
 
             var licenseItemGroup = new XElement("ItemGroup",
-                new XElement("None", new XAttribute("Include", "../../../LICENSE"), new XAttribute("Pack", "true"), new XAttribute("PackagePath", ""))
+                new XElement("None", new XAttribute("Include", "../../../LICENSE"), new XAttribute("Pack", "true"), new XAttribute("PackagePath", "")),
+                new XElement("None", new XAttribute("Include", "../../../NuGetIcon.png"), new XAttribute("Pack", "true"), new XAttribute("PackagePath", ""))
             );
 
             var buildProperties = new XElement("PropertyGroup",
