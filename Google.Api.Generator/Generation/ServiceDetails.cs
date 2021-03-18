@@ -31,7 +31,7 @@ namespace Google.Api.Generator.Generation
         {
             Catalog = catalog;
             Namespace = ns;
-            Package = desc.File.Package;
+            ProtoPackage = desc.File.Package;
             DocLines = desc.Declaration.DocLines().ToList();
             SnippetsNamespace = $"{ns}.Snippets";
             UnitTestsNamespace = $"{ns}.Tests";
@@ -124,6 +124,6 @@ namespace Google.Api.Generator.Generation
         public IReadOnlyDictionary<string, MethodConfig> MethodGrpcConfigsByName { get; }
 
         /// <summary>Name of the proto package for this service</summary>
-        public string Package { get; }
+        public string ProtoPackage { get; }
     }
 }

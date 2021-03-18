@@ -221,8 +221,7 @@ namespace Google.Api.Generator
                 yield return new ResultFile(unitTestsCsprojFilename, unitTestsCsprojContent);
                 // Generate gapic_metadata.json
                 var gapicMetadataJsonContent = MetadataGenerator.GenerateGapicMetadataJson(allServiceDetails);
-                var gapicMetadataJsonFilename = $"{clientPathPrefix}gapic_metadata.json";
-                yield return new ResultFile(gapicMetadataJsonFilename, gapicMetadataJsonContent);
+                yield return new ResultFile("gapic_metadata.json", gapicMetadataJsonContent);
             }
         }
     }

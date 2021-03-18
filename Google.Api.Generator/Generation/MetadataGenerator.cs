@@ -1,7 +1,24 @@
-﻿using Google.Gapic.Metadata;
+﻿// Copyright 2021 Google Inc. All Rights Reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+using Google.Gapic.Metadata;
+using static Google.Gapic.Metadata.GapicMetadata.Types;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
 
 namespace Google.Api.Generator.Generation
 {
@@ -15,56 +32,53 @@ namespace Google.Api.Generator.Generation
 
         internal static string GenerateGapicMetadataJson(List<ServiceDetails> allServiceDetails)
         {
-            
             var gapicMetadata = new GapicMetadata
             {
                 Schema = GapicMetadataSchemaVersion,
                 Comment = GapicMetadataFileDescription,
                 Language = GapicMetadataLanguage,
-                ProtoPackage = allServiceDetails.First().Package,
-                LibraryPackage = allServiceDetails.First().Namespace
+                ProtoPackage = allServiceDetails.First().ProtoPackage,
+                LibraryPackage = allServiceDetails.First().Namespace,
+                Services = {
+                allServiceDetails.ToDictionary(
+                    serviceDetails => serviceDetails.ServiceName,
+                    ServiceForTransportMetadata
+                )}
             };
 
-            foreach (var serviceDetails in allServiceDetails)
+            JObject obj = JsonConvert.DeserializeObject<JObject>(
+                gapicMetadata.ToString(),
+                new JsonSerializerSettings { DateParseHandling = DateParseHandling.None }
+            );
+
+            if (obj == null)
             {
-                gapicMetadata.Services[serviceDetails.ServiceName] = ServiceForTransportMetadata(serviceDetails);
+                throw new InvalidOperationException("Json conversion failed for the Gapic Metadata object.");
             }
 
-            var gapicMetadataJson = JsonSerializer.Serialize(
-                gapicMetadata,
-                new JsonSerializerOptions
+            return obj.ToString(Formatting.Indented) + "\n"; //trailing file newline to please github;
+        }
+
+        private static ServiceForTransport ServiceForTransportMetadata(ServiceDetails serviceDetails) =>
+            new ServiceForTransport
+            {
+                Clients = { new Dictionary<string, ServiceAsClient>
                 {
-                    WriteIndented = true,
-                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                    DictionaryKeyPolicy = JsonNamingPolicy.CamelCase
-                });
-
-            return gapicMetadataJson + "\n"; //trailing file newline to please github
-        }
-
-        private static GapicMetadata.Types.ServiceForTransport ServiceForTransportMetadata(ServiceDetails serviceDetails)
-        {
-            var serviceForTransportMetadata = new GapicMetadata.Types.ServiceForTransport();
-            
-            serviceForTransportMetadata.Clients[TransportKeyGrpc] = ServiceAsClientMetadata(serviceDetails);
-            return serviceForTransportMetadata;
-        }
-
-        private static GapicMetadata.Types.ServiceAsClient ServiceAsClientMetadata(ServiceDetails serviceDetails)
-        {
-            var serviceAsClient = new GapicMetadata.Types.ServiceAsClient
-            {
-                LibraryClient = serviceDetails.ClientImplTyp.FullName
+                    { 
+                        TransportKeyGrpc,
+                        new ServiceAsClient
+                        {
+                            LibraryClient = serviceDetails.ClientImplTyp.FullName,
+                            Rpcs = { serviceDetails.Methods.ToDictionary(
+                                methodDetails => methodDetails.ProtoRpcName,
+                                methodDetails => new MethodList
+                                {
+                                    Methods = { methodDetails.SyncMethodName, methodDetails.AsyncMethodName }
+                                }
+                            )}
+                        }
+                    }
+                }}
             };
-
-            foreach (var methodDetails in serviceDetails.Methods)
-            {
-                var methodsList = new GapicMetadata.Types.MethodList();
-                methodsList.Methods.AddRange(new[] { methodDetails.SyncMethodName, methodDetails.AsyncMethodName });
-                serviceAsClient.Rpcs[methodDetails.MethodName] = methodsList;
-            }
-
-            return serviceAsClient;
-        }
     }
 }
