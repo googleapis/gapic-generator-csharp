@@ -174,7 +174,7 @@ namespace Google.Api.Generator
                 var (resCode, resCodeClassCount) = ResourceNamesGenerator.Generate(catalog, resCtx, fileDesc);
                 // Only produce an output file if it contains >0 [partial] classes.
                 if (resCodeClassCount > 0)
-                {                    
+                {
                     // Keep track of the resource names, to spot duplicates
                     var resourceNameClasses = catalog.GetResourceDefsByFile(fileDesc)
                         .Where(def => def.HasNotWildcard && !def.IsCommon)
