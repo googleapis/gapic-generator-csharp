@@ -158,8 +158,7 @@ namespace Google.Api.Generator.Tests
             ignoreCsProj: true, ignoreSnippets: true, ignoreUnitTests: true, ignoreGapicMetadata: true);
 
         [Fact]
-        public void MethodSignatures() => ProtoTestSingle("MethodSignatures",
-            ignoreCsProj: true, ignoreSnippets: true, ignoreUnitTests: true, ignoreGapicMetadata: true);
+        public void MethodSignatures() => ProtoTestSingle("MethodSignatures", ignoreCsProj: true, ignoreSnippets: true, ignoreGapicMetadata: true);
 
         [Fact]
         public void ResourceNames() => ProtoTestSingle("ResourceNames", ignoreCsProj: true, ignoreGapicMetadata: true);
