@@ -111,6 +111,9 @@ namespace Testing.Snippets
 
         public Task TaskMethod(Task request) => throw new NotImplementedException();
         public Task<Task> TaskMethodAsync(Task request) => throw new NotImplementedException();
+
+        public Response OneOfMethod(OneOfRequest request) => throw new NotImplementedException();
+        public Task<Response> OneOfMethodAsync(OneOfRequest request) => throw new NotImplementedException();
     }
 
     public partial class AResource : ProtoMsgFake<AResource>
@@ -238,6 +241,13 @@ namespace Testing.Snippets
     }
 
     public class Task : ProtoMsgFake<Task> { }
+
+    public class OneOfRequest : ProtoMsgFake<OneOfRequest>
+    {
+        public string NonOneOfString { get; set; }
+        public string AString { get; set; }
+        public int ANumber { get; set; }
+    }
 
     public class Response : ProtoMsgFake<Response> { }
     public class LroResponse : ProtoMsgFake<LroResponse> { }
