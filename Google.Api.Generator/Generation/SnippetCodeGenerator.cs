@@ -292,7 +292,7 @@ namespace Google.Api.Generator.Generation
                 {
                     // Do not emit pagination page_size or page_token fields;
                     // and only emit the first field of a (real) oneof.
-                    // (Although sythentic oneofs should only ever contain a single field)
+                    // (Although synthetic oneofs should only ever contain a single field)
                     if (!IsPaginationField() && !IsNonFirstOneOfField())
                     {
                         var resourceField = Svc.Catalog.GetResourceDetailsByField(fieldDesc)?[0];
