@@ -1,0 +1,90 @@
+{
+  "schema": "1.0",
+  "comment": "This file maps proto services/RPCs to the corresponding library clients/methods",
+  "language": "csharp",
+  "protoPackage": "testing.snippets",
+  "libraryPackage": "Testing.Snippets",
+  "services": {
+    "Snippets": {
+      "clients": {
+        "grpc": {
+          "libraryClient": "Testing.Snippets.SnippetsClientImpl",
+          "rpcs": {
+            "MethodDefaultValues": {
+              "methods": [
+                "MethodDefaultValues",
+                "MethodDefaultValuesAsync"
+              ]
+            },
+            "MethodOneSignature": {
+              "methods": [
+                "MethodOneSignature",
+                "MethodOneSignatureAsync"
+              ]
+            },
+            "MethodThreeSignatures": {
+              "methods": [
+                "MethodThreeSignatures",
+                "MethodThreeSignaturesAsync"
+              ]
+            },
+            "MethodMapSignature": {
+              "methods": [
+                "MethodMapSignature",
+                "MethodMapSignatureAsync"
+              ]
+            },
+            "MethodResourceSignature": {
+              "methods": [
+                "MethodResourceSignature",
+                "MethodResourceSignatureAsync"
+              ]
+            },
+            "MethodRepeatedResourceSignature": {
+              "methods": [
+                "MethodRepeatedResourceSignature",
+                "MethodRepeatedResourceSignatureAsync"
+              ]
+            },
+            "MethodLroSignatures": {
+              "methods": [
+                "MethodLroSignatures",
+                "MethodLroSignaturesAsync"
+              ]
+            },
+            "MethodLroResourceSignature": {
+              "methods": [
+                "MethodLroResourceSignature",
+                "MethodLroResourceSignatureAsync"
+              ]
+            },
+            "MethodServerStreaming": {
+              "methods": [
+                "MethodServerStreaming",
+                "MethodServerStreamingAsync"
+              ]
+            },
+            "MethodServerStreamingResources": {
+              "methods": [
+                "MethodServerStreamingResources",
+                "MethodServerStreamingResourcesAsync"
+              ]
+            },
+            "MethodBidiStreaming": {
+              "methods": [
+                "MethodBidiStreaming",
+                "MethodBidiStreamingAsync"
+              ]
+            },
+            "TaskMethod": {
+              "methods": [
+                "TaskMethod",
+                "TaskMethodAsync"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

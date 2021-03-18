@@ -1,0 +1,30 @@
+{
+  "schema": "1.0",
+  "comment": "This file maps proto services/RPCs to the corresponding library clients/methods",
+  "language": "csharp",
+  "protoPackage": "testing.keywords",
+  "libraryPackage": "Testing.Keywords",
+  "services": {
+    "Keywords": {
+      "clients": {
+        "grpc": {
+          "libraryClient": "Testing.Keywords.KeywordsClientImpl",
+          "rpcs": {
+            "Method1": {
+              "methods": [
+                "Method1",
+                "Method1Async"
+              ]
+            },
+            "Method2": {
+              "methods": [
+                "Method2",
+                "Method2Async"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

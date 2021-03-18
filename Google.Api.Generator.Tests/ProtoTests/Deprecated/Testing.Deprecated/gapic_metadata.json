@@ -1,0 +1,42 @@
+{
+  "schema": "1.0",
+  "comment": "This file maps proto services/RPCs to the corresponding library clients/methods",
+  "language": "csharp",
+  "protoPackage": "testing.deprecated",
+  "libraryPackage": "Testing.Deprecated",
+  "services": {
+    "Deprecated": {
+      "clients": {
+        "grpc": {
+          "libraryClient": "Testing.Deprecated.DeprecatedClientImpl",
+          "rpcs": {
+            "DeprecatedFieldMethod": {
+              "methods": [
+                "DeprecatedFieldMethod",
+                "DeprecatedFieldMethodAsync"
+              ]
+            },
+            "DeprecatedMessageMethod": {
+              "methods": [
+                "DeprecatedMessageMethod",
+                "DeprecatedMessageMethodAsync"
+              ]
+            },
+            "DeprecatedMethod": {
+              "methods": [
+                "DeprecatedMethod",
+                "DeprecatedMethodAsync"
+              ]
+            },
+            "DeprecatedResponseMethod": {
+              "methods": [
+                "DeprecatedResponseMethod",
+                "DeprecatedResponseMethodAsync"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

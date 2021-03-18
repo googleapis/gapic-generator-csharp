@@ -220,7 +220,7 @@ namespace Google.Api.Generator
                 var unitTestsCsprojFilename = $"{unitTestsPathPrefix}{ns}.Tests.csproj";
                 yield return new ResultFile(unitTestsCsprojFilename, unitTestsCsprojContent);
                 // Generate gapic_metadata.json
-                var gapicMetadataJsonContent = MetadataGenerator.GenerateGapicMedatataJson(allServiceDetails);
+                var gapicMetadataJsonContent = MetadataGenerator.GenerateGapicMetadataJson(allServiceDetails);
                 var gapicMetadataJsonFilename = $"{clientPathPrefix}gapic_metadata.json";
                 yield return new ResultFile(gapicMetadataJsonFilename, gapicMetadataJsonContent);
             }

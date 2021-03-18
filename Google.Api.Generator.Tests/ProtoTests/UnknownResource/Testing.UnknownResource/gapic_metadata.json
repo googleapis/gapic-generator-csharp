@@ -1,0 +1,24 @@
+{
+  "schema": "1.0",
+  "comment": "This file maps proto services/RPCs to the corresponding library clients/methods",
+  "language": "csharp",
+  "protoPackage": "testing.unknownresource",
+  "libraryPackage": "Testing.UnknownResource",
+  "services": {
+    "UnknownResources": {
+      "clients": {
+        "grpc": {
+          "libraryClient": "Testing.UnknownResource.UnknownResourcesClientImpl",
+          "rpcs": {
+            "AMethod": {
+              "methods": [
+                "AMethod",
+                "AMethodAsync"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -42,6 +42,7 @@ namespace Google.Api.Generator.Generation
                 .ToImmutableDictionary(x => $"{x.name.Service}/{x.name.Method}", x => x.conf) ??
                 ImmutableDictionary<string, MethodConfig>.Empty;
             ServiceFullName = desc.FullName;
+            ServiceName = desc.Name;
             DocumentationName = desc.Name; // TODO: There may be a more suitable name than this.
             ProtoTyp = Typ.Manual(ns, desc.Name);
             GrpcClientTyp = Typ.Nested(ProtoTyp, $"{desc.Name}Client");
@@ -70,6 +71,9 @@ namespace Google.Api.Generator.Generation
 
         /// <summary>The service full name (package name plus service name).</summary>
         public string ServiceFullName { get; }
+        
+        /// <summary>The service name</summary>
+        public string ServiceName { get; }
 
         /// <summary>The name of this service to be used in documentation.</summary>
         public string DocumentationName { get; }

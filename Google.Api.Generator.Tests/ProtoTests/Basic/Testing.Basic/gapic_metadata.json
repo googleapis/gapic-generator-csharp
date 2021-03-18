@@ -1,0 +1,24 @@
+{
+  "schema": "1.0",
+  "comment": "This file maps proto services/RPCs to the corresponding library clients/methods",
+  "language": "csharp",
+  "protoPackage": "testing.basic",
+  "libraryPackage": "Testing.Basic",
+  "services": {
+    "Basic": {
+      "clients": {
+        "grpc": {
+          "libraryClient": "Testing.Basic.BasicClientImpl",
+          "rpcs": {
+            "AMethod": {
+              "methods": [
+                "AMethod",
+                "AMethodAsync"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

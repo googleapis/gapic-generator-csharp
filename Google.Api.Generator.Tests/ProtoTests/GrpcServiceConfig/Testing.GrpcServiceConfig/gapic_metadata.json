@@ -1,0 +1,63 @@
+{
+  "schema": "1.0",
+  "comment": "This file maps proto services/RPCs to the corresponding library clients/methods",
+  "language": "csharp",
+  "protoPackage": "testing.grpcserviceconfig",
+  "libraryPackage": "Testing.GrpcServiceConfig",
+  "services": {
+    "GrpcServiceConfigNoRetry": {
+      "clients": {
+        "grpc": {
+          "libraryClient": "Testing.GrpcServiceConfig.GrpcServiceConfigNoRetryClientImpl",
+          "rpcs": {
+            "NoRetryMethod": {
+              "methods": [
+                "NoRetryMethod",
+                "NoRetryMethodAsync"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "GrpcServiceConfig": {
+      "clients": {
+        "grpc": {
+          "libraryClient": "Testing.GrpcServiceConfig.GrpcServiceConfigClientImpl",
+          "rpcs": {
+            "ServiceLevelRetryMethod": {
+              "methods": [
+                "ServiceLevelRetryMethod",
+                "ServiceLevelRetryMethodAsync"
+              ]
+            },
+            "MethodLevelRetryMethod": {
+              "methods": [
+                "MethodLevelRetryMethod",
+                "MethodLevelRetryMethodAsync"
+              ]
+            },
+            "MethodWithServerRetry": {
+              "methods": [
+                "MethodWithServerRetry",
+                "MethodWithServerRetryAsync"
+              ]
+            },
+            "MethodWithBidiRetry": {
+              "methods": [
+                "MethodWithBidiRetry",
+                "MethodWithBidiRetryAsync"
+              ]
+            },
+            "MethodTimeoutOnly": {
+              "methods": [
+                "MethodTimeoutOnly",
+                "MethodTimeoutOnlyAsync"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

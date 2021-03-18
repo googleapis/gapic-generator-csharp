@@ -1,0 +1,66 @@
+{
+  "schema": "1.0",
+  "comment": "This file maps proto services/RPCs to the corresponding library clients/methods",
+  "language": "csharp",
+  "protoPackage": "testing.routingheaders",
+  "libraryPackage": "Testing.RoutingHeaders",
+  "services": {
+    "RoutingHeaders": {
+      "clients": {
+        "grpc": {
+          "libraryClient": "Testing.RoutingHeaders.RoutingHeadersClientImpl",
+          "rpcs": {
+            "NoUrlMethod": {
+              "methods": [
+                "NoUrlMethod",
+                "NoUrlMethodAsync"
+              ]
+            },
+            "GetMethod": {
+              "methods": [
+                "GetMethod",
+                "GetMethodAsync"
+              ]
+            },
+            "PostMethod": {
+              "methods": [
+                "PostMethod",
+                "PostMethodAsync"
+              ]
+            },
+            "PutMethod": {
+              "methods": [
+                "PutMethod",
+                "PutMethodAsync"
+              ]
+            },
+            "PatchMethod": {
+              "methods": [
+                "PatchMethod",
+                "PatchMethodAsync"
+              ]
+            },
+            "DeleteMethod": {
+              "methods": [
+                "DeleteMethod",
+                "DeleteMethodAsync"
+              ]
+            },
+            "GetNoTemplateMethod": {
+              "methods": [
+                "GetNoTemplateMethod",
+                "GetNoTemplateMethodAsync"
+              ]
+            },
+            "NestedMultiMethod": {
+              "methods": [
+                "NestedMultiMethod",
+                "NestedMultiMethodAsync"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

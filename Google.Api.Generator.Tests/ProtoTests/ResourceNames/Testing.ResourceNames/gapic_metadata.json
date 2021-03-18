@@ -1,0 +1,42 @@
+{
+  "schema": "1.0",
+  "comment": "This file maps proto services/RPCs to the corresponding library clients/methods",
+  "language": "csharp",
+  "protoPackage": "testing.resourcenames",
+  "libraryPackage": "Testing.ResourceNames",
+  "services": {
+    "ResourceNames": {
+      "clients": {
+        "grpc": {
+          "libraryClient": "Testing.ResourceNames.ResourceNamesClientImpl",
+          "rpcs": {
+            "SinglePatternMethod": {
+              "methods": [
+                "SinglePatternMethod",
+                "SinglePatternMethodAsync"
+              ]
+            },
+            "WildcardOnlyPatternMethod": {
+              "methods": [
+                "WildcardOnlyPatternMethod",
+                "WildcardOnlyPatternMethodAsync"
+              ]
+            },
+            "WildcardMultiPatternMethod": {
+              "methods": [
+                "WildcardMultiPatternMethod",
+                "WildcardMultiPatternMethodAsync"
+              ]
+            },
+            "WildcardMultiPatternMultipleMethod": {
+              "methods": [
+                "WildcardMultiPatternMultipleMethod",
+                "WildcardMultiPatternMultipleMethodAsync"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

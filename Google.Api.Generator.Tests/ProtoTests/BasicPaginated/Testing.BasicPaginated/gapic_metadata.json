@@ -1,0 +1,24 @@
+{
+  "schema": "1.0",
+  "comment": "This file maps proto services/RPCs to the corresponding library clients/methods",
+  "language": "csharp",
+  "protoPackage": "testing.basicpaginated",
+  "libraryPackage": "Testing.BasicPaginated",
+  "services": {
+    "BasicPaginated": {
+      "clients": {
+        "grpc": {
+          "libraryClient": "Testing.BasicPaginated.BasicPaginatedClientImpl",
+          "rpcs": {
+            "MethodPaginated": {
+              "methods": [
+                "MethodPaginated",
+                "MethodPaginatedAsync"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

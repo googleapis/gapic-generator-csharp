@@ -1,0 +1,36 @@
+{
+  "schema": "1.0",
+  "comment": "This file maps proto services/RPCs to the corresponding library clients/methods",
+  "language": "csharp",
+  "protoPackage": "testing.paginated",
+  "libraryPackage": "Testing.Paginated",
+  "services": {
+    "Paginated": {
+      "clients": {
+        "grpc": {
+          "libraryClient": "Testing.Paginated.PaginatedClientImpl",
+          "rpcs": {
+            "SignatureMethod": {
+              "methods": [
+                "SignatureMethod",
+                "SignatureMethodAsync"
+              ]
+            },
+            "SignatureMethod2": {
+              "methods": [
+                "SignatureMethod2",
+                "SignatureMethod2Async"
+              ]
+            },
+            "ResourcedMethod": {
+              "methods": [
+                "ResourcedMethod",
+                "ResourcedMethodAsync"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}
