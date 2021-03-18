@@ -67,6 +67,8 @@ service Snippets {
 
   // Test name collision handling in snippets.
   rpc TaskMethod(Task) returns (Task);
+
+  rpc OneOfMethod(OneOfRequest) returns (Response);
 }
 
 message AResource {
@@ -201,6 +203,14 @@ message RepeatedResourceSignatureRequest {
 }
 
 message Task {
+}
+
+message OneOfRequest {
+  string non_one_of_string = 1;
+  oneof a_one_of {
+    string a_string = 2;
+    int32 a_number = 3;
+  }
 }
 
 message Response {

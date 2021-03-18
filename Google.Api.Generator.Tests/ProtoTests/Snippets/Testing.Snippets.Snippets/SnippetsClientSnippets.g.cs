@@ -1373,5 +1373,40 @@ namespace Testing.Snippets.Snippets
             ts::Task response = await snippetsClient.TaskMethodAsync(request);
             // End snippet
         }
+
+        /// <summary>Snippet for OneOfMethod</summary>
+        public void OneOfMethodRequestObject()
+        {
+            // Snippet: OneOfMethod(OneOfRequest, CallSettings)
+            // Create client
+            SnippetsClient snippetsClient = SnippetsClient.Create();
+            // Initialize request argument(s)
+            OneOfRequest request = new OneOfRequest
+            {
+                NonOneOfString = "",
+                AString = "",
+            };
+            // Make the request
+            Response response = snippetsClient.OneOfMethod(request);
+            // End snippet
+        }
+
+        /// <summary>Snippet for OneOfMethodAsync</summary>
+        public async Task OneOfMethodRequestObjectAsync()
+        {
+            // Snippet: OneOfMethodAsync(OneOfRequest, CallSettings)
+            // Additional: OneOfMethodAsync(OneOfRequest, CancellationToken)
+            // Create client
+            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            // Initialize request argument(s)
+            OneOfRequest request = new OneOfRequest
+            {
+                NonOneOfString = "",
+                AString = "",
+            };
+            // Make the request
+            Response response = await snippetsClient.OneOfMethodAsync(request);
+            // End snippet
+        }
     }
 }
