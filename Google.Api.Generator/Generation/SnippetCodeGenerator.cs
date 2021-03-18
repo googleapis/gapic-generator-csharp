@@ -290,7 +290,10 @@ namespace Google.Api.Generator.Generation
             {
                 foreach (var fieldDesc in Method.RequestMessageDesc.Fields.InFieldNumberOrder().Where(x => !x.IsDeprecated()))
                 {
-                    if (!IsPaginationField())
+                    // Do not emit pagination page_size or page_token fields;
+                    // and only emit the first field of a (real) oneof.
+                    // (Although sythentic oneofs should only ever contain a single field)
+                    if (!IsPaginationField() && !IsNonFirstOneOfField())
                     {
                         var resourceField = Svc.Catalog.GetResourceDetailsByField(fieldDesc)?[0];
                         yield return new ObjectInitExpr(resourceField?.ResourcePropertyName ?? fieldDesc.CSharpPropertyName(),
@@ -299,6 +302,9 @@ namespace Google.Api.Generator.Generation
 
                     bool IsPaginationField() => Method is MethodDetails.Paginated paged &&
                         (fieldDesc.FieldNumber == paged.PageSizeFieldNumber || fieldDesc.FieldNumber == paged.PageTokenFieldNumber);
+
+                    bool IsNonFirstOneOfField() => fieldDesc.RealContainingOneof != null &&
+                        fieldDesc.Index != fieldDesc.RealContainingOneof.Fields[0].Index;
                 }
             }
 
