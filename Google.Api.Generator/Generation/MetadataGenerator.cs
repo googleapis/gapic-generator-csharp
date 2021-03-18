@@ -29,8 +29,17 @@ namespace Google.Api.Generator.Generation
             {
                 gapicMetadata.Services[serviceDetails.ServiceName] = ServiceForTransportMetadata(serviceDetails);
             }
-   
-            return JsonSerializer.Serialize(gapicMetadata, new JsonSerializerOptions {WriteIndented = true, PropertyNamingPolicy = JsonNamingPolicy.CamelCase, DictionaryKeyPolicy = JsonNamingPolicy.CamelCase});
+
+            var gapicMetadataJson = JsonSerializer.Serialize(
+                gapicMetadata,
+                new JsonSerializerOptions
+                {
+                    WriteIndented = true,
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                    DictionaryKeyPolicy = JsonNamingPolicy.CamelCase
+                });
+
+            return gapicMetadataJson + "\n"; //trailing file newline to please github
         }
 
         private static GapicMetadata.Types.ServiceForTransport ServiceForTransportMetadata(ServiceDetails serviceDetails)
