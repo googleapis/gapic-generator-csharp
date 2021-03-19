@@ -68,7 +68,7 @@ namespace Google.Api.Generator.Generation
                         TransportKeyGrpc,
                         new ServiceAsClient
                         {
-                            LibraryClient = serviceDetails.ClientImplTyp.FullName,
+                            LibraryClient = serviceDetails.ClientImplTyp.Name,
                             Rpcs = { serviceDetails.Methods.ToDictionary(
                                 methodDetails => methodDetails.ProtoRpcName,
                                 methodDetails => new MethodList

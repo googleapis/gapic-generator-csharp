@@ -8,7 +8,7 @@
     "Basic": {
       "clients": {
         "grpc": {
-          "libraryClient": "Testing.Basic.BasicClientImpl",
+          "libraryClient": "BasicClientImpl",
           "rpcs": {
             "AMethod": {
               "methods": [
