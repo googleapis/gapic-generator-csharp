@@ -8,7 +8,7 @@
     "GrpcServiceConfigNoRetry": {
       "clients": {
         "grpc": {
-          "libraryClient": "GrpcServiceConfigNoRetryClientImpl",
+          "libraryClient": "GrpcServiceConfigNoRetryClient",
           "rpcs": {
             "NoRetryMethod": {
               "methods": [
@@ -23,7 +23,7 @@
     "GrpcServiceConfig": {
       "clients": {
         "grpc": {
-          "libraryClient": "GrpcServiceConfigClientImpl",
+          "libraryClient": "GrpcServiceConfigClient",
           "rpcs": {
             "ServiceLevelRetryMethod": {
               "methods": [
