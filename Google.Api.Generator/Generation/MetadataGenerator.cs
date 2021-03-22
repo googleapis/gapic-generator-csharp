@@ -62,23 +62,30 @@ namespace Google.Api.Generator.Generation
         private static ServiceForTransport ServiceForTransportMetadata(ServiceDetails serviceDetails) =>
             new ServiceForTransport
             {
-                Clients = { new Dictionary<string, ServiceAsClient>
-                {
-                    { 
-                        TransportKeyGrpc,
-                        new ServiceAsClient
-                        {
-                            LibraryClient = serviceDetails.ClientAbstractTyp.Name,
-                            Rpcs = { serviceDetails.Methods.ToDictionary(
-                                methodDetails => methodDetails.ProtoRpcName,
-                                methodDetails => new MethodList
-                                {
-                                    Methods = { methodDetails.SyncMethodName, methodDetails.AsyncMethodName }
+                Clients = 
+                { 
+                    new Dictionary<string, ServiceAsClient>
+                    {
+                        { 
+                            TransportKeyGrpc,
+                            new ServiceAsClient
+                            {
+                                LibraryClient = serviceDetails.ClientAbstractTyp.Name,
+                                Rpcs = 
+                                { 
+                                    serviceDetails.Methods.ToDictionary(
+                                        methodDetails => methodDetails.ProtoRpcName,
+                                        methodDetails => new MethodList
+                                        {
+                                            Methods = { methodDetails.SyncMethodName, methodDetails.AsyncMethodName }
+
+                                        })
                                 }
-                            )}
+                            }
                         }
                     }
-                }}
+
+                }
             };
     }
 }
