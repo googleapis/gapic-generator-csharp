@@ -23,22 +23,29 @@ namespace Google.Api.Generator.Rest
     {
         static int Main(string[] args)
         {
-            if (args.Length != 3)
+            if (args.Length != 4)
             {
-                Console.WriteLine("Expected arguments: <JSON file> <output directory> <features file>");
+                Console.WriteLine("Expected arguments: <JSON file> <output directory> <features file> <enum storage file>");
                 return 1;
             }
             string json = File.ReadAllText(args[0]);
             string outputDirectory = args[1];
             string featuresJson = File.ReadAllText(args[2]);
+            
+            string enumStorageFile = args[3];
+            string enumStorageJson = File.Exists(enumStorageFile) ? File.ReadAllText(enumStorageFile) : "{}";
+            var enumStorage = PackageEnumStorage.FromJson(enumStorageJson);
+
             var features = JsonConvert.DeserializeObject<Features>(featuresJson);
-            var files = CodeGenerator.Generate(json, features);
+            var files = CodeGenerator.Generate(json, features, enumStorage);
             foreach (var file in files)
             {
                 var path = Path.Combine(outputDirectory, file.RelativePath);
                 Directory.CreateDirectory(Path.GetDirectoryName(path));
                 File.WriteAllText(path, file.Content);
             }
+
+            File.WriteAllText(enumStorageFile, enumStorage.ToJson());
             return 0;
         }
     }

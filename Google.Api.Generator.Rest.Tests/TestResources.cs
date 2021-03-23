@@ -49,7 +49,8 @@ namespace Google.Api.Generator.Rest.Tests
                 Net40SupportVersion = "1.25.0",
                 PclSupportVersion = "1.10.0"
             };
-            var files = CodeGenerator.Generate(json, features).ToList();
+            PackageEnumStorage enumStorage = PackageEnumStorage.FromJson("{}");
+            var files = CodeGenerator.Generate(json, features, enumStorage).ToList();
             // Check output is present.
             Assert.NotEmpty(files);
 
@@ -64,6 +65,8 @@ namespace Google.Api.Generator.Rest.Tests
 
                 TextComparer.CompareText(expectedFilePath, file);
             }
+
+            // TODO: Validate enum storage
         }
     }
 }

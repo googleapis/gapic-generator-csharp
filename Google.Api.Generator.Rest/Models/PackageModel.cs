@@ -93,7 +93,12 @@ namespace Google.Api.Generator.Rest.Models
         /// </summary>
         internal Typ ServiceTyp { get; }
 
-        public PackageModel(RestDescription discoveryDoc, Features features)
+        /// <summary>
+        /// Persistent storage for the package.
+        /// </summary>
+        internal PackageEnumStorage PackageEnumStorage { get; }
+
+        public PackageModel(RestDescription discoveryDoc, Features features, PackageEnumStorage enumStorage)
         {
             _features = features;
             _discoveryDoc = discoveryDoc;
@@ -122,6 +127,7 @@ namespace Google.Api.Generator.Rest.Models
             ServiceTyp = Typ.Manual(PackageName, $"{ClassName}Service");
             GenericBaseRequestTypDef = Typ.Manual(PackageName, $"{ClassName}BaseServiceRequest");
             Methods = discoveryDoc.Methods.ToReadOnlyList(pair => new MethodModel(this, null, pair.Key, pair.Value));
+            PackageEnumStorage = enumStorage;
         }
 
         internal CompilationUnitSyntax GenerateCompilationUnit()

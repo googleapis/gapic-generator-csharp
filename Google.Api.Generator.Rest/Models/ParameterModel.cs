@@ -78,7 +78,7 @@ namespace Google.Api.Generator.Rest.Models
                 "path" => RequestParameterType.Path,
                 _ => throw new InvalidOperationException($"Unhandled parameter location: '{_schema.Location}'")
             };
-            EnumModel = schema.Enum__ is object ? new EnumModel(name, schema) : null;
+            EnumModel = schema.Enum__ is object ? new EnumModel(package, parentTyp, name, schema) : null;
             _schema = schema;
             Typ = SchemaTypes.GetTypFromSchema(package, schema, name, currentTyp: parentTyp, inParameter: true);
         }
