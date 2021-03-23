@@ -27,13 +27,13 @@ namespace Google.Api.Generator.Rest
 {
     internal class CodeGenerator
     {
-        public static IEnumerable<ResultFile> Generate(string discoveryJson, Features features)
+        public static IEnumerable<ResultFile> Generate(string discoveryJson, Features features, PackageEnumStorage enumStorage)
         {
             discoveryJson = NormalizeDescriptions(discoveryJson);
 
             var discoveryDescription = NewtonsoftJsonSerializer.Instance.Deserialize<RestDescription>(discoveryJson);
 
-            var package = new PackageModel(discoveryDescription, features);
+            var package = new PackageModel(discoveryDescription, features, enumStorage);
             yield return GenerateCSharpCode(package);
             yield return GenerateProjectFile(package);
             yield return GenerateNet40Config(package);

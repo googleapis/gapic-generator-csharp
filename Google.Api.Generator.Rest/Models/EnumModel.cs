@@ -42,15 +42,18 @@ namespace Google.Api.Generator.Rest.Models
         /// </summary>
         private string TypeName { get; }
 
-        public EnumModel(string name, JsonSchema schema)
+        public EnumModel(PackageModel package, Typ parentTyp, string name, JsonSchema schema)
         {
             IList<string> values = schema.Enum__;
             IList<string> description = schema.EnumDescriptions;
             Description = schema.Description;
             TypeName = name.ToMemberName() + "Enum";
+            // The exact value of the key doesn't particularly matter, so long as it's unique.
+            // This should be fine.
+            string enumStorageKey = $"{parentTyp.FullName}.{TypeName}";
             Members = schema.Enum__
-                .Zip(schema.EnumDescriptions ?? Enumerable.Repeat((string) null, schema.Enum__.Count))
-                .ToReadOnlyList(pair => new EnumMemberModel(pair.First, pair.Second));
+                .Zip(schema.EnumDescriptions ?? Enumerable.Repeat((string) null, schema.Enum__.Count), (text, description) => (text, description))
+                .ToReadOnlyList(pair => new EnumMemberModel(pair.text, pair.description, package.PackageEnumStorage.GetOrAddEnumValue(enumStorageKey, pair.text)));
         }
 
         public EnumDeclarationSyntax GenerateDeclaration(SourceFileContext ctx)

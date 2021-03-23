@@ -40,17 +40,22 @@ namespace Google.Api.Generator.Rest.Models
         /// </summary>
         private string Description { get; }
 
-        public EnumMemberModel(string value, string description)
+        /// <summary>
+        /// The integer value of the enum.
+        /// </summary>
+        private int NumericValue { get; }
+
+        public EnumMemberModel(string textValue, string description, int numericValue)
         {
-            OriginalValue = value;
-            MemberName = value.ToMemberName();
+            OriginalValue = textValue;
+            MemberName = textValue.ToMemberName();
             Description = description;
+            NumericValue = numericValue;
         }
 
         public EnumMemberDeclarationSyntax GenerateDeclaration(SourceFileContext ctx)
         {
-            var declaration =
-            EnumMember(MemberName)
+            var declaration = EnumMember(MemberName, NumericValue)
                 .WithAttribute(ctx.Type<StringValueAttribute>())(OriginalValue);
             if (Description is object)
             {
