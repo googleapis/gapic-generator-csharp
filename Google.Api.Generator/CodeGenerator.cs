@@ -78,15 +78,15 @@ namespace Google.Api.Generator
         };
 
         public static IEnumerable<ResultFile> Generate(FileDescriptorSet descriptorSet, string package, IClock clock,
-            string grpcServiceConfigPath, IEnumerable<string> commonResourcesConfigPaths)
+            string grpcServiceConfigPath, IEnumerable<string> commonResourcesConfigPaths, bool generateMetadata)
         {
             var descriptors = descriptorSet.File;
             var filesToGenerate = descriptors.Where(x => x.Package == package).Select(x => x.Name).ToList();
-            return Generate(descriptors, filesToGenerate, clock, grpcServiceConfigPath, commonResourcesConfigPaths);
+            return Generate(descriptors, filesToGenerate, clock, grpcServiceConfigPath, commonResourcesConfigPaths, generateMetadata);
         }
 
         public static IEnumerable<ResultFile> Generate(IReadOnlyList<FileDescriptorProto> descriptorProtos, IEnumerable<string> filesToGenerate, IClock clock,
-            string grpcServiceConfigPath, IEnumerable<string> commonResourcesConfigPaths)
+            string grpcServiceConfigPath, IEnumerable<string> commonResourcesConfigPaths, bool generateMetadata)
         {
             var descriptors = FileDescriptor.BuildFromByteStrings(descriptorProtos.Select(proto => proto.ToByteString()), s_registry);
             // Load side-loaded configurations; both optional.

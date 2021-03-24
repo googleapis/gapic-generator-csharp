@@ -27,7 +27,7 @@ namespace Google.Api.Generator.Tests
     public class ProtoTest
     {
         private IEnumerable<ResultFile> Run(IEnumerable<string> protoFilenames, string package,
-            string grpcServiceConfigPath, IEnumerable<string> commonResourcesConfigPaths)
+            string grpcServiceConfigPath, IEnumerable<string> commonResourcesConfigPaths, bool generateMetadata)
         {
             var clock = new FakeClock(new DateTime(2019, 1, 1));
             var protoPaths = protoFilenames.Select(x => Path.Combine(Invoker.GeneratorTestsDir, x));
@@ -37,7 +37,7 @@ namespace Google.Api.Generator.Tests
                     $"-I{Invoker.CommonProtosDir} -I{Invoker.ProtobufDir} -I{Invoker.GeneratorTestsDir} {string.Join(" ", protoPaths)}");
                 var descriptorBytes = File.ReadAllBytes(desc.Path);
                 FileDescriptorSet descriptorSet = FileDescriptorSet.Parser.ParseFrom(descriptorBytes);
-                return CodeGenerator.Generate(descriptorSet, package, clock, grpcServiceConfigPath, commonResourcesConfigPaths);
+                return CodeGenerator.Generate(descriptorSet, package, clock, grpcServiceConfigPath, commonResourcesConfigPaths, generateMetadata);
             }
         }
 
@@ -46,7 +46,7 @@ namespace Google.Api.Generator.Tests
         {
             // Test that protoc executes successfully,
             // and the generator processes the descriptors without crashing!
-            Run(new[] { "ProtoTest.proto" }, "testing", null, null);
+            Run(new[] { "ProtoTest.proto" }, "testing", null, null, false);
         }
 
         private void ProtoTestSingle(string testProtoName,
@@ -72,7 +72,7 @@ namespace Google.Api.Generator.Tests
             var dirName = testProtoNames.First();
             var protoPaths = testProtoNames.Select(x => Path.Combine("ProtoTests", dirName, $"{x}.proto"));
             var files = Run(protoPaths, $"testing.{dirName.ToLowerInvariant()}",
-                grpcServiceConfigPath, commonResourcesConfigPaths);
+                grpcServiceConfigPath, commonResourcesConfigPaths, !ignoreGapicMetadata);
             // Check output is present.
             Assert.NotEmpty(files);
             // Verify each output file.

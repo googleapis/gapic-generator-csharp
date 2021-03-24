@@ -30,12 +30,14 @@ namespace Google.Api.Generator
 {
     public static class Program
     {
+        private const string nameGenerateMetadataConfig = "metadata";
         private const string nameGrpcServiceConfig = "grpc-service-config";
         private const string nameCommonResourcesConfig = "common-resources-config";
 
         private static IImmutableSet<string> s_validParameters = ImmutableHashSet.Create(
             nameGrpcServiceConfig,
-            nameCommonResourcesConfig);
+            nameCommonResourcesConfig,
+            nameGenerateMetadataConfig);
 
         public class Options
         {
@@ -53,6 +55,9 @@ namespace Google.Api.Generator
 
             [Option(nameCommonResourcesConfig, Required = false, HelpText = "Common resources config path. JSON proto of type CommonResources.")]
             public IEnumerable<string> CommonResourcesConfigs { get; private set; }
+
+            [Option(nameGenerateMetadataConfig, Required = false, HelpText = "Whether to generate a gapic metadata file")]
+            public bool GenerateMetadata { get; private set; }
 
             [Usage]
             public static IEnumerable<Example> Examples => new[]
@@ -159,8 +164,13 @@ namespace Google.Api.Generator
                 var extraParams = ParseExtraParameters(codeGenRequest.Parameter);
                 // Generate code.
                 // On success, send all generated files back to protoc.
-                var results = CodeGenerator.Generate(codeGenRequest.ProtoFile, codeGenRequest.FileToGenerate, SystemClock.Instance,
-                    extraParams.GetValueOrDefault(nameGrpcServiceConfig)?.SingleOrDefault(), extraParams.GetValueOrDefault(nameCommonResourcesConfig));
+                var grpcServiceConfigPath = extraParams.GetValueOrDefault(nameGrpcServiceConfig)?.SingleOrDefault();
+                var commonResourcesConfigPaths = extraParams.GetValueOrDefault(nameCommonResourcesConfig);
+                var generateMetadata = extraParams.GetValueOrDefault(nameGenerateMetadataConfig)?.SingleOrDefault() == "true";
+
+                var results = CodeGenerator.Generate(codeGenRequest.ProtoFile, codeGenRequest.FileToGenerate,
+                    SystemClock.Instance, grpcServiceConfigPath, commonResourcesConfigPaths, generateMetadata);
+
                 codeGenResponse = new CodeGeneratorResponse
                 {
                     SupportedFeatures = (int)CodeGeneratorResponse.Types.Feature.Proto3Optional,
@@ -191,12 +201,15 @@ namespace Google.Api.Generator
 
             IReadOnlyDictionary<string, IReadOnlyList<string>> ParseExtraParameters(string paramsString)
             {
-                // Multiple parameters to protoc use a comma separater.
+                // Multiple parameters to protoc use a comma separator.
                 var ps = paramsString.Split(',', StringSplitOptions.RemoveEmptyEntries);
                 return ps
                     .Select(param =>
                     {
-                        var parts = param.Split('=').Select(x => x.Trim()).ToArray();
+                        var parts = param == nameGenerateMetadataConfig 
+                                ? new[] {nameGenerateMetadataConfig, "true"} // a special case for the only boolean param
+                                : param.Split('=').Select(x => x.Trim()).ToArray();
+
                         if (parts.Length != 2)
                         {
                             throw new InvalidOperationException($"Invalid parameter: '{param}'");
@@ -216,7 +229,8 @@ namespace Google.Api.Generator
         {
             var descriptorBytes = File.ReadAllBytes(options.Descriptor);
             var fileDescriptorSet = FileDescriptorSet.Parser.ParseFrom(descriptorBytes);
-            var files = CodeGenerator.Generate(fileDescriptorSet, options.Package, SystemClock.Instance, options.GrpcServiceConfig, options.CommonResourcesConfigs);
+            var files = CodeGenerator.Generate(fileDescriptorSet, options.Package, SystemClock.Instance,
+                options.GrpcServiceConfig, options.CommonResourcesConfigs, options.GenerateMetadata);
             foreach (var file in files)
             {
                 var path = Path.Combine(options.Output, file.RelativePath);
