@@ -73,7 +73,7 @@ namespace Testing.Paginated.Snippets
             // End snippet
         }
 
-        /// <summary>Snippet for SignatureMethod</summary>
+        /// <summary>Snippet for SignatureMethodAsync</summary>
         public async Task SignatureMethodRequestObjectAsync()
         {
             // Snippet: SignatureMethodAsync(Request, CallSettings)
@@ -168,7 +168,7 @@ namespace Testing.Paginated.Snippets
             // End snippet
         }
 
-        /// <summary>Snippet for SignatureMethod</summary>
+        /// <summary>Snippet for SignatureMethodAsync</summary>
         public async Task SignatureMethod1Async()
         {
             // Snippet: SignatureMethodAsync(string, int, string, int?, CallSettings)
@@ -259,7 +259,7 @@ namespace Testing.Paginated.Snippets
             // End snippet
         }
 
-        /// <summary>Snippet for SignatureMethod</summary>
+        /// <summary>Snippet for SignatureMethodAsync</summary>
         public async Task SignatureMethod2Async()
         {
             // Snippet: SignatureMethodAsync(string, string, int?, CallSettings)
@@ -347,7 +347,7 @@ namespace Testing.Paginated.Snippets
             // End snippet
         }
 
-        /// <summary>Snippet for SignatureMethod</summary>
+        /// <summary>Snippet for SignatureMethodAsync</summary>
         public async Task SignatureMethod3Async()
         {
             // Snippet: SignatureMethodAsync(string, int?, CallSettings)
@@ -439,7 +439,7 @@ namespace Testing.Paginated.Snippets
             // End snippet
         }
 
-        /// <summary>Snippet for SignatureMethod2</summary>
+        /// <summary>Snippet for SignatureMethod2Async</summary>
         public async Task SignatureMethod2RequestObjectAsync()
         {
             // Snippet: SignatureMethod2Async(Request, CallSettings)
@@ -537,7 +537,7 @@ namespace Testing.Paginated.Snippets
             // End snippet
         }
 
-        /// <summary>Snippet for ResourcedMethod</summary>
+        /// <summary>Snippet for ResourcedMethodAsync</summary>
         public async Task ResourcedMethodRequestObjectAsync()
         {
             // Snippet: ResourcedMethodAsync(ResourceRequest, CallSettings)
@@ -631,7 +631,7 @@ namespace Testing.Paginated.Snippets
             // End snippet
         }
 
-        /// <summary>Snippet for ResourcedMethod</summary>
+        /// <summary>Snippet for ResourcedMethodAsync</summary>
         public async Task ResourcedMethod1Async()
         {
             // Snippet: ResourcedMethodAsync(string, string, int?, CallSettings)
@@ -721,7 +721,7 @@ namespace Testing.Paginated.Snippets
             // End snippet
         }
 
-        /// <summary>Snippet for ResourcedMethod</summary>
+        /// <summary>Snippet for ResourcedMethodAsync</summary>
         public async Task ResourcedMethod1ResourceNamesAsync()
         {
             // Snippet: ResourcedMethodAsync(ResourceName, string, int?, CallSettings)
@@ -812,7 +812,7 @@ namespace Testing.Paginated.Snippets
             // End snippet
         }
 
-        /// <summary>Snippet for ResourcedMethod</summary>
+        /// <summary>Snippet for ResourcedMethodAsync</summary>
         public async Task ResourcedMethod2Async()
         {
             // Snippet: ResourcedMethodAsync(string, string, string, int?, CallSettings)
@@ -904,7 +904,7 @@ namespace Testing.Paginated.Snippets
             // End snippet
         }
 
-        /// <summary>Snippet for ResourcedMethod</summary>
+        /// <summary>Snippet for ResourcedMethodAsync</summary>
         public async Task ResourcedMethod2ResourceNamesAsync()
         {
             // Snippet: ResourcedMethodAsync(ResourceName, string, string, int?, CallSettings)
