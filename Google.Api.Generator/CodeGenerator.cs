@@ -110,7 +110,7 @@ namespace Google.Api.Generator
                         $"Found namespaces '{string.Join(", ", namespaces)}' in package '{singlePackageFileDescs.Key}'.");
                 }
                 var catalog = new ProtoCatalog(singlePackageFileDescs.Key, descriptors, commonResourcesConfigs);
-                foreach (var resultFile in GeneratePackage(namespaces[0], singlePackageFileDescs, catalog, clock, grpcServiceConfig))
+                foreach (var resultFile in GeneratePackage(namespaces[0], singlePackageFileDescs, catalog, clock, grpcServiceConfig, generateMetadata))
                 {
                     yield return resultFile;
                 }
@@ -118,7 +118,7 @@ namespace Google.Api.Generator
         }
 
         private static IEnumerable<ResultFile> GeneratePackage(string ns, IEnumerable<FileDescriptor> packageFileDescriptors, ProtoCatalog catalog, IClock clock,
-            ServiceConfig grpcServiceConfig)
+            ServiceConfig grpcServiceConfig, bool generateMetadata)
         {
             var clientPathPrefix = $"{ns}{Path.DirectorySeparatorChar}";
             var snippetsPathPrefix = $"{ns}.Snippets{Path.DirectorySeparatorChar}";
@@ -219,9 +219,12 @@ namespace Google.Api.Generator
                 var unitTestsCsprojContent = CsProjGenerator.GenerateUnitTests(ns);
                 var unitTestsCsprojFilename = $"{unitTestsPathPrefix}{ns}.Tests.csproj";
                 yield return new ResultFile(unitTestsCsprojFilename, unitTestsCsprojContent);
-                // Generate gapic_metadata.json
-                var gapicMetadataJsonContent = MetadataGenerator.GenerateGapicMetadataJson(allServiceDetails);
-                yield return new ResultFile("gapic_metadata.json", gapicMetadataJsonContent);
+                if (generateMetadata)
+                {
+                    // Generate gapic_metadata.json
+                    var gapicMetadataJsonContent = MetadataGenerator.GenerateGapicMetadataJson(allServiceDetails);
+                    yield return new ResultFile("gapic_metadata.json", gapicMetadataJsonContent);
+                }
             }
         }
     }
