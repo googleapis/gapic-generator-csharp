@@ -145,16 +145,13 @@ namespace Google.Api.Generator.Tests
         public void BasicLro() => ProtoTestSingle("BasicLro", ignoreCsProj: true, ignoreUnitTests: true);
 
         [Fact]
-        public void BasicBidiStreaming() => ProtoTestSingle("BasicBidiStreaming",
-            ignoreCsProj: true, ignoreSnippets: true, ignoreUnitTests: true);
+        public void BasicBidiStreaming() => ProtoTestSingle("BasicBidiStreaming", ignoreCsProj: true, ignoreSnippets: true, ignoreUnitTests: true);
 
         [Fact]
-        public void BasicServerStreaming() => ProtoTestSingle("BasicServerStreaming",
-            ignoreCsProj: true, ignoreSnippets: true, ignoreUnitTests: true);
+        public void BasicServerStreaming() => ProtoTestSingle("BasicServerStreaming", ignoreCsProj: true, ignoreSnippets: true, ignoreUnitTests: true);
 
         [Fact]
-        public void BasicPaginated() => ProtoTestSingle("BasicPaginated",
-            ignoreCsProj: true, ignoreSnippets: true, ignoreUnitTests: true);
+        public void BasicPaginated() => ProtoTestSingle("BasicPaginated", ignoreCsProj: true, ignoreSnippets: true, ignoreUnitTests: true);
 
         [Fact]
         public void MethodSignatures() => ProtoTestSingle("MethodSignatures", ignoreCsProj: true, ignoreSnippets: true);
@@ -169,15 +166,13 @@ namespace Google.Api.Generator.Tests
         public void Lro0() => ProtoTestSingle("Lro", ignoreUnitTests: true);
 
         [Fact]
-        public void ServerStreaming0() => ProtoTestSingle("ServerStreaming",
-            ignoreCsProj: true, ignoreSnippets: true, ignoreUnitTests: true);
+        public void ServerStreaming0() => ProtoTestSingle("ServerStreaming", ignoreCsProj: true, ignoreSnippets: true, ignoreUnitTests: true);
 
         [Fact]
         public void Snippets() => ProtoTestSingle("Snippets", ignoreCsProj: true, ignoreUnitTests: true);
 
         [Fact]
-        public void RoutingHeaders() => ProtoTestSingle("RoutingHeaders",
-            ignoreCsProj: true, ignoreSnippets: true, ignoreUnitTests: true);
+        public void RoutingHeaders() => ProtoTestSingle("RoutingHeaders", ignoreCsProj: true, ignoreSnippets: true, ignoreUnitTests: true);
 
         [Fact]
         public void UnitTests() => ProtoTestSingle("UnitTests", ignoreCsProj: true, ignoreSnippets: true);
@@ -197,12 +192,10 @@ namespace Google.Api.Generator.Tests
             });
 
         [Fact]
-        public void ChildResource() => ProtoTestSingle("ChildResource",
-            ignoreCsProj: true, ignoreUnitTests: true, ignoreSnippets: true);
+        public void ChildResource() => ProtoTestSingle("ChildResource", ignoreCsProj: true, ignoreUnitTests: true, ignoreSnippets: true);
 
         [Fact]
-        public void UnknownResource() => ProtoTestSingle("UnknownResource",
-            ignoreCsProj: true, ignoreUnitTests: true, ignoreSnippets: true);
+        public void UnknownResource() => ProtoTestSingle("UnknownResource", ignoreCsProj: true, ignoreUnitTests: true, ignoreSnippets: true);
 
         [Fact]
         public void ResourceNameSeparator() => ProtoTestSingle("ResourceNameSeparator", ignoreCsProj: true);
@@ -217,8 +210,7 @@ namespace Google.Api.Generator.Tests
         public void Deprecated() => ProtoTestSingle("Deprecated", ignoreCsProj: true);
 
         [Fact]
-        public void OptionalFields() => ProtoTestSingle("OptionalFields",
-            ignoreCsProj: true, ignoreUnitTests: true, ignoreSnippets: true);
+        public void OptionalFields() => ProtoTestSingle("OptionalFields", ignoreCsProj: true, ignoreUnitTests: true, ignoreSnippets: true);
 
         // Build tests are testing `csproj` file generation only.
         // All other generated code is effectively "build tested" when this test project is built.
