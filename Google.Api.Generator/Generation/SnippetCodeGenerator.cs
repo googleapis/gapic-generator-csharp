@@ -470,7 +470,7 @@ namespace Google.Api.Generator.Generation
                         "// Store the pageToken, for when the next page is required.",
                         NextPageToken.WithInitializer(SinglePage.Access(nameof(Page<int>.NextPageToken))),
                         "// End snippet")
-                    .WithXmlDoc(XmlDoc.Summary($"Snippet for {Method.SyncMethodName}"));
+                    .WithXmlDoc(XmlDoc.Summary($"Snippet for {Method.AsyncMethodName}"));
 
             private MethodDeclarationSyntax ServerStreaming(string methodName, IEnumerable<Typ> snippetTyps, object initRequest, object makeRequest) =>
                 Method(Public | Modifier.Async, Ctx.Type<Task>(), methodName)()
