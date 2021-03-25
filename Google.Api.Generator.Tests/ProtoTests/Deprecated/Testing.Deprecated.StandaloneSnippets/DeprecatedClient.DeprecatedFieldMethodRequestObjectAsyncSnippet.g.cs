@@ -22,6 +22,10 @@ namespace Testing.Deprecated.Snippets
     public sealed partial class GeneratedDeprecatedClientStandaloneSnippets
     {
         /// <summary>Snippet for DeprecatedFieldMethodAsync</summary>
+        /// <remarks>
+        /// This snippet has been automatically generated for illustrative purposes only.
+        /// It may require modifications to work in your environment.
+        /// </remarks>
         public async Task DeprecatedFieldMethodRequestObjectAsync()
         {
             // Snippet: DeprecatedFieldMethodAsync(DeprecatedFieldRequest, CallSettings)

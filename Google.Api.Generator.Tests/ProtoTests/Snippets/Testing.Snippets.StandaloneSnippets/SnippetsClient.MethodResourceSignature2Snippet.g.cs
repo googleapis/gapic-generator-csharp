@@ -21,6 +21,10 @@ namespace Testing.Snippets.Snippets
     public sealed partial class GeneratedSnippetsClientStandaloneSnippets
     {
         /// <summary>Snippet for MethodResourceSignature</summary>
+        /// <remarks>
+        /// This snippet has been automatically generated for illustrative purposes only.
+        /// It may require modifications to work in your environment.
+        /// </remarks>
         public void MethodResourceSignature2()
         {
             // Snippet: MethodResourceSignature(string, CallSettings)

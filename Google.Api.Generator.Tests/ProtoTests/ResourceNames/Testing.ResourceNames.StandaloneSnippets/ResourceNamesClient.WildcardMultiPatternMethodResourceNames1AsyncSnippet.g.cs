@@ -23,6 +23,10 @@ namespace Testing.ResourceNames.Snippets
     public sealed partial class GeneratedResourceNamesClientStandaloneSnippets
     {
         /// <summary>Snippet for WildcardMultiPatternMethodAsync</summary>
+        /// <remarks>
+        /// This snippet has been automatically generated for illustrative purposes only.
+        /// It may require modifications to work in your environment.
+        /// </remarks>
         public async Task WildcardMultiPatternMethodResourceNames1Async()
         {
             // Snippet: WildcardMultiPatternMethodAsync(WildcardMultiPatternName, WildcardMultiPatternName, IEnumerable<WildcardMultiPatternName>, CallSettings)

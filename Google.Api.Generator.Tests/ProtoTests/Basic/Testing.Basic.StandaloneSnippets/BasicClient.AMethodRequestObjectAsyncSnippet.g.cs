@@ -22,6 +22,10 @@ namespace Testing.Basic.Snippets
     public sealed partial class GeneratedBasicClientStandaloneSnippets
     {
         /// <summary>Snippet for AMethodAsync</summary>
+        /// <remarks>
+        /// This snippet has been automatically generated for illustrative purposes only.
+        /// It may require modifications to work in your environment.
+        /// </remarks>
         public async Task AMethodRequestObjectAsync()
         {
             // Snippet: AMethodAsync(Request, CallSettings)

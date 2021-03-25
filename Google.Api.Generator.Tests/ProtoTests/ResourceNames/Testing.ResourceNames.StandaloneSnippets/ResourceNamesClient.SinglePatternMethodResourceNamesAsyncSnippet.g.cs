@@ -23,6 +23,10 @@ namespace Testing.ResourceNames.Snippets
     public sealed partial class GeneratedResourceNamesClientStandaloneSnippets
     {
         /// <summary>Snippet for SinglePatternMethodAsync</summary>
+        /// <remarks>
+        /// This snippet has been automatically generated for illustrative purposes only.
+        /// It may require modifications to work in your environment.
+        /// </remarks>
         public async Task SinglePatternMethodResourceNamesAsync()
         {
             // Snippet: SinglePatternMethodAsync(SinglePatternName, SinglePatternName, IEnumerable<SinglePatternName>, SinglePatternName, IEnumerable<SinglePatternName>, CallSettings)

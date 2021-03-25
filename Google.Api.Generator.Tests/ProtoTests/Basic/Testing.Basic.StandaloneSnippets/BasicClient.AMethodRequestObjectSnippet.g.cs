@@ -21,6 +21,10 @@ namespace Testing.Basic.Snippets
     public sealed partial class GeneratedBasicClientStandaloneSnippets
     {
         /// <summary>Snippet for AMethod</summary>
+        /// <remarks>
+        /// This snippet has been automatically generated for illustrative purposes only.
+        /// It may require modifications to work in your environment.
+        /// </remarks>
         public void AMethodRequestObject()
         {
             // Snippet: AMethod(Request, CallSettings)

@@ -23,6 +23,10 @@ namespace Testing.Snippets.Snippets
     public sealed partial class GeneratedSnippetsClientStandaloneSnippets
     {
         /// <summary>Snippet for MethodRepeatedResourceSignatureAsync</summary>
+        /// <remarks>
+        /// This snippet has been automatically generated for illustrative purposes only.
+        /// It may require modifications to work in your environment.
+        /// </remarks>
         public async Task MethodRepeatedResourceSignatureAsync()
         {
             // Snippet: MethodRepeatedResourceSignatureAsync(IEnumerable<string>, CallSettings)

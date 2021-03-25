@@ -21,6 +21,10 @@ namespace Testing.ResourceNameSeparator.Snippets
     public sealed partial class GeneratedResourceNameSeparatorClientStandaloneSnippets
     {
         /// <summary>Snippet for Method1</summary>
+        /// <remarks>
+        /// This snippet has been automatically generated for illustrative purposes only.
+        /// It may require modifications to work in your environment.
+        /// </remarks>
         public void Method1RequestObject()
         {
             // Snippet: Method1(Request, CallSettings)

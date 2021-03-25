@@ -22,6 +22,10 @@ namespace Testing.Snippets.Snippets
     public sealed partial class GeneratedSnippetsClientStandaloneSnippets
     {
         /// <summary>Snippet for MethodDefaultValues</summary>
+        /// <remarks>
+        /// This snippet has been automatically generated for illustrative purposes only.
+        /// It may require modifications to work in your environment.
+        /// </remarks>
         public void MethodDefaultValues()
         {
             // Snippet: MethodDefaultValues(IEnumerable<double>, IEnumerable<DefaultValuesRequest.Types.NestedMessage>, IEnumerable<string>, CallSettings)

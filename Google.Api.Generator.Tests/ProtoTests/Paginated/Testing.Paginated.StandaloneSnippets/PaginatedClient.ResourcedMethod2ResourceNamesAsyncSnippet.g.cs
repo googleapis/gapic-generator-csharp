@@ -25,6 +25,10 @@ namespace Testing.Paginated.Snippets
     public sealed partial class GeneratedPaginatedClientStandaloneSnippets
     {
         /// <summary>Snippet for ResourcedMethodAsync</summary>
+        /// <remarks>
+        /// This snippet has been automatically generated for illustrative purposes only.
+        /// It may require modifications to work in your environment.
+        /// </remarks>
         public async Task ResourcedMethod2ResourceNamesAsync()
         {
             // Snippet: ResourcedMethodAsync(ResourceName, string, string, int?, CallSettings)
