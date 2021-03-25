@@ -25,6 +25,10 @@ namespace Testing.Paginated.Snippets
     public sealed partial class GeneratedPaginatedClientStandaloneSnippets
     {
         /// <summary>Snippet for SignatureMethod2Async</summary>
+        /// <remarks>
+        /// This snippet has been automatically generated for illustrative purposes only.
+        /// It may require modifications to work in your environment.
+        /// </remarks>
         public async Task SignatureMethod2RequestObjectAsync()
         {
             // Snippet: SignatureMethod2Async(Request, CallSettings)

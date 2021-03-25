@@ -132,24 +132,38 @@ namespace Google.Api.Generator.Generation
 
         private class SnippetDef
         {
+            private static readonly string[] GeneratedNotice = new string[]
+            {
+                "This snippet has been automatically generated for illustrative purposes only.",
+                "It may require modifications to work in your environment."
+            };
+
+            private MethodDetails TargetMethod { get; }
+            private bool Sync { get; }
             public string SnippetMethodName { get; }
-            private ServiceDetails Svc { get; }
+            private string TargetMethodName => Sync ? TargetMethod.SyncMethodName : TargetMethod.AsyncMethodName;
             private Func<SourceFileContext, MethodDeclarationSyntax> MethodGenerator { get; }
 
-            public SnippetDef(string snippetMethodName, ServiceDetails svc, Func<SourceFileContext, MethodDeclarationSyntax> methodGenerator) =>
-                (SnippetMethodName, Svc, MethodGenerator) = (snippetMethodName, svc, methodGenerator);
+            public SnippetDef(MethodDetails targetMethod, bool sync, string snippetMethodName, Func<SourceFileContext, MethodDeclarationSyntax> methodGenerator) =>
+                (TargetMethod, Sync, SnippetMethodName, MethodGenerator) = (targetMethod, sync, snippetMethodName, methodGenerator);
 
-            public MethodDeclarationSyntax GenerateMethod(SourceFileContext ctx) => MethodGenerator(ctx);
+            public MethodDeclarationSyntax GenerateMethod(SourceFileContext ctx) => 
+                MethodGenerator(ctx)
+                    .WithXmlDoc(XmlDoc.Summary($"Snippet for {TargetMethodName}"));
 
             public NamespaceDeclarationSyntax StandaloneSnippet(SourceFileContext ctx)
             {
-                var ns = Namespace(Svc.SnippetsNamespace);
+                var ns = Namespace(TargetMethod.Svc.SnippetsNamespace);
                 using (ctx.InNamespace(ns))
                 {
-                    var cls = Class(Public | Sealed | Partial, Svc.StandaloneSnippetsTyp);
+                    var cls = Class(Public | Sealed | Partial, TargetMethod.Svc.StandaloneSnippetsTyp);
                     using (ctx.InClass(cls))
                     {
-                        cls = cls.AddMembers(GenerateMethod(ctx));
+                        cls = cls.AddMembers(
+                            MethodGenerator(ctx)
+                                .WithXmlDoc(
+                                    XmlDoc.Summary($"Snippet for {TargetMethodName}"),
+                                    XmlDoc.RemarksPreFormatted(GeneratedNotice)));
                     }
                     ns = ns.AddMembers(cls);
                 }
@@ -308,7 +322,7 @@ namespace Google.Api.Generator.Generation
                 }
             }
 
-            private string SnippetTypes(IEnumerable<Typ> typs) => string.Join("", typs.Select(t => $"{Ctx.Type(t).ToString()}, "));
+            private string SnippetTypes(IEnumerable<Typ> typs) => string.Join("", typs.Select(t => $"{Ctx.Type(t)}, "));
 
             private MethodDeclarationSyntax Sync(string methodName, IEnumerable<Typ> snippetTyps, object initRequest, object makeRequest) =>
                 Method(Public, VoidType, methodName)()
@@ -320,8 +334,7 @@ namespace Google.Api.Generator.Generation
                         initRequest,
                         "// Make the request",
                         makeRequest,
-                        "// End snippet")
-                    .WithXmlDoc(XmlDoc.Summary($"Snippet for {Method.SyncMethodName}"));
+                        "// End snippet");
 
             private MethodDeclarationSyntax Async(string methodName, IEnumerable<Typ> snippetTyps, object initRequest, object makeRequest) =>
                 Method(Public | Modifier.Async, Ctx.Type<Task>(), methodName)()
@@ -334,8 +347,7 @@ namespace Google.Api.Generator.Generation
                         initRequest,
                         "// Make the request",
                         makeRequest,
-                        "// End snippet")
-                    .WithXmlDoc(XmlDoc.Summary($"Snippet for {Method.AsyncMethodName}"));
+                        "// End snippet");
 
             private MethodDeclarationSyntax SyncLro(string methodName, IEnumerable<Typ> snippetTyps, object initRequest, object makeRequest) =>
                 Method(Public, VoidType, methodName)()
@@ -362,8 +374,7 @@ namespace Google.Api.Generator.Generation
                             .Then(
                                 "// If it has completed, then access the result",
                                 LroRetrievedResult.WithInitializer(LroRetrievedResponse.Access(nameof(Operation<ProtoMsg, ProtoMsg>.Result)))),
-                        "// End snippet")
-                    .WithXmlDoc(XmlDoc.Summary($"Snippet for {Method.SyncMethodName}"));
+                        "// End snippet");
 
             private MethodDeclarationSyntax AsyncLro(string methodName, IEnumerable<Typ> snippetTyps, object initRequest, object makeRequest) =>
                 Method(Public | Modifier.Async, Ctx.Type<Task>(), methodName)()
@@ -391,8 +402,7 @@ namespace Google.Api.Generator.Generation
                             .Then(
                                 "// If it has completed, then access the result",
                                 LroRetrievedResult.WithInitializer(LroRetrievedResponse.Access(nameof(Operation<ProtoMsg, ProtoMsg>.Result)))),
-                        "// End snippet")
-                    .WithXmlDoc(XmlDoc.Summary($"Snippet for {Method.AsyncMethodName}"));
+                        "// End snippet");
 
             private string PaginatedSnippetTypes(bool isSig) => isSig ? "string, int?, " : "";
 
@@ -431,8 +441,7 @@ namespace Google.Api.Generator.Generation
                             Ctx.Type(typeof(Console)).Call(nameof(Console.WriteLine))(PaginatedItem)),
                         "// Store the pageToken, for when the next page is required.",
                         NextPageToken.WithInitializer(SinglePage.Access(nameof(Page<int>.NextPageToken))),
-                        "// End snippet")
-                    .WithXmlDoc(XmlDoc.Summary($"Snippet for {Method.SyncMethodName}"));
+                        "// End snippet");
 
             private MethodDeclarationSyntax AsyncPaginated(string methodName, IEnumerable<Typ> snippetTyps, object initRequest, object makeRequest, bool isSig) =>
                 Method(Public | Modifier.Async, Ctx.Type<Task>(), methodName)()
@@ -469,8 +478,7 @@ namespace Google.Api.Generator.Generation
                             Ctx.Type(typeof(Console)).Call(nameof(Console.WriteLine))(PaginatedItem)),
                         "// Store the pageToken, for when the next page is required.",
                         NextPageToken.WithInitializer(SinglePage.Access(nameof(Page<int>.NextPageToken))),
-                        "// End snippet")
-                    .WithXmlDoc(XmlDoc.Summary($"Snippet for {Method.AsyncMethodName}"));
+                        "// End snippet");
 
             private MethodDeclarationSyntax ServerStreaming(string methodName, IEnumerable<Typ> snippetTyps, object initRequest, object makeRequest) =>
                 Method(Public | Modifier.Async, Ctx.Type<Task>(), methodName)()
@@ -490,8 +498,7 @@ namespace Google.Api.Generator.Generation
                             ResponseItem.WithInitializer(ResponseStream.Access(nameof(IAsyncEnumerator<int>.Current))),
                             "// Do something with streamed response"),
                         "// The response stream has completed",
-                        "// End snippet")
-                    .WithXmlDoc(XmlDoc.Summary($"Snippet for {Method.SyncMethodName}"));
+                        "// End snippet");
 
             private object InitRequestObject => Request.WithInitializer(New(Ctx.Type(Method.RequestTyp))().WithInitializer(InitRequest().ToArray()));
 
@@ -500,39 +507,39 @@ namespace Google.Api.Generator.Generation
                     (object)Client.Call(Method.SyncMethodName)(Request) :
                     Response.WithInitializer(Client.Call(Method.SyncMethodName)(Request)));
 
-            public SnippetDef SyncRequestSnippet => new SnippetDef(Method.SyncSnippetMethodName, Svc, ctx => WithSourceFileContext(ctx).SyncRequestMethod);
+            public SnippetDef SyncRequestSnippet => new SnippetDef(Method, true, Method.SyncSnippetMethodName, ctx => WithSourceFileContext(ctx).SyncRequestMethod);
 
             private MethodDeclarationSyntax AsyncRequestMethod => Async(Method.AsyncSnippetMethodName, new[] { Method.RequestTyp },
                 InitRequestObject, Method.SyncReturnTyp is Typ.VoidTyp ?
                     (object)Await(Client.Call(Method.AsyncMethodName)(Request)) :
                     Response.WithInitializer(Await(Client.Call(Method.AsyncMethodName)(Request))));
 
-            public SnippetDef AsyncRequestSnippet => new SnippetDef(Method.AsyncSnippetMethodName, Svc, ctx => WithSourceFileContext(ctx).AsyncRequestMethod);
+            public SnippetDef AsyncRequestSnippet => new SnippetDef(Method, false, Method.AsyncSnippetMethodName, ctx => WithSourceFileContext(ctx).AsyncRequestMethod);
 
             private MethodDeclarationSyntax SyncLroRequestMethod => SyncLro(Method.SyncSnippetMethodName, new[] { Method.RequestTyp },
                 InitRequestObject, Response.WithInitializer(Client.Call(Method.SyncMethodName)(Request)));
 
-            public SnippetDef SyncLroRequestSnippet => new SnippetDef(Method.SyncSnippetMethodName, Svc, ctx => WithSourceFileContext(ctx).SyncLroRequestMethod);
+            public SnippetDef SyncLroRequestSnippet => new SnippetDef(Method, true, Method.SyncSnippetMethodName, ctx => WithSourceFileContext(ctx).SyncLroRequestMethod);
 
             private MethodDeclarationSyntax AsyncLroRequestMethod => AsyncLro(Method.AsyncSnippetMethodName, new[] { Method.RequestTyp },
                 InitRequestObject, Response.WithInitializer(Await(Client.Call(Method.AsyncMethodName)(Request))));
 
-            public SnippetDef AsyncLroRequestSnippet => new SnippetDef(Method.AsyncSnippetMethodName, Svc, ctx => WithSourceFileContext(ctx).AsyncLroRequestMethod);
+            public SnippetDef AsyncLroRequestSnippet => new SnippetDef(Method, false, Method.AsyncSnippetMethodName, ctx => WithSourceFileContext(ctx).AsyncLroRequestMethod);
 
             private MethodDeclarationSyntax SyncPaginatedRequestMethod => SyncPaginated(Method.SyncSnippetMethodName, new[] { Method.RequestTyp },
                 InitRequestObject, Response.WithInitializer(Client.Call(Method.SyncMethodName)(Request)), isSig: false);
 
-            public SnippetDef SyncPaginatedRequestSnippet => new SnippetDef(Method.SyncSnippetMethodName, Svc, ctx => WithSourceFileContext(ctx).SyncPaginatedRequestMethod);
+            public SnippetDef SyncPaginatedRequestSnippet => new SnippetDef(Method, true, Method.SyncSnippetMethodName, ctx => WithSourceFileContext(ctx).SyncPaginatedRequestMethod);
 
             private MethodDeclarationSyntax AsyncPaginatedRequestMethod => AsyncPaginated(Method.AsyncSnippetMethodName, new[] { Method.RequestTyp },
                 InitRequestObject, AsyncResponse.WithInitializer(Client.Call(Method.AsyncMethodName)(Request)), isSig: false);
 
-            public SnippetDef AsyncPaginatedRequestSnippet => new SnippetDef(Method.AsyncSnippetMethodName, Svc, ctx => WithSourceFileContext(ctx).AsyncPaginatedRequestMethod);
+            public SnippetDef AsyncPaginatedRequestSnippet => new SnippetDef(Method, false, Method.AsyncSnippetMethodName, ctx => WithSourceFileContext(ctx).AsyncPaginatedRequestMethod);
 
             private MethodDeclarationSyntax ServerStreamingRequestMethod => ServerStreaming(Method.SyncSnippetMethodName, new[] { Method.RequestTyp },
                 InitRequestObject, Response.WithInitializer(Client.Call(Method.SyncMethodName)(Request)));
 
-            public SnippetDef ServerStreamingRequestSnippet => new SnippetDef(Method.SyncSnippetMethodName, Svc, ctx => WithSourceFileContext(ctx).ServerStreamingRequestMethod);
+            public SnippetDef ServerStreamingRequestSnippet => new SnippetDef(Method, true, Method.SyncSnippetMethodName, ctx => WithSourceFileContext(ctx).ServerStreamingRequestMethod);
 
             private MethodDeclarationSyntax BidiStreamingMethod =>
                 Method(Public | Modifier.Async, Ctx.Type<Task>(), Method.SyncMethodName)()
@@ -571,10 +578,9 @@ namespace Google.Api.Generator.Generation
                         "// Await the response handler",
                         "// This will complete once all server responses have been processed",
                         Await(ResponseHandlerTask),
-                        "// End snippet")
-                    .WithXmlDoc(XmlDoc.Summary($"Snippet for {Method.SyncMethodName}"));
+                        "// End snippet");
 
-            public SnippetDef BidiStreamingSnippet => new SnippetDef(Method.SyncMethodName, Svc, ctx => WithSourceFileContext(ctx).BidiStreamingMethod);
+            public SnippetDef BidiStreamingSnippet => new SnippetDef(Method, true, Method.SyncMethodName, ctx => WithSourceFileContext(ctx).BidiStreamingMethod);
 
             public class Signature
             {
@@ -606,24 +612,24 @@ namespace Google.Api.Generator.Generation
                         (object)_def.Client.Call(Method.SyncMethodName)(InitRequestArgsNormal.ToArray()) :
                         _def.Response.WithInitializer(_def.Client.Call(Method.SyncMethodName)(InitRequestArgsNormal.ToArray())));
 
-                public SnippetDef SyncSnippet => new SnippetDef(SyncMethodName, Svc, ctx => WithSourceFileContext(ctx).SyncMethod);
+                public SnippetDef SyncSnippet => new SnippetDef(Method, true, SyncMethodName, ctx => WithSourceFileContext(ctx).SyncMethod);
 
                 private MethodDeclarationSyntax AsyncMethod => _def.Async(AsyncMethodName, _sig.Fields.Select(f => f.Typ),
                     InitRequestArgsNormal, Method.SyncReturnTyp is Typ.VoidTyp ?
                         (object)Await(_def.Client.Call(Method.AsyncMethodName)(InitRequestArgsNormal.ToArray())) :
                         _def.Response.WithInitializer(Await(_def.Client.Call(Method.AsyncMethodName)(InitRequestArgsNormal.ToArray()))));
 
-                public SnippetDef AsyncSnippet => new SnippetDef(AsyncMethodName, Svc, ctx => WithSourceFileContext(ctx).AsyncMethod);
+                public SnippetDef AsyncSnippet => new SnippetDef(Method, false, AsyncMethodName, ctx => WithSourceFileContext(ctx).AsyncMethod);
 
                 private MethodDeclarationSyntax SyncLroMethod => _def.SyncLro(SyncMethodName, _sig.Fields.Select(f => f.Typ),
                     InitRequestArgsNormal, _def.Response.WithInitializer(_def.Client.Call(Method.SyncMethodName)(InitRequestArgsNormal.ToArray())));
 
-                public SnippetDef SyncLroSnippet => new SnippetDef(SyncMethodName, Svc, ctx => WithSourceFileContext(ctx).SyncLroMethod);
+                public SnippetDef SyncLroSnippet => new SnippetDef(Method, true, SyncMethodName, ctx => WithSourceFileContext(ctx).SyncLroMethod);
 
                 private MethodDeclarationSyntax AsyncLroMethod => _def.AsyncLro(AsyncMethodName, _sig.Fields.Select(f => f.Typ),
                     InitRequestArgsNormal, _def.Response.WithInitializer(Await(_def.Client.Call(Method.AsyncMethodName)(InitRequestArgsNormal.ToArray()))));
 
-                public SnippetDef AsyncLroSnippet => new SnippetDef(AsyncMethodName, Svc, ctx => WithSourceFileContext(ctx).AsyncLroMethod);
+                public SnippetDef AsyncLroSnippet => new SnippetDef(Method, false, AsyncMethodName, ctx => WithSourceFileContext(ctx).AsyncLroMethod);
 
                 private IEnumerable<object> PaginatedArgs(IEnumerable<LocalDeclarationStatementSyntax> args)
                 {
@@ -638,17 +644,17 @@ namespace Google.Api.Generator.Generation
                 private MethodDeclarationSyntax SyncPaginatedMethod => _def.SyncPaginated(SyncMethodName, _sig.Fields.Select(f => f.Typ),
                     InitRequestArgsNormal, _def.Response.WithInitializer(_def.Client.Call(Method.SyncMethodName)(PaginatedArgs(InitRequestArgsNormal).ToArray())), isSig: true);
 
-                public SnippetDef SyncPaginatedSnippet => new SnippetDef(SyncMethodName, Svc, ctx => WithSourceFileContext(ctx).SyncPaginatedMethod);
+                public SnippetDef SyncPaginatedSnippet => new SnippetDef(Method, true, SyncMethodName, ctx => WithSourceFileContext(ctx).SyncPaginatedMethod);
 
                 private MethodDeclarationSyntax AsyncPaginatedMethod => _def.AsyncPaginated(AsyncMethodName, _sig.Fields.Select(f => f.Typ),
                     InitRequestArgsNormal, _def.AsyncResponse.WithInitializer(_def.Client.Call(Method.AsyncMethodName)(PaginatedArgs(InitRequestArgsNormal).ToArray())), isSig: true);
 
-                public SnippetDef AsyncPaginatedSnippet => new SnippetDef(AsyncMethodName, Svc, ctx => WithSourceFileContext(ctx).AsyncPaginatedMethod);
+                public SnippetDef AsyncPaginatedSnippet => new SnippetDef(Method, false, AsyncMethodName, ctx => WithSourceFileContext(ctx).AsyncPaginatedMethod);
 
                 private MethodDeclarationSyntax ServerStreamingMethod => _def.ServerStreaming(SyncMethodName, _sig.Fields.Select(f => f.Typ),
                     InitRequestArgsNormal, _def.Response.WithInitializer(_def.Client.Call(Method.SyncMethodName)(InitRequestArgsNormal.ToArray())));
 
-                public SnippetDef ServerStreamingSnippet => new SnippetDef(SyncMethodName, Svc, ctx => WithSourceFileContext(ctx).ServerStreamingMethod);
+                public SnippetDef ServerStreamingSnippet => new SnippetDef(Method, true, SyncMethodName, ctx => WithSourceFileContext(ctx).ServerStreamingMethod);
 
                 public class ResourceName
                 {
@@ -693,38 +699,38 @@ namespace Google.Api.Generator.Generation
                         (object)_sig._def.Client.Call(Method.SyncMethodName)(InitRequestArgs.ToArray()) :
                         _sig._def.Response.WithInitializer(_sig._def.Client.Call(Method.SyncMethodName)(InitRequestArgs.ToArray())));
 
-                    public SnippetDef SyncSnippet => new SnippetDef(SyncMethodName, Svc, ctx => WithSourceFileContext(ctx).SyncMethod);
+                    public SnippetDef SyncSnippet => new SnippetDef(Method, true, SyncMethodName, ctx => WithSourceFileContext(ctx).SyncMethod);
 
                     private MethodDeclarationSyntax AsyncMethod => _sig._def.Async(AsyncMethodName, SnippetTyps, InitRequestArgs, Method.SyncReturnTyp is Typ.VoidTyp ?
                         (object)Await(_sig._def.Client.Call(Method.AsyncMethodName)(InitRequestArgs.ToArray())) :
                         _sig._def.Response.WithInitializer(Await(_sig._def.Client.Call(Method.AsyncMethodName)(InitRequestArgs.ToArray()))));
 
-                    public SnippetDef AsyncSnippet => new SnippetDef(AsyncMethodName, Svc, ctx => WithSourceFileContext(ctx).AsyncMethod);
+                    public SnippetDef AsyncSnippet => new SnippetDef(Method, false, AsyncMethodName, ctx => WithSourceFileContext(ctx).AsyncMethod);
 
                     private MethodDeclarationSyntax SyncLroMethod => _sig._def.SyncLro(SyncMethodName, SnippetTyps, InitRequestArgs,
                         _sig._def.Response.WithInitializer(_sig._def.Client.Call(Method.SyncMethodName)(InitRequestArgs.ToArray())));
 
-                    public SnippetDef SyncLroSnippet => new SnippetDef(SyncMethodName, Svc, ctx => WithSourceFileContext(ctx).SyncLroMethod);
+                    public SnippetDef SyncLroSnippet => new SnippetDef(Method, true, SyncMethodName, ctx => WithSourceFileContext(ctx).SyncLroMethod);
 
                     private MethodDeclarationSyntax AsyncLroMethod => _sig._def.AsyncLro(AsyncMethodName, SnippetTyps, InitRequestArgs,
                         _sig._def.Response.WithInitializer(Await(_sig._def.Client.Call(Method.AsyncMethodName)(InitRequestArgs.ToArray()))));
 
-                    public SnippetDef AsyncLroSnippet => new SnippetDef(AsyncMethodName, Svc, ctx => WithSourceFileContext(ctx).AsyncLroMethod);
+                    public SnippetDef AsyncLroSnippet => new SnippetDef(Method, false, AsyncMethodName, ctx => WithSourceFileContext(ctx).AsyncLroMethod);
 
                     private MethodDeclarationSyntax SyncPaginatedMethod => _sig._def.SyncPaginated(SyncMethodName, SnippetTyps, InitRequestArgs,
                         _sig._def.Response.WithInitializer(_sig._def.Client.Call(Method.SyncMethodName)(_sig.PaginatedArgs(InitRequestArgs).ToArray())), true);
 
-                    public SnippetDef SyncPaginatedSnippet => new SnippetDef(SyncMethodName, Svc, ctx => WithSourceFileContext(ctx).SyncPaginatedMethod);
+                    public SnippetDef SyncPaginatedSnippet => new SnippetDef(Method, true, SyncMethodName, ctx => WithSourceFileContext(ctx).SyncPaginatedMethod);
 
                     private MethodDeclarationSyntax AsyncPaginatedMethod => _sig._def.AsyncPaginated(AsyncMethodName, SnippetTyps, InitRequestArgs,
                         _sig._def.AsyncResponse.WithInitializer(_sig._def.Client.Call(Method.AsyncMethodName)(_sig.PaginatedArgs(InitRequestArgs).ToArray())), true);
 
-                    public SnippetDef AsyncPaginatedSnippet => new SnippetDef(AsyncMethodName, Svc, ctx => WithSourceFileContext(ctx).AsyncPaginatedMethod);
+                    public SnippetDef AsyncPaginatedSnippet => new SnippetDef(Method, false, AsyncMethodName, ctx => WithSourceFileContext(ctx).AsyncPaginatedMethod);
 
                     private MethodDeclarationSyntax ServerStreamingMethod => _sig._def.ServerStreaming(SyncMethodName, SnippetTyps, InitRequestArgs,
                         _sig._def.Response.WithInitializer(_sig._def.Client.Call(Method.SyncMethodName)(InitRequestArgs.ToArray())));
 
-                    public SnippetDef ServerStreamingSnippet => new SnippetDef(SyncMethodName, Svc, ctx => WithSourceFileContext(ctx).ServerStreamingMethod);
+                    public SnippetDef ServerStreamingSnippet => new SnippetDef(Method, true, SyncMethodName, ctx => WithSourceFileContext(ctx).ServerStreamingMethod);
                 }
 
                 public IEnumerable<ResourceName> ResourceNames => ResourceName.Create(this);

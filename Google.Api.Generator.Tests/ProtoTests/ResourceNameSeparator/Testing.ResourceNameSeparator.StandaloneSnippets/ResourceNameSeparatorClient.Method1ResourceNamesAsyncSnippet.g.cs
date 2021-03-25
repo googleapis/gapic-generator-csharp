@@ -22,6 +22,10 @@ namespace Testing.ResourceNameSeparator.Snippets
     public sealed partial class GeneratedResourceNameSeparatorClientStandaloneSnippets
     {
         /// <summary>Snippet for Method1Async</summary>
+        /// <remarks>
+        /// This snippet has been automatically generated for illustrative purposes only.
+        /// It may require modifications to work in your environment.
+        /// </remarks>
         public async Task Method1ResourceNamesAsync()
         {
             // Snippet: Method1Async(RequestName, RequestName, CallSettings)

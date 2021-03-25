@@ -21,6 +21,10 @@ namespace Testing.Keywords.Snippets
     public sealed partial class GeneratedKeywordsClientStandaloneSnippets
     {
         /// <summary>Snippet for Method1</summary>
+        /// <remarks>
+        /// This snippet has been automatically generated for illustrative purposes only.
+        /// It may require modifications to work in your environment.
+        /// </remarks>
         public void Method1()
         {
             // Snippet: Method1(string, int, Enum, string, string, CallSettings)

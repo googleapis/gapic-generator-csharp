@@ -23,6 +23,10 @@ namespace Testing.Snippets.Snippets
     public sealed partial class GeneratedSnippetsClientStandaloneSnippets
     {
         /// <summary>Snippet for MethodLroResourceSignatureAsync</summary>
+        /// <remarks>
+        /// This snippet has been automatically generated for illustrative purposes only.
+        /// It may require modifications to work in your environment.
+        /// </remarks>
         public async Task MethodLroResourceSignatureResourceNamesAsync()
         {
             // Snippet: MethodLroResourceSignatureAsync(SimpleResourceName, SimpleResourceName, SimpleResourceName, CallSettings)

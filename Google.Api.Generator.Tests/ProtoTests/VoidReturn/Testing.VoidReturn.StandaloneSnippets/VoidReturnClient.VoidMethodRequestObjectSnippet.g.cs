@@ -21,6 +21,10 @@ namespace Testing.VoidReturn.Snippets
     public sealed partial class GeneratedVoidReturnClientStandaloneSnippets
     {
         /// <summary>Snippet for VoidMethod</summary>
+        /// <remarks>
+        /// This snippet has been automatically generated for illustrative purposes only.
+        /// It may require modifications to work in your environment.
+        /// </remarks>
         public void VoidMethodRequestObject()
         {
             // Snippet: VoidMethod(Request, CallSettings)

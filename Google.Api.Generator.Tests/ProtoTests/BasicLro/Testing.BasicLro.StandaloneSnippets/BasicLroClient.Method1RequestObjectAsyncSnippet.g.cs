@@ -23,6 +23,10 @@ namespace Testing.BasicLro.Snippets
     public sealed partial class GeneratedBasicLroClientStandaloneSnippets
     {
         /// <summary>Snippet for Method1Async</summary>
+        /// <remarks>
+        /// This snippet has been automatically generated for illustrative purposes only.
+        /// It may require modifications to work in your environment.
+        /// </remarks>
         public async Task Method1RequestObjectAsync()
         {
             // Snippet: Method1Async(Request, CallSettings)
