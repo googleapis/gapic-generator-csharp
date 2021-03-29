@@ -219,9 +219,9 @@ namespace Google.Api.Generator
                 var unitTestsCsprojContent = CsProjGenerator.GenerateUnitTests(ns);
                 var unitTestsCsprojFilename = $"{unitTestsPathPrefix}{ns}.Tests.csproj";
                 yield return new ResultFile(unitTestsCsprojFilename, unitTestsCsprojContent);
-                if (generateMetadata)
+                if (generateMetadata && allServiceDetails.Any())
                 {
-                    // Generate gapic_metadata.json
+                    // Generate gapic_metadata.json, if there are any services.
                     var gapicMetadataJsonContent = MetadataGenerator.GenerateGapicMetadataJson(allServiceDetails);
                     yield return new ResultFile("gapic_metadata.json", gapicMetadataJsonContent);
                 }
