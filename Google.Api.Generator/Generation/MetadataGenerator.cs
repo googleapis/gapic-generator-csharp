@@ -52,11 +52,6 @@ namespace Google.Api.Generator.Generation
                 gapicMetadata.ToString(),
                 new JsonSerializerSettings { DateParseHandling = DateParseHandling.None });
 
-            if (obj == null)
-            {
-                throw new InvalidOperationException("Json conversion failed for the Gapic Metadata object.");
-            }
-
             return obj.ToString(Formatting.Indented) + "\n"; //trailing file newline to please github;
         }
 
