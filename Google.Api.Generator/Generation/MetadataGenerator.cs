@@ -39,17 +39,18 @@ namespace Google.Api.Generator.Generation
                 Language = GapicMetadataLanguage,
                 ProtoPackage = allServiceDetails.First().ProtoPackage,
                 LibraryPackage = allServiceDetails.First().Namespace,
-                Services = {
-                allServiceDetails.ToDictionary(
-                    serviceDetails => serviceDetails.ServiceName,
-                    ServiceForTransportMetadata
-                )}
+                Services = 
+                {
+                    allServiceDetails.ToDictionary(
+                        serviceDetails => serviceDetails.ServiceName,
+                        ServiceForTransportMetadata)
+
+                }
             };
 
             JObject obj = JsonConvert.DeserializeObject<JObject>(
                 gapicMetadata.ToString(),
-                new JsonSerializerSettings { DateParseHandling = DateParseHandling.None }
-            );
+                new JsonSerializerSettings { DateParseHandling = DateParseHandling.None });
 
             if (obj == null)
             {
@@ -64,27 +65,21 @@ namespace Google.Api.Generator.Generation
             {
                 Clients = 
                 { 
-                    new Dictionary<string, ServiceAsClient>
-                    {
-                        { 
-                            TransportKeyGrpc,
-                            new ServiceAsClient
-                            {
-                                LibraryClient = serviceDetails.ClientAbstractTyp.Name,
-                                Rpcs = 
-                                { 
-                                    serviceDetails.Methods.ToDictionary(
-                                        methodDetails => methodDetails.ProtoRpcName,
-                                        methodDetails => new MethodList
-                                        {
-                                            Methods = { methodDetails.SyncMethodName, methodDetails.AsyncMethodName }
 
-                                        })
-                                }
+                    [TransportKeyGrpc] = new ServiceAsClient
+                        {
+                            LibraryClient = serviceDetails.ClientAbstractTyp.Name,
+                            Rpcs = 
+                            {
+                                serviceDetails.Methods.ToDictionary(
+                                    methodDetails => methodDetails.ProtoRpcName,
+                                    methodDetails => new MethodList
+                                    {
+                                        Methods = { methodDetails.SyncMethodName, methodDetails.AsyncMethodName }
+
+                                    })
                             }
                         }
-                    }
-
                 }
             };
     }
