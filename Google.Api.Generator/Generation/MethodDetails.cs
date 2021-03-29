@@ -277,6 +277,7 @@ namespace Google.Api.Generator.Generation
         private MethodDetails(ServiceDetails svc, MethodDescriptor desc)
         {
             Svc = svc;
+            ProtoRpcName = desc.Name;
             SyncMethodName = desc.Name;
             SyncSnippetMethodName = $"{desc.Name}RequestObject";
             SyncTestMethodName = $"{desc.Name}RequestObject";
@@ -393,6 +394,9 @@ namespace Google.Api.Generator.Generation
 
         /// <summary>The service in which this method is defined.</summary>
         public ServiceDetails Svc { get; }
+
+        /// <summary>The name of this method in the method descriptor</summary>
+        public string ProtoRpcName { get; }
 
         /// <summary>The sync name for this method.</summary>
         public string SyncMethodName { get; }

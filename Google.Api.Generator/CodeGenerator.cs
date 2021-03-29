@@ -77,16 +77,16 @@ namespace Google.Api.Generator
             new Regex(@"^System\.?.*", RegexOptions.Compiled | RegexOptions.CultureInvariant),
         };
 
-                public static IEnumerable<ResultFile> Generate(FileDescriptorSet descriptorSet, string package, IClock clock,
-            string grpcServiceConfigPath, IEnumerable<string> commonResourcesConfigPaths)
+        public static IEnumerable<ResultFile> Generate(FileDescriptorSet descriptorSet, string package, IClock clock,
+            string grpcServiceConfigPath, IEnumerable<string> commonResourcesConfigPaths, bool generateMetadata)
         {
             var descriptors = descriptorSet.File;
             var filesToGenerate = descriptors.Where(x => x.Package == package).Select(x => x.Name).ToList();
-            return Generate(descriptors, filesToGenerate, clock, grpcServiceConfigPath, commonResourcesConfigPaths);
+            return Generate(descriptors, filesToGenerate, clock, grpcServiceConfigPath, commonResourcesConfigPaths, generateMetadata);
         }
 
         public static IEnumerable<ResultFile> Generate(IReadOnlyList<FileDescriptorProto> descriptorProtos, IEnumerable<string> filesToGenerate, IClock clock,
-            string grpcServiceConfigPath, IEnumerable<string> commonResourcesConfigPaths)
+            string grpcServiceConfigPath, IEnumerable<string> commonResourcesConfigPaths, bool generateMetadata)
         {
             var descriptors = FileDescriptor.BuildFromByteStrings(descriptorProtos.Select(proto => proto.ToByteString()), s_registry);
             // Load side-loaded configurations; both optional.
@@ -110,7 +110,7 @@ namespace Google.Api.Generator
                         $"Found namespaces '{string.Join(", ", namespaces)}' in package '{singlePackageFileDescs.Key}'.");
                 }
                 var catalog = new ProtoCatalog(singlePackageFileDescs.Key, descriptors, commonResourcesConfigs);
-                foreach (var resultFile in GeneratePackage(namespaces[0], singlePackageFileDescs, catalog, clock, grpcServiceConfig))
+                foreach (var resultFile in GeneratePackage(namespaces[0], singlePackageFileDescs, catalog, clock, grpcServiceConfig, generateMetadata))
                 {
                     yield return resultFile;
                 }
@@ -118,7 +118,7 @@ namespace Google.Api.Generator
         }
 
         private static IEnumerable<ResultFile> GeneratePackage(string ns, IEnumerable<FileDescriptor> packageFileDescriptors, ProtoCatalog catalog, IClock clock,
-            ServiceConfig grpcServiceConfig)
+            ServiceConfig grpcServiceConfig, bool generateMetadata)
         {
             var clientPathPrefix = $"{ns}{Path.DirectorySeparatorChar}";
             var snippetsPathPrefix = $"{ns}.Snippets{Path.DirectorySeparatorChar}";
@@ -128,12 +128,16 @@ namespace Google.Api.Generator
             bool hasContent = false;
             HashSet<string> allResourceNameClasses = new HashSet<string>();
             HashSet<string> duplicateResourceNameClasses = new HashSet<string>();
+
+            var allServiceDetails = new List<ServiceDetails>();
             foreach (var fileDesc in packageFileDescriptors)
             {
                 foreach (var service in fileDesc.Services)
                 {
                     // Generate settings and client code for requested package.
                     var serviceDetails = new ServiceDetails(catalog, ns, service, grpcServiceConfig);
+                    allServiceDetails.Add(serviceDetails);
+
                     var ctx = SourceFileContext.CreateFullyAliased(clock, s_wellknownNamespaceAliases);
                     var code = ServiceCodeGenerator.Generate(ctx, serviceDetails);
                     var filename = $"{clientPathPrefix}{serviceDetails.ClientAbstractTyp.Name}.g.cs";
@@ -215,6 +219,12 @@ namespace Google.Api.Generator
                 var unitTestsCsprojContent = CsProjGenerator.GenerateUnitTests(ns);
                 var unitTestsCsprojFilename = $"{unitTestsPathPrefix}{ns}.Tests.csproj";
                 yield return new ResultFile(unitTestsCsprojFilename, unitTestsCsprojContent);
+                if (generateMetadata)
+                {
+                    // Generate gapic_metadata.json
+                    var gapicMetadataJsonContent = MetadataGenerator.GenerateGapicMetadataJson(allServiceDetails);
+                    yield return new ResultFile("gapic_metadata.json", gapicMetadataJsonContent);
+                }
             }
         }
     }
