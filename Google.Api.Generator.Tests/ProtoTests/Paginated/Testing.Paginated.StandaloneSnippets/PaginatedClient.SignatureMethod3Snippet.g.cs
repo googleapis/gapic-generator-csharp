@@ -29,7 +29,6 @@ namespace Testing.Paginated.Snippets
         /// </remarks>
         public void SignatureMethod3()
         {
-            // Snippet: SignatureMethod(string, int?, CallSettings)
             // Create client
             PaginatedClient paginatedClient = PaginatedClient.Create();
             // Make the request
@@ -66,7 +65,6 @@ namespace Testing.Paginated.Snippets
             }
             // Store the pageToken, for when the next page is required.
             string nextPageToken = singlePage.NextPageToken;
-            // End snippet
         }
     }
 }

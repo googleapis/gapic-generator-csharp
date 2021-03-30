@@ -28,8 +28,6 @@ namespace Testing.Deprecated.Snippets
         /// </remarks>
         public async Task DeprecatedResponseMethodRequestObjectAsync()
         {
-            // Snippet: DeprecatedResponseMethodAsync(Request, CallSettings)
-            // Additional: DeprecatedResponseMethodAsync(Request, CancellationToken)
             // Create client
             DeprecatedClient deprecatedClient = await DeprecatedClient.CreateAsync();
             // Initialize request argument(s)
@@ -38,7 +36,6 @@ namespace Testing.Deprecated.Snippets
 #pragma warning disable CS0612
             DeprecatedMessageResponse response = await deprecatedClient.DeprecatedResponseMethodAsync(request);
 #pragma warning restore CS0612
-            // End snippet
         }
     }
 }

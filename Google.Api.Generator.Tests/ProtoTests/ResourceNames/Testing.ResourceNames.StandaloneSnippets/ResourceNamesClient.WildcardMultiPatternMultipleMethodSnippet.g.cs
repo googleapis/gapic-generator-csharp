@@ -28,7 +28,6 @@ namespace Testing.ResourceNames.Snippets
         /// </remarks>
         public void WildcardMultiPatternMultipleMethod()
         {
-            // Snippet: WildcardMultiPatternMultipleMethod(string, IEnumerable<string>, CallSettings)
             // Create client
             ResourceNamesClient resourceNamesClient = ResourceNamesClient.Create();
             // Initialize request argument(s)
@@ -36,7 +35,6 @@ namespace Testing.ResourceNames.Snippets
             IEnumerable<string> repeatedRef = new string[] { "constPattern", };
             // Make the request
             Response response = resourceNamesClient.WildcardMultiPatternMultipleMethod(@ref, repeatedRef);
-            // End snippet
         }
     }
 }

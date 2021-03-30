@@ -31,7 +31,6 @@ namespace Testing.Paginated.Snippets
         /// </remarks>
         public async Task SignatureMethod1Async()
         {
-            // Snippet: SignatureMethodAsync(string, int, string, int?, CallSettings)
             // Create client
             PaginatedClient paginatedClient = await PaginatedClient.CreateAsync();
             // Initialize request argument(s)
@@ -71,7 +70,6 @@ namespace Testing.Paginated.Snippets
             }
             // Store the pageToken, for when the next page is required.
             string nextPageToken = singlePage.NextPageToken;
-            // End snippet
         }
     }
 }

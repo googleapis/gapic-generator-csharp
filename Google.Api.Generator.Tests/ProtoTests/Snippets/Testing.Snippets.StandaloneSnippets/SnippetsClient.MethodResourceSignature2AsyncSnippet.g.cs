@@ -28,15 +28,12 @@ namespace Testing.Snippets.Snippets
         /// </remarks>
         public async Task MethodResourceSignature2Async()
         {
-            // Snippet: MethodResourceSignatureAsync(string, CallSettings)
-            // Additional: MethodResourceSignatureAsync(string, CancellationToken)
             // Create client
             SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
             // Initialize request argument(s)
             string firstName = "items/[ITEM_ID]";
             // Make the request
             Response response = await snippetsClient.MethodResourceSignatureAsync(firstName);
-            // End snippet
         }
     }
 }

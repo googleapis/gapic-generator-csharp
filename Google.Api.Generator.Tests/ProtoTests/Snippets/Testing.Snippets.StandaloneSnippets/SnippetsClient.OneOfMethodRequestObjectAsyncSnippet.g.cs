@@ -28,8 +28,6 @@ namespace Testing.Snippets.Snippets
         /// </remarks>
         public async Task OneOfMethodRequestObjectAsync()
         {
-            // Snippet: OneOfMethodAsync(OneOfRequest, CallSettings)
-            // Additional: OneOfMethodAsync(OneOfRequest, CancellationToken)
             // Create client
             SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
             // Initialize request argument(s)
@@ -40,7 +38,6 @@ namespace Testing.Snippets.Snippets
             };
             // Make the request
             Response response = await snippetsClient.OneOfMethodAsync(request);
-            // End snippet
         }
     }
 }

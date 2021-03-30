@@ -27,7 +27,6 @@ namespace Testing.Snippets.Snippets
         /// </remarks>
         public void MethodThreeSignatures2()
         {
-            // Snippet: MethodThreeSignatures(string, bool, CallSettings)
             // Create client
             SnippetsClient snippetsClient = SnippetsClient.Create();
             // Initialize request argument(s)
@@ -35,7 +34,6 @@ namespace Testing.Snippets.Snippets
             bool aBool = false;
             // Make the request
             Response response = snippetsClient.MethodThreeSignatures(aString, aBool);
-            // End snippet
         }
     }
 }

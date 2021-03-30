@@ -29,7 +29,6 @@ namespace Testing.Snippets.Snippets
         /// </remarks>
         public async Task MethodServerStreamingResourcesResourceNames()
         {
-            // Snippet: MethodServerStreamingResources(SimpleResourceName, SimpleResourceName, SimpleResourceName, CallSettings)
             // Create client
             SnippetsClient snippetsClient = SnippetsClient.Create();
             // Initialize request argument(s)
@@ -48,7 +47,6 @@ namespace Testing.Snippets.Snippets
                 // Do something with streamed response
             }
             // The response stream has completed
-            // End snippet
         }
     }
 }

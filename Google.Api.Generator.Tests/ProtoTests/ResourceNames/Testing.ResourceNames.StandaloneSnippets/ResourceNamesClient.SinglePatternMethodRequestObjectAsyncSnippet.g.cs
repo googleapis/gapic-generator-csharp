@@ -28,8 +28,6 @@ namespace Testing.ResourceNames.Snippets
         /// </remarks>
         public async Task SinglePatternMethodRequestObjectAsync()
         {
-            // Snippet: SinglePatternMethodAsync(SinglePattern, CallSettings)
-            // Additional: SinglePatternMethodAsync(SinglePattern, CancellationToken)
             // Create client
             ResourceNamesClient resourceNamesClient = await ResourceNamesClient.CreateAsync();
             // Initialize request argument(s)
@@ -49,7 +47,6 @@ namespace Testing.ResourceNames.Snippets
             };
             // Make the request
             Response response = await resourceNamesClient.SinglePatternMethodAsync(request);
-            // End snippet
         }
     }
 }

@@ -28,15 +28,12 @@ namespace Testing.VoidReturn.Snippets
         /// </remarks>
         public async Task VoidMethodResourceNamesAsync()
         {
-            // Snippet: VoidMethodAsync(ResourceName, CallSettings)
-            // Additional: VoidMethodAsync(ResourceName, CancellationToken)
             // Create client
             VoidReturnClient voidReturnClient = await VoidReturnClient.CreateAsync();
             // Initialize request argument(s)
             ResourceName name = ResourceName.FromItem("[ITEM_ID]");
             // Make the request
             await voidReturnClient.VoidMethodAsync(name);
-            // End snippet
         }
     }
 }

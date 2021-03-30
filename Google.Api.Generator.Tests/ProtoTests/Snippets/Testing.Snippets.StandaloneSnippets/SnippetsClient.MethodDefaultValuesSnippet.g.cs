@@ -28,7 +28,6 @@ namespace Testing.Snippets.Snippets
         /// </remarks>
         public void MethodDefaultValues()
         {
-            // Snippet: MethodDefaultValues(IEnumerable<double>, IEnumerable<DefaultValuesRequest.Types.NestedMessage>, IEnumerable<string>, CallSettings)
             // Create client
             SnippetsClient snippetsClient = SnippetsClient.Create();
             // Initialize request argument(s)
@@ -43,7 +42,6 @@ namespace Testing.Snippets.Snippets
             };
             // Make the request
             Response response = snippetsClient.MethodDefaultValues(repeatedDouble, repeatedNestedMessage, repeatedResourceName);
-            // End snippet
         }
     }
 }

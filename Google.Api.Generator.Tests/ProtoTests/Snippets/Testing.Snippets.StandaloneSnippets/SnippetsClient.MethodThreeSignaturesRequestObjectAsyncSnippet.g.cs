@@ -28,8 +28,6 @@ namespace Testing.Snippets.Snippets
         /// </remarks>
         public async Task MethodThreeSignaturesRequestObjectAsync()
         {
-            // Snippet: MethodThreeSignaturesAsync(SignatureRequest, CallSettings)
-            // Additional: MethodThreeSignaturesAsync(SignatureRequest, CancellationToken)
             // Create client
             SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
             // Initialize request argument(s)
@@ -42,7 +40,6 @@ namespace Testing.Snippets.Snippets
             };
             // Make the request
             Response response = await snippetsClient.MethodThreeSignaturesAsync(request);
-            // End snippet
         }
     }
 }

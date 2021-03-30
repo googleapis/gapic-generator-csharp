@@ -29,8 +29,6 @@ namespace Testing.Snippets.Snippets
         /// </remarks>
         public async Task MethodLroResourceSignatureResourceNamesAsync()
         {
-            // Snippet: MethodLroResourceSignatureAsync(SimpleResourceName, SimpleResourceName, SimpleResourceName, CallSettings)
-            // Additional: MethodLroResourceSignatureAsync(SimpleResourceName, SimpleResourceName, SimpleResourceName, CancellationToken)
             // Create client
             SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
             // Initialize request argument(s)
@@ -55,7 +53,6 @@ namespace Testing.Snippets.Snippets
                 // If it has completed, then access the result
                 LroResponse retrievedResult = retrievedResponse.Result;
             }
-            // End snippet
         }
     }
 }

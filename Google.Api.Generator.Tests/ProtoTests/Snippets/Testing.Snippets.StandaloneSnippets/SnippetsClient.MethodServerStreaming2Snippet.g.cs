@@ -29,7 +29,6 @@ namespace Testing.Snippets.Snippets
         /// </remarks>
         public async Task MethodServerStreaming2()
         {
-            // Snippet: MethodServerStreaming(CallSettings)
             // Create client
             SnippetsClient snippetsClient = SnippetsClient.Create();
             // Make the request, returning a streaming response
@@ -44,7 +43,6 @@ namespace Testing.Snippets.Snippets
                 // Do something with streamed response
             }
             // The response stream has completed
-            // End snippet
         }
     }
 }

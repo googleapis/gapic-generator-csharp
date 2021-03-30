@@ -28,8 +28,6 @@ namespace Testing.Snippets.Snippets
         /// </remarks>
         public async Task MethodThreeSignatures1Async()
         {
-            // Snippet: MethodThreeSignaturesAsync(string, int, bool, CallSettings)
-            // Additional: MethodThreeSignaturesAsync(string, int, bool, CancellationToken)
             // Create client
             SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
             // Initialize request argument(s)
@@ -38,7 +36,6 @@ namespace Testing.Snippets.Snippets
             bool aBool = false;
             // Make the request
             Response response = await snippetsClient.MethodThreeSignaturesAsync(aString, anInt, aBool);
-            // End snippet
         }
     }
 }

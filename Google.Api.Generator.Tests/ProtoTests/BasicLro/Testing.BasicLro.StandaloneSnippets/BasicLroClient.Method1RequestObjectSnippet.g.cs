@@ -28,7 +28,6 @@ namespace Testing.BasicLro.Snippets
         /// </remarks>
         public void Method1RequestObject()
         {
-            // Snippet: Method1(Request, CallSettings)
             // Create client
             BasicLroClient basicLroClient = BasicLroClient.Create();
             // Initialize request argument(s)
@@ -51,7 +50,6 @@ namespace Testing.BasicLro.Snippets
                 // If it has completed, then access the result
                 LroResponse retrievedResult = retrievedResponse.Result;
             }
-            // End snippet
         }
     }
 }

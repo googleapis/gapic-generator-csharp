@@ -29,8 +29,6 @@ namespace Testing.ResourceNames.Snippets
         /// </remarks>
         public async Task SinglePatternMethodResourceNamesAsync()
         {
-            // Snippet: SinglePatternMethodAsync(SinglePatternName, SinglePatternName, IEnumerable<SinglePatternName>, SinglePatternName, IEnumerable<SinglePatternName>, CallSettings)
-            // Additional: SinglePatternMethodAsync(SinglePatternName, SinglePatternName, IEnumerable<SinglePatternName>, SinglePatternName, IEnumerable<SinglePatternName>, CancellationToken)
             // Create client
             ResourceNamesClient resourceNamesClient = await ResourceNamesClient.CreateAsync();
             // Initialize request argument(s)
@@ -47,7 +45,6 @@ namespace Testing.ResourceNames.Snippets
             };
             // Make the request
             Response response = await resourceNamesClient.SinglePatternMethodAsync(realName, @ref, repeatedRef, valueRef, repeatedValueRef);
-            // End snippet
         }
     }
 }

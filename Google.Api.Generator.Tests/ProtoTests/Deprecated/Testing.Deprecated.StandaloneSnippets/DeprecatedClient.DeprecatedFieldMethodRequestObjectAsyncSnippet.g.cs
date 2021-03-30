@@ -28,15 +28,12 @@ namespace Testing.Deprecated.Snippets
         /// </remarks>
         public async Task DeprecatedFieldMethodRequestObjectAsync()
         {
-            // Snippet: DeprecatedFieldMethodAsync(DeprecatedFieldRequest, CallSettings)
-            // Additional: DeprecatedFieldMethodAsync(DeprecatedFieldRequest, CancellationToken)
             // Create client
             DeprecatedClient deprecatedClient = await DeprecatedClient.CreateAsync();
             // Initialize request argument(s)
             DeprecatedFieldRequest request = new DeprecatedFieldRequest { };
             // Make the request
             Response response = await deprecatedClient.DeprecatedFieldMethodAsync(request);
-            // End snippet
         }
     }
 }

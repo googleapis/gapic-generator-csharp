@@ -27,14 +27,12 @@ namespace Testing.VoidReturn.Snippets
         /// </remarks>
         public void VoidMethod()
         {
-            // Snippet: VoidMethod(string, CallSettings)
             // Create client
             VoidReturnClient voidReturnClient = VoidReturnClient.Create();
             // Initialize request argument(s)
             string name = "items/[ITEM_ID]";
             // Make the request
             voidReturnClient.VoidMethod(name);
-            // End snippet
         }
     }
 }

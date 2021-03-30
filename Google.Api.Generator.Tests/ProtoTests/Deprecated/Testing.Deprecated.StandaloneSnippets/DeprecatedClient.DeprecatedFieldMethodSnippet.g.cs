@@ -27,7 +27,6 @@ namespace Testing.Deprecated.Snippets
         /// </remarks>
         public void DeprecatedFieldMethod()
         {
-            // Snippet: DeprecatedFieldMethod(string, string, CallSettings)
             // Create client
             DeprecatedClient deprecatedClient = DeprecatedClient.Create();
             // Initialize request argument(s)
@@ -35,7 +34,6 @@ namespace Testing.Deprecated.Snippets
             string deprecatedField2 = "";
             // Make the request
             Response response = deprecatedClient.DeprecatedFieldMethod(deprecatedField1, deprecatedField2);
-            // End snippet
         }
     }
 }
