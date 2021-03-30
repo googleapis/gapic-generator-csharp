@@ -41,10 +41,10 @@ namespace Google.Api.Generator.Generation
                 LibraryPackage = allServiceDetails.First().Namespace,
                 Services = 
                 {
-                    allServiceDetails.ToDictionary(
-                        serviceDetails => serviceDetails.ServiceName,
-                        ServiceForTransportMetadata)
-
+                    new SortedDictionary<string, ServiceForTransport>(
+                        allServiceDetails.ToDictionary(
+                            serviceDetails => serviceDetails.ServiceName,
+                            ServiceForTransportMetadata), StringComparer.Ordinal)
                 }
             };
 
@@ -66,13 +66,13 @@ namespace Google.Api.Generator.Generation
                             LibraryClient = serviceDetails.ClientAbstractTyp.Name,
                             Rpcs = 
                             {
-                                serviceDetails.Methods.ToDictionary(
-                                    methodDetails => methodDetails.ProtoRpcName,
-                                    methodDetails => new MethodList
-                                    {
-                                        Methods = { methodDetails.SyncMethodName, methodDetails.AsyncMethodName }
-
-                                    })
+                                new SortedDictionary<string, MethodList>(
+                                    serviceDetails.Methods.ToDictionary(
+                                        methodDetails => methodDetails.ProtoRpcName,
+                                        methodDetails => new MethodList
+                                        {
+                                            Methods = { methodDetails.SyncMethodName, methodDetails.AsyncMethodName }
+                                        }), StringComparer.Ordinal)
                             }
                         }
                 }
