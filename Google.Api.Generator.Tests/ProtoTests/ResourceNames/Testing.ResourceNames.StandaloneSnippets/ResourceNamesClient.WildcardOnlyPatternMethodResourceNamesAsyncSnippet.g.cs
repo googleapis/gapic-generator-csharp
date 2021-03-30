@@ -30,8 +30,6 @@ namespace Testing.ResourceNames.Snippets
         /// </remarks>
         public async Task WildcardOnlyPatternMethodResourceNamesAsync()
         {
-            // Snippet: WildcardOnlyPatternMethodAsync(IResourceName, IResourceName, IEnumerable<IResourceName>, IResourceName, IEnumerable<IResourceName>, CallSettings)
-            // Additional: WildcardOnlyPatternMethodAsync(IResourceName, IResourceName, IEnumerable<IResourceName>, IResourceName, IEnumerable<IResourceName>, CancellationToken)
             // Create client
             ResourceNamesClient resourceNamesClient = await ResourceNamesClient.CreateAsync();
             // Initialize request argument(s)
@@ -48,7 +46,6 @@ namespace Testing.ResourceNames.Snippets
             };
             // Make the request
             Response response = await resourceNamesClient.WildcardOnlyPatternMethodAsync(name, @ref, repeatedRef, refSugar, repeatedRefSugar);
-            // End snippet
         }
     }
 }

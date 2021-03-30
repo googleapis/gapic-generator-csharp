@@ -29,8 +29,6 @@ namespace Testing.ResourceNames.Snippets
         /// </remarks>
         public async Task WildcardMultiPatternMultipleMethodAsync()
         {
-            // Snippet: WildcardMultiPatternMultipleMethodAsync(string, IEnumerable<string>, CallSettings)
-            // Additional: WildcardMultiPatternMultipleMethodAsync(string, IEnumerable<string>, CancellationToken)
             // Create client
             ResourceNamesClient resourceNamesClient = await ResourceNamesClient.CreateAsync();
             // Initialize request argument(s)
@@ -38,7 +36,6 @@ namespace Testing.ResourceNames.Snippets
             IEnumerable<string> repeatedRef = new string[] { "constPattern", };
             // Make the request
             Response response = await resourceNamesClient.WildcardMultiPatternMultipleMethodAsync(@ref, repeatedRef);
-            // End snippet
         }
     }
 }

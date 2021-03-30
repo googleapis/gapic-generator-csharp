@@ -28,14 +28,12 @@ namespace Testing.Snippets.Snippets
         /// </remarks>
         public void MethodMapSignature()
         {
-            // Snippet: MethodMapSignature(IDictionary<int,string>, CallSettings)
             // Create client
             SnippetsClient snippetsClient = SnippetsClient.Create();
             // Initialize request argument(s)
             IDictionary<int, string> mapIntString = new Dictionary<int, string> { { 0, "" }, };
             // Make the request
             Response response = snippetsClient.MethodMapSignature(mapIntString);
-            // End snippet
         }
     }
 }

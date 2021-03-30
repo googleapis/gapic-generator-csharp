@@ -27,7 +27,6 @@ namespace Testing.Snippets.Snippets
         /// </remarks>
         public void OneOfMethodRequestObject()
         {
-            // Snippet: OneOfMethod(OneOfRequest, CallSettings)
             // Create client
             SnippetsClient snippetsClient = SnippetsClient.Create();
             // Initialize request argument(s)
@@ -38,7 +37,6 @@ namespace Testing.Snippets.Snippets
             };
             // Make the request
             Response response = snippetsClient.OneOfMethod(request);
-            // End snippet
         }
     }
 }

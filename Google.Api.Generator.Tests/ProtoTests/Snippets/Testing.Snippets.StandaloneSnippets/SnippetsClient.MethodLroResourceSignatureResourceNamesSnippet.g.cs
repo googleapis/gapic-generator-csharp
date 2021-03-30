@@ -28,7 +28,6 @@ namespace Testing.Snippets.Snippets
         /// </remarks>
         public void MethodLroResourceSignatureResourceNames()
         {
-            // Snippet: MethodLroResourceSignature(SimpleResourceName, SimpleResourceName, SimpleResourceName, CallSettings)
             // Create client
             SnippetsClient snippetsClient = SnippetsClient.Create();
             // Initialize request argument(s)
@@ -53,7 +52,6 @@ namespace Testing.Snippets.Snippets
                 // If it has completed, then access the result
                 LroResponse retrievedResult = retrievedResponse.Result;
             }
-            // End snippet
         }
     }
 }

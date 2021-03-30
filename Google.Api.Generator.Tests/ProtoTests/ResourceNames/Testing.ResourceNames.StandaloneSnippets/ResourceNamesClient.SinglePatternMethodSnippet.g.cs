@@ -28,7 +28,6 @@ namespace Testing.ResourceNames.Snippets
         /// </remarks>
         public void SinglePatternMethod()
         {
-            // Snippet: SinglePatternMethod(string, string, IEnumerable<string>, string, IEnumerable<string>, CallSettings)
             // Create client
             ResourceNamesClient resourceNamesClient = ResourceNamesClient.Create();
             // Initialize request argument(s)
@@ -39,7 +38,6 @@ namespace Testing.ResourceNames.Snippets
             IEnumerable<string> repeatedValueRef = new string[] { "items/[ITEM_ID]", };
             // Make the request
             Response response = resourceNamesClient.SinglePatternMethod(realName, @ref, repeatedRef, valueRef, repeatedValueRef);
-            // End snippet
         }
     }
 }

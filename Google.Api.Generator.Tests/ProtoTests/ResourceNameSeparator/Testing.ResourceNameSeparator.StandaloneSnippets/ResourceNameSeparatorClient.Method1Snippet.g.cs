@@ -27,7 +27,6 @@ namespace Testing.ResourceNameSeparator.Snippets
         /// </remarks>
         public void Method1()
         {
-            // Snippet: Method1(string, string, CallSettings)
             // Create client
             ResourceNameSeparatorClient resourceNameSeparatorClient = ResourceNameSeparatorClient.Create();
             // Initialize request argument(s)
@@ -35,7 +34,6 @@ namespace Testing.ResourceNameSeparator.Snippets
             string @ref = "items/[ITEM_A_ID].[ITEM_B_ID]/details/[DETAILS_A_ID]_[DETAILS_B_ID]-[DETAILS_C_ID]/extra/[EXTRA_ID]";
             // Make the request
             Response response = resourceNameSeparatorClient.Method1(name, @ref);
-            // End snippet
         }
     }
 }

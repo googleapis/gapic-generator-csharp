@@ -27,7 +27,6 @@ namespace Testing.Snippets.Snippets
         /// </remarks>
         public void MethodOneSignature()
         {
-            // Snippet: MethodOneSignature(string, int, bool, CallSettings)
             // Create client
             SnippetsClient snippetsClient = SnippetsClient.Create();
             // Initialize request argument(s)
@@ -36,7 +35,6 @@ namespace Testing.Snippets.Snippets
             bool aBool = false;
             // Make the request
             Response response = snippetsClient.MethodOneSignature(aString, anInt, aBool);
-            // End snippet
         }
     }
 }

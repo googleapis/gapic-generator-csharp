@@ -29,7 +29,6 @@ namespace Testing.ResourceNames.Snippets
         /// </remarks>
         public void WildcardOnlyPatternMethodResourceNames()
         {
-            // Snippet: WildcardOnlyPatternMethod(IResourceName, IResourceName, IEnumerable<IResourceName>, IResourceName, IEnumerable<IResourceName>, CallSettings)
             // Create client
             ResourceNamesClient resourceNamesClient = ResourceNamesClient.Create();
             // Initialize request argument(s)
@@ -46,7 +45,6 @@ namespace Testing.ResourceNames.Snippets
             };
             // Make the request
             Response response = resourceNamesClient.WildcardOnlyPatternMethod(name, @ref, repeatedRef, refSugar, repeatedRefSugar);
-            // End snippet
         }
     }
 }

@@ -28,8 +28,6 @@ namespace Testing.Snippets.Snippets
         /// </remarks>
         public async Task MethodMapSignatureRequestObjectAsync()
         {
-            // Snippet: MethodMapSignatureAsync(SignatureRequest, CallSettings)
-            // Additional: MethodMapSignatureAsync(SignatureRequest, CancellationToken)
             // Create client
             SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
             // Initialize request argument(s)
@@ -42,7 +40,6 @@ namespace Testing.Snippets.Snippets
             };
             // Make the request
             Response response = await snippetsClient.MethodMapSignatureAsync(request);
-            // End snippet
         }
     }
 }

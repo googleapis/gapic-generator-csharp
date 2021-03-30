@@ -27,7 +27,6 @@ namespace Testing.Keywords.Snippets
         /// </remarks>
         public void Method2RequestObject()
         {
-            // Snippet: Method2(Resource, CallSettings)
             // Create client
             KeywordsClient keywordsClient = KeywordsClient.Create();
             // Initialize request argument(s)
@@ -38,7 +37,6 @@ namespace Testing.Keywords.Snippets
             };
             // Make the request
             Response response = keywordsClient.Method2(request);
-            // End snippet
         }
     }
 }

@@ -28,8 +28,6 @@ namespace Testing.ResourceNameSeparator.Snippets
         /// </remarks>
         public async Task Method1RequestObjectAsync()
         {
-            // Snippet: Method1Async(Request, CallSettings)
-            // Additional: Method1Async(Request, CancellationToken)
             // Create client
             ResourceNameSeparatorClient resourceNameSeparatorClient = await ResourceNameSeparatorClient.CreateAsync();
             // Initialize request argument(s)
@@ -40,7 +38,6 @@ namespace Testing.ResourceNameSeparator.Snippets
             };
             // Make the request
             Response response = await resourceNameSeparatorClient.Method1Async(request);
-            // End snippet
         }
     }
 }

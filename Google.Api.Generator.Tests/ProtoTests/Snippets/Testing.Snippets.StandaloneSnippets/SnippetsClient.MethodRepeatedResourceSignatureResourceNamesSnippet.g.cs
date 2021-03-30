@@ -28,7 +28,6 @@ namespace Testing.Snippets.Snippets
         /// </remarks>
         public void MethodRepeatedResourceSignatureResourceNames()
         {
-            // Snippet: MethodRepeatedResourceSignature(IEnumerable<SimpleResourceName>, CallSettings)
             // Create client
             SnippetsClient snippetsClient = SnippetsClient.Create();
             // Initialize request argument(s)
@@ -38,7 +37,6 @@ namespace Testing.Snippets.Snippets
             };
             // Make the request
             Response response = snippetsClient.MethodRepeatedResourceSignature(names);
-            // End snippet
         }
     }
 }

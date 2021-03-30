@@ -27,14 +27,12 @@ namespace Testing.Deprecated.Snippets
         /// </remarks>
         public void DeprecatedMethodRequestObject()
         {
-            // Snippet: DeprecatedMethod(Request, CallSettings)
             // Create client
             DeprecatedClient deprecatedClient = DeprecatedClient.Create();
             // Initialize request argument(s)
             Request request = new Request { };
             // Make the request
             Response response = deprecatedClient.DeprecatedMethod(request);
-            // End snippet
         }
     }
 }

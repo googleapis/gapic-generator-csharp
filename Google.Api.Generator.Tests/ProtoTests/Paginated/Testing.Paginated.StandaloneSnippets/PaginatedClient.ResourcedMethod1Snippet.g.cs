@@ -29,7 +29,6 @@ namespace Testing.Paginated.Snippets
         /// </remarks>
         public void ResourcedMethod1()
         {
-            // Snippet: ResourcedMethod(string, string, int?, CallSettings)
             // Create client
             PaginatedClient paginatedClient = PaginatedClient.Create();
             // Initialize request argument(s)
@@ -68,7 +67,6 @@ namespace Testing.Paginated.Snippets
             }
             // Store the pageToken, for when the next page is required.
             string nextPageToken = singlePage.NextPageToken;
-            // End snippet
         }
     }
 }

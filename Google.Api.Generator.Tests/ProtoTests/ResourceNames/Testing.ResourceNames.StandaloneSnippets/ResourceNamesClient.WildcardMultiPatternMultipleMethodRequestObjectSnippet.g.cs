@@ -27,7 +27,6 @@ namespace Testing.ResourceNames.Snippets
         /// </remarks>
         public void WildcardMultiPatternMultipleMethodRequestObject()
         {
-            // Snippet: WildcardMultiPatternMultipleMethod(WildcardMultiPatternMultiple, CallSettings)
             // Create client
             ResourceNamesClient resourceNamesClient = ResourceNamesClient.Create();
             // Initialize request argument(s)
@@ -42,7 +41,6 @@ namespace Testing.ResourceNames.Snippets
             };
             // Make the request
             Response response = resourceNamesClient.WildcardMultiPatternMultipleMethod(request);
-            // End snippet
         }
     }
 }

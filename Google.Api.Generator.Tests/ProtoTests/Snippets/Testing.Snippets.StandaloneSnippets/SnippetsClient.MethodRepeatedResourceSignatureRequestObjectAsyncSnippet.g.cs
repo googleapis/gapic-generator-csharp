@@ -28,8 +28,6 @@ namespace Testing.Snippets.Snippets
         /// </remarks>
         public async Task MethodRepeatedResourceSignatureRequestObjectAsync()
         {
-            // Snippet: MethodRepeatedResourceSignatureAsync(RepeatedResourceSignatureRequest, CallSettings)
-            // Additional: MethodRepeatedResourceSignatureAsync(RepeatedResourceSignatureRequest, CancellationToken)
             // Create client
             SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
             // Initialize request argument(s)
@@ -42,7 +40,6 @@ namespace Testing.Snippets.Snippets
             };
             // Make the request
             Response response = await snippetsClient.MethodRepeatedResourceSignatureAsync(request);
-            // End snippet
         }
     }
 }

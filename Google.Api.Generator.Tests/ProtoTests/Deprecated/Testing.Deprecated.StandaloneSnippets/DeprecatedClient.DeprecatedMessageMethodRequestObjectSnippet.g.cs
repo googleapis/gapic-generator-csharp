@@ -27,7 +27,6 @@ namespace Testing.Deprecated.Snippets
         /// </remarks>
         public void DeprecatedMessageMethodRequestObject()
         {
-            // Snippet: DeprecatedMessageMethod(DeprecatedMessageRequest, CallSettings)
             // Create client
             DeprecatedClient deprecatedClient = DeprecatedClient.Create();
             // Initialize request argument(s)
@@ -36,7 +35,6 @@ namespace Testing.Deprecated.Snippets
 #pragma warning restore CS0612
             // Make the request
             Response response = deprecatedClient.DeprecatedMessageMethod(request);
-            // End snippet
         }
     }
 }
