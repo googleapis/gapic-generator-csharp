@@ -125,8 +125,11 @@ namespace Google.Api.Generator.Utils.Roslyn
                     else
                     {
                         var statements = ToStatements(item1).ToList();
-                        result.AddRange(statements.Take(1).Select(x => preTrivia.Any() ? x.WithLeadingTrivia(preTrivia) : x).Concat(statements.Skip(1)));
-                        preTrivia = new SyntaxTriviaList();
+                        if (statements.Count > 0) // This can happen is item1 is null, for instance.
+                        {
+                            result.AddRange(statements.Take(1).Select(x => preTrivia.Any() ? x.WithLeadingTrivia(preTrivia) : x).Concat(statements.Skip(1)));
+                            preTrivia = new SyntaxTriviaList();
+                        }
                     }
                 }
                 if (preTrivia.Any())
