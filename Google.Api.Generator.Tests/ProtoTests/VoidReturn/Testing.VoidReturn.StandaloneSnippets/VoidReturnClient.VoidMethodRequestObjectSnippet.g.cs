@@ -27,7 +27,6 @@ namespace Testing.VoidReturn.Snippets
         /// </remarks>
         public void VoidMethodRequestObject()
         {
-            // Snippet: VoidMethod(Request, CallSettings)
             // Create client
             VoidReturnClient voidReturnClient = VoidReturnClient.Create();
             // Initialize request argument(s)
@@ -37,7 +36,6 @@ namespace Testing.VoidReturn.Snippets
             };
             // Make the request
             voidReturnClient.VoidMethod(request);
-            // End snippet
         }
     }
 }

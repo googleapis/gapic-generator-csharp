@@ -29,8 +29,6 @@ namespace Testing.BasicLro.Snippets
         /// </remarks>
         public async Task Method1RequestObjectAsync()
         {
-            // Snippet: Method1Async(Request, CallSettings)
-            // Additional: Method1Async(Request, CancellationToken)
             // Create client
             BasicLroClient basicLroClient = await BasicLroClient.CreateAsync();
             // Initialize request argument(s)
@@ -53,7 +51,6 @@ namespace Testing.BasicLro.Snippets
                 // If it has completed, then access the result
                 LroResponse retrievedResult = retrievedResponse.Result;
             }
-            // End snippet
         }
     }
 }

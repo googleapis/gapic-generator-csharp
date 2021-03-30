@@ -29,7 +29,6 @@ namespace Testing.Snippets.Snippets
         /// </remarks>
         public void MethodDefaultValuesRequestObject()
         {
-            // Snippet: MethodDefaultValues(DefaultValuesRequest, CallSettings)
             // Create client
             SnippetsClient snippetsClient = SnippetsClient.Create();
             // Initialize request argument(s)
@@ -119,7 +118,6 @@ namespace Testing.Snippets.Snippets
             };
             // Make the request
             Response response = snippetsClient.MethodDefaultValues(request);
-            // End snippet
         }
     }
 }

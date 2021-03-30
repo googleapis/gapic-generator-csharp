@@ -29,15 +29,12 @@ namespace Testing.Snippets.Snippets
         /// </remarks>
         public async Task MethodMapSignatureAsync()
         {
-            // Snippet: MethodMapSignatureAsync(IDictionary<int,string>, CallSettings)
-            // Additional: MethodMapSignatureAsync(IDictionary<int,string>, CancellationToken)
             // Create client
             SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
             // Initialize request argument(s)
             IDictionary<int, string> mapIntString = new Dictionary<int, string> { { 0, "" }, };
             // Make the request
             Response response = await snippetsClient.MethodMapSignatureAsync(mapIntString);
-            // End snippet
         }
     }
 }

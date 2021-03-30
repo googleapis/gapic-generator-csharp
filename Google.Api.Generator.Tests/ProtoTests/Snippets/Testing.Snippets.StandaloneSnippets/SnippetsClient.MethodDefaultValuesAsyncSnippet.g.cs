@@ -29,8 +29,6 @@ namespace Testing.Snippets.Snippets
         /// </remarks>
         public async Task MethodDefaultValuesAsync()
         {
-            // Snippet: MethodDefaultValuesAsync(IEnumerable<double>, IEnumerable<DefaultValuesRequest.Types.NestedMessage>, IEnumerable<string>, CallSettings)
-            // Additional: MethodDefaultValuesAsync(IEnumerable<double>, IEnumerable<DefaultValuesRequest.Types.NestedMessage>, IEnumerable<string>, CancellationToken)
             // Create client
             SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
             // Initialize request argument(s)
@@ -45,7 +43,6 @@ namespace Testing.Snippets.Snippets
             };
             // Make the request
             Response response = await snippetsClient.MethodDefaultValuesAsync(repeatedDouble, repeatedNestedMessage, repeatedResourceName);
-            // End snippet
         }
     }
 }

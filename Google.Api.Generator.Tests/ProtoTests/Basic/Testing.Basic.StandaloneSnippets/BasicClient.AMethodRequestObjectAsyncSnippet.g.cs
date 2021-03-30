@@ -28,15 +28,12 @@ namespace Testing.Basic.Snippets
         /// </remarks>
         public async Task AMethodRequestObjectAsync()
         {
-            // Snippet: AMethodAsync(Request, CallSettings)
-            // Additional: AMethodAsync(Request, CancellationToken)
             // Create client
             BasicClient basicClient = await BasicClient.CreateAsync();
             // Initialize request argument(s)
             Request request = new Request { };
             // Make the request
             Response response = await basicClient.AMethodAsync(request);
-            // End snippet
         }
     }
 }

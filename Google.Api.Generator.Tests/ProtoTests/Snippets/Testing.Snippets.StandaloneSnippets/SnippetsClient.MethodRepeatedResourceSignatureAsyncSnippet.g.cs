@@ -29,15 +29,12 @@ namespace Testing.Snippets.Snippets
         /// </remarks>
         public async Task MethodRepeatedResourceSignatureAsync()
         {
-            // Snippet: MethodRepeatedResourceSignatureAsync(IEnumerable<string>, CallSettings)
-            // Additional: MethodRepeatedResourceSignatureAsync(IEnumerable<string>, CancellationToken)
             // Create client
             SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
             // Initialize request argument(s)
             IEnumerable<string> names = new string[] { "items/[ITEM_ID]", };
             // Make the request
             Response response = await snippetsClient.MethodRepeatedResourceSignatureAsync(names);
-            // End snippet
         }
     }
 }

@@ -27,14 +27,12 @@ namespace Testing.Snippets.Snippets
         /// </remarks>
         public void TaskMethodRequestObject()
         {
-            // Snippet: TaskMethod(Task, CallSettings)
             // Create client
             SnippetsClient snippetsClient = SnippetsClient.Create();
             // Initialize request argument(s)
             Task request = new Task { };
             // Make the request
             Task response = snippetsClient.TaskMethod(request);
-            // End snippet
         }
     }
 }

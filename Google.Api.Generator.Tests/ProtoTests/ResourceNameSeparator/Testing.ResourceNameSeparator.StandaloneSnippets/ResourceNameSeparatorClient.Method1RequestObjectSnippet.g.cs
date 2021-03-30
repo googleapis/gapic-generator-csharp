@@ -27,7 +27,6 @@ namespace Testing.ResourceNameSeparator.Snippets
         /// </remarks>
         public void Method1RequestObject()
         {
-            // Snippet: Method1(Request, CallSettings)
             // Create client
             ResourceNameSeparatorClient resourceNameSeparatorClient = ResourceNameSeparatorClient.Create();
             // Initialize request argument(s)
@@ -38,7 +37,6 @@ namespace Testing.ResourceNameSeparator.Snippets
             };
             // Make the request
             Response response = resourceNameSeparatorClient.Method1(request);
-            // End snippet
         }
     }
 }

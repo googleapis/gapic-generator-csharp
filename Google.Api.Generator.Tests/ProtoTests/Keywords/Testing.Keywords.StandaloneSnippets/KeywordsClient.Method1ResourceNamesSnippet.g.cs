@@ -27,7 +27,6 @@ namespace Testing.Keywords.Snippets
         /// </remarks>
         public void Method1ResourceNames()
         {
-            // Snippet: Method1(ResourceName, int, Enum, string, string, CallSettings)
             // Create client
             KeywordsClient keywordsClient = KeywordsClient.Create();
             // Initialize request argument(s)
@@ -38,7 +37,6 @@ namespace Testing.Keywords.Snippets
             string types = "";
             // Make the request
             Response response = keywordsClient.Method1(@event, @switch, @void, request, types);
-            // End snippet
         }
     }
 }

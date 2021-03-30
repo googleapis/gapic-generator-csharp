@@ -28,8 +28,6 @@ namespace Testing.Snippets.Snippets
         /// </remarks>
         public async Task MethodOneSignatureAsync()
         {
-            // Snippet: MethodOneSignatureAsync(string, int, bool, CallSettings)
-            // Additional: MethodOneSignatureAsync(string, int, bool, CancellationToken)
             // Create client
             SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
             // Initialize request argument(s)
@@ -38,7 +36,6 @@ namespace Testing.Snippets.Snippets
             bool aBool = false;
             // Make the request
             Response response = await snippetsClient.MethodOneSignatureAsync(aString, anInt, aBool);
-            // End snippet
         }
     }
 }

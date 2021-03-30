@@ -28,14 +28,12 @@ namespace Testing.Snippets.Snippets
         /// </remarks>
         public void MethodRepeatedResourceSignature()
         {
-            // Snippet: MethodRepeatedResourceSignature(IEnumerable<string>, CallSettings)
             // Create client
             SnippetsClient snippetsClient = SnippetsClient.Create();
             // Initialize request argument(s)
             IEnumerable<string> names = new string[] { "items/[ITEM_ID]", };
             // Make the request
             Response response = snippetsClient.MethodRepeatedResourceSignature(names);
-            // End snippet
         }
     }
 }

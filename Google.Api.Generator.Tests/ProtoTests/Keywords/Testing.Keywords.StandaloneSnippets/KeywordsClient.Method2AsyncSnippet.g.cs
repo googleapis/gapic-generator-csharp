@@ -28,8 +28,6 @@ namespace Testing.Keywords.Snippets
         /// </remarks>
         public async Task Method2Async()
         {
-            // Snippet: Method2Async(string, Enum, CallSettings)
-            // Additional: Method2Async(string, Enum, CancellationToken)
             // Create client
             KeywordsClient keywordsClient = await KeywordsClient.CreateAsync();
             // Initialize request argument(s)
@@ -37,7 +35,6 @@ namespace Testing.Keywords.Snippets
             Enum @enum = Enum.Void;
             // Make the request
             Response response = await keywordsClient.Method2Async(@while, @enum);
-            // End snippet
         }
     }
 }

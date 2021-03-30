@@ -27,14 +27,12 @@ namespace Testing.Basic.Snippets
         /// </remarks>
         public void AMethodRequestObject()
         {
-            // Snippet: AMethod(Request, CallSettings)
             // Create client
             BasicClient basicClient = BasicClient.Create();
             // Initialize request argument(s)
             Request request = new Request { };
             // Make the request
             Response response = basicClient.AMethod(request);
-            // End snippet
         }
     }
 }

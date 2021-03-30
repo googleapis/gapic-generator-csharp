@@ -27,7 +27,6 @@ namespace Testing.Snippets.Snippets
         /// </remarks>
         public void MethodResourceSignatureRequestObject()
         {
-            // Snippet: MethodResourceSignature(ResourceSignatureRequest, CallSettings)
             // Create client
             SnippetsClient snippetsClient = SnippetsClient.Create();
             // Initialize request argument(s)
@@ -39,7 +38,6 @@ namespace Testing.Snippets.Snippets
             };
             // Make the request
             Response response = snippetsClient.MethodResourceSignature(request);
-            // End snippet
         }
     }
 }

@@ -27,7 +27,6 @@ namespace Testing.Snippets.Snippets
         /// </remarks>
         public void MethodResourceSignature1ResourceNames()
         {
-            // Snippet: MethodResourceSignature(SimpleResourceName, SimpleResourceName, SimpleResourceName, CallSettings)
             // Create client
             SnippetsClient snippetsClient = SnippetsClient.Create();
             // Initialize request argument(s)
@@ -36,7 +35,6 @@ namespace Testing.Snippets.Snippets
             SimpleResourceName thirdName = SimpleResourceName.FromItem("[ITEM_ID]");
             // Make the request
             Response response = snippetsClient.MethodResourceSignature(firstName, secondName, thirdName);
-            // End snippet
         }
     }
 }

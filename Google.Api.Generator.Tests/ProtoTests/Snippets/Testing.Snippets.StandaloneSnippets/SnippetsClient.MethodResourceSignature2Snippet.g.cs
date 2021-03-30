@@ -27,14 +27,12 @@ namespace Testing.Snippets.Snippets
         /// </remarks>
         public void MethodResourceSignature2()
         {
-            // Snippet: MethodResourceSignature(string, CallSettings)
             // Create client
             SnippetsClient snippetsClient = SnippetsClient.Create();
             // Initialize request argument(s)
             string firstName = "items/[ITEM_ID]";
             // Make the request
             Response response = snippetsClient.MethodResourceSignature(firstName);
-            // End snippet
         }
     }
 }

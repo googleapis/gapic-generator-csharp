@@ -27,7 +27,6 @@ namespace Testing.Snippets.Snippets
         /// </remarks>
         public void MethodMapSignatureRequestObject()
         {
-            // Snippet: MethodMapSignature(SignatureRequest, CallSettings)
             // Create client
             SnippetsClient snippetsClient = SnippetsClient.Create();
             // Initialize request argument(s)
@@ -40,7 +39,6 @@ namespace Testing.Snippets.Snippets
             };
             // Make the request
             Response response = snippetsClient.MethodMapSignature(request);
-            // End snippet
         }
     }
 }

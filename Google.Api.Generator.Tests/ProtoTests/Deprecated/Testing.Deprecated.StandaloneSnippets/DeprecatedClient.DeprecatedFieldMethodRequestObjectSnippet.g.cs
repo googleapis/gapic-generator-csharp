@@ -27,14 +27,12 @@ namespace Testing.Deprecated.Snippets
         /// </remarks>
         public void DeprecatedFieldMethodRequestObject()
         {
-            // Snippet: DeprecatedFieldMethod(DeprecatedFieldRequest, CallSettings)
             // Create client
             DeprecatedClient deprecatedClient = DeprecatedClient.Create();
             // Initialize request argument(s)
             DeprecatedFieldRequest request = new DeprecatedFieldRequest { };
             // Make the request
             Response response = deprecatedClient.DeprecatedFieldMethod(request);
-            // End snippet
         }
     }
 }

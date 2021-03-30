@@ -27,7 +27,6 @@ namespace Testing.Keywords.Snippets
         /// </remarks>
         public void Method2()
         {
-            // Snippet: Method2(string, Enum, CallSettings)
             // Create client
             KeywordsClient keywordsClient = KeywordsClient.Create();
             // Initialize request argument(s)
@@ -35,7 +34,6 @@ namespace Testing.Keywords.Snippets
             Enum @enum = Enum.Void;
             // Make the request
             Response response = keywordsClient.Method2(@while, @enum);
-            // End snippet
         }
     }
 }

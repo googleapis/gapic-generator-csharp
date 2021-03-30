@@ -28,15 +28,12 @@ namespace Testing.Snippets.Snippets
         /// </remarks>
         public async Task TaskMethodRequestObjectAsync()
         {
-            // Snippet: TaskMethodAsync(Task, CallSettings)
-            // Additional: TaskMethodAsync(Task, CancellationToken)
             // Create client
             SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
             // Initialize request argument(s)
             ts::Task request = new ts::Task { };
             // Make the request
             ts::Task response = await snippetsClient.TaskMethodAsync(request);
-            // End snippet
         }
     }
 }

@@ -27,12 +27,10 @@ namespace Testing.Snippets.Snippets
         /// </remarks>
         public void MethodThreeSignatures3()
         {
-            // Snippet: MethodThreeSignatures(CallSettings)
             // Create client
             SnippetsClient snippetsClient = SnippetsClient.Create();
             // Make the request
             Response response = snippetsClient.MethodThreeSignatures();
-            // End snippet
         }
     }
 }

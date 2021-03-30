@@ -28,8 +28,6 @@ namespace Testing.Keywords.Snippets
         /// </remarks>
         public async Task Method2RequestObjectAsync()
         {
-            // Snippet: Method2Async(Resource, CallSettings)
-            // Additional: Method2Async(Resource, CancellationToken)
             // Create client
             KeywordsClient keywordsClient = await KeywordsClient.CreateAsync();
             // Initialize request argument(s)
@@ -40,7 +38,6 @@ namespace Testing.Keywords.Snippets
             };
             // Make the request
             Response response = await keywordsClient.Method2Async(request);
-            // End snippet
         }
     }
 }

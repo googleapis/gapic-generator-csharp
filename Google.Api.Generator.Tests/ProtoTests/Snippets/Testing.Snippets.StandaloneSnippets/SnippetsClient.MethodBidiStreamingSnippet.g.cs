@@ -29,7 +29,6 @@ namespace Testing.Snippets.Snippets
         /// </remarks>
         public async Task MethodBidiStreaming()
         {
-            // Snippet: MethodBidiStreaming(CallSettings, BidirectionalStreamingSettings)
             // Create client
             SnippetsClient snippetsClient = SnippetsClient.Create();
             // Initialize streaming call, retrieving the stream object
@@ -73,7 +72,6 @@ namespace Testing.Snippets.Snippets
             // Await the response handler
             // This will complete once all server responses have been processed
             await responseHandlerTask;
-            // End snippet
         }
     }
 }

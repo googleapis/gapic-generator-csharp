@@ -28,8 +28,6 @@ namespace Testing.ResourceNameSeparator.Snippets
         /// </remarks>
         public async Task Method1ResourceNamesAsync()
         {
-            // Snippet: Method1Async(RequestName, RequestName, CallSettings)
-            // Additional: Method1Async(RequestName, RequestName, CancellationToken)
             // Create client
             ResourceNameSeparatorClient resourceNameSeparatorClient = await ResourceNameSeparatorClient.CreateAsync();
             // Initialize request argument(s)
@@ -37,7 +35,6 @@ namespace Testing.ResourceNameSeparator.Snippets
             RequestName @ref = RequestName.FromItemAItemBDetailsADetailsBDetailsCExtra("[ITEM_A_ID]", "[ITEM_B_ID]", "[DETAILS_A_ID]", "[DETAILS_B_ID]", "[DETAILS_C_ID]", "[EXTRA_ID]");
             // Make the request
             Response response = await resourceNameSeparatorClient.Method1Async(name, @ref);
-            // End snippet
         }
     }
 }
