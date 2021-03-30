@@ -5,6 +5,45 @@
   "protoPackage": "testing.grpcserviceconfig",
   "libraryPackage": "Testing.GrpcServiceConfig",
   "services": {
+    "GrpcServiceConfig": {
+      "clients": {
+        "grpc": {
+          "libraryClient": "GrpcServiceConfigClient",
+          "rpcs": {
+            "MethodLevelRetryMethod": {
+              "methods": [
+                "MethodLevelRetryMethod",
+                "MethodLevelRetryMethodAsync"
+              ]
+            },
+            "MethodTimeoutOnly": {
+              "methods": [
+                "MethodTimeoutOnly",
+                "MethodTimeoutOnlyAsync"
+              ]
+            },
+            "MethodWithBidiRetry": {
+              "methods": [
+                "MethodWithBidiRetry",
+                "MethodWithBidiRetryAsync"
+              ]
+            },
+            "MethodWithServerRetry": {
+              "methods": [
+                "MethodWithServerRetry",
+                "MethodWithServerRetryAsync"
+              ]
+            },
+            "ServiceLevelRetryMethod": {
+              "methods": [
+                "ServiceLevelRetryMethod",
+                "ServiceLevelRetryMethodAsync"
+              ]
+            }
+          }
+        }
+      }
+    },
     "GrpcServiceConfigNoRetry": {
       "clients": {
         "grpc": {
@@ -14,45 +53,6 @@
               "methods": [
                 "NoRetryMethod",
                 "NoRetryMethodAsync"
-              ]
-            }
-          }
-        }
-      }
-    },
-    "GrpcServiceConfig": {
-      "clients": {
-        "grpc": {
-          "libraryClient": "GrpcServiceConfigClient",
-          "rpcs": {
-            "ServiceLevelRetryMethod": {
-              "methods": [
-                "ServiceLevelRetryMethod",
-                "ServiceLevelRetryMethodAsync"
-              ]
-            },
-            "MethodLevelRetryMethod": {
-              "methods": [
-                "MethodLevelRetryMethod",
-                "MethodLevelRetryMethodAsync"
-              ]
-            },
-            "MethodWithServerRetry": {
-              "methods": [
-                "MethodWithServerRetry",
-                "MethodWithServerRetryAsync"
-              ]
-            },
-            "MethodWithBidiRetry": {
-              "methods": [
-                "MethodWithBidiRetry",
-                "MethodWithBidiRetryAsync"
-              ]
-            },
-            "MethodTimeoutOnly": {
-              "methods": [
-                "MethodTimeoutOnly",
-                "MethodTimeoutOnlyAsync"
               ]
             }
           }
