@@ -47,15 +47,15 @@ namespace Google.Api.Generator.Rest.Models
         /// <summary>
         /// Equivalent to ToClassName in csharp_generator.py
         /// </summary>
-        internal static string ToClassName(this string name, PackageModel package, string containingClass)
+        internal static string ToClassName(this string name, PackageModel package, string containingClass, bool escapeIfKeyword = true)
         {
-            if (Keywords.IsKeyword(name.ToLowerInvariant()))
+            if (escapeIfKeyword && Keywords.IsKeyword(name.ToLowerInvariant()))
             {
                 return package.ClassName.ToUpperCamelCase() + name.ToUpperCamelCase();
             }
             // csharp_generator.py splits by dots and then joins the bits together with dots,
             // but we never need that (and it causes issues with names like "$.xgafv").
-            var candidate = ToMemberName(name);
+            var candidate = ToMemberName(name, addUnderscoresToEscape: escapeIfKeyword);
             var suffix = candidate == containingClass ? "Schema" : "";
             return candidate + suffix;
         }

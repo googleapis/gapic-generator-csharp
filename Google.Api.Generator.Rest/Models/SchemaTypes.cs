@@ -78,7 +78,7 @@ namespace Google.Api.Generator.Rest.Models
             }
             else if (inParameter && schema.Enum__ is object)
             {
-                Typ enumTyp = Typ.Nested(currentTyp, name.ToClassName(package, currentTyp.Name) + "Enum", isEnum: true);
+                Typ enumTyp = Typ.Nested(currentTyp, name.ToClassName(package, currentTyp.Name, escapeIfKeyword: false) + "Enum", isEnum: true);
                 return (schema.Required ?? false) ? enumTyp : Typ.Generic(Typ.Of(typeof(Nullable<>)), enumTyp);
             }
             else if (schema.Repeated ?? false)
