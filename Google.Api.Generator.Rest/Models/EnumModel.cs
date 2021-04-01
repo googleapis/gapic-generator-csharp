@@ -47,7 +47,7 @@ namespace Google.Api.Generator.Rest.Models
             IList<string> values = schema.Enum__;
             IList<string> description = schema.EnumDescriptions;
             Description = schema.Description;
-            TypeName = name.ToMemberName() + "Enum";
+            TypeName = name.ToMemberName(addUnderscoresToEscape: false) + "Enum";
             // The exact value of the key doesn't particularly matter, so long as it's unique.
             // This should be fine.
             string enumStorageKey = $"{parentTyp.FullName}.{TypeName}";
