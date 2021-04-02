@@ -32,9 +32,9 @@ namespace Google.Api.Generator {
             "dG9yLkNvbW1vblJlc291cmNlYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
-          new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Api.Generator.CommonResource), global::Google.Api.Generator.CommonResource.Parser, new[]{ "Type", "CsharpPackageName", "CsharpNamespace", "CsharpClassName" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Api.Generator.CommonResources), global::Google.Api.Generator.CommonResources.Parser, new[]{ "CommonResources_" }, null, null, null)
+          new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Api.Generator.CommonResource), global::Google.Api.Generator.CommonResource.Parser, new[]{ "Type", "CsharpPackageName", "CsharpNamespace", "CsharpClassName" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Api.Generator.CommonResources), global::Google.Api.Generator.CommonResources.Parser, new[]{ "CommonResources_" }, null, null, null, null)
           }));
     }
     #endregion

@@ -33,6 +33,7 @@ namespace Google.Api.Generator
         private const string nameGenerateMetadataConfig = "metadata";
         private const string nameGrpcServiceConfig = "grpc-service-config";
         private const string nameCommonResourcesConfig = "common-resources-config";
+        private const string nameServiceYaml = "service-yaml";
 
         private static IImmutableSet<string> s_validParameters = ImmutableHashSet.Create(
             nameGrpcServiceConfig,
@@ -52,6 +53,9 @@ namespace Google.Api.Generator
 
             [Option(nameGrpcServiceConfig, Required = false, HelpText = "Client-side gRPC service config path. JSON proto of type ServiceConfig.")]
             public string GrpcServiceConfig { get; private set; }
+
+            [Option(nameServiceYaml, Required = false, HelpText = "Client-side service.yaml config file path.")]
+            public string ServiceYaml { get; private set; }
 
             [Option(nameCommonResourcesConfig, Required = false, HelpText = "Common resources config path. JSON proto of type CommonResources.")]
             public IEnumerable<string> CommonResourcesConfigs { get; private set; }
@@ -167,9 +171,10 @@ namespace Google.Api.Generator
                 var grpcServiceConfigPath = extraParams.GetValueOrDefault(nameGrpcServiceConfig)?.SingleOrDefault();
                 var commonResourcesConfigPaths = extraParams.GetValueOrDefault(nameCommonResourcesConfig);
                 var generateMetadata = extraParams.GetValueOrDefault(nameGenerateMetadataConfig)?.SingleOrDefault() == "true";
+                var serviceYamlPath = extraParams.GetValueOrDefault(nameServiceYaml)?.SingleOrDefault();
 
                 var results = CodeGenerator.Generate(codeGenRequest.ProtoFile, codeGenRequest.FileToGenerate,
-                    SystemClock.Instance, grpcServiceConfigPath, commonResourcesConfigPaths, generateMetadata);
+                    SystemClock.Instance, grpcServiceConfigPath, commonResourcesConfigPaths, generateMetadata, serviceYamlPath);
 
                 codeGenResponse = new CodeGeneratorResponse
                 {
@@ -230,7 +235,7 @@ namespace Google.Api.Generator
             var descriptorBytes = File.ReadAllBytes(options.Descriptor);
             var fileDescriptorSet = FileDescriptorSet.Parser.ParseFrom(descriptorBytes);
             var files = CodeGenerator.Generate(fileDescriptorSet, options.Package, SystemClock.Instance,
-                options.GrpcServiceConfig, options.CommonResourcesConfigs, options.GenerateMetadata);
+                options.GrpcServiceConfig, options.CommonResourcesConfigs, options.GenerateMetadata, options.ServiceYaml);
             foreach (var file in files)
             {
                 var path = Path.Combine(options.Output, file.RelativePath);
