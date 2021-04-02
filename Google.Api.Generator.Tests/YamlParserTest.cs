@@ -26,16 +26,16 @@ namespace Google.Api.Generator.Tests
         [Fact]
         public void CheckDeserialization()
         {
-            const string name = "dialogflow.googleapis.com";
+            const string name = "";
             const string title = "Dialogflow API";
-            var serviceYaml = String.Format(s, name, title);
-            var syaml = ServiceYaml.ParseYaml(s);
+            var serviceYaml = String.Format(serviceYamlTemplate, name, title);
+            var syaml = ServiceYaml.ParseYaml(serviceYaml);
             Assert.NotNull(syaml);
             Assert.Equal(name, syaml.Name);
             Assert.Equal(title, syaml.Title);
         }
 
-        static string s = @"
+        static string serviceYamlTemplate = @"
 type: google.api.Service
 config_version: 3
 name: {0}
