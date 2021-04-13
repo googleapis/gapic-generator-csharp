@@ -32,6 +32,7 @@ namespace Testing.RoutingHeaders
         public gaxgrpc::CallSettings DeleteMethodSettings => throw new sys::NotImplementedException();
         public gaxgrpc::CallSettings GetNoTemplateMethodSettings => throw new sys::NotImplementedException();
         public gaxgrpc::CallSettings NestedMultiMethodSettings => throw new sys::NotImplementedException();
+        public gaxgrpc::CallSettings ServerStreamingMethodSettings => throw new sys::NotImplementedException();
     }
 
     public abstract class RoutingHeadersClient
@@ -49,7 +50,7 @@ namespace Testing.RoutingHeaders
         private readonly gaxgrpc::ApiCall<SimpleRequest, Response> _callDeleteMethod;
         private readonly gaxgrpc::ApiCall<SimpleRequest, Response> _callGetNoTemplateMethod;
         private readonly gaxgrpc::ApiCall<NestedRequest, Response> _callNestedMultiMethod;
-
+        private readonly gaxgrpc::ApiServerStreamingCall<SimpleRequest, Response> _callServerStreamingMethod;
 
         // TEST_START
         public RoutingHeadersClientImpl(RoutingHeaders.RoutingHeadersClient grpcClient, RoutingHeadersSettings settings)
@@ -81,11 +82,15 @@ namespace Testing.RoutingHeaders
             _callNestedMultiMethod = clientHelper.BuildApiCall<NestedRequest, Response>(grpcClient.NestedMultiMethodAsync, grpcClient.NestedMultiMethod, effectiveSettings.NestedMultiMethodSettings).WithGoogleRequestParam("nest1.nest2.name", request => request.Nest1?.Nest2?.Name).WithGoogleRequestParam("name", request => request.Name);
             Modify_ApiCall(ref _callNestedMultiMethod);
             Modify_NestedMultiMethodApiCall(ref _callNestedMultiMethod);
+            _callServerStreamingMethod = clientHelper.BuildApiCall<SimpleRequest, Response>(grpcClient.ServerStreamingMethod, effectiveSettings.ServerStreamingMethodSettings).WithGoogleRequestParam("name", request => request.Name);
+            Modify_ApiCall(ref _callServerStreamingMethod);
+            Modify_ServerStreamingMethodApiCall(ref _callServerStreamingMethod);
             OnConstruction(grpcClient, effectiveSettings, clientHelper);
         }
         // TEST_END
 
         partial void Modify_ApiCall<TRequest, TResponse>(ref gaxgrpc::ApiCall<TRequest, TResponse> call) where TRequest : class, proto::IMessage<TRequest> where TResponse : class, proto::IMessage<TResponse>;
+        partial void Modify_ApiCall<TRequest, TResponse>(ref gaxgrpc::ApiServerStreamingCall<TRequest, TResponse> call) where TRequest : class, proto::IMessage<TRequest> where TResponse : class, proto::IMessage<TResponse>; 
         partial void Modify_NoUrlMethodApiCall(ref gaxgrpc::ApiCall<SimpleRequest, Response> call);
         partial void Modify_GetMethodApiCall(ref gaxgrpc::ApiCall<SimpleRequest, Response> call);
         partial void Modify_PostMethodApiCall(ref gaxgrpc::ApiCall<SimpleRequest, Response> call);
@@ -94,6 +99,7 @@ namespace Testing.RoutingHeaders
         partial void Modify_DeleteMethodApiCall(ref gaxgrpc::ApiCall<SimpleRequest, Response> call);
         partial void Modify_GetNoTemplateMethodApiCall(ref gaxgrpc::ApiCall<SimpleRequest, Response> call);
         partial void Modify_NestedMultiMethodApiCall(ref gaxgrpc::ApiCall<NestedRequest, Response> call);
+        partial void Modify_ServerStreamingMethodApiCall(ref gaxgrpc::ApiServerStreamingCall<SimpleRequest, Response> call);
         partial void OnConstruction(RoutingHeaders.RoutingHeadersClient grpcClient, RoutingHeadersSettings settings, gaxgrpc::ClientHelper clientHelper);
 
         RoutingHeaders.RoutingHeadersClient GrpcClient { get; }
