@@ -37,6 +37,8 @@ namespace Testing.RoutingHeaders
             public AsyncUnaryCall<Response> GetNoTemplateMethodAsync(SimpleRequest request, CallOptions options) => throw new NotImplementedException();
             public Response NestedMultiMethod(NestedRequest request, CallOptions options) => throw new NotImplementedException();
             public AsyncUnaryCall<Response> NestedMultiMethodAsync(NestedRequest request, CallOptions options) => throw new NotImplementedException();
+            public AsyncServerStreamingCall<Response> ServerStreamingMethod(SimpleRequest request, CallOptions options) =>
+                throw new NotImplementedException();
         }
     }
 

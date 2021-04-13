@@ -127,28 +127,35 @@ namespace Google.Api.Generator.Generation
                     case MethodDetails.ServerStreaming _:
                         var fieldInitServer = clientHelper.Call(nameof(ClientHelper.BuildApiCall), _ctx.Type(method.RequestTyp), _ctx.Type(method.ResponseTyp))(
                             grpcClient.Access(method.SyncMethodName), effectiveSettings.Access(method.SettingsName));
-                        yield return field.Assign(fieldInitServer);
+                        yield return field.Assign(WithGoogleRequestParams(fieldInitServer));
                         break;
                     default:
                         var fieldInit = clientHelper.Call(nameof(ClientHelper.BuildApiCall), _ctx.Type(method.RequestTyp), _ctx.Type(method.ResponseTyp))(
                             grpcClient.Access(method.AsyncMethodName), grpcClient.Access(method.SyncMethodName), effectiveSettings.Access(method.SettingsName));
-                        var request = Parameter(_ctx.Type(method.RequestTyp), "request");
-                        foreach (var header in method.RoutingHeaders)
-                        {
-                            var access = request.Access(header.PropertyNames.First());
-                            foreach (var propertyName in header.PropertyNames.Skip(1))
-                            {
-                                access = access.Access(propertyName, conditional: true);
-                            }
-                            fieldInit = fieldInit.Call(nameof(ApiCall<ProtoMsg, ProtoMsg>.WithGoogleRequestParam))(
-                                header.EncodedName, Lambda(request)(access));
-                        }
-                        yield return field.Assign(fieldInit);
+                        yield return field.Assign(WithGoogleRequestParams(fieldInit));
                         break;
                 }
                 // Call modify partial methods.
                 yield return This.Call(modifyApiCall)(Ref(field));
                 yield return This.Call(method.ModifyApiCallMethodName)(Ref(field));
+
+                InvocationExpressionSyntax WithGoogleRequestParams(InvocationExpressionSyntax fieldInitializer)
+                {
+                    var request = Parameter(_ctx.Type(method.RequestTyp), "request");
+                    foreach (var header in method.RoutingHeaders)
+                    {
+                        var access = request.Access(header.PropertyNames.First());
+                        foreach (var propertyName in header.PropertyNames.Skip(1))
+                        {
+                            access = access.Access(propertyName, conditional: true);
+                        }
+                        // Note: the name "WithGoogleRequestParam" is the same across ApiCall and ApiServerStreamingCall,
+                        // so we don't need to distinguish between them here.
+                        fieldInitializer = fieldInitializer.Call(nameof(ApiCall<ProtoMsg, ProtoMsg>.WithGoogleRequestParam))(
+                            header.EncodedName, Lambda(request)(access));
+                    }
+                    return fieldInitializer;
+                }
             }
         }
 

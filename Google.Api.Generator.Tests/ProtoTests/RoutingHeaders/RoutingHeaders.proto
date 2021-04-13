@@ -16,12 +16,13 @@ service RoutingHeaders {
   rpc PutMethod(SimpleRequest) returns(Response) { option (google.api.http).put = "{name=items/*}/child"; };
   rpc PatchMethod(SimpleRequest) returns(Response) { option (google.api.http).patch = "{name=items/*}/child"; };
   rpc DeleteMethod(SimpleRequest) returns(Response) { option (google.api.http).delete = "{name=items/*}/child"; };
-
   rpc GetNoTemplateMethod(SimpleRequest) returns(Response) { option (google.api.http).get = "{name}/child"; };
 
   rpc NestedMultiMethod(NestedRequest) returns(Response) {
     option (google.api.http).get = "{nest1.nest2.name=items/*}/child1/{name=items/*}/child2";
   };
+
+  rpc ServerStreamingMethod(SimpleRequest) returns (stream Response) { option (google.api.http).post = "{name=items/*}/child"; };
 }
 
 message SimpleRequest {
