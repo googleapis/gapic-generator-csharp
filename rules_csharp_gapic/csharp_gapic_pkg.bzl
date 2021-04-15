@@ -15,8 +15,9 @@
 load("@com_google_api_codegen//rules_gapic:gapic.bzl", "GapicInfo")
 
 def _csharp_gapic_assembly_pkg_impl(ctx):
+    out_tar = ctx.outputs.tgz
     out_dir = ctx.actions.declare_directory(ctx.attr.package_dir)
-    out_tar = ctx.actions.declare_file("{dir}.tar.gz".format(dir = ctx.attr.package_dir))
+    
     gapic_zip = None
     extras = []
     for dep in ctx.attr.deps:
@@ -27,7 +28,7 @@ def _csharp_gapic_assembly_pkg_impl(ctx):
 
     ctx.actions.run_shell(
         inputs = [gapic_zip] + extras,
-        outputs = [out_dir, out_tar],
+        outputs = [out_tar, out_dir],
         tools = [ctx.executable._zipper],
         command = """
 {zipper} x {gapic_zip} -d {out_dir}
@@ -46,7 +47,7 @@ tar -czhpf {out_tar} -C {out_dir}/.. {pkg_name}
         )
     )
     return [DefaultInfo(
-        files = depset(direct = [out_tar])
+        files = depset(direct = [out_tar, out_dir])
     )]
 
 _csharp_gapic_assembly_pkg = rule(
@@ -55,7 +56,10 @@ _csharp_gapic_assembly_pkg = rule(
         "deps": attr.label_list(mandatory = True, allow_files = True),
         "package_dir": attr.string(mandatory = True),
         "_zipper": attr.label(default = Label("@bazel_tools//tools/zip:zipper"), cfg = "host", executable = True),
-    }
+    },
+    outputs = {
+        "tgz": "%{name}.tar.gz",
+    },
 )
 
 def csharp_gapic_assembly_pkg(name, deps, **kwargs):
