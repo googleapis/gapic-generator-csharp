@@ -78,19 +78,20 @@ namespace Google.Api.Generator
         };
 
         public static IEnumerable<ResultFile> Generate(FileDescriptorSet descriptorSet, string package, IClock clock,
-            string grpcServiceConfigPath, IEnumerable<string> commonResourcesConfigPaths, bool generateMetadata)
+            string grpcServiceConfigPath, IEnumerable<string> commonResourcesConfigPaths, bool generateMetadata, string serviceYamlPath)
         {
             var descriptors = descriptorSet.File;
             var filesToGenerate = descriptors.Where(x => x.Package == package).Select(x => x.Name).ToList();
-            return Generate(descriptors, filesToGenerate, clock, grpcServiceConfigPath, commonResourcesConfigPaths, generateMetadata);
+            return Generate(descriptors, filesToGenerate, clock, grpcServiceConfigPath, commonResourcesConfigPaths, generateMetadata, serviceYamlPath);
         }
 
         public static IEnumerable<ResultFile> Generate(IReadOnlyList<FileDescriptorProto> descriptorProtos, IEnumerable<string> filesToGenerate, IClock clock,
-            string grpcServiceConfigPath, IEnumerable<string> commonResourcesConfigPaths, bool generateMetadata)
+            string grpcServiceConfigPath, IEnumerable<string> commonResourcesConfigPaths, bool generateMetadata, string serviceYamlPath)
         {
             var descriptors = FileDescriptor.BuildFromByteStrings(descriptorProtos.Select(proto => proto.ToByteString()), s_registry);
             // Load side-loaded configurations; both optional.
             var grpcServiceConfig = grpcServiceConfigPath != null ? ServiceConfig.Parser.ParseJson(File.ReadAllText(grpcServiceConfigPath)) : null;
+            var serviceYaml = serviceYamlPath != null ? ServiceYaml.ParseYaml(File.ReadAllText(serviceYamlPath)) : null;
             var commonResourcesConfigs = commonResourcesConfigPaths != null ?
                 commonResourcesConfigPaths.Select(path => CommonResources.Parser.ParseJson(File.ReadAllText(path))) : null;
             // TODO: Multi-package support not tested.

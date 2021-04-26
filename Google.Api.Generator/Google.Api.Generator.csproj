@@ -15,6 +15,7 @@
     <PackageReference Include="Google.LongRunning" Version="2.0.0-beta01" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="2.10.0" />
     <PackageReference Include="Moq" Version="4.12.0" />
+    <PackageReference Include="SharpYaml" Version="1.6.6" />
     <PackageReference Include="System.Linq.Async" Version="4.0.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
   </ItemGroup>
