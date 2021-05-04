@@ -15,6 +15,7 @@
 using Google.Api.Gax;
 using Google.Api.Generator.Utils;
 using Google.Protobuf.Reflection;
+using Google.Protobuf.WellKnownTypes;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
@@ -226,6 +227,14 @@ namespace Google.Api.Generator.ProtoUtils
             var resourceRef = fieldDesc.GetExtension(ResourceExtensions.ResourceReference);
             if (resourceRef is object)
             {
+                // Resource references must be string fields, or StringValue (well-known type) fields.
+                // It's a relatively common error to put the annotation on a message field instead, which
+                // will otherwise generate invalid code - better to fail generation.
+                if (fieldDesc.FieldType != FieldType.String &&
+                    !(fieldDesc.FieldType == FieldType.Message && fieldDesc.MessageType.FullName == StringValue.Descriptor.FullName))
+                {
+                    throw new InvalidOperationException($"Field {msgDesc.Name}.{fieldDesc.Name} has a resource reference annotation, but is not a string or StringValue field.");
+                }
                 if (!string.IsNullOrEmpty(resourceRef.Type))
                 {
                     if (resourceRef.Type == "*" || resourceRef.Type == "**")
