@@ -19,6 +19,7 @@ def csharp_proto_library(name, deps, **kwargs):
     proto_custom_library(
         name = name,
         deps = deps,
+        opt_args = ["file_extension=.g.cs"],
         output_type = "csharp",
         output_suffix = ".srcjar",
         **kwargs
