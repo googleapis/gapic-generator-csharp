@@ -254,14 +254,15 @@ namespace Google.Api.Generator.Generation
 
             private MethodDeclarationSyntax Sync(string methodName, IEnumerable<MethodDetails.Signature.Field> requestFields, object requestMethodArgs)
             {
+                var obsolete = Method.IsDeprecated || (requestFields?.Any(f => f.IsDeprecated) ?? false);
                 var callAndVerify = Method.SyncReturnTyp is Typ.VoidTyp ?
                     new object[]
                     {
-                        Client.Call(Method.SyncMethodName)(requestMethodArgs),
+                        Client.MaybeObsoleteCall(Method.SyncMethodName, obsolete)(requestMethodArgs),
                     } :
                     new object[]
                     {
-                        Response.WithInitializer(Client.Call(Method.SyncMethodName)(requestMethodArgs)),
+                        Response.WithInitializer(Client.MaybeObsoleteCall(Method.SyncMethodName, obsolete)(requestMethodArgs)),
                         Ctx.Type<Assert>().Call(nameof(Assert.Same))(ExpectedResponse, Response),
                     };
                 return Method(Public, VoidType, methodName)()
@@ -282,20 +283,21 @@ namespace Google.Api.Generator.Generation
 
             private MethodDeclarationSyntax Async(string methodName, IEnumerable<MethodDetails.Signature.Field> requestFields, object requestMethodArgs)
             {
+                var obsolete = Method.IsDeprecated || (requestFields?.Any(f => f.IsDeprecated) ?? false);
                 var callAndVerify = Method.SyncReturnTyp is Typ.VoidTyp ?
                     new object[]
                     {
-                        Await(Client.Call(Method.AsyncMethodName)(requestMethodArgs,
+                        Await(Client.MaybeObsoleteCall(Method.AsyncMethodName, obsolete)(requestMethodArgs,
                             Ctx.Type<CallSettings>().Call(nameof(CallSettings.FromCancellationToken))(Ctx.Type<CancellationToken>().Access(nameof(CancellationToken.None))))),
-                        Await(Client.Call(Method.AsyncMethodName)(requestMethodArgs,
+                        Await(Client.MaybeObsoleteCall(Method.AsyncMethodName, obsolete)(requestMethodArgs,
                             Ctx.Type<CancellationToken>().Access(nameof(CancellationToken.None)))),
                     } :
                     new object[]
                     {
-                        ResponseCallSettings.WithInitializer(Await(Client.Call(Method.AsyncMethodName)(requestMethodArgs,
+                        ResponseCallSettings.WithInitializer(Await(Client.MaybeObsoleteCall(Method.AsyncMethodName, obsolete)(requestMethodArgs,
                             Ctx.Type<CallSettings>().Call(nameof(CallSettings.FromCancellationToken))(Ctx.Type<CancellationToken>().Access(nameof(CancellationToken.None)))))),
                         Ctx.Type<Assert>().Call(nameof(Assert.Same))(ExpectedResponse, ResponseCallSettings),
-                        ResponseCancellationToken.WithInitializer(Await(Client.Call(Method.AsyncMethodName)(requestMethodArgs,
+                        ResponseCancellationToken.WithInitializer(Await(Client.MaybeObsoleteCall(Method.AsyncMethodName, obsolete)(requestMethodArgs,
                             Ctx.Type<CancellationToken>().Access(nameof(CancellationToken.None))))),
                         Ctx.Type<Assert>().Call(nameof(Assert.Same))(ExpectedResponse, ResponseCancellationToken),
                     };
@@ -333,14 +335,8 @@ namespace Google.Api.Generator.Generation
                 private string SyncMethodName => Method.SyncMethodName + (_index is int index ? (index + 1).ToString() : "");
                 private string AsyncMethodName => $"{Method.AsyncMethodName.Substring(0, Method.AsyncMethodName.Length - 5)}{(_index is int index ? (index + 1).ToString() : "")}Async";
 
-                private ExpressionSyntax Access(MemberAccessExpressionSyntax access, bool isDeprecated)
-                {
-                    if (isDeprecated)
-                    {
-                        access = access.WithName(access.Name.WithIdentifier(access.Name.Identifier.WithPragmaWarning(PragmaWarnings.Obsolete)));
-                    }
-                    return access;
-                }
+                private ExpressionSyntax Access(MemberAccessExpressionSyntax access, bool isDeprecated) =>
+                    access.WithName(access.Name.MaybeWithPragmaDisableObsoleteWarning(isDeprecated));
 
                 private IEnumerable<object> SigArgs => _sig.Fields.Select(field => Access(
                     // Generate code to access the correct property, including nesting.
@@ -354,7 +350,7 @@ namespace Google.Api.Generator.Generation
                         .Aggregate(
                             _def.Request.Access(field.Descs.First().CSharpPropertyName()),
                             (acc, desc) => (MemberAccessExpressionSyntax)acc.Access(desc.CSharpPropertyName())),
-                    field.IsDeprecated));
+                    field.IsDeprecated || Method.IsDeprecated));
 
                 public MethodDeclarationSyntax SyncMethod => _def.Sync(SyncMethodName, _sig.Fields, SigArgs);
 

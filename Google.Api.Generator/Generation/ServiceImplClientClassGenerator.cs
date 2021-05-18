@@ -26,6 +26,8 @@ using System.Linq;
 using System.Net;
 using static Google.Api.Generator.Utils.Roslyn.Modifier;
 using static Google.Api.Generator.Utils.Roslyn.RoslynBuilder;
+using Microsoft.CodeAnalysis.CSharp;
+using Google.Protobuf.Reflection;
 
 namespace Google.Api.Generator.Generation
 {
@@ -120,17 +122,17 @@ namespace Google.Api.Generator.Generation
                 switch (method)
                 {
                     case MethodDetails.BidiStreaming methodBidi:
-                        var fieldInitBidi = clientHelper.Call(nameof(ClientHelper.BuildApiCall), _ctx.Type(method.RequestTyp), _ctx.Type(method.ResponseTyp))(
+                        var fieldInitBidi = clientHelper.MaybeObsoleteCall(nameof(ClientHelper.BuildApiCall), method.IsDeprecated, _ctx.Type(method.RequestTyp), _ctx.Type(method.ResponseTyp))(
                             grpcClient.Access(method.SyncMethodName), effectiveSettings.Access(method.SettingsName), effectiveSettings.Access(methodBidi.StreamingSettingsName));
                         yield return field.Assign(fieldInitBidi);
                         break;
                     case MethodDetails.ServerStreaming _:
-                        var fieldInitServer = clientHelper.Call(nameof(ClientHelper.BuildApiCall), _ctx.Type(method.RequestTyp), _ctx.Type(method.ResponseTyp))(
+                        var fieldInitServer = clientHelper.MaybeObsoleteCall(nameof(ClientHelper.BuildApiCall), method.IsDeprecated, _ctx.Type(method.RequestTyp), _ctx.Type(method.ResponseTyp))(
                             grpcClient.Access(method.SyncMethodName), effectiveSettings.Access(method.SettingsName));
                         yield return field.Assign(WithGoogleRequestParams(fieldInitServer));
                         break;
                     default:
-                        var fieldInit = clientHelper.Call(nameof(ClientHelper.BuildApiCall), _ctx.Type(method.RequestTyp), _ctx.Type(method.ResponseTyp))(
+                        var fieldInit = clientHelper.MaybeObsoleteCall(nameof(ClientHelper.BuildApiCall), method.IsDeprecated, _ctx.Type(method.RequestTyp), _ctx.Type(method.ResponseTyp))(
                             grpcClient.Access(method.AsyncMethodName), grpcClient.Access(method.SyncMethodName), effectiveSettings.Access(method.SettingsName));
                         yield return field.Assign(WithGoogleRequestParams(fieldInit));
                         break;
@@ -144,10 +146,10 @@ namespace Google.Api.Generator.Generation
                     var request = Parameter(_ctx.Type(method.RequestTyp), "request");
                     foreach (var header in method.RoutingHeaders)
                     {
-                        var access = request.Access(header.PropertyNames.First());
-                        foreach (var propertyName in header.PropertyNames.Skip(1))
+                        var access = request.Access(FieldAccess(header.Fields.First()));
+                        foreach (var field in header.Fields.Skip(1))
                         {
-                            access = access.Access(propertyName, conditional: true);
+                            access = access.Access(FieldAccess(field), conditional: true);
                         }
                         // Note: the name "WithGoogleRequestParam" is the same across ApiCall and ApiServerStreamingCall,
                         // so we don't need to distinguish between them here.
@@ -155,6 +157,10 @@ namespace Google.Api.Generator.Generation
                             header.EncodedName, Lambda(request)(access));
                     }
                     return fieldInitializer;
+
+                    // Returns a simple name to access a field, adding an pragma to disable obsolete warnings if necessary.
+                    SimpleNameSyntax FieldAccess(FieldDescriptor field) =>
+                        SyntaxFactory.IdentifierName(field.CSharpPropertyName()).MaybeWithPragmaDisableObsoleteWarning(field.IsDeprecated());
                 }
             }
         }

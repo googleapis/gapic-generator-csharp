@@ -211,13 +211,14 @@ namespace Google.Api.Generator.Generation
                 Fields = sig.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(fieldName => new Field(svc, msg, fieldName.Trim())).ToList();
             }
             public IEnumerable<Field> Fields { get; }
+            public bool HasDeprecatedField => Fields.Any(field => field.IsDeprecated);
         }
 
         public sealed class RoutingHeader
         {
-            public RoutingHeader(string encodedName, IEnumerable<string> propertyNames) => (EncodedName, PropertyNames) = (encodedName, propertyNames);
+            public RoutingHeader(string encodedName, IEnumerable<FieldDescriptor> fields) => (EncodedName, Fields) = (encodedName, fields);
             public string EncodedName { get; }
-            public IEnumerable<string> PropertyNames { get; }
+            public IEnumerable<FieldDescriptor> Fields { get; }
         }
 
         public static MethodDetails Create(ServiceDetails svc, MethodDescriptor desc) =>
@@ -297,6 +298,9 @@ namespace Google.Api.Generator.Generation
             var http = desc.GetExtension(AnnotationsExtensions.Http);
             RoutingHeaders = ReadRoutingHeaders(http, desc.InputType).ToList();
             (MethodRetry, MethodRetryStatusCodes, Expiration) = LoadTiming(svc, desc);
+            // The method is considered deprecated if the RPC, request or response messages are deprecated.
+            // In reality, it would be very odd to deprecate the messages without deprecating the RPC, but this makes it consistent.
+            IsDeprecated = desc.IsDeprecated() || RequestMessageDesc.IsDeprecated() || ResponseMessageDesc.IsDeprecated();
         }
 
         private (RetrySettings, IEnumerable<StatusCode>, Expiration) LoadTiming(ServiceDetails svc, MethodDescriptor desc)
@@ -347,7 +351,7 @@ namespace Google.Api.Generator.Generation
                     foreach (var path in ExtractBracedPaths(url))
                     {
                         var desc = requestDesc;
-                        var propertyNames = new List<string>();
+                        var fields = new List<FieldDescriptor>();
                         FieldDescriptor finalField = null;
                         foreach (var fieldName in path.Split('.'))
                         {
@@ -357,13 +361,13 @@ namespace Google.Api.Generator.Generation
                             {
                                 throw new InvalidOperationException($"Invalid path in http url: '{path}'. '{fieldName}' does not exist.");
                             }
-                            propertyNames.Add(field.CSharpPropertyName());
+                            fields.Add(field);
                         }
                         if (finalField.FieldType != FieldType.String)
                         {
                             throw new InvalidOperationException($"Path in http url must resolve to a string field: '{path}'.");
                         }
-                        yield return new RoutingHeader(WebUtility.UrlEncode(path), propertyNames);
+                        yield return new RoutingHeader(WebUtility.UrlEncode(path), fields);
                     }
                 }
             }
@@ -466,5 +470,8 @@ namespace Google.Api.Generator.Generation
 
         /// <summary>If retry is specified, the status codes on which to retry.</summary>
         public IEnumerable<StatusCode> MethodRetryStatusCodes { get; }
+
+        /// <summary>Whether the RPC is deprecated.</summary>
+        public bool IsDeprecated { get; }
     }
 }

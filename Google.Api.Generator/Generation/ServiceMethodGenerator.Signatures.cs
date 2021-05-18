@@ -167,6 +167,7 @@ namespace Google.Api.Generator.Generation
                     if (callSettings)
                     {
                         return Method(Public | Virtual, Ctx.Type(returnTyp), methodName)(parameters.Select(x => x.Parameter).Append(finalParam).ToArray())
+                                .MaybeWithAttribute(MethodDetails.IsDeprecated || _sig.HasDeprecatedField, () => Ctx.Type<ObsoleteAttribute>())()
                                 .WithBody(This.Call(methodName)(New(Ctx.Type(MethodDetails.RequestTyp))()
                                     .WithInitializer(NestInit(parameters, 0).ToArray()), finalParam))
                                 .WithXmlDoc(parameters.Select(x => x.XmlDoc).Prepend(_def.SummaryXmlDoc).Append(finalParamXmlDoc).Append(returnsXmlDoc).ToArray());
@@ -181,9 +182,10 @@ namespace Google.Api.Generator.Generation
                                     // No more nesting, these are the actual fields that need filling.
                                     foreach (var param in f.OrderBy(x => x.FieldDescs?.Last().Index ?? int.MaxValue))
                                     {
+                                        // Note: even if the signature includes a deprecated field, we don't indicate that in the
+                                        // ObjectInitExpr, as we don't want or need the pragma when the method we're generating is obsolete.
                                         yield return (param.InitExpr as ObjectInitExpr) ??
-                                            new ObjectInitExpr(param.ResourcePropertyName ?? param.FieldDescs.Last().CSharpPropertyName(), param.InitExpr,
-                                                isDeprecated: param.FieldDescs.Last().IsDeprecated());
+                                            new ObjectInitExpr(param.ResourcePropertyName ?? param.FieldDescs.Last().CSharpPropertyName(), param.InitExpr);
                                     }
                                 }
                                 else
@@ -198,6 +200,7 @@ namespace Google.Api.Generator.Generation
                     else
                     {
                         return Method(Public | Virtual, Ctx.Type(returnTyp), methodName)(parameters.Select(x => x.Parameter).Append(finalParam).ToArray())
+                                .MaybeWithAttribute(MethodDetails.IsDeprecated || _sig.HasDeprecatedField, () => Ctx.Type<ObsoleteAttribute>())()
                                 .WithBody(This.Call(methodName)(parameters.Select(x => (object)x.Parameter).Append(
                                     Ctx.Type<CallSettings>().Call(nameof(CallSettings.FromCancellationToken))(finalParam))))
                                     .WithXmlDoc(parameters.Select(x => x.XmlDoc).Prepend(_def.SummaryXmlDoc).Append(finalParamXmlDoc).Append(returnsXmlDoc).ToArray());

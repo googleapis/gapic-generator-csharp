@@ -24,6 +24,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using static Google.Api.Generator.Utils.Roslyn.Modifier;
 using static Google.Api.Generator.Utils.Roslyn.RoslynBuilder;
+using static Google.Api.Generator.Utils.Roslyn.RoslynExtensions;
 
 namespace Google.Api.Generator.Generation
 {
@@ -552,12 +553,14 @@ namespace Google.Api.Generator.Generation
                                 var s = Parameter(null, "s");
                                 var repeatedTyp = Typ.Generic(typeof(ResourceNameList<>), def.ResourceNameTyp);
                                 return Property(Public, _ctx.Type(repeatedTyp), field.ResourcePropertyName)
+                                        .MaybeWithAttribute(field.IsDeprecated, () => _ctx.Type<ObsoleteAttribute>())()
                                         .WithGetBody(Return(New(_ctx.Type(repeatedTyp))(underlyingProperty, Lambda(s)(getBodyFn(s)))))
                                         .WithXmlDoc(xmlDocSummary);
                             }
                             else
                             {
                                 return Property(Public, _ctx.Type(def.ResourceNameTyp), field.ResourcePropertyName)
+                                    .MaybeWithAttribute(field.IsDeprecated, () => _ctx.Type<ObsoleteAttribute>())()
                                     .WithGetBody(getBodyFn(underlyingProperty))
                                     .WithSetBody(underlyingProperty.Assign(Value.Call(nameof(object.ToString), conditional: true)().NullCoalesce("")))
                                     .WithXmlDoc(xmlDocSummary);
