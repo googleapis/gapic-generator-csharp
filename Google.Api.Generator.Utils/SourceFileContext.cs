@@ -77,11 +77,7 @@ namespace Google.Api.Generator.Utils
                     _namespaceAliases.Add(typ.Namespace, namespaceAlias);
                     _namespaceAliasesOnly.Add(namespaceAlias);
                 }
-                SimpleNameSyntax result = IdentifierName(typ.Name);
-                if (typ.IsDeprecated)
-                {
-                    result = result.WithIdentifier(result.Identifier.WithPragmaWarning(PragmaWarnings.Obsolete));
-                }
+                SimpleNameSyntax result = IdentifierName(typ.Name).MaybeWithPragmaDisableObsoleteWarning(typ.IsDeprecated);
                 if (typ.GenericArgTyps != null)
                 {
                     // Generic typ, so return a generic name by recursively calling this method on all type args.
@@ -129,11 +125,7 @@ namespace Google.Api.Generator.Utils
             {
                 TrackAsSeen(typ);
 
-                SimpleNameSyntax result = IdentifierName(typ.Name);
-                if (typ.IsDeprecated)
-                {
-                    result = result.WithIdentifier(result.Identifier.WithPragmaWarning(PragmaWarnings.Obsolete));
-                }
+                SimpleNameSyntax result = IdentifierName(typ.Name).MaybeWithPragmaDisableObsoleteWarning(typ.IsDeprecated);
                 if (typ.GenericArgTyps != null)
                 {
                     // Generic typ, so return a generic name by recursively calling this method on all type args.

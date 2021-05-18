@@ -151,6 +151,10 @@ namespace Google.Api.Generator.Utils.Roslyn
 
         public static SimpleNameSyntax ToSimpleName(object o, params TypeSyntax[] genericArgs)
         {
+            if (o is SimpleNameSyntax syntax && genericArgs.Length == 0)
+            {
+                return syntax;
+            }
             if (o.GetType().IsEnum)
             {
                 if (genericArgs.Any())
