@@ -14,6 +14,10 @@ service ResourceNames {
     option (google.api.method_signature) = "real_name, ref, repeated_ref, value_ref, repeated_value_ref";
   }
 
+  rpc DeprecatedPatternMethod(DeprecatedPattern) returns(Response) {
+    option (google.api.method_signature) = "name";
+  }
+
   rpc WildcardOnlyPatternMethod(WildcardOnlyPattern) returns(Response) {
     option (google.api.method_signature) = "name, ref, repeated_ref, ref_sugar, repeated_ref_sugar";
   }
@@ -38,6 +42,14 @@ message SinglePattern {
   repeated string repeated_ref = 3 [(google.api.resource_reference).type = "resourcenames.example.com/SinglePattern"];
   google.protobuf.StringValue value_ref = 4 [(google.api.resource_reference).type = "resourcenames.example.com/SinglePattern"];
   repeated google.protobuf.StringValue repeated_value_ref = 5 [(google.api.resource_reference).type = "resourcenames.example.com/SinglePattern"];
+}
+
+message DeprecatedPattern {
+  option (google.api.resource) = {
+    type: "resourcenames.example.com/DeprecatedPattern"
+    pattern: "items/{item_id}"
+  };
+  string name = 1 [deprecated = true];
 }
 
 message WildcardOnlyPattern {

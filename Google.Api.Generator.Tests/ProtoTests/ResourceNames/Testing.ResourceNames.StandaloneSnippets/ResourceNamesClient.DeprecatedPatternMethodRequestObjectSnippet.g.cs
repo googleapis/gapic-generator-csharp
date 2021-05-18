@@ -14,28 +14,25 @@
 
 // Generated code. DO NOT EDIT!
 
-namespace Testing.Deprecated.Snippets
+namespace Testing.ResourceNames.Snippets
 {
-    using System.Threading.Tasks;
-    using Testing.Deprecated;
+    using Testing.ResourceNames;
 
-    public sealed partial class GeneratedDeprecatedClientStandaloneSnippets
+    public sealed partial class GeneratedResourceNamesClientStandaloneSnippets
     {
-        /// <summary>Snippet for DeprecatedMethodAsync</summary>
+        /// <summary>Snippet for DeprecatedPatternMethod</summary>
         /// <remarks>
         /// This snippet has been automatically generated for illustrative purposes only.
         /// It may require modifications to work in your environment.
         /// </remarks>
-        public async Task DeprecatedMethodRequestObjectAsync()
+        public void DeprecatedPatternMethodRequestObject()
         {
             // Create client
-            DeprecatedClient deprecatedClient = await DeprecatedClient.CreateAsync();
+            ResourceNamesClient resourceNamesClient = ResourceNamesClient.Create();
             // Initialize request argument(s)
-            Request request = new Request { };
+            DeprecatedPattern request = new DeprecatedPattern { };
             // Make the request
-#pragma warning disable CS0612
-            Response response = await deprecatedClient.DeprecatedMethodAsync(request);
-#pragma warning restore CS0612
+            Response response = resourceNamesClient.DeprecatedPatternMethod(request);
         }
     }
 }

@@ -217,6 +217,203 @@ namespace Testing.ResourceNames
         public static bool operator !=(SinglePatternName a, SinglePatternName b) => !(a == b);
     }
 
+    /// <summary>Resource name for the <c>DeprecatedPattern</c> resource.</summary>
+    public sealed partial class DeprecatedPatternName : gax::IResourceName, sys::IEquatable<DeprecatedPatternName>
+    {
+        /// <summary>The possible contents of <see cref="DeprecatedPatternName"/>.</summary>
+        public enum ResourceNameType
+        {
+            /// <summary>An unparsed resource name.</summary>
+            Unparsed = 0,
+
+            /// <summary>A resource name with pattern <c>items/{item_id}</c>.</summary>
+            Item = 1,
+        }
+
+        private static gax::PathTemplate s_item = new gax::PathTemplate("items/{item_id}");
+
+        /// <summary>Creates a <see cref="DeprecatedPatternName"/> containing an unparsed resource name.</summary>
+        /// <param name="unparsedResourceName">The unparsed resource name. Must not be <c>null</c>.</param>
+        /// <returns>
+        /// A new instance of <see cref="DeprecatedPatternName"/> containing the provided
+        /// <paramref name="unparsedResourceName"/>.
+        /// </returns>
+        public static DeprecatedPatternName FromUnparsed(gax::UnparsedResourceName unparsedResourceName) =>
+            new DeprecatedPatternName(ResourceNameType.Unparsed, gax::GaxPreconditions.CheckNotNull(unparsedResourceName, nameof(unparsedResourceName)));
+
+        /// <summary>Creates a <see cref="DeprecatedPatternName"/> with the pattern <c>items/{item_id}</c>.</summary>
+        /// <param name="itemId">The <c>Item</c> ID. Must not be <c>null</c> or empty.</param>
+        /// <returns>A new instance of <see cref="DeprecatedPatternName"/> constructed from the provided ids.</returns>
+        public static DeprecatedPatternName FromItem(string itemId) =>
+            new DeprecatedPatternName(ResourceNameType.Item, itemId: gax::GaxPreconditions.CheckNotNullOrEmpty(itemId, nameof(itemId)));
+
+        /// <summary>
+        /// Formats the IDs into the string representation of this <see cref="DeprecatedPatternName"/> with pattern
+        /// <c>items/{item_id}</c>.
+        /// </summary>
+        /// <param name="itemId">The <c>Item</c> ID. Must not be <c>null</c> or empty.</param>
+        /// <returns>
+        /// The string representation of this <see cref="DeprecatedPatternName"/> with pattern <c>items/{item_id}</c>.
+        /// </returns>
+        public static string Format(string itemId) => FormatItem(itemId);
+
+        /// <summary>
+        /// Formats the IDs into the string representation of this <see cref="DeprecatedPatternName"/> with pattern
+        /// <c>items/{item_id}</c>.
+        /// </summary>
+        /// <param name="itemId">The <c>Item</c> ID. Must not be <c>null</c> or empty.</param>
+        /// <returns>
+        /// The string representation of this <see cref="DeprecatedPatternName"/> with pattern <c>items/{item_id}</c>.
+        /// </returns>
+        public static string FormatItem(string itemId) =>
+            s_item.Expand(gax::GaxPreconditions.CheckNotNullOrEmpty(itemId, nameof(itemId)));
+
+        /// <summary>
+        /// Parses the given resource name string into a new <see cref="DeprecatedPatternName"/> instance.
+        /// </summary>
+        /// <remarks>
+        /// To parse successfully, the resource name must be formatted as one of the following:
+        /// <list type="bullet"><item><description><c>items/{item_id}</c></description></item></list>
+        /// </remarks>
+        /// <param name="deprecatedPatternName">The resource name in string form. Must not be <c>null</c>.</param>
+        /// <returns>The parsed <see cref="DeprecatedPatternName"/> if successful.</returns>
+        public static DeprecatedPatternName Parse(string deprecatedPatternName) => Parse(deprecatedPatternName, false);
+
+        /// <summary>
+        /// Parses the given resource name string into a new <see cref="DeprecatedPatternName"/> instance; optionally
+        /// allowing an unparseable resource name.
+        /// </summary>
+        /// <remarks>
+        /// To parse successfully, the resource name must be formatted as one of the following:
+        /// <list type="bullet"><item><description><c>items/{item_id}</c></description></item></list>
+        /// Or may be in any format if <paramref name="allowUnparsed"/> is <c>true</c>.
+        /// </remarks>
+        /// <param name="deprecatedPatternName">The resource name in string form. Must not be <c>null</c>.</param>
+        /// <param name="allowUnparsed">
+        /// If <c>true</c> will successfully store an unparseable resource name into the <see cref="UnparsedResource"/>
+        /// property; otherwise will throw an <see cref="sys::ArgumentException"/> if an unparseable resource name is
+        /// specified.
+        /// </param>
+        /// <returns>The parsed <see cref="DeprecatedPatternName"/> if successful.</returns>
+        public static DeprecatedPatternName Parse(string deprecatedPatternName, bool allowUnparsed) =>
+            TryParse(deprecatedPatternName, allowUnparsed, out DeprecatedPatternName result) ? result : throw new sys::ArgumentException("The given resource-name matches no pattern.");
+
+        /// <summary>
+        /// Tries to parse the given resource name string into a new <see cref="DeprecatedPatternName"/> instance.
+        /// </summary>
+        /// <remarks>
+        /// To parse successfully, the resource name must be formatted as one of the following:
+        /// <list type="bullet"><item><description><c>items/{item_id}</c></description></item></list>
+        /// </remarks>
+        /// <param name="deprecatedPatternName">The resource name in string form. Must not be <c>null</c>.</param>
+        /// <param name="result">
+        /// When this method returns, the parsed <see cref="DeprecatedPatternName"/>, or <c>null</c> if parsing failed.
+        /// </param>
+        /// <returns><c>true</c> if the name was parsed successfully; <c>false</c> otherwise.</returns>
+        public static bool TryParse(string deprecatedPatternName, out DeprecatedPatternName result) =>
+            TryParse(deprecatedPatternName, false, out result);
+
+        /// <summary>
+        /// Tries to parse the given resource name string into a new <see cref="DeprecatedPatternName"/> instance;
+        /// optionally allowing an unparseable resource name.
+        /// </summary>
+        /// <remarks>
+        /// To parse successfully, the resource name must be formatted as one of the following:
+        /// <list type="bullet"><item><description><c>items/{item_id}</c></description></item></list>
+        /// Or may be in any format if <paramref name="allowUnparsed"/> is <c>true</c>.
+        /// </remarks>
+        /// <param name="deprecatedPatternName">The resource name in string form. Must not be <c>null</c>.</param>
+        /// <param name="allowUnparsed">
+        /// If <c>true</c> will successfully store an unparseable resource name into the <see cref="UnparsedResource"/>
+        /// property; otherwise will throw an <see cref="sys::ArgumentException"/> if an unparseable resource name is
+        /// specified.
+        /// </param>
+        /// <param name="result">
+        /// When this method returns, the parsed <see cref="DeprecatedPatternName"/>, or <c>null</c> if parsing failed.
+        /// </param>
+        /// <returns><c>true</c> if the name was parsed successfully; <c>false</c> otherwise.</returns>
+        public static bool TryParse(string deprecatedPatternName, bool allowUnparsed, out DeprecatedPatternName result)
+        {
+            gax::GaxPreconditions.CheckNotNull(deprecatedPatternName, nameof(deprecatedPatternName));
+            gax::TemplatedResourceName resourceName;
+            if (s_item.TryParseName(deprecatedPatternName, out resourceName))
+            {
+                result = FromItem(resourceName[0]);
+                return true;
+            }
+            if (allowUnparsed)
+            {
+                if (gax::UnparsedResourceName.TryParse(deprecatedPatternName, out gax::UnparsedResourceName unparsedResourceName))
+                {
+                    result = FromUnparsed(unparsedResourceName);
+                    return true;
+                }
+            }
+            result = null;
+            return false;
+        }
+
+        private DeprecatedPatternName(ResourceNameType type, gax::UnparsedResourceName unparsedResourceName = null, string itemId = null)
+        {
+            Type = type;
+            UnparsedResource = unparsedResourceName;
+            ItemId = itemId;
+        }
+
+        /// <summary>
+        /// Constructs a new instance of a <see cref="DeprecatedPatternName"/> class from the component parts of pattern
+        /// <c>items/{item_id}</c>
+        /// </summary>
+        /// <param name="itemId">The <c>Item</c> ID. Must not be <c>null</c> or empty.</param>
+        public DeprecatedPatternName(string itemId) : this(ResourceNameType.Item, itemId: gax::GaxPreconditions.CheckNotNullOrEmpty(itemId, nameof(itemId)))
+        {
+        }
+
+        /// <summary>The <see cref="ResourceNameType"/> of the contained resource name.</summary>
+        public ResourceNameType Type { get; }
+
+        /// <summary>
+        /// The contained <see cref="gax::UnparsedResourceName"/>. Only non-<c>null</c> if this instance contains an
+        /// unparsed resource name.
+        /// </summary>
+        public gax::UnparsedResourceName UnparsedResource { get; }
+
+        /// <summary>
+        /// The <c>Item</c> ID. Will not be <c>null</c>, unless this instance contains an unparsed resource name.
+        /// </summary>
+        public string ItemId { get; }
+
+        /// <summary>Whether this instance contains a resource name with a known pattern.</summary>
+        public bool IsKnownPattern => Type != ResourceNameType.Unparsed;
+
+        /// <summary>The string representation of the resource name.</summary>
+        /// <returns>The string representation of the resource name.</returns>
+        public override string ToString()
+        {
+            switch (Type)
+            {
+                case ResourceNameType.Unparsed: return UnparsedResource.ToString();
+                case ResourceNameType.Item: return s_item.Expand(ItemId);
+                default: throw new sys::InvalidOperationException("Unrecognized resource-type.");
+            }
+        }
+
+        /// <summary>Returns a hash code for this resource name.</summary>
+        public override int GetHashCode() => ToString().GetHashCode();
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj) => Equals(obj as DeprecatedPatternName);
+
+        /// <inheritdoc/>
+        public bool Equals(DeprecatedPatternName other) => ToString() == other?.ToString();
+
+        /// <inheritdoc/>
+        public static bool operator ==(DeprecatedPatternName a, DeprecatedPatternName b) => ReferenceEquals(a, b) || (a?.Equals(b) ?? false);
+
+        /// <inheritdoc/>
+        public static bool operator !=(DeprecatedPatternName a, DeprecatedPatternName b) => !(a == b);
+    }
+
     /// <summary>Resource name for the <c>WildcardMultiPattern</c> resource.</summary>
     public sealed partial class WildcardMultiPatternName : gax::IResourceName, sys::IEquatable<WildcardMultiPatternName>
     {
@@ -821,6 +1018,19 @@ namespace Testing.ResourceNames
         public gax::ResourceNameList<SinglePatternName> RepeatedValueRefAsSinglePatternNames
         {
             get => new gax::ResourceNameList<SinglePatternName>(RepeatedValueRef, s => string.IsNullOrEmpty(s) ? null : SinglePatternName.Parse(s, allowUnparsed: true));
+        }
+    }
+
+    public partial class DeprecatedPattern
+    {
+        /// <summary>
+        /// <see cref="tr::DeprecatedPatternName"/>-typed view over the <see cref="Name"/> resource name property.
+        /// </summary>
+        [sys::ObsoleteAttribute]
+        public tr::DeprecatedPatternName DeprecatedPatternName
+        {
+            get => string.IsNullOrEmpty(Name) ? null : tr::DeprecatedPatternName.Parse(Name, allowUnparsed: true);
+            set => Name = value?.ToString() ?? "";
         }
     }
 

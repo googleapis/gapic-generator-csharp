@@ -32,7 +32,9 @@ namespace Testing.Deprecated.Snippets
             // Initialize request argument(s)
             Request request = new Request { };
             // Make the request
+#pragma warning disable CS0612
             Response response = deprecatedClient.DeprecatedMethod(request);
+#pragma warning restore CS0612
         }
     }
 }
