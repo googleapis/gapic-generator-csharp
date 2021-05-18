@@ -135,6 +135,7 @@ namespace Google.Api.Generator.ProtoUtils
             {
                 // innerFields only non-null for the IResourceName property of child_type refs.
                 IsRepeated = fieldDesc.IsRepeated;
+                IsDeprecated = fieldDesc.IsDeprecated();
                 UnderlyingPropertyName = fieldDesc.CSharpPropertyName();
                 ResourceDefinition = resourceDef;
                 var requireIdentifier = !((fieldDesc.IsRepeated && fieldDesc.Name.ToLowerInvariant() == "names") ||
@@ -146,6 +147,8 @@ namespace Google.Api.Generator.ProtoUtils
             }
 
             public bool IsRepeated { get; }
+
+            public bool IsDeprecated { get; }
 
             /// <summary>The C# name of the string-typed property underlying this resource.</summary>
             public string UnderlyingPropertyName { get; }

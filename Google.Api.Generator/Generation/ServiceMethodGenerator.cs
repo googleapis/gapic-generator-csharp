@@ -198,16 +198,19 @@ namespace Google.Api.Generator.Generation
 
             public MethodDeclarationSyntax AbstractSyncRequestMethod =>
                 Method(Public | Virtual, Ctx.Type(MethodDetails.SyncReturnTyp), MethodDetails.SyncMethodName)(RequestParam, CallSettingsParam)
+                    .MaybeWithAttribute(MethodDetails.IsDeprecated, () => Ctx.Type<ObsoleteAttribute>())()
                     .WithBody(Throw(New(Ctx.Type<NotImplementedException>())()))
                     .WithXmlDoc(SummaryXmlDoc, RequestXmlDoc, CallSettingsXmlDoc, MethodDetails is MethodDetails.Paginated ? ReturnsSyncPaginatedXmlDoc : ReturnsSyncXmlDoc);
 
             public MethodDeclarationSyntax AbstractAsyncCallSettingsRequestMethod =>
                 Method(Public | Virtual, Ctx.Type(MethodDetails.AsyncReturnTyp), MethodDetails.AsyncMethodName)(RequestParam, CallSettingsParam)
+                    .MaybeWithAttribute(MethodDetails.IsDeprecated, () => Ctx.Type<ObsoleteAttribute>())()
                     .WithBody(Throw(New(Ctx.Type<NotImplementedException>())()))
                     .WithXmlDoc(SummaryXmlDoc, RequestXmlDoc, CallSettingsXmlDoc, MethodDetails is MethodDetails.Paginated ? ReturnsAsyncPaginatedXmlDoc : ReturnsAsyncXmlDoc);
 
             public MethodDeclarationSyntax AbstractAsyncCancellationTokenRequestMethod =>
                 Method(Public | Virtual, Ctx.Type(MethodDetails.AsyncReturnTyp), MethodDetails.AsyncMethodName)(RequestParam, CancellationTokenParam)
+                    .MaybeWithAttribute(MethodDetails.IsDeprecated, () => Ctx.Type<ObsoleteAttribute>())()
                     .WithBody(This.Call(AbstractAsyncCallSettingsRequestMethod)(RequestParam, Ctx.Type<CallSettings>().Call(nameof(CallSettings.FromCancellationToken))(CancellationTokenParam)))
                     .WithXmlDoc(SummaryXmlDoc, RequestXmlDoc, CancellationTokenXmlDoc, ReturnsAsyncXmlDoc);
 
@@ -215,6 +218,7 @@ namespace Google.Api.Generator.Generation
 
             public MethodDeclarationSyntax ImplSyncRequestMethod =>
                 Method(Public | Override, Ctx.Type(MethodDetails.SyncReturnTyp), MethodDetails.SyncMethodName)(RequestParam, CallSettingsParam)
+                        .MaybeWithAttribute(MethodDetails.IsDeprecated, () => Ctx.Type<ObsoleteAttribute>())()
                         .WithBody(
                             This.Call(ModifyRequestMethod)(Ref(RequestParam), Ref(CallSettingsParam)),
                             MethodDetails.SyncReturnTyp is Typ.VoidTyp ?
@@ -224,6 +228,7 @@ namespace Google.Api.Generator.Generation
 
             public MethodDeclarationSyntax ImplAsyncCallSettingsRequestMethod =>
                 Method(Public | Override, Ctx.Type(MethodDetails.AsyncReturnTyp), MethodDetails.AsyncMethodName)(RequestParam, CallSettingsParam)
+                        .MaybeWithAttribute(MethodDetails.IsDeprecated, () => Ctx.Type<ObsoleteAttribute>())()
                         .WithBody(
                             This.Call(ModifyRequestMethod)(Ref(RequestParam), Ref(CallSettingsParam)),
                             Return(ApiCallField.Call(ApiCallAsyncName)(RequestParam, CallSettingsParam)))
@@ -233,6 +238,7 @@ namespace Google.Api.Generator.Generation
 
             public MethodDeclarationSyntax ImplPaginatedSyncRequestMethod =>
                 Method(Public | Override, Ctx.Type(MethodDetails.SyncReturnTyp), MethodDetails.SyncMethodName)(RequestParam, CallSettingsParam)
+                    .MaybeWithAttribute(MethodDetails.IsDeprecated, () => Ctx.Type<ObsoleteAttribute>())()
                     .WithBody(
                         This.Call(ModifyRequestMethod)(Ref(RequestParam), Ref(CallSettingsParam)),
                         Return(New(Ctx.Type(MethodDetailsPaginated.SyncGrpcType))(ApiCallField, RequestParam, CallSettingsParam)))
@@ -240,6 +246,7 @@ namespace Google.Api.Generator.Generation
 
             public MethodDeclarationSyntax ImplPaginatedAsyncCallSettingsRequestMethod =>
                 Method(Public | Override, Ctx.Type(MethodDetails.AsyncReturnTyp), MethodDetails.AsyncMethodName)(RequestParam, CallSettingsParam)
+                    .MaybeWithAttribute(MethodDetails.IsDeprecated, () => Ctx.Type<ObsoleteAttribute>())()
                     .WithBody(
                         This.Call(ModifyRequestMethod)(Ref(RequestParam), Ref(CallSettingsParam)),
                         Return(New(Ctx.Type(MethodDetailsPaginated.AsyncGrpcType))(ApiCallField, RequestParam, CallSettingsParam)))
@@ -254,6 +261,7 @@ namespace Google.Api.Generator.Generation
 
             public MethodDeclarationSyntax AbstractLroSyncPollMethod =>
                 Method(Public | Virtual, Ctx.Type(MethodDetails.SyncReturnTyp), MethodDetailsLro.SyncPollMethodName)(OperationNameParam, CallSettingsParam)
+                    .MaybeWithAttribute(MethodDetails.IsDeprecated, () => Ctx.Type<ObsoleteAttribute>())()
                     .WithBody(
                         Ctx.Type(MethodDetailsLro.OperationTyp).Call(nameof(Operation<ProtoMsg, ProtoMsg>.PollOnceFromName))(
                             Ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNullOrEmpty))(OperationNameParam, Nameof(OperationNameParam)),
@@ -264,6 +272,7 @@ namespace Google.Api.Generator.Generation
 
             public MethodDeclarationSyntax AbstractLroAsyncPollMethod =>
                 Method(Public | Virtual, Ctx.Type(MethodDetails.AsyncReturnTyp), MethodDetailsLro.AsyncPollMethodName)(OperationNameParam, CallSettingsParam)
+                    .MaybeWithAttribute(MethodDetails.IsDeprecated, () => Ctx.Type<ObsoleteAttribute>())()
                     .WithBody(
                         Ctx.Type(MethodDetailsLro.OperationTyp).Call(nameof(Operation<ProtoMsg, ProtoMsg>.PollOnceFromNameAsync))(
                             Ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNullOrEmpty))(OperationNameParam, Nameof(OperationNameParam)),
@@ -280,6 +289,7 @@ namespace Google.Api.Generator.Generation
 
             public MethodDeclarationSyntax ImplLroSyncRequestMethod =>
                 Method(Public | Override, Ctx.Type(MethodDetails.SyncReturnTyp), MethodDetails.SyncMethodName)(RequestParam, CallSettingsParam)
+                        .MaybeWithAttribute(MethodDetails.IsDeprecated, () => Ctx.Type<ObsoleteAttribute>())()
                         .WithBody(
                             This.Call(ModifyRequestMethod)(Ref(RequestParam), Ref(CallSettingsParam)),
                             Return(New(Ctx.Type(MethodDetailsLro.OperationTyp))(ApiCallField.Call(ApiCallSyncName)(RequestParam, CallSettingsParam), ImplLroOperationsClientProperty))
@@ -288,6 +298,7 @@ namespace Google.Api.Generator.Generation
 
             public MethodDeclarationSyntax ImplLroAsyncCallSettingsRequestMethod =>
                 Method(Public | Override | Async, Ctx.Type(MethodDetails.AsyncReturnTyp), MethodDetails.AsyncMethodName)(RequestParam, CallSettingsParam)
+                        .MaybeWithAttribute(MethodDetails.IsDeprecated, () => Ctx.Type<ObsoleteAttribute>())()
                         .WithBody(
                             This.Call(ModifyRequestMethod)(Ref(RequestParam), Ref(CallSettingsParam)),
                             Return(New(Ctx.Type(MethodDetailsLro.OperationTyp))(Await(ApiCallField.Call(ApiCallAsyncName)(RequestParam, CallSettingsParam).ConfigureAwait()), ImplLroOperationsClientProperty))
@@ -302,6 +313,7 @@ namespace Google.Api.Generator.Generation
 
             public MethodDeclarationSyntax AbstractBidiStreamSyncRequestMethod =>
                 Method(Public | Virtual, Ctx.Type(MethodDetailsBidiStream.AbstractStreamTyp), MethodDetails.SyncMethodName)(CallSettingsParam, BidiStreamingSettingsParam)
+                    .MaybeWithAttribute(MethodDetails.IsDeprecated, () => Ctx.Type<ObsoleteAttribute>())()
                     .WithBody(Throw(New(Ctx.Type<NotImplementedException>())()))
                     .WithXmlDoc(SummaryXmlDoc, CallSettingsXmlDoc, BidiStreamingSettingsXmlDoc, ReturnsBidiStreamingXmlDoc);
 
@@ -414,6 +426,7 @@ namespace Google.Api.Generator.Generation
 
             public MethodDeclarationSyntax AbstractServerStreamSyncRequestMethod =>
                 Method(Public | Virtual, Ctx.Type(MethodDetailsServerStream.AbstractStreamTyp), MethodDetails.SyncMethodName)(RequestParam, CallSettingsParam)
+                    .MaybeWithAttribute(MethodDetails.IsDeprecated, () => Ctx.Type<ObsoleteAttribute>())()
                     .WithBody(Throw(New(Ctx.Type<NotImplementedException>())()))
                     .WithXmlDoc(SummaryXmlDoc, RequestXmlDoc, CallSettingsXmlDoc, ReturnsServerStreamingXmlDoc);
 
@@ -446,6 +459,7 @@ namespace Google.Api.Generator.Generation
 
             public MethodDeclarationSyntax ImplServerStreamSyncRequestMethod =>
                 Method(Public | Override, Ctx.Type(MethodDetailsServerStream.AbstractStreamTyp), MethodDetails.SyncMethodName)(RequestParam, CallSettingsParam)
+                    .MaybeWithAttribute(MethodDetails.IsDeprecated, () => Ctx.Type<ObsoleteAttribute>())()
                     .WithBody(
                         This.Call(ModifyRequestMethod)(Ref(RequestParam), Ref(CallSettingsParam)),
                         Return(New(Ctx.Type(MethodDetailsServerStream.ImplStreamTyp))(ApiCallField.Call(nameof(ApiServerStreamingCall<ProtoMsg, ProtoMsg>.Call))(RequestParam, CallSettingsParam))))
