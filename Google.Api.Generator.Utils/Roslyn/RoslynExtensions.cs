@@ -141,6 +141,11 @@ namespace Google.Api.Generator.Utils.Roslyn
                 InvocationExpression(MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression,
                     IdentifierName(field.Declaration.Variables.Single().Identifier), ToSimpleName(method, genericArgs)), CreateArgList(args));
 
+        public static RoslynBuilder.ArgumentsFunc<InvocationExpressionSyntax> MaybeObsoleteCall(
+            this LocalDeclarationStatementSyntax var, string method, bool obsolete, params TypeSyntax[] genericArgs) => args =>
+                InvocationExpression(MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression,
+                    IdentifierName(var.Declaration.Variables.Single().Identifier), ToSimpleName(method, genericArgs).MaybeWithPragmaDisableObsoleteWarning(obsolete)), CreateArgList(args));
+        
         public static RoslynBuilder.ArgumentsFunc<InvocationExpressionSyntax> Call(
             this LocalDeclarationStatementSyntax var, object method, params TypeSyntax[] genericArgs) => args =>
                 InvocationExpression(MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression,
@@ -320,6 +325,26 @@ namespace Google.Api.Generator.Utils.Roslyn
         public static RoslynBuilder.ArgumentsFunc<PropertyDeclarationSyntax> WithAttribute(this PropertyDeclarationSyntax property, TypeSyntax attrType) =>
             args => property.WithAttributeLists(SingletonList(AttributeList(SingletonSeparatedList(Attribute((NameSyntax) attrType, CreateAttributeArgList(args))))));
 
+        /// <summary>
+        /// Returns the specified method declaration syntax, potentially (if <paramref name="condition"/> is true) adding an attribute specified
+        /// by <paramref name="attrType"/>. This is a function so that if obtaining the attribute type has side-effects,
+        /// those side effects will not have an impact unless the attribute is added.
+        /// </summary>
+        public static RoslynBuilder.ArgumentsFunc<MethodDeclarationSyntax> MaybeWithAttribute(this MethodDeclarationSyntax method, bool condition, Func<TypeSyntax> attrType) =>
+            condition
+            ? args => method.WithAttributeLists(SingletonList(AttributeList(SingletonSeparatedList(Attribute((NameSyntax)attrType(), CreateAttributeArgList(args))))))
+            : (RoslynBuilder.ArgumentsFunc<MethodDeclarationSyntax>) (args => method);
+
+        /// <summary>
+        /// Returns the specified property declaration syntax, potentially (if <paramref name="condition"/> is true) adding an attribute specified
+        /// by <paramref name="attrType"/>. This is a function so that if obtaining the attribute type has side-effects,
+        /// those side effects will not have an impact unless the attribute is added.
+        /// </summary>
+        public static RoslynBuilder.ArgumentsFunc<PropertyDeclarationSyntax> MaybeWithAttribute(this PropertyDeclarationSyntax property, bool condition, Func<TypeSyntax> attrType) =>
+            condition
+            ? args => property.WithAttributeLists(SingletonList(AttributeList(SingletonSeparatedList(Attribute((NameSyntax)attrType(), CreateAttributeArgList(args))))))
+            : (RoslynBuilder.ArgumentsFunc<PropertyDeclarationSyntax>) (arg => property);
+
         public static RoslynBuilder.ArgumentsFunc<EnumMemberDeclarationSyntax> WithAttribute(this EnumMemberDeclarationSyntax enumDeclaration, TypeSyntax attrType) =>
             args => enumDeclaration.WithAttributeLists(SingletonList(AttributeList(SingletonSeparatedList(Attribute((NameSyntax) attrType, CreateAttributeArgList(args))))));
 
@@ -329,6 +354,12 @@ namespace Google.Api.Generator.Utils.Roslyn
 
         public static SwitchStatementSyntax WithDefault(this SwitchStatementSyntax @switch, object code) =>
             @switch.AddSections(SwitchSection(SingletonList<SwitchLabelSyntax>(DefaultSwitchLabel()), List(ToStatements(code))));
+
+        public static SimpleNameSyntax MaybeWithPragmaDisableObsoleteWarning(this SimpleNameSyntax syntax, bool obsolete) =>
+            obsolete ? syntax.WithPragmaWarning(PragmaWarnings.Obsolete) : syntax;
+
+        public static SimpleNameSyntax WithPragmaWarning(this SimpleNameSyntax syntax, string errorCode) =>
+            syntax.WithIdentifier(syntax.Identifier.WithPragmaWarning(errorCode));
 
         public static SyntaxToken WithPragmaWarning(this SyntaxToken token, string errorCode) =>
             token.WithAdditionalAnnotations(new SyntaxAnnotation(PragmaWarnings.AnnotationKind, errorCode));
