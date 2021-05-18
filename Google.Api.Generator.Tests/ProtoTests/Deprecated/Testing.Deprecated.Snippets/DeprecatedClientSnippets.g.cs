@@ -58,7 +58,9 @@ namespace Testing.Deprecated.Snippets
             string deprecatedField1 = "";
             string deprecatedField2 = "";
             // Make the request
+#pragma warning disable CS0612
             Response response = deprecatedClient.DeprecatedFieldMethod(deprecatedField1, deprecatedField2);
+#pragma warning restore CS0612
             // End snippet
         }
 
@@ -73,7 +75,9 @@ namespace Testing.Deprecated.Snippets
             string deprecatedField1 = "";
             string deprecatedField2 = "";
             // Make the request
+#pragma warning disable CS0612
             Response response = await deprecatedClient.DeprecatedFieldMethodAsync(deprecatedField1, deprecatedField2);
+#pragma warning restore CS0612
             // End snippet
         }
 
@@ -88,7 +92,9 @@ namespace Testing.Deprecated.Snippets
             DeprecatedMessageRequest request = new DeprecatedMessageRequest { };
 #pragma warning restore CS0612
             // Make the request
+#pragma warning disable CS0612
             Response response = deprecatedClient.DeprecatedMessageMethod(request);
+#pragma warning restore CS0612
             // End snippet
         }
 
@@ -104,7 +110,9 @@ namespace Testing.Deprecated.Snippets
             DeprecatedMessageRequest request = new DeprecatedMessageRequest { };
 #pragma warning restore CS0612
             // Make the request
+#pragma warning disable CS0612
             Response response = await deprecatedClient.DeprecatedMessageMethodAsync(request);
+#pragma warning restore CS0612
             // End snippet
         }
 
@@ -117,7 +125,9 @@ namespace Testing.Deprecated.Snippets
             // Initialize request argument(s)
             Request request = new Request { };
             // Make the request
+#pragma warning disable CS0612
             Response response = deprecatedClient.DeprecatedMethod(request);
+#pragma warning restore CS0612
             // End snippet
         }
 
@@ -131,7 +141,9 @@ namespace Testing.Deprecated.Snippets
             // Initialize request argument(s)
             Request request = new Request { };
             // Make the request
+#pragma warning disable CS0612
             Response response = await deprecatedClient.DeprecatedMethodAsync(request);
+#pragma warning restore CS0612
             // End snippet
         }
 

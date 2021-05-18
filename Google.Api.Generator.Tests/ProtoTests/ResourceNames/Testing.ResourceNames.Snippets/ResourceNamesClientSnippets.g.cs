@@ -158,6 +158,95 @@ namespace Testing.ResourceNames.Snippets
             // End snippet
         }
 
+        /// <summary>Snippet for DeprecatedPatternMethod</summary>
+        public void DeprecatedPatternMethodRequestObject()
+        {
+            // Snippet: DeprecatedPatternMethod(DeprecatedPattern, CallSettings)
+            // Create client
+            ResourceNamesClient resourceNamesClient = ResourceNamesClient.Create();
+            // Initialize request argument(s)
+            DeprecatedPattern request = new DeprecatedPattern { };
+            // Make the request
+            Response response = resourceNamesClient.DeprecatedPatternMethod(request);
+            // End snippet
+        }
+
+        /// <summary>Snippet for DeprecatedPatternMethodAsync</summary>
+        public async Task DeprecatedPatternMethodRequestObjectAsync()
+        {
+            // Snippet: DeprecatedPatternMethodAsync(DeprecatedPattern, CallSettings)
+            // Additional: DeprecatedPatternMethodAsync(DeprecatedPattern, CancellationToken)
+            // Create client
+            ResourceNamesClient resourceNamesClient = await ResourceNamesClient.CreateAsync();
+            // Initialize request argument(s)
+            DeprecatedPattern request = new DeprecatedPattern { };
+            // Make the request
+            Response response = await resourceNamesClient.DeprecatedPatternMethodAsync(request);
+            // End snippet
+        }
+
+        /// <summary>Snippet for DeprecatedPatternMethod</summary>
+        public void DeprecatedPatternMethod()
+        {
+            // Snippet: DeprecatedPatternMethod(string, CallSettings)
+            // Create client
+            ResourceNamesClient resourceNamesClient = ResourceNamesClient.Create();
+            // Initialize request argument(s)
+            string name = "items/[ITEM_ID]";
+            // Make the request
+#pragma warning disable CS0612
+            Response response = resourceNamesClient.DeprecatedPatternMethod(name);
+#pragma warning restore CS0612
+            // End snippet
+        }
+
+        /// <summary>Snippet for DeprecatedPatternMethodAsync</summary>
+        public async Task DeprecatedPatternMethodAsync()
+        {
+            // Snippet: DeprecatedPatternMethodAsync(string, CallSettings)
+            // Additional: DeprecatedPatternMethodAsync(string, CancellationToken)
+            // Create client
+            ResourceNamesClient resourceNamesClient = await ResourceNamesClient.CreateAsync();
+            // Initialize request argument(s)
+            string name = "items/[ITEM_ID]";
+            // Make the request
+#pragma warning disable CS0612
+            Response response = await resourceNamesClient.DeprecatedPatternMethodAsync(name);
+#pragma warning restore CS0612
+            // End snippet
+        }
+
+        /// <summary>Snippet for DeprecatedPatternMethod</summary>
+        public void DeprecatedPatternMethodResourceNames()
+        {
+            // Snippet: DeprecatedPatternMethod(DeprecatedPatternName, CallSettings)
+            // Create client
+            ResourceNamesClient resourceNamesClient = ResourceNamesClient.Create();
+            // Initialize request argument(s)
+            DeprecatedPatternName name = DeprecatedPatternName.FromItem("[ITEM_ID]");
+            // Make the request
+#pragma warning disable CS0612
+            Response response = resourceNamesClient.DeprecatedPatternMethod(name);
+#pragma warning restore CS0612
+            // End snippet
+        }
+
+        /// <summary>Snippet for DeprecatedPatternMethodAsync</summary>
+        public async Task DeprecatedPatternMethodResourceNamesAsync()
+        {
+            // Snippet: DeprecatedPatternMethodAsync(DeprecatedPatternName, CallSettings)
+            // Additional: DeprecatedPatternMethodAsync(DeprecatedPatternName, CancellationToken)
+            // Create client
+            ResourceNamesClient resourceNamesClient = await ResourceNamesClient.CreateAsync();
+            // Initialize request argument(s)
+            DeprecatedPatternName name = DeprecatedPatternName.FromItem("[ITEM_ID]");
+            // Make the request
+#pragma warning disable CS0612
+            Response response = await resourceNamesClient.DeprecatedPatternMethodAsync(name);
+#pragma warning restore CS0612
+            // End snippet
+        }
+
         /// <summary>Snippet for WildcardOnlyPatternMethod</summary>
         public void WildcardOnlyPatternMethodRequestObject()
         {

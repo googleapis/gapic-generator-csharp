@@ -34,7 +34,9 @@ namespace Testing.Deprecated.Snippets
             string deprecatedField1 = "";
             string deprecatedField2 = "";
             // Make the request
+#pragma warning disable CS0612
             Response response = await deprecatedClient.DeprecatedFieldMethodAsync(deprecatedField1, deprecatedField2);
+#pragma warning restore CS0612
         }
     }
 }

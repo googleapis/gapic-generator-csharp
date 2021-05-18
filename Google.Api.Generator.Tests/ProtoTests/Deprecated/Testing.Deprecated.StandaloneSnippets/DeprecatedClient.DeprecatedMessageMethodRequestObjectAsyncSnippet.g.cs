@@ -35,7 +35,9 @@ namespace Testing.Deprecated.Snippets
             DeprecatedMessageRequest request = new DeprecatedMessageRequest { };
 #pragma warning restore CS0612
             // Make the request
+#pragma warning disable CS0612
             Response response = await deprecatedClient.DeprecatedMessageMethodAsync(request);
+#pragma warning restore CS0612
         }
     }
 }

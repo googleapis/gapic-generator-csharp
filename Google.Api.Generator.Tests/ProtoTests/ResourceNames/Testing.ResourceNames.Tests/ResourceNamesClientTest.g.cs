@@ -190,6 +190,132 @@ namespace Testing.ResourceNames.Tests
         }
 
         [xunit::FactAttribute]
+        public void DeprecatedPatternMethodRequestObject()
+        {
+            moq::Mock<ResourceNames.ResourceNamesClient> mockGrpcClient = new moq::Mock<ResourceNames.ResourceNamesClient>(moq::MockBehavior.Strict);
+            DeprecatedPattern request = new DeprecatedPattern
+            {
+#pragma warning disable CS0612
+                DeprecatedPatternName = DeprecatedPatternName.FromItem("[ITEM_ID]"),
+#pragma warning restore CS0612
+            };
+            Response expectedResponse = new Response { };
+            mockGrpcClient.Setup(x => x.DeprecatedPatternMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            Response response = client.DeprecatedPatternMethod(request);
+            xunit::Assert.Same(expectedResponse, response);
+            mockGrpcClient.VerifyAll();
+        }
+
+        [xunit::FactAttribute]
+        public async stt::Task DeprecatedPatternMethodRequestObjectAsync()
+        {
+            moq::Mock<ResourceNames.ResourceNamesClient> mockGrpcClient = new moq::Mock<ResourceNames.ResourceNamesClient>(moq::MockBehavior.Strict);
+            DeprecatedPattern request = new DeprecatedPattern
+            {
+#pragma warning disable CS0612
+                DeprecatedPatternName = DeprecatedPatternName.FromItem("[ITEM_ID]"),
+#pragma warning restore CS0612
+            };
+            Response expectedResponse = new Response { };
+            mockGrpcClient.Setup(x => x.DeprecatedPatternMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            Response responseCallSettings = await client.DeprecatedPatternMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
+            xunit::Assert.Same(expectedResponse, responseCallSettings);
+            Response responseCancellationToken = await client.DeprecatedPatternMethodAsync(request, st::CancellationToken.None);
+            xunit::Assert.Same(expectedResponse, responseCancellationToken);
+            mockGrpcClient.VerifyAll();
+        }
+
+        [xunit::FactAttribute]
+        public void DeprecatedPatternMethod()
+        {
+            moq::Mock<ResourceNames.ResourceNamesClient> mockGrpcClient = new moq::Mock<ResourceNames.ResourceNamesClient>(moq::MockBehavior.Strict);
+            DeprecatedPattern request = new DeprecatedPattern
+            {
+#pragma warning disable CS0612
+                DeprecatedPatternName = DeprecatedPatternName.FromItem("[ITEM_ID]"),
+#pragma warning restore CS0612
+            };
+            Response expectedResponse = new Response { };
+            mockGrpcClient.Setup(x => x.DeprecatedPatternMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+#pragma warning disable CS0612
+            Response response = client.DeprecatedPatternMethod(request.Name);
+#pragma warning restore CS0612
+            xunit::Assert.Same(expectedResponse, response);
+            mockGrpcClient.VerifyAll();
+        }
+
+        [xunit::FactAttribute]
+        public async stt::Task DeprecatedPatternMethodAsync()
+        {
+            moq::Mock<ResourceNames.ResourceNamesClient> mockGrpcClient = new moq::Mock<ResourceNames.ResourceNamesClient>(moq::MockBehavior.Strict);
+            DeprecatedPattern request = new DeprecatedPattern
+            {
+#pragma warning disable CS0612
+                DeprecatedPatternName = DeprecatedPatternName.FromItem("[ITEM_ID]"),
+#pragma warning restore CS0612
+            };
+            Response expectedResponse = new Response { };
+            mockGrpcClient.Setup(x => x.DeprecatedPatternMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+#pragma warning disable CS0612
+            Response responseCallSettings = await client.DeprecatedPatternMethodAsync(request.Name, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
+#pragma warning restore CS0612
+            xunit::Assert.Same(expectedResponse, responseCallSettings);
+#pragma warning disable CS0612
+            Response responseCancellationToken = await client.DeprecatedPatternMethodAsync(request.Name, st::CancellationToken.None);
+#pragma warning restore CS0612
+            xunit::Assert.Same(expectedResponse, responseCancellationToken);
+            mockGrpcClient.VerifyAll();
+        }
+
+        [xunit::FactAttribute]
+        public void DeprecatedPatternMethodResourceNames()
+        {
+            moq::Mock<ResourceNames.ResourceNamesClient> mockGrpcClient = new moq::Mock<ResourceNames.ResourceNamesClient>(moq::MockBehavior.Strict);
+            DeprecatedPattern request = new DeprecatedPattern
+            {
+#pragma warning disable CS0612
+                DeprecatedPatternName = DeprecatedPatternName.FromItem("[ITEM_ID]"),
+#pragma warning restore CS0612
+            };
+            Response expectedResponse = new Response { };
+            mockGrpcClient.Setup(x => x.DeprecatedPatternMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+#pragma warning disable CS0612
+            Response response = client.DeprecatedPatternMethod(request.DeprecatedPatternName);
+#pragma warning restore CS0612
+            xunit::Assert.Same(expectedResponse, response);
+            mockGrpcClient.VerifyAll();
+        }
+
+        [xunit::FactAttribute]
+        public async stt::Task DeprecatedPatternMethodResourceNamesAsync()
+        {
+            moq::Mock<ResourceNames.ResourceNamesClient> mockGrpcClient = new moq::Mock<ResourceNames.ResourceNamesClient>(moq::MockBehavior.Strict);
+            DeprecatedPattern request = new DeprecatedPattern
+            {
+#pragma warning disable CS0612
+                DeprecatedPatternName = DeprecatedPatternName.FromItem("[ITEM_ID]"),
+#pragma warning restore CS0612
+            };
+            Response expectedResponse = new Response { };
+            mockGrpcClient.Setup(x => x.DeprecatedPatternMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+#pragma warning disable CS0612
+            Response responseCallSettings = await client.DeprecatedPatternMethodAsync(request.DeprecatedPatternName, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
+#pragma warning restore CS0612
+            xunit::Assert.Same(expectedResponse, responseCallSettings);
+#pragma warning disable CS0612
+            Response responseCancellationToken = await client.DeprecatedPatternMethodAsync(request.DeprecatedPatternName, st::CancellationToken.None);
+#pragma warning restore CS0612
+            xunit::Assert.Same(expectedResponse, responseCancellationToken);
+            mockGrpcClient.VerifyAll();
+        }
+
+        [xunit::FactAttribute]
         public void WildcardOnlyPatternMethodRequestObject()
         {
             moq::Mock<ResourceNames.ResourceNamesClient> mockGrpcClient = new moq::Mock<ResourceNames.ResourceNamesClient>(moq::MockBehavior.Strict);

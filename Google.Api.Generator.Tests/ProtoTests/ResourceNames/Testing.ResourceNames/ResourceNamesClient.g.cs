@@ -45,6 +45,7 @@ namespace Testing.ResourceNames
         {
             gax::GaxPreconditions.CheckNotNull(existing, nameof(existing));
             SinglePatternMethodSettings = existing.SinglePatternMethodSettings;
+            DeprecatedPatternMethodSettings = existing.DeprecatedPatternMethodSettings;
             WildcardOnlyPatternMethodSettings = existing.WildcardOnlyPatternMethodSettings;
             WildcardMultiPatternMethodSettings = existing.WildcardMultiPatternMethodSettings;
             WildcardMultiPatternMultipleMethodSettings = existing.WildcardMultiPatternMultipleMethodSettings;
@@ -64,6 +65,19 @@ namespace Testing.ResourceNames
         /// </list>
         /// </remarks>
         public gaxgrpc::CallSettings SinglePatternMethodSettings { get; set; } = gaxgrpc::CallSettings.FromExpiration(gax::Expiration.None);
+
+        /// <summary>
+        /// <see cref="gaxgrpc::CallSettings"/> for synchronous and asynchronous calls to
+        /// <c>ResourceNamesClient.DeprecatedPatternMethod</c> and <c>ResourceNamesClient.DeprecatedPatternMethodAsync</c>
+        /// .
+        /// </summary>
+        /// <remarks>
+        /// <list type="bullet">
+        /// <item><description>This call will not be retried.</description></item>
+        /// <item><description>No timeout is applied.</description></item>
+        /// </list>
+        /// </remarks>
+        public gaxgrpc::CallSettings DeprecatedPatternMethodSettings { get; set; } = gaxgrpc::CallSettings.FromExpiration(gax::Expiration.None);
 
         /// <summary>
         /// <see cref="gaxgrpc::CallSettings"/> for synchronous and asynchronous calls to
@@ -414,6 +428,96 @@ namespace Testing.ResourceNames
         /// <returns>A Task containing the RPC response.</returns>
         public virtual stt::Task<Response> SinglePatternMethodAsync(SinglePatternName realName, SinglePatternName @ref, scg::IEnumerable<SinglePatternName> repeatedRef, SinglePatternName valueRef, scg::IEnumerable<SinglePatternName> repeatedValueRef, st::CancellationToken cancellationToken) =>
             SinglePatternMethodAsync(realName, @ref, repeatedRef, valueRef, repeatedValueRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+
+        /// <summary>
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>The RPC response.</returns>
+        public virtual Response DeprecatedPatternMethod(DeprecatedPattern request, gaxgrpc::CallSettings callSettings = null) =>
+            throw new sys::NotImplementedException();
+
+        /// <summary>
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<Response> DeprecatedPatternMethodAsync(DeprecatedPattern request, gaxgrpc::CallSettings callSettings = null) =>
+            throw new sys::NotImplementedException();
+
+        /// <summary>
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<Response> DeprecatedPatternMethodAsync(DeprecatedPattern request, st::CancellationToken cancellationToken) =>
+            DeprecatedPatternMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+
+        /// <summary>
+        /// </summary>
+        /// <param name="name">
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>The RPC response.</returns>
+        [sys::ObsoleteAttribute]
+        public virtual Response DeprecatedPatternMethod(string name, gaxgrpc::CallSettings callSettings = null) =>
+            DeprecatedPatternMethod(new DeprecatedPattern { Name = name ?? "", }, callSettings);
+
+        /// <summary>
+        /// </summary>
+        /// <param name="name">
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        [sys::ObsoleteAttribute]
+        public virtual stt::Task<Response> DeprecatedPatternMethodAsync(string name, gaxgrpc::CallSettings callSettings = null) =>
+            DeprecatedPatternMethodAsync(new DeprecatedPattern { Name = name ?? "", }, callSettings);
+
+        /// <summary>
+        /// </summary>
+        /// <param name="name">
+        /// </param>
+        /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        [sys::ObsoleteAttribute]
+        public virtual stt::Task<Response> DeprecatedPatternMethodAsync(string name, st::CancellationToken cancellationToken) =>
+            DeprecatedPatternMethodAsync(name, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+
+        /// <summary>
+        /// </summary>
+        /// <param name="name">
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>The RPC response.</returns>
+        [sys::ObsoleteAttribute]
+        public virtual Response DeprecatedPatternMethod(DeprecatedPatternName name, gaxgrpc::CallSettings callSettings = null) =>
+            DeprecatedPatternMethod(new DeprecatedPattern
+            {
+                DeprecatedPatternName = name,
+            }, callSettings);
+
+        /// <summary>
+        /// </summary>
+        /// <param name="name">
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        [sys::ObsoleteAttribute]
+        public virtual stt::Task<Response> DeprecatedPatternMethodAsync(DeprecatedPatternName name, gaxgrpc::CallSettings callSettings = null) =>
+            DeprecatedPatternMethodAsync(new DeprecatedPattern
+            {
+                DeprecatedPatternName = name,
+            }, callSettings);
+
+        /// <summary>
+        /// </summary>
+        /// <param name="name">
+        /// </param>
+        /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        [sys::ObsoleteAttribute]
+        public virtual stt::Task<Response> DeprecatedPatternMethodAsync(DeprecatedPatternName name, st::CancellationToken cancellationToken) =>
+            DeprecatedPatternMethodAsync(name, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
         /// </summary>
@@ -1379,6 +1483,8 @@ namespace Testing.ResourceNames
     {
         private readonly gaxgrpc::ApiCall<SinglePattern, Response> _callSinglePatternMethod;
 
+        private readonly gaxgrpc::ApiCall<DeprecatedPattern, Response> _callDeprecatedPatternMethod;
+
         private readonly gaxgrpc::ApiCall<WildcardOnlyPattern, Response> _callWildcardOnlyPatternMethod;
 
         private readonly gaxgrpc::ApiCall<WildcardMultiPattern, Response> _callWildcardMultiPatternMethod;
@@ -1398,6 +1504,9 @@ namespace Testing.ResourceNames
             _callSinglePatternMethod = clientHelper.BuildApiCall<SinglePattern, Response>(grpcClient.SinglePatternMethodAsync, grpcClient.SinglePatternMethod, effectiveSettings.SinglePatternMethodSettings);
             Modify_ApiCall(ref _callSinglePatternMethod);
             Modify_SinglePatternMethodApiCall(ref _callSinglePatternMethod);
+            _callDeprecatedPatternMethod = clientHelper.BuildApiCall<DeprecatedPattern, Response>(grpcClient.DeprecatedPatternMethodAsync, grpcClient.DeprecatedPatternMethod, effectiveSettings.DeprecatedPatternMethodSettings);
+            Modify_ApiCall(ref _callDeprecatedPatternMethod);
+            Modify_DeprecatedPatternMethodApiCall(ref _callDeprecatedPatternMethod);
             _callWildcardOnlyPatternMethod = clientHelper.BuildApiCall<WildcardOnlyPattern, Response>(grpcClient.WildcardOnlyPatternMethodAsync, grpcClient.WildcardOnlyPatternMethod, effectiveSettings.WildcardOnlyPatternMethodSettings);
             Modify_ApiCall(ref _callWildcardOnlyPatternMethod);
             Modify_WildcardOnlyPatternMethodApiCall(ref _callWildcardOnlyPatternMethod);
@@ -1414,6 +1523,8 @@ namespace Testing.ResourceNames
 
         partial void Modify_SinglePatternMethodApiCall(ref gaxgrpc::ApiCall<SinglePattern, Response> call);
 
+        partial void Modify_DeprecatedPatternMethodApiCall(ref gaxgrpc::ApiCall<DeprecatedPattern, Response> call);
+
         partial void Modify_WildcardOnlyPatternMethodApiCall(ref gaxgrpc::ApiCall<WildcardOnlyPattern, Response> call);
 
         partial void Modify_WildcardMultiPatternMethodApiCall(ref gaxgrpc::ApiCall<WildcardMultiPattern, Response> call);
@@ -1426,6 +1537,8 @@ namespace Testing.ResourceNames
         public override ResourceNames.ResourceNamesClient GrpcClient { get; }
 
         partial void Modify_SinglePattern(ref SinglePattern request, ref gaxgrpc::CallSettings settings);
+
+        partial void Modify_DeprecatedPattern(ref DeprecatedPattern request, ref gaxgrpc::CallSettings settings);
 
         partial void Modify_WildcardOnlyPattern(ref WildcardOnlyPattern request, ref gaxgrpc::CallSettings settings);
 
@@ -1453,6 +1566,28 @@ namespace Testing.ResourceNames
         {
             Modify_SinglePattern(ref request, ref callSettings);
             return _callSinglePatternMethod.Async(request, callSettings);
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>The RPC response.</returns>
+        public override Response DeprecatedPatternMethod(DeprecatedPattern request, gaxgrpc::CallSettings callSettings = null)
+        {
+            Modify_DeprecatedPattern(ref request, ref callSettings);
+            return _callDeprecatedPatternMethod.Sync(request, callSettings);
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public override stt::Task<Response> DeprecatedPatternMethodAsync(DeprecatedPattern request, gaxgrpc::CallSettings callSettings = null)
+        {
+            Modify_DeprecatedPattern(ref request, ref callSettings);
+            return _callDeprecatedPatternMethod.Async(request, callSettings);
         }
 
         /// <summary>

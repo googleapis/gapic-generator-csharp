@@ -265,13 +265,12 @@ namespace Testing.Deprecated
         /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The RPC response.</returns>
+        [sys::ObsoleteAttribute]
         public virtual Response DeprecatedFieldMethod(string deprecatedField1, string deprecatedField2, gaxgrpc::CallSettings callSettings = null) =>
             DeprecatedFieldMethod(new DeprecatedFieldRequest
             {
-#pragma warning disable CS0612
                 DeprecatedField1 = deprecatedField1 ?? "",
                 DeprecatedField2 = deprecatedField2 ?? "",
-#pragma warning restore CS0612
             }, callSettings);
 
         /// <summary>
@@ -282,13 +281,12 @@ namespace Testing.Deprecated
         /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A Task containing the RPC response.</returns>
+        [sys::ObsoleteAttribute]
         public virtual stt::Task<Response> DeprecatedFieldMethodAsync(string deprecatedField1, string deprecatedField2, gaxgrpc::CallSettings callSettings = null) =>
             DeprecatedFieldMethodAsync(new DeprecatedFieldRequest
             {
-#pragma warning disable CS0612
                 DeprecatedField1 = deprecatedField1 ?? "",
                 DeprecatedField2 = deprecatedField2 ?? "",
-#pragma warning restore CS0612
             }, callSettings);
 
         /// <summary>
@@ -299,6 +297,7 @@ namespace Testing.Deprecated
         /// </param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
         /// <returns>A Task containing the RPC response.</returns>
+        [sys::ObsoleteAttribute]
         public virtual stt::Task<Response> DeprecatedFieldMethodAsync(string deprecatedField1, string deprecatedField2, st::CancellationToken cancellationToken) =>
             DeprecatedFieldMethodAsync(deprecatedField1, deprecatedField2, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
@@ -307,6 +306,7 @@ namespace Testing.Deprecated
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The RPC response.</returns>
+        [sys::ObsoleteAttribute]
 #pragma warning disable CS0612
         public virtual Response DeprecatedMessageMethod(DeprecatedMessageRequest request, gaxgrpc::CallSettings callSettings = null) =>
 #pragma warning restore CS0612
@@ -317,6 +317,7 @@ namespace Testing.Deprecated
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A Task containing the RPC response.</returns>
+        [sys::ObsoleteAttribute]
 #pragma warning disable CS0612
         public virtual stt::Task<Response> DeprecatedMessageMethodAsync(DeprecatedMessageRequest request, gaxgrpc::CallSettings callSettings = null) =>
 #pragma warning restore CS0612
@@ -327,6 +328,7 @@ namespace Testing.Deprecated
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
         /// <returns>A Task containing the RPC response.</returns>
+        [sys::ObsoleteAttribute]
 #pragma warning disable CS0612
         public virtual stt::Task<Response> DeprecatedMessageMethodAsync(DeprecatedMessageRequest request, st::CancellationToken cancellationToken) =>
 #pragma warning restore CS0612
@@ -337,6 +339,7 @@ namespace Testing.Deprecated
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The RPC response.</returns>
+        [sys::ObsoleteAttribute]
         public virtual Response DeprecatedMethod(Request request, gaxgrpc::CallSettings callSettings = null) =>
             throw new sys::NotImplementedException();
 
@@ -345,6 +348,7 @@ namespace Testing.Deprecated
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A Task containing the RPC response.</returns>
+        [sys::ObsoleteAttribute]
         public virtual stt::Task<Response> DeprecatedMethodAsync(Request request, gaxgrpc::CallSettings callSettings = null) =>
             throw new sys::NotImplementedException();
 
@@ -353,6 +357,7 @@ namespace Testing.Deprecated
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
         /// <returns>A Task containing the RPC response.</returns>
+        [sys::ObsoleteAttribute]
         public virtual stt::Task<Response> DeprecatedMethodAsync(Request request, st::CancellationToken cancellationToken) =>
             DeprecatedMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
@@ -361,6 +366,7 @@ namespace Testing.Deprecated
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The RPC response.</returns>
+        [sys::ObsoleteAttribute]
 #pragma warning disable CS0612
         public virtual DeprecatedMessageResponse DeprecatedResponseMethod(Request request, gaxgrpc::CallSettings callSettings = null) =>
 #pragma warning restore CS0612
@@ -371,6 +377,7 @@ namespace Testing.Deprecated
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A Task containing the RPC response.</returns>
+        [sys::ObsoleteAttribute]
 #pragma warning disable CS0612
         public virtual stt::Task<DeprecatedMessageResponse> DeprecatedResponseMethodAsync(Request request, gaxgrpc::CallSettings callSettings = null) =>
 #pragma warning restore CS0612
@@ -381,6 +388,7 @@ namespace Testing.Deprecated
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
         /// <returns>A Task containing the RPC response.</returns>
+        [sys::ObsoleteAttribute]
 #pragma warning disable CS0612
         public virtual stt::Task<DeprecatedMessageResponse> DeprecatedResponseMethodAsync(Request request, st::CancellationToken cancellationToken) =>
 #pragma warning restore CS0612
@@ -422,7 +430,9 @@ namespace Testing.Deprecated
 #pragma warning restore CS0612
             Modify_ApiCall(ref _callDeprecatedMessageMethod);
             Modify_DeprecatedMessageMethodApiCall(ref _callDeprecatedMessageMethod);
+#pragma warning disable CS0612
             _callDeprecatedMethod = clientHelper.BuildApiCall<Request, Response>(grpcClient.DeprecatedMethodAsync, grpcClient.DeprecatedMethod, effectiveSettings.DeprecatedMethodSettings);
+#pragma warning restore CS0612
             Modify_ApiCall(ref _callDeprecatedMethod);
             Modify_DeprecatedMethodApiCall(ref _callDeprecatedMethod);
 #pragma warning disable CS0612
@@ -487,6 +497,7 @@ namespace Testing.Deprecated
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The RPC response.</returns>
+        [sys::ObsoleteAttribute]
 #pragma warning disable CS0612
         public override Response DeprecatedMessageMethod(DeprecatedMessageRequest request, gaxgrpc::CallSettings callSettings = null)
 #pragma warning restore CS0612
@@ -500,6 +511,7 @@ namespace Testing.Deprecated
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A Task containing the RPC response.</returns>
+        [sys::ObsoleteAttribute]
 #pragma warning disable CS0612
         public override stt::Task<Response> DeprecatedMessageMethodAsync(DeprecatedMessageRequest request, gaxgrpc::CallSettings callSettings = null)
 #pragma warning restore CS0612
@@ -513,6 +525,7 @@ namespace Testing.Deprecated
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The RPC response.</returns>
+        [sys::ObsoleteAttribute]
         public override Response DeprecatedMethod(Request request, gaxgrpc::CallSettings callSettings = null)
         {
             Modify_Request(ref request, ref callSettings);
@@ -524,6 +537,7 @@ namespace Testing.Deprecated
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A Task containing the RPC response.</returns>
+        [sys::ObsoleteAttribute]
         public override stt::Task<Response> DeprecatedMethodAsync(Request request, gaxgrpc::CallSettings callSettings = null)
         {
             Modify_Request(ref request, ref callSettings);
@@ -535,6 +549,7 @@ namespace Testing.Deprecated
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The RPC response.</returns>
+        [sys::ObsoleteAttribute]
 #pragma warning disable CS0612
         public override DeprecatedMessageResponse DeprecatedResponseMethod(Request request, gaxgrpc::CallSettings callSettings = null)
 #pragma warning restore CS0612
@@ -548,6 +563,7 @@ namespace Testing.Deprecated
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A Task containing the RPC response.</returns>
+        [sys::ObsoleteAttribute]
 #pragma warning disable CS0612
         public override stt::Task<DeprecatedMessageResponse> DeprecatedResponseMethodAsync(Request request, gaxgrpc::CallSettings callSettings = null)
 #pragma warning restore CS0612

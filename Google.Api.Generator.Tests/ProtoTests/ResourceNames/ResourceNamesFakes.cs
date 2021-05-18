@@ -27,6 +27,8 @@ namespace Testing.ResourceNames
             public ResourceNamesClient(CallInvoker callInvoker) { }
             public virtual Response SinglePatternMethod(SinglePattern request, CallOptions callOptions) => throw new NotImplementedException();
             public virtual AsyncUnaryCall<Response> SinglePatternMethodAsync(SinglePattern request, CallOptions callOptions) => throw new NotImplementedException();
+            public virtual Response DeprecatedPatternMethod(DeprecatedPattern request, CallOptions callOptions) => throw new NotImplementedException();
+            public virtual AsyncUnaryCall<Response> DeprecatedPatternMethodAsync(DeprecatedPattern request, CallOptions callOptions) => throw new NotImplementedException();
             public virtual Response WildcardOnlyPatternMethod(WildcardOnlyPattern request, CallOptions callOptions) => throw new NotImplementedException();
             public virtual AsyncUnaryCall<Response> WildcardOnlyPatternMethodAsync(WildcardOnlyPattern request, CallOptions callOptions) => throw new NotImplementedException();
             public virtual Response WildcardMultiPatternMethod(WildcardMultiPattern request, CallOptions callOptions) => throw new NotImplementedException();
@@ -43,6 +45,12 @@ namespace Testing.ResourceNames
         public RepeatedField<string> RepeatedRef { get; } = new RepeatedField<string>();
         public string ValueRef { get; set; }
         public RepeatedField<string> RepeatedValueRef { get; } = new RepeatedField<string>();
+    }
+
+    public partial class DeprecatedPattern : ProtoMsgFake<DeprecatedPattern>
+    {
+        [Obsolete]
+        public string Name { get; set; }
     }
 
     public partial class WildcardOnlyPattern : ProtoMsgFake<WildcardOnlyPattern>

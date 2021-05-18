@@ -122,7 +122,9 @@ namespace Testing.Deprecated.Tests
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.DeprecatedMessageMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
             DeprecatedClient client = new DeprecatedClientImpl(mockGrpcClient.Object, null);
+#pragma warning disable CS0612
             Response response = client.DeprecatedMessageMethod(request);
+#pragma warning restore CS0612
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
         }
@@ -137,9 +139,13 @@ namespace Testing.Deprecated.Tests
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.DeprecatedMessageMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
             DeprecatedClient client = new DeprecatedClientImpl(mockGrpcClient.Object, null);
+#pragma warning disable CS0612
             Response responseCallSettings = await client.DeprecatedMessageMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
+#pragma warning restore CS0612
             xunit::Assert.Same(expectedResponse, responseCallSettings);
+#pragma warning disable CS0612
             Response responseCancellationToken = await client.DeprecatedMessageMethodAsync(request, st::CancellationToken.None);
+#pragma warning restore CS0612
             xunit::Assert.Same(expectedResponse, responseCancellationToken);
             mockGrpcClient.VerifyAll();
         }
@@ -152,7 +158,9 @@ namespace Testing.Deprecated.Tests
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.DeprecatedMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
             DeprecatedClient client = new DeprecatedClientImpl(mockGrpcClient.Object, null);
+#pragma warning disable CS0612
             Response response = client.DeprecatedMethod(request);
+#pragma warning restore CS0612
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
         }
@@ -165,9 +173,13 @@ namespace Testing.Deprecated.Tests
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.DeprecatedMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
             DeprecatedClient client = new DeprecatedClientImpl(mockGrpcClient.Object, null);
+#pragma warning disable CS0612
             Response responseCallSettings = await client.DeprecatedMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
+#pragma warning restore CS0612
             xunit::Assert.Same(expectedResponse, responseCallSettings);
+#pragma warning disable CS0612
             Response responseCancellationToken = await client.DeprecatedMethodAsync(request, st::CancellationToken.None);
+#pragma warning restore CS0612
             xunit::Assert.Same(expectedResponse, responseCancellationToken);
             mockGrpcClient.VerifyAll();
         }
