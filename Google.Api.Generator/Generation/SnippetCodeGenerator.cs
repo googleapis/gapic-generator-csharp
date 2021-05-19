@@ -378,7 +378,7 @@ namespace Google.Api.Generator.Generation
                         "// Or get the name of the operation",
                         LroOperationName.WithInitializer(Response.Access(nameof(Operation<ProtoMsg, ProtoMsg>.Name))),
                         "// This name can be stored, then the long-running operation retrieved later by name",
-                        LroRetrievedResponse.WithInitializer(Client.Call(MethodLro.SyncPollMethodName)(LroOperationName)),
+                        LroRetrievedResponse.WithInitializer(Client.MaybeObsoleteCall(MethodLro.SyncPollMethodName, Method.IsDeprecated)(LroOperationName)),
                         "// Check if the retrieved long-running operation has completed",
                         If(LroRetrievedResponse.Access(nameof(Operation<ProtoMsg, ProtoMsg>.IsCompleted)))
                             .Then(
@@ -406,7 +406,7 @@ namespace Google.Api.Generator.Generation
                         "// Or get the name of the operation",
                         LroOperationName.WithInitializer(Response.Access(nameof(Operation<ProtoMsg, ProtoMsg>.Name))),
                         "// This name can be stored, then the long-running operation retrieved later by name",
-                        LroRetrievedResponse.WithInitializer(Await(Client.Call(MethodLro.AsyncPollMethodName)(LroOperationName))),
+                        LroRetrievedResponse.WithInitializer(Await(Client.MaybeObsoleteCall(MethodLro.AsyncPollMethodName, Method.IsDeprecated)(LroOperationName))),
                         "// Check if the retrieved long-running operation has completed",
                         If(LroRetrievedResponse.Access(nameof(Operation<ProtoMsg, ProtoMsg>.IsCompleted)))
                             .Then(
