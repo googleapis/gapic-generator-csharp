@@ -18,7 +18,8 @@ load("//rules_csharp_gapic:csharp_compiler_repo.bzl", "csharp_compiler", "dotnet
 
 def gapic_generator_csharp_repositories():
     _rules_gapic_version = "0.5.4"
-    http_archive(
+    maybe(
+        http_archive,
         name = "rules_gapic",
         strip_prefix = "rules_gapic-%s" % _rules_gapic_version,
         urls = ["https://github.com/googleapis/rules_gapic/archive/v%s.tar.gz" % _rules_gapic_version],
