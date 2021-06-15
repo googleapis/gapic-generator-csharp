@@ -14,6 +14,7 @@
 
 load("@gapic_generator_csharp//rules_csharp_gapic:csharp_gapic.bzl", "csharp_proto_library", "csharp_grpc_library", "csharp_gapic_library")
 load("@gapic_generator_csharp//rules_csharp_gapic:csharp_gapic_pkg.bzl", "csharp_gapic_assembly_pkg")
+load("@rules_proto//proto:defs.bzl", "proto_library")
 
 proto_library(
     name = "example_proto",
