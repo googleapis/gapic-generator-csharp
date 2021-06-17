@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-load("@com_google_api_codegen//rules_gapic:gapic.bzl", "GapicInfo")
+load("@rules_gapic//:gapic.bzl", "GapicInfo")
 
 def _csharp_gapic_assembly_pkg_impl(ctx):
     out_dir = ctx.actions.declare_directory(ctx.attr.package_dir)
@@ -43,10 +43,10 @@ tar -czhpf {out_tar} -C {out_dir}/.. {pkg_name}
             out_dir = out_dir.path,
             out_tar = out_tar.path,
             pkg_name = ctx.attr.name,
-        )
+        ),
     )
     return [DefaultInfo(
-        files = depset(direct = [out_tar])
+        files = depset(direct = [out_tar]),
     )]
 
 _csharp_gapic_assembly_pkg = rule(
@@ -55,7 +55,7 @@ _csharp_gapic_assembly_pkg = rule(
         "deps": attr.label_list(mandatory = True, allow_files = True),
         "package_dir": attr.string(mandatory = True),
         "_zipper": attr.label(default = Label("@bazel_tools//tools/zip:zipper"), cfg = "host", executable = True),
-    }
+    },
 )
 
 def csharp_gapic_assembly_pkg(name, deps, **kwargs):

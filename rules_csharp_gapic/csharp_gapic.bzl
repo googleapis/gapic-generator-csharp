@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-load("@com_google_api_codegen//rules_gapic:gapic.bzl", "proto_custom_library", "GapicInfo")
+load("@rules_gapic//:gapic.bzl", "GapicInfo", "proto_custom_library")
 
 def csharp_proto_library(name, deps, **kwargs):
     # Build zip file of protoc output
@@ -45,8 +45,8 @@ def _csharp_gapic_library_add_gapicinfo_impl(ctx):
 _csharp_gapic_library_add_gapicinfo = rule(
     implementation = _csharp_gapic_library_add_gapicinfo_impl,
     attrs = {
-        "output": attr.label(allow_single_file = True)
-    }
+        "output": attr.label(allow_single_file = True),
+    },
 )
 
 def csharp_gapic_library(
@@ -76,4 +76,3 @@ def csharp_gapic_library(
         name = name,
         output = ":{name_srcjar}".format(name_srcjar = name_srcjar),
     )
-
