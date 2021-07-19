@@ -20,10 +20,9 @@ namespace Google.Api.Generator.Generation
 {
     internal static class CsProjGenerator
     {
-        private const string GaxGrpcCoreVersion = "3.1.0";
-        private const string GrpcCoreVersion = "2.32.0";
-        private const string LroVersion = "2.0.0";
-        private const string ProtobufVersion = "3.13.0"; // Required due to incompatibility between GAX and the protoc version used by the bazel rules.
+        private const string GaxGrpcCoreVersion = "[3.4.0, 4.0.0)";
+        private const string GrpcCoreVersion = "[2.38.0, 3.0.0)";
+        private const string LroVersion = "[2.2.0, 3.0.0)";
 
         public static string GenerateClient(bool hasLro)
         {
@@ -63,7 +62,6 @@ namespace Google.Api.Generator.Generation
 
     <!-- These items should not require editing -->
     <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
-    <TargetFrameworks Condition=""'$(OS)' != 'Windows_NT'"">netstandard2.0</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Deterministic>true</Deterministic>
@@ -74,7 +72,7 @@ namespace Google.Api.Generator.Generation
   <ItemGroup>
     <PackageReference Include=""Google.Api.Gax.Grpc.GrpcCore"" Version=""{GaxGrpcCoreVersion}"" />
     <PackageReference Include=""Grpc.Core"" Version=""{GrpcCoreVersion}"" />
-    <PackageReference Include=""Google.Protobuf"" Version=""{ProtobufVersion}"" />{packageRefs}
+    <PackageReference Include=""Microsoft.NETFramework.ReferenceAssemblies"" Version=""1.0.0"" PrivateAssets=""All"" />{packageRefs}
   </ItemGroup>
 
 </Project>
@@ -98,12 +96,13 @@ namespace Google.Api.Generator.Generation
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.1;net461</TargetFrameworks>
-    <TargetFrameworks Condition=""'$(OS)' != 'Windows_NT'"">netcoreapp2.2</TargetFrameworks>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include=""../{clientNamespace}/{clientNamespace}.csproj"" />
+    <PackageReference Include=""System.Linq.Async"" Version=""4.0.0"" />
+    <PackageReference Include=""Microsoft.NETFramework.ReferenceAssemblies"" Version=""1.0.0"" PrivateAssets=""All"" />
   </ItemGroup>
 
 </Project>
@@ -128,6 +127,7 @@ namespace Google.Api.Generator.Generation
     <DotNetCliToolReference Include=""dotnet-xunit"" Version=""2.3.1"" />
     <PackageReference Include=""Moq"" Version=""4.10.1"" />
     <PackageReference Include=""xunit"" Version=""2.4.1"" />
+    <PackageReference Include=""Microsoft.NETFramework.ReferenceAssemblies"" Version=""1.0.0"" PrivateAssets=""All"" />
     <ProjectReference Include=""../{clientNamespace}/{clientNamespace}.csproj"" />
   </ItemGroup>
 
