@@ -284,6 +284,72 @@ namespace Google.Api.Generator.Generation
                 field.IsRepeated && !field.IsMap && (field.FieldType == FieldType.Message || field.FieldType == FieldType.String);
         }
 
+        private static MethodDetails DetectRegapicPagination(ServiceDetails svc, MethodDescriptor desc)
+        {
+            var input = desc.InputType;
+            var output = desc.OutputType;
+
+            var resultsLimitCandidate = FindResultsLimitCandidate(input, IsResultsLimitCandidate);
+            var pageTokenCandidate = input.FindFieldByName("page_token");
+            var nextPageTokenCandidate = output.FindFieldByName("next_page_token");
+
+            var mapCandidateFields = output.Fields.InDeclarationOrder().Where(f => f.IsMap).ToList();
+            var repeatedCandidateFields = output.Fields.InDeclarationOrder().Where(IsRepeatedCandidate).ToList();
+            var repeatedField = mapCandidateFields.SingleOrDefault() ?? repeatedCandidateFields.SingleOrDefault();
+
+            if (resultsLimitCandidate != null && pageTokenCandidate != null && nextPageTokenCandidate != null && repeatedField != null)
+            {
+                if (!IsResultsLimitCandidate(resultsLimitCandidate))
+                {
+                    throw new InvalidOperationException($@"{resultsLimitCandidate.Name} must be of type int32");
+                }
+
+                if (pageTokenCandidate.FieldType != FieldType.String || pageTokenCandidate.IsRepeated)
+                {
+                    throw new InvalidOperationException("page_token must be of type string");
+                }
+                if (nextPageTokenCandidate.FieldType != FieldType.String || nextPageTokenCandidate.IsRepeated)
+                {
+                    throw new InvalidOperationException("next_page_token must be of type string");
+                }
+                
+                return new Paginated(svc, desc, repeatedField, resultsLimitCandidate.FieldNumber, pageTokenCandidate.FieldNumber);
+            }
+            return null;
+
+            bool IsResultsLimitCandidate(FieldDescriptor field) =>
+                field is {FieldType: FieldType.Int32, IsRepeated: false};
+
+            bool IsRepeatedCandidate(FieldDescriptor field) =>
+                field.IsRepeated && !field.IsMap && (field.FieldType == FieldType.Message || field.FieldType == FieldType.String);
+        }
+
+        private static FieldDescriptor FindResultsLimitCandidate(MessageDescriptor input, Func<FieldDescriptor, bool> isResultsLimitCandidate)
+        {
+            // Has the int32 page_size or int32 max_results field which defines the maximum number of paginated resources to return in the response
+            var pageSizeCandidate = input.FindFieldByName("page_size");
+            var maxResultsCandidate = input.FindFieldByName("max_results");
+
+            if (pageSizeCandidate == null && maxResultsCandidate == null)
+            {
+                return null;
+            }
+
+            if (isResultsLimitCandidate(pageSizeCandidate))
+            {
+                return pageSizeCandidate;
+            } 
+
+            if (isResultsLimitCandidate(maxResultsCandidate))
+            {
+                return maxResultsCandidate;
+            }
+
+            // returning the non-null candidate here even though it did not pass all the requirements
+            // an exception should be thrown here but only if method has _all_ candidates, which we will only know later.
+            return pageSizeCandidate ?? maxResultsCandidate; 
+        }
+
         private MethodDetails(ServiceDetails svc, MethodDescriptor desc)
         {
             Svc = svc;
