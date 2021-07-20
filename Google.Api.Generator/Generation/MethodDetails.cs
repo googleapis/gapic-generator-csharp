@@ -301,7 +301,7 @@ namespace Google.Api.Generator.Generation
             {
                 if (!IsResultsLimitCandidate(resultsLimitCandidate))
                 {
-                    throw new InvalidOperationException($@"{resultsLimitCandidate.Name} must be of type int32");
+                    throw new InvalidOperationException($"{resultsLimitCandidate.Name} must be of type int32");
                 }
 
                 if (pageTokenCandidate.FieldType != FieldType.String || pageTokenCandidate.IsRepeated)
