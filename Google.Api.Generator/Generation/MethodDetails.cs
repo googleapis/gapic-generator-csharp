@@ -289,9 +289,9 @@ namespace Google.Api.Generator.Generation
 
             // GRPC case first.
             // - PageSizeCandidate should be named page_size
-            // - There should be no map candidates
             // - The repeated candidate should be the first in both orders
-            if (pageSizeCandidate.Name == "page_size" && repeatedCandidatesByDeclOrder[0] == repeatedCandidatesByNumOrder[0] && !mapCandidates.Any())
+            // - The repeated candidate should have a field number of 1
+            if (pageSizeCandidate.Name == "page_size" && repeatedCandidatesByDeclOrder[0] == repeatedCandidatesByNumOrder[0] && repeatedCandidatesByNumOrder[0].FieldNumber == 1)
             {
                 return new Paginated(svc, desc, repeatedCandidatesByDeclOrder[0], pageSizeCandidate.FieldNumber, pageTokenCandidate.FieldNumber);
             }
