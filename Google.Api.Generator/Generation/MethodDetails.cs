@@ -253,102 +253,108 @@ namespace Google.Api.Generator.Generation
 
             var input = desc.InputType;
             var output = desc.OutputType;
-            var pageSize = input.FindFieldByName("page_size");
-            var pageToken = input.FindFieldByName("page_token");
-            var nextPageToken = output.FindFieldByName("next_page_token");
-            var itemsByDeclOrder = output.Fields.InDeclarationOrder().Where(IsCandidateField).ToList();
-            var itemsByNumOrder = output.Fields.InFieldNumberOrder().Where(IsCandidateField).ToList();
-            if (pageSize != null && pageToken != null && nextPageToken != null && itemsByDeclOrder.Count > 0)
-            {
-                if (pageSize.FieldType != FieldType.Int32 || pageSize.IsRepeated)
-                {
-                    throw new InvalidOperationException("page_size must be of type int32");
-                }
-                if (pageToken.FieldType != FieldType.String || pageToken.IsRepeated)
-                {
-                    throw new InvalidOperationException("page_token must be of type string");
-                }
-                if (nextPageToken.FieldType != FieldType.String || nextPageToken.IsRepeated)
-                {
-                    throw new InvalidOperationException("next_page_token must be of type string");
-                }
-                if (itemsByDeclOrder[0] != itemsByNumOrder[0])
-                {
-                    throw new InvalidOperationException("Item response field must be first by declaration and field-number order.");
-                }
-                return new Paginated(svc, desc, itemsByDeclOrder[0], pageSize.FieldNumber, pageToken.FieldNumber);
-            }
-            return null;
 
-            bool IsCandidateField(FieldDescriptor field) =>
-                field.IsRepeated && !field.IsMap && (field.FieldType == FieldType.Message || field.FieldType == FieldType.String);
-        }
-
-        private static MethodDetails DetectRegapicPagination(ServiceDetails svc, MethodDescriptor desc)
-        {
-            var input = desc.InputType;
-            var output = desc.OutputType;
-
-            var resultsLimitCandidate = FindResultsLimitCandidate(input, IsResultsLimitCandidate);
+            var pageSizeCandidate = FindPageSizeCandidate(input);
             var pageTokenCandidate = input.FindFieldByName("page_token");
             var nextPageTokenCandidate = output.FindFieldByName("next_page_token");
 
-            var mapCandidateFields = output.Fields.InDeclarationOrder().Where(f => f.IsMap).ToList();
-            var repeatedCandidateFields = output.Fields.InDeclarationOrder().Where(IsRepeatedCandidate).ToList();
-            var repeatedField = mapCandidateFields.SingleOrDefault() ?? repeatedCandidateFields.SingleOrDefault();
+            var mapCandidates = output.Fields.InDeclarationOrder().Where(f => f.IsMap).ToList();
+            var repeatedCandidatesByDeclOrder = output.Fields.InDeclarationOrder().Where(IsRepeatedCandidate).ToList();
+            var repeatedCandidatesByNumOrder = output.Fields.InFieldNumberOrder().Where(IsRepeatedCandidate).ToList();
 
-            if (resultsLimitCandidate != null && pageTokenCandidate != null && nextPageTokenCandidate != null && repeatedField != null)
+            var hasMapOrRepeatedCandidates = mapCandidates.Count == 1 || repeatedCandidatesByNumOrder.Count >= 1;
+
+            if (pageSizeCandidate is null || pageTokenCandidate is null || nextPageTokenCandidate is null || !hasMapOrRepeatedCandidates)
             {
-                if (!IsResultsLimitCandidate(resultsLimitCandidate))
-                {
-                    throw new InvalidOperationException($"{resultsLimitCandidate.Name} must be of type int32");
-                }
-
-                if (pageTokenCandidate.FieldType != FieldType.String || pageTokenCandidate.IsRepeated)
-                {
-                    throw new InvalidOperationException("page_token must be of type string");
-                }
-                if (nextPageTokenCandidate.FieldType != FieldType.String || nextPageTokenCandidate.IsRepeated)
-                {
-                    throw new InvalidOperationException("next_page_token must be of type string");
-                }
-                
-                return new Paginated(svc, desc, repeatedField, resultsLimitCandidate.FieldNumber, pageTokenCandidate.FieldNumber);
+                return null;
             }
-            return null;
 
-            bool IsResultsLimitCandidate(FieldDescriptor field) =>
-                field is {FieldType: FieldType.Int32, IsRepeated: false};
+            // At this point the method is a candidate for pagination since its input has page_size/max_results + page_token 
+            // and its output has next_page_token and at least one map or repeated field
+
+            if (!IsValidPageSizeCandidate(pageSizeCandidate))
+            {
+                throw new InvalidOperationException($"{pageSizeCandidate.Name} must be of type int32");
+            }
+
+            if (pageTokenCandidate.FieldType != FieldType.String || pageTokenCandidate.IsRepeated)
+            {
+                throw new InvalidOperationException("page_token must be of type string");
+            }
+
+            if (nextPageTokenCandidate.FieldType != FieldType.String || nextPageTokenCandidate.IsRepeated)
+            {
+                throw new InvalidOperationException("next_page_token must be of type string");
+            }
+
+            // GRPC case first.
+            // - PageSizeCandidate should be named page_size
+            // - There should be no map candidates
+            // - The repeated candidate should be the first in both orders
+            if (pageSizeCandidate.Name == "page_size" && repeatedCandidatesByDeclOrder[0] == repeatedCandidatesByNumOrder[0] && !mapCandidates.Any())
+            {
+                return new Paginated(svc, desc, repeatedCandidatesByDeclOrder[0], pageSizeCandidate.FieldNumber, pageTokenCandidate.FieldNumber);
+            }
+
+            // DiREGapic case where a return message has exactly one map
+            if (mapCandidates.Count == 1)
+            {
+                return new Paginated(svc, desc, mapCandidates.Single(), pageSizeCandidate.FieldNumber,
+                    pageTokenCandidate.FieldNumber);
+            }
+
+            // DiREGapic case where a return message has exactly one repeated field
+            if (repeatedCandidatesByDeclOrder.Count == 1 && !mapCandidates.Any())
+            {
+                return new Paginated(svc, desc, repeatedCandidatesByDeclOrder.Single(), pageSizeCandidate.FieldNumber, pageTokenCandidate.FieldNumber);
+            }
+
+            var errMsg = $"The method {desc.FullName} is selected as a pagination candidate " +
+                         $"but the configuration of the item response field candidates " +
+                         $"does not match any of the configurations we can generate.";
+                              
+            throw new InvalidOperationException(errMsg);
 
             bool IsRepeatedCandidate(FieldDescriptor field) =>
-                field.IsRepeated && !field.IsMap && (field.FieldType == FieldType.Message || field.FieldType == FieldType.String);
+                field.IsRepeated && !field.IsMap && (field.FieldType is FieldType.Message or FieldType.String);
         }
 
-        private static FieldDescriptor FindResultsLimitCandidate(MessageDescriptor input, Func<FieldDescriptor, bool> isResultsLimitCandidate)
+        /// <summary>
+        /// Finds an appropriate candidate for a `page size`/`max results` request field.
+        /// That is a field that is named "page_size" or "max_results" and has a non-repeated Int32 type, if any.
+        /// If no such field exists, then simply a field that is named "page_size" or "max_results".
+        /// </summary>
+        private static FieldDescriptor FindPageSizeCandidate(MessageDescriptor input)
         {
             // Has the int32 page_size or int32 max_results field which defines the maximum number of paginated resources to return in the response
             var pageSizeCandidate = input.FindFieldByName("page_size");
             var maxResultsCandidate = input.FindFieldByName("max_results");
 
-            if (pageSizeCandidate == null && maxResultsCandidate == null)
+            if (pageSizeCandidate is null && maxResultsCandidate is null)
             {
                 return null;
             }
 
-            if (isResultsLimitCandidate(pageSizeCandidate))
+            if (IsValidPageSizeCandidate(pageSizeCandidate))
             {
                 return pageSizeCandidate;
             } 
 
-            if (isResultsLimitCandidate(maxResultsCandidate))
+            if (IsValidPageSizeCandidate(maxResultsCandidate))
             {
                 return maxResultsCandidate;
             }
 
             // returning the non-null candidate here even though it did not pass all the requirements
-            // an exception should be thrown here but only if method has _all_ candidates, which we will only know later.
+            // an exception should be thrown but only if method has _all_ candidates, which we will only know later.
             return pageSizeCandidate ?? maxResultsCandidate; 
-        }
+        }       
+
+        /// <summary>
+        /// The non-name criteria for a field to be a suitable candidate for a `page size`/`max results` request field.
+        /// </summary>
+        private static bool IsValidPageSizeCandidate(FieldDescriptor field) =>
+            field is {FieldType: FieldType.Int32, IsRepeated: false};
 
         private MethodDetails(ServiceDetails svc, MethodDescriptor desc)
         {
