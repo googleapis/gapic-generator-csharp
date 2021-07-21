@@ -316,7 +316,7 @@ namespace Google.Api.Generator.Generation
             throw new InvalidOperationException(errMsg);
 
             bool IsRepeatedCandidate(FieldDescriptor field) =>
-                field.IsRepeated && !field.IsMap && (field.FieldType is FieldType.Message or FieldType.String);
+                field.IsRepeated && !field.IsMap && (field.FieldType == FieldType.Message || field.FieldType == FieldType.String);
         }
 
         /// <summary>
