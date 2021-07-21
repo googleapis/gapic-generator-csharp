@@ -290,8 +290,10 @@ namespace Google.Api.Generator.Generation
             // GRPC case first.
             // - PageSizeCandidate should be named page_size
             // - The repeated candidate should be the first in both orders
-            // - The repeated candidate should have a field number of 1
-            if (pageSizeCandidate.Name == "page_size" && repeatedCandidatesByDeclOrder[0] == repeatedCandidatesByNumOrder[0] && repeatedCandidatesByNumOrder[0].FieldNumber == 1)
+            // - There should be 0 or more than 1 map candidates, to disambiguate with DiREGapic single-map case
+            //   OR The repeated candidate should have a field number of 1 
+            if (pageSizeCandidate.Name == "page_size" && repeatedCandidatesByDeclOrder[0] == repeatedCandidatesByNumOrder[0] && 
+                (repeatedCandidatesByNumOrder[0].FieldNumber == 1 || mapCandidates.Count != 1))
             {
                 return new Paginated(svc, desc, repeatedCandidatesByDeclOrder[0], pageSizeCandidate.FieldNumber, pageTokenCandidate.FieldNumber);
             }
@@ -304,6 +306,7 @@ namespace Google.Api.Generator.Generation
             }
 
             // DiREGapic case where a return message has exactly one repeated field
+            // (pageSizeCandidate's name can be either "page_size" or "max_results")
             if (repeatedCandidatesByDeclOrder.Count == 1 && !mapCandidates.Any())
             {
                 return new Paginated(svc, desc, repeatedCandidatesByDeclOrder.Single(), pageSizeCandidate.FieldNumber, pageTokenCandidate.FieldNumber);
