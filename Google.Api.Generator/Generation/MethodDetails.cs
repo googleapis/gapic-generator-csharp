@@ -251,6 +251,12 @@ namespace Google.Api.Generator.Generation
                 return null;
             }
 
+            //if (desc.File.Package == "google.cloud.compute.v1" &&
+            //    (desc.Name.Contains("ist")))
+            //{
+            //    Debugger.Launch();
+            //}
+
             var input = desc.InputType;
             var output = desc.OutputType;
 
@@ -274,7 +280,7 @@ namespace Google.Api.Generator.Generation
 
             if (!IsValidPageSizeCandidate(pageSizeCandidate))
             {
-                throw new InvalidOperationException($"{pageSizeCandidate.Name} must be of type int32");
+                throw new InvalidOperationException($"{pageSizeCandidate.Name} must be of type int32/uint32");
             }
 
             if (pageTokenCandidate.FieldType != FieldType.String || pageTokenCandidate.IsRepeated)
@@ -357,7 +363,7 @@ namespace Google.Api.Generator.Generation
         /// The non-name criteria for a field to be a suitable candidate for a `page size`/`max results` request field.
         /// </summary>
         private static bool IsValidPageSizeCandidate(FieldDescriptor field) =>
-            field is {FieldType: FieldType.Int32, IsRepeated: false};
+            field!=null && ((field.FieldType == FieldType.Int32 || field.FieldType == FieldType.UInt32) && !field.IsRepeated);
 
         private MethodDetails(ServiceDetails svc, MethodDescriptor desc)
         {
