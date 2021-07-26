@@ -48,6 +48,7 @@ namespace Google.Api.Generator.Generation
 
                 ns = ns.AddMembers(PaginatedPartialClasses(ctx, svc, seenPaginatedResponseTyps).ToArray());
                 ns = ns.AddMembers(LroPartialClasses(ctx, svc).ToArray());
+                ns = ns.AddMembers(MixinPartialClasses(ctx, svc).ToArray());
             }
             return ctx.CreateCompilationUnit(ns);
         }
@@ -213,6 +214,38 @@ namespace Google.Api.Generator.Generation
                                 XmlDoc.Returns("A new Operations client for the same target as this client.")
                             );
                         grpcInnerClass = grpcInnerClass.AddMembers(createOperationsClientMethod);
+                    }
+                    grpcOuterCls = grpcOuterCls.AddMembers(grpcInnerClass);
+                }
+                yield return grpcOuterCls;
+            }
+        }
+
+        private static IEnumerable<MemberDeclarationSyntax> MixinPartialClasses(SourceFileContext ctx, ServiceDetails svc)
+        {
+            if (svc.Mixins.Any())
+            {
+                // Emit partial class to give access to clients for mixin APIs.
+                // (We may well have one of these *and* an LRO partial class, but that's okay.)
+                var grpcOuterCls = Class(Public | Static | Partial, svc.GrpcClientTyp.DeclaringTyp);
+                using (ctx.InClass(grpcOuterCls))
+                {
+                    var grpcInnerClass = Class(Public | Partial, svc.GrpcClientTyp);
+                    using (ctx.InClass(grpcInnerClass))
+                    {
+                        var callInvoker = Property(Private, ctx.TypeDontCare, "CallInvoker");
+
+                        foreach (var mixin in svc.Mixins)
+                        {
+                            var grpcClientType = ctx.Type(mixin.GrpcClientType);
+                            var createClientMethod = Method(Public | Virtual, grpcClientType, "Create" + mixin.GrpcClientType.Name)()
+                                .WithBody(New(grpcClientType)(callInvoker))
+                                .WithXmlDoc(
+                                    XmlDoc.Summary("Creates a new instance of ", grpcClientType, " using the same call invoker as this client."),
+                                    XmlDoc.Returns("A new ", grpcClientType, " for the same target as this client.")
+                                );
+                            grpcInnerClass = grpcInnerClass.AddMembers(createClientMethod);
+                        }
                     }
                     grpcOuterCls = grpcOuterCls.AddMembers(grpcInnerClass);
                 }

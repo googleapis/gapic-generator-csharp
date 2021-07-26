@@ -15,6 +15,8 @@
 using Google.Api.Generator.ProtoUtils;
 using Google.Api.Generator.Utils;
 using Google.Cloud;
+using Google.Cloud.Location;
+using Google.Cloud.Iam.V1;
 using Google.Protobuf.Reflection;
 using Grpc.ServiceConfig;
 using System;
@@ -32,7 +34,13 @@ namespace Google.Api.Generator.Generation
     {
         private static readonly Regex ApiVersionPattern = new Regex("^[vV][0-9]+.*");
 
-        public ServiceDetails(ProtoCatalog catalog, string ns, ServiceDescriptor desc, ServiceConfig grpcServiceConfig)
+        private static readonly Dictionary<string, MixinDetails> AvailableMixins = new[]
+        {
+            new MixinDetails(IAMPolicy.Descriptor.FullName, typeof(IAMPolicyClient), typeof(IAMPolicyClientImpl), typeof(IAMPolicy.IAMPolicyClient), typeof(IAMPolicySettings)),
+            new MixinDetails(Locations.Descriptor.FullName, typeof(LocationsClient), typeof(LocationsClientImpl), typeof(Locations.LocationsClient), typeof(LocationsSettings)),
+        }.ToDictionary(details => details.GrpcServiceName);
+
+        public ServiceDetails(ProtoCatalog catalog, string ns, ServiceDescriptor desc, ServiceConfig grpcServiceConfig, Service serviceConfig)
         {
             Catalog = catalog;
             Namespace = ns;
@@ -70,6 +78,7 @@ namespace Google.Api.Generator.Generation
             SnippetsClientName = $"{desc.Name.ToLowerCamelCase()}Client";
             UnitTestsTyp = Typ.Manual(UnitTestsNamespace, $"Generated{desc.Name}ClientTest");
             NonStandardLro = NonStandardLroDetails.ForService(desc);
+            Mixins = serviceConfig?.Apis.Select(api => AvailableMixins.GetValueOrDefault(api.Name)).Where(mixin => mixin is object).ToList() ?? Enumerable.Empty<MixinDetails>();
         }
 
         /// <summary>The lines of service documentation from the proto.</summary>
@@ -160,6 +169,10 @@ namespace Google.Api.Generator.Generation
         /// </summary>
         public NonStandardLroDetails NonStandardLro { get; }
 
+        /// The services to be mixed in via additional client properties.
+        /// </summary>
+        public IEnumerable<MixinDetails> Mixins { get; }
+
         /// <summary>
         /// The details of a service responsible for LRO polling for a non-standard LRO implementation.
         /// (Multiple other services may have methods that return operations polled by the service.)
@@ -202,6 +215,46 @@ namespace Google.Api.Generator.Generation
                 }
                 // Now we know we won't return null, do everything else in the constructor.
                 return new NonStandardLroDetails(desc, pollingMethods.Single());
+            }
+        }
+
+        /// <summary>
+        /// The details of a mix-in which a service might have available.
+        /// </summary>
+        public class MixinDetails
+        {
+            /// <summary>
+            /// The fully-qualified gRPC service name, as specified in service config files.
+            /// </summary>
+            public string GrpcServiceName { get; }
+
+            /// <summary>
+            /// The type of the generated GAPIC client.
+            /// </summary>
+            public Typ GapicClientType { get; }
+
+            /// <summary>
+            /// The type of the generated GAPIC client implementation.
+            /// </summary>
+            public Typ GapicClientImplType { get; }
+
+            /// <summary>
+            /// The type of the "raw" gRPC client.
+            /// </summary>
+            public Typ GrpcClientType { get; }
+
+            /// <summary>
+            /// The type of the generated GAPIC settings.
+            /// </summary>
+            public Typ GapicSettingsType { get; }
+
+            public MixinDetails(string grpcServiceName, System.Type gapicClientType, System.Type gapicClientImplType, System.Type grpcClientType, System.Type gapicSettingsType)
+            {
+                GrpcServiceName = grpcServiceName;
+                GapicClientType = Typ.Of(gapicClientType);
+                GapicClientImplType = Typ.Of(gapicClientImplType);
+                GrpcClientType = Typ.Of(grpcClientType);
+                GapicSettingsType = Typ.Of(gapicSettingsType);
             }
         }
     }

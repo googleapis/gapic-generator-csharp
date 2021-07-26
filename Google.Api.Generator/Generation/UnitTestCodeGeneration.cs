@@ -257,6 +257,10 @@ namespace Google.Api.Generator.Generation
                 }
             }
 
+            private IEnumerable<object> MixinsSetup() => Svc.Mixins.Select(mixin =>
+                MockGrpcClient.Call(nameof(Mock<string>.Setup))(Lambda(X)(X.Call("Create" + mixin.GrpcClientType.Name)()))
+                    .Call(nameof(IReturns<string, int>.Returns))(New(Ctx.Type(Typ.Generic(typeof(Mock<>), mixin.GrpcClientType)))().Access(nameof(Mock.Object))));
+
             private MethodDeclarationSyntax Sync(string methodName, IEnumerable<MethodDetails.Signature.Field> requestFields, object requestMethodArgs)
             {
                 var obsolete = Method.IsDeprecated || (requestFields?.Any(f => f.IsDeprecated) ?? false);
@@ -275,6 +279,7 @@ namespace Google.Api.Generator.Generation
                     .WithBody(
                         MockGrpcClient.WithInitializer(New(Ctx.Type(Typ.Generic(typeof(Mock<>), Svc.GrpcClientTyp)))(Ctx.Type<MockBehavior>().Access(MockBehavior.Strict))),
                         LroSetup(),
+                        MixinsSetup(),
                         Request.WithInitializer(New(Ctx.Type(Method.RequestTyp))().WithInitializer(InitMessage(Method.RequestMessageDesc, requestFields).ToArray())),
                         ExpectedResponse.WithInitializer(New(Ctx.Type(Method.ResponseTyp))().WithInitializer(InitMessage(Method.ResponseMessageDesc, null).ToArray())),
                         MockGrpcClient.Call(nameof(Mock<string>.Setup))(
@@ -311,6 +316,7 @@ namespace Google.Api.Generator.Generation
                     .WithBody(
                         MockGrpcClient.WithInitializer(New(Ctx.Type(Typ.Generic(typeof(Mock<>), Svc.GrpcClientTyp)))(Ctx.Type<MockBehavior>().Access(MockBehavior.Strict))),
                         LroSetup(),
+                        MixinsSetup(),
                         Request.WithInitializer(New(Ctx.Type(Method.RequestTyp))().WithInitializer(InitMessage(Method.RequestMessageDesc, requestFields).ToArray())),
                         ExpectedResponse.WithInitializer(New(Ctx.Type(Method.ResponseTyp))().WithInitializer(InitMessage(Method.ResponseMessageDesc, null).ToArray())),
                         MockGrpcClient.Call(nameof(Mock<string>.Setup))(

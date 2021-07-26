@@ -27,6 +27,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using YamlDotNet.Serialization;
 
 namespace Google.Api.Generator
 {
@@ -84,19 +85,21 @@ namespace Google.Api.Generator
         };
 
         public static IEnumerable<ResultFile> Generate(FileDescriptorSet descriptorSet, string package, IClock clock,
-            string grpcServiceConfigPath, IEnumerable<string> commonResourcesConfigPaths)
+            string grpcServiceConfigPath, string serviceConfigPath, IEnumerable<string> commonResourcesConfigPaths)
         {
             var descriptors = descriptorSet.File;
             var filesToGenerate = descriptors.Where(x => x.Package == package).Select(x => x.Name).ToList();
-            return Generate(descriptors, filesToGenerate, clock, grpcServiceConfigPath, commonResourcesConfigPaths);
+            return Generate(descriptors, filesToGenerate, clock, grpcServiceConfigPath, serviceConfigPath, commonResourcesConfigPaths);
         }
 
         public static IEnumerable<ResultFile> Generate(IReadOnlyList<FileDescriptorProto> descriptorProtos, IEnumerable<string> filesToGenerate, IClock clock,
-            string grpcServiceConfigPath, IEnumerable<string> commonResourcesConfigPaths)
+            string grpcServiceConfigPath, string serviceConfigPath, IEnumerable<string> commonResourcesConfigPaths)
         {
             var descriptors = FileDescriptor.BuildFromByteStrings(descriptorProtos.Select(proto => proto.ToByteString()), s_registry);
             // Load side-loaded configurations; both optional.
-            var grpcServiceConfig = grpcServiceConfigPath != null ? ServiceConfig.Parser.ParseJson(File.ReadAllText(grpcServiceConfigPath)) : null;
+            var grpcServiceConfig = grpcServiceConfigPath is object ? ServiceConfig.Parser.ParseJson(File.ReadAllText(grpcServiceConfigPath)) : null;
+            var serviceConfig = ParseServiceConfigYaml(serviceConfigPath);
+
             var commonResourcesConfigs = commonResourcesConfigPaths != null ?
                 commonResourcesConfigPaths.Select(path => CommonResources.Parser.ParseJson(File.ReadAllText(path))) : null;
             // TODO: Multi-package support not tested.
@@ -119,7 +122,7 @@ namespace Google.Api.Generator
                         $"Found namespaces '{string.Join(", ", namespaces)}' in package '{singlePackageFileDescs.Key}'.");
                 }
                 var catalog = new ProtoCatalog(singlePackageFileDescs.Key, descriptors, singlePackageFileDescs, commonResourcesConfigs);
-                foreach (var resultFile in GeneratePackage(namespaces[0], singlePackageFileDescs, catalog, clock, grpcServiceConfig, allServiceDetails))
+                foreach (var resultFile in GeneratePackage(namespaces[0], singlePackageFileDescs, catalog, clock, grpcServiceConfig, serviceConfig, allServiceDetails))
                 {
                     yield return resultFile;
                 }
@@ -133,15 +136,36 @@ namespace Google.Api.Generator
             }
         }
 
+        private static Service ParseServiceConfigYaml(string path)
+        {
+            if (path is null)
+            {
+                return null;
+            }
+            
+            var deserializer = new Deserializer();
+            using (var reader = File.OpenText(path))
+            {
+                var yamlObject = deserializer.Deserialize(reader);
+                var serializer = new SerializerBuilder().JsonCompatible().Build();
+                var writer = new StringWriter();
+                serializer.Serialize(writer, yamlObject);
+                string json = writer.ToString();
+                var parser = new JsonParser(JsonParser.Settings.Default.WithIgnoreUnknownFields(true));
+                return parser.Parse<Service>(json);
+            }
+        }
+
         private static IEnumerable<ResultFile> GeneratePackage(string ns,
             IEnumerable<FileDescriptor> packageFileDescriptors, ProtoCatalog catalog, IClock clock,
-            ServiceConfig grpcServiceConfig, List<ServiceDetails> allServiceDetails)
+            ServiceConfig grpcServiceConfig, Service serviceConfig, List<ServiceDetails> allServiceDetails)
         {
             var clientPathPrefix = $"{ns}{Path.DirectorySeparatorChar}";
             var serviceSnippetsPathPrefix = $"{ns}.Snippets{Path.DirectorySeparatorChar}";
             var snippetsPathPrefix = $"{ns}.GeneratedSnippets{Path.DirectorySeparatorChar}";
             var unitTestsPathPrefix = $"{ns}.Tests{Path.DirectorySeparatorChar}";
             bool hasLro = false;
+            HashSet<string> mixins = new HashSet<string>();
             bool hasContent = false;
             var packageServiceDetails = new List<ServiceDetails>();
             HashSet<string> allResourceNameClasses = new HashSet<string>();
@@ -159,7 +183,7 @@ namespace Google.Api.Generator
                 foreach (var service in fileDesc.Services)
                 {
                     // Generate settings and client code for requested package.
-                    var serviceDetails = new ServiceDetails(catalog, ns, service, grpcServiceConfig);
+                    var serviceDetails = new ServiceDetails(catalog, ns, service, grpcServiceConfig, serviceConfig);
                     packageServiceDetails.Add(serviceDetails);
 
                     var ctx = SourceFileContext.CreateFullyAliased(clock, s_wellknownNamespaceAliases);
@@ -191,8 +215,12 @@ namespace Google.Api.Generator
                     var unitTestCode = UnitTestCodeGeneration.Generate(unitTestCtx, serviceDetails);
                     var unitTestFilename = $"{unitTestsPathPrefix}{serviceDetails.ClientAbstractTyp.Name}Test.g.cs";
                     yield return new ResultFile(unitTestFilename, unitTestCode);
-                    // Record whether LRO is used.
+                    // Record whether LRO/mixins are used.
                     hasLro |= serviceDetails.Methods.Any(x => x is MethodDetails.Lro);
+                    foreach (var mixin in serviceDetails.Mixins)
+                    {
+                        mixins.Add(mixin.GrpcServiceName);
+                    }
                     hasContent = true;
                 }
                 var resCtx = SourceFileContext.CreateFullyAliased(clock, s_wellknownNamespaceAliases);
@@ -239,7 +267,7 @@ namespace Google.Api.Generator
             if (hasContent)
             {
                 // Generate client csproj.
-                var csprojContent = CsProjGenerator.GenerateClient(hasLro);
+                var csprojContent = CsProjGenerator.GenerateClient(hasLro, mixins);
                 var csprojFilename = $"{clientPathPrefix}{ns}.csproj";
                 yield return new ResultFile(csprojFilename, csprojContent);
                 // If we only generated resources, we don't need to generate all of these.

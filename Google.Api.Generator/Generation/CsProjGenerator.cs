@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Google.Cloud.Iam.V1;
+using Google.Cloud.Location;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,14 +25,21 @@ namespace Google.Api.Generator.Generation
         private const string GaxGrpcCoreVersion = "[3.6.0, 4.0.0)";
         private const string GrpcCoreVersion = "[2.41.0, 3.0.0)";
         private const string LroVersion = "[2.3.0, 3.0.0)";
+        private const string IamVersion = "[2.3.0, 3.0.0)";
+        private const string LocationVersion = "[1.0.0, 2.0.0)";
         private const string ReferenceAssembliesVersion = "1.0.2";
         private const string SystemLinqAsyncVersion = "5.1.0";
         private const string TestSdkVersion = "17.0.0";
         private const string XUnitRunnerVersion = "2.4.3";
         private const string XUnitVersion = "2.4.1";
         private const string MoqVersion = "4.16.1";
+        private static readonly Dictionary<string, (string, string)> MixinToPackageAndVersion = new Dictionary<string, (string, string)>
+        {
+            { IAMPolicy.Descriptor.FullName, (typeof(IAMPolicyClient).Namespace, IamVersion) },
+            { Locations.Descriptor.FullName, (typeof(LocationsClient).Namespace, LocationVersion) }
+        };
 
-        public static string GenerateClient(bool hasLro)
+        public static string GenerateClient(bool hasLro, IEnumerable<string> mixins)
         {
             var packageRefs = string.Join("", ExtraRefs().Select(x => $"{Environment.NewLine}    {x}"));
             // TODO: Use information from package metadata; when it's finalised.
@@ -90,6 +99,11 @@ namespace Google.Api.Generator.Generation
                 if (hasLro)
                 {
                     yield return $@"<PackageReference Include=""Google.LongRunning"" Version=""{LroVersion}"" />";
+                }
+                foreach (var mixin in mixins.OrderBy(m => m, StringComparer.Ordinal))
+                {
+                    var packageVersion = MixinToPackageAndVersion[mixin];
+                    yield return $@"<PackageReference Include=""{packageVersion.Item1}"" Version=""{packageVersion.Item2}"" />";
                 }
             }
         }
