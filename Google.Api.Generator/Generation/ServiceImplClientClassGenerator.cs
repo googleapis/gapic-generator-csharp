@@ -72,12 +72,14 @@ namespace Google.Api.Generator.Generation
                 var modifyApiCallPerMethod = ModifyPerMethodApiCallPartialMethods().ToArray();
                 var onCtor = OnConstruction();
                 var ctor = CtorGrpcClient(grpcClient, onCtor, modifyApiCallGeneric.First());
+                var mixIns = Mixins().ToArray();
                 var modifyRequestMethods = ModifyRequestMethods().ToArray();
                 cls = cls.AddMembers(apiCallFields);
                 cls = cls.AddMembers(ctor);
                 cls = cls.AddMembers(modifyApiCallGeneric);
                 cls = cls.AddMembers(modifyApiCallPerMethod);
                 cls = cls.AddMembers(onCtor, grpcClient);
+                cls = cls.AddMembers(mixIns);
                 cls = cls.AddMembers(modifyRequestMethods);
                 var methods = ServiceMethodGenerator.Generate(_ctx, _svc, inAbstract: false);
                 cls = cls.AddMembers(methods.ToArray());
@@ -100,6 +102,7 @@ namespace Google.Api.Generator.Generation
                     clientHelper.WithInitializer(New(_ctx.Type<ClientHelper>())(effectiveSettings)),
                     _svc.Methods.OfType<MethodDetails.StandardLro>().Select(StandardLroClient),
                     _svc.Methods.OfType<MethodDetails.NonStandardLro>().Select(NonStandardLroClient),
+                    _svc.Mixins.Select(MixinClient),
                     _svc.Methods.SelectMany(PerMethod),
                     This.Call(onCtor)(grpcClient, effectiveSettings, clientHelper)
                 )
@@ -121,6 +124,13 @@ namespace Google.Api.Generator.Generation
                 var lroOperationsClientProperty = Property(Public, _ctx.Type<OperationsClient>(), lro.LroClientName);
                 return lroOperationsClientProperty.Assign(New(_ctx.Type<OperationsClientImpl>())(
                     grpcClient.Call($"CreateOperationsClientFor{lro.OperationService}")(), effectiveSettings.Access(lro.LroSettingsName)));
+            }
+
+            SyntaxNode MixinClient(ServiceDetails.MixinDetails mixin)
+            {
+                var mixinClientProperty = Property(Public, _ctx.Type(mixin.GapicClientType), mixin.GapicClientType.Name);
+                return mixinClientProperty.Assign(New(_ctx.Type(mixin.GapicClientImplType))(
+                    grpcClient.Call("Create" + mixin.GrpcClientType.Name)(), effectiveSettings.Access(mixin.GapicSettingsType.Name)));
             }
 
             IEnumerable<SyntaxNode> PerMethod(MethodDetails method)
@@ -176,6 +186,11 @@ namespace Google.Api.Generator.Generation
         private PropertyDeclarationSyntax GrpcClient() =>
             AutoProperty(Public | Override, _ctx.Type(_svc.GrpcClientTyp), "GrpcClient")
                 .WithXmlDoc(XmlDoc.Summary("The underlying gRPC ", _svc.DocumentationName, " client"));
+
+        private IEnumerable<PropertyDeclarationSyntax> Mixins() =>
+            _svc.Mixins.Select(mixin =>
+                AutoProperty(Public | Override, _ctx.Type(mixin.GapicClientType), mixin.GapicClientType.Name)
+                    .WithXmlDoc(XmlDoc.Summary("The ", _ctx.Type(mixin.GapicClientType), " associated with this client.")));
 
         private IEnumerable<MethodDeclarationSyntax> ModifyApiCallGenericPartialMethods()
         {

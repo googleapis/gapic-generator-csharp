@@ -103,7 +103,8 @@ namespace Google.Api.Generator.Generation
 
         private IEnumerable<PropertyDeclarationSyntax> SettingsProperties()
         {
-            return _svc.Methods.SelectMany(PerMethod);
+            return _svc.Methods.SelectMany(PerMethod)
+                .Concat(_svc.Mixins.Select(PerMixin));
             IEnumerable<PropertyDeclarationSyntax> PerMethod(MethodDetails method)
             {
                 var cSync = XmlDoc.C($"{_svc.ClientAbstractTyp.Name}.{method.SyncMethodName}");
@@ -198,6 +199,15 @@ namespace Google.Api.Generator.Generation
                         yield return BidiSettingsProperty(bidi);
                         break;
                 }
+            }
+
+            PropertyDeclarationSyntax PerMixin(ServiceDetails.MixinDetails mixin)
+            {
+                var settingsType = _ctx.Type(mixin.GapicSettingsType);
+                var propertyName = mixin.GapicSettingsType.Name;
+                return AutoProperty(Public, settingsType, propertyName, hasSetter: true)
+                    .WithInitializer(settingsType.Call("GetDefault")())
+                    .WithXmlDoc(XmlDoc.Summary("The settings to use for the ", _ctx.Type(mixin.GapicClientType), " associated with the client."));
             }
         }
 

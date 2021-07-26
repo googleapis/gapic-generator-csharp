@@ -75,7 +75,7 @@ namespace Google.Api.Generator.Generation
         {
             foreach (var service in _fileDesc.Services)
             {
-                var serviceDetails = new ServiceDetails(_catalog, _ctx.Namespace, service, grpcServiceConfig: null);
+                var serviceDetails = new ServiceDetails(_catalog, _ctx.Namespace, service, grpcServiceConfig: null, serviceConfig: null);
                 // Assumption: each method has its own request type.
                 foreach (var method in serviceDetails.Methods.OfType<MethodDetails.NonStandardLro>())
                 {
@@ -119,7 +119,7 @@ namespace Google.Api.Generator.Generation
         {
             foreach (var service in _fileDesc.Services)
             {
-                var serviceDetails = new ServiceDetails(_catalog, _ctx.Namespace, service, grpcServiceConfig: null);
+                var serviceDetails = new ServiceDetails(_catalog, _ctx.Namespace, service, grpcServiceConfig: null, serviceConfig: null);
                 // TODO: Use "is not" and continue when we can guarantee a recent enough version of C#.
                 if (serviceDetails.NonStandardLro is ServiceDetails.NonStandardLroDetails lroDetails)
                 {

@@ -63,6 +63,7 @@ namespace Google.Api.Generator.Generation
                 cls = cls.AddMembers(
                     defaultEndpoint, defaultScopes, channelPool, useJwtAccessWithScopes, maybeUseJwtAccessWithScopes,
                     createAsync, create, createFromCallInvoker, shutdown, grpcClient);
+                cls = cls.AddMembers(Mixins().ToArray());
                 var methods = ServiceMethodGenerator.Generate(_ctx, _svc, inAbstract: true);
                 cls = cls.AddMembers(methods.ToArray());
             }
@@ -168,5 +169,11 @@ namespace Google.Api.Generator.Generation
             Property(Public | Virtual, _ctx.Type(_svc.GrpcClientTyp), "GrpcClient")
                 .WithGetBody(Throw(New(_ctx.Type<NotImplementedException>())()))
                 .WithXmlDoc(XmlDoc.Summary("The underlying gRPC ", _svc.DocumentationName, " client"));
+
+        private IEnumerable<PropertyDeclarationSyntax> Mixins() =>
+            _svc.Mixins.Select(mixin =>
+                Property(Public | Virtual, _ctx.Type(mixin.GapicClientType), mixin.GapicClientType.Name)
+                    .WithGetBody(Throw(New(_ctx.Type<NotImplementedException>())()))
+                    .WithXmlDoc(XmlDoc.Summary("The ", _ctx.Type(mixin.GapicClientType), " associated with this client.")));
     }
 }
