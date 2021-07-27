@@ -59,6 +59,10 @@ namespace Google.Api.Generator.Generation
                 FieldDescriptor responseResourceField, int pageSizeFieldNumber, int pageTokenFieldNumber) : base(svc, desc)
             {
                 ResourceTyp = ProtoTyp.Of(responseResourceField, forceRepeated: false);
+                // For map fields, ResourceTyp is a constructed KeyValuePair<,> type: we need the open type in a cref.
+                ResourceTypForCref = responseResourceField.IsMap
+                    ? Typ.Generic(typeof(KeyValuePair<,>), Typ.GenericParam("TKey"), Typ.GenericParam("TValue"))
+                    : ResourceTyp;
                 ApiCallTyp = Typ.Generic(typeof(ApiCall<,>), RequestTyp, ResponseTyp);
                 SyncReturnTyp = Typ.Generic(typeof(PagedEnumerable<,>), ResponseTyp, ResourceTyp);
                 AsyncReturnTyp = Typ.Generic(typeof(PagedAsyncEnumerable<,>), ResponseTyp, ResourceTyp);
@@ -72,6 +76,11 @@ namespace Google.Api.Generator.Generation
             public override Typ SyncReturnTyp { get; }
             public override Typ AsyncReturnTyp { get; }
             public Typ ResourceTyp { get; }
+            /// <summary>
+            /// The resource type, but using open generic types instead of constructed ones where necessary,
+            /// so they're suitable for cref attributes.
+            /// </summary>
+            public Typ ResourceTypForCref { get; }
             public Typ SyncGrpcType { get; }
             public Typ AsyncGrpcType { get; }
             public string ResourcesFieldName { get; }
