@@ -186,8 +186,8 @@ namespace Google.Api.Generator.Generation
             private DocumentationCommentTriviaSyntax CancellationTokenXmlDoc => XmlDoc.Param(CancellationTokenParam, "A ", Ctx.Type<CancellationToken>(), " to use for this RPC.");
             private DocumentationCommentTriviaSyntax ReturnsSyncXmlDoc => XmlDoc.Returns("The RPC response.");
             private DocumentationCommentTriviaSyntax ReturnsAsyncXmlDoc => XmlDoc.Returns("A Task containing the RPC response.");
-            private DocumentationCommentTriviaSyntax ReturnsSyncPaginatedXmlDoc => XmlDoc.Returns("A pageable sequence of ", Ctx.Type(MethodDetailsPaginated.ResourceTyp) , " resources.");
-            private DocumentationCommentTriviaSyntax ReturnsAsyncPaginatedXmlDoc => XmlDoc.Returns("A pageable asynchronous sequence of ", Ctx.Type(MethodDetailsPaginated.ResourceTyp), " resources.");
+            private DocumentationCommentTriviaSyntax ReturnsSyncPaginatedXmlDoc => XmlDoc.Returns("A pageable sequence of ", Ctx.Type(MethodDetailsPaginated.ResourceTypForCref) , " resources.");
+            private DocumentationCommentTriviaSyntax ReturnsAsyncPaginatedXmlDoc => XmlDoc.Returns("A pageable asynchronous sequence of ", Ctx.Type(MethodDetailsPaginated.ResourceTypForCref), " resources.");
             private DocumentationCommentTriviaSyntax OperationsSummaryXmlDoc => XmlDoc.Summary("The long-running operations client for ", XmlDoc.C(MethodDetails.SyncMethodName), ".");
             private DocumentationCommentTriviaSyntax OperationNameXmlDoc => XmlDoc.Param(OperationNameParam, "The name of a previously invoked operation. Must not be ", XmlDoc.C("null"), " or empty.");
             private DocumentationCommentTriviaSyntax BidiStreamingSettingsXmlDoc => XmlDoc.Param(BidiStreamingSettingsParam, "If not null, applies streaming overrides to this RPC call.");
