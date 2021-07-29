@@ -92,7 +92,6 @@ namespace Google.Api.Generator.Generation
                 var maxResMessage = messageDesc.FindFieldByName("max_results");
                 if (maxResMessage is null)
                 {
-                    //Debugger.Launch();
                     throw new InvalidOperationException("Paginated request should have either page_size or max_results field.");
                 }
 
@@ -105,7 +104,8 @@ namespace Google.Api.Generator.Generation
                         : Cast(ctx.Type(ProtoTyp.Of(maxResMessage)), Value);
 
                     var property =  Property(Public, ctx.Type<Int32>(), "PageSize")
-                        .WithSetBody(underlyingProperty.Assign(assignmentVal));
+                        .WithSetBody(underlyingProperty.Assign(assignmentVal))
+                        .WithXmlDoc(XmlDoc.InheritDoc);
                     partialInterfaceCls = partialInterfaceCls.AddMembers(property);
                 }
             }

@@ -251,12 +251,6 @@ namespace Google.Api.Generator.Generation
                 return null;
             }
 
-            //if (desc.File.Package == "google.cloud.compute.v1" &&
-            //    (desc.Name.Contains("ist")))
-            //{
-            //    Debugger.Launch();
-            //}
-
             var input = desc.InputType;
             var output = desc.OutputType;
 
