@@ -21,8 +21,14 @@ namespace Google.Api.Generator.Generation
     internal static class CsProjGenerator
     {
         private const string GaxGrpcCoreVersion = "[3.4.0, 4.0.0)";
-        private const string GrpcCoreVersion = "[2.38.0, 3.0.0)";
+        private const string GrpcCoreVersion = "[2.38.1, 3.0.0)";
         private const string LroVersion = "[2.2.0, 3.0.0)";
+        private const string ReferenceAssembliesVersion = "1.0.2";
+        private const string SystemLinqAsyncVersion = "5.0.0";
+        private const string TestSdkVersion = "16.10.0";
+        private const string XUnitRunnerVersion = "2.4.3";
+        private const string XUnitVersion = "2.4.1";
+        private const string MoqVersion = "4.16.1";
 
         public static string GenerateClient(bool hasLro)
         {
@@ -72,7 +78,7 @@ namespace Google.Api.Generator.Generation
   <ItemGroup>
     <PackageReference Include=""Google.Api.Gax.Grpc.GrpcCore"" Version=""{GaxGrpcCoreVersion}"" />
     <PackageReference Include=""Grpc.Core"" Version=""{GrpcCoreVersion}"" />
-    <PackageReference Include=""Microsoft.NETFramework.ReferenceAssemblies"" Version=""1.0.0"" PrivateAssets=""All"" />{packageRefs}
+    <PackageReference Include=""Microsoft.NETFramework.ReferenceAssemblies"" Version=""{ReferenceAssembliesVersion}"" PrivateAssets=""All"" />{packageRefs}
   </ItemGroup>
 
 </Project>
@@ -101,8 +107,8 @@ namespace Google.Api.Generator.Generation
 
   <ItemGroup>
     <ProjectReference Include=""../{clientNamespace}/{clientNamespace}.csproj"" />
-    <PackageReference Include=""System.Linq.Async"" Version=""4.0.0"" />
-    <PackageReference Include=""Microsoft.NETFramework.ReferenceAssemblies"" Version=""1.0.0"" PrivateAssets=""All"" />
+    <PackageReference Include=""System.Linq.Async"" Version=""{SystemLinqAsyncVersion}"" />
+    <PackageReference Include=""Microsoft.NETFramework.ReferenceAssemblies"" Version=""{ReferenceAssembliesVersion}"" PrivateAssets=""All"" />
   </ItemGroup>
 
 </Project>
@@ -122,12 +128,11 @@ namespace Google.Api.Generator.Generation
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include=""Microsoft.NET.Test.Sdk"" Version=""15.9.0"" />
-    <PackageReference Include=""xunit.runner.visualstudio"" Version=""2.4.1"" />
-    <DotNetCliToolReference Include=""dotnet-xunit"" Version=""2.3.1"" />
-    <PackageReference Include=""Moq"" Version=""4.10.1"" />
-    <PackageReference Include=""xunit"" Version=""2.4.1"" />
-    <PackageReference Include=""Microsoft.NETFramework.ReferenceAssemblies"" Version=""1.0.0"" PrivateAssets=""All"" />
+    <PackageReference Include=""Microsoft.NET.Test.Sdk"" Version=""{TestSdkVersion}"" />
+    <PackageReference Include=""xunit.runner.visualstudio"" Version=""{XUnitRunnerVersion}"" />
+    <PackageReference Include=""Moq"" Version=""{MoqVersion}"" />
+    <PackageReference Include=""xunit"" Version=""{XUnitVersion}"" />
+    <PackageReference Include=""Microsoft.NETFramework.ReferenceAssemblies"" Version=""{ReferenceAssembliesVersion}"" PrivateAssets=""All"" />
     <ProjectReference Include=""../{clientNamespace}/{clientNamespace}.csproj"" />
   </ItemGroup>
 
