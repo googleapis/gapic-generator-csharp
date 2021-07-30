@@ -14,17 +14,22 @@
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
-_protobuf_version = "3.17.3"
+##
+# googleapis for the common protos
+#
 http_archive(
-    name = "com_google_protobuf",
-#    sha256 = "e5265d552e12c1f39c72842fa91d84941726026fa056d914ea6a25cd58d7bbf8",
-#    urls = ["https://github.com/protocolbuffers/protobuf/archive/v3.12.3.zip"],
-#    strip_prefix = "protobuf-3.12.3",
-    urls = ["https://github.com/protocolbuffers/protobuf/archive/v%s.zip" % _protobuf_version],
-    strip_prefix = "protobuf-%s" % _protobuf_version,
+    name = "com_google_googleapis",
+    sha256 = "913b633d4ca8c6abcf06ca1ba0aff27ccecefe6010ac32560fe3ba5c47167562",
+    strip_prefix = "googleapis-077f0c624bb91709aea45b6f42bb4a2e84645cc3",
+    urls = ["https://github.com/googleapis/googleapis/archive/077f0c624bb91709aea45b6f42bb4a2e84645cc3.zip"],
 )
-load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
-protobuf_deps()
+
+load("@com_google_googleapis//:repository_rules.bzl", "switched_rules_by_language")
+
+switched_rules_by_language(
+    name = "com_google_googleapis_imports",
+    gapic = True,
+)
 
 # Note: Although this is referencing grpc v1.x, the generated C# is for use
 # with nuget packages Grpc.Core and Grpc.Core.Api v2.x
@@ -51,15 +56,6 @@ http_archive(
 load("@rules_proto//proto:repositories.bzl", "rules_proto_dependencies", "rules_proto_toolchains")
 rules_proto_dependencies()
 rules_proto_toolchains()
-
-# Latest version as of 2020-06-23
-http_archive(
-    name = "com_google_googleapis",
-    strip_prefix = "googleapis-cf41866c6f14f10a07aa1e2a1260fc0a2727d889",
-    urls = ["https://github.com/googleapis/googleapis/archive/cf41866c6f14f10a07aa1e2a1260fc0a2727d889.zip"],
-)
-load("@com_google_googleapis//:repository_rules.bzl", "switched_rules_by_language")
-switched_rules_by_language(name = "com_google_googleapis_imports", gapic = True)
 
 # http_archive(
 #     name = "gapic_generator_csharp",
