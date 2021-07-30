@@ -17,8 +17,8 @@ RUN apt-get -y update
 RUN apt-get -y install openssl
 
 # Add protoc and our common protos.
-COPY --from=gcr.io/gapic-images/api-common-protos:0.1.0 /usr/local/bin/protoc /usr/local/bin/protoc
-COPY --from=gcr.io/gapic-images/api-common-protos:0.1.0 /protos/ /protos/
+COPY --from=gcr.io/gapic-images/api-common-protos:1.50.0 /usr/local/bin/protoc /usr/local/bin/protoc
+COPY --from=gcr.io/gapic-images/api-common-protos:1.50.0 /protos/ /protos/
 
 # Add C# generator binaries.
 COPY --from=sdk \
