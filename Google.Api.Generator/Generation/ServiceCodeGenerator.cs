@@ -101,7 +101,7 @@ namespace Google.Api.Generator.Generation
 
                     var assignmentVal = ProtoTyp.Of(maxResMessage) == Typ.Of<int>() 
                         ? Value
-                        : Cast(ctx.Type(ProtoTyp.Of(maxResMessage)), Value);
+                        : CheckedCast(ctx.Type(ProtoTyp.Of(maxResMessage)), Value);
 
                     var property =  Property(Public, ctx.Type<Int32>(), "PageSize")
                         .WithSetBody(underlyingProperty.Assign(assignmentVal))
