@@ -15,6 +15,7 @@
     <PackageReference Include="Google.LongRunning" Version="2.2.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.10.0" />
     <PackageReference Include="Moq" Version="4.16.1" />
+    <PackageReference Include="System.Collections.Immutable" Version="5.0.0" />
     <PackageReference Include="System.Linq.Async" Version="5.0.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
   </ItemGroup>
