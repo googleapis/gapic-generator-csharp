@@ -333,31 +333,18 @@ namespace Google.Api.Generator.Generation
             var pageSizeCandidate = input.FindFieldByName("page_size");
             var maxResultsCandidate = input.FindFieldByName("max_results");
 
-            if (pageSizeCandidate is null && maxResultsCandidate is null)
-            {
-                return null;
-            }
-
-            if (IsValidPageSizeCandidate(pageSizeCandidate))
-            {
-                return pageSizeCandidate;
-            } 
-
-            if (IsValidPageSizeCandidate(maxResultsCandidate))
-            {
-                return maxResultsCandidate;
-            }
-
-            // returning the non-null candidate here even though it did not pass all the requirements
-            // an exception should be thrown but only if method has _all_ candidates, which we will only know later.
-            return pageSizeCandidate ?? maxResultsCandidate; 
-        }       
+            // If both candidates are invalid, this might return a non-null 'invalid' candidate.
+            // An exception should be thrown, but only if method has _all_ candidates, which we will only know later.
+            return IsValidPageSizeCandidate(pageSizeCandidate) ? pageSizeCandidate
+                : IsValidPageSizeCandidate(maxResultsCandidate) ? maxResultsCandidate
+                : pageSizeCandidate ?? maxResultsCandidate;
+        }
 
         /// <summary>
         /// The non-name criteria for a field to be a suitable candidate for a `page size`/`max results` request field.
         /// </summary>
         private static bool IsValidPageSizeCandidate(FieldDescriptor field) =>
-            field!=null && ((field.FieldType == FieldType.Int32 || field.FieldType == FieldType.UInt32) && !field.IsRepeated);
+            field != null && ((field.FieldType == FieldType.Int32 || field.FieldType == FieldType.UInt32) && !field.IsRepeated);
 
         private MethodDetails(ServiceDetails svc, MethodDescriptor desc)
         {

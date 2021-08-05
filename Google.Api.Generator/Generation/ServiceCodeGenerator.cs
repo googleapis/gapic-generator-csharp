@@ -99,12 +99,18 @@ namespace Google.Api.Generator.Generation
                 {
                     var underlyingProperty = Property(DontCare, ctx.TypeDontCare, "MaxResults");
 
-                    var assignmentVal = ProtoTyp.Of(maxResMessage) == Typ.Of<int>() 
+                    var getBody = ProtoTyp.Of(maxResMessage) == Typ.Of<int>() 
+                        ? Return(underlyingProperty)
+                        : Return(CheckedCast(ctx.Type<int>(), underlyingProperty));
+
+                    var assignFrom = ProtoTyp.Of(maxResMessage) == Typ.Of<int>() 
                         ? Value
                         : CheckedCast(ctx.Type(ProtoTyp.Of(maxResMessage)), Value);
+                    var setBody = underlyingProperty.Assign(assignFrom);
 
-                    var property =  Property(Public, ctx.Type<Int32>(), "PageSize")
-                        .WithSetBody(underlyingProperty.Assign(assignmentVal))
+                    var property = Property(Public, ctx.Type<int>(), "PageSize")
+                        .WithGetBody(getBody)
+                        .WithSetBody(setBody)
                         .WithXmlDoc(XmlDoc.InheritDoc);
                     partialInterfaceCls = partialInterfaceCls.AddMembers(property);
                 }

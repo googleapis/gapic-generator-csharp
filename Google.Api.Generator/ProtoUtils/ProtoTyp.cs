@@ -86,9 +86,9 @@ namespace Google.Api.Generator.ProtoUtils
                 var kv = desc.MessageType.Fields.InFieldNumberOrder();
                 if (forceRepeated != null)
                 {
-                    // it turns out that you can force repeated on a map field.
-                    // this is needed when the paginated results field is a map
-                    // as does happen e.g. in the Compute DiREGapic
+                    // It turns out that you can force repeated on a map field.
+                    // This is needed when the paginated results field is a map
+                    // as does happen e.g. in the Compute DiREGapic.
                     return Generic(typeof(KeyValuePair<,>), Of(kv[0]), Of(kv[1]));
                 }
 
