@@ -2,6 +2,10 @@
   "extends": [
     "config:base"
   ],
+  "ignorePaths": [
+    "Google.Api.Generators.Tests/ProtoTests/**",
+    "Google.Api.Generator.Rest.Tests/GoldenTestData/**"
+  ],
   "schedule": ["before 8am"],
   "timezone": "Europe/London"
 }
