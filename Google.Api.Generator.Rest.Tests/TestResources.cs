@@ -15,6 +15,7 @@
 using Google.Api.Generator.Rest.Models;
 using Google.Api.Generator.Testing;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Xunit;
@@ -44,10 +45,15 @@ namespace Google.Api.Generator.Rest.Tests
             var json = File.ReadAllText(Path.Combine(resourceDirectory, "discovery.json"));
             var features = new Features
             {
-                ReleaseVersion = "1.49.0",
-                CurrentSupportVersion = "1.49.0",
-                Net40SupportVersion = "1.25.0",
-                PclSupportVersion = "1.10.0"
+                ReleaseVersion = "1.53.0",
+                CurrentSupportVersion = "1.53.0",
+                Net40SupportVersion = "1.10.0",
+                PclSupportVersion = "1.25.0",
+                CloudPackageMap = new Dictionary<string, string>
+                {
+                    { "Google.Apis.Storage.v1", "Google.Cloud.Storage.V1" },
+                    { "Google.Apis.Translate.v2", "Google.Cloud.Translation.V2" }
+                }
             };
             PackageEnumStorage enumStorage = PackageEnumStorage.FromJson("{}");
             var files = CodeGenerator.Generate(json, features, enumStorage).ToList();
@@ -61,7 +67,7 @@ namespace Google.Api.Generator.Rest.Tests
                 {
                     continue;
                 }
-                var expectedFilePath = Path.Combine(TestDirectory, "GoldenTestData", directory, file.RelativePath);
+                var expectedFilePath = Path.Combine(TestDirectory, "GoldenTestData", file.RelativePath);
 
                 TextComparer.CompareText(expectedFilePath, file);
             }

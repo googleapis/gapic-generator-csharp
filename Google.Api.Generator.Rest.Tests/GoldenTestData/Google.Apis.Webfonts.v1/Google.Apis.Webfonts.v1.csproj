@@ -3,15 +3,16 @@
   <!-- nupkg information -->
   <PropertyGroup>
     <Title>Google.Apis.Webfonts.v1 Client Library</Title>
-    <Version>1.49.0.2057</Version>
-    <Authors>Google Inc.</Authors>
-    <Copyright>Copyright 2017 Google Inc.</Copyright>
+    <Version>1.53.0.2235</Version>
+    <Authors>Google LLC</Authors>
+    <Copyright>Copyright 2021 Google LLC</Copyright>
     <PackageTags>Google</PackageTags>
     <PackageProjectUrl>https://github.com/google/google-api-dotnet-client</PackageProjectUrl>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/google/google-api-dotnet-client</RepositoryUrl>
     <PackageIconUrl>https://www.gstatic.com/images/branding/product/1x/google_developers_64dp.png</PackageIconUrl>
+    <PackageIcon>NuGetIcon.png</PackageIcon>
     <Description>
       Google APIs Client Library for working with Webfonts v1.
 
@@ -41,6 +42,7 @@
 
   <ItemGroup>
     <None Include="../../../LICENSE" Pack="true" PackagePath="" />
+    <None Include="../../../NuGetIcon.png" Pack="true" PackagePath="" />
   </ItemGroup>
 
   <!-- build properties -->
@@ -58,14 +60,14 @@
     <PackageReference Include="ConfigureAwaitChecker.Analyzer" Version="1.0.1" PrivateAssets="All" />
     <PackageReference Include="SourceLink.Create.CommandLine" Version="2.8.0" PrivateAssets="All" />
   </ItemGroup>
-  
+
   <!-- per-target dependencies -->
   <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
-    <PackageReference Include="Google.Apis" Version="1.49.0" />
+    <PackageReference Include="Google.Apis" Version="1.53.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='netstandard1.3'">
-    <PackageReference Include="Google.Apis" Version="1.49.0" />
+    <PackageReference Include="Google.Apis" Version="1.53.0" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.0'">
@@ -78,7 +80,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='net45'">
-    <PackageReference Include="Google.Apis" Version="1.49.0" />
+    <PackageReference Include="Google.Apis" Version="1.53.0" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)'=='net40'">

@@ -16,12 +16,15 @@ using Xunit;
 
 namespace Google.Api.Generator.Rest.Tests
 {
-    public class SampleUnitTest
+    public class GoldenUnitTest
     {
-        [Fact(Skip = "Code generator not implemented yet")]
-        public void Webfonts()
-        {
-            TestResources.TestOutput("Google.Apis.Webfonts.v1");
-        }
+        [Fact]
+        public void Webfonts() => TestResources.TestOutput("Google.Apis.Webfonts.v1");
+
+        [Fact]
+        public void Storage() => TestResources.TestOutput("Google.Apis.Storage.v1");
+
+        [Fact]
+        public void Translate() => TestResources.TestOutput("Google.Apis.Translate.v2");
     }
 }
