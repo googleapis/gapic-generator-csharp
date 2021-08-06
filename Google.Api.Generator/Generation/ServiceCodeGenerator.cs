@@ -22,6 +22,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Google.Api.Generator.ProtoUtils;
+using Google.Protobuf.Reflection;
 using static Google.Api.Generator.Utils.Roslyn.Modifier;
 using static Google.Api.Generator.Utils.Roslyn.RoslynBuilder;
 
@@ -32,7 +34,7 @@ namespace Google.Api.Generator.Generation
     /// </summary>
     internal static class ServiceCodeGenerator
     {
-        public static CompilationUnitSyntax Generate(SourceFileContext ctx, ServiceDetails svc)
+        public static CompilationUnitSyntax Generate(SourceFileContext ctx, ServiceDetails svc, HashSet<Typ> seenPaginatedResponseTyps)
         {
             var ns = Namespace(svc.Namespace);
             using (ctx.InNamespace(ns))
@@ -43,23 +45,25 @@ namespace Google.Api.Generator.Generation
                 var implClientClass = ServiceImplClientClassGenerator.Generate(ctx, svc);
                 ns = ns.AddMembers(settingsClass, builderClass, abstractClientClass, implClientClass);
 
-                ns = ns.AddMembers(PaginatedPartialClasses(ctx, svc).ToArray());
+                ns = ns.AddMembers(PaginatedPartialClasses(ctx, svc, seenPaginatedResponseTyps).ToArray());
                 ns = ns.AddMembers(LroPartialClasses(ctx, svc).ToArray());
             }
             return ctx.CreateCompilationUnit(ns);
         }
 
-        private static IEnumerable<MemberDeclarationSyntax> PaginatedPartialClasses(SourceFileContext ctx, ServiceDetails svc)
+        private static IEnumerable<MemberDeclarationSyntax> PaginatedPartialClasses(SourceFileContext ctx, ServiceDetails svc, HashSet<Typ> seenPaginatedResponseTyps)
         {
             var paginatedMethods = svc.Methods.OfType<MethodDetails.Paginated>();
-            foreach (var typ in paginatedMethods.Select(x => x.RequestTyp).Distinct())
+            foreach (var representingMethod in paginatedMethods
+                                                        .GroupBy(m => m.RequestTyp)
+                                                        .Select(typMethodGrp => typMethodGrp.First()))
             {
-                yield return Class(Public | Partial, typ, baseTypes: ctx.Type<IPageRequest>());
+                yield return PaginatedPartialInterfaceClass(ctx, representingMethod.RequestTyp, representingMethod.RequestMessageDesc);
             }
-            var seenResponseTyps = new HashSet<Typ>();
+
             foreach (var method in paginatedMethods)
             {
-                if (seenResponseTyps.Add(method.ResponseTyp))
+                if (seenPaginatedResponseTyps.Add(method.ResponseTyp))
                 {
                     var cls = Class(Public | Partial, method.ResponseTyp, baseTypes: ctx.Type(Typ.Generic(typeof(IPageResponse<>), method.ResourceTyp)));
                     using (ctx.InClass(cls))
@@ -76,6 +80,43 @@ namespace Google.Api.Generator.Generation
                     yield return cls;
                 }
             }
+        }
+
+        private static MemberDeclarationSyntax PaginatedPartialInterfaceClass(SourceFileContext ctx, Typ typ, MessageDescriptor messageDesc)
+        {
+            var partialInterfaceCls = Class(Public | Partial, typ, baseTypes: ctx.Type<IPageRequest>());
+
+            if (messageDesc.FindFieldByName("page_size") is null)
+            {
+                //DiREGapic scenario where `max_results` is an option for a page size-semantic field.
+                var maxResMessage = messageDesc.FindFieldByName("max_results");
+                if (maxResMessage is null)
+                {
+                    throw new InvalidOperationException("Paginated request should have either page_size or max_results field.");
+                }
+
+                using (ctx.InClass(partialInterfaceCls))
+                {
+                    var underlyingProperty = Property(DontCare, ctx.TypeDontCare, "MaxResults");
+
+                    var getBody = ProtoTyp.Of(maxResMessage) == Typ.Of<int>() 
+                        ? Return(underlyingProperty)
+                        : Return(CheckedCast(ctx.Type<int>(), underlyingProperty));
+
+                    var assignFrom = ProtoTyp.Of(maxResMessage) == Typ.Of<int>() 
+                        ? Value
+                        : CheckedCast(ctx.Type(ProtoTyp.Of(maxResMessage)), Value);
+                    var setBody = underlyingProperty.Assign(assignFrom);
+
+                    var property = Property(Public, ctx.Type<int>(), "PageSize")
+                        .WithGetBody(getBody)
+                        .WithSetBody(setBody)
+                        .WithXmlDoc(XmlDoc.InheritDoc);
+                    partialInterfaceCls = partialInterfaceCls.AddMembers(property);
+                }
+            }
+
+            return partialInterfaceCls;
         }
 
 

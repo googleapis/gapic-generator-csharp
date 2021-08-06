@@ -318,6 +318,10 @@ namespace Google.Api.Generator.Utils.Roslyn
 
         public static CastExpressionSyntax Cast(TypeSyntax type, PropertyDeclarationSyntax expr) => Cast(type, IdentifierName(expr.Identifier));
 
+        public static CheckedExpressionSyntax CheckedCast(TypeSyntax type, ExpressionSyntax expr) => CheckedExpression(SyntaxKind.CheckedExpression, CastExpression(type, expr));
+
+        public static CheckedExpressionSyntax CheckedCast(TypeSyntax type, PropertyDeclarationSyntax expr) =>  CheckedCast(type, IdentifierName(expr.Identifier));
+
         public static ArgumentsFunc<ExpressionSyntax> ThisQualifiedCall(object method, params TypeSyntax[] genericArgs) => args =>
             InvocationExpression(MemberAccessExpression(
                 SyntaxKind.SimpleMemberAccessExpression, This, ToSimpleName(method, genericArgs)), CreateArgList(args));

@@ -130,6 +130,7 @@ namespace Google.Api.Generator
             HashSet<string> duplicateResourceNameClasses = new HashSet<string>();
 
             var allServiceDetails = new List<ServiceDetails>();
+            var seenPaginatedResponseTyps = new HashSet<Typ>();
             foreach (var fileDesc in packageFileDescriptors)
             {
                 foreach (var service in fileDesc.Services)
@@ -139,7 +140,7 @@ namespace Google.Api.Generator
                     allServiceDetails.Add(serviceDetails);
 
                     var ctx = SourceFileContext.CreateFullyAliased(clock, s_wellknownNamespaceAliases);
-                    var code = ServiceCodeGenerator.Generate(ctx, serviceDetails);
+                    var code = ServiceCodeGenerator.Generate(ctx, serviceDetails, seenPaginatedResponseTyps);
                     var filename = $"{clientPathPrefix}{serviceDetails.ClientAbstractTyp.Name}.g.cs";
                     yield return new ResultFile(filename, code);
                     // Generate snippets for the service

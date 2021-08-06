@@ -83,12 +83,16 @@ namespace Google.Api.Generator.ProtoUtils
         {
             if (desc.IsMap)
             {
+                var kv = desc.MessageType.Fields.InFieldNumberOrder();
                 if (forceRepeated != null)
                 {
-                    throw new InvalidOperationException("Cannot force repeated on a map field.");
+                    // It turns out that you can force repeated on a map field.
+                    // This is needed when the paginated results field is a map
+                    // as does happen e.g. in the Compute DiREGapic.
+                    return Generic(typeof(KeyValuePair<,>), Of(kv[0]), Of(kv[1]));
                 }
+
                 // A map is a repeated message with key and value fields.
-                var kv = desc.MessageType.Fields.InFieldNumberOrder();
                 return Generic(typeof(IDictionary<,>), Of(kv[0]), Of(kv[1]));
             }
             // See https://developers.google.com/protocol-buffers/docs/proto3#scalar
