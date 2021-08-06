@@ -233,8 +233,6 @@ namespace Google.Api.Generator.Utils.Roslyn
         public static CodeFunc<ForStatementSyntax> For(LocalDeclarationStatementSyntax decl, ExpressionSyntax condition, ExpressionSyntax incr) => code =>
             ForStatement(decl.Declaration, SeparatedList<ExpressionSyntax>(), condition, SingletonSeparatedList(incr), Block(ToStatements(code)));
 
-        public static ExpressionSyntax ToDefaultExpression(object foo) => ToExpression(foo);
-
         public static CodeFunc<WhileStatementSyntax> While(object conditionExpr) => code =>
             WhileStatement(ToExpression(conditionExpr), Block(ToStatements(code)));
 
