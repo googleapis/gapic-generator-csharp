@@ -45,8 +45,8 @@ namespace Google.Api.Generator.Rest.Tests
             var json = File.ReadAllText(Path.Combine(resourceDirectory, "discovery.json"));
             var features = new Features
             {
-                ReleaseVersion = "1.53.0",
-                CurrentSupportVersion = "1.53.0",
+                ReleaseVersion = "1.54.0",
+                CurrentSupportVersion = "1.54.0",
                 Net40SupportVersion = "1.10.0",
                 PclSupportVersion = "1.25.0",
                 CloudPackageMap = new Dictionary<string, string>

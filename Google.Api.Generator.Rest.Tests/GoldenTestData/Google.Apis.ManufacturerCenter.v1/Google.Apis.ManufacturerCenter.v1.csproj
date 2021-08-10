@@ -2,8 +2,8 @@
 
   <!-- nupkg information -->
   <PropertyGroup>
-    <Title>Google.Apis.Translate.v2 Client Library</Title>
-    <Version>1.54.0.875</Version>
+    <Title>Google.Apis.ManufacturerCenter.v1 Client Library</Title>
+    <Version>1.54.0.2323</Version>
     <Authors>Google LLC</Authors>
     <Copyright>Copyright 2021 Google LLC</Copyright>
     <PackageTags>Google</PackageTags>
@@ -14,8 +14,7 @@
     <PackageIconUrl>https://www.gstatic.com/images/branding/product/1x/google_developers_64dp.png</PackageIconUrl>
     <PackageIcon>NuGetIcon.png</PackageIcon>
     <Description>
-      This is not the recommended package for working with Translate, please use the Google.Cloud.Translation.V2 package.
-      This Google APIs Client Library for working with Translate v2 uses older code generation, and is harder to use.
+      Google APIs Client Library for working with Manufacturers v1.
 
       Supported Platforms:
       - .NET Framework 4.5+
@@ -34,7 +33,7 @@
       - Xamarin
 
       More documentation on the API is available at:
-      https://developers.google.com/api-client-library/dotnet/apis/translate/v2
+      https://developers.google.com/api-client-library/dotnet/apis/manufacturers/v1
 
       The package source code is available at:
       https://github.com/google/google-api-dotnet-client/tree/master/Src/Generated
