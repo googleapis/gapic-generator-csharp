@@ -26,5 +26,8 @@ namespace Google.Api.Generator.Rest.Tests
 
         [Fact]
         public void Translate() => TestResources.TestOutput("Google.Apis.Translate.v2");
+
+        [Fact]
+        public void ManufacturerCenter() => TestResources.TestOutput("Google.Apis.ManufacturerCenter.v1");
     }
 }
