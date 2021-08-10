@@ -20,6 +20,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using static Google.Api.Generator.Utils.Roslyn.RoslynBuilder;
 using static Google.Api.Generator.Utils.Roslyn.RoslynExtensions;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
@@ -65,6 +66,12 @@ namespace Google.Api.Generator.Rest.Models
         /// </summary>
         public Typ Typ { get; }
 
+        /// <summary>
+        /// Repeated optional enum parameters have always been incorrectly generated. We now add an extra property
+        /// to make up for that.
+        /// </summary>
+        private bool IsRepeatedOptionalEnum => _schema.Repeated == true && EnumModel is object && _schema.Required != true;
+
         public ParameterModel(PackageModel package, string name, JsonSchema schema, Typ parentTyp)
         {
             Name = name;
@@ -81,6 +88,11 @@ namespace Google.Api.Generator.Rest.Models
             EnumModel = schema.Enum__ is object ? new EnumModel(package, parentTyp, name, schema) : null;
             _schema = schema;
             Typ = SchemaTypes.GetTypFromSchema(package, schema, name, currentTyp: parentTyp, inParameter: true);
+
+            if (schema.Repeated == true && Location == RequestParameterType.Path)
+            {
+                throw new InvalidOperationException($"Path parameters cannot be repeated. Parameter '{name}' in '{parentTyp.FullName}'");
+            }
         }
 
         private PropertyDeclarationSyntax GenerateProperty(SourceFileContext ctx)
@@ -91,7 +103,26 @@ namespace Google.Api.Generator.Rest.Models
                 .WithAttribute(ctx.Type<RequestParameterAttribute>())(Name, locationExpression);
             if (_schema.Description is string description)
             {
-                property = property.WithXmlDoc(XmlDoc.Summary(description));
+                var summary = XmlDoc.Summary(description);
+                var docs = IsRepeatedOptionalEnum
+                    ? new[] { summary, XmlDoc.Remarks($"Use this property to set a single value for the parameter, or ", IdentifierName(PropertyName + "List"), " to set multiple values. Do not set both properties.") }
+                    : new[] { summary };
+                property = property.WithXmlDoc(docs);
+            }
+            return property;
+        }
+
+        private PropertyDeclarationSyntax GenerateRepeatedOptionalEnumProperty(SourceFileContext ctx)
+        {
+            var propertyType = ctx.Type(Typ.Generic(Typ.Of(typeof(Repeatable<>)), Typ.GenericArgTyps.Single()));
+            var locationExpression = ctx.Type<RequestParameterType>().Access(Location.ToString());
+            var property = AutoProperty(Modifier.Public | Modifier.Virtual, propertyType, PropertyName + "List", hasSetter: true)
+                .WithAttribute(ctx.Type<RequestParameterAttribute>())(Name, locationExpression);
+            if (_schema.Description is string description)
+            {
+                property = property.WithXmlDoc(
+                    XmlDoc.Summary(description),
+                    XmlDoc.Remarks($"Use this property to set one or more values for the parameter. Do not set both this property and ", IdentifierName(PropertyName), "."));
             }
             return property;
         }
@@ -99,6 +130,10 @@ namespace Google.Api.Generator.Rest.Models
         public IEnumerable<MemberDeclarationSyntax> GenerateDeclarations(SourceFileContext ctx)
         {
             yield return GenerateProperty(ctx);
+            if (IsRepeatedOptionalEnum)
+            {
+                yield return GenerateRepeatedOptionalEnumProperty(ctx);
+            }
             if (EnumModel is object)
             {
                 yield return EnumModel.GenerateDeclaration(ctx);
