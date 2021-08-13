@@ -35,9 +35,9 @@ switched_rules_by_language(
 # with nuget packages Grpc.Core and Grpc.Core.Api v2.x
 http_archive(
     name = "com_github_grpc_grpc",
-    strip_prefix = "grpc-1.30.0",
-    sha256 = "4f0ad3557539a3d6edfad1693a92bd21acd3a6c3d610faa4714d64ad1d0a8072",
-    urls = ["https://github.com/grpc/grpc/archive/v1.30.0.zip"],
+    strip_prefix = "grpc-1.39.1",
+    sha256 = "4608e92cf528b625888cc874a5d21c78923322dc8c66d2c4c146134efbac69bc",
+    urls = ["https://github.com/grpc/grpc/archive/v1.39.1.zip"],
 )
 load("@com_github_grpc_grpc//bazel:grpc_deps.bzl", "grpc_deps")
 grpc_deps()
