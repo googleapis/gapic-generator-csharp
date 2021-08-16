@@ -14,10 +14,11 @@
 
 using Google.Api.Gax;
 using Google.Api.Gax.Grpc;
-using Google.Api.Generator.Utils.Roslyn;
 using Google.Api.Generator.Utils;
+using Google.Api.Generator.Utils.Roslyn;
 using Grpc.Core;
 using Grpc.Core.Interceptors;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
@@ -51,14 +52,16 @@ namespace Google.Api.Generator.Generation
             {
                 var defaultEndpoint = DefaultEndpoint();
                 var defaultScopes = DefaultScopes();
-                var channelPool = ChannelPool(defaultScopes);
+                var maybeUseJwtAccessWithScopes = MaybeUseJwtAccessWithScopes();
+                var useJwtAccessWithScopes = UseJwtAccessWithScopes(maybeUseJwtAccessWithScopes);
+                var channelPool = ChannelPool(defaultScopes, useJwtAccessWithScopes);
                 var createAsync = CreateAsync();
                 var create = Create();
                 var createFromCallInvoker = CreateFromCallInvoker();
                 var shutdown = ShutdownDefaultChannelsAsync(channelPool, create, createAsync);
                 var grpcClient = GrpcClient();
                 cls = cls.AddMembers(
-                    defaultEndpoint, defaultScopes, channelPool,
+                    defaultEndpoint, defaultScopes, channelPool, useJwtAccessWithScopes, maybeUseJwtAccessWithScopes,
                     createAsync, create, createFromCallInvoker, shutdown, grpcClient);
                 var methods = ServiceMethodGenerator.Generate(_ctx, _svc, inAbstract: true);
                 cls = cls.AddMembers(methods.ToArray());
@@ -80,9 +83,24 @@ namespace Google.Api.Generator.Generation
                     XmlDoc.Summary($"The default {_svc.DocumentationName} scopes."),
                     XmlDoc.Remarks($"The default {_svc.DocumentationName} scopes are:", XmlDoc.UL(_svc.DefaultScopes)));
 
-        private PropertyDeclarationSyntax ChannelPool(PropertyDeclarationSyntax defaultScopes) =>
+        private PropertyDeclarationSyntax ChannelPool(PropertyDeclarationSyntax defaultScopes, PropertyDeclarationSyntax useJwtAccessWithScopes) =>
             AutoProperty(Internal | Static, _ctx.Type<ChannelPool>(), "ChannelPool")
-                .WithInitializer(New(_ctx.Type<ChannelPool>())(defaultScopes));
+                .WithInitializer(New(_ctx.Type<ChannelPool>())(defaultScopes, useJwtAccessWithScopes));
+
+        private PropertyDeclarationSyntax UseJwtAccessWithScopes(MethodDeclarationSyntax maybeUseJwtAccessWithScopes)
+        {
+            var local = Local(_ctx.Type<bool>(), "useJwtAccessWithScopes").WithInitializer(true);
+            return Property(Internal | Static, _ctx.Type<bool>(), "UseJwtAccessWithScopes")
+                .WithGetBody(
+                    local,
+                    This.Call(maybeUseJwtAccessWithScopes)(Ref(local)),
+                    Return(local)
+                );
+        }
+
+        private MethodDeclarationSyntax MaybeUseJwtAccessWithScopes() =>
+            Method(Static | Partial, VoidType, "MaybeUseJwtAccessWithScopes")(Parameter(_ctx.Type<bool>(), "useJwtAccessWithScopes").Ref())
+                .WithSemicolonToken(SyntaxFactory.Token(SyntaxKind.SemicolonToken));
 
         // This isn't strictly required; it could be moved into the builder type if we wanted.
         // That can be done later if we want, as this is an internal method.
