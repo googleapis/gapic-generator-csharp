@@ -74,6 +74,12 @@ namespace Testing.Basic
         /// <summary>The settings to use for RPCs, or <c>null</c> for the default settings.</summary>
         public BasicSettings Settings { get; set; }
 
+        /// <summary>Creates a new builder with default settings.</summary>
+        public BasicClientBuilder()
+        {
+            UseJwtAccessWithScopes = BasicClient.UseJwtAccessWithScopes;
+        }
+
         partial void InterceptBuild(ref BasicClient client);
 
         partial void InterceptBuildAsync(st::CancellationToken cancellationToken, ref stt::Task<BasicClient> task);
@@ -144,7 +150,19 @@ namespace Testing.Basic
         /// </remarks>
         public static scg::IReadOnlyList<string> DefaultScopes { get; } = new sco::ReadOnlyCollection<string>(new string[] { "scope1", "scope2", });
 
-        internal static gaxgrpc::ChannelPool ChannelPool { get; } = new gaxgrpc::ChannelPool(DefaultScopes);
+        internal static gaxgrpc::ChannelPool ChannelPool { get; } = new gaxgrpc::ChannelPool(DefaultScopes, UseJwtAccessWithScopes);
+
+        internal static bool UseJwtAccessWithScopes
+        {
+            get
+            {
+                bool useJwtAccessWithScopes = true;
+                MaybeUseJwtAccessWithScopes(ref useJwtAccessWithScopes);
+                return useJwtAccessWithScopes;
+            }
+        }
+
+        static partial void MaybeUseJwtAccessWithScopes(ref bool useJwtAccessWithScopes);
 
         /// <summary>
         /// Asynchronously creates a <see cref="BasicClient"/> using the default credentials, endpoint and settings. To
