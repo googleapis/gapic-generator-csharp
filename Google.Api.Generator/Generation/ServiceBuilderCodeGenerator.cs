@@ -14,10 +14,9 @@
 
 using Google.Api.Gax.Grpc;
 using Google.Api.Gax.Grpc.GrpcCore;
-using Google.Api.Generator.Utils.Roslyn;
 using Google.Api.Generator.Utils;
+using Google.Api.Generator.Utils.Roslyn;
 using Grpc.Core;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections.Generic;
 using System.Threading;
@@ -50,6 +49,7 @@ namespace Google.Api.Generator.Generation
             using (_ctx.InClass(cls))
             {
                 cls = cls.AddMembers(Settings());
+                cls = cls.AddMembers(ParameterlessConstructor());
                 cls = cls.AddMembers(InterceptBuild());
                 cls = cls.AddMembers(InterceptBuildAsync());
                 cls = cls.AddMembers(Build());
@@ -67,6 +67,14 @@ namespace Google.Api.Generator.Generation
         private PropertyDeclarationSyntax Settings() =>
             AutoProperty(Public, _ctx.Type(_svc.SettingsTyp), "Settings", hasSetter: true)
                 .WithXmlDoc(XmlDoc.Summary("The settings to use for RPCs, or ", null, " for the default settings."));
+
+        private ConstructorDeclarationSyntax ParameterlessConstructor() =>
+            Ctor(Public, _svc.BuilderTyp)()
+                .WithXmlDoc(XmlDoc.Summary("Creates a new builder with default settings."))
+                .WithBlockBody(new[]
+                {
+                    Property(Public, _ctx.Type(_svc.BuilderTyp), "UseJwtAccessWithScopes").Assign(_ctx.Type(_svc.ClientAbstractTyp).Access("UseJwtAccessWithScopes"))
+                });
 
         private MethodDeclarationSyntax InterceptBuild() => PartialMethod("InterceptBuild")(Parameter(_ctx.Type(_svc.ClientAbstractTyp), "client").Ref());
 
