@@ -132,6 +132,12 @@ namespace Testing.ResourceNames
         /// <summary>The settings to use for RPCs, or <c>null</c> for the default settings.</summary>
         public ResourceNamesSettings Settings { get; set; }
 
+        /// <summary>Creates a new builder with default settings.</summary>
+        public ResourceNamesClientBuilder()
+        {
+            UseJwtAccessWithScopes = ResourceNamesClient.UseJwtAccessWithScopes;
+        }
+
         partial void InterceptBuild(ref ResourceNamesClient client);
 
         partial void InterceptBuildAsync(st::CancellationToken cancellationToken, ref stt::Task<ResourceNamesClient> task);
@@ -195,7 +201,19 @@ namespace Testing.ResourceNames
         /// <remarks>The default ResourceNames scopes are:<list type="bullet"></list></remarks>
         public static scg::IReadOnlyList<string> DefaultScopes { get; } = new sco::ReadOnlyCollection<string>(new string[] { });
 
-        internal static gaxgrpc::ChannelPool ChannelPool { get; } = new gaxgrpc::ChannelPool(DefaultScopes);
+        internal static gaxgrpc::ChannelPool ChannelPool { get; } = new gaxgrpc::ChannelPool(DefaultScopes, UseJwtAccessWithScopes);
+
+        internal static bool UseJwtAccessWithScopes
+        {
+            get
+            {
+                bool useJwtAccessWithScopes = true;
+                MaybeUseJwtAccessWithScopes(ref useJwtAccessWithScopes);
+                return useJwtAccessWithScopes;
+            }
+        }
+
+        static partial void MaybeUseJwtAccessWithScopes(ref bool useJwtAccessWithScopes);
 
         /// <summary>
         /// Asynchronously creates a <see cref="ResourceNamesClient"/> using the default credentials, endpoint and
