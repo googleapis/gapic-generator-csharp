@@ -44,6 +44,9 @@ csharp_grpc_library(
     ]
 )
 
+# Simplified the example for now, removing the
+# common_resources_config. With it, the code 
+# that the example produces is not buildable.
 csharp_gapic_library(
     name = "example_csharp_gapic",
     srcs = [
@@ -54,7 +57,7 @@ csharp_gapic_library(
         ":example_csharp_grpc",
     ],
     grpc_service_config = "grpc_service_config.json",
-    common_resources_config = "common_resources_config.json",
+    # common_resources_config = "common_resources_config.json",
 )
 
 csharp_gapic_assembly_pkg(

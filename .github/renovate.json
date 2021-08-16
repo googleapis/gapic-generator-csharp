@@ -3,6 +3,7 @@
     "config:base"
   ],
   "ignorePaths": [
+    "bazel_example/**",
     "Google.Api.Generators.Tests/ProtoTests/**",
     "Google.Api.Generator.Rest.Tests/GoldenTestData/**"
   ],

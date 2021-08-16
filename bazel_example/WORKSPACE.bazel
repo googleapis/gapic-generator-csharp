@@ -17,11 +17,14 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 ##
 # googleapis for the common protos
 #
+_googleapis_commit = "b08c55646b3fe4983c1952ddea87d1120ecd8ce7"
+_googleapis_sha256 = "60576252d005826ab81e87a98e3a31360e11470afd0fe92c48983e75ede26b2e"
+
 http_archive(
     name = "com_google_googleapis",
-    sha256 = "913b633d4ca8c6abcf06ca1ba0aff27ccecefe6010ac32560fe3ba5c47167562",
-    strip_prefix = "googleapis-077f0c624bb91709aea45b6f42bb4a2e84645cc3",
-    urls = ["https://github.com/googleapis/googleapis/archive/077f0c624bb91709aea45b6f42bb4a2e84645cc3.zip"],
+    sha256 = _googleapis_sha256,
+    strip_prefix = "googleapis-%s" % _googleapis_commit,
+    urls = ["https://github.com/googleapis/googleapis/archive/%s.zip" % _googleapis_commit],
 )
 
 load("@com_google_googleapis//:repository_rules.bzl", "switched_rules_by_language")
@@ -31,42 +34,77 @@ switched_rules_by_language(
     gapic = True,
 )
 
+##
+# grpc
+#
 # Note: Although this is referencing grpc v1.x, the generated C# is for use
 # with nuget packages Grpc.Core and Grpc.Core.Api v2.x
+#
+_grpc_version = "1.39.1"
+_grpc_sha256 = "4608e92cf528b625888cc874a5d21c78923322dc8c66d2c4c146134efbac69bc"
+
 http_archive(
     name = "com_github_grpc_grpc",
-    strip_prefix = "grpc-1.30.0",
-    sha256 = "4f0ad3557539a3d6edfad1693a92bd21acd3a6c3d610faa4714d64ad1d0a8072",
-    urls = ["https://github.com/grpc/grpc/archive/v1.30.0.zip"],
+    strip_prefix = "grpc-%s" % _grpc_version,
+    sha256 = _grpc_sha256,
+    urls = ["https://github.com/grpc/grpc/archive/v%s.zip" % _grpc_version],
 )
 load("@com_github_grpc_grpc//bazel:grpc_deps.bzl", "grpc_deps")
 grpc_deps()
 load("@com_github_grpc_grpc//bazel:grpc_extra_deps.bzl", "grpc_extra_deps")
 grpc_extra_deps()
 
+
+##
+# rules_proto
+#
+_rules_proto_commit = "fcad4680fee127dbd8344e6a961a28eef5820ef4"
+_rules_proto_sha256 = "36476f17a78a4c495b9a9e70bd92d182e6e78db476d90c74bac1f5f19f0d6d04"
+
 http_archive(
     name = "rules_proto",
-    sha256 = "602e7161d9195e50246177e7c55b2f39950a9cf7366f74ed5f22fd45750cd208",
-    strip_prefix = "rules_proto-97d8af4dc474595af3900dd85cb3a29ad28cc313",
+    sha256 = _rules_proto_sha256,
+    strip_prefix = "rules_proto-%s" % _rules_proto_commit,
     urls = [
-        "https://mirror.bazel.build/github.com/bazelbuild/rules_proto/archive/97d8af4dc474595af3900dd85cb3a29ad28cc313.tar.gz",
-        "https://github.com/bazelbuild/rules_proto/archive/97d8af4dc474595af3900dd85cb3a29ad28cc313.tar.gz",
+        "https://mirror.bazel.build/github.com/bazelbuild/rules_proto/archive/%s.tar.gz" % _rules_proto_commit,
+        "https://github.com/bazelbuild/rules_proto/archive/%s.tar.gz" % _rules_proto_commit,
     ],
 )
 load("@rules_proto//proto:repositories.bzl", "rules_proto_dependencies", "rules_proto_toolchains")
 rules_proto_dependencies()
 rules_proto_toolchains()
 
+##
+# gapic_generator_csharp
+# (either from github or local)
+#
+
+# use the following to get a consistent external version from github
+# pointing to a release
+#
+# _gapic_generator_csharp_version = "1.3.7"
+# 
 # http_archive(
-#     name = "gapic_generator_csharp",
-#     urls = ["https://github.com/googleapis/gapic-generator-csharp/archive/master.zip"],
-#     strip_prefix = "gapic-generator-csharp-master",
+#    name = "gapic_generator_csharp",
+#    strip_prefix = "gapic-generator-csharp-%s" % _gapic_generator_csharp_version,
+#    urls = ["https://github.com/googleapis/gapic-generator-csharp/archive/refs/tags/v%s.tar.gz" % _gapic_generator_csharp_version],
 # )
 
+# or pointing to a specific commit
+#
+# _gapic_generator_csharp_commit = "1738e9ff65c2360683409fcd1ac9d1bbfde3cc34"
+# http_archive(
+#   name = "gapic_generator_csharp",
+#   urls = ["https://github.com/googleapis/gapic-generator-csharp/archive/%s.zip" % _gapic_generator_csharp_commit],
+#   strip_prefix = "gapic-generator-csharp-%s" % _gapic_generator_csharp_commit,
+# )
+
+
 # Use the following to use the bazel rules defined locally, rather than fetched from github.
+#
 local_repository(
-    name = "gapic_generator_csharp",
-    path = "../",
+   name = "gapic_generator_csharp",
+   path = "../",
 )
 
 load("@gapic_generator_csharp//:repositories.bzl", "gapic_generator_csharp_repositories")
