@@ -22,7 +22,7 @@ namespace Google.Api.Generator.Generation
     {
         private const string GaxGrpcCoreVersion = "[3.5.0, 4.0.0)";
         private const string GrpcCoreVersion = "[2.38.1, 3.0.0)";
-        private const string LroVersion = "[2.2.0, 3.0.0)";
+        private const string LroVersion = "[2.3.0, 3.0.0)";
         private const string ReferenceAssembliesVersion = "1.0.2";
         private const string SystemLinqAsyncVersion = "5.0.0";
         private const string TestSdkVersion = "16.11.0";
