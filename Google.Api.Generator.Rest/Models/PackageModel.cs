@@ -348,8 +348,8 @@ namespace Google.Api.Generator.Rest.Models
             );
 
             var commonDependencies = new XElement("ItemGroup",
-                PackageReference("ConfigureAwaitChecker.Analyzer", "1.0.1", new XAttribute("PrivateAssets", "All")),
-                PackageReference("SourceLink.Create.CommandLine", "2.8.0", new XAttribute("PrivateAssets", "All"))
+                PackageReference("ConfigureAwaitChecker.Analyzer", "5.0.0", new XAttribute("PrivateAssets", "All")),
+                PackageReference("SourceLink.Create.CommandLine", "2.8.3", new XAttribute("PrivateAssets", "All"))
             );
 
             var netstandard20 = new XElement("ItemGroup", FrameworkCondition("netstandard2.0"),
