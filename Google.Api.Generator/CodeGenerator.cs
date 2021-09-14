@@ -109,7 +109,7 @@ namespace Google.Api.Generator
                         "All files in the same package must have the same C# namespace. " +
                         $"Found namespaces '{string.Join(", ", namespaces)}' in package '{singlePackageFileDescs.Key}'.");
                 }
-                var catalog = new ProtoCatalog(singlePackageFileDescs.Key, descriptors, commonResourcesConfigs);
+                var catalog = new ProtoCatalog(singlePackageFileDescs.Key, descriptors, singlePackageFileDescs, commonResourcesConfigs);
                 foreach (var resultFile in GeneratePackage(namespaces[0], singlePackageFileDescs, catalog, clock, grpcServiceConfig, generateMetadata))
                 {
                     yield return resultFile;
