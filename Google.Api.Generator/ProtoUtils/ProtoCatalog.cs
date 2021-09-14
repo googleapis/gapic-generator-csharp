@@ -24,24 +24,33 @@ namespace Google.Api.Generator.ProtoUtils
     /// </summary>
     internal class ProtoCatalog
     {
-        public ProtoCatalog(string defaultPackage, IEnumerable<FileDescriptor> descs, IEnumerable<CommonResources> commonResourcesConfigs)
+        /// <summary>
+        /// Creates a new catalog for a specific package.
+        /// </summary>
+        /// <param name="defaultPackage">The default package for unqualified message name.</param>
+        /// <param name="allDescriptors">All the file descriptors that have been loaded.</param>
+        /// <param name="requiredFileDescriptors">The file descriptors which *must* have their resource name fields resolved.</param>
+        /// <param name="commonResourcesConfigs">The common resource name definitions.</param>
+        public ProtoCatalog(
+            string defaultPackage, IEnumerable<FileDescriptor> allDescriptors,
+            IEnumerable<FileDescriptor> requiredFileDescriptors, IEnumerable<CommonResources> commonResourcesConfigs)
         {
             _defaultPackage = defaultPackage;
-            descs = descs.ToList();
-            _msgs = descs.SelectMany(desc => desc.MessageTypes).SelectMany(MsgPlusNested).ToDictionary(x => x.FullName);
-            _resourcesByFileName = ResourceDetails.LoadResourceDefinitionsByFileName(descs, commonResourcesConfigs).GroupBy(x => x.FileName)
+            allDescriptors = allDescriptors.ToList();
+            _msgs = allDescriptors.SelectMany(desc => desc.MessageTypes).SelectMany(MsgPlusNested).ToDictionary(x => x.FullName);
+            _resourcesByFileName = ResourceDetails.LoadResourceDefinitionsByFileName(allDescriptors, commonResourcesConfigs).GroupBy(x => x.FileName)
                 .ToImmutableDictionary(x => x.Key, x => (IReadOnlyList<ResourceDetails.Definition>)x.ToImmutableList());
             var resourcesByUrt = _resourcesByFileName.Values.SelectMany(x => x).ToDictionary(x => x.UnifiedResourceTypeName);
             var resourcesByPatternComparison = _resourcesByFileName.Values.SelectMany(x => x)
                 .SelectMany(def => def.Patterns.Where(x => !x.IsWildcard).Select(x => (x.Template.ParentComparisonString, def)))
                 .GroupBy(x => x.ParentComparisonString, x => x.def)
                 .ToImmutableDictionary(x => x.Key, x => (IReadOnlyList<ResourceDetails.Definition>)x.ToImmutableList());
-            _resourcesByFieldName = descs
+            _resourcesByFieldName = allDescriptors
                 .SelectMany(desc => desc.MessageTypes)
                 .SelectMany(MsgPlusNested)
                 .SelectMany(msg => msg.Fields.InFieldNumberOrder().Select(field =>
                     (field, res: (IReadOnlyList<ResourceDetails.Field>)ResourceDetails.LoadResourceReference(
-                        msg, field, resourcesByUrt, resourcesByPatternComparison).ToList()))
+                        msg, field, resourcesByUrt, resourcesByPatternComparison, requiredFileDescriptors.Contains(msg.File)).ToList()))
                     .Where(x => x.res.Any()))
                 .ToDictionary(x => x.field.FullName, x => x.res);
 

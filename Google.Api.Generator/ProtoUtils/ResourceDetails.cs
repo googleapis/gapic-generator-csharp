@@ -206,7 +206,7 @@ namespace Google.Api.Generator.ProtoUtils
         }
 
         public static IEnumerable<Field> LoadResourceReference(MessageDescriptor msgDesc, FieldDescriptor fieldDesc,
-            IReadOnlyDictionary<string, Definition> resourcesByUrt, IReadOnlyDictionary<string, IReadOnlyList<Definition>> resourcesByParentComparison)
+            IReadOnlyDictionary<string, Definition> resourcesByUrt, IReadOnlyDictionary<string, IReadOnlyList<Definition>> resourcesByParentComparison, bool required)
         {
             // Is this field the name-field of a resource descriptor?
             var resourceDesc = msgDesc.GetExtension(ResourceExtensions.Resource);
@@ -247,7 +247,14 @@ namespace Google.Api.Generator.ProtoUtils
                     }
                     if (!resourcesByUrt.TryGetValue(resourceRef.Type, out var def))
                     {
-                        throw new InvalidOperationException($"No resource type with name: '{resourceRef.Type}' for field {msgDesc.Name}.{fieldDesc.Name}");
+                        if (required)
+                        {
+                            throw new InvalidOperationException($"No resource type with name: '{resourceRef.Type}' for field {msgDesc.Name}.{fieldDesc.Name}");
+                        }
+                        else
+                        {
+                            yield break;
+                        }
                     }
                     if (def.HasNotWildcard)
                     {
@@ -267,7 +274,14 @@ namespace Google.Api.Generator.ProtoUtils
                     }
                     if (!resourcesByUrt.TryGetValue(resourceRef.ChildType, out var childDef))
                     {
-                        throw new InvalidOperationException($"No resource type with child name: '{resourceRef.ChildType}' for field {msgDesc.Name}.{fieldDesc.Name}");
+                        if (required)
+                        {
+                            throw new InvalidOperationException($"No resource type with child name: '{resourceRef.ChildType}' for field {msgDesc.Name}.{fieldDesc.Name}");
+                        }
+                        else
+                        {
+                            yield break;
+                        }
                     }
                     // Find all resources in which the patterns are a subset of the child patterns; a wildcard matches a child wildcard.
                     // Verify that these resources together match all parent patterns of the child resource.
