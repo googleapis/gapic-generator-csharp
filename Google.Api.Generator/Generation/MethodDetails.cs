@@ -24,6 +24,7 @@ using Grpc.ServiceConfig;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -266,6 +267,12 @@ namespace Google.Api.Generator.Generation
 
             if (pageSizeCandidate is null || pageTokenCandidate is null || nextPageTokenCandidate is null || !hasMapOrRepeatedCandidates)
             {
+                return null;
+            }
+
+            if (pageSizeCandidate.Name == "max_results" && pageSizeCandidate.MessageType.FullName == "google.protobuf.UInt32Value")
+            {
+                // This happens in BigQuery APIs that should still be generated, without pagination
                 return null;
             }
 
