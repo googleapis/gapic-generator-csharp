@@ -269,6 +269,12 @@ namespace Google.Api.Generator.Generation
                 return null;
             }
 
+            if (pageSizeCandidate.Name == "max_results" && pageSizeCandidate.MessageType?.FullName == "google.protobuf.UInt32Value")
+            {
+                // This happens in BigQuery APIs that should still be generated, without pagination
+                return null;
+            }
+
             // At this point the method is a candidate for pagination since its input has page_size/max_results + page_token 
             // and its output has next_page_token and at least one map or repeated field
 
