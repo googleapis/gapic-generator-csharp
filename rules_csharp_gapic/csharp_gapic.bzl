@@ -13,28 +13,13 @@
 # limitations under the License.
 
 load("@rules_gapic//:gapic.bzl", "GapicInfo", "proto_custom_library")
+load("@rules_gapic//csharp:csharp_gapic.bzl", _csharp_proto_library="csharp_proto_library", _csharp_grpc_library="csharp_grpc_library")
 
 def csharp_proto_library(name, deps, **kwargs):
-    # Build zip file of protoc output
-    proto_custom_library(
-        name = name,
-        deps = deps,
-        opt_args = ["file_extension=.g.cs"],
-        output_type = "csharp",
-        output_suffix = ".srcjar",
-        **kwargs
-    )
+    _csharp_proto_library(name, deps, **kwargs)
 
 def csharp_grpc_library(name, srcs, deps, **kwargs):
-    # Build zip file of grpc output
-    proto_custom_library(
-        name = name,
-        deps = srcs,
-        plugin = Label("@com_github_grpc_grpc//src/compiler:grpc_csharp_plugin"),
-        output_type = "grpc",
-        output_suffix = ".srcjar",
-        **kwargs
-    )
+    _csharp_grpc_library(name, srcs, deps, **kwargs)
 
 def _csharp_gapic_library_add_gapicinfo_impl(ctx):
     return [
