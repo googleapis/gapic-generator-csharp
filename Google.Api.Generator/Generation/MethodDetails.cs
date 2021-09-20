@@ -269,7 +269,7 @@ namespace Google.Api.Generator.Generation
                 return null;
             }
 
-            if (pageSizeCandidate.Name == "max_results" && !(pageSizeCandidate.MessageType is null) && pageSizeCandidate.MessageType.FullName == "google.protobuf.UInt32Value")
+            if (pageSizeCandidate.Name == "max_results" && pageSizeCandidate.MessageType?.FullName == "google.protobuf.UInt32Value")
             {
                 // This happens in BigQuery APIs that should still be generated, without pagination
                 return null;
