@@ -151,7 +151,31 @@ namespace Google.Api.Generator.Generation
                                 $"Retry delay multiplier: {retry.BackoffMultiplier}",
                                 $"Retry maximum delay: {(int)retry.MaxBackoff.TotalMilliseconds} milliseconds.",
                                 $"Maximum attempts: {(retry.MaxAttempts == int.MaxValue ? "Unlimited" : retry.MaxAttempts.ToString())}",
+                                GetRetriableErrorCodeDocs().ToArray(),
                                 timeoutRemark));
+
+                        IEnumerable<object> GetRetriableErrorCodeDocs()
+                        {
+                            var codes = method.MethodRetryStatusCodes.ToList();
+                            if (!codes.Any())
+                            {
+                                // This is a little unusual, in terms of "Here are the retry timing parameters, that will never be used..." but
+                                // I guess the settings could then be augmented with status codes. (And this does happen.)
+                                yield return "No status codes are retried.";
+                                yield break;
+                            }
+
+                            yield return "Retriable status codes: ";
+                            for (int i = 0; i < codes.Count; i++)
+                            {
+                                if (i != 0)
+                                {
+                                    yield return ", ";
+                                }
+                                yield return _ctx.Type<StatusCode>().Access(codes[i]);
+                            }
+                            yield return ".";
+                        }
                     }
                 }
                 else
