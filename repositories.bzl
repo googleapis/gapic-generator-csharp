@@ -21,7 +21,7 @@ def gapic_generator_csharp_repositories():
     # We can comment the existing rule and bring up an alternative version
     
     # For local development just getting one from a neighboring folder is the most convenient.
-    # (this aproach is commented out below)
+    # (This approach is commented out below.)
     #
     # But if it's a review on gh, we can also use a commit id (this is what I have uncommented below).
     
@@ -46,7 +46,7 @@ def gapic_generator_csharp_repositories():
     # │   ├── Example.g.cs
     # ...
     # 
-    # This seems to satisfy.
+    # This is the output we expected, so it looks like it's worked.
     #
     # In the future we will update the _rules_gapic_version and _rules_gapic_sha256 here.
     #
