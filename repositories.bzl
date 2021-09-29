@@ -17,8 +17,8 @@ load("@bazel_tools//tools/build_defs/repo:utils.bzl", "maybe")
 load("//rules_csharp_gapic:csharp_compiler_repo.bzl", "csharp_compiler", "dotnet_restore")
 
 def gapic_generator_csharp_repositories():
-    _rules_gapic_version = "0.7.0"
-    _rules_gapic_sha256 = "3536ddd6d03b80733fd4dbde98d9f5be784dc0a38aba14ad2f7ac2e0209a15f8"
+    _rules_gapic_version = "0.8.0"
+    _rules_gapic_sha256 = "75705d03068ba07cc885a85bb4585e2a278414e31510e60577df8437a28a4ae1"
 
     maybe(
         http_archive,
