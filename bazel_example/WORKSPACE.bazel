@@ -14,6 +14,19 @@
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
+# (The beginning of the explanation is in the `repositories.bzl` file)
+#
+# Rules gapic can also be defined here.
+# Since we are building from bazel_example, this is the first file that is considered.
+# Defining rules_gapic here in the beginning will ensure that this definition
+# is used.
+#
+# local_repository(
+#     name = "rules_gapic",
+#     path = "../../rules_gapic",
+# )
+#
+
 ##
 # googleapis for the common protos
 #
@@ -98,7 +111,6 @@ rules_proto_toolchains()
 #   urls = ["https://github.com/googleapis/gapic-generator-csharp/archive/%s.zip" % _gapic_generator_csharp_commit],
 #   strip_prefix = "gapic-generator-csharp-%s" % _gapic_generator_csharp_commit,
 # )
-
 
 # Use the following to use the bazel rules defined locally, rather than fetched from github.
 #
