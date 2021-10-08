@@ -26,6 +26,7 @@ using Google.Api.Generator.ProtoUtils;
 using Google.Protobuf.Reflection;
 using static Google.Api.Generator.Utils.Roslyn.Modifier;
 using static Google.Api.Generator.Utils.Roslyn.RoslynBuilder;
+using Grpc.Core;
 
 namespace Google.Api.Generator.Generation
 {
@@ -122,7 +123,7 @@ namespace Google.Api.Generator.Generation
 
         private static IEnumerable<MemberDeclarationSyntax> LroPartialClasses(SourceFileContext ctx, ServiceDetails svc)
         {
-            if (svc.Methods.Any(m => m is MethodDetails.Lro))
+            if (svc.Methods.Any(m => m is MethodDetails.StandardLro))
             {
                 // Emit partial class to give access to an LRO operations client.
                 var grpcOuterCls = Class(Public | Static | Partial, svc.GrpcClientTyp.DeclaringTyp);
@@ -137,6 +138,78 @@ namespace Google.Api.Generator.Generation
                             .WithBody(New(opTyp)(callInvoker))
                             .WithXmlDoc(
                                 XmlDoc.Summary("Creates a new instance of ", opTyp, " using the same call invoker as this client."),
+                                XmlDoc.Returns("A new Operations client for the same target as this client.")
+                            );
+                        grpcInnerClass = grpcInnerClass.AddMembers(createOperationsClientMethod);
+                    }
+                    grpcOuterCls = grpcOuterCls.AddMembers(grpcInnerClass);
+                }
+                yield return grpcOuterCls;
+            }
+
+            // Generate partial classes to delegate to other services handling operations
+            if (svc.Methods.Any(m => m is MethodDetails.NonStandardLro))
+            {
+                var operationServices = svc.Methods.OfType<MethodDetails.NonStandardLro>().Select(lro => lro.OperationService).Distinct().ToList();
+
+                // Emit partial class to give access to an LRO operations client.
+                var grpcOuterCls = Class(Public | Static | Partial, svc.GrpcClientTyp.DeclaringTyp);
+                using (ctx.InClass(grpcOuterCls))
+                {
+                    var grpcInnerClass = Class(Public | Partial, svc.GrpcClientTyp);
+                    using (ctx.InClass(grpcInnerClass))
+                    {
+                        var callInvoker = Property(Private, ctx.TypeDontCare, "CallInvoker");
+                        var opTyp = ctx.Type<Operations.OperationsClient>();
+
+                        foreach (var operationService in operationServices)
+                        {
+                            var grpcClient = ctx.Type(Typ.Nested(Typ.Manual(ctx.Namespace, operationService), $"{operationService}Client"));
+                            var createOperationsClientMethod = Method(Public | Virtual, opTyp, $"CreateOperationsClientFor{operationService}")()
+                                .WithBody(grpcClient.Call("CreateOperationsClient")(callInvoker))
+                                .WithXmlDoc(
+                                    XmlDoc.Summary("Creates a new instance of ", opTyp, $" using the same call invoker as this client, delegating to {operationService}."),
+                                    XmlDoc.Returns("A new Operations client for the same target as this client.")
+                                );
+                            grpcInnerClass = grpcInnerClass.AddMembers(createOperationsClientMethod);
+                        }
+                    }
+                    grpcOuterCls = grpcOuterCls.AddMembers(grpcInnerClass);
+                }
+                yield return grpcOuterCls;
+            }
+
+            // Generate partial classes for the operation-handling services
+            if (svc.NonStandardLro is ServiceDetails.NonStandardLroDetails lroDetails)
+            {
+                // Emit partial class to give access to an LRO operations client.
+                var grpcOuterCls = Class(Public | Static | Partial, svc.GrpcClientTyp.DeclaringTyp);
+                using (ctx.InClass(grpcOuterCls))
+                {
+                    var grpcInnerClass = Class(Public | Partial, svc.GrpcClientTyp);
+                    using (ctx.InClass(grpcInnerClass))
+                    {
+                        var callInvoker = Parameter(ctx.Type<CallInvoker>(), "callInvoker");
+                        var request = Parameter(ctx.TypeDontCare, "request");
+                        var response = Parameter(ctx.TypeDontCare, "response");
+                        var opTyp = ctx.Type<Operations.OperationsClient>();
+                        var forwardingCallInvoker = Local(ctx.Type<CallInvoker>(), "forwardingCallInvoker");
+                        var createOperationsClientMethod = Method(Internal | Static, opTyp, "CreateOperationsClient")(callInvoker)
+                            .WithBody(
+                                forwardingCallInvoker.WithInitializer(
+                                    // Note: can't use Typ.Of<ForwardingCallInvoker<GetOperationRequest>> as it's a static class.
+                                    ctx.Type(Typ.Generic(Typ.Of(typeof(ForwardingCallInvoker<>)), Typ.Of<GetOperationRequest>())).Call("Create")(
+                                        callInvoker,
+                                        "/google.longrunning.Operations/GetOperation",
+                                        Property(Private, ctx.TypeDontCare, $"__Method_{lroDetails.PollingMethod.Name}"),
+                                        ctx.Type(lroDetails.PollingRequestTyp).Access("ParseLroRequest"), // Method group conversion
+                                        Lambda(request, response)(response.Call("ToLroResponse")(request.Access("Name")))
+                                    )),
+                                Return(New(opTyp)(forwardingCallInvoker)))
+                            .WithXmlDoc(
+                                XmlDoc.Summary(
+                                    "Creates a new instance of ", opTyp, "using the specified call invoker, but ",
+                                    $"redirecting Google.LongRunning RPCs to {lroDetails.Service.Name} RPCs."),
                                 XmlDoc.Returns("A new Operations client for the same target as this client.")
                             );
                         grpcInnerClass = grpcInnerClass.AddMembers(createOperationsClientMethod);

@@ -203,6 +203,19 @@ namespace Google.Api.Generator.Utils.Roslyn
             ParameterListSyntax Params() => ParameterList(SeparatedList(Enumerable.Repeat(parameter, parameter == null ? 0 : 1)));
         };
 
+        public static CodeFunc<LambdaExpressionSyntax> Lambda(ParameterSyntax parameter1, ParameterSyntax parameter2) => code =>
+        {
+            var statements = ToStatements(code).ToArray();
+            var expr = ParenthesizedLambdaExpression(Params(), statements.Length == 1 ? MakeExpr(statements[0]) : Block(statements));
+            return expr;
+
+            ParameterListSyntax Params() => ParameterList(SeparatedList(new[] { parameter1.WithType(null), parameter2.WithType(null) }));
+            static CSharpSyntaxNode MakeExpr(CSharpSyntaxNode c) =>
+                c is ReturnStatementSyntax ret ? ret.Expression :
+                c is ExpressionStatementSyntax exprState ? exprState.Expression :
+                c;
+        };
+
         public static FieldDeclarationSyntax Field(Modifier modifiers, TypeSyntax type, string name) =>
             FieldDeclaration(VariableDeclaration(type, SingletonSeparatedList(VariableDeclarator(name)))).AddModifiers(modifiers.ToSyntaxTokens());
 
