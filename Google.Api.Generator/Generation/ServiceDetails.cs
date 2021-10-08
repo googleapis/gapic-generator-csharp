@@ -14,8 +14,10 @@
 
 using Google.Api.Generator.ProtoUtils;
 using Google.Api.Generator.Utils;
+using Google.Cloud;
 using Google.Protobuf.Reflection;
 using Grpc.ServiceConfig;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -59,6 +61,7 @@ namespace Google.Api.Generator.Generation
             StandaloneSnippetsTyp = Typ.Manual(SnippetsNamespace, $"Generated{desc.Name}ClientStandaloneSnippets");
             SnippetsClientName = $"{desc.Name.ToLowerCamelCase()}Client";
             UnitTestsTyp = Typ.Manual(UnitTestsNamespace, $"Generated{desc.Name}ClientTest");
+            NonStandardLro = NonStandardLroDetails.ForService(desc);
         }
 
         /// <summary>The lines of service documentation from the proto.</summary>
@@ -125,5 +128,56 @@ namespace Google.Api.Generator.Generation
 
         /// <summary>Name of the proto package for this service</summary>
         public string ProtoPackage { get; }
+
+        /// <summary>
+        /// LRO details of this service, if it represents an LRO polling service in a
+        /// non-standard LRO implementation, or null otherwise.
+        /// </summary>
+        public NonStandardLroDetails NonStandardLro { get; }
+
+        /// <summary>
+        /// The details of a service responsible for LRO polling for a non-standard LRO implementation.
+        /// (Multiple other services may have methods that return operations polled by the service.)
+        /// </summary>
+        public class NonStandardLroDetails
+        {
+            public ServiceDescriptor Service { get; }
+            public MethodDescriptor PollingMethod { get; }
+            public Typ PollingRequestTyp { get; }
+            public MessageDescriptor PollingRequestDescriptor { get; }
+            public Typ OperationTyp { get; }
+            public MessageDescriptor OperationDescriptor { get; }
+
+            private NonStandardLroDetails(ServiceDescriptor desc, MethodDescriptor pollingMethod)
+            {
+                Service = desc;
+                PollingMethod = pollingMethod;
+                PollingRequestDescriptor = pollingMethod.InputType;
+                PollingRequestTyp = ProtoUtils.ProtoTyp.Of(PollingRequestDescriptor);
+                OperationDescriptor = pollingMethod.OutputType;
+                OperationTyp = ProtoUtils.ProtoTyp.Of(OperationDescriptor);
+            }
+
+            /// <summary>
+            /// Returns the details of the service responsible for polling a non-standard LRO implementation, or
+            /// null if the given service has no such responsibility.
+            /// </summary>
+            public static NonStandardLroDetails ForService(ServiceDescriptor desc)
+            {
+                var pollingMethods = desc.Methods
+                    .Where(method => method.GetExtension(ExtendedOperationsExtensions.OperationPollingMethod))
+                    .ToList();
+                if (pollingMethods.Count == 0)
+                {
+                    return null;
+                }
+                if (pollingMethods.Count > 1)
+                {
+                    throw new InvalidOperationException($"{desc.FullName} contains more than one method configured for operation polling");
+                }
+                // Now we know we won't return null, do everything else in the constructor.
+                return new NonStandardLroDetails(desc, pollingMethods.Single());
+            }
+        }
     }
 }

@@ -98,7 +98,8 @@ namespace Google.Api.Generator.Generation
                     grpcClientProperty.Assign(grpcClient),
                     effectiveSettings.WithInitializer(settings.NullCoalesce(_ctx.Type(_svc.SettingsTyp).Call("GetDefault")())),
                     clientHelper.WithInitializer(New(_ctx.Type<ClientHelper>())(effectiveSettings)),
-                    _svc.Methods.OfType<MethodDetails.Lro>().Select(LroClient),
+                    _svc.Methods.OfType<MethodDetails.StandardLro>().Select(StandardLroClient),
+                    _svc.Methods.OfType<MethodDetails.NonStandardLro>().Select(NonStandardLroClient),
                     _svc.Methods.SelectMany(PerMethod),
                     This.Call(onCtor)(grpcClient, effectiveSettings, clientHelper)
                 )
@@ -108,11 +109,18 @@ namespace Google.Api.Generator.Generation
                     XmlDoc.Param(settings, "The base ", _ctx.Type(_svc.SettingsTyp), " used within this client.")
                 );
 
-            SyntaxNode LroClient(MethodDetails.Lro lro)
+            SyntaxNode StandardLroClient(MethodDetails.StandardLro lro)
             {
                 var lroOperationsClientProperty = Property(Public, _ctx.Type<OperationsClient>(), lro.LroClientName);
                 return lroOperationsClientProperty.Assign(New(_ctx.Type<OperationsClientImpl>())(
                     grpcClient.Call("CreateOperationsClient")(), effectiveSettings.Access(lro.LroSettingsName)));
+            }
+
+            SyntaxNode NonStandardLroClient(MethodDetails.NonStandardLro lro)
+            {
+                var lroOperationsClientProperty = Property(Public, _ctx.Type<OperationsClient>(), lro.LroClientName);
+                return lroOperationsClientProperty.Assign(New(_ctx.Type<OperationsClientImpl>())(
+                    grpcClient.Call($"CreateOperationsClientFor{lro.OperationService}")(), effectiveSettings.Access(lro.LroSettingsName)));
             }
 
             IEnumerable<SyntaxNode> PerMethod(MethodDetails method)

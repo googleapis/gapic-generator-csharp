@@ -16,6 +16,7 @@ using Google.Api.Gax;
 using Google.Api.Gax.Grpc;
 using Google.Api.Generator.ProtoUtils;
 using Google.Api.Generator.Utils;
+using Google.Cloud;
 using Google.LongRunning;
 using Google.Protobuf.Reflection;
 using Google.Protobuf.WellKnownTypes;
@@ -89,11 +90,38 @@ namespace Google.Api.Generator.Generation
         }
 
         /// <summary>
-        /// Details about an LRO method.
+        /// Details about an LRO method, either declared in the normal
+        /// way returning a google.longrunning.Operation, or a non-standard
+        /// operation using an operation_service annotation.
         /// </summary>
-        public sealed class Lro : MethodDetails
+        public abstract class Lro : MethodDetails
         {
-            public Lro(ServiceDetails svc, MethodDescriptor desc) : base(svc, desc)
+            protected Lro(ServiceDetails svc, MethodDescriptor desc)
+                : base(svc, desc)
+            {
+                LroSettingsName = $"{desc.Name}OperationsSettings";
+                LroClientName = $"{desc.Name}OperationsClient";
+                SyncPollMethodName = $"PollOnce{SyncMethodName}";
+                AsyncPollMethodName = $"PollOnce{AsyncMethodName}";
+            }
+
+            public abstract override Typ ApiCallTyp { get; }
+            public abstract override Typ SyncReturnTyp { get; }
+            public string LroSettingsName { get; }
+            public string LroClientName { get; }
+            public string SyncPollMethodName { get; }
+            public string AsyncPollMethodName { get; }
+            public Typ OperationTyp => SyncReturnTyp;
+            public abstract Typ OperationResponseTyp { get; }
+            public abstract Typ OperationMetadataTyp { get; }
+        }
+
+        /// <summary>
+        /// Details about an LRO method declared to return a google.longrunning.Operation.
+        /// </summary>
+        public sealed class StandardLro : Lro
+        {
+            public StandardLro(ServiceDetails svc, MethodDescriptor desc) : base(svc, desc)
             {
                 OperationInfo lroData = desc.GetExtension(OperationsExtensions.OperationInfo);
                 if (lroData is null)
@@ -115,20 +143,38 @@ namespace Google.Api.Generator.Generation
                 OperationResponseTyp = ProtoTyp.Of(responseTypeMsg);
                 OperationMetadataTyp = ProtoTyp.Of(metadataTypeMsg);
                 SyncReturnTyp = Typ.Generic(typeof(Operation<,>), OperationResponseTyp, OperationMetadataTyp);
-                LroSettingsName = $"{desc.Name}OperationsSettings";
-                LroClientName = $"{desc.Name}OperationsClient";
-                SyncPollMethodName = $"PollOnce{SyncMethodName}";
-                AsyncPollMethodName = $"PollOnce{AsyncMethodName}";
             }
+
             public override Typ ApiCallTyp { get; }
             public override Typ SyncReturnTyp { get; }
-            public string LroSettingsName { get; }
-            public string LroClientName { get; }
-            public string SyncPollMethodName { get; }
-            public string AsyncPollMethodName { get; }
-            public Typ OperationTyp => SyncReturnTyp;
-            public Typ OperationResponseTyp { get; }
-            public Typ OperationMetadataTyp { get; }
+            public override Typ OperationResponseTyp { get; }
+            public override Typ OperationMetadataTyp { get; }
+        }
+
+        /// <summary>
+        /// Details about a non-standard LRO method declared using an operation_service annotation.
+        /// </summary>
+        public sealed class NonStandardLro : Lro
+        {
+            public NonStandardLro(ServiceDetails svc, MethodDescriptor desc) : base(svc, desc)
+            {
+                OperationService = desc.GetExtension(ExtendedOperationsExtensions.OperationService);
+                if (string.IsNullOrEmpty(OperationService))
+                {
+                    throw new InvalidOperationException($"{desc.FullName} is not a non-standard LRO; it does not have an operation_service option.");
+                }
+                var service = svc.Catalog.GetServiceByName(OperationService);
+                OperationServiceDetails = ServiceDetails.NonStandardLroDetails.ForService(service);
+                SyncReturnTyp = Typ.Generic(typeof(Operation<,>), OperationResponseTyp, OperationMetadataTyp);
+                ApiCallTyp = Typ.Generic(typeof(ApiCall<,>), RequestTyp, ResponseTyp);
+            }
+
+            public string OperationService { get; }
+            public ServiceDetails.NonStandardLroDetails OperationServiceDetails { get; }
+            public override Typ ApiCallTyp { get; }
+            public override Typ SyncReturnTyp { get; }
+            public override Typ OperationResponseTyp => OperationServiceDetails.OperationTyp;
+            public override Typ OperationMetadataTyp => OperationResponseTyp;
         }
 
         public interface IStreaming
@@ -236,7 +282,8 @@ namespace Google.Api.Generator.Generation
             desc.IsServerStreaming ? new ServerStreaming(svc, desc) :
             desc.IsClientStreaming ? throw new NotImplementedException() :
             // Any LRO-returning methods within the LRO package itself should be treated normally. Anywhere else, they get special treatment.
-            desc.OutputType.FullName == "google.longrunning.Operation" && desc.File.Package != "google.longrunning" ? new Lro(svc, desc) :
+            desc.OutputType.FullName == "google.longrunning.Operation" && desc.File.Package != "google.longrunning" ? new StandardLro(svc, desc) :
+            !string.IsNullOrEmpty(desc.GetExtension(ExtendedOperationsExtensions.OperationService)) ? new NonStandardLro(svc, desc) :
             (MethodDetails)new Normal(svc, desc));
 
         private static MethodDetails DetectPagination(ServiceDetails svc, MethodDescriptor desc)

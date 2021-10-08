@@ -38,6 +38,7 @@ namespace Google.Api.Generator.ProtoUtils
             _defaultPackage = defaultPackage;
             allDescriptors = allDescriptors.ToList();
             _msgs = allDescriptors.SelectMany(desc => desc.MessageTypes).SelectMany(MsgPlusNested).ToDictionary(x => x.FullName);
+            _services = allDescriptors.SelectMany(desc => desc.Services).ToDictionary(x => x.FullName);
             _resourcesByFileName = ResourceDetails.LoadResourceDefinitionsByFileName(allDescriptors, commonResourcesConfigs).GroupBy(x => x.FileName)
                 .ToImmutableDictionary(x => x.Key, x => (IReadOnlyList<ResourceDetails.Definition>)x.ToImmutableList());
             var resourcesByUrt = _resourcesByFileName.Values.SelectMany(x => x).ToDictionary(x => x.UnifiedResourceTypeName);
@@ -59,11 +60,15 @@ namespace Google.Api.Generator.ProtoUtils
 
         private readonly string _defaultPackage;
         private readonly IReadOnlyDictionary<string, MessageDescriptor> _msgs;
+        private readonly IReadOnlyDictionary<string, ServiceDescriptor> _services;
         private readonly IReadOnlyDictionary<string, IReadOnlyList<ResourceDetails.Field>> _resourcesByFieldName;
         private readonly IReadOnlyDictionary<string, IReadOnlyList<ResourceDetails.Definition>> _resourcesByFileName;
 
         public MessageDescriptor GetMessageByName(string name) =>
             _msgs.GetValueOrDefault($"{_defaultPackage}.{name}") ?? _msgs.GetValueOrDefault(name);
+
+        public ServiceDescriptor GetServiceByName(string name) =>
+            _services.GetValueOrDefault($"{_defaultPackage}.{name}") ?? _services.GetValueOrDefault(name);
 
         public IReadOnlyList<ResourceDetails.Field> GetResourceDetailsByField(FieldDescriptor fieldDesc) => _resourcesByFieldName.GetValueOrDefault(fieldDesc.FullName);
 

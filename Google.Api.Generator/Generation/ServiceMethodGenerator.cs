@@ -136,10 +136,15 @@ namespace Google.Api.Generator.Generation
                         yield return method.ImplPaginatedSyncRequestMethod;
                         yield return method.ImplPaginatedAsyncCallSettingsRequestMethod;
                         break;
-                    case MethodDetails.Lro _:
+                    case MethodDetails.StandardLro _:
                         yield return method.ImplLroOperationsClientProperty;
-                        yield return method.ImplLroSyncRequestMethod;
-                        yield return method.ImplLroAsyncCallSettingsRequestMethod;
+                        yield return method.ImplStandardLroSyncRequestMethod;
+                        yield return method.ImplStandardLroAsyncCallSettingsRequestMethod;
+                        break;
+                    case MethodDetails.NonStandardLro _:
+                        yield return method.ImplLroOperationsClientProperty;
+                        yield return method.ImplNonStandardLroSyncRequestMethod;
+                        yield return method.ImplNonStandardLroAsyncCallSettingsRequestMethod;
                         break;
                     case MethodDetails.BidiStreaming _:
                         yield return method.ImplBidiStreamClass();
@@ -162,10 +167,10 @@ namespace Google.Api.Generator.Generation
             public string Namespace { get; }
 
             public MethodDetails MethodDetails { get; }
-            public MethodDetails.Paginated MethodDetailsPaginated => (MethodDetails.Paginated)MethodDetails;
-            public MethodDetails.Lro MethodDetailsLro => (MethodDetails.Lro)MethodDetails;
-            public MethodDetails.BidiStreaming MethodDetailsBidiStream => (MethodDetails.BidiStreaming)MethodDetails;
-            public MethodDetails.ServerStreaming MethodDetailsServerStream => (MethodDetails.ServerStreaming)MethodDetails;
+            public MethodDetails.Paginated MethodDetailsPaginated => (MethodDetails.Paginated) MethodDetails;
+            public MethodDetails.Lro MethodDetailsLro => (MethodDetails.Lro) MethodDetails;
+            public MethodDetails.BidiStreaming MethodDetailsBidiStream => (MethodDetails.BidiStreaming) MethodDetails;
+            public MethodDetails.ServerStreaming MethodDetailsServerStream => (MethodDetails.ServerStreaming) MethodDetails;
 
             private MethodDeclarationSyntax ModifyRequestMethod => ServiceImplClientClassGenerator.ModifyRequestPartialMethod(Ctx, MethodDetails);
             private FieldDeclarationSyntax ApiCallField => ServiceImplClientClassGenerator.ApiCallField(Ctx, MethodDetails);
@@ -186,7 +191,7 @@ namespace Google.Api.Generator.Generation
             private DocumentationCommentTriviaSyntax CancellationTokenXmlDoc => XmlDoc.Param(CancellationTokenParam, "A ", Ctx.Type<CancellationToken>(), " to use for this RPC.");
             private DocumentationCommentTriviaSyntax ReturnsSyncXmlDoc => XmlDoc.Returns("The RPC response.");
             private DocumentationCommentTriviaSyntax ReturnsAsyncXmlDoc => XmlDoc.Returns("A Task containing the RPC response.");
-            private DocumentationCommentTriviaSyntax ReturnsSyncPaginatedXmlDoc => XmlDoc.Returns("A pageable sequence of ", Ctx.Type(MethodDetailsPaginated.ResourceTypForCref) , " resources.");
+            private DocumentationCommentTriviaSyntax ReturnsSyncPaginatedXmlDoc => XmlDoc.Returns("A pageable sequence of ", Ctx.Type(MethodDetailsPaginated.ResourceTypForCref), " resources.");
             private DocumentationCommentTriviaSyntax ReturnsAsyncPaginatedXmlDoc => XmlDoc.Returns("A pageable asynchronous sequence of ", Ctx.Type(MethodDetailsPaginated.ResourceTypForCref), " resources.");
             private DocumentationCommentTriviaSyntax OperationsSummaryXmlDoc => XmlDoc.Summary("The long-running operations client for ", XmlDoc.C(MethodDetails.SyncMethodName), ".");
             private DocumentationCommentTriviaSyntax OperationNameXmlDoc => XmlDoc.Param(OperationNameParam, "The name of a previously invoked operation. Must not be ", XmlDoc.C("null"), " or empty.");
@@ -222,7 +227,7 @@ namespace Google.Api.Generator.Generation
                         .WithBody(
                             This.Call(ModifyRequestMethod)(Ref(RequestParam), Ref(CallSettingsParam)),
                             MethodDetails.SyncReturnTyp is Typ.VoidTyp ?
-                                (object)ApiCallField.Call(ApiCallSyncName)(RequestParam, CallSettingsParam) :
+                                (object) ApiCallField.Call(ApiCallSyncName)(RequestParam, CallSettingsParam) :
                                 Return(ApiCallField.Call(ApiCallSyncName)(RequestParam, CallSettingsParam)))
                         .WithXmlDoc(SummaryXmlDoc, RequestXmlDoc, CallSettingsXmlDoc, ReturnsSyncXmlDoc);
 
@@ -283,11 +288,13 @@ namespace Google.Api.Generator.Generation
 
             // LRO impl members.
 
+            // Common LRO members
             public PropertyDeclarationSyntax ImplLroOperationsClientProperty =>
                 AutoProperty(Public | Override, Ctx.Type<OperationsClient>(), MethodDetailsLro.LroClientName)
                     .WithXmlDoc(OperationsSummaryXmlDoc);
 
-            public MethodDeclarationSyntax ImplLroSyncRequestMethod =>
+            // Standard LRO members
+            public MethodDeclarationSyntax ImplStandardLroSyncRequestMethod =>
                 Method(Public | Override, Ctx.Type(MethodDetails.SyncReturnTyp), MethodDetails.SyncMethodName)(RequestParam, CallSettingsParam)
                         .MaybeWithAttribute(MethodDetails.IsDeprecated, () => Ctx.Type<ObsoleteAttribute>())()
                         .WithBody(
@@ -296,7 +303,7 @@ namespace Google.Api.Generator.Generation
                         )
                         .WithXmlDoc(SummaryXmlDoc, RequestXmlDoc, CallSettingsXmlDoc, ReturnsSyncXmlDoc);
 
-            public MethodDeclarationSyntax ImplLroAsyncCallSettingsRequestMethod =>
+            public MethodDeclarationSyntax ImplStandardLroAsyncCallSettingsRequestMethod =>
                 Method(Public | Override | Async, Ctx.Type(MethodDetails.AsyncReturnTyp), MethodDetails.AsyncMethodName)(RequestParam, CallSettingsParam)
                         .MaybeWithAttribute(MethodDetails.IsDeprecated, () => Ctx.Type<ObsoleteAttribute>())()
                         .WithBody(
@@ -304,6 +311,47 @@ namespace Google.Api.Generator.Generation
                             Return(New(Ctx.Type(MethodDetailsLro.OperationTyp))(Await(ApiCallField.Call(ApiCallAsyncName)(RequestParam, CallSettingsParam).ConfigureAwait()), ImplLroOperationsClientProperty))
                         )
                         .WithXmlDoc(SummaryXmlDoc, RequestXmlDoc, CallSettingsXmlDoc, ReturnsAsyncXmlDoc);
+
+            // Non-standard LRO members
+            public MethodDeclarationSyntax ImplNonStandardLroSyncRequestMethod
+            {
+                get
+                {
+                    var lro = (MethodDetails.NonStandardLro) MethodDetails;
+                    var response = Local(Ctx.Type(lro.OperationServiceDetails.OperationTyp), "response");
+                    var pollRequest = Local(Ctx.Type(lro.OperationServiceDetails.PollingRequestTyp), "pollRequest");
+                    return Method(Public | Override, Ctx.Type(MethodDetails.SyncReturnTyp), MethodDetails.SyncMethodName)(RequestParam, CallSettingsParam)
+                            .MaybeWithAttribute(MethodDetails.IsDeprecated, () => Ctx.Type<ObsoleteAttribute>())()
+                            .WithBody(
+                                This.Call(ModifyRequestMethod)(Ref(RequestParam), Ref(CallSettingsParam)),
+                                response.WithInitializer(ApiCallField.Call(ApiCallSyncName)(RequestParam, CallSettingsParam)),
+                                pollRequest.WithInitializer(Ctx.Type(lro.OperationServiceDetails.PollingRequestTyp).Call("FromInitialResponse")(response)),
+                                RequestParam.Call("PopulatePollRequestFields")(pollRequest),
+                                Return(New(Ctx.Type(MethodDetailsLro.OperationTyp))(response.Call("ToLroResponse")(pollRequest.Call("ToLroOperationName")()), ImplLroOperationsClientProperty))
+                            )
+                            .WithXmlDoc(SummaryXmlDoc, RequestXmlDoc, CallSettingsXmlDoc, ReturnsSyncXmlDoc);
+                }
+            }
+
+            public MethodDeclarationSyntax ImplNonStandardLroAsyncCallSettingsRequestMethod
+            {
+                get
+                {
+                    var lro = (MethodDetails.NonStandardLro) MethodDetails;
+                    var response = Local(Ctx.Type(lro.OperationServiceDetails.OperationTyp), "response");
+                    var pollRequest = Local(Ctx.Type(lro.OperationServiceDetails.PollingRequestTyp), "pollRequest");
+                    return Method(Public | Override | Async, Ctx.Type(MethodDetails.AsyncReturnTyp), MethodDetails.AsyncMethodName)(RequestParam, CallSettingsParam)
+                            .MaybeWithAttribute(MethodDetails.IsDeprecated, () => Ctx.Type<ObsoleteAttribute>())()
+                            .WithBody(
+                                This.Call(ModifyRequestMethod)(Ref(RequestParam), Ref(CallSettingsParam)),
+                                response.WithInitializer(Await(ApiCallField.Call(ApiCallAsyncName)(RequestParam, CallSettingsParam).ConfigureAwait())),
+                                pollRequest.WithInitializer(Ctx.Type(lro.OperationServiceDetails.PollingRequestTyp).Call("FromInitialResponse")(response)),
+                                RequestParam.Call("PopulatePollRequestFields")(pollRequest),
+                                Return(New(Ctx.Type(MethodDetailsLro.OperationTyp))(response.Call("ToLroResponse")(pollRequest.Call("ToLroOperationName")()), ImplLroOperationsClientProperty))
+                            )
+                            .WithXmlDoc(SummaryXmlDoc, RequestXmlDoc, CallSettingsXmlDoc, ReturnsAsyncXmlDoc);
+                }
+            }
 
             // Bidi streaming abstract members.
 

@@ -245,9 +245,14 @@ namespace Google.Api.Generator.Generation
 
             private IEnumerable<object> LroSetup()
             {
-                if (Svc.Methods.Any(x => x is MethodDetails.Lro))
+                if (Svc.Methods.Any(x => x is MethodDetails.StandardLro))
                 {
                     yield return MockGrpcClient.Call(nameof(Mock<string>.Setup))(Lambda(X)(X.Call("CreateOperationsClient")()))
+                        .Call(nameof(IReturns<string, int>.Returns))(New(Ctx.Type<Mock<Operations.OperationsClient>>())().Access(nameof(Mock.Object)));
+                }
+                foreach (var operationService in Svc.Methods.OfType<MethodDetails.NonStandardLro>().Select(method => method.OperationService).Distinct())
+                {
+                    yield return MockGrpcClient.Call(nameof(Mock<string>.Setup))(Lambda(X)(X.Call($"CreateOperationsClientFor{operationService}")()))
                         .Call(nameof(IReturns<string, int>.Returns))(New(Ctx.Type<Mock<Operations.OperationsClient>>())().Access(nameof(Mock.Object)));
                 }
             }

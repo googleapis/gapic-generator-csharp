@@ -16,6 +16,7 @@ using Google.Api.Gax;
 using Google.Api.Generator.Generation;
 using Google.Api.Generator.ProtoUtils;
 using Google.Api.Generator.Utils;
+using Google.Cloud;
 using Google.LongRunning;
 using Google.Protobuf;
 using Google.Protobuf.Reflection;
@@ -44,7 +45,12 @@ namespace Google.Api.Generator
             AnnotationsExtensions.Http,
             ResourceExtensions.Resource,
             ResourceExtensions.ResourceDefinition,
-            ResourceExtensions.ResourceReference
+            ResourceExtensions.ResourceReference,
+            ExtendedOperationsExtensions.OperationField,
+            ExtendedOperationsExtensions.OperationPollingMethod,
+            ExtendedOperationsExtensions.OperationRequestField,
+            ExtendedOperationsExtensions.OperationResponseField,
+            ExtendedOperationsExtensions.OperationService,
         };
 
         private static readonly IReadOnlyDictionary<string, string> s_wellknownNamespaceAliases = new Dictionary<string, string>
@@ -192,6 +198,16 @@ namespace Google.Api.Generator
                     var filenamePrefix = Path.GetFileNameWithoutExtension(fileDesc.Name).ToUpperCamelCase();
                     var resFilename = $"{clientPathPrefix}{filenamePrefix}ResourceNames.g.cs";
                     yield return new ResultFile(resFilename, resCode);
+                    hasContent = true;
+                }
+
+                var lroAdaptationCtx = SourceFileContext.CreateFullyAliased(clock, s_wellknownNamespaceAliases);
+                var (lroCode, lroClassCount) = LroAdaptationGenerator.Generate(catalog, lroAdaptationCtx, fileDesc);
+                if (lroClassCount > 0)
+                {
+                    var filenamePrefix = Path.GetFileNameWithoutExtension(fileDesc.Name).ToUpperCamelCase();
+                    var lroAdaptationFilename = $"{clientPathPrefix}{filenamePrefix}LroAdaptation.g.cs";
+                    yield return new ResultFile(lroAdaptationFilename, lroCode);
                     hasContent = true;
                 }
             }
