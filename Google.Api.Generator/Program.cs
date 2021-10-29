@@ -23,21 +23,18 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Google.Api.Generator
 {
     public static class Program
     {
-        private const string nameGenerateMetadataConfig = "metadata";
         private const string nameGrpcServiceConfig = "grpc-service-config";
         private const string nameCommonResourcesConfig = "common-resources-config";
 
         private static IImmutableSet<string> s_validParameters = ImmutableHashSet.Create(
             nameGrpcServiceConfig,
-            nameCommonResourcesConfig,
-            nameGenerateMetadataConfig);
+            nameCommonResourcesConfig);
 
         public class Options
         {
@@ -55,9 +52,6 @@ namespace Google.Api.Generator
 
             [Option(nameCommonResourcesConfig, Required = false, HelpText = "Common resources config path. JSON proto of type CommonResources.")]
             public IEnumerable<string> CommonResourcesConfigs { get; private set; }
-
-            [Option(nameGenerateMetadataConfig, Required = false, HelpText = "Whether to generate a gapic metadata file")]
-            public bool GenerateMetadata { get; private set; }
 
             [Usage]
             public static IEnumerable<Example> Examples => new[]
@@ -166,10 +160,9 @@ namespace Google.Api.Generator
                 // On success, send all generated files back to protoc.
                 var grpcServiceConfigPath = extraParams.GetValueOrDefault(nameGrpcServiceConfig)?.SingleOrDefault();
                 var commonResourcesConfigPaths = extraParams.GetValueOrDefault(nameCommonResourcesConfig);
-                var generateMetadata = extraParams.GetValueOrDefault(nameGenerateMetadataConfig)?.SingleOrDefault() == "true";
 
                 var results = CodeGenerator.Generate(codeGenRequest.ProtoFile, codeGenRequest.FileToGenerate,
-                    SystemClock.Instance, grpcServiceConfigPath, commonResourcesConfigPaths, generateMetadata);
+                    SystemClock.Instance, grpcServiceConfigPath, commonResourcesConfigPaths);
 
                 codeGenResponse = new CodeGeneratorResponse
                 {
@@ -206,9 +199,7 @@ namespace Google.Api.Generator
                 return ps
                     .Select(param =>
                     {
-                        var parts = param == nameGenerateMetadataConfig 
-                                ? new[] {nameGenerateMetadataConfig, "true"} // a special case for the only boolean param
-                                : param.Split('=').Select(x => x.Trim()).ToArray();
+                        var parts = param.Split('=').Select(x => x.Trim()).ToArray();
 
                         if (parts.Length != 2)
                         {
@@ -230,7 +221,7 @@ namespace Google.Api.Generator
             var descriptorBytes = File.ReadAllBytes(options.Descriptor);
             var fileDescriptorSet = FileDescriptorSet.Parser.ParseFrom(descriptorBytes);
             var files = CodeGenerator.Generate(fileDescriptorSet, options.Package, SystemClock.Instance,
-                options.GrpcServiceConfig, options.CommonResourcesConfigs, options.GenerateMetadata);
+                options.GrpcServiceConfig, options.CommonResourcesConfigs);
             foreach (var file in files)
             {
                 var path = Path.Combine(options.Output, file.RelativePath);
