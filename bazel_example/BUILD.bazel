@@ -68,3 +68,13 @@ csharp_gapic_assembly_pkg(
         ":example_csharp_gapic",
     ]
 )
+
+csharp_gapic_assembly_pkg(
+    name = "example_csharp_nongapic_pkg",
+    deps = [
+        ":example_csharp_proto",
+        ":example_csharp_grpc",
+    ],
+    generate_nongapic_package = True,
+    package_name = "Example"
+)
