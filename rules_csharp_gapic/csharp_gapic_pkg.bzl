@@ -25,10 +25,43 @@ def _csharp_gapic_assembly_pkg_impl(ctx):
         else:
             extras = extras + dep.files.to_list()
 
-    ctx.actions.run_shell(
-        inputs = [gapic_zip] + extras,
-        outputs = [out_dir, out_tar],
-        tools = [ctx.executable._zipper],
+    inputs = None
+    command = ""
+    if ctx.attr.generate_nongapic_package:
+        if not ctx.attr.package_name:
+            err_msg = ("If `generate_nongapic_package` attribute is set to true, " +
+                    "the `package_name` attribute has to be specified as well"
+            )
+            fail(err_msg)
+    
+        inputs = extras
+        command =  """
+for extra in {extras}; do
+    {zipper} x $extra -d {out_dir}/{package_name}
+done
+tar -czhpf {out_tar} -C {out_dir}/.. {pkg_name}
+            """.format(
+                zipper = ctx.executable._zipper.path,
+                extras = " ".join(["'%s'" % f.path for f in extras]),
+                out_dir = out_dir.path,
+                out_tar = out_tar.path,
+                package_name = ctx.attr.package_name,
+                pkg_name = ctx.attr.name,
+            )
+    else:
+        if ctx.attr.package_name:
+            err_msg = ("If `generate_nongapic_package` is not specified or set to false, " +
+                    "the `package_name` attribute is redundant, because it will be inferred."
+            )
+            fail(err_msg)
+
+        if gapic_zip == None:
+            err_msg = ("If `generate_nongapic_package` is not specified or set to false, " +
+                    "one of the dependencies should be an output of the csharp_gapic_library rule."
+            )
+            fail(err_msg)
+
+        inputs =  [gapic_zip] + extras
         command = """
 {zipper} x {gapic_zip} -d {out_dir}
 CLIENT_NAME=$(ls -1 {out_dir} | sort | head -n 1)
@@ -43,7 +76,13 @@ tar -czhpf {out_tar} -C {out_dir}/.. {pkg_name}
             out_dir = out_dir.path,
             out_tar = out_tar.path,
             pkg_name = ctx.attr.name,
-        ),
+        )
+    
+    ctx.actions.run_shell(
+        inputs = inputs,
+        outputs = [out_dir, out_tar],
+        tools = [ctx.executable._zipper],
+        command = command,
     )
     return [DefaultInfo(
         files = depset(direct = [out_tar]),
@@ -54,6 +93,8 @@ _csharp_gapic_assembly_pkg = rule(
     attrs = {
         "deps": attr.label_list(mandatory = True, allow_files = True),
         "package_dir": attr.string(mandatory = True),
+        "package_name": attr.string(),
+        "generate_nongapic_package": attr.bool(),
         "_zipper": attr.label(default = Label("@bazel_tools//tools/zip:zipper"), cfg = "host", executable = True),
     },
 )
