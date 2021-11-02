@@ -25,8 +25,8 @@ def _csharp_gapic_assembly_pkg_impl(ctx):
         else:
             extras = extras + dep.files.to_list()
 
-    command = ""
     inputs = None
+    command = ""
     if ctx.attr.generate_nongapic_package:
         if not ctx.attr.package_name:
             err_msg = ("If `generate_nongapic_package` attribute is set to true, " +
