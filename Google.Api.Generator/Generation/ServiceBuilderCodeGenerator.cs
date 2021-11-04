@@ -143,7 +143,8 @@ namespace Google.Api.Generator.Generation
 
         private PropertyDeclarationSyntax DefaultGrpcAdapter() =>
             Property(Protected | Override, _ctx.Type<GrpcAdapter>(), "DefaultGrpcAdapter")
-                .WithGetBody(_ctx.Type<GrpcCoreAdapter>().Access(nameof(GrpcCoreAdapter.Instance)))
+                // TODO: Use nameof when we have a GAX build.
+                .WithGetBody(_ctx.Type<GrpcAdapter>().Access("DefaultAdapter"))
                 .WithXmlDoc(XmlDoc.Summary("Returns the default ", _ctx.Type<GrpcAdapter>(), "to use if not otherwise specified."));
     }
 }
