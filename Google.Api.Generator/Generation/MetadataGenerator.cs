@@ -32,19 +32,25 @@ namespace Google.Api.Generator.Generation
 
         internal static string GenerateGapicMetadataJson(List<ServiceDetails> allServiceDetails)
         {
+            // We assume that the first service has the correct proto package, and we can discard
+            // services in other packages. This means it doesn't matter (for gapic_metadata.json)
+            // if we're actually asked to generate more services than we really want. This currently
+            // happens for services with IAM/location mix-ins, for example.
+            var protoPackage = allServiceDetails.First().ProtoPackage;
             var gapicMetadata = new GapicMetadata
             {
                 Schema = GapicMetadataSchemaVersion,
                 Comment = GapicMetadataFileDescription,
                 Language = GapicMetadataLanguage,
-                ProtoPackage = allServiceDetails.First().ProtoPackage,
+                ProtoPackage = protoPackage,
                 LibraryPackage = allServiceDetails.First().Namespace,
                 Services = 
                 {
                     new SortedDictionary<string, ServiceForTransport>(
-                        allServiceDetails.ToDictionary(
-                            serviceDetails => serviceDetails.ServiceName,
-                            ServiceForTransportMetadata), StringComparer.Ordinal)
+                        allServiceDetails
+                            .Where(service => service.ProtoPackage == protoPackage)
+                            .ToDictionary(serviceDetails => serviceDetails.ServiceName, ServiceForTransportMetadata),
+                        StringComparer.Ordinal)
                 }
             };
 
