@@ -106,6 +106,9 @@ namespace Google.Api.Generator
             {
                 throw new InvalidOperationException("No packages specified to build.");
             }
+
+            // Collect all service details here to emit one `gapic_metadata.json` file for multi-package situations (e.g. Kms with Iam)
+            var allServiceDetails = new List<ServiceDetails>();
             foreach (var singlePackageFileDescs in byPackage)
             {
                 var namespaces = singlePackageFileDescs.Select(x => x.CSharpNamespace()).Distinct().ToList();
@@ -116,15 +119,23 @@ namespace Google.Api.Generator
                         $"Found namespaces '{string.Join(", ", namespaces)}' in package '{singlePackageFileDescs.Key}'.");
                 }
                 var catalog = new ProtoCatalog(singlePackageFileDescs.Key, descriptors, singlePackageFileDescs, commonResourcesConfigs);
-                foreach (var resultFile in GeneratePackage(namespaces[0], singlePackageFileDescs, catalog, clock, grpcServiceConfig))
+                foreach (var resultFile in GeneratePackage(namespaces[0], singlePackageFileDescs, catalog, clock, grpcServiceConfig, allServiceDetails))
                 {
                     yield return resultFile;
                 }
             }
+
+            if (allServiceDetails.Any())
+            {
+                // Generate gapic_metadata.json, if there are any services.
+                var gapicMetadataJsonContent = MetadataGenerator.GenerateGapicMetadataJson(allServiceDetails);
+                yield return new ResultFile("gapic_metadata.json", gapicMetadataJsonContent);
+            }
         }
 
-        private static IEnumerable<ResultFile> GeneratePackage(string ns, IEnumerable<FileDescriptor> packageFileDescriptors, ProtoCatalog catalog, IClock clock,
-            ServiceConfig grpcServiceConfig)
+        private static IEnumerable<ResultFile> GeneratePackage(string ns,
+            IEnumerable<FileDescriptor> packageFileDescriptors, ProtoCatalog catalog, IClock clock,
+            ServiceConfig grpcServiceConfig, List<ServiceDetails> allServiceDetails)
         {
             var clientPathPrefix = $"{ns}{Path.DirectorySeparatorChar}";
             var snippetsPathPrefix = $"{ns}.Snippets{Path.DirectorySeparatorChar}";
@@ -135,7 +146,6 @@ namespace Google.Api.Generator
             HashSet<string> allResourceNameClasses = new HashSet<string>();
             HashSet<string> duplicateResourceNameClasses = new HashSet<string>();
 
-            var allServiceDetails = new List<ServiceDetails>();
             var seenPaginatedResponseTyps = new HashSet<Typ>();
             foreach (var fileDesc in packageFileDescriptors)
             {
@@ -236,12 +246,6 @@ namespace Google.Api.Generator
                 var unitTestsCsprojContent = CsProjGenerator.GenerateUnitTests(ns);
                 var unitTestsCsprojFilename = $"{unitTestsPathPrefix}{ns}.Tests.csproj";
                 yield return new ResultFile(unitTestsCsprojFilename, unitTestsCsprojContent);
-                if (allServiceDetails.Any())
-                {
-                    // Generate gapic_metadata.json, if there are any services.
-                    var gapicMetadataJsonContent = MetadataGenerator.GenerateGapicMetadataJson(allServiceDetails);
-                    yield return new ResultFile("gapic_metadata.json", gapicMetadataJsonContent);
-                }
             }
         }
     }
