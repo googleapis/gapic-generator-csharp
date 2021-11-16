@@ -62,9 +62,13 @@ tar -czhpf {out_tar} -C {out_dir}/.. {pkg_name}
             fail(err_msg)
 
         inputs =  [gapic_zip] + extras
+        # The CLIENT_NAME is derived from gapic_metadata.json (which
+        # specifies the libraryPackage for the first service it's
+        # asked to generate). This is better than taking the
+        # alphabetically-first service generated.
         command = """
 {zipper} x {gapic_zip} -d {out_dir}
-CLIENT_NAME=$(ls -1 {out_dir} | sort | head -n 1)
+CLIENT_NAME=$(grep libraryPackage {out_dir}/gapic_metadata.json | head -n 1 | cut -d'"' -f 4)
 for extra in {extras}; do
     {zipper} x $extra -d {out_dir}/$CLIENT_NAME
 done
