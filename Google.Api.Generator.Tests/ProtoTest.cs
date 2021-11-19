@@ -92,18 +92,23 @@ namespace Google.Api.Generator.Tests
             }
         }
 
-        private void BuildTest(string testName, bool ignoreUnitTests = false)
+        private void BuildTest(string serviceName, string protoPackageVersion = null, bool ignoreUnitTests = false)
         {
-            var baseTestPath = Path.Combine(Invoker.GeneratorTestsDir, "ProtoTests", testName);
-            var clientPath = Path.Combine(baseTestPath, $"Testing.{testName}");
+            var (effectiveBasePathPart, effectiveTestName) = protoPackageVersion == null
+                ? (serviceName, serviceName)
+                : ($"{serviceName}.{protoPackageVersion}", $"{serviceName}.{protoPackageVersion.ToUpperCamelCase()}");
+
+            var baseTestPath = Path.Combine(Invoker.GeneratorTestsDir, "ProtoTests", effectiveBasePathPart);
+            var clientPath = Path.Combine(baseTestPath, $"Testing.{effectiveTestName}");
             // Test build client library.
             Build(clientPath);
             // Test build snippets.
-            Build(Path.Combine(baseTestPath, $"Testing.{testName}.Snippets"));
+            Build(Path.Combine(baseTestPath, $"Testing.{effectiveTestName}.Snippets"));
+            Build(Path.Combine(baseTestPath, $"Testing.{effectiveTestName}.StandaloneSnippets"));
             if (!ignoreUnitTests)
             {
                 // Test build unit-tests.
-                Build(Path.Combine(baseTestPath, $"Testing.{testName}.Tests"));
+                Build(Path.Combine(baseTestPath, $"Testing.{effectiveTestName}.Tests"));
             }
 
             void Build(string path)
@@ -140,7 +145,7 @@ namespace Google.Api.Generator.Tests
 
         // `0` suffix so it's easier to run this test by itself!
         [Fact]
-        public void Basic0() => ProtoTestSingle("Basic", ignoreMetadataFile: false);
+        public void Basic0() => ProtoTestSingle("Basic.v1", ignoreMetadataFile: false);
 
         [Fact]
         public void BasicLro() => ProtoTestSingle("BasicLro", ignoreCsProj: true, ignoreUnitTests: true);
@@ -216,7 +221,7 @@ namespace Google.Api.Generator.Tests
         // All other generated code is effectively "build tested" when this test project is built.
 
         [Fact]
-        public void BuildBasic() => BuildTest("Basic");
+        public void BuildBasic() => BuildTest("Basic", protoPackageVersion: "v1");
 
         [Fact]
         public void BuildLro() => BuildTest("Lro", ignoreUnitTests: true);

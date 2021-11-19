@@ -21,7 +21,7 @@ using st = System.Threading;
 using stt = System.Threading.Tasks;
 using xunit = Xunit;
 
-namespace Testing.Basic.Tests
+namespace Testing.Basic.V1.Tests
 {
     /// <summary>Generated unit tests.</summary>
     public sealed class GeneratedBasicClientTest

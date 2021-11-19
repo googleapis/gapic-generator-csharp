@@ -14,9 +14,9 @@
 
 // Generated code. DO NOT EDIT!
 
-namespace Testing.Basic.Snippets
+namespace Testing.Basic.V1.Snippets
 {
-    using Testing.Basic;
+    using Testing.Basic.V1;
 
     public sealed partial class GeneratedBasicClientStandaloneSnippets
     {
