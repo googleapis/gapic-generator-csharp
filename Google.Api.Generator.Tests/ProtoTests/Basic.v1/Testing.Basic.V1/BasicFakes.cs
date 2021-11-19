@@ -20,7 +20,7 @@ using System;
 // Required to successfully build this generated test project.
 #pragma warning disable 1591
 
-namespace Testing.Basic
+namespace Testing.Basic.V1
 {
     // (Re-)define this here; required to successfully build this generated test project.
     public abstract class ProtoMsgFake<T> : Google.Protobuf.IMessage<T> where T : ProtoMsgFake<T>

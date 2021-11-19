@@ -1,6 +1,6 @@
 ﻿syntax = "proto3";
 
-package testing.basic;
+package testing.basic.v1;
 
 // csharp_namespace option not included; to test generating namespace from proto package.
 

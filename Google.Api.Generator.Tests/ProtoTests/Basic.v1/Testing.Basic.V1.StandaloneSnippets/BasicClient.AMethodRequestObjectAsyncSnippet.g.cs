@@ -14,38 +14,26 @@
 
 // Generated code. DO NOT EDIT!
 
-namespace Testing.Basic.Snippets
+namespace Testing.Basic.V1.Snippets
 {
     using System.Threading.Tasks;
+    using Testing.Basic.V1;
 
-    /// <summary>Generated snippets.</summary>
-    public sealed class GeneratedBasicClientSnippets
+    public sealed partial class GeneratedBasicClientStandaloneSnippets
     {
-        /// <summary>Snippet for AMethod</summary>
-        public void AMethodRequestObject()
-        {
-            // Snippet: AMethod(Request, CallSettings)
-            // Create client
-            BasicClient basicClient = BasicClient.Create();
-            // Initialize request argument(s)
-            Request request = new Request { };
-            // Make the request
-            Response response = basicClient.AMethod(request);
-            // End snippet
-        }
-
         /// <summary>Snippet for AMethodAsync</summary>
+        /// <remarks>
+        /// This snippet has been automatically generated for illustrative purposes only.
+        /// It may require modifications to work in your environment.
+        /// </remarks>
         public async Task AMethodRequestObjectAsync()
         {
-            // Snippet: AMethodAsync(Request, CallSettings)
-            // Additional: AMethodAsync(Request, CancellationToken)
             // Create client
             BasicClient basicClient = await BasicClient.CreateAsync();
             // Initialize request argument(s)
             Request request = new Request { };
             // Make the request
             Response response = await basicClient.AMethodAsync(request);
-            // End snippet
         }
     }
 }

@@ -26,7 +26,7 @@ using sco = System.Collections.ObjectModel;
 using st = System.Threading;
 using stt = System.Threading.Tasks;
 
-namespace Testing.Basic
+namespace Testing.Basic.V1
 {
     /// <summary>Settings for <see cref="BasicClient"/> instances.</summary>
     public sealed partial class BasicSettings : gaxgrpc::ServiceSettingsBase
