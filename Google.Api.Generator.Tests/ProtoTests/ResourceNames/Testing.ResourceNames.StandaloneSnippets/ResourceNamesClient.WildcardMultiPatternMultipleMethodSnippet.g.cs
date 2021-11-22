@@ -16,6 +16,7 @@
 
 namespace Testing.ResourceNames.Snippets
 {
+    // [START unknown_generated_ResourceNames_WildcardMultiPatternMultipleMethod_sync_flattened]
     using System.Collections.Generic;
     using Testing.ResourceNames;
 
@@ -37,4 +38,5 @@ namespace Testing.ResourceNames.Snippets
             Response response = resourceNamesClient.WildcardMultiPatternMultipleMethod(@ref, repeatedRef);
         }
     }
+    // [END unknown_generated_ResourceNames_WildcardMultiPatternMultipleMethod_sync_flattened]
 }

@@ -16,6 +16,7 @@
 
 namespace Testing.ResourceNames.Snippets
 {
+    // [START unknown_generated_ResourceNames_DeprecatedPatternMethod_sync]
     using Testing.ResourceNames;
 
     public sealed partial class GeneratedResourceNamesClientStandaloneSnippets
@@ -35,4 +36,5 @@ namespace Testing.ResourceNames.Snippets
             Response response = resourceNamesClient.DeprecatedPatternMethod(request);
         }
     }
+    // [END unknown_generated_ResourceNames_DeprecatedPatternMethod_sync]
 }

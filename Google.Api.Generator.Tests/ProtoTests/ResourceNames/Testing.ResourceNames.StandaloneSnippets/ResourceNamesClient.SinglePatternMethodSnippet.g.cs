@@ -16,6 +16,7 @@
 
 namespace Testing.ResourceNames.Snippets
 {
+    // [START unknown_generated_ResourceNames_SinglePatternMethod_sync_flattened]
     using System.Collections.Generic;
     using Testing.ResourceNames;
 
@@ -40,4 +41,5 @@ namespace Testing.ResourceNames.Snippets
             Response response = resourceNamesClient.SinglePatternMethod(realName, @ref, repeatedRef, valueRef, repeatedValueRef);
         }
     }
+    // [END unknown_generated_ResourceNames_SinglePatternMethod_sync_flattened]
 }

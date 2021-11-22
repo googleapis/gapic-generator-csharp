@@ -16,6 +16,7 @@
 
 namespace Testing.Deprecated.Snippets
 {
+    // [START deprecated_generated_Deprecated_DeprecatedFieldMethod_async]
     using System.Threading.Tasks;
     using Testing.Deprecated;
 
@@ -36,4 +37,5 @@ namespace Testing.Deprecated.Snippets
             Response response = await deprecatedClient.DeprecatedFieldMethodAsync(request);
         }
     }
+    // [END deprecated_generated_Deprecated_DeprecatedFieldMethod_async]
 }

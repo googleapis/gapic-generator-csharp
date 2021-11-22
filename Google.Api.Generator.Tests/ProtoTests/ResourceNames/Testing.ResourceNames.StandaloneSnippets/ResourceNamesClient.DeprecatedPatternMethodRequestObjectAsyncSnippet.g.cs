@@ -16,6 +16,7 @@
 
 namespace Testing.ResourceNames.Snippets
 {
+    // [START unknown_generated_ResourceNames_DeprecatedPatternMethod_async]
     using System.Threading.Tasks;
     using Testing.ResourceNames;
 
@@ -36,4 +37,5 @@ namespace Testing.ResourceNames.Snippets
             Response response = await resourceNamesClient.DeprecatedPatternMethodAsync(request);
         }
     }
+    // [END unknown_generated_ResourceNames_DeprecatedPatternMethod_async]
 }

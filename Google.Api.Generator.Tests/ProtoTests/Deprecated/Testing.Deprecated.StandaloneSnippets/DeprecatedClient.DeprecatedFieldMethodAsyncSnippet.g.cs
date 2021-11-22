@@ -16,6 +16,7 @@
 
 namespace Testing.Deprecated.Snippets
 {
+    // [START deprecated_generated_Deprecated_DeprecatedFieldMethod_async_flattened]
     using System.Threading.Tasks;
     using Testing.Deprecated;
 
@@ -39,4 +40,5 @@ namespace Testing.Deprecated.Snippets
 #pragma warning restore CS0612
         }
     }
+    // [END deprecated_generated_Deprecated_DeprecatedFieldMethod_async_flattened]
 }

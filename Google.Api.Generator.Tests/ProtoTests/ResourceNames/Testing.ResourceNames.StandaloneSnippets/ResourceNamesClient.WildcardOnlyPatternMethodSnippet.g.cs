@@ -16,6 +16,7 @@
 
 namespace Testing.ResourceNames.Snippets
 {
+    // [START unknown_generated_ResourceNames_WildcardOnlyPatternMethod_sync_flattened]
     using System.Collections.Generic;
     using Testing.ResourceNames;
 
@@ -46,4 +47,5 @@ namespace Testing.ResourceNames.Snippets
             Response response = resourceNamesClient.WildcardOnlyPatternMethod(name, @ref, repeatedRef, refSugar, repeatedRefSugar);
         }
     }
+    // [END unknown_generated_ResourceNames_WildcardOnlyPatternMethod_sync_flattened]
 }

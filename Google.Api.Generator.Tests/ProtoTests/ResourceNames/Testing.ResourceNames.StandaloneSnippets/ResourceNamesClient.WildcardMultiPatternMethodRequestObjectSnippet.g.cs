@@ -16,6 +16,7 @@
 
 namespace Testing.ResourceNames.Snippets
 {
+    // [START unknown_generated_ResourceNames_WildcardMultiPatternMethod_sync]
     using Testing.ResourceNames;
 
     public sealed partial class GeneratedResourceNamesClientStandaloneSnippets
@@ -43,4 +44,5 @@ namespace Testing.ResourceNames.Snippets
             Response response = resourceNamesClient.WildcardMultiPatternMethod(request);
         }
     }
+    // [END unknown_generated_ResourceNames_WildcardMultiPatternMethod_sync]
 }

@@ -16,6 +16,7 @@
 
 namespace Testing.Snippets.Snippets
 {
+    // [START snippets_generated_Snippets_MethodResourceSignature_sync_flattened2_resourceNames]
     using Testing.Snippets;
 
     public sealed partial class GeneratedSnippetsClientStandaloneSnippets
@@ -35,4 +36,5 @@ namespace Testing.Snippets.Snippets
             Response response = snippetsClient.MethodResourceSignature(firstName);
         }
     }
+    // [END snippets_generated_Snippets_MethodResourceSignature_sync_flattened2_resourceNames]
 }

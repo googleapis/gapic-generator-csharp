@@ -16,6 +16,7 @@
 
 namespace Testing.Snippets.Snippets
 {
+    // [START snippets_generated_Snippets_MethodThreeSignatures_sync_flattened3]
     using Testing.Snippets;
 
     public sealed partial class GeneratedSnippetsClientStandaloneSnippets
@@ -33,4 +34,5 @@ namespace Testing.Snippets.Snippets
             Response response = snippetsClient.MethodThreeSignatures();
         }
     }
+    // [END snippets_generated_Snippets_MethodThreeSignatures_sync_flattened3]
 }

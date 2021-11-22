@@ -16,6 +16,7 @@
 
 namespace Testing.Snippets.Snippets
 {
+    // [START snippets_generated_Snippets_MethodOneSignature_sync]
     using Testing.Snippets;
 
     public sealed partial class GeneratedSnippetsClientStandaloneSnippets
@@ -41,4 +42,5 @@ namespace Testing.Snippets.Snippets
             Response response = snippetsClient.MethodOneSignature(request);
         }
     }
+    // [END snippets_generated_Snippets_MethodOneSignature_sync]
 }

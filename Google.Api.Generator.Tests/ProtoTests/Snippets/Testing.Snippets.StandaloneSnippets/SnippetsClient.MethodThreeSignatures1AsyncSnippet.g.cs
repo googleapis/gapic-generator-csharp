@@ -16,6 +16,7 @@
 
 namespace Testing.Snippets.Snippets
 {
+    // [START snippets_generated_Snippets_MethodThreeSignatures_async_flattened1]
     using System.Threading.Tasks;
     using ts = Testing.Snippets;
 
@@ -38,4 +39,5 @@ namespace Testing.Snippets.Snippets
             Response response = await snippetsClient.MethodThreeSignaturesAsync(aString, anInt, aBool);
         }
     }
+    // [END snippets_generated_Snippets_MethodThreeSignatures_async_flattened1]
 }

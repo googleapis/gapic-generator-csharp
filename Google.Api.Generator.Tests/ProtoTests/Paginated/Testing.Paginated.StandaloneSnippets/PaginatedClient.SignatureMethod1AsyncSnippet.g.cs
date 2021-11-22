@@ -16,6 +16,7 @@
 
 namespace Testing.Paginated.Snippets
 {
+    // [START paginated_generated_Paginated_SignatureMethod_async_flattened1]
     using Google.Api.Gax;
     using System;
     using System.Linq;
@@ -72,4 +73,5 @@ namespace Testing.Paginated.Snippets
             string nextPageToken = singlePage.NextPageToken;
         }
     }
+    // [END paginated_generated_Paginated_SignatureMethod_async_flattened1]
 }

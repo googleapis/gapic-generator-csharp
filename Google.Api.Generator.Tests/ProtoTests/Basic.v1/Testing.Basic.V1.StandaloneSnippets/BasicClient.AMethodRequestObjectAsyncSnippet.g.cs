@@ -16,6 +16,7 @@
 
 namespace Testing.Basic.V1.Snippets
 {
+    // [START basic_v1_generated_Basic_AMethod_async]
     using System.Threading.Tasks;
     using Testing.Basic.V1;
 
@@ -36,4 +37,5 @@ namespace Testing.Basic.V1.Snippets
             Response response = await basicClient.AMethodAsync(request);
         }
     }
+    // [END basic_v1_generated_Basic_AMethod_async]
 }

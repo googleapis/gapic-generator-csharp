@@ -16,6 +16,7 @@
 
 namespace Testing.VoidReturn.Snippets
 {
+    // [START unknown_generated_VoidReturn_VoidMethod_async]
     using System.Threading.Tasks;
     using Testing.VoidReturn;
 
@@ -39,4 +40,5 @@ namespace Testing.VoidReturn.Snippets
             await voidReturnClient.VoidMethodAsync(request);
         }
     }
+    // [END unknown_generated_VoidReturn_VoidMethod_async]
 }

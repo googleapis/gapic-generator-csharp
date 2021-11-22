@@ -16,6 +16,7 @@
 
 namespace Testing.ResourceNames.Snippets
 {
+    // [START unknown_generated_ResourceNames_DeprecatedPatternMethod_sync_flattened_resourceNames]
     using Testing.ResourceNames;
 
     public sealed partial class GeneratedResourceNamesClientStandaloneSnippets
@@ -37,4 +38,5 @@ namespace Testing.ResourceNames.Snippets
 #pragma warning restore CS0612
         }
     }
+    // [END unknown_generated_ResourceNames_DeprecatedPatternMethod_sync_flattened_resourceNames]
 }

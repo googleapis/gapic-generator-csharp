@@ -16,6 +16,7 @@
 
 namespace Testing.ResourceNames.Snippets
 {
+    // [START unknown_generated_ResourceNames_SinglePatternMethod_sync]
     using Testing.ResourceNames;
 
     public sealed partial class GeneratedResourceNamesClientStandaloneSnippets
@@ -48,4 +49,5 @@ namespace Testing.ResourceNames.Snippets
             Response response = resourceNamesClient.SinglePatternMethod(request);
         }
     }
+    // [END unknown_generated_ResourceNames_SinglePatternMethod_sync]
 }

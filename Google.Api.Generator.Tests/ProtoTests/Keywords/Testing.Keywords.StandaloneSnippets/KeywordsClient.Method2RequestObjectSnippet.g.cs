@@ -16,6 +16,7 @@
 
 namespace Testing.Keywords.Snippets
 {
+    // [START unknown_generated_Keywords_Method2_sync]
     using Testing.Keywords;
 
     public sealed partial class GeneratedKeywordsClientStandaloneSnippets
@@ -39,4 +40,5 @@ namespace Testing.Keywords.Snippets
             Response response = keywordsClient.Method2(request);
         }
     }
+    // [END unknown_generated_Keywords_Method2_sync]
 }

@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Google.Api.Generator.Generation
 {
@@ -29,11 +30,14 @@ namespace Google.Api.Generator.Generation
     /// </summary>
     internal class ServiceDetails
     {
+        private static readonly Regex ApiVersionPattern = new Regex("^[vV][0-9]+.*");
+
         public ServiceDetails(ProtoCatalog catalog, string ns, ServiceDescriptor desc, ServiceConfig grpcServiceConfig)
         {
             Catalog = catalog;
             Namespace = ns;
             ProtoPackage = desc.File.Package;
+            PackageVersion = ProtoPackage.Split('.').FirstOrDefault(part => ApiVersionPattern.IsMatch(part));
             DocLines = desc.Declaration.DocLines().ToList();
             SnippetsNamespace = $"{ns}.Snippets";
             UnitTestsNamespace = $"{ns}.Tests";
@@ -53,6 +57,10 @@ namespace Google.Api.Generator.Generation
             ClientAbstractTyp = Typ.Manual(ns, $"{desc.Name}Client");
             ClientImplTyp = Typ.Manual(ns, $"{desc.Name}ClientImpl");
             DefaultHost = desc.GetExtension(ClientExtensions.DefaultHost) ?? "";
+            // We need to account for regional default endpoints like "us-east1-pubsub.googleapis.com"
+            DefaultHostServiceName = DefaultHost
+                .Split('.', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault()
+                ?.Split('-', StringSplitOptions.RemoveEmptyEntries).LastOrDefault();
             DefaultPort = 443; // Hardcoded; this is not specifiable by proto annotation.
             var oauthScopes = desc.GetExtension(ClientExtensions.OauthScopes);
             DefaultScopes = string.IsNullOrEmpty(oauthScopes) ? Enumerable.Empty<string>() : oauthScopes.Split(',', ' ');
@@ -74,9 +82,15 @@ namespace Google.Api.Generator.Generation
 
         /// <summary>The service full name (package name plus service name).</summary>
         public string ServiceFullName { get; }
-        
+
         /// <summary>The service name</summary>
         public string ServiceName { get; }
+
+        /// <summary>
+        /// The version part of the proto package where this service is declared.
+        /// May be null.
+        /// </summary>
+        public string PackageVersion { get; }
 
         /// <summary>The name of this service to be used in documentation.</summary>
         public string DocumentationName { get; }
@@ -101,6 +115,14 @@ namespace Google.Api.Generator.Generation
 
         /// <summary>The default hostname for this service.</summary>
         public string DefaultHost { get; }
+
+        /// <summary>
+        /// The service name included on the default host.
+        /// For instance, this will be pubsub in both
+        /// "us-east1-pubsub.googleapis.com:443" and "pubsub.googleapis.com:443".
+        /// May be null if there's no default host specified.
+        /// </summary>
+        public string DefaultHostServiceName { get; }
 
         /// <summary>The default port for this service.</summary>
         public int DefaultPort { get; }

@@ -16,6 +16,7 @@
 
 namespace Testing.VoidReturn.Snippets
 {
+    // [START unknown_generated_VoidReturn_VoidMethod_async_flattened_resourceNames]
     using System.Threading.Tasks;
     using Testing.VoidReturn;
 
@@ -36,4 +37,5 @@ namespace Testing.VoidReturn.Snippets
             await voidReturnClient.VoidMethodAsync(name);
         }
     }
+    // [END unknown_generated_VoidReturn_VoidMethod_async_flattened_resourceNames]
 }

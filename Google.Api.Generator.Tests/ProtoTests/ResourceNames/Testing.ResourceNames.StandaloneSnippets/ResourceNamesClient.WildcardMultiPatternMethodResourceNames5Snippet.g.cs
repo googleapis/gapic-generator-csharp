@@ -16,6 +16,7 @@
 
 namespace Testing.ResourceNames.Snippets
 {
+    // [START unknown_generated_ResourceNames_WildcardMultiPatternMethod_sync_flattened_resourceNames5]
     using Google.Api.Gax;
     using System.Collections.Generic;
     using Testing.ResourceNames;
@@ -42,4 +43,5 @@ namespace Testing.ResourceNames.Snippets
             Response response = resourceNamesClient.WildcardMultiPatternMethod(name, @ref, repeatedRef);
         }
     }
+    // [END unknown_generated_ResourceNames_WildcardMultiPatternMethod_sync_flattened_resourceNames5]
 }

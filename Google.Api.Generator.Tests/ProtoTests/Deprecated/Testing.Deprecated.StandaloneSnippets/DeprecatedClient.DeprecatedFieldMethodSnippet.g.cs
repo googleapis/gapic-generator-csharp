@@ -16,6 +16,7 @@
 
 namespace Testing.Deprecated.Snippets
 {
+    // [START deprecated_generated_Deprecated_DeprecatedFieldMethod_sync_flattened]
     using Testing.Deprecated;
 
     public sealed partial class GeneratedDeprecatedClientStandaloneSnippets
@@ -38,4 +39,5 @@ namespace Testing.Deprecated.Snippets
 #pragma warning restore CS0612
         }
     }
+    // [END deprecated_generated_Deprecated_DeprecatedFieldMethod_sync_flattened]
 }

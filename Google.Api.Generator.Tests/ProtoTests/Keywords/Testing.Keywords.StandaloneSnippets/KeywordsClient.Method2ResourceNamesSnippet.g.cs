@@ -16,6 +16,7 @@
 
 namespace Testing.Keywords.Snippets
 {
+    // [START unknown_generated_Keywords_Method2_sync_flattened_resourceNames]
     using Testing.Keywords;
 
     public sealed partial class GeneratedKeywordsClientStandaloneSnippets
@@ -36,4 +37,5 @@ namespace Testing.Keywords.Snippets
             Response response = keywordsClient.Method2(@while, @enum);
         }
     }
+    // [END unknown_generated_Keywords_Method2_sync_flattened_resourceNames]
 }
