@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Google.Api.Generator.Utils.Formatting;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -34,6 +33,16 @@ namespace Google.Api.Generator.Utils.Roslyn
 
         public static SyntaxToken WithLeadingSpace(this SyntaxToken token) => token.WithLeadingTrivia(Space);
         public static SyntaxToken WithTrailingSpace(this SyntaxToken token) => token.WithTrailingTrivia(Space);
+
+        public static SyntaxToken WithPrependedLeadingTrivia(this SyntaxToken token, params SyntaxTrivia[] triv) =>
+            token.HasLeadingTrivia
+            ? token.WithLeadingTrivia(triv.Concat(token.LeadingTrivia))
+            : token.WithLeadingTrivia(triv);
+
+        public static SyntaxToken WithPrependedTrailingTrivia(this SyntaxToken token, params SyntaxTrivia[] triv) =>
+            token.HasTrailingTrivia
+            ? token.WithTrailingTrivia(triv.Concat(token.TrailingTrivia))
+            : token.WithTrailingTrivia(triv);
 
         public static T WithXmlDoc<T>(this T node, params DocumentationCommentTriviaSyntax[] xmlDoc) where T : SyntaxNode =>
             node.WithLeadingTrivia(xmlDoc.Select(Trivia));

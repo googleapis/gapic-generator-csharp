@@ -16,6 +16,7 @@
 
 namespace Testing.Keywords.Snippets
 {
+    // [START unknown_generated_Keywords_Method2_async]
     using System.Threading.Tasks;
     using Testing.Keywords;
 
@@ -40,4 +41,5 @@ namespace Testing.Keywords.Snippets
             Response response = await keywordsClient.Method2Async(request);
         }
     }
+    // [END unknown_generated_Keywords_Method2_async]
 }

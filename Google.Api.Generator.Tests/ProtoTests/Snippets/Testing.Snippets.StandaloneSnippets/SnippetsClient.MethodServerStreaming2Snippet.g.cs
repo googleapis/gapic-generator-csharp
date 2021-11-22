@@ -16,6 +16,7 @@
 
 namespace Testing.Snippets.Snippets
 {
+    // [START snippets_generated_Snippets_MethodServerStreaming_sync_flattened2]
     using Google.Api.Gax.Grpc;
     using System.Threading.Tasks;
     using ts = Testing.Snippets;
@@ -45,4 +46,5 @@ namespace Testing.Snippets.Snippets
             // The response stream has completed
         }
     }
+    // [END snippets_generated_Snippets_MethodServerStreaming_sync_flattened2]
 }

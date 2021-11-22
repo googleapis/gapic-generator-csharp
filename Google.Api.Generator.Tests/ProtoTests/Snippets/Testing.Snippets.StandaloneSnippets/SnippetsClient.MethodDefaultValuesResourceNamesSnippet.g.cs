@@ -16,6 +16,7 @@
 
 namespace Testing.Snippets.Snippets
 {
+    // [START snippets_generated_Snippets_MethodDefaultValues_sync_flattened_resourceNames]
     using System.Collections.Generic;
     using Testing.Snippets;
 
@@ -44,4 +45,5 @@ namespace Testing.Snippets.Snippets
             Response response = snippetsClient.MethodDefaultValues(repeatedDouble, repeatedNestedMessage, repeatedResourceName);
         }
     }
+    // [END snippets_generated_Snippets_MethodDefaultValues_sync_flattened_resourceNames]
 }

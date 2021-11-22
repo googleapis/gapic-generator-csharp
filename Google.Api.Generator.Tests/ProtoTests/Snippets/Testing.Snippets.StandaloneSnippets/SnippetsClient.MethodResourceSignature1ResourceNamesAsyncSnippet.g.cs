@@ -16,6 +16,7 @@
 
 namespace Testing.Snippets.Snippets
 {
+    // [START snippets_generated_Snippets_MethodResourceSignature_async_flattened1_resourceNames]
     using System.Threading.Tasks;
     using ts = Testing.Snippets;
 
@@ -38,4 +39,5 @@ namespace Testing.Snippets.Snippets
             Response response = await snippetsClient.MethodResourceSignatureAsync(firstName, secondName, thirdName);
         }
     }
+    // [END snippets_generated_Snippets_MethodResourceSignature_async_flattened1_resourceNames]
 }

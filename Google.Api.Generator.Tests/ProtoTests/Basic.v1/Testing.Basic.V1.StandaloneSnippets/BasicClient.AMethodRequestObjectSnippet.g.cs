@@ -16,6 +16,7 @@
 
 namespace Testing.Basic.V1.Snippets
 {
+    // [START basic_v1_generated_Basic_AMethod_sync]
     using Testing.Basic.V1;
 
     public sealed partial class GeneratedBasicClientStandaloneSnippets
@@ -35,4 +36,5 @@ namespace Testing.Basic.V1.Snippets
             Response response = basicClient.AMethod(request);
         }
     }
+    // [END basic_v1_generated_Basic_AMethod_sync]
 }

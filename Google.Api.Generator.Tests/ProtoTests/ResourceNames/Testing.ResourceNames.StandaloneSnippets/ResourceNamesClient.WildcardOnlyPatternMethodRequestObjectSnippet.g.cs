@@ -16,6 +16,7 @@
 
 namespace Testing.ResourceNames.Snippets
 {
+    // [START unknown_generated_ResourceNames_WildcardOnlyPatternMethod_sync]
     using Google.Api.Gax;
     using Testing.ResourceNames;
 
@@ -49,4 +50,5 @@ namespace Testing.ResourceNames.Snippets
             Response response = resourceNamesClient.WildcardOnlyPatternMethod(request);
         }
     }
+    // [END unknown_generated_ResourceNames_WildcardOnlyPatternMethod_sync]
 }

@@ -78,6 +78,21 @@ namespace Google.Api.Generator.Utils.Formatting
         private SyntaxTriviaList FormatXmlDoc(SyntaxTriviaList trivList) =>
             XmlDocSplitter.Split(_indentTrivia, _maxLineLength, trivList);
 
+
+        /// <summary>
+        /// Format in code comments by prepending the current indent and appending a new line.
+        /// Handles empty and blank space only trivia as well.
+        /// </summary>
+        private IEnumerable<SyntaxTrivia> FormatInCodeComment(SyntaxTrivia triv) => triv switch
+        {
+            // If the span is empty, we return no trivia.
+            { Span: var span } when span.IsEmpty => Enumerable.Empty<SyntaxTrivia>(),
+            // If the comment is just blank spaces, we replace it by a new line only.
+            { Span: var _ } when triv.ToString().Trim() == "" => new[] { NewLine },
+            // We preprend the current indent and append a new line to this comment.
+            _ => new[] { _indentTrivia, triv, NewLine }
+        };
+
         private T HandleLeadingTrivia<T>(T node) where T : SyntaxNode
         {
             var trivia0 = node.GetLeadingTrivia();
@@ -133,15 +148,26 @@ namespace Google.Api.Generator.Utils.Formatting
             using (WithIndent())
             {
                 node = (NamespaceDeclarationSyntax)base.VisitNamespaceDeclaration(node);
+
+                // If the trivia is not empty, it's probably the start region tag.
+                // We need to do this here to use the correct indent.
+                var innerTopTrivia = node.OpenBraceToken.TrailingTrivia.SelectMany(FormatInCodeComment);
+                node = node.WithOpenBraceToken(node.OpenBraceToken.WithTrailingTrivia(innerTopTrivia));
+
                 if (node.Usings.Any())
                 {
                     node = node.WithUsings(List(node.Usings.SkipLast(1).Append(node.Usings.Last().WithTrailingTrivia(NewLine, NewLine))));
                 }
+
+                // If the trivia is not empty, it's probably the end region tag.
+                // We need to do this here to use the correct indent.
+                var innerBottomTrivia = node.CloseBraceToken.LeadingTrivia.SelectMany(FormatInCodeComment);
+                node = node.WithCloseBraceToken(node.CloseBraceToken.WithLeadingTrivia(innerBottomTrivia)) ;
             }
             node = HandleLeadingTrivia(node);
             node = node.WithNamespaceKeyword(node.NamespaceKeyword.WithTrailingSpace());
-            node = node.WithOpenBraceToken(node.OpenBraceToken.WithLeadingTrivia(NewLine, _indentTrivia).WithTrailingNewLine());
-            node = node.WithCloseBraceToken(node.CloseBraceToken.WithLeadingTrivia(_indentTrivia).WithTrailingNewLine());
+            node = node.WithOpenBraceToken(node.OpenBraceToken.WithLeadingTrivia(NewLine, _indentTrivia).WithPrependedTrailingTrivia(NewLine));
+            node = node.WithCloseBraceToken(node.CloseBraceToken.WithPrependedLeadingTrivia(_indentTrivia).WithTrailingNewLine());
             node = node.WithMembers(List(
                 node.Members.SkipLast(1).Select(m => m.WithTrailingNewLine(count: 2))
                     .Concat(node.Members.TakeLast(1).Select(m => m.WithTrailingNewLine(count: 1)))));
@@ -310,10 +336,8 @@ namespace Google.Api.Generator.Utils.Formatting
             {
                 node = node.WithStatements(List(node.Statements.Select(s =>
                 {
-                    IEnumerable<SyntaxTrivia> AdjustTrivia(SyntaxTrivia triv) => triv.ToString().Trim() == ""
-                        ? new[] { NewLine } : new[] { _indentTrivia, triv, NewLine };
-                    var preTrivia = s.GetLeadingTrivia().Where(x => !x.Span.IsEmpty).SelectMany(AdjustTrivia).Append(_indentTrivia);
-                    var postTrivia = s.GetTrailingTrivia().Where(x => !x.Span.IsEmpty).SelectMany(AdjustTrivia).Prepend(NewLine);
+                    var preTrivia = s.GetLeadingTrivia().SelectMany(FormatInCodeComment).Append(_indentTrivia);
+                    var postTrivia = s.GetTrailingTrivia().SelectMany(FormatInCodeComment).Prepend(NewLine);
                     return Visit(s).WithLeadingTrivia(preTrivia).WithTrailingTrivia(postTrivia);
                 })));
             }

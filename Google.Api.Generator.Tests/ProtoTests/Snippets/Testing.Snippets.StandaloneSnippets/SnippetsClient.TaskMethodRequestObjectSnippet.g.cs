@@ -16,6 +16,7 @@
 
 namespace Testing.Snippets.Snippets
 {
+    // [START snippets_generated_Snippets_TaskMethod_sync]
     using Testing.Snippets;
 
     public sealed partial class GeneratedSnippetsClientStandaloneSnippets
@@ -35,4 +36,5 @@ namespace Testing.Snippets.Snippets
             Task response = snippetsClient.TaskMethod(request);
         }
     }
+    // [END snippets_generated_Snippets_TaskMethod_sync]
 }

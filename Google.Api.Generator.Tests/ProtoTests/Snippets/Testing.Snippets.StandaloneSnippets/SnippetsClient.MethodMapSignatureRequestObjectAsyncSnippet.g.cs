@@ -16,6 +16,7 @@
 
 namespace Testing.Snippets.Snippets
 {
+    // [START snippets_generated_Snippets_MethodMapSignature_async]
     using System.Threading.Tasks;
     using ts = Testing.Snippets;
 
@@ -42,4 +43,5 @@ namespace Testing.Snippets.Snippets
             Response response = await snippetsClient.MethodMapSignatureAsync(request);
         }
     }
+    // [END snippets_generated_Snippets_MethodMapSignature_async]
 }

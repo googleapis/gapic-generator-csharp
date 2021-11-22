@@ -16,6 +16,7 @@
 
 namespace Testing.ResourceNames.Snippets
 {
+    // [START unknown_generated_ResourceNames_SinglePatternMethod_async]
     using System.Threading.Tasks;
     using Testing.ResourceNames;
 
@@ -49,4 +50,5 @@ namespace Testing.ResourceNames.Snippets
             Response response = await resourceNamesClient.SinglePatternMethodAsync(request);
         }
     }
+    // [END unknown_generated_ResourceNames_SinglePatternMethod_async]
 }

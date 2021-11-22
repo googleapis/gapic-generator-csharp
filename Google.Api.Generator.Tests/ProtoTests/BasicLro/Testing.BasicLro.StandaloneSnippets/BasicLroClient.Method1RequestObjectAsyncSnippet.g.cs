@@ -16,6 +16,7 @@
 
 namespace Testing.BasicLro.Snippets
 {
+    // [START lro_generated_BasicLro_Method1_async]
     using Google.LongRunning;
     using System.Threading.Tasks;
     using Testing.BasicLro;
@@ -53,4 +54,5 @@ namespace Testing.BasicLro.Snippets
             }
         }
     }
+    // [END lro_generated_BasicLro_Method1_async]
 }

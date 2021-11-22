@@ -16,6 +16,7 @@
 
 namespace Testing.ResourceNameSeparator.Snippets
 {
+    // [START unknown_generated_ResourceNameSeparator_Method1_async]
     using System.Threading.Tasks;
     using Testing.ResourceNameSeparator;
 
@@ -40,4 +41,5 @@ namespace Testing.ResourceNameSeparator.Snippets
             Response response = await resourceNameSeparatorClient.Method1Async(request);
         }
     }
+    // [END unknown_generated_ResourceNameSeparator_Method1_async]
 }

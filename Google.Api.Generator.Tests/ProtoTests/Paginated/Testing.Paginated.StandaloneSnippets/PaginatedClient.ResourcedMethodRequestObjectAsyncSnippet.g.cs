@@ -16,6 +16,7 @@
 
 namespace Testing.Paginated.Snippets
 {
+    // [START paginated_generated_Paginated_ResourcedMethod_async]
     using Google.Api.Gax;
     using System;
     using System.Linq;
@@ -75,4 +76,5 @@ namespace Testing.Paginated.Snippets
             string nextPageToken = singlePage.NextPageToken;
         }
     }
+    // [END paginated_generated_Paginated_ResourcedMethod_async]
 }

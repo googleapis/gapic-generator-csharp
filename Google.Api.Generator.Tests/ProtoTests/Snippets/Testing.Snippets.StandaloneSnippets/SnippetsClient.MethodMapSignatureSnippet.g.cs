@@ -16,6 +16,7 @@
 
 namespace Testing.Snippets.Snippets
 {
+    // [START snippets_generated_Snippets_MethodMapSignature_sync_flattened]
     using System.Collections.Generic;
     using Testing.Snippets;
 
@@ -36,4 +37,5 @@ namespace Testing.Snippets.Snippets
             Response response = snippetsClient.MethodMapSignature(mapIntString);
         }
     }
+    // [END snippets_generated_Snippets_MethodMapSignature_sync_flattened]
 }

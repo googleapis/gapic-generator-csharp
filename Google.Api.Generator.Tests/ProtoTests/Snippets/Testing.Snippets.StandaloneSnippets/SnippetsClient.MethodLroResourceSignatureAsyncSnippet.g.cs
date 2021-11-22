@@ -16,6 +16,7 @@
 
 namespace Testing.Snippets.Snippets
 {
+    // [START snippets_generated_Snippets_MethodLroResourceSignature_async_flattened]
     using Google.LongRunning;
     using System.Threading.Tasks;
     using ts = Testing.Snippets;
@@ -55,4 +56,5 @@ namespace Testing.Snippets.Snippets
             }
         }
     }
+    // [END snippets_generated_Snippets_MethodLroResourceSignature_async_flattened]
 }

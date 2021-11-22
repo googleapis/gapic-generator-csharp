@@ -16,6 +16,7 @@
 
 namespace Testing.ResourceNames.Snippets
 {
+    // [START unknown_generated_ResourceNames_WildcardMultiPatternMultipleMethod_async_flattened_resourceNames3]
     using Google.Api.Gax;
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -42,4 +43,5 @@ namespace Testing.ResourceNames.Snippets
             Response response = await resourceNamesClient.WildcardMultiPatternMultipleMethodAsync(@ref, repeatedRef);
         }
     }
+    // [END unknown_generated_ResourceNames_WildcardMultiPatternMultipleMethod_async_flattened_resourceNames3]
 }

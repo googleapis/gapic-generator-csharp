@@ -16,6 +16,7 @@
 
 namespace Testing.Snippets.Snippets
 {
+    // [START snippets_generated_Snippets_MethodOneSignature_async_flattened]
     using System.Threading.Tasks;
     using ts = Testing.Snippets;
 
@@ -38,4 +39,5 @@ namespace Testing.Snippets.Snippets
             Response response = await snippetsClient.MethodOneSignatureAsync(aString, anInt, aBool);
         }
     }
+    // [END snippets_generated_Snippets_MethodOneSignature_async_flattened]
 }

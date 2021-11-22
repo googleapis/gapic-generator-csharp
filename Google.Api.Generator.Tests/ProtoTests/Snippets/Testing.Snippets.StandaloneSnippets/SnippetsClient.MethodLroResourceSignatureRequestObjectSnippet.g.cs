@@ -16,6 +16,7 @@
 
 namespace Testing.Snippets.Snippets
 {
+    // [START snippets_generated_Snippets_MethodLroResourceSignature_sync]
     using Google.LongRunning;
     using Testing.Snippets;
 
@@ -57,4 +58,5 @@ namespace Testing.Snippets.Snippets
             }
         }
     }
+    // [END snippets_generated_Snippets_MethodLroResourceSignature_sync]
 }

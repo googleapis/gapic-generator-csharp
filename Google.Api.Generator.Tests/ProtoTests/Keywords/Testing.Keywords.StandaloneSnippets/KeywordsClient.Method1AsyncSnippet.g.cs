@@ -16,6 +16,7 @@
 
 namespace Testing.Keywords.Snippets
 {
+    // [START unknown_generated_Keywords_Method1_async_flattened]
     using System.Threading.Tasks;
     using Testing.Keywords;
 
@@ -40,4 +41,5 @@ namespace Testing.Keywords.Snippets
             Response response = await keywordsClient.Method1Async(@event, @switch, @void, request, types);
         }
     }
+    // [END unknown_generated_Keywords_Method1_async_flattened]
 }

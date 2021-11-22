@@ -16,6 +16,7 @@
 
 namespace Testing.Snippets.Snippets
 {
+    // [START snippets_generated_Snippets_MethodBidiStreaming_sync]
     using Google.Api.Gax.Grpc;
     using System.Threading.Tasks;
     using ts = Testing.Snippets;
@@ -74,4 +75,5 @@ namespace Testing.Snippets.Snippets
             await responseHandlerTask;
         }
     }
+    // [END snippets_generated_Snippets_MethodBidiStreaming_sync]
 }

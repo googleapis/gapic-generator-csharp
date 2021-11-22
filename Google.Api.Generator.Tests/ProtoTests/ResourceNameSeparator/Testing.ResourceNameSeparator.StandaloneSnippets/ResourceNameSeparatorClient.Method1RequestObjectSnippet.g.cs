@@ -16,6 +16,7 @@
 
 namespace Testing.ResourceNameSeparator.Snippets
 {
+    // [START unknown_generated_ResourceNameSeparator_Method1_sync]
     using Testing.ResourceNameSeparator;
 
     public sealed partial class GeneratedResourceNameSeparatorClientStandaloneSnippets
@@ -39,4 +40,5 @@ namespace Testing.ResourceNameSeparator.Snippets
             Response response = resourceNameSeparatorClient.Method1(request);
         }
     }
+    // [END unknown_generated_ResourceNameSeparator_Method1_sync]
 }

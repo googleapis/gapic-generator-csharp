@@ -16,6 +16,7 @@
 
 namespace Testing.VoidReturn.Snippets
 {
+    // [START unknown_generated_VoidReturn_VoidMethod_sync_flattened_resourceNames]
     using Testing.VoidReturn;
 
     public sealed partial class GeneratedVoidReturnClientStandaloneSnippets
@@ -35,4 +36,5 @@ namespace Testing.VoidReturn.Snippets
             voidReturnClient.VoidMethod(name);
         }
     }
+    // [END unknown_generated_VoidReturn_VoidMethod_sync_flattened_resourceNames]
 }

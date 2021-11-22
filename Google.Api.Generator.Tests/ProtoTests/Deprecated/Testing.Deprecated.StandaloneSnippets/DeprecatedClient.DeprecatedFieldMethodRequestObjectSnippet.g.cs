@@ -16,6 +16,7 @@
 
 namespace Testing.Deprecated.Snippets
 {
+    // [START deprecated_generated_Deprecated_DeprecatedFieldMethod_sync]
     using Testing.Deprecated;
 
     public sealed partial class GeneratedDeprecatedClientStandaloneSnippets
@@ -35,4 +36,5 @@ namespace Testing.Deprecated.Snippets
             Response response = deprecatedClient.DeprecatedFieldMethod(request);
         }
     }
+    // [END deprecated_generated_Deprecated_DeprecatedFieldMethod_sync]
 }

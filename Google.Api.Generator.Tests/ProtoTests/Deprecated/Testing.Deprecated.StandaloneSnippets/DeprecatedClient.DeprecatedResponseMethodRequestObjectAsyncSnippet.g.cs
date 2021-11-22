@@ -16,6 +16,7 @@
 
 namespace Testing.Deprecated.Snippets
 {
+    // [START deprecated_generated_Deprecated_DeprecatedResponseMethod_async]
     using System.Threading.Tasks;
     using Testing.Deprecated;
 
@@ -38,4 +39,5 @@ namespace Testing.Deprecated.Snippets
 #pragma warning restore CS0612
         }
     }
+    // [END deprecated_generated_Deprecated_DeprecatedResponseMethod_async]
 }

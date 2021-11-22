@@ -16,6 +16,7 @@
 
 namespace Testing.ResourceNames.Snippets
 {
+    // [START unknown_generated_ResourceNames_WildcardOnlyPatternMethod_async_flattened_resourceNames]
     using Google.Api.Gax;
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -48,4 +49,5 @@ namespace Testing.ResourceNames.Snippets
             Response response = await resourceNamesClient.WildcardOnlyPatternMethodAsync(name, @ref, repeatedRef, refSugar, repeatedRefSugar);
         }
     }
+    // [END unknown_generated_ResourceNames_WildcardOnlyPatternMethod_async_flattened_resourceNames]
 }

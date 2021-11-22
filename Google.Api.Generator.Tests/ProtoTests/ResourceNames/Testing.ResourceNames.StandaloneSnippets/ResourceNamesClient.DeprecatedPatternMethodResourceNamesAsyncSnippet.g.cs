@@ -16,6 +16,7 @@
 
 namespace Testing.ResourceNames.Snippets
 {
+    // [START unknown_generated_ResourceNames_DeprecatedPatternMethod_async_flattened_resourceNames]
     using System.Threading.Tasks;
     using Testing.ResourceNames;
 
@@ -38,4 +39,5 @@ namespace Testing.ResourceNames.Snippets
 #pragma warning restore CS0612
         }
     }
+    // [END unknown_generated_ResourceNames_DeprecatedPatternMethod_async_flattened_resourceNames]
 }

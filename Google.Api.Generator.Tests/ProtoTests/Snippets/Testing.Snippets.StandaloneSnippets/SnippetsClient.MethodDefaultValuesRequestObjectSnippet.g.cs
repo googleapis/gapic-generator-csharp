@@ -16,6 +16,7 @@
 
 namespace Testing.Snippets.Snippets
 {
+    // [START snippets_generated_Snippets_MethodDefaultValues_sync]
     using Google.Api.Gax;
     using Google.Protobuf;
     using Testing.Snippets;
@@ -120,4 +121,5 @@ namespace Testing.Snippets.Snippets
             Response response = snippetsClient.MethodDefaultValues(request);
         }
     }
+    // [END snippets_generated_Snippets_MethodDefaultValues_sync]
 }
