@@ -22,5 +22,4 @@
     <ProjectReference Include="..\Google.Api.Generator.Testing\Google.Api.Generator.Testing.csproj" />
     <ProjectReference Include="..\Google.Api.Generator\Google.Api.Generator.csproj" />
   </ItemGroup>
-
 </Project>

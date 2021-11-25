@@ -52,6 +52,12 @@ namespace Google.Api.Generator.Generation
             return PartialMethod(method.ModifyStreamingCallSettingsMethodName)(settingsParam);
         }
 
+        public static MethodDeclarationSyntax ModifyClientRequestCallSettingsPartialMethod(SourceFileContext ctx, MethodDetails.ClientStreaming method)
+        {
+            var settingsParam = Parameter(ctx.Type<CallSettings>(), "settings").Ref();
+            return PartialMethod(method.ModifyStreamingCallSettingsMethodName)(settingsParam);
+        }
+
         private ServiceImplClientClassGenerator(SourceFileContext ctx, ServiceDetails svc) =>
             (_ctx, _svc) = (ctx, svc);
 
@@ -143,6 +149,11 @@ namespace Google.Api.Generator.Generation
                         var fieldInitBidi = clientHelper.MaybeObsoleteCall(nameof(ClientHelper.BuildApiCall), method.IsDeprecated, _ctx.Type(method.RequestTyp), _ctx.Type(method.ResponseTyp))(
                             grpcClient.Access(method.SyncMethodName), effectiveSettings.Access(method.SettingsName), effectiveSettings.Access(methodBidi.StreamingSettingsName));
                         yield return apiCallField.Assign(fieldInitBidi);
+                        break;
+                    case MethodDetails.ClientStreaming methodClient:
+                        var fieldInitClient = clientHelper.MaybeObsoleteCall(nameof(ClientHelper.BuildApiCall), method.IsDeprecated, _ctx.Type(method.RequestTyp), _ctx.Type(method.ResponseTyp))(
+                            grpcClient.Access(method.SyncMethodName), effectiveSettings.Access(method.SettingsName), effectiveSettings.Access(methodClient.StreamingSettingsName));
+                        yield return field.Assign(fieldInitClient);
                         break;
                     case MethodDetails.ServerStreaming _:
                         var fieldInitServer = clientHelper.MaybeObsoleteCall(nameof(ClientHelper.BuildApiCall), method.IsDeprecated, _ctx.Type(method.RequestTyp), _ctx.Type(method.ResponseTyp))(
@@ -270,6 +281,13 @@ namespace Google.Api.Generator.Generation
                     .AddGenericConstraint(tRequest, _ctx.Type(Typ.ClassConstraint), _ctx.Type(Typ.Generic(typeof(IMessage<>), tRequest)))
                     .AddGenericConstraint(tResponse, _ctx.Type(Typ.ClassConstraint), _ctx.Type(Typ.Generic(typeof(IMessage<>), tResponse)));
             }
+            if (_svc.Methods.Any(m => m is MethodDetails.ClientStreaming))
+            {
+                var callClientStreaming = Parameter(_ctx.Type(Typ.Generic(typeof(ApiClientStreamingCall<,>), tRequest, tResponse)), "call").Ref();
+                yield return PartialMethod("Modify_ApiCall", tRequest, tResponse)(callClientStreaming)
+                    .AddGenericConstraint(tRequest, _ctx.Type(Typ.ClassConstraint), _ctx.Type(Typ.Generic(typeof(IMessage<>), tRequest)))
+                    .AddGenericConstraint(tResponse, _ctx.Type(Typ.ClassConstraint), _ctx.Type(Typ.Generic(typeof(IMessage<>), tResponse)));
+            }
         }
 
         private IEnumerable<MethodDeclarationSyntax> ModifyPerMethodApiCallPartialMethods() =>
@@ -300,6 +318,13 @@ namespace Google.Api.Generator.Generation
                         {
                             yield return ModifyBidiRequestCallSettingsPartialMethod(_ctx, methodBidi);
                             yield return PartialMethod(methodBidi.ModifyStreamingRequestMethodName)(Parameter(_ctx.Type(method.RequestTyp), "request").Ref());
+                        }
+                        break;
+                    case MethodDetails.ClientStreaming methodClient:
+                        if (seenStreamingTypes.Add(method.RequestTyp))
+                        {
+                            yield return ModifyClientRequestCallSettingsPartialMethod(_ctx, methodClient);
+                            yield return PartialMethod(methodClient.ModifyStreamingRequestMethodName)(Parameter(_ctx.Type(method.RequestTyp), "request").Ref());
                         }
                         break;
                     default:
