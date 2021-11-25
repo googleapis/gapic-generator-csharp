@@ -196,17 +196,17 @@ namespace Google.Api.Generator.Generation
                         var opTyp = ctx.Type<Operations.OperationsClient>();
                         var forwardingCallInvoker = Local(ctx.Type<CallInvoker>(), "forwardingCallInvoker");
                         var createOperationsClientMethod = Method(Internal | Static, opTyp, "CreateOperationsClient")(callInvoker)
-                            .WithBody(
-                                forwardingCallInvoker.WithInitializer(
-                                    // Note: can't use Typ.Of<ForwardingCallInvoker<GetOperationRequest>> as it's a static class.
-                                    ctx.Type(Typ.Generic(Typ.Of(typeof(ForwardingCallInvoker<>)), Typ.Of<GetOperationRequest>())).Call("Create")(
-                                        callInvoker,
-                                        "/google.longrunning.Operations/GetOperation",
-                                        Property(Private, ctx.TypeDontCare, $"__Method_{lroDetails.PollingMethod.Name}"),
-                                        ctx.Type(lroDetails.PollingRequestTyp).Access("ParseLroRequest"), // Method group conversion
-                                        Lambda(request, response)(response.Call("ToLroResponse")(request.Access("Name")))
-                                    )),
-                                Return(New(opTyp)(forwardingCallInvoker)))
+                            //.WithBody(
+                            //    forwardingCallInvoker.WithInitializer(
+                            //        // Note: can't use Typ.Of<ForwardingCallInvoker<GetOperationRequest>> as it's a static class.
+                            //        ctx.Type(Typ.Generic(Typ.Of(typeof(ForwardingCallInvoker<>)), Typ.Of<GetOperationRequest>())).Call("Create")(
+                            //            callInvoker,
+                            //            "/google.longrunning.Operations/GetOperation",
+                            //            Property(Private, ctx.TypeDontCare, $"__Method_{lroDetails.PollingMethod.Name}"),
+                            //            ctx.Type(lroDetails.PollingRequestTyp).Access("ParseLroRequest"), // Method group conversion
+                            //            Lambda(request, response)(response.Call("ToLroResponse")(request.Access("Name")))
+                            //        )),
+                            //    Return(New(opTyp)(forwardingCallInvoker)))
                             .WithXmlDoc(
                                 XmlDoc.Summary(
                                     "Creates a new instance of ", opTyp, "using the specified call invoker, but ",

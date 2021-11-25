@@ -52,6 +52,12 @@ namespace Google.Api.Generator.Generation
             return PartialMethod(method.ModifyStreamingCallSettingsMethodName)(settingsParam);
         }
 
+        public static MethodDeclarationSyntax ModifyClientRequestCallSettingsPartialMethod(SourceFileContext ctx, MethodDetails.ClientStreaming method)
+        {
+            var settingsParam = Parameter(ctx.Type<CallSettings>(), "settings").Ref();
+            return PartialMethod(method.ModifyStreamingCallSettingsMethodName)(settingsParam);
+        }
+
         private ServiceImplClientClassGenerator(SourceFileContext ctx, ServiceDetails svc) =>
             (_ctx, _svc) = (ctx, svc);
 
@@ -148,6 +154,11 @@ namespace Google.Api.Generator.Generation
                         var fieldInitServer = clientHelper.MaybeObsoleteCall(nameof(ClientHelper.BuildApiCall), method.IsDeprecated, _ctx.Type(method.RequestTyp), _ctx.Type(method.ResponseTyp))(
                             grpcClient.Access(method.SyncMethodName), effectiveSettings.Access(method.SettingsName));
                         yield return apiCallField.Assign(WithGoogleRequestParams(fieldInitServer));
+                        break;
+                    case MethodDetails.ClientStreaming methodClient:
+                        var fieldInitClient = clientHelper.MaybeObsoleteCall(nameof(ClientHelper.BuildApiCall), method.IsDeprecated, _ctx.Type(method.RequestTyp), _ctx.Type(method.ResponseTyp))(
+                            grpcClient.Access(method.SyncMethodName), effectiveSettings.Access(method.SettingsName), effectiveSettings.Access(methodClient.StreamingSettingsName));
+                        yield return field.Assign(fieldInitClient);
                         break;
                     default:
                         var fieldInit = clientHelper.MaybeObsoleteCall(nameof(ClientHelper.BuildApiCall), method.IsDeprecated, _ctx.Type(method.RequestTyp), _ctx.Type(method.ResponseTyp))(
@@ -300,6 +311,13 @@ namespace Google.Api.Generator.Generation
                         {
                             yield return ModifyBidiRequestCallSettingsPartialMethod(_ctx, methodBidi);
                             yield return PartialMethod(methodBidi.ModifyStreamingRequestMethodName)(Parameter(_ctx.Type(method.RequestTyp), "request").Ref());
+                        }
+                        break;
+                    case MethodDetails.ClientStreaming methodClient:
+                        if (seenStreamingTypes.Add(method.RequestTyp))
+                        {
+                            yield return ModifyClientRequestCallSettingsPartialMethod(_ctx, methodClient);
+                            yield return PartialMethod(methodClient.ModifyStreamingRequestMethodName)(Parameter(_ctx.Type(method.RequestTyp), "request").Ref());
                         }
                         break;
                     default:

@@ -15,6 +15,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Google.Api.Generator.Rest.T
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Google.Api.Generator.Testing", "Google.Api.Generator.Testing\Google.Api.Generator.Testing.csproj", "{7B7E19A1-38E8-460A-BC86-90FC9AADC483}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Google.Api.Gax.Grpc", "..\gax-dotnet\Google.Api.Gax.Grpc\Google.Api.Gax.Grpc.csproj", "{08C492CF-3063-4422-B3F6-E00DE368931B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Google.Api.Gax.Grpc.GrpcCore", "..\gax-dotnet\Google.Api.Gax.Grpc.GrpcCore\Google.Api.Gax.Grpc.GrpcCore.csproj", "{E29555B1-B027-4292-8902-AA9BECF6B4CC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +49,14 @@ Global
 		{7B7E19A1-38E8-460A-BC86-90FC9AADC483}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B7E19A1-38E8-460A-BC86-90FC9AADC483}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B7E19A1-38E8-460A-BC86-90FC9AADC483}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08C492CF-3063-4422-B3F6-E00DE368931B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08C492CF-3063-4422-B3F6-E00DE368931B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08C492CF-3063-4422-B3F6-E00DE368931B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08C492CF-3063-4422-B3F6-E00DE368931B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E29555B1-B027-4292-8902-AA9BECF6B4CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E29555B1-B027-4292-8902-AA9BECF6B4CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E29555B1-B027-4292-8902-AA9BECF6B4CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E29555B1-B027-4292-8902-AA9BECF6B4CC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

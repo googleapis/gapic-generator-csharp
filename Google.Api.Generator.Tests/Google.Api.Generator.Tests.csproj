@@ -23,4 +23,8 @@
     <ProjectReference Include="..\Google.Api.Generator\Google.Api.Generator.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ProtoTests\BasicClientStreaming\Testing.BasicClientStreaming\" />
+  </ItemGroup>
+
 </Project>

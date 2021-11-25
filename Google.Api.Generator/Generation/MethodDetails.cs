@@ -221,6 +221,28 @@ namespace Google.Api.Generator.Generation
             public Typ AsyncEnumeratorTyp { get; }
         }
 
+        public sealed class ClientStreaming : MethodDetails, IStreaming
+        {
+            public ClientStreaming(ServiceDetails svc, MethodDescriptor desc) : base(svc, desc)
+            {
+                ApiCallTyp = Typ.Generic(typeof(ApiClientStreamingCall<,>), RequestTyp, ResponseTyp);
+                AbstractStreamTyp = Typ.Nested(svc.ClientAbstractTyp, $"{SyncMethodName}Stream");
+                ImplStreamTyp = Typ.Nested(svc.ClientImplTyp, $"{SyncMethodName}StreamImpl");
+                StreamingSettingsName = $"{desc.Name}StreamingSettings";
+                ModifyStreamingCallSettingsMethodName = $"Modify_{RequestTyp.Name}CallSettings";
+                ModifyStreamingRequestMethodName = $"Modify_{RequestTyp.Name}Request";
+                AsyncEnumeratorTyp = Typ.Generic(typeof(AsyncResponseStream<>), ResponseTyp);
+            }
+            public override Typ ApiCallTyp { get; }
+            public override Typ SyncReturnTyp => AbstractStreamTyp;
+            public Typ AbstractStreamTyp { get; }
+            public Typ ImplStreamTyp { get; }
+            public string StreamingSettingsName { get; }
+            public string ModifyStreamingCallSettingsMethodName { get; }
+            public string ModifyStreamingRequestMethodName { get; }
+            public Typ AsyncEnumeratorTyp { get; }
+        }
+
         public sealed class Signature
         {
             public sealed class Field
@@ -326,7 +348,7 @@ namespace Google.Api.Generator.Generation
             DetectPagination(svc, desc) ?? (
             desc.IsClientStreaming && desc.IsServerStreaming ? new BidiStreaming(svc, desc) :
             desc.IsServerStreaming ? new ServerStreaming(svc, desc) :
-            desc.IsClientStreaming ? throw new NotImplementedException() :
+            desc.IsClientStreaming ? new ClientStreaming(svc, desc) :
             // Any LRO-returning methods within the LRO package itself should be treated normally. Anywhere else, they get special treatment.
             desc.OutputType.FullName == "google.longrunning.Operation" && desc.File.Package != "google.longrunning" ? new StandardLro(svc, desc) :
             !string.IsNullOrEmpty(desc.GetExtension(ExtendedOperationsExtensions.OperationService)) ? new NonStandardLro(svc, desc) :

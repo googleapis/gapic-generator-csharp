@@ -98,6 +98,8 @@ namespace Google.Api.Generator.Tests
                     continue;
                 }
                 var expectedFilePath = Path.Combine(Invoker.GeneratorTestsDir, "ProtoTests", dirName, file.RelativePath);
+                if (expectedFilePath.Contains("BasicClientStreamingClient.g.cs", StringComparison.InvariantCultureIgnoreCase))
+                    File.WriteAllText(@"C:\temp\BasicClientStreamingClient.g.cs", file.Content);
 
                 TextComparer.CompareText(expectedFilePath, file);
             }
@@ -167,6 +169,9 @@ namespace Google.Api.Generator.Tests
         [Fact]
         public void BasicServerStreaming() => ProtoTestSingle("BasicServerStreaming", ignoreCsProj: true, ignoreSnippets: true, ignoreUnitTests: true);
 
+        [Fact]
+        public void BasicClientStreaming() => ProtoTestSingle("BasicClientStreaming", ignoreCsProj: true, ignoreSnippets: true, ignoreUnitTests: true);
+        
         [Fact]
         public void BasicPaginated() => ProtoTestSingle("BasicPaginated", ignoreCsProj: true, ignoreSnippets: true, ignoreUnitTests: true);
 
