@@ -72,6 +72,13 @@ namespace Google.Api.Generator.Tests
             // Or include `// TEST_DISABLE` to disable testing of the entire file.
             var dirName = testProtoNames.First();
             var protoPaths = testProtoNames.Select(x => Path.Combine("ProtoTests", dirName, $"{x}.proto"));
+
+            if (testProtoNames.SingleOrDefault() == "Showcase")
+            {
+                protoPaths = new[] {"echo.proto", "identity.proto"}
+                    .Select(x => Path.Combine("ProtoTests", "Showcase", "google", "showcase", "v1beta1", $"{x}.proto"));
+            }
+
             var files = Run(protoPaths, $"testing.{dirName.ToLowerInvariant()}",
                 grpcServiceConfigPath, serviceConfigPath, commonResourcesConfigPaths);
             // Check output is present.
@@ -235,6 +242,9 @@ namespace Google.Api.Generator.Tests
 
         [Fact]
         public void OptionalFields() => ProtoTestSingle("OptionalFields", ignoreCsProj: true, ignoreUnitTests: true, ignoreSnippets: true);
+        
+        [Fact]
+        public void Showcase() => ProtoTestSingle("Showcase", ignoreCsProj: true, ignoreUnitTests: true, ignoreSnippets: true);
 
         [Fact]
         public void Mixins() => ProtoTestSingle("Mixins", ignoreMetadataFile: false, ignoreSnippets: true,
