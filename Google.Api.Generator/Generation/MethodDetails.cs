@@ -415,11 +415,11 @@ namespace Google.Api.Generator.Generation
             // - The repeated candidate should be the first in both orders
             // - There should be 0 or more than 1 map candidates, to disambiguate with DiREGapic single-map case
             //   OR The repeated candidate should have a field number of 1 
-            if (pageSizeCandidate.Name == "page_size" && repeatedCandidatesByDeclOrder[0] == repeatedCandidatesByNumOrder[0] && 
+            if (pageSizeCandidate.Name == "page_size" && repeatedCandidatesByNumOrder.Any() && repeatedCandidatesByDeclOrder[0] == repeatedCandidatesByNumOrder[0] && 
                 (repeatedCandidatesByNumOrder[0].FieldNumber == 1 || mapCandidates.Count != 1))
             {
                 return new Paginated(svc, desc, repeatedCandidatesByDeclOrder[0], pageSizeCandidate.FieldNumber, pageTokenCandidate.FieldNumber);
-            }
+            }            
 
             // DiREGapic case where a return message has exactly one map
             if (mapCandidates.Count == 1)

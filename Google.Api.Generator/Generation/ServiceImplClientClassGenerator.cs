@@ -160,6 +160,11 @@ namespace Google.Api.Generator.Generation
                             grpcClient.Access(method.SyncMethodName), effectiveSettings.Access(method.SettingsName), effectiveSettings.Access(methodClient.StreamingSettingsName));
                         yield return field.Assign(fieldInitClient);
                         break;
+                    case MethodDetails.ServerStreaming _:
+                        var fieldInitServer = clientHelper.MaybeObsoleteCall(nameof(ClientHelper.BuildApiCall), method.IsDeprecated, _ctx.Type(method.RequestTyp), _ctx.Type(method.ResponseTyp))(
+                            grpcClient.Access(method.SyncMethodName), effectiveSettings.Access(method.SettingsName));
+                        yield return field.Assign(WithGoogleRequestParams(fieldInitServer));
+                        break;
                     default:
                         var fieldInit = clientHelper.MaybeObsoleteCall(nameof(ClientHelper.BuildApiCall), method.IsDeprecated, _ctx.Type(method.RequestTyp), _ctx.Type(method.ResponseTyp))(
                             grpcClient.Access(method.AsyncMethodName), grpcClient.Access(method.SyncMethodName), effectiveSettings.Access(method.SettingsName));
@@ -253,7 +258,6 @@ namespace Google.Api.Generator.Generation
         private PropertyDeclarationSyntax GrpcClient() =>
             AutoProperty(Public | Override, _ctx.Type(_svc.GrpcClientTyp), "GrpcClient")
                 .WithXmlDoc(XmlDoc.Summary("The underlying gRPC ", _svc.DocumentationName, " client"));
-
         private IEnumerable<PropertyDeclarationSyntax> Mixins() =>
             _svc.Mixins.Select(mixin =>
                 AutoProperty(Public | Override, _ctx.Type(mixin.GapicClientType), mixin.GapicClientType.Name)
@@ -278,6 +282,13 @@ namespace Google.Api.Generator.Generation
             {
                 var callServerStreaming = Parameter(_ctx.Type(Typ.Generic(typeof(ApiServerStreamingCall<,>), tRequest, tResponse)), "call").Ref();
                 yield return PartialMethod("Modify_ApiCall", tRequest, tResponse)(callServerStreaming)
+                    .AddGenericConstraint(tRequest, _ctx.Type(Typ.ClassConstraint), _ctx.Type(Typ.Generic(typeof(IMessage<>), tRequest)))
+                    .AddGenericConstraint(tResponse, _ctx.Type(Typ.ClassConstraint), _ctx.Type(Typ.Generic(typeof(IMessage<>), tResponse)));
+            }
+            if (_svc.Methods.Any(m => m is MethodDetails.ClientStreaming))
+            {
+                var callClientStreaming = Parameter(_ctx.Type(Typ.Generic(typeof(ApiClientStreamingCall<,>), tRequest, tResponse)), "call").Ref();
+                yield return PartialMethod("Modify_ApiCall", tRequest, tResponse)(callClientStreaming)
                     .AddGenericConstraint(tRequest, _ctx.Type(Typ.ClassConstraint), _ctx.Type(Typ.Generic(typeof(IMessage<>), tRequest)))
                     .AddGenericConstraint(tResponse, _ctx.Type(Typ.ClassConstraint), _ctx.Type(Typ.Generic(typeof(IMessage<>), tResponse)));
             }

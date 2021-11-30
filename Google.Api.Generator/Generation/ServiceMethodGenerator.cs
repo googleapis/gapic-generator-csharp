@@ -109,6 +109,10 @@ namespace Google.Api.Generator.Generation
                         yield return method.AbstractBidiStreamClass;
                         yield return method.AbstractBidiStreamSyncRequestMethod;
                         break;
+                    case MethodDetails.ClientStreaming:
+                        yield return method.AbstractClientStreamClass;
+                        yield return method.AbstractClientStreamSyncRequestMethod;
+                        break;
                     case MethodDetails.ServerStreaming _:
                         yield return method.AbstractServerStreamClass;
                         yield return method.AbstractServerStreamSyncRequestMethod;
@@ -120,10 +124,6 @@ namespace Google.Api.Generator.Generation
                                 yield return resourceName.AbstractServerStreamSyncRequestMethod;
                             }
                         }
-                        break;
-                    case MethodDetails.ClientStreaming:
-                        yield return method.AbstractClientStreamClass;
-                        yield return method.AbstractClientStreamSyncRequestMethod;
                         break;
                 }
             }
@@ -154,13 +154,13 @@ namespace Google.Api.Generator.Generation
                         yield return method.ImplBidiStreamClass();
                         yield return method.ImplBidiStreamSyncRequestMethod();
                         break;
-                    case MethodDetails.ServerStreaming _:
-                        yield return method.ImplServerStreamClass();
-                        yield return method.ImplServerStreamSyncRequestMethod;
-                        break;
                     case MethodDetails.ClientStreaming:
                         yield return method.ImplClientStreamClass();
                         yield return method.ImplClientStreamSyncRequestMethod();
+                        break;
+                    case MethodDetails.ServerStreaming _:
+                        yield return method.ImplServerStreamClass();
+                        yield return method.ImplServerStreamSyncRequestMethod;
                         break;
                 }
             }
@@ -178,8 +178,8 @@ namespace Google.Api.Generator.Generation
             public MethodDetails.Paginated MethodDetailsPaginated => (MethodDetails.Paginated) MethodDetails;
             public MethodDetails.Lro MethodDetailsLro => (MethodDetails.Lro) MethodDetails;
             public MethodDetails.BidiStreaming MethodDetailsBidiStream => (MethodDetails.BidiStreaming) MethodDetails;
-            public MethodDetails.ServerStreaming MethodDetailsServerStream => (MethodDetails.ServerStreaming) MethodDetails;
             public MethodDetails.ClientStreaming MethodDetailsClientStream => (MethodDetails.ClientStreaming) MethodDetails;
+            public MethodDetails.ServerStreaming MethodDetailsServerStream => (MethodDetails.ServerStreaming) MethodDetails;
 
             private MethodDeclarationSyntax ModifyRequestMethod => ServiceImplClientClassGenerator.ModifyRequestPartialMethod(Ctx, MethodDetails);
             private FieldDeclarationSyntax ApiCallField => ServiceImplClientClassGenerator.ApiCallField(Ctx, MethodDetails);
