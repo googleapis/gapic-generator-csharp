@@ -203,11 +203,6 @@ namespace Google.Api.Generator.Tests
         [Fact]
         public void RoutingHeaders() => ProtoTestSingle("RoutingHeaders", ignoreCsProj: true, ignoreSnippets: true, ignoreUnitTests: true);
 
-
-
-        [Fact]
-        public void RoutingHeadersExplicit() => ProtoTestSingle("RoutingHeadersExplicit", ignoreCsProj: true, ignoreSnippets: true, ignoreUnitTests: true);
-
         [Fact]
         public void UnitTests() => ProtoTestSingle("UnitTests", ignoreCsProj: true, ignoreSnippets: true);
 
