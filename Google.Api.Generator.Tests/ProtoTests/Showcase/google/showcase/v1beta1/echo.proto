@@ -40,7 +40,7 @@ service Echo {
   option (google.api.default_host) = "localhost:7469";
 
   // This method simply echoes the request. This method showcases unary RPCs.
-  rpc Echo(EchoRequest) returns (EchoResponse) {
+  rpc EchoCall(EchoRequest) returns (EchoResponse) {
     option (google.api.http) = {
       post: "/v1beta1/echo:echo"
       body: "*"
@@ -215,6 +215,7 @@ message PagedExpandResponseList {
   repeated string words = 1;
 }
 
+// Legacy map response
 message PagedExpandLegacyMappedResponse {
   // The words that were expanded, indexed by their initial character.
   // (-- aip.dev/not-precedent: This is a legacy, non-standard pattern that violates
