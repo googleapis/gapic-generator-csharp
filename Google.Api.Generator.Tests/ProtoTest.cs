@@ -72,19 +72,20 @@ namespace Google.Api.Generator.Tests
             // Or include `// TEST_DISABLE` to disable testing of the entire file.
             var dirName = testProtoNames.First();
             var protoPaths = testProtoNames.Select(x => Path.Combine("ProtoTests", dirName, $"{x}.proto"));
+            var package = $"testing.{dirName.ToLowerInvariant()}";
 
             if (testProtoNames.SingleOrDefault() == "Showcase")
             {
-                protoPaths = new[] {"echo.proto", "identity.proto"}
-                    .Select(x => Path.Combine("ProtoTests", "Showcase", "google", "showcase", "v1beta1", $"{x}.proto"));
+                protoPaths = new[] {"compliance.proto", "echo.proto", "identity.proto", "messaging.proto", "sequence.proto", "testing.proto"}
+                    .Select(f => Path.Combine("ProtoTests", "Showcase", "google", "showcase", "v1beta1", $"{f}"));
+                package = "google.showcase.v1beta1";
             }
 
-            var files = Run(protoPaths, $"testing.{dirName.ToLowerInvariant()}",
+            var files = Run(protoPaths, package,
                 grpcServiceConfigPath, serviceConfigPath, commonResourcesConfigPaths);
             // Check output is present.
             Assert.NotEmpty(files);
-
-            // Write all output files to the temporary directory before validating any.
+   	    // Write all output files to the temporary directory before validating any.
             // This makes it easier to see the complete set of outputs.
             foreach (var file in files)
             {
@@ -92,7 +93,6 @@ namespace Google.Api.Generator.Tests
                 Directory.CreateDirectory(Path.GetDirectoryName(pathToWriteTo));
                 File.WriteAllText(pathToWriteTo, file.Content);
             }
-
             // Verify each output file.
             foreach (var file in files)
             {
@@ -203,6 +203,8 @@ namespace Google.Api.Generator.Tests
         [Fact]
         public void RoutingHeaders() => ProtoTestSingle("RoutingHeaders", ignoreCsProj: true, ignoreSnippets: true, ignoreUnitTests: true);
 
+
+
         [Fact]
         public void RoutingHeadersExplicit() => ProtoTestSingle("RoutingHeadersExplicit", ignoreCsProj: true, ignoreSnippets: true, ignoreUnitTests: true);
 
@@ -245,7 +247,6 @@ namespace Google.Api.Generator.Tests
         
         [Fact]
         public void Showcase() => ProtoTestSingle("Showcase", ignoreCsProj: true, ignoreUnitTests: true, ignoreSnippets: true);
-
         [Fact]
         public void Mixins() => ProtoTestSingle("Mixins", ignoreMetadataFile: false, ignoreSnippets: true,
             serviceConfigPath: Path.Combine(Invoker.GeneratorTestsDir, "ProtoTests", "Mixins", "Mixins.yaml"));
