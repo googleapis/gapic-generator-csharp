@@ -1,0 +1,67 @@
+﻿{
+  "clientLibrary": {
+    "name": "Testing.Basic.V1",
+    "language": "C_SHARP",
+    "apis": [
+      {
+        "id": "testing.basic.v1",
+        "version": "v1"
+      }
+    ]
+  },
+  "snippets": [
+    {
+      "regionTag": "basic_v1_generated_Basic_AMethod_sync",
+      "title": "AMethodRequestObject",
+      "description": "Snippet for AMethod",
+      "file": "BasicClient.AMethodRequestObjectSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "AMethod",
+        "fullName": "Testing.Basic.V1.BasicClient.AMethod",
+        "resultType": "Testing.Basic.V1.Response",
+        "client": {
+          "shortName": "BasicClient",
+          "fullName": "Testing.Basic.V1.BasicClient"
+        },
+        "method": {
+          "shortName": "AMethod",
+          "fullName": "testing.basic.v1.Basic.AMethod",
+          "service": {
+            "shortName": "Basic",
+            "fullName": "testing.basic.v1.Basic"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "basic_v1_generated_Basic_AMethod_async",
+      "title": "AMethodRequestObjectAsync",
+      "description": "Snippet for AMethodAsync",
+      "file": "BasicClient.AMethodRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "AMethodAsync",
+        "fullName": "Testing.Basic.V1.BasicClient.AMethodAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.Basic.V1.Response>",
+        "client": {
+          "shortName": "BasicClient",
+          "fullName": "Testing.Basic.V1.BasicClient"
+        },
+        "method": {
+          "shortName": "AMethod",
+          "fullName": "testing.basic.v1.Basic.AMethod",
+          "service": {
+            "shortName": "Basic",
+            "fullName": "testing.basic.v1.Basic"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    }
+  ]
+}

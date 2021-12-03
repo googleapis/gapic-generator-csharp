@@ -17,6 +17,7 @@ using Google.Api.Gax.Grpc;
 using Google.Api.Generator.ProtoUtils;
 using Google.Api.Generator.Utils;
 using Google.Api.Generator.Utils.Roslyn;
+using Google.Cloud.Tools.SnippetGen.SnippetIndex.V1;
 using Google.LongRunning;
 using Google.Protobuf;
 using Google.Protobuf.Reflection;
@@ -31,11 +32,31 @@ using System.Threading.Tasks;
 using static Google.Api.Generator.Utils.Roslyn.Modifier;
 using static Google.Api.Generator.Utils.Roslyn.RoslynBuilder;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
+using ApiMetadata = Google.Cloud.Tools.SnippetGen.SnippetIndex.V1.Api;
+using ServiceMetadata = Google.Cloud.Tools.SnippetGen.SnippetIndex.V1.Service;
+using SnippetIndex = Google.Cloud.Tools.SnippetGen.SnippetIndex.V1.Index;
+using SnippetMetadata = Google.Cloud.Tools.SnippetGen.SnippetIndex.V1.Snippet;
 
 namespace Google.Api.Generator.Generation
 {
     internal class SnippetCodeGenerator
     {
+        public static string GenerateSnippetIndexJson(IEnumerable<SnippetMetadata> snippets, ServiceDetails serviceDetails) =>        
+            new SnippetIndex
+            {
+                ClientLibrary = new ClientLibrary
+                {
+                    Name = serviceDetails.Namespace,
+                    Language = Language.CSharp,
+                    Apis = { new ApiMetadata
+                    {
+                        Id = serviceDetails.ProtoPackage,
+                        Version = serviceDetails.PackageVersion ?? ""
+                    }}
+                },
+                Snippets = { snippets }
+            }.ToFormattedJson();
+
         public static CompilationUnitSyntax Generate(SourceFileContext ctx, ServiceDetails svc)
         {
             var ns = Namespace(svc.SnippetsNamespace);
@@ -128,8 +149,11 @@ namespace Google.Api.Generator.Generation
         private SnippetDef Snippet { get; }
         public string SnippetMethodName => Snippet.SnippetMethodName;
 
-        public CompilationUnitSyntax Generate(SourceFileContext ctx) =>
-            ctx.CreateCompilationUnit(Snippet.StandaloneSnippet(ctx));
+        public (CompilationUnitSyntax, SnippetMetadata) Generate(SourceFileContext ctx)
+        {
+            var (snippetCode, snippetMetadata) = Snippet.StandaloneSnippet(ctx);
+            return (ctx.CreateCompilationUnit(snippetCode), snippetMetadata);
+        }
 
         private class SnippetDef
         {
@@ -144,6 +168,8 @@ namespace Google.Api.Generator.Generation
             public string SnippetMethodName { get; }
             private string TargetMethodName => Sync ? TargetMethod.SyncMethodName : TargetMethod.AsyncMethodName;
             private string RegionTagDisambiguation { get; }
+            // TODO: Reconsider this ugly hack when refactoring after removing the non standalone snippets.
+            private bool Canonical => RegionTagDisambiguation is null;
             private Func<SourceFileContext, bool, MethodDeclarationSyntax> MethodGenerator { get; }
 
             public SnippetDef(
@@ -155,7 +181,41 @@ namespace Google.Api.Generator.Generation
                 MethodGenerator(ctx, true)
                     .WithXmlDoc(XmlDoc.Summary($"Snippet for {TargetMethodName}"));
 
-            public NamespaceDeclarationSyntax StandaloneSnippet(SourceFileContext ctx)
+            private SnippetMetadata GenerateMetadata() =>
+                new SnippetMetadata
+                {
+                    Title = SnippetMethodName,
+                    Description = $"Snippet for {TargetMethodName}",
+                    Language = Language.CSharp,
+                    Canonical = Canonical,
+                    Origin = SnippetMetadata.Types.Origin.ApiDefinition,
+                    ClientMethod = new ClientMethod
+                    {
+                        ShortName = TargetMethodName,
+                        FullName = $"{TargetMethod.Svc.ClientAbstractTyp.FullName}.{TargetMethodName}",
+                        Async = !Sync,
+                        ResultType = Sync
+                            ? TargetMethod.SyncReturnTyp is Typ.VoidTyp ? "" : TargetMethod.SyncReturnTyp.FullName
+                            : TargetMethod.AsyncReturnTyp.FullName,
+                        Client = new ServiceClient
+                        {
+                            ShortName = TargetMethod.Svc.ClientAbstractTyp.Name,
+                            FullName = TargetMethod.Svc.ClientAbstractTyp.FullName
+                        },
+                        Method = new Method
+                        {
+                            ShortName = TargetMethod.ProtoRpcName,
+                            FullName = $"{TargetMethod.Svc.ServiceFullName}.{TargetMethod.ProtoRpcName}",
+                            Service = new ServiceMetadata
+                            {
+                                ShortName = TargetMethod.Svc.ServiceName,
+                                FullName = TargetMethod.Svc.ServiceFullName
+                            }
+                        }
+                    }
+                };
+
+            public (NamespaceDeclarationSyntax, SnippetMetadata) StandaloneSnippet(SourceFileContext ctx)
             {
                 var ns = Namespace(TargetMethod.Svc.SnippetsNamespace);
                 using (ctx.InNamespace(ns))
@@ -172,11 +232,11 @@ namespace Google.Api.Generator.Generation
                     }
                     ns = ns.AddMembers(cls);
                 }
-
-                return WithRegionTag(ns);
+                SnippetMetadata metadata = GenerateMetadata();
+                return (WithRegionTag(ns, metadata), metadata);
             }
 
-            private NamespaceDeclarationSyntax WithRegionTag(NamespaceDeclarationSyntax ns)
+            private NamespaceDeclarationSyntax WithRegionTag(NamespaceDeclarationSyntax ns, SnippetMetadata metadata)
             {
                 string effectiveShortName = TargetMethod.Svc.DefaultHostServiceName ?? "unknown";
                 string effectiveVersion = TargetMethod.Svc.PackageVersion is null ? "" : $"_{TargetMethod.Svc.PackageVersion}";
@@ -186,6 +246,8 @@ namespace Google.Api.Generator.Generation
                 string regionTagName =
                     // {apishortname}_{apiVersion}_generated_{serviceName}_{rpcName}_{sync|async}_{disambiguation}
                     $"{effectiveShortName}{effectiveVersion}_generated_{TargetMethod.Svc.ServiceName}_{TargetMethod.ProtoRpcName}_{syncText}{effectiveDisambiguation}";
+
+                metadata.RegionTag = regionTagName;
 
                 return ns
                     .WithOpenBraceToken(ns.OpenBraceToken.WithTrailingTrivia(Comment($"// [START {regionTagName}]")))
@@ -661,7 +723,7 @@ namespace Google.Api.Generator.Generation
                         (object)SyncClientMethodCall(InitRequestArgsNormal.ToArray()) :
                         _def.Response.WithInitializer(SyncClientMethodCall(InitRequestArgsNormal.ToArray())));
 
-                public SnippetDef SyncSnippet => new SnippetDef(Method, true, SyncMethodName, RegionTagOverloadDisambiguation,
+                public SnippetDef SyncSnippet => new SnippetDef(Method, true, SyncMethodName, RegionTagOverloadDisambiguation, 
                     (ctx, includeDocMarkers) => WithSourceFileContext(ctx).WithIncludeDocMarkers(includeDocMarkers).SyncMethod);
 
                 private MethodDeclarationSyntax AsyncMethod => _def.Async(AsyncMethodName, _sig.Fields.Select(f => f.Typ),

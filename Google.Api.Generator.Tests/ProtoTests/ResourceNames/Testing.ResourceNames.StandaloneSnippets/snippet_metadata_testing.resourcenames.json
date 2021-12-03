@@ -1,0 +1,1298 @@
+﻿{
+  "clientLibrary": {
+    "name": "Testing.ResourceNames",
+    "language": "C_SHARP",
+    "apis": [
+      {
+        "id": "testing.resourcenames"
+      }
+    ]
+  },
+  "snippets": [
+    {
+      "regionTag": "unknown_generated_ResourceNames_SinglePatternMethod_sync",
+      "title": "SinglePatternMethodRequestObject",
+      "description": "Snippet for SinglePatternMethod",
+      "file": "ResourceNamesClient.SinglePatternMethodRequestObjectSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "SinglePatternMethod",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.SinglePatternMethod",
+        "resultType": "Testing.ResourceNames.Response",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "SinglePatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.SinglePatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_SinglePatternMethod_async",
+      "title": "SinglePatternMethodRequestObjectAsync",
+      "description": "Snippet for SinglePatternMethodAsync",
+      "file": "ResourceNamesClient.SinglePatternMethodRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "SinglePatternMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.SinglePatternMethodAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "SinglePatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.SinglePatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_SinglePatternMethod_sync_flattened",
+      "title": "SinglePatternMethod",
+      "description": "Snippet for SinglePatternMethod",
+      "file": "ResourceNamesClient.SinglePatternMethodSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "SinglePatternMethod",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.SinglePatternMethod",
+        "resultType": "Testing.ResourceNames.Response",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "SinglePatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.SinglePatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_SinglePatternMethod_async_flattened",
+      "title": "SinglePatternMethodAsync",
+      "description": "Snippet for SinglePatternMethodAsync",
+      "file": "ResourceNamesClient.SinglePatternMethodAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "SinglePatternMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.SinglePatternMethodAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "SinglePatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.SinglePatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_SinglePatternMethod_sync_flattened_resourceNames",
+      "title": "SinglePatternMethodResourceNames",
+      "description": "Snippet for SinglePatternMethod",
+      "file": "ResourceNamesClient.SinglePatternMethodResourceNamesSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "SinglePatternMethod",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.SinglePatternMethod",
+        "resultType": "Testing.ResourceNames.Response",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "SinglePatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.SinglePatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_SinglePatternMethod_async_flattened_resourceNames",
+      "title": "SinglePatternMethodResourceNamesAsync",
+      "description": "Snippet for SinglePatternMethodAsync",
+      "file": "ResourceNamesClient.SinglePatternMethodResourceNamesAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "SinglePatternMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.SinglePatternMethodAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "SinglePatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.SinglePatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_DeprecatedPatternMethod_sync",
+      "title": "DeprecatedPatternMethodRequestObject",
+      "description": "Snippet for DeprecatedPatternMethod",
+      "file": "ResourceNamesClient.DeprecatedPatternMethodRequestObjectSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "DeprecatedPatternMethod",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.DeprecatedPatternMethod",
+        "resultType": "Testing.ResourceNames.Response",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "DeprecatedPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.DeprecatedPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_DeprecatedPatternMethod_async",
+      "title": "DeprecatedPatternMethodRequestObjectAsync",
+      "description": "Snippet for DeprecatedPatternMethodAsync",
+      "file": "ResourceNamesClient.DeprecatedPatternMethodRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "DeprecatedPatternMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.DeprecatedPatternMethodAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "DeprecatedPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.DeprecatedPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_DeprecatedPatternMethod_sync_flattened",
+      "title": "DeprecatedPatternMethod",
+      "description": "Snippet for DeprecatedPatternMethod",
+      "file": "ResourceNamesClient.DeprecatedPatternMethodSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "DeprecatedPatternMethod",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.DeprecatedPatternMethod",
+        "resultType": "Testing.ResourceNames.Response",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "DeprecatedPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.DeprecatedPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_DeprecatedPatternMethod_async_flattened",
+      "title": "DeprecatedPatternMethodAsync",
+      "description": "Snippet for DeprecatedPatternMethodAsync",
+      "file": "ResourceNamesClient.DeprecatedPatternMethodAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "DeprecatedPatternMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.DeprecatedPatternMethodAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "DeprecatedPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.DeprecatedPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_DeprecatedPatternMethod_sync_flattened_resourceNames",
+      "title": "DeprecatedPatternMethodResourceNames",
+      "description": "Snippet for DeprecatedPatternMethod",
+      "file": "ResourceNamesClient.DeprecatedPatternMethodResourceNamesSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "DeprecatedPatternMethod",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.DeprecatedPatternMethod",
+        "resultType": "Testing.ResourceNames.Response",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "DeprecatedPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.DeprecatedPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_DeprecatedPatternMethod_async_flattened_resourceNames",
+      "title": "DeprecatedPatternMethodResourceNamesAsync",
+      "description": "Snippet for DeprecatedPatternMethodAsync",
+      "file": "ResourceNamesClient.DeprecatedPatternMethodResourceNamesAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "DeprecatedPatternMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.DeprecatedPatternMethodAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "DeprecatedPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.DeprecatedPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardOnlyPatternMethod_sync",
+      "title": "WildcardOnlyPatternMethodRequestObject",
+      "description": "Snippet for WildcardOnlyPatternMethod",
+      "file": "ResourceNamesClient.WildcardOnlyPatternMethodRequestObjectSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardOnlyPatternMethod",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardOnlyPatternMethod",
+        "resultType": "Testing.ResourceNames.Response",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardOnlyPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardOnlyPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardOnlyPatternMethod_async",
+      "title": "WildcardOnlyPatternMethodRequestObjectAsync",
+      "description": "Snippet for WildcardOnlyPatternMethodAsync",
+      "file": "ResourceNamesClient.WildcardOnlyPatternMethodRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardOnlyPatternMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardOnlyPatternMethodAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardOnlyPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardOnlyPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardOnlyPatternMethod_sync_flattened",
+      "title": "WildcardOnlyPatternMethod",
+      "description": "Snippet for WildcardOnlyPatternMethod",
+      "file": "ResourceNamesClient.WildcardOnlyPatternMethodSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardOnlyPatternMethod",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardOnlyPatternMethod",
+        "resultType": "Testing.ResourceNames.Response",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardOnlyPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardOnlyPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardOnlyPatternMethod_async_flattened",
+      "title": "WildcardOnlyPatternMethodAsync",
+      "description": "Snippet for WildcardOnlyPatternMethodAsync",
+      "file": "ResourceNamesClient.WildcardOnlyPatternMethodAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardOnlyPatternMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardOnlyPatternMethodAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardOnlyPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardOnlyPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardOnlyPatternMethod_sync_flattened_resourceNames",
+      "title": "WildcardOnlyPatternMethodResourceNames",
+      "description": "Snippet for WildcardOnlyPatternMethod",
+      "file": "ResourceNamesClient.WildcardOnlyPatternMethodResourceNamesSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardOnlyPatternMethod",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardOnlyPatternMethod",
+        "resultType": "Testing.ResourceNames.Response",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardOnlyPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardOnlyPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardOnlyPatternMethod_async_flattened_resourceNames",
+      "title": "WildcardOnlyPatternMethodResourceNamesAsync",
+      "description": "Snippet for WildcardOnlyPatternMethodAsync",
+      "file": "ResourceNamesClient.WildcardOnlyPatternMethodResourceNamesAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardOnlyPatternMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardOnlyPatternMethodAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardOnlyPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardOnlyPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMethod_sync",
+      "title": "WildcardMultiPatternMethodRequestObject",
+      "description": "Snippet for WildcardMultiPatternMethod",
+      "file": "ResourceNamesClient.WildcardMultiPatternMethodRequestObjectSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMethod",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethod",
+        "resultType": "Testing.ResourceNames.Response",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMethod_async",
+      "title": "WildcardMultiPatternMethodRequestObjectAsync",
+      "description": "Snippet for WildcardMultiPatternMethodAsync",
+      "file": "ResourceNamesClient.WildcardMultiPatternMethodRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethodAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMethod_sync_flattened",
+      "title": "WildcardMultiPatternMethod",
+      "description": "Snippet for WildcardMultiPatternMethod",
+      "file": "ResourceNamesClient.WildcardMultiPatternMethodSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMethod",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethod",
+        "resultType": "Testing.ResourceNames.Response",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMethod_async_flattened",
+      "title": "WildcardMultiPatternMethodAsync",
+      "description": "Snippet for WildcardMultiPatternMethodAsync",
+      "file": "ResourceNamesClient.WildcardMultiPatternMethodAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethodAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMethod_sync_flattened_resourceNames1",
+      "title": "WildcardMultiPatternMethodResourceNames1",
+      "description": "Snippet for WildcardMultiPatternMethod",
+      "file": "ResourceNamesClient.WildcardMultiPatternMethodResourceNames1Snippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMethod",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethod",
+        "resultType": "Testing.ResourceNames.Response",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMethod_async_flattened_resourceNames1",
+      "title": "WildcardMultiPatternMethodResourceNames1Async",
+      "description": "Snippet for WildcardMultiPatternMethodAsync",
+      "file": "ResourceNamesClient.WildcardMultiPatternMethodResourceNames1AsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethodAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMethod_sync_flattened_resourceNames2",
+      "title": "WildcardMultiPatternMethodResourceNames2",
+      "description": "Snippet for WildcardMultiPatternMethod",
+      "file": "ResourceNamesClient.WildcardMultiPatternMethodResourceNames2Snippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMethod",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethod",
+        "resultType": "Testing.ResourceNames.Response",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMethod_async_flattened_resourceNames2",
+      "title": "WildcardMultiPatternMethodResourceNames2Async",
+      "description": "Snippet for WildcardMultiPatternMethodAsync",
+      "file": "ResourceNamesClient.WildcardMultiPatternMethodResourceNames2AsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethodAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMethod_sync_flattened_resourceNames3",
+      "title": "WildcardMultiPatternMethodResourceNames3",
+      "description": "Snippet for WildcardMultiPatternMethod",
+      "file": "ResourceNamesClient.WildcardMultiPatternMethodResourceNames3Snippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMethod",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethod",
+        "resultType": "Testing.ResourceNames.Response",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMethod_async_flattened_resourceNames3",
+      "title": "WildcardMultiPatternMethodResourceNames3Async",
+      "description": "Snippet for WildcardMultiPatternMethodAsync",
+      "file": "ResourceNamesClient.WildcardMultiPatternMethodResourceNames3AsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethodAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMethod_sync_flattened_resourceNames4",
+      "title": "WildcardMultiPatternMethodResourceNames4",
+      "description": "Snippet for WildcardMultiPatternMethod",
+      "file": "ResourceNamesClient.WildcardMultiPatternMethodResourceNames4Snippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMethod",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethod",
+        "resultType": "Testing.ResourceNames.Response",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMethod_async_flattened_resourceNames4",
+      "title": "WildcardMultiPatternMethodResourceNames4Async",
+      "description": "Snippet for WildcardMultiPatternMethodAsync",
+      "file": "ResourceNamesClient.WildcardMultiPatternMethodResourceNames4AsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethodAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMethod_sync_flattened_resourceNames5",
+      "title": "WildcardMultiPatternMethodResourceNames5",
+      "description": "Snippet for WildcardMultiPatternMethod",
+      "file": "ResourceNamesClient.WildcardMultiPatternMethodResourceNames5Snippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMethod",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethod",
+        "resultType": "Testing.ResourceNames.Response",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMethod_async_flattened_resourceNames5",
+      "title": "WildcardMultiPatternMethodResourceNames5Async",
+      "description": "Snippet for WildcardMultiPatternMethodAsync",
+      "file": "ResourceNamesClient.WildcardMultiPatternMethodResourceNames5AsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethodAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMethod_sync_flattened_resourceNames6",
+      "title": "WildcardMultiPatternMethodResourceNames6",
+      "description": "Snippet for WildcardMultiPatternMethod",
+      "file": "ResourceNamesClient.WildcardMultiPatternMethodResourceNames6Snippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMethod",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethod",
+        "resultType": "Testing.ResourceNames.Response",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMethod_async_flattened_resourceNames6",
+      "title": "WildcardMultiPatternMethodResourceNames6Async",
+      "description": "Snippet for WildcardMultiPatternMethodAsync",
+      "file": "ResourceNamesClient.WildcardMultiPatternMethodResourceNames6AsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethodAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMethod_sync_flattened_resourceNames7",
+      "title": "WildcardMultiPatternMethodResourceNames7",
+      "description": "Snippet for WildcardMultiPatternMethod",
+      "file": "ResourceNamesClient.WildcardMultiPatternMethodResourceNames7Snippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMethod",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethod",
+        "resultType": "Testing.ResourceNames.Response",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMethod_async_flattened_resourceNames7",
+      "title": "WildcardMultiPatternMethodResourceNames7Async",
+      "description": "Snippet for WildcardMultiPatternMethodAsync",
+      "file": "ResourceNamesClient.WildcardMultiPatternMethodResourceNames7AsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethodAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMethod_sync_flattened_resourceNames8",
+      "title": "WildcardMultiPatternMethodResourceNames8",
+      "description": "Snippet for WildcardMultiPatternMethod",
+      "file": "ResourceNamesClient.WildcardMultiPatternMethodResourceNames8Snippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMethod",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethod",
+        "resultType": "Testing.ResourceNames.Response",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMethod_async_flattened_resourceNames8",
+      "title": "WildcardMultiPatternMethodResourceNames8Async",
+      "description": "Snippet for WildcardMultiPatternMethodAsync",
+      "file": "ResourceNamesClient.WildcardMultiPatternMethodResourceNames8AsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethodAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMultipleMethod_sync",
+      "title": "WildcardMultiPatternMultipleMethodRequestObject",
+      "description": "Snippet for WildcardMultiPatternMultipleMethod",
+      "file": "ResourceNamesClient.WildcardMultiPatternMultipleMethodRequestObjectSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMultipleMethod",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMultipleMethod",
+        "resultType": "Testing.ResourceNames.Response",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMultipleMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMultipleMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMultipleMethod_async",
+      "title": "WildcardMultiPatternMultipleMethodRequestObjectAsync",
+      "description": "Snippet for WildcardMultiPatternMultipleMethodAsync",
+      "file": "ResourceNamesClient.WildcardMultiPatternMultipleMethodRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMultipleMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMultipleMethodAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMultipleMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMultipleMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMultipleMethod_sync_flattened",
+      "title": "WildcardMultiPatternMultipleMethod",
+      "description": "Snippet for WildcardMultiPatternMultipleMethod",
+      "file": "ResourceNamesClient.WildcardMultiPatternMultipleMethodSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMultipleMethod",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMultipleMethod",
+        "resultType": "Testing.ResourceNames.Response",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMultipleMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMultipleMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMultipleMethod_async_flattened",
+      "title": "WildcardMultiPatternMultipleMethodAsync",
+      "description": "Snippet for WildcardMultiPatternMultipleMethodAsync",
+      "file": "ResourceNamesClient.WildcardMultiPatternMultipleMethodAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMultipleMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMultipleMethodAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMultipleMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMultipleMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMultipleMethod_sync_flattened_resourceNames1",
+      "title": "WildcardMultiPatternMultipleMethodResourceNames1",
+      "description": "Snippet for WildcardMultiPatternMultipleMethod",
+      "file": "ResourceNamesClient.WildcardMultiPatternMultipleMethodResourceNames1Snippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMultipleMethod",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMultipleMethod",
+        "resultType": "Testing.ResourceNames.Response",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMultipleMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMultipleMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMultipleMethod_async_flattened_resourceNames1",
+      "title": "WildcardMultiPatternMultipleMethodResourceNames1Async",
+      "description": "Snippet for WildcardMultiPatternMultipleMethodAsync",
+      "file": "ResourceNamesClient.WildcardMultiPatternMultipleMethodResourceNames1AsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMultipleMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMultipleMethodAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMultipleMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMultipleMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMultipleMethod_sync_flattened_resourceNames2",
+      "title": "WildcardMultiPatternMultipleMethodResourceNames2",
+      "description": "Snippet for WildcardMultiPatternMultipleMethod",
+      "file": "ResourceNamesClient.WildcardMultiPatternMultipleMethodResourceNames2Snippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMultipleMethod",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMultipleMethod",
+        "resultType": "Testing.ResourceNames.Response",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMultipleMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMultipleMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMultipleMethod_async_flattened_resourceNames2",
+      "title": "WildcardMultiPatternMultipleMethodResourceNames2Async",
+      "description": "Snippet for WildcardMultiPatternMultipleMethodAsync",
+      "file": "ResourceNamesClient.WildcardMultiPatternMultipleMethodResourceNames2AsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMultipleMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMultipleMethodAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMultipleMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMultipleMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMultipleMethod_sync_flattened_resourceNames3",
+      "title": "WildcardMultiPatternMultipleMethodResourceNames3",
+      "description": "Snippet for WildcardMultiPatternMultipleMethod",
+      "file": "ResourceNamesClient.WildcardMultiPatternMultipleMethodResourceNames3Snippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMultipleMethod",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMultipleMethod",
+        "resultType": "Testing.ResourceNames.Response",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMultipleMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMultipleMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMultipleMethod_async_flattened_resourceNames3",
+      "title": "WildcardMultiPatternMultipleMethodResourceNames3Async",
+      "description": "Snippet for WildcardMultiPatternMultipleMethodAsync",
+      "file": "ResourceNamesClient.WildcardMultiPatternMultipleMethodResourceNames3AsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMultipleMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMultipleMethodAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMultipleMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMultipleMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMultipleMethod_sync_flattened_resourceNames4",
+      "title": "WildcardMultiPatternMultipleMethodResourceNames4",
+      "description": "Snippet for WildcardMultiPatternMultipleMethod",
+      "file": "ResourceNamesClient.WildcardMultiPatternMultipleMethodResourceNames4Snippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMultipleMethod",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMultipleMethod",
+        "resultType": "Testing.ResourceNames.Response",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMultipleMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMultipleMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMultipleMethod_async_flattened_resourceNames4",
+      "title": "WildcardMultiPatternMultipleMethodResourceNames4Async",
+      "description": "Snippet for WildcardMultiPatternMultipleMethodAsync",
+      "file": "ResourceNamesClient.WildcardMultiPatternMultipleMethodResourceNames4AsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMultipleMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMultipleMethodAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMultipleMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMultipleMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    }
+  ]
+}

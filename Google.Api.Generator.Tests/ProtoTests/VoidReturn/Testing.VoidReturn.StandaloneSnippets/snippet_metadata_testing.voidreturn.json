@@ -1,0 +1,165 @@
+﻿{
+  "clientLibrary": {
+    "name": "Testing.VoidReturn",
+    "language": "C_SHARP",
+    "apis": [
+      {
+        "id": "testing.voidreturn"
+      }
+    ]
+  },
+  "snippets": [
+    {
+      "regionTag": "unknown_generated_VoidReturn_VoidMethod_sync",
+      "title": "VoidMethodRequestObject",
+      "description": "Snippet for VoidMethod",
+      "file": "VoidReturnClient.VoidMethodRequestObjectSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "VoidMethod",
+        "fullName": "Testing.VoidReturn.VoidReturnClient.VoidMethod",
+        "client": {
+          "shortName": "VoidReturnClient",
+          "fullName": "Testing.VoidReturn.VoidReturnClient"
+        },
+        "method": {
+          "shortName": "VoidMethod",
+          "fullName": "testing.voidreturn.VoidReturn.VoidMethod",
+          "service": {
+            "shortName": "VoidReturn",
+            "fullName": "testing.voidreturn.VoidReturn"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_VoidReturn_VoidMethod_async",
+      "title": "VoidMethodRequestObjectAsync",
+      "description": "Snippet for VoidMethodAsync",
+      "file": "VoidReturnClient.VoidMethodRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "VoidMethodAsync",
+        "fullName": "Testing.VoidReturn.VoidReturnClient.VoidMethodAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task",
+        "client": {
+          "shortName": "VoidReturnClient",
+          "fullName": "Testing.VoidReturn.VoidReturnClient"
+        },
+        "method": {
+          "shortName": "VoidMethod",
+          "fullName": "testing.voidreturn.VoidReturn.VoidMethod",
+          "service": {
+            "shortName": "VoidReturn",
+            "fullName": "testing.voidreturn.VoidReturn"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_VoidReturn_VoidMethod_sync_flattened",
+      "title": "VoidMethod",
+      "description": "Snippet for VoidMethod",
+      "file": "VoidReturnClient.VoidMethodSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "VoidMethod",
+        "fullName": "Testing.VoidReturn.VoidReturnClient.VoidMethod",
+        "client": {
+          "shortName": "VoidReturnClient",
+          "fullName": "Testing.VoidReturn.VoidReturnClient"
+        },
+        "method": {
+          "shortName": "VoidMethod",
+          "fullName": "testing.voidreturn.VoidReturn.VoidMethod",
+          "service": {
+            "shortName": "VoidReturn",
+            "fullName": "testing.voidreturn.VoidReturn"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_VoidReturn_VoidMethod_async_flattened",
+      "title": "VoidMethodAsync",
+      "description": "Snippet for VoidMethodAsync",
+      "file": "VoidReturnClient.VoidMethodAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "VoidMethodAsync",
+        "fullName": "Testing.VoidReturn.VoidReturnClient.VoidMethodAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task",
+        "client": {
+          "shortName": "VoidReturnClient",
+          "fullName": "Testing.VoidReturn.VoidReturnClient"
+        },
+        "method": {
+          "shortName": "VoidMethod",
+          "fullName": "testing.voidreturn.VoidReturn.VoidMethod",
+          "service": {
+            "shortName": "VoidReturn",
+            "fullName": "testing.voidreturn.VoidReturn"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_VoidReturn_VoidMethod_sync_flattened_resourceNames",
+      "title": "VoidMethodResourceNames",
+      "description": "Snippet for VoidMethod",
+      "file": "VoidReturnClient.VoidMethodResourceNamesSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "VoidMethod",
+        "fullName": "Testing.VoidReturn.VoidReturnClient.VoidMethod",
+        "client": {
+          "shortName": "VoidReturnClient",
+          "fullName": "Testing.VoidReturn.VoidReturnClient"
+        },
+        "method": {
+          "shortName": "VoidMethod",
+          "fullName": "testing.voidreturn.VoidReturn.VoidMethod",
+          "service": {
+            "shortName": "VoidReturn",
+            "fullName": "testing.voidreturn.VoidReturn"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_VoidReturn_VoidMethod_async_flattened_resourceNames",
+      "title": "VoidMethodResourceNamesAsync",
+      "description": "Snippet for VoidMethodAsync",
+      "file": "VoidReturnClient.VoidMethodResourceNamesAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "VoidMethodAsync",
+        "fullName": "Testing.VoidReturn.VoidReturnClient.VoidMethodAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task",
+        "client": {
+          "shortName": "VoidReturnClient",
+          "fullName": "Testing.VoidReturn.VoidReturnClient"
+        },
+        "method": {
+          "shortName": "VoidMethod",
+          "fullName": "testing.voidreturn.VoidReturn.VoidMethod",
+          "service": {
+            "shortName": "VoidReturn",
+            "fullName": "testing.voidreturn.VoidReturn"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    }
+  ]
+}

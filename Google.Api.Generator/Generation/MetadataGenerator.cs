@@ -12,13 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Google.Api.Generator.ProtoUtils;
 using Google.Gapic.Metadata;
-using static Google.Gapic.Metadata.GapicMetadata.Types;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static Google.Gapic.Metadata.GapicMetadata.Types;
 
 namespace Google.Api.Generator.Generation
 {
@@ -37,7 +36,7 @@ namespace Google.Api.Generator.Generation
             // if we're actually asked to generate more services than we really want. This currently
             // happens for services with IAM/location mix-ins, for example.
             var protoPackage = allServiceDetails.First().ProtoPackage;
-            var gapicMetadata = new GapicMetadata
+            return new GapicMetadata
             {
                 Schema = GapicMetadataSchemaVersion,
                 Comment = GapicMetadataFileDescription,
@@ -52,13 +51,7 @@ namespace Google.Api.Generator.Generation
                             .ToDictionary(serviceDetails => serviceDetails.ServiceName, ServiceForTransportMetadata),
                         StringComparer.Ordinal)
                 }
-            };
-
-            JObject obj = JsonConvert.DeserializeObject<JObject>(
-                gapicMetadata.ToString(),
-                new JsonSerializerSettings { DateParseHandling = DateParseHandling.None });
-
-            return obj.ToString(Formatting.Indented) + "\n"; //trailing file newline to please github;
+            }.ToFormattedJson();
         }
 
         private static ServiceForTransport ServiceForTransportMetadata(ServiceDetails serviceDetails) =>

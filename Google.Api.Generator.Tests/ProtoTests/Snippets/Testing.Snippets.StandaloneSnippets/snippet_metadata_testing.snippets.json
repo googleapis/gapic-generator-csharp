@@ -1,0 +1,1537 @@
+﻿{
+  "clientLibrary": {
+    "name": "Testing.Snippets",
+    "language": "C_SHARP",
+    "apis": [
+      {
+        "id": "testing.snippets"
+      }
+    ]
+  },
+  "snippets": [
+    {
+      "regionTag": "snippets_generated_Snippets_MethodDefaultValues_sync",
+      "title": "MethodDefaultValuesRequestObject",
+      "description": "Snippet for MethodDefaultValues",
+      "file": "SnippetsClient.MethodDefaultValuesRequestObjectSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodDefaultValues",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodDefaultValues",
+        "resultType": "Testing.Snippets.Response",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodDefaultValues",
+          "fullName": "testing.snippets.Snippets.MethodDefaultValues",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodDefaultValues_async",
+      "title": "MethodDefaultValuesRequestObjectAsync",
+      "description": "Snippet for MethodDefaultValuesAsync",
+      "file": "SnippetsClient.MethodDefaultValuesRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodDefaultValuesAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodDefaultValuesAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodDefaultValues",
+          "fullName": "testing.snippets.Snippets.MethodDefaultValues",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodDefaultValues_sync_flattened",
+      "title": "MethodDefaultValues",
+      "description": "Snippet for MethodDefaultValues",
+      "file": "SnippetsClient.MethodDefaultValuesSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodDefaultValues",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodDefaultValues",
+        "resultType": "Testing.Snippets.Response",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodDefaultValues",
+          "fullName": "testing.snippets.Snippets.MethodDefaultValues",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodDefaultValues_async_flattened",
+      "title": "MethodDefaultValuesAsync",
+      "description": "Snippet for MethodDefaultValuesAsync",
+      "file": "SnippetsClient.MethodDefaultValuesAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodDefaultValuesAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodDefaultValuesAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodDefaultValues",
+          "fullName": "testing.snippets.Snippets.MethodDefaultValues",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodDefaultValues_sync_flattened_resourceNames",
+      "title": "MethodDefaultValuesResourceNames",
+      "description": "Snippet for MethodDefaultValues",
+      "file": "SnippetsClient.MethodDefaultValuesResourceNamesSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodDefaultValues",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodDefaultValues",
+        "resultType": "Testing.Snippets.Response",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodDefaultValues",
+          "fullName": "testing.snippets.Snippets.MethodDefaultValues",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodDefaultValues_async_flattened_resourceNames",
+      "title": "MethodDefaultValuesResourceNamesAsync",
+      "description": "Snippet for MethodDefaultValuesAsync",
+      "file": "SnippetsClient.MethodDefaultValuesResourceNamesAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodDefaultValuesAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodDefaultValuesAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodDefaultValues",
+          "fullName": "testing.snippets.Snippets.MethodDefaultValues",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodOneSignature_sync",
+      "title": "MethodOneSignatureRequestObject",
+      "description": "Snippet for MethodOneSignature",
+      "file": "SnippetsClient.MethodOneSignatureRequestObjectSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodOneSignature",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodOneSignature",
+        "resultType": "Testing.Snippets.Response",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodOneSignature",
+          "fullName": "testing.snippets.Snippets.MethodOneSignature",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodOneSignature_async",
+      "title": "MethodOneSignatureRequestObjectAsync",
+      "description": "Snippet for MethodOneSignatureAsync",
+      "file": "SnippetsClient.MethodOneSignatureRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodOneSignatureAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodOneSignatureAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodOneSignature",
+          "fullName": "testing.snippets.Snippets.MethodOneSignature",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodOneSignature_sync_flattened",
+      "title": "MethodOneSignature",
+      "description": "Snippet for MethodOneSignature",
+      "file": "SnippetsClient.MethodOneSignatureSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodOneSignature",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodOneSignature",
+        "resultType": "Testing.Snippets.Response",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodOneSignature",
+          "fullName": "testing.snippets.Snippets.MethodOneSignature",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodOneSignature_async_flattened",
+      "title": "MethodOneSignatureAsync",
+      "description": "Snippet for MethodOneSignatureAsync",
+      "file": "SnippetsClient.MethodOneSignatureAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodOneSignatureAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodOneSignatureAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodOneSignature",
+          "fullName": "testing.snippets.Snippets.MethodOneSignature",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodThreeSignatures_sync",
+      "title": "MethodThreeSignaturesRequestObject",
+      "description": "Snippet for MethodThreeSignatures",
+      "file": "SnippetsClient.MethodThreeSignaturesRequestObjectSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodThreeSignatures",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodThreeSignatures",
+        "resultType": "Testing.Snippets.Response",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodThreeSignatures",
+          "fullName": "testing.snippets.Snippets.MethodThreeSignatures",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodThreeSignatures_async",
+      "title": "MethodThreeSignaturesRequestObjectAsync",
+      "description": "Snippet for MethodThreeSignaturesAsync",
+      "file": "SnippetsClient.MethodThreeSignaturesRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodThreeSignaturesAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodThreeSignaturesAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodThreeSignatures",
+          "fullName": "testing.snippets.Snippets.MethodThreeSignatures",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodThreeSignatures_sync_flattened1",
+      "title": "MethodThreeSignatures1",
+      "description": "Snippet for MethodThreeSignatures",
+      "file": "SnippetsClient.MethodThreeSignatures1Snippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodThreeSignatures",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodThreeSignatures",
+        "resultType": "Testing.Snippets.Response",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodThreeSignatures",
+          "fullName": "testing.snippets.Snippets.MethodThreeSignatures",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodThreeSignatures_async_flattened1",
+      "title": "MethodThreeSignatures1Async",
+      "description": "Snippet for MethodThreeSignaturesAsync",
+      "file": "SnippetsClient.MethodThreeSignatures1AsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodThreeSignaturesAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodThreeSignaturesAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodThreeSignatures",
+          "fullName": "testing.snippets.Snippets.MethodThreeSignatures",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodThreeSignatures_sync_flattened2",
+      "title": "MethodThreeSignatures2",
+      "description": "Snippet for MethodThreeSignatures",
+      "file": "SnippetsClient.MethodThreeSignatures2Snippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodThreeSignatures",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodThreeSignatures",
+        "resultType": "Testing.Snippets.Response",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodThreeSignatures",
+          "fullName": "testing.snippets.Snippets.MethodThreeSignatures",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodThreeSignatures_async_flattened2",
+      "title": "MethodThreeSignatures2Async",
+      "description": "Snippet for MethodThreeSignaturesAsync",
+      "file": "SnippetsClient.MethodThreeSignatures2AsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodThreeSignaturesAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodThreeSignaturesAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodThreeSignatures",
+          "fullName": "testing.snippets.Snippets.MethodThreeSignatures",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodThreeSignatures_sync_flattened3",
+      "title": "MethodThreeSignatures3",
+      "description": "Snippet for MethodThreeSignatures",
+      "file": "SnippetsClient.MethodThreeSignatures3Snippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodThreeSignatures",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodThreeSignatures",
+        "resultType": "Testing.Snippets.Response",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodThreeSignatures",
+          "fullName": "testing.snippets.Snippets.MethodThreeSignatures",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodThreeSignatures_async_flattened3",
+      "title": "MethodThreeSignatures3Async",
+      "description": "Snippet for MethodThreeSignaturesAsync",
+      "file": "SnippetsClient.MethodThreeSignatures3AsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodThreeSignaturesAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodThreeSignaturesAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodThreeSignatures",
+          "fullName": "testing.snippets.Snippets.MethodThreeSignatures",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodMapSignature_sync",
+      "title": "MethodMapSignatureRequestObject",
+      "description": "Snippet for MethodMapSignature",
+      "file": "SnippetsClient.MethodMapSignatureRequestObjectSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodMapSignature",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodMapSignature",
+        "resultType": "Testing.Snippets.Response",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodMapSignature",
+          "fullName": "testing.snippets.Snippets.MethodMapSignature",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodMapSignature_async",
+      "title": "MethodMapSignatureRequestObjectAsync",
+      "description": "Snippet for MethodMapSignatureAsync",
+      "file": "SnippetsClient.MethodMapSignatureRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodMapSignatureAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodMapSignatureAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodMapSignature",
+          "fullName": "testing.snippets.Snippets.MethodMapSignature",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodMapSignature_sync_flattened",
+      "title": "MethodMapSignature",
+      "description": "Snippet for MethodMapSignature",
+      "file": "SnippetsClient.MethodMapSignatureSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodMapSignature",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodMapSignature",
+        "resultType": "Testing.Snippets.Response",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodMapSignature",
+          "fullName": "testing.snippets.Snippets.MethodMapSignature",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodMapSignature_async_flattened",
+      "title": "MethodMapSignatureAsync",
+      "description": "Snippet for MethodMapSignatureAsync",
+      "file": "SnippetsClient.MethodMapSignatureAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodMapSignatureAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodMapSignatureAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodMapSignature",
+          "fullName": "testing.snippets.Snippets.MethodMapSignature",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodResourceSignature_sync",
+      "title": "MethodResourceSignatureRequestObject",
+      "description": "Snippet for MethodResourceSignature",
+      "file": "SnippetsClient.MethodResourceSignatureRequestObjectSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodResourceSignature",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodResourceSignature",
+        "resultType": "Testing.Snippets.Response",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodResourceSignature",
+          "fullName": "testing.snippets.Snippets.MethodResourceSignature",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodResourceSignature_async",
+      "title": "MethodResourceSignatureRequestObjectAsync",
+      "description": "Snippet for MethodResourceSignatureAsync",
+      "file": "SnippetsClient.MethodResourceSignatureRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodResourceSignatureAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodResourceSignatureAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodResourceSignature",
+          "fullName": "testing.snippets.Snippets.MethodResourceSignature",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodResourceSignature_sync_flattened1",
+      "title": "MethodResourceSignature1",
+      "description": "Snippet for MethodResourceSignature",
+      "file": "SnippetsClient.MethodResourceSignature1Snippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodResourceSignature",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodResourceSignature",
+        "resultType": "Testing.Snippets.Response",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodResourceSignature",
+          "fullName": "testing.snippets.Snippets.MethodResourceSignature",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodResourceSignature_async_flattened1",
+      "title": "MethodResourceSignature1Async",
+      "description": "Snippet for MethodResourceSignatureAsync",
+      "file": "SnippetsClient.MethodResourceSignature1AsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodResourceSignatureAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodResourceSignatureAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodResourceSignature",
+          "fullName": "testing.snippets.Snippets.MethodResourceSignature",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodResourceSignature_sync_flattened1_resourceNames",
+      "title": "MethodResourceSignature1ResourceNames",
+      "description": "Snippet for MethodResourceSignature",
+      "file": "SnippetsClient.MethodResourceSignature1ResourceNamesSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodResourceSignature",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodResourceSignature",
+        "resultType": "Testing.Snippets.Response",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodResourceSignature",
+          "fullName": "testing.snippets.Snippets.MethodResourceSignature",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodResourceSignature_async_flattened1_resourceNames",
+      "title": "MethodResourceSignature1ResourceNamesAsync",
+      "description": "Snippet for MethodResourceSignatureAsync",
+      "file": "SnippetsClient.MethodResourceSignature1ResourceNamesAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodResourceSignatureAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodResourceSignatureAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodResourceSignature",
+          "fullName": "testing.snippets.Snippets.MethodResourceSignature",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodResourceSignature_sync_flattened2",
+      "title": "MethodResourceSignature2",
+      "description": "Snippet for MethodResourceSignature",
+      "file": "SnippetsClient.MethodResourceSignature2Snippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodResourceSignature",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodResourceSignature",
+        "resultType": "Testing.Snippets.Response",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodResourceSignature",
+          "fullName": "testing.snippets.Snippets.MethodResourceSignature",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodResourceSignature_async_flattened2",
+      "title": "MethodResourceSignature2Async",
+      "description": "Snippet for MethodResourceSignatureAsync",
+      "file": "SnippetsClient.MethodResourceSignature2AsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodResourceSignatureAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodResourceSignatureAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodResourceSignature",
+          "fullName": "testing.snippets.Snippets.MethodResourceSignature",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodResourceSignature_sync_flattened2_resourceNames",
+      "title": "MethodResourceSignature2ResourceNames",
+      "description": "Snippet for MethodResourceSignature",
+      "file": "SnippetsClient.MethodResourceSignature2ResourceNamesSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodResourceSignature",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodResourceSignature",
+        "resultType": "Testing.Snippets.Response",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodResourceSignature",
+          "fullName": "testing.snippets.Snippets.MethodResourceSignature",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodResourceSignature_async_flattened2_resourceNames",
+      "title": "MethodResourceSignature2ResourceNamesAsync",
+      "description": "Snippet for MethodResourceSignatureAsync",
+      "file": "SnippetsClient.MethodResourceSignature2ResourceNamesAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodResourceSignatureAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodResourceSignatureAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodResourceSignature",
+          "fullName": "testing.snippets.Snippets.MethodResourceSignature",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodRepeatedResourceSignature_sync",
+      "title": "MethodRepeatedResourceSignatureRequestObject",
+      "description": "Snippet for MethodRepeatedResourceSignature",
+      "file": "SnippetsClient.MethodRepeatedResourceSignatureRequestObjectSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodRepeatedResourceSignature",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodRepeatedResourceSignature",
+        "resultType": "Testing.Snippets.Response",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodRepeatedResourceSignature",
+          "fullName": "testing.snippets.Snippets.MethodRepeatedResourceSignature",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodRepeatedResourceSignature_async",
+      "title": "MethodRepeatedResourceSignatureRequestObjectAsync",
+      "description": "Snippet for MethodRepeatedResourceSignatureAsync",
+      "file": "SnippetsClient.MethodRepeatedResourceSignatureRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodRepeatedResourceSignatureAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodRepeatedResourceSignatureAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodRepeatedResourceSignature",
+          "fullName": "testing.snippets.Snippets.MethodRepeatedResourceSignature",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodRepeatedResourceSignature_sync_flattened",
+      "title": "MethodRepeatedResourceSignature",
+      "description": "Snippet for MethodRepeatedResourceSignature",
+      "file": "SnippetsClient.MethodRepeatedResourceSignatureSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodRepeatedResourceSignature",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodRepeatedResourceSignature",
+        "resultType": "Testing.Snippets.Response",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodRepeatedResourceSignature",
+          "fullName": "testing.snippets.Snippets.MethodRepeatedResourceSignature",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodRepeatedResourceSignature_async_flattened",
+      "title": "MethodRepeatedResourceSignatureAsync",
+      "description": "Snippet for MethodRepeatedResourceSignatureAsync",
+      "file": "SnippetsClient.MethodRepeatedResourceSignatureAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodRepeatedResourceSignatureAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodRepeatedResourceSignatureAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodRepeatedResourceSignature",
+          "fullName": "testing.snippets.Snippets.MethodRepeatedResourceSignature",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodRepeatedResourceSignature_sync_flattened_resourceNames",
+      "title": "MethodRepeatedResourceSignatureResourceNames",
+      "description": "Snippet for MethodRepeatedResourceSignature",
+      "file": "SnippetsClient.MethodRepeatedResourceSignatureResourceNamesSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodRepeatedResourceSignature",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodRepeatedResourceSignature",
+        "resultType": "Testing.Snippets.Response",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodRepeatedResourceSignature",
+          "fullName": "testing.snippets.Snippets.MethodRepeatedResourceSignature",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodRepeatedResourceSignature_async_flattened_resourceNames",
+      "title": "MethodRepeatedResourceSignatureResourceNamesAsync",
+      "description": "Snippet for MethodRepeatedResourceSignatureAsync",
+      "file": "SnippetsClient.MethodRepeatedResourceSignatureResourceNamesAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodRepeatedResourceSignatureAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodRepeatedResourceSignatureAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodRepeatedResourceSignature",
+          "fullName": "testing.snippets.Snippets.MethodRepeatedResourceSignature",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodLroSignatures_sync",
+      "title": "MethodLroSignaturesRequestObject",
+      "description": "Snippet for MethodLroSignatures",
+      "file": "SnippetsClient.MethodLroSignaturesRequestObjectSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodLroSignatures",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodLroSignatures",
+        "resultType": "Google.LongRunning.Operation<Testing.Snippets.LroResponse, Testing.Snippets.LroMetadata>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodLroSignatures",
+          "fullName": "testing.snippets.Snippets.MethodLroSignatures",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodLroSignatures_async",
+      "title": "MethodLroSignaturesRequestObjectAsync",
+      "description": "Snippet for MethodLroSignaturesAsync",
+      "file": "SnippetsClient.MethodLroSignaturesRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodLroSignaturesAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodLroSignaturesAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Google.LongRunning.Operation<Testing.Snippets.LroResponse, Testing.Snippets.LroMetadata>>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodLroSignatures",
+          "fullName": "testing.snippets.Snippets.MethodLroSignatures",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodLroSignatures_sync_flattened",
+      "title": "MethodLroSignatures",
+      "description": "Snippet for MethodLroSignatures",
+      "file": "SnippetsClient.MethodLroSignaturesSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodLroSignatures",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodLroSignatures",
+        "resultType": "Google.LongRunning.Operation<Testing.Snippets.LroResponse, Testing.Snippets.LroMetadata>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodLroSignatures",
+          "fullName": "testing.snippets.Snippets.MethodLroSignatures",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodLroSignatures_async_flattened",
+      "title": "MethodLroSignaturesAsync",
+      "description": "Snippet for MethodLroSignaturesAsync",
+      "file": "SnippetsClient.MethodLroSignaturesAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodLroSignaturesAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodLroSignaturesAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Google.LongRunning.Operation<Testing.Snippets.LroResponse, Testing.Snippets.LroMetadata>>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodLroSignatures",
+          "fullName": "testing.snippets.Snippets.MethodLroSignatures",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodLroResourceSignature_sync",
+      "title": "MethodLroResourceSignatureRequestObject",
+      "description": "Snippet for MethodLroResourceSignature",
+      "file": "SnippetsClient.MethodLroResourceSignatureRequestObjectSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodLroResourceSignature",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodLroResourceSignature",
+        "resultType": "Google.LongRunning.Operation<Testing.Snippets.LroResponse, Testing.Snippets.LroMetadata>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodLroResourceSignature",
+          "fullName": "testing.snippets.Snippets.MethodLroResourceSignature",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodLroResourceSignature_async",
+      "title": "MethodLroResourceSignatureRequestObjectAsync",
+      "description": "Snippet for MethodLroResourceSignatureAsync",
+      "file": "SnippetsClient.MethodLroResourceSignatureRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodLroResourceSignatureAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodLroResourceSignatureAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Google.LongRunning.Operation<Testing.Snippets.LroResponse, Testing.Snippets.LroMetadata>>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodLroResourceSignature",
+          "fullName": "testing.snippets.Snippets.MethodLroResourceSignature",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodLroResourceSignature_sync_flattened",
+      "title": "MethodLroResourceSignature",
+      "description": "Snippet for MethodLroResourceSignature",
+      "file": "SnippetsClient.MethodLroResourceSignatureSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodLroResourceSignature",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodLroResourceSignature",
+        "resultType": "Google.LongRunning.Operation<Testing.Snippets.LroResponse, Testing.Snippets.LroMetadata>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodLroResourceSignature",
+          "fullName": "testing.snippets.Snippets.MethodLroResourceSignature",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodLroResourceSignature_async_flattened",
+      "title": "MethodLroResourceSignatureAsync",
+      "description": "Snippet for MethodLroResourceSignatureAsync",
+      "file": "SnippetsClient.MethodLroResourceSignatureAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodLroResourceSignatureAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodLroResourceSignatureAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Google.LongRunning.Operation<Testing.Snippets.LroResponse, Testing.Snippets.LroMetadata>>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodLroResourceSignature",
+          "fullName": "testing.snippets.Snippets.MethodLroResourceSignature",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodLroResourceSignature_sync_flattened_resourceNames",
+      "title": "MethodLroResourceSignatureResourceNames",
+      "description": "Snippet for MethodLroResourceSignature",
+      "file": "SnippetsClient.MethodLroResourceSignatureResourceNamesSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodLroResourceSignature",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodLroResourceSignature",
+        "resultType": "Google.LongRunning.Operation<Testing.Snippets.LroResponse, Testing.Snippets.LroMetadata>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodLroResourceSignature",
+          "fullName": "testing.snippets.Snippets.MethodLroResourceSignature",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodLroResourceSignature_async_flattened_resourceNames",
+      "title": "MethodLroResourceSignatureResourceNamesAsync",
+      "description": "Snippet for MethodLroResourceSignatureAsync",
+      "file": "SnippetsClient.MethodLroResourceSignatureResourceNamesAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodLroResourceSignatureAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodLroResourceSignatureAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Google.LongRunning.Operation<Testing.Snippets.LroResponse, Testing.Snippets.LroMetadata>>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodLroResourceSignature",
+          "fullName": "testing.snippets.Snippets.MethodLroResourceSignature",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodServerStreaming_sync",
+      "title": "MethodServerStreamingRequestObject",
+      "description": "Snippet for MethodServerStreaming",
+      "file": "SnippetsClient.MethodServerStreamingRequestObjectSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodServerStreaming",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodServerStreaming",
+        "resultType": "Testing.Snippets.SnippetsClient+MethodServerStreamingStream",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodServerStreaming",
+          "fullName": "testing.snippets.Snippets.MethodServerStreaming",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodServerStreaming_sync_flattened1",
+      "title": "MethodServerStreaming1",
+      "description": "Snippet for MethodServerStreaming",
+      "file": "SnippetsClient.MethodServerStreaming1Snippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodServerStreaming",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodServerStreaming",
+        "resultType": "Testing.Snippets.SnippetsClient+MethodServerStreamingStream",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodServerStreaming",
+          "fullName": "testing.snippets.Snippets.MethodServerStreaming",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodServerStreaming_sync_flattened2",
+      "title": "MethodServerStreaming2",
+      "description": "Snippet for MethodServerStreaming",
+      "file": "SnippetsClient.MethodServerStreaming2Snippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodServerStreaming",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodServerStreaming",
+        "resultType": "Testing.Snippets.SnippetsClient+MethodServerStreamingStream",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodServerStreaming",
+          "fullName": "testing.snippets.Snippets.MethodServerStreaming",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodServerStreamingResources_sync",
+      "title": "MethodServerStreamingResourcesRequestObject",
+      "description": "Snippet for MethodServerStreamingResources",
+      "file": "SnippetsClient.MethodServerStreamingResourcesRequestObjectSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodServerStreamingResources",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodServerStreamingResources",
+        "resultType": "Testing.Snippets.SnippetsClient+MethodServerStreamingResourcesStream",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodServerStreamingResources",
+          "fullName": "testing.snippets.Snippets.MethodServerStreamingResources",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodServerStreamingResources_sync_flattened",
+      "title": "MethodServerStreamingResources",
+      "description": "Snippet for MethodServerStreamingResources",
+      "file": "SnippetsClient.MethodServerStreamingResourcesSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodServerStreamingResources",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodServerStreamingResources",
+        "resultType": "Testing.Snippets.SnippetsClient+MethodServerStreamingResourcesStream",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodServerStreamingResources",
+          "fullName": "testing.snippets.Snippets.MethodServerStreamingResources",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodServerStreamingResources_sync_flattened_resourceNames",
+      "title": "MethodServerStreamingResourcesResourceNames",
+      "description": "Snippet for MethodServerStreamingResources",
+      "file": "SnippetsClient.MethodServerStreamingResourcesResourceNamesSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodServerStreamingResources",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodServerStreamingResources",
+        "resultType": "Testing.Snippets.SnippetsClient+MethodServerStreamingResourcesStream",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodServerStreamingResources",
+          "fullName": "testing.snippets.Snippets.MethodServerStreamingResources",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodBidiStreaming_sync",
+      "title": "MethodBidiStreaming",
+      "description": "Snippet for MethodBidiStreaming",
+      "file": "SnippetsClient.MethodBidiStreamingSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodBidiStreaming",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodBidiStreaming",
+        "resultType": "Testing.Snippets.SnippetsClient+MethodBidiStreamingStream",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodBidiStreaming",
+          "fullName": "testing.snippets.Snippets.MethodBidiStreaming",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_TaskMethod_sync",
+      "title": "TaskMethodRequestObject",
+      "description": "Snippet for TaskMethod",
+      "file": "SnippetsClient.TaskMethodRequestObjectSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "TaskMethod",
+        "fullName": "Testing.Snippets.SnippetsClient.TaskMethod",
+        "resultType": "Testing.Snippets.Task",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "TaskMethod",
+          "fullName": "testing.snippets.Snippets.TaskMethod",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_TaskMethod_async",
+      "title": "TaskMethodRequestObjectAsync",
+      "description": "Snippet for TaskMethodAsync",
+      "file": "SnippetsClient.TaskMethodRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "TaskMethodAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.TaskMethodAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Task>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "TaskMethod",
+          "fullName": "testing.snippets.Snippets.TaskMethod",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_OneOfMethod_sync",
+      "title": "OneOfMethodRequestObject",
+      "description": "Snippet for OneOfMethod",
+      "file": "SnippetsClient.OneOfMethodRequestObjectSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "OneOfMethod",
+        "fullName": "Testing.Snippets.SnippetsClient.OneOfMethod",
+        "resultType": "Testing.Snippets.Response",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "OneOfMethod",
+          "fullName": "testing.snippets.Snippets.OneOfMethod",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_OneOfMethod_async",
+      "title": "OneOfMethodRequestObjectAsync",
+      "description": "Snippet for OneOfMethodAsync",
+      "file": "SnippetsClient.OneOfMethodRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "OneOfMethodAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.OneOfMethodAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "OneOfMethod",
+          "fullName": "testing.snippets.Snippets.OneOfMethod",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    }
+  ]
+}
