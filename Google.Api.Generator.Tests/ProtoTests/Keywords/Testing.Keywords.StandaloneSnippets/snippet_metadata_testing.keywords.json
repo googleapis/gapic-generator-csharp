@@ -1,0 +1,323 @@
+﻿{
+  "clientLibrary": {
+    "name": "Testing.Keywords",
+    "language": "C_SHARP",
+    "apis": [
+      {
+        "id": "testing.keywords"
+      }
+    ]
+  },
+  "snippets": [
+    {
+      "regionTag": "unknown_generated_Keywords_Method1_sync",
+      "title": "Method1RequestObject",
+      "description": "Snippet for Method1",
+      "file": "KeywordsClient.Method1RequestObjectSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "Method1",
+        "fullName": "Testing.Keywords.KeywordsClient.Method1",
+        "resultType": "Testing.Keywords.Response",
+        "client": {
+          "shortName": "KeywordsClient",
+          "fullName": "Testing.Keywords.KeywordsClient"
+        },
+        "method": {
+          "shortName": "Method1",
+          "fullName": "testing.keywords.Keywords.Method1",
+          "service": {
+            "shortName": "Keywords",
+            "fullName": "testing.keywords.Keywords"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_Keywords_Method1_async",
+      "title": "Method1RequestObjectAsync",
+      "description": "Snippet for Method1Async",
+      "file": "KeywordsClient.Method1RequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "Method1Async",
+        "fullName": "Testing.Keywords.KeywordsClient.Method1Async",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.Keywords.Response>",
+        "client": {
+          "shortName": "KeywordsClient",
+          "fullName": "Testing.Keywords.KeywordsClient"
+        },
+        "method": {
+          "shortName": "Method1",
+          "fullName": "testing.keywords.Keywords.Method1",
+          "service": {
+            "shortName": "Keywords",
+            "fullName": "testing.keywords.Keywords"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_Keywords_Method1_sync_flattened",
+      "title": "Method1",
+      "description": "Snippet for Method1",
+      "file": "KeywordsClient.Method1Snippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "Method1",
+        "fullName": "Testing.Keywords.KeywordsClient.Method1",
+        "resultType": "Testing.Keywords.Response",
+        "client": {
+          "shortName": "KeywordsClient",
+          "fullName": "Testing.Keywords.KeywordsClient"
+        },
+        "method": {
+          "shortName": "Method1",
+          "fullName": "testing.keywords.Keywords.Method1",
+          "service": {
+            "shortName": "Keywords",
+            "fullName": "testing.keywords.Keywords"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_Keywords_Method1_async_flattened",
+      "title": "Method1Async",
+      "description": "Snippet for Method1Async",
+      "file": "KeywordsClient.Method1AsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "Method1Async",
+        "fullName": "Testing.Keywords.KeywordsClient.Method1Async",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.Keywords.Response>",
+        "client": {
+          "shortName": "KeywordsClient",
+          "fullName": "Testing.Keywords.KeywordsClient"
+        },
+        "method": {
+          "shortName": "Method1",
+          "fullName": "testing.keywords.Keywords.Method1",
+          "service": {
+            "shortName": "Keywords",
+            "fullName": "testing.keywords.Keywords"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_Keywords_Method1_sync_flattened_resourceNames",
+      "title": "Method1ResourceNames",
+      "description": "Snippet for Method1",
+      "file": "KeywordsClient.Method1ResourceNamesSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "Method1",
+        "fullName": "Testing.Keywords.KeywordsClient.Method1",
+        "resultType": "Testing.Keywords.Response",
+        "client": {
+          "shortName": "KeywordsClient",
+          "fullName": "Testing.Keywords.KeywordsClient"
+        },
+        "method": {
+          "shortName": "Method1",
+          "fullName": "testing.keywords.Keywords.Method1",
+          "service": {
+            "shortName": "Keywords",
+            "fullName": "testing.keywords.Keywords"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_Keywords_Method1_async_flattened_resourceNames",
+      "title": "Method1ResourceNamesAsync",
+      "description": "Snippet for Method1Async",
+      "file": "KeywordsClient.Method1ResourceNamesAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "Method1Async",
+        "fullName": "Testing.Keywords.KeywordsClient.Method1Async",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.Keywords.Response>",
+        "client": {
+          "shortName": "KeywordsClient",
+          "fullName": "Testing.Keywords.KeywordsClient"
+        },
+        "method": {
+          "shortName": "Method1",
+          "fullName": "testing.keywords.Keywords.Method1",
+          "service": {
+            "shortName": "Keywords",
+            "fullName": "testing.keywords.Keywords"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_Keywords_Method2_sync",
+      "title": "Method2RequestObject",
+      "description": "Snippet for Method2",
+      "file": "KeywordsClient.Method2RequestObjectSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "Method2",
+        "fullName": "Testing.Keywords.KeywordsClient.Method2",
+        "resultType": "Testing.Keywords.Response",
+        "client": {
+          "shortName": "KeywordsClient",
+          "fullName": "Testing.Keywords.KeywordsClient"
+        },
+        "method": {
+          "shortName": "Method2",
+          "fullName": "testing.keywords.Keywords.Method2",
+          "service": {
+            "shortName": "Keywords",
+            "fullName": "testing.keywords.Keywords"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_Keywords_Method2_async",
+      "title": "Method2RequestObjectAsync",
+      "description": "Snippet for Method2Async",
+      "file": "KeywordsClient.Method2RequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "Method2Async",
+        "fullName": "Testing.Keywords.KeywordsClient.Method2Async",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.Keywords.Response>",
+        "client": {
+          "shortName": "KeywordsClient",
+          "fullName": "Testing.Keywords.KeywordsClient"
+        },
+        "method": {
+          "shortName": "Method2",
+          "fullName": "testing.keywords.Keywords.Method2",
+          "service": {
+            "shortName": "Keywords",
+            "fullName": "testing.keywords.Keywords"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_Keywords_Method2_sync_flattened",
+      "title": "Method2",
+      "description": "Snippet for Method2",
+      "file": "KeywordsClient.Method2Snippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "Method2",
+        "fullName": "Testing.Keywords.KeywordsClient.Method2",
+        "resultType": "Testing.Keywords.Response",
+        "client": {
+          "shortName": "KeywordsClient",
+          "fullName": "Testing.Keywords.KeywordsClient"
+        },
+        "method": {
+          "shortName": "Method2",
+          "fullName": "testing.keywords.Keywords.Method2",
+          "service": {
+            "shortName": "Keywords",
+            "fullName": "testing.keywords.Keywords"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_Keywords_Method2_async_flattened",
+      "title": "Method2Async",
+      "description": "Snippet for Method2Async",
+      "file": "KeywordsClient.Method2AsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "Method2Async",
+        "fullName": "Testing.Keywords.KeywordsClient.Method2Async",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.Keywords.Response>",
+        "client": {
+          "shortName": "KeywordsClient",
+          "fullName": "Testing.Keywords.KeywordsClient"
+        },
+        "method": {
+          "shortName": "Method2",
+          "fullName": "testing.keywords.Keywords.Method2",
+          "service": {
+            "shortName": "Keywords",
+            "fullName": "testing.keywords.Keywords"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_Keywords_Method2_sync_flattened_resourceNames",
+      "title": "Method2ResourceNames",
+      "description": "Snippet for Method2",
+      "file": "KeywordsClient.Method2ResourceNamesSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "Method2",
+        "fullName": "Testing.Keywords.KeywordsClient.Method2",
+        "resultType": "Testing.Keywords.Response",
+        "client": {
+          "shortName": "KeywordsClient",
+          "fullName": "Testing.Keywords.KeywordsClient"
+        },
+        "method": {
+          "shortName": "Method2",
+          "fullName": "testing.keywords.Keywords.Method2",
+          "service": {
+            "shortName": "Keywords",
+            "fullName": "testing.keywords.Keywords"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_Keywords_Method2_async_flattened_resourceNames",
+      "title": "Method2ResourceNamesAsync",
+      "description": "Snippet for Method2Async",
+      "file": "KeywordsClient.Method2ResourceNamesAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "Method2Async",
+        "fullName": "Testing.Keywords.KeywordsClient.Method2Async",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.Keywords.Response>",
+        "client": {
+          "shortName": "KeywordsClient",
+          "fullName": "Testing.Keywords.KeywordsClient"
+        },
+        "method": {
+          "shortName": "Method2",
+          "fullName": "testing.keywords.Keywords.Method2",
+          "service": {
+            "shortName": "Keywords",
+            "fullName": "testing.keywords.Keywords"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    }
+  ]
+}

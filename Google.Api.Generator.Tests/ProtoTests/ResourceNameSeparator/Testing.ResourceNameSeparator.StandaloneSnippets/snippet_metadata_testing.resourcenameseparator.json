@@ -1,0 +1,168 @@
+﻿{
+  "clientLibrary": {
+    "name": "Testing.ResourceNameSeparator",
+    "language": "C_SHARP",
+    "apis": [
+      {
+        "id": "testing.resourcenameseparator"
+      }
+    ]
+  },
+  "snippets": [
+    {
+      "regionTag": "unknown_generated_ResourceNameSeparator_Method1_sync",
+      "title": "Method1RequestObject",
+      "description": "Snippet for Method1",
+      "file": "ResourceNameSeparatorClient.Method1RequestObjectSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "Method1",
+        "fullName": "Testing.ResourceNameSeparator.ResourceNameSeparatorClient.Method1",
+        "resultType": "Testing.ResourceNameSeparator.Response",
+        "client": {
+          "shortName": "ResourceNameSeparatorClient",
+          "fullName": "Testing.ResourceNameSeparator.ResourceNameSeparatorClient"
+        },
+        "method": {
+          "shortName": "Method1",
+          "fullName": "testing.resourcenameseparator.ResourceNameSeparator.Method1",
+          "service": {
+            "shortName": "ResourceNameSeparator",
+            "fullName": "testing.resourcenameseparator.ResourceNameSeparator"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNameSeparator_Method1_async",
+      "title": "Method1RequestObjectAsync",
+      "description": "Snippet for Method1Async",
+      "file": "ResourceNameSeparatorClient.Method1RequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "Method1Async",
+        "fullName": "Testing.ResourceNameSeparator.ResourceNameSeparatorClient.Method1Async",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNameSeparator.Response>",
+        "client": {
+          "shortName": "ResourceNameSeparatorClient",
+          "fullName": "Testing.ResourceNameSeparator.ResourceNameSeparatorClient"
+        },
+        "method": {
+          "shortName": "Method1",
+          "fullName": "testing.resourcenameseparator.ResourceNameSeparator.Method1",
+          "service": {
+            "shortName": "ResourceNameSeparator",
+            "fullName": "testing.resourcenameseparator.ResourceNameSeparator"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNameSeparator_Method1_sync_flattened",
+      "title": "Method1",
+      "description": "Snippet for Method1",
+      "file": "ResourceNameSeparatorClient.Method1Snippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "Method1",
+        "fullName": "Testing.ResourceNameSeparator.ResourceNameSeparatorClient.Method1",
+        "resultType": "Testing.ResourceNameSeparator.Response",
+        "client": {
+          "shortName": "ResourceNameSeparatorClient",
+          "fullName": "Testing.ResourceNameSeparator.ResourceNameSeparatorClient"
+        },
+        "method": {
+          "shortName": "Method1",
+          "fullName": "testing.resourcenameseparator.ResourceNameSeparator.Method1",
+          "service": {
+            "shortName": "ResourceNameSeparator",
+            "fullName": "testing.resourcenameseparator.ResourceNameSeparator"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNameSeparator_Method1_async_flattened",
+      "title": "Method1Async",
+      "description": "Snippet for Method1Async",
+      "file": "ResourceNameSeparatorClient.Method1AsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "Method1Async",
+        "fullName": "Testing.ResourceNameSeparator.ResourceNameSeparatorClient.Method1Async",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNameSeparator.Response>",
+        "client": {
+          "shortName": "ResourceNameSeparatorClient",
+          "fullName": "Testing.ResourceNameSeparator.ResourceNameSeparatorClient"
+        },
+        "method": {
+          "shortName": "Method1",
+          "fullName": "testing.resourcenameseparator.ResourceNameSeparator.Method1",
+          "service": {
+            "shortName": "ResourceNameSeparator",
+            "fullName": "testing.resourcenameseparator.ResourceNameSeparator"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNameSeparator_Method1_sync_flattened_resourceNames",
+      "title": "Method1ResourceNames",
+      "description": "Snippet for Method1",
+      "file": "ResourceNameSeparatorClient.Method1ResourceNamesSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "Method1",
+        "fullName": "Testing.ResourceNameSeparator.ResourceNameSeparatorClient.Method1",
+        "resultType": "Testing.ResourceNameSeparator.Response",
+        "client": {
+          "shortName": "ResourceNameSeparatorClient",
+          "fullName": "Testing.ResourceNameSeparator.ResourceNameSeparatorClient"
+        },
+        "method": {
+          "shortName": "Method1",
+          "fullName": "testing.resourcenameseparator.ResourceNameSeparator.Method1",
+          "service": {
+            "shortName": "ResourceNameSeparator",
+            "fullName": "testing.resourcenameseparator.ResourceNameSeparator"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNameSeparator_Method1_async_flattened_resourceNames",
+      "title": "Method1ResourceNamesAsync",
+      "description": "Snippet for Method1Async",
+      "file": "ResourceNameSeparatorClient.Method1ResourceNamesAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "Method1Async",
+        "fullName": "Testing.ResourceNameSeparator.ResourceNameSeparatorClient.Method1Async",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNameSeparator.Response>",
+        "client": {
+          "shortName": "ResourceNameSeparatorClient",
+          "fullName": "Testing.ResourceNameSeparator.ResourceNameSeparatorClient"
+        },
+        "method": {
+          "shortName": "Method1",
+          "fullName": "testing.resourcenameseparator.ResourceNameSeparator.Method1",
+          "service": {
+            "shortName": "ResourceNameSeparator",
+            "fullName": "testing.resourcenameseparator.ResourceNameSeparator"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    }
+  ]
+}

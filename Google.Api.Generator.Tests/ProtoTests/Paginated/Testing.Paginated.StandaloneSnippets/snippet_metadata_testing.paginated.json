@@ -1,0 +1,529 @@
+﻿{
+  "clientLibrary": {
+    "name": "Testing.Paginated",
+    "language": "C_SHARP",
+    "apis": [
+      {
+        "id": "testing.paginated"
+      }
+    ]
+  },
+  "snippets": [
+    {
+      "regionTag": "paginated_generated_Paginated_SignatureMethod_sync",
+      "title": "SignatureMethodRequestObject",
+      "description": "Snippet for SignatureMethod",
+      "file": "PaginatedClient.SignatureMethodRequestObjectSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "SignatureMethod",
+        "fullName": "Testing.Paginated.PaginatedClient.SignatureMethod",
+        "resultType": "Google.Api.Gax.PagedEnumerable<Testing.Paginated.Response, Testing.Paginated.Response+Types+NestedResult>",
+        "client": {
+          "shortName": "PaginatedClient",
+          "fullName": "Testing.Paginated.PaginatedClient"
+        },
+        "method": {
+          "shortName": "SignatureMethod",
+          "fullName": "testing.paginated.Paginated.SignatureMethod",
+          "service": {
+            "shortName": "Paginated",
+            "fullName": "testing.paginated.Paginated"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "paginated_generated_Paginated_SignatureMethod_async",
+      "title": "SignatureMethodRequestObjectAsync",
+      "description": "Snippet for SignatureMethodAsync",
+      "file": "PaginatedClient.SignatureMethodRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "SignatureMethodAsync",
+        "fullName": "Testing.Paginated.PaginatedClient.SignatureMethodAsync",
+        "async": true,
+        "resultType": "Google.Api.Gax.PagedAsyncEnumerable<Testing.Paginated.Response, Testing.Paginated.Response+Types+NestedResult>",
+        "client": {
+          "shortName": "PaginatedClient",
+          "fullName": "Testing.Paginated.PaginatedClient"
+        },
+        "method": {
+          "shortName": "SignatureMethod",
+          "fullName": "testing.paginated.Paginated.SignatureMethod",
+          "service": {
+            "shortName": "Paginated",
+            "fullName": "testing.paginated.Paginated"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "paginated_generated_Paginated_SignatureMethod_sync_flattened1",
+      "title": "SignatureMethod1",
+      "description": "Snippet for SignatureMethod",
+      "file": "PaginatedClient.SignatureMethod1Snippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "SignatureMethod",
+        "fullName": "Testing.Paginated.PaginatedClient.SignatureMethod",
+        "resultType": "Google.Api.Gax.PagedEnumerable<Testing.Paginated.Response, Testing.Paginated.Response+Types+NestedResult>",
+        "client": {
+          "shortName": "PaginatedClient",
+          "fullName": "Testing.Paginated.PaginatedClient"
+        },
+        "method": {
+          "shortName": "SignatureMethod",
+          "fullName": "testing.paginated.Paginated.SignatureMethod",
+          "service": {
+            "shortName": "Paginated",
+            "fullName": "testing.paginated.Paginated"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "paginated_generated_Paginated_SignatureMethod_async_flattened1",
+      "title": "SignatureMethod1Async",
+      "description": "Snippet for SignatureMethodAsync",
+      "file": "PaginatedClient.SignatureMethod1AsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "SignatureMethodAsync",
+        "fullName": "Testing.Paginated.PaginatedClient.SignatureMethodAsync",
+        "async": true,
+        "resultType": "Google.Api.Gax.PagedAsyncEnumerable<Testing.Paginated.Response, Testing.Paginated.Response+Types+NestedResult>",
+        "client": {
+          "shortName": "PaginatedClient",
+          "fullName": "Testing.Paginated.PaginatedClient"
+        },
+        "method": {
+          "shortName": "SignatureMethod",
+          "fullName": "testing.paginated.Paginated.SignatureMethod",
+          "service": {
+            "shortName": "Paginated",
+            "fullName": "testing.paginated.Paginated"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "paginated_generated_Paginated_SignatureMethod_sync_flattened2",
+      "title": "SignatureMethod2",
+      "description": "Snippet for SignatureMethod",
+      "file": "PaginatedClient.SignatureMethod2Snippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "SignatureMethod",
+        "fullName": "Testing.Paginated.PaginatedClient.SignatureMethod",
+        "resultType": "Google.Api.Gax.PagedEnumerable<Testing.Paginated.Response, Testing.Paginated.Response+Types+NestedResult>",
+        "client": {
+          "shortName": "PaginatedClient",
+          "fullName": "Testing.Paginated.PaginatedClient"
+        },
+        "method": {
+          "shortName": "SignatureMethod",
+          "fullName": "testing.paginated.Paginated.SignatureMethod",
+          "service": {
+            "shortName": "Paginated",
+            "fullName": "testing.paginated.Paginated"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "paginated_generated_Paginated_SignatureMethod_async_flattened2",
+      "title": "SignatureMethod2Async",
+      "description": "Snippet for SignatureMethodAsync",
+      "file": "PaginatedClient.SignatureMethod2AsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "SignatureMethodAsync",
+        "fullName": "Testing.Paginated.PaginatedClient.SignatureMethodAsync",
+        "async": true,
+        "resultType": "Google.Api.Gax.PagedAsyncEnumerable<Testing.Paginated.Response, Testing.Paginated.Response+Types+NestedResult>",
+        "client": {
+          "shortName": "PaginatedClient",
+          "fullName": "Testing.Paginated.PaginatedClient"
+        },
+        "method": {
+          "shortName": "SignatureMethod",
+          "fullName": "testing.paginated.Paginated.SignatureMethod",
+          "service": {
+            "shortName": "Paginated",
+            "fullName": "testing.paginated.Paginated"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "paginated_generated_Paginated_SignatureMethod_sync_flattened3",
+      "title": "SignatureMethod3",
+      "description": "Snippet for SignatureMethod",
+      "file": "PaginatedClient.SignatureMethod3Snippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "SignatureMethod",
+        "fullName": "Testing.Paginated.PaginatedClient.SignatureMethod",
+        "resultType": "Google.Api.Gax.PagedEnumerable<Testing.Paginated.Response, Testing.Paginated.Response+Types+NestedResult>",
+        "client": {
+          "shortName": "PaginatedClient",
+          "fullName": "Testing.Paginated.PaginatedClient"
+        },
+        "method": {
+          "shortName": "SignatureMethod",
+          "fullName": "testing.paginated.Paginated.SignatureMethod",
+          "service": {
+            "shortName": "Paginated",
+            "fullName": "testing.paginated.Paginated"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "paginated_generated_Paginated_SignatureMethod_async_flattened3",
+      "title": "SignatureMethod3Async",
+      "description": "Snippet for SignatureMethodAsync",
+      "file": "PaginatedClient.SignatureMethod3AsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "SignatureMethodAsync",
+        "fullName": "Testing.Paginated.PaginatedClient.SignatureMethodAsync",
+        "async": true,
+        "resultType": "Google.Api.Gax.PagedAsyncEnumerable<Testing.Paginated.Response, Testing.Paginated.Response+Types+NestedResult>",
+        "client": {
+          "shortName": "PaginatedClient",
+          "fullName": "Testing.Paginated.PaginatedClient"
+        },
+        "method": {
+          "shortName": "SignatureMethod",
+          "fullName": "testing.paginated.Paginated.SignatureMethod",
+          "service": {
+            "shortName": "Paginated",
+            "fullName": "testing.paginated.Paginated"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "paginated_generated_Paginated_SignatureMethod2_sync",
+      "title": "SignatureMethod2RequestObject",
+      "description": "Snippet for SignatureMethod2",
+      "file": "PaginatedClient.SignatureMethod2RequestObjectSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "SignatureMethod2",
+        "fullName": "Testing.Paginated.PaginatedClient.SignatureMethod2",
+        "resultType": "Google.Api.Gax.PagedEnumerable<Testing.Paginated.Response, Testing.Paginated.Response+Types+NestedResult>",
+        "client": {
+          "shortName": "PaginatedClient",
+          "fullName": "Testing.Paginated.PaginatedClient"
+        },
+        "method": {
+          "shortName": "SignatureMethod2",
+          "fullName": "testing.paginated.Paginated.SignatureMethod2",
+          "service": {
+            "shortName": "Paginated",
+            "fullName": "testing.paginated.Paginated"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "paginated_generated_Paginated_SignatureMethod2_async",
+      "title": "SignatureMethod2RequestObjectAsync",
+      "description": "Snippet for SignatureMethod2Async",
+      "file": "PaginatedClient.SignatureMethod2RequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "SignatureMethod2Async",
+        "fullName": "Testing.Paginated.PaginatedClient.SignatureMethod2Async",
+        "async": true,
+        "resultType": "Google.Api.Gax.PagedAsyncEnumerable<Testing.Paginated.Response, Testing.Paginated.Response+Types+NestedResult>",
+        "client": {
+          "shortName": "PaginatedClient",
+          "fullName": "Testing.Paginated.PaginatedClient"
+        },
+        "method": {
+          "shortName": "SignatureMethod2",
+          "fullName": "testing.paginated.Paginated.SignatureMethod2",
+          "service": {
+            "shortName": "Paginated",
+            "fullName": "testing.paginated.Paginated"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "paginated_generated_Paginated_ResourcedMethod_sync",
+      "title": "ResourcedMethodRequestObject",
+      "description": "Snippet for ResourcedMethod",
+      "file": "PaginatedClient.ResourcedMethodRequestObjectSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "ResourcedMethod",
+        "fullName": "Testing.Paginated.PaginatedClient.ResourcedMethod",
+        "resultType": "Google.Api.Gax.PagedEnumerable<Testing.Paginated.ResourceResponse, System.String>",
+        "client": {
+          "shortName": "PaginatedClient",
+          "fullName": "Testing.Paginated.PaginatedClient"
+        },
+        "method": {
+          "shortName": "ResourcedMethod",
+          "fullName": "testing.paginated.Paginated.ResourcedMethod",
+          "service": {
+            "shortName": "Paginated",
+            "fullName": "testing.paginated.Paginated"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "paginated_generated_Paginated_ResourcedMethod_async",
+      "title": "ResourcedMethodRequestObjectAsync",
+      "description": "Snippet for ResourcedMethodAsync",
+      "file": "PaginatedClient.ResourcedMethodRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "ResourcedMethodAsync",
+        "fullName": "Testing.Paginated.PaginatedClient.ResourcedMethodAsync",
+        "async": true,
+        "resultType": "Google.Api.Gax.PagedAsyncEnumerable<Testing.Paginated.ResourceResponse, System.String>",
+        "client": {
+          "shortName": "PaginatedClient",
+          "fullName": "Testing.Paginated.PaginatedClient"
+        },
+        "method": {
+          "shortName": "ResourcedMethod",
+          "fullName": "testing.paginated.Paginated.ResourcedMethod",
+          "service": {
+            "shortName": "Paginated",
+            "fullName": "testing.paginated.Paginated"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "paginated_generated_Paginated_ResourcedMethod_sync_flattened1",
+      "title": "ResourcedMethod1",
+      "description": "Snippet for ResourcedMethod",
+      "file": "PaginatedClient.ResourcedMethod1Snippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "ResourcedMethod",
+        "fullName": "Testing.Paginated.PaginatedClient.ResourcedMethod",
+        "resultType": "Google.Api.Gax.PagedEnumerable<Testing.Paginated.ResourceResponse, System.String>",
+        "client": {
+          "shortName": "PaginatedClient",
+          "fullName": "Testing.Paginated.PaginatedClient"
+        },
+        "method": {
+          "shortName": "ResourcedMethod",
+          "fullName": "testing.paginated.Paginated.ResourcedMethod",
+          "service": {
+            "shortName": "Paginated",
+            "fullName": "testing.paginated.Paginated"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "paginated_generated_Paginated_ResourcedMethod_async_flattened1",
+      "title": "ResourcedMethod1Async",
+      "description": "Snippet for ResourcedMethodAsync",
+      "file": "PaginatedClient.ResourcedMethod1AsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "ResourcedMethodAsync",
+        "fullName": "Testing.Paginated.PaginatedClient.ResourcedMethodAsync",
+        "async": true,
+        "resultType": "Google.Api.Gax.PagedAsyncEnumerable<Testing.Paginated.ResourceResponse, System.String>",
+        "client": {
+          "shortName": "PaginatedClient",
+          "fullName": "Testing.Paginated.PaginatedClient"
+        },
+        "method": {
+          "shortName": "ResourcedMethod",
+          "fullName": "testing.paginated.Paginated.ResourcedMethod",
+          "service": {
+            "shortName": "Paginated",
+            "fullName": "testing.paginated.Paginated"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "paginated_generated_Paginated_ResourcedMethod_sync_flattened1_resourceNames",
+      "title": "ResourcedMethod1ResourceNames",
+      "description": "Snippet for ResourcedMethod",
+      "file": "PaginatedClient.ResourcedMethod1ResourceNamesSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "ResourcedMethod",
+        "fullName": "Testing.Paginated.PaginatedClient.ResourcedMethod",
+        "resultType": "Google.Api.Gax.PagedEnumerable<Testing.Paginated.ResourceResponse, System.String>",
+        "client": {
+          "shortName": "PaginatedClient",
+          "fullName": "Testing.Paginated.PaginatedClient"
+        },
+        "method": {
+          "shortName": "ResourcedMethod",
+          "fullName": "testing.paginated.Paginated.ResourcedMethod",
+          "service": {
+            "shortName": "Paginated",
+            "fullName": "testing.paginated.Paginated"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "paginated_generated_Paginated_ResourcedMethod_async_flattened1_resourceNames",
+      "title": "ResourcedMethod1ResourceNamesAsync",
+      "description": "Snippet for ResourcedMethodAsync",
+      "file": "PaginatedClient.ResourcedMethod1ResourceNamesAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "ResourcedMethodAsync",
+        "fullName": "Testing.Paginated.PaginatedClient.ResourcedMethodAsync",
+        "async": true,
+        "resultType": "Google.Api.Gax.PagedAsyncEnumerable<Testing.Paginated.ResourceResponse, System.String>",
+        "client": {
+          "shortName": "PaginatedClient",
+          "fullName": "Testing.Paginated.PaginatedClient"
+        },
+        "method": {
+          "shortName": "ResourcedMethod",
+          "fullName": "testing.paginated.Paginated.ResourcedMethod",
+          "service": {
+            "shortName": "Paginated",
+            "fullName": "testing.paginated.Paginated"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "paginated_generated_Paginated_ResourcedMethod_sync_flattened2",
+      "title": "ResourcedMethod2",
+      "description": "Snippet for ResourcedMethod",
+      "file": "PaginatedClient.ResourcedMethod2Snippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "ResourcedMethod",
+        "fullName": "Testing.Paginated.PaginatedClient.ResourcedMethod",
+        "resultType": "Google.Api.Gax.PagedEnumerable<Testing.Paginated.ResourceResponse, System.String>",
+        "client": {
+          "shortName": "PaginatedClient",
+          "fullName": "Testing.Paginated.PaginatedClient"
+        },
+        "method": {
+          "shortName": "ResourcedMethod",
+          "fullName": "testing.paginated.Paginated.ResourcedMethod",
+          "service": {
+            "shortName": "Paginated",
+            "fullName": "testing.paginated.Paginated"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "paginated_generated_Paginated_ResourcedMethod_async_flattened2",
+      "title": "ResourcedMethod2Async",
+      "description": "Snippet for ResourcedMethodAsync",
+      "file": "PaginatedClient.ResourcedMethod2AsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "ResourcedMethodAsync",
+        "fullName": "Testing.Paginated.PaginatedClient.ResourcedMethodAsync",
+        "async": true,
+        "resultType": "Google.Api.Gax.PagedAsyncEnumerable<Testing.Paginated.ResourceResponse, System.String>",
+        "client": {
+          "shortName": "PaginatedClient",
+          "fullName": "Testing.Paginated.PaginatedClient"
+        },
+        "method": {
+          "shortName": "ResourcedMethod",
+          "fullName": "testing.paginated.Paginated.ResourcedMethod",
+          "service": {
+            "shortName": "Paginated",
+            "fullName": "testing.paginated.Paginated"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "paginated_generated_Paginated_ResourcedMethod_sync_flattened2_resourceNames",
+      "title": "ResourcedMethod2ResourceNames",
+      "description": "Snippet for ResourcedMethod",
+      "file": "PaginatedClient.ResourcedMethod2ResourceNamesSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "ResourcedMethod",
+        "fullName": "Testing.Paginated.PaginatedClient.ResourcedMethod",
+        "resultType": "Google.Api.Gax.PagedEnumerable<Testing.Paginated.ResourceResponse, System.String>",
+        "client": {
+          "shortName": "PaginatedClient",
+          "fullName": "Testing.Paginated.PaginatedClient"
+        },
+        "method": {
+          "shortName": "ResourcedMethod",
+          "fullName": "testing.paginated.Paginated.ResourcedMethod",
+          "service": {
+            "shortName": "Paginated",
+            "fullName": "testing.paginated.Paginated"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "paginated_generated_Paginated_ResourcedMethod_async_flattened2_resourceNames",
+      "title": "ResourcedMethod2ResourceNamesAsync",
+      "description": "Snippet for ResourcedMethodAsync",
+      "file": "PaginatedClient.ResourcedMethod2ResourceNamesAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "ResourcedMethodAsync",
+        "fullName": "Testing.Paginated.PaginatedClient.ResourcedMethodAsync",
+        "async": true,
+        "resultType": "Google.Api.Gax.PagedAsyncEnumerable<Testing.Paginated.ResourceResponse, System.String>",
+        "client": {
+          "shortName": "PaginatedClient",
+          "fullName": "Testing.Paginated.PaginatedClient"
+        },
+        "method": {
+          "shortName": "ResourcedMethod",
+          "fullName": "testing.paginated.Paginated.ResourcedMethod",
+          "service": {
+            "shortName": "Paginated",
+            "fullName": "testing.paginated.Paginated"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    }
+  ]
+}

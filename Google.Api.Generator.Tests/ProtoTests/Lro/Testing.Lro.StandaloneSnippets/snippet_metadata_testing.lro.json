@@ -1,0 +1,272 @@
+﻿{
+  "clientLibrary": {
+    "name": "Testing.Lro",
+    "language": "C_SHARP",
+    "apis": [
+      {
+        "id": "testing.lro"
+      }
+    ]
+  },
+  "snippets": [
+    {
+      "regionTag": "lro_generated_Lro_SignatureMethod_sync",
+      "title": "SignatureMethodRequestObject",
+      "description": "Snippet for SignatureMethod",
+      "file": "LroClient.SignatureMethodRequestObjectSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "SignatureMethod",
+        "fullName": "Testing.Lro.LroClient.SignatureMethod",
+        "resultType": "Google.LongRunning.Operation<Testing.Lro.LroResponse, Testing.Lro.LroMetadata>",
+        "client": {
+          "shortName": "LroClient",
+          "fullName": "Testing.Lro.LroClient"
+        },
+        "method": {
+          "shortName": "SignatureMethod",
+          "fullName": "testing.lro.Lro.SignatureMethod",
+          "service": {
+            "shortName": "Lro",
+            "fullName": "testing.lro.Lro"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "lro_generated_Lro_SignatureMethod_async",
+      "title": "SignatureMethodRequestObjectAsync",
+      "description": "Snippet for SignatureMethodAsync",
+      "file": "LroClient.SignatureMethodRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "SignatureMethodAsync",
+        "fullName": "Testing.Lro.LroClient.SignatureMethodAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Google.LongRunning.Operation<Testing.Lro.LroResponse, Testing.Lro.LroMetadata>>",
+        "client": {
+          "shortName": "LroClient",
+          "fullName": "Testing.Lro.LroClient"
+        },
+        "method": {
+          "shortName": "SignatureMethod",
+          "fullName": "testing.lro.Lro.SignatureMethod",
+          "service": {
+            "shortName": "Lro",
+            "fullName": "testing.lro.Lro"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "lro_generated_Lro_SignatureMethod_sync_flattened",
+      "title": "SignatureMethod",
+      "description": "Snippet for SignatureMethod",
+      "file": "LroClient.SignatureMethodSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "SignatureMethod",
+        "fullName": "Testing.Lro.LroClient.SignatureMethod",
+        "resultType": "Google.LongRunning.Operation<Testing.Lro.LroResponse, Testing.Lro.LroMetadata>",
+        "client": {
+          "shortName": "LroClient",
+          "fullName": "Testing.Lro.LroClient"
+        },
+        "method": {
+          "shortName": "SignatureMethod",
+          "fullName": "testing.lro.Lro.SignatureMethod",
+          "service": {
+            "shortName": "Lro",
+            "fullName": "testing.lro.Lro"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "lro_generated_Lro_SignatureMethod_async_flattened",
+      "title": "SignatureMethodAsync",
+      "description": "Snippet for SignatureMethodAsync",
+      "file": "LroClient.SignatureMethodAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "SignatureMethodAsync",
+        "fullName": "Testing.Lro.LroClient.SignatureMethodAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Google.LongRunning.Operation<Testing.Lro.LroResponse, Testing.Lro.LroMetadata>>",
+        "client": {
+          "shortName": "LroClient",
+          "fullName": "Testing.Lro.LroClient"
+        },
+        "method": {
+          "shortName": "SignatureMethod",
+          "fullName": "testing.lro.Lro.SignatureMethod",
+          "service": {
+            "shortName": "Lro",
+            "fullName": "testing.lro.Lro"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "lro_generated_Lro_ResourcedMethod_sync",
+      "title": "ResourcedMethodRequestObject",
+      "description": "Snippet for ResourcedMethod",
+      "file": "LroClient.ResourcedMethodRequestObjectSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "ResourcedMethod",
+        "fullName": "Testing.Lro.LroClient.ResourcedMethod",
+        "resultType": "Google.LongRunning.Operation<Testing.Lro.LroResponse+Types+Nested, Testing.Lro.LroMetadata+Types+Nested>",
+        "client": {
+          "shortName": "LroClient",
+          "fullName": "Testing.Lro.LroClient"
+        },
+        "method": {
+          "shortName": "ResourcedMethod",
+          "fullName": "testing.lro.Lro.ResourcedMethod",
+          "service": {
+            "shortName": "Lro",
+            "fullName": "testing.lro.Lro"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "lro_generated_Lro_ResourcedMethod_async",
+      "title": "ResourcedMethodRequestObjectAsync",
+      "description": "Snippet for ResourcedMethodAsync",
+      "file": "LroClient.ResourcedMethodRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "ResourcedMethodAsync",
+        "fullName": "Testing.Lro.LroClient.ResourcedMethodAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Google.LongRunning.Operation<Testing.Lro.LroResponse+Types+Nested, Testing.Lro.LroMetadata+Types+Nested>>",
+        "client": {
+          "shortName": "LroClient",
+          "fullName": "Testing.Lro.LroClient"
+        },
+        "method": {
+          "shortName": "ResourcedMethod",
+          "fullName": "testing.lro.Lro.ResourcedMethod",
+          "service": {
+            "shortName": "Lro",
+            "fullName": "testing.lro.Lro"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "lro_generated_Lro_ResourcedMethod_sync_flattened",
+      "title": "ResourcedMethod",
+      "description": "Snippet for ResourcedMethod",
+      "file": "LroClient.ResourcedMethodSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "ResourcedMethod",
+        "fullName": "Testing.Lro.LroClient.ResourcedMethod",
+        "resultType": "Google.LongRunning.Operation<Testing.Lro.LroResponse+Types+Nested, Testing.Lro.LroMetadata+Types+Nested>",
+        "client": {
+          "shortName": "LroClient",
+          "fullName": "Testing.Lro.LroClient"
+        },
+        "method": {
+          "shortName": "ResourcedMethod",
+          "fullName": "testing.lro.Lro.ResourcedMethod",
+          "service": {
+            "shortName": "Lro",
+            "fullName": "testing.lro.Lro"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "lro_generated_Lro_ResourcedMethod_async_flattened",
+      "title": "ResourcedMethodAsync",
+      "description": "Snippet for ResourcedMethodAsync",
+      "file": "LroClient.ResourcedMethodAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "ResourcedMethodAsync",
+        "fullName": "Testing.Lro.LroClient.ResourcedMethodAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Google.LongRunning.Operation<Testing.Lro.LroResponse+Types+Nested, Testing.Lro.LroMetadata+Types+Nested>>",
+        "client": {
+          "shortName": "LroClient",
+          "fullName": "Testing.Lro.LroClient"
+        },
+        "method": {
+          "shortName": "ResourcedMethod",
+          "fullName": "testing.lro.Lro.ResourcedMethod",
+          "service": {
+            "shortName": "Lro",
+            "fullName": "testing.lro.Lro"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "lro_generated_Lro_ResourcedMethod_sync_flattened_resourceNames",
+      "title": "ResourcedMethodResourceNames",
+      "description": "Snippet for ResourcedMethod",
+      "file": "LroClient.ResourcedMethodResourceNamesSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "ResourcedMethod",
+        "fullName": "Testing.Lro.LroClient.ResourcedMethod",
+        "resultType": "Google.LongRunning.Operation<Testing.Lro.LroResponse+Types+Nested, Testing.Lro.LroMetadata+Types+Nested>",
+        "client": {
+          "shortName": "LroClient",
+          "fullName": "Testing.Lro.LroClient"
+        },
+        "method": {
+          "shortName": "ResourcedMethod",
+          "fullName": "testing.lro.Lro.ResourcedMethod",
+          "service": {
+            "shortName": "Lro",
+            "fullName": "testing.lro.Lro"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "lro_generated_Lro_ResourcedMethod_async_flattened_resourceNames",
+      "title": "ResourcedMethodResourceNamesAsync",
+      "description": "Snippet for ResourcedMethodAsync",
+      "file": "LroClient.ResourcedMethodResourceNamesAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "ResourcedMethodAsync",
+        "fullName": "Testing.Lro.LroClient.ResourcedMethodAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Google.LongRunning.Operation<Testing.Lro.LroResponse+Types+Nested, Testing.Lro.LroMetadata+Types+Nested>>",
+        "client": {
+          "shortName": "LroClient",
+          "fullName": "Testing.Lro.LroClient"
+        },
+        "method": {
+          "shortName": "ResourcedMethod",
+          "fullName": "testing.lro.Lro.ResourcedMethod",
+          "service": {
+            "shortName": "Lro",
+            "fullName": "testing.lro.Lro"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    }
+  ]
+}

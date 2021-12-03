@@ -17,11 +17,11 @@ using Google.Api.Generator.Generation;
 using Google.Api.Generator.ProtoUtils;
 using Google.Api.Generator.Utils;
 using Google.Cloud;
+using Google.Cloud.Tools.SnippetGen.SnippetIndex.V1;
 using Google.LongRunning;
 using Google.Protobuf;
 using Google.Protobuf.Reflection;
 using Grpc.ServiceConfig;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -143,8 +143,10 @@ namespace Google.Api.Generator
             var unitTestsPathPrefix = $"{ns}.Tests{Path.DirectorySeparatorChar}";
             bool hasLro = false;
             bool hasContent = false;
+            var packageServiceDetails = new List<ServiceDetails>();
             HashSet<string> allResourceNameClasses = new HashSet<string>();
             HashSet<string> duplicateResourceNameClasses = new HashSet<string>();
+            IList<Snippet> snippets = new List<Snippet>();
 
             var seenPaginatedResponseTyps = new HashSet<Typ>();
             foreach (var fileDesc in packageFileDescriptors)
@@ -153,7 +155,7 @@ namespace Google.Api.Generator
                 {
                     // Generate settings and client code for requested package.
                     var serviceDetails = new ServiceDetails(catalog, ns, service, grpcServiceConfig);
-                    allServiceDetails.Add(serviceDetails);
+                    packageServiceDetails.Add(serviceDetails);
 
                     var ctx = SourceFileContext.CreateFullyAliased(clock, s_wellknownNamespaceAliases);
                     var code = ServiceCodeGenerator.Generate(ctx, serviceDetails, seenPaginatedResponseTyps);
@@ -174,9 +176,11 @@ namespace Google.Api.Generator
                     {
                         var standaloneSnippetCtx = SourceFileContext.CreateUnaliased(
                             clock, s_wellknownNamespaceAliases, s_avoidAliasingNamespaceRegex, maySkipOwnNamespaceImport: false);
-                        var standaloneSnippetCode = snippetGenerator.Generate(standaloneSnippetCtx);
-                        var standaloneSnippetFilename = $"{standaloneSnippetsPathPrefix}{serviceDetails.ClientAbstractTyp.Name}.{snippetGenerator.SnippetMethodName}Snippet.g.cs";
-                        yield return new ResultFile(standaloneSnippetFilename, standaloneSnippetCode);
+                        var (standaloneSnippetCode, standaloneSnippetMetadata) = snippetGenerator.Generate(standaloneSnippetCtx);
+                        standaloneSnippetMetadata.File = $"{serviceDetails.ClientAbstractTyp.Name}.{snippetGenerator.SnippetMethodName}Snippet.g.cs";
+                        var standaloneSnippetFile = $"{standaloneSnippetsPathPrefix}{standaloneSnippetMetadata.File}";
+                        snippets.Add(standaloneSnippetMetadata);
+                        yield return new ResultFile(standaloneSnippetFile, standaloneSnippetCode);
                     }
                     // Generate unit tests for the the service.
                     var unitTestCtx = SourceFileContext.CreateFullyAliased(clock, s_wellknownNamespaceAliases);
@@ -226,7 +230,7 @@ namespace Google.Api.Generator
             {
                 throw new InvalidOperationException($"The following resource name classes were created multiple times: {string.Join(", ", duplicateResourceNameClasses)}");
             }
-            // Only output csproj's if there is any other generated content.
+            // Only output csproj's and snippet metadata if there is any other generated content.
             // When processing a (proto) package without any services there will be no generated content.
             if (hasContent)
             {
@@ -234,18 +238,30 @@ namespace Google.Api.Generator
                 var csprojContent = CsProjGenerator.GenerateClient(hasLro);
                 var csprojFilename = $"{clientPathPrefix}{ns}.csproj";
                 yield return new ResultFile(csprojFilename, csprojContent);
-                // Generate snippets csproj.
-                var snippetsCsprojContent = CsProjGenerator.GenerateSnippets(ns);
-                var snippetsCsProjFilename = $"{snippetsPathPrefix}{ns}.Snippets.csproj";
-                yield return new ResultFile(snippetsCsProjFilename, snippetsCsprojContent);
-                // Generate standalone snippets csproj.
-                var standaloneSnippetsCsprojContent = CsProjGenerator.GenerateSnippets(ns);
-                var standaloneSnippetsCsProjFilename = $"{standaloneSnippetsPathPrefix}{ns}.StandaloneSnippets.csproj";
-                yield return new ResultFile(standaloneSnippetsCsProjFilename, standaloneSnippetsCsprojContent);
-                // Generate unit-tests csproj.
-                var unitTestsCsprojContent = CsProjGenerator.GenerateUnitTests(ns);
-                var unitTestsCsprojFilename = $"{unitTestsPathPrefix}{ns}.Tests.csproj";
-                yield return new ResultFile(unitTestsCsprojFilename, unitTestsCsprojContent);
+                // If we only generated resources, we don't need to generate all of these.
+                if (packageServiceDetails.Count > 0)
+                {
+                    allServiceDetails.AddRange(packageServiceDetails);
+
+                    // Generate snippets csproj.
+                    var snippetsCsprojContent = CsProjGenerator.GenerateSnippets(ns);
+                    var snippetsCsProjFilename = $"{snippetsPathPrefix}{ns}.Snippets.csproj";
+                    yield return new ResultFile(snippetsCsProjFilename, snippetsCsprojContent);
+                    // Generate snippet metadata (only for standalone snippets).
+                    // All services in this package have the same package information, namespace etc. so, we
+                    // just pick the first one
+                    var serviceDetails = packageServiceDetails.First();
+                    var snippetIndexJsonContent = SnippetCodeGenerator.GenerateSnippetIndexJson(snippets, serviceDetails);
+                    yield return new ResultFile($"{standaloneSnippetsPathPrefix}snippet_metadata_{serviceDetails.ProtoPackage}.json", snippetIndexJsonContent);
+                    // Generate standalone snippets csproj.
+                    var standaloneSnippetsCsprojContent = CsProjGenerator.GenerateSnippets(ns);
+                    var standaloneSnippetsCsProjFilename = $"{standaloneSnippetsPathPrefix}{ns}.StandaloneSnippets.csproj";
+                    yield return new ResultFile(standaloneSnippetsCsProjFilename, standaloneSnippetsCsprojContent);
+                    // Generate unit-tests csproj.
+                    var unitTestsCsprojContent = CsProjGenerator.GenerateUnitTests(ns);
+                    var unitTestsCsprojFilename = $"{unitTestsPathPrefix}{ns}.Tests.csproj";
+                    yield return new ResultFile(unitTestsCsprojFilename, unitTestsCsprojContent);
+                }
             }
         }
     }
