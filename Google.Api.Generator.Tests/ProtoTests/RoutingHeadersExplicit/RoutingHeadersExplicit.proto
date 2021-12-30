@@ -1,0 +1,121 @@
+﻿syntax = "proto3";
+
+package testing.routingheadersexplicit;
+
+option csharp_namespace = "Testing.RoutingHeadersExplicit";
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/routing.proto";
+
+service RoutingHeadersExplicit {
+	option (google.api.default_host) = "routingheaders.example.com";
+
+	rpc NoUrlMethod(SimpleRequest) returns(Response);
+
+	rpc PlainNoTemplate(SimpleRequest) returns(Response) {
+		option (google.api.http) = {
+			get: "/v2/{name=projects/*/instances/*/tables/*}:sampleRowKeys"
+		};
+		option (google.api.routing) = {
+			routing_parameters {
+				field: "name"
+			}
+		};
+	}
+
+	rpc PlainFullField(SimpleRequest) returns(Response) {
+		option (google.api.http) = {
+			get: "/v2/{name=projects/*/instances/*/tables/*}:sampleRowKeys"
+		};
+		option (google.api.routing) = {
+			routing_parameters {
+				field: "name"
+				path_template: "{table_name=projects/*/instances/*/tables/*}"
+			}
+		};
+	}
+
+	rpc PlainExtract(SimpleRequest) returns(Response) {
+		option (google.api.http) = {
+			get: "/v2/{name=projects/*/instances/*/tables/*}:sampleRowKeys"
+		};
+		option (google.api.routing) = {
+			routing_parameters {
+				field: "name"
+				path_template: "projects/*/instances/*/{table_name=tables/*}"
+			}
+		};
+	}
+
+	rpc Nested(NestedRequest) returns(Response) {
+		option (google.api.http) = {
+			get: "/v2/{nest1.nest2.name=projects/*/instances/*/tables/*}:withSubMessage"
+		};
+		option (google.api.routing) = {
+			routing_parameters {
+				field: "nest1.nest2.name"
+				path_template: "{table_name=projects/*/instances/*/tables/*}"
+			}
+			routing_parameters {
+				field: "app_profile_id"
+			}
+		};
+	}
+
+	rpc Complex(SimpleRequest) returns(Response) {
+		option (google.api.http) = {
+			get: "/v2/{name=projects/*/instances/*/tables/*}:sampleRowKeys"
+		};
+		option (google.api.routing) = {
+			routing_parameters {
+				field: "name"
+				path_template: "{project_id=projects/*}/instances/*/tables/*"
+			}
+			routing_parameters {
+				field: "name"
+				path_template: "projects/*/{instance_id=instances/*}/tables/*"
+			}
+			routing_parameters {
+				field: "name"
+				path_template: "projects/*/instances/*/{table_id=tables/*}"
+			}
+			routing_parameters {
+				field: "name"
+				path_template: "{table_name=projects/*/instances/*/tables/*}"
+			}
+			routing_parameters {
+				field: "name"
+				path_template: "{table_name=projects/*/instances/*/tables/*/aliases/**}"
+			}
+			routing_parameters {
+				field: "app_profile_id"
+			}
+			routing_parameters {
+				field: "app_profile_id"
+				path_template: "{app_profile_id_renamed=**}"
+			}
+		};
+	}
+}
+
+message SimpleRequest {
+	string name = 1;
+	string app_profile_id = 2;
+}
+
+message NestedRequest {
+	message Inner1 {
+		message Inner2 {
+			string name = 1;
+		}
+		Inner2 nest2 = 1;
+	}
+
+	string name = 1;
+	Inner1 nest1 = 2;
+	string app_profile_id = 3;
+}
+
+message Response {
+}

@@ -14,6 +14,8 @@
 
 using Google.Api.Generator.ProtoUtils;
 using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 using Xunit;
 
 namespace Google.Api.Generator.Tests
@@ -21,19 +23,51 @@ namespace Google.Api.Generator.Tests
     public class ResourcePatternTest
     {
         [Theory]
-        [InlineData("as/{a}", new[] { "a" }, "as/{a}", new[] { "A" }, "as/A")]
-        [InlineData("as/{a=*}", new[] { "a" }, "as/{a=*}", new[] { "A" }, "as/A")]
-        [InlineData("as/{a=**}", new[] { "a" }, "as/{a=**}", new[] { "A/AA/AAA" }, "as/A/AA/AAA")]
-        [InlineData("as/{a_1}~{a_2}.{a_3}", new[] { "a_1", "a_2", "a_3" }, "as/{a_1_a_2_a_3}", new[] { "A1", "A2", "A3" }, "as/A1~A2.A3")]
-        [InlineData("as/{a_1=*}~{a_2=*}.{a_3=*}", new[] { "a_1", "a_2", "a_3" }, "as/{a_1_a_2_a_3}", new[] { "A1", "A2", "A3" }, "as/A1~A2.A3")]
+        [InlineData("as/{a}", new[] { "a" }, "as/{a}")]
+        [InlineData("as/{a=*}", new[] { "a" }, "as/{a=*}")]
+        [InlineData("as/*", new string[] { }, "as/*")]
+        [InlineData("as/{a=**}", new[] { "a" }, "as/{a=**}")]
+        [InlineData("as/**", new string[] { }, "as/**")]
+        [InlineData("as/{a=*}/bs/{b=*}/cs/{c=**}", new[] { "a", "b", "c" }, "as/{a=*}/bs/{b=*}/cs/{c=**}")]
+        [InlineData("as/*/bs/*/cs/**", new string[] { }, "as/*/bs/*/cs/**")]
+        [InlineData("as/{a_1}~{a_2}.{a_3}", new[] { "a_1", "a_2", "a_3" }, "as/{a_1_a_2_a_3}")]
+        [InlineData("as/{a_1=*}~{a_2=*}.{a_3=*}", new[] { "a_1", "a_2", "a_3" }, "as/{a_1_a_2_a_3}")]
         [InlineData("as/{a=*}/bs/{b_1}-{b_2}/cs/{c_1=*}_{c_2}/{d=**}", new[] { "a", "b_1", "b_2", "c_1", "c_2", "d" },
-            "as/{a=*}/bs/{b_1_b_2}/cs/{c_1_c_2}/{d=**}", new[] { "A", "B1", "B2", "C1", "C2", "D" }, "as/A/bs/B1-B2/cs/C1_C2/D")]
-        public void ValidPattern(string pattern, string[] paramNames, string pathTemplateString, string[] expandArgs, string expanded)
+            "as/{a=*}/bs/{b_1_b_2}/cs/{c_1_c_2}/{d=**}")]
+        public void ValidPattern(string pattern, string[] paramNames, string pathTemplateString)
         {
             var pat = new ResourcePattern(pattern);
             Assert.Equal(paramNames, pat.ParameterNames);
             Assert.Equal(pathTemplateString, pat.PathTemplateString);
+        }
+
+        [Theory]
+        [InlineData("as/{a}", new[] { "A" }, "as/A")]
+        [InlineData("as/{a=*}", new[] { "A" }, "as/A")]
+        [InlineData("as/{a=**}", new[] { "A/AA/AAA" }, "as/A/AA/AAA")]
+        [InlineData("as/{a=*}/bs/{b=*}/cs/{c=**}", new[] { "A", "B", "C/CC/CCC" }, "as/A/bs/B/cs/C/CC/CCC")]
+        [InlineData("as/{a_1}~{a_2}.{a_3}", new[] { "A1", "A2", "A3" }, "as/A1~A2.A3")]
+        [InlineData("as/{a_1=*}~{a_2=*}.{a_3=*}", new[] { "A1", "A2", "A3" }, "as/A1~A2.A3")]
+        [InlineData("as/{a=*}/bs/{b_1}-{b_2}/cs/{c_1=*}_{c_2}/{d=**}", new[] { "A", "B1", "B2", "C1", "C2", "D" }, "as/A/bs/B1-B2/cs/C1_C2/D")]
+        public void ValidExpansion(string pattern, string[] expandArgs, string expanded)
+        {
+            var pat = new ResourcePattern(pattern);
             Assert.Equal(expanded, pat.Expand(expandArgs));
+        }
+
+        [Theory]
+        [InlineData("as/bs/cs", "as/bs/cs")]
+        [InlineData("*", "[^/]+")]
+        [InlineData("**", ".*")]
+        [InlineData("as/*", "as/[^/]+")]
+        [InlineData("as/*/bs/**", "as/[^/]+/bs(?:/.*)?")]
+        [InlineData("as/{a}", "as/(?<a>[^/]+)")]
+        [InlineData("as/{a=*}", "as/(?<a>[^/]+)")]
+        [InlineData("as/{a=*}/bs/{b=**}", "as/(?<a>[^/]+)/bs(?<b>/.*)?")]
+        public void ValidRegexes(string pattern, string regexStr)
+        {
+            var pat = new ResourcePattern(pattern);
+            Assert.Equal(regexStr, pat.RegexString);
         }
 
         [Theory]

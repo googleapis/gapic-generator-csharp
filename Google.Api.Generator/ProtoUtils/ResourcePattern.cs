@@ -16,6 +16,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Text.RegularExpressions;
+using Google.Apis.Util;
 
 namespace Google.Api.Generator.ProtoUtils
 {
@@ -23,18 +25,21 @@ namespace Google.Api.Generator.ProtoUtils
     {
         public abstract class Segment
         {
-            public static Segment Create(string segment) =>
-                segment.Contains('{') ? (Segment)new ResourceIdSegment(segment) : new CollectionIdentifierSegment(segment);
-
             public abstract IReadOnlyList<string> ParameterNames { get; }
-            public abstract IReadOnlyList<string> ParameterNamesWithSuffix { get; }
             public abstract IReadOnlyList<char> Separators { get; }
-            public abstract string PathTemplateString { get; }
-            public abstract string Expand(IEnumerable<string> parameters);
 
+            /// <summary>
+            /// A segment string suitable for using in Gax::PathTemplate.
+            /// </summary>
+            public abstract string PathTemplateString { get; }
+
+            /// <summary>
+            /// A string that can be used to construct a regular expression matching this segment.
+            /// </summary>
+            public abstract string RegexString { get; }
+            public abstract string Expand(IEnumerable<string> parameters);
             public int ParameterCount => ParameterNames.Count;
             public bool IsComplex => Separators.Count > 0;
-
         }
 
         private class CollectionIdentifierSegment : Segment
@@ -59,19 +64,44 @@ namespace Google.Api.Generator.ProtoUtils
             }
 
             public string Identifier { get; }
-
             public override IReadOnlyList<string> ParameterNames => ImmutableList<string>.Empty;
-            public override IReadOnlyList<string> ParameterNamesWithSuffix => ImmutableList<string>.Empty;
             public override IReadOnlyList<char> Separators => ImmutableList<char>.Empty;
             public override string PathTemplateString => Identifier;
+            public override string RegexString => Identifier;
             public override string Expand(IEnumerable<string> parameters) => Identifier;
-
             public override string ToString() => Identifier;
         }
 
-        private class ResourceIdSegment : Segment
+        private class WildcardSegment: Segment
         {
-            public ResourceIdSegment(string segment)
+            public WildcardSegment(string segment)
+            {
+                if (segment != "*" && segment != "**")
+                {
+                    throw new ArgumentException(
+                        $"Segment {segment} is invalid. Wildcard segments are only allowed to be '*' or '**'.");
+                }
+
+                Pattern = segment;
+            }
+            public string Pattern { get; }
+            public override IReadOnlyList<string> ParameterNames => ImmutableList<string>.Empty;
+            public override IReadOnlyList<char> Separators => ImmutableList<char>.Empty;
+            public override string PathTemplateString => Pattern;
+            public override string RegexString => Pattern == "**" ? DoubleWildcardStandaloneRegexStr : SingleWildcardRegexStr;
+
+            /// <summary>
+            /// NB: [virost, 2021/12] The expanding is currently limited to the patterns with named parameters.
+            /// If the usages of expanding expand to include the wildcard parameters, this can be implemented accordingly.
+            /// </summary>
+            public override string Expand(IEnumerable<string> parameters) =>
+                throw new InvalidOperationException("Expanding is not supported for the wildcard segments because it is not currently required.");
+            public override string ToString() => Pattern;
+        }
+
+        private class MultivariateResourceIdSegment : Segment
+        {
+            public MultivariateResourceIdSegment(string segment)
             {
                 var separators = new List<char>();
                 var parameterNames = new List<string>();
@@ -123,25 +153,98 @@ namespace Google.Api.Generator.ProtoUtils
                 }
             }
 
-            // Separators are between parameter-names; there is always one less separator than parameter-names.
             public override IReadOnlyList<char> Separators { get; }
             public override IReadOnlyList<string> ParameterNames { get; }
-            public override IReadOnlyList<string> ParameterNamesWithSuffix { get; }
-            /// <summary>
-            /// Construct a segment suitable for using in Gax::PathTemplate.
-            /// If this segment has exactly one segment, then it's returned as-is; otherwise the parameter-names are concatenated and suffixes removed.
-            /// </summary>
+            private IReadOnlyList<string> ParameterNamesWithSuffix { get; }
             public override string PathTemplateString => $"{{{(ParameterCount == 1 ? ParameterNamesWithSuffix[0] : string.Join('_', ParameterNames))}}}";
+            public override string RegexString => 
+                throw new NotImplementedException("Forming a regex string of a multivariate resource id segment is not implemented.");
             public override string Expand(IEnumerable<string> parameters) =>
                 parameters.First() + string.Join("", Separators.Zip(parameters.Skip(1), (s, p) => $"{s}{p}"));
-
             public override string ToString() =>
                 string.Join("", ParameterNamesWithSuffix.Zip(Separators, (p, s) => $"{{{p}}}{s}").Append($"{{{ParameterNamesWithSuffix[^1]}}}"));
         }
 
+        private class ResourceIdSegment : Segment
+        {
+            public ResourceIdSegment(string segment)
+            {
+                Check(segment.First() == '{', $"'{{' expected at the beginning of the segment `{segment}`.");
+                Check(segment.IndexOf('}') != -1, $"missing '}}' in the segment `{segment}`.");
+                Check( segment.IndexOf('}') == segment.LastIndexOf('}'), $"extra '}}' in the segment `{segment}`.");
+                Check(segment.Last() == '}', $"'}}' expected to be at the end of the segment `{segment}`.");
+                _givenSegment = segment;
+
+                var indexOfEquals = segment.IndexOf('=');
+                Check(indexOfEquals == segment.LastIndexOf('='), $"extra `=` in the segment `{segment}`." );
+                
+                string paramName = indexOfEquals == -1 
+                    ? segment.Substring(1, segment.Length-2)
+                    : segment.Substring(1, indexOfEquals-1);
+
+                bool valid = paramName[0] >= 'a' && paramName[0] <= 'z' && paramName.All(c => (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_');
+                Check(valid, $"parameter name '{paramName}' contains invalid characters.");
+                _parameterName = paramName;
+
+                _givenPattern = indexOfEquals == -1
+                    ? string.Empty
+                    : segment.Substring(indexOfEquals + 1, segment.Length - indexOfEquals - 2);
+
+                string effectiveParamPatternStr = _givenPattern == String.Empty
+                    ? "*"
+                    : _givenPattern;
+
+                _effectivePattern = new ResourcePattern(effectiveParamPatternStr);
+                
+                void Check(bool cond, string msg)
+                {
+                    if (!cond)
+                    {
+                        throw new ArgumentException($"Segment '{segment}' is ill-formed; {msg}");
+                    }
+                }
+            }
+
+            private readonly string _givenSegment;
+            private readonly string _parameterName;
+            private readonly string _givenPattern;
+            private readonly ResourcePattern _effectivePattern;
+
+            public string Pattern => _givenPattern;
+            public override IReadOnlyList<char> Separators => ImmutableList<char>.Empty;
+            public override IReadOnlyList<string> ParameterNames => new List<string> { _parameterName };
+            public override string PathTemplateString => _givenSegment;
+            public override string RegexString => $"(?<{_parameterName}>{_effectivePattern.RegexString})";
+            public override string Expand(IEnumerable<string> parameters) =>
+                parameters.First() + string.Join("", Separators.Zip(parameters.Skip(1), (s, p) => $"{s}{p}"));
+            public override string ToString() => PathTemplateString;
+        }
+
+        // When double wildcard is by itself it can be anything
+        public const string DoubleWildcardStandaloneRegexStr = ".*";
+        // When double wildcard has a segment before it, it's either nothing or slash-separated anything
+        public const string DoubleWildcardInPatternRegexStr = "(?:/.*)?";
+        public const string SingleWildcardRegexStr = "[^/]+";
+        
+        
         public ResourcePattern(string pattern)
         {
-            Segments = pattern.Split('/').Select(Segment.Create).ToImmutableList();
+            string remainder = Regex.Replace(pattern, "^/", string.Empty);
+            
+            if (string.IsNullOrWhiteSpace(remainder))
+            {
+                throw new ArgumentException($"Pattern '{pattern}' contains only leading slash and/or whitespace.");
+            }
+
+            var segments = new List<Segment>();
+            while (remainder != string.Empty)
+            {
+                var (segment, position) = CaptureNextSegmentWithPosition(remainder);
+                segments.Add(segment);
+                remainder = remainder.Substring(position);
+            }
+
+            Segments = segments.ToImmutableList();
             if (Segments.OfType<ResourceIdSegment>().Any())
             {
                 // Perform tight (standard) validation if there are any resource-id path-segments in this pattern.
@@ -151,6 +254,41 @@ namespace Google.Api.Generator.ProtoUtils
                     segment.Validate(tightValidation: true);
                 }
             }
+        }
+
+        private (Segment, int) CaptureNextSegmentWithPosition(string pattern)
+        {
+            var wildcardRegex = new Regex(@"^(?<pattern>\*\*|\*)(?:/|$)");
+            if (wildcardRegex.Match(pattern) is { Success: true } wildMatch)
+            {
+                return (new WildcardSegment(wildMatch.Groups["pattern"].Value),
+                    wildMatch.Value.Length);
+            }
+
+            var multiVariateRegex =
+                new Regex(@"^(?<pattern>{(?<name_first>[^\/}\=]+?)(?:\=\*)?}(?:(?<separator>[_\-~.]){(?<name_seq>[^\/}\=]+?)(?:\=\*)?})+)(?:\/|$)");
+            if (multiVariateRegex.Match(pattern) is { Success: true } multiMatch)
+            {
+                return (new MultivariateResourceIdSegment(multiMatch.Groups["pattern"].Value),
+                    multiMatch.Length);
+            }
+
+            var resourceIdRegex =
+                new Regex(@"^(?<pattern>{(?<resource_name>[^\/}\=]+?)(?:=(?<resource_pattern>[^}]+?))?})(?:\/|$)");
+            if (resourceIdRegex.Match(pattern) is { Success: true } resourceMatch)
+            {
+                return (new ResourceIdSegment(resourceMatch.Groups["pattern"].Value),
+                    resourceMatch.Length);
+            }
+
+            var collectionIdRegex = new Regex(@"^(?<pattern>[^/]+?)(?:/|$)");
+            if (collectionIdRegex.Match(pattern) is { Success: true } collectionMatch)
+            {
+                return (new CollectionIdentifierSegment(collectionMatch.Groups["pattern"].Value),
+                    collectionMatch.Length);
+            }
+
+            throw new ArgumentException($"Sub-pattern '{pattern}' does not match any known segment types.");
         }
 
         private ResourcePattern(IEnumerable<Segment> segments) => Segments = segments.ToImmutableList();
@@ -164,7 +302,59 @@ namespace Google.Api.Generator.ProtoUtils
                 (acc, seg) => (acc.result.Add(seg.Expand(parameters.Skip(acc.paramOfs))), acc.paramOfs + seg.ParameterCount),
                 acc => acc.result));
 
-        public string PathTemplateString => string.Join('/', Segments.Select(x => x.PathTemplateString));
+        public string PathTemplateString
+        {
+            get
+            {
+                return string.Join('/', Segments.Select(x => x.PathTemplateString));
+            }
+        }
+
+        public string RegexString
+        {
+            get
+            {
+                var regexStr = Segments.First().RegexString;
+                // for double wildcards the leading `/`` is optional
+                // e.g. `foo/**` should match `foo`
+                // this is why we can't simply join segments' regex strings
+
+                return Segments.Skip(1)
+                    .Aggregate(regexStr, (current, segment) => segment switch
+                    {
+                        WildcardSegment { Pattern: "**" } => $"{current}{DoubleWildcardInPatternRegexStr}",
+                        ResourceIdSegment { Pattern: "**" } seg => $"{current}{ConvertStandaloneWildcardSegmentRegexStr(seg.RegexString)}",
+                        _ => $"{current}/{segment.RegexString}"
+                    });
+
+                // Converts `(<name>.*)` to `(<name>/.*)?`
+                string ConvertStandaloneWildcardSegmentRegexStr(string standalone)
+                {
+                    return $"{standalone.Replace(".", "/.")}?";
+                }
+            }
+        }
+
+        /// <summary>
+        /// If the pattern is effectively a double wildcard, regex-matching it can be skipped
+        /// </summary>
+        public bool IsDoubleWildcardPattern => Segments.Count == 1 && Segments.Single() switch
+        {
+            WildcardSegment  { Pattern: "**" } wcdId => true,
+            ResourceIdSegment { Pattern: "**" } resId => true,
+            _ => false
+        };
+
+        /// <summary>
+        /// If the pattern end with a double wildcard, its regex does not need to be updated
+        /// to match an optional `/` at the end
+        /// </summary>
+        public bool EndsWithDoubleWildcardPattern => Segments.Last() switch
+        {
+            WildcardSegment { Pattern: "**" } wcdId => true,
+            ResourceIdSegment { Pattern: "**" } resId => true,
+            _ => false
+        };
 
         /// <summary>
         /// Construct the string used in comparisons when determining resource-name parent(s).
@@ -175,7 +365,9 @@ namespace Google.Api.Generator.ProtoUtils
         public string ParentComparisonString => string.Join('/', Segments.Select(seg => seg switch
         {
             CollectionIdentifierSegment colId => colId.Identifier,
+            WildcardSegment wcdId => "",
             ResourceIdSegment resId => "",
+            MultivariateResourceIdSegment mvResId => "",
             _ => throw new InvalidOperationException("Unexpected segment type.")
         }));
 
@@ -183,8 +375,10 @@ namespace Google.Api.Generator.ProtoUtils
         {
             var result = Segments[^1] switch
             {
-                ResourceIdSegment resId => new ResourcePattern(Segments.SkipLast(2)),
                 CollectionIdentifierSegment colId => new ResourcePattern(Segments.SkipLast(1)),
+                WildcardSegment wcdId => new ResourcePattern(Segments.SkipLast(2)),
+                ResourceIdSegment resId => new ResourcePattern(Segments.SkipLast(2)),
+                MultivariateResourceIdSegment mvResId => new ResourcePattern(Segments.SkipLast(2)),
                 _ => throw new InvalidOperationException("Unexpected segment type."),
             };
             if (result.Segments.Count == 0)
