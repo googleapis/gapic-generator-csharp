@@ -236,5 +236,9 @@ namespace Google.Api.Generator.Tests
 
         [Fact]
         public void BuildLro() => BuildTest("Lro", ignoreUnitTests: true);
+
+        [Fact]
+        public void Mixins() => ProtoTestSingle("Mixins", ignoreMetadataFile: false, ignoreSnippets: true,
+            serviceConfigPath: Path.Combine(Invoker.GeneratorTestsDir, "ProtoTests", "Mixins", "Mixins.yaml"));
     }
 }

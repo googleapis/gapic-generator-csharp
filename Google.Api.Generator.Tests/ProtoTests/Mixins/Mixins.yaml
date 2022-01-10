@@ -1,0 +1,12 @@
+﻿type: google.api.Service
+config_version: 3
+name: mixins.googleapis.com
+title: Mixins Test API
+
+apis:
+- name: testing.mixins.MixinService
+# These are treated as mixins
+- name: google.cloud.location.Locations
+- name: google.iam.v1.IAMPolicy
+# LROs are not treated as mixings as we have dedicated per-method handling for them.
+- name: google.longrunning.Operations
