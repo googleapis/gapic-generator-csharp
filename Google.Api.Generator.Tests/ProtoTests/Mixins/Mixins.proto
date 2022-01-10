@@ -1,0 +1,20 @@
+﻿syntax = "proto3";
+
+package testing.mixins;
+
+option csharp_namespace = "Testing.Mixins";
+
+import "google/api/client.proto";
+
+service MixinService {
+  option (google.api.default_host) = "mixins.example.com";
+  option (google.api.oauth_scopes) = "scope1,scope2";
+
+  rpc Method(Request) returns(Response);
+}
+
+message Request {
+}
+
+message Response {
+}
