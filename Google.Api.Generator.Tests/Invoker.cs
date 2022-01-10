@@ -49,6 +49,8 @@ namespace Google.Api.Generator.Tests
                 isWindows ? "Google.Api.Generator.exe" : "Google.Api.Generator");
             CommonProtosDir = Path.Combine(RootDir, "api-common-protos");
             ProtobufDir = Path.Combine(RootDir, "tools", "protos");
+            var now = DateTime.UtcNow;
+            ActualGeneratedFilesDir = Path.Combine(Path.GetTempPath(), $"GeneratorTests-{now:yyyyMMddHHmmssZ}");
         }
 
         /// <summary>Root path; where the .sln file is.</summary>
@@ -59,6 +61,9 @@ namespace Google.Api.Generator.Tests
 
         /// <summary>Generator tests path; where the generator tests .csproj file is.</summary>
         public static string GeneratorTestsDir { get; }
+
+        /// <summary>The directory in which to write actual generated files. (This is in a temporary directory.)</summary>
+        public static string ActualGeneratedFilesDir { get; }
 
         /// <summary>Path to protoc executable.</summary>
         public static string ProtocFile { get; }

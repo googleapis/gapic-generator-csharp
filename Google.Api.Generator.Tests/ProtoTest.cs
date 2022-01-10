@@ -75,6 +75,16 @@ namespace Google.Api.Generator.Tests
                 grpcServiceConfigPath, commonResourcesConfigPaths);
             // Check output is present.
             Assert.NotEmpty(files);
+
+            // Write all output files to the temporary directory before validating any.
+            // This makes it easier to see the complete set of outputs.
+            foreach (var file in files)
+            {
+                var pathToWriteTo = Path.Combine(Invoker.ActualGeneratedFilesDir, dirName, file.RelativePath);
+                Directory.CreateDirectory(Path.GetDirectoryName(pathToWriteTo));
+                File.WriteAllText(pathToWriteTo, file.Content);
+            }
+
             // Verify each output file.
             foreach (var file in files)
             {
