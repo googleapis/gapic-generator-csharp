@@ -91,11 +91,16 @@ namespace Google.Api.Generator.Tests
             var output = new List<string>();
             using (var process = Process.Start(start))
             {
-                process.ErrorDataReceived += (_, e) => output.Add(e.Data);
-                process.OutputDataReceived += (_, e) => output.Add(e.Data);
+                DataReceivedEventHandler handler = (_, e) => output.Add(e.Data);
+                process.ErrorDataReceived += handler;
+                process.OutputDataReceived += handler;
                 process.BeginErrorReadLine();
                 process.BeginOutputReadLine();
                 var exited = process.WaitForExit((int)timeout.TotalMilliseconds);
+
+                // Avoid any extra data being added to our output while we're processing assertions.
+                process.ErrorDataReceived -= handler;
+                process.OutputDataReceived -= handler;
                 if (!exited)
                 {
                     process.Kill();
