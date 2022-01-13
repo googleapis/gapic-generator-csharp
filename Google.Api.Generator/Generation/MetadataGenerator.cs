@@ -29,28 +29,22 @@ namespace Google.Api.Generator.Generation
 
         private const string TransportKeyGrpc = "grpc";
 
-        internal static string GenerateGapicMetadataJson(List<ServiceDetails> allServiceDetails)
+        internal static string GenerateGapicMetadataJson(List<ServiceDetails> primaryLibraryServices)
         {
-            // We assume that the first service has the correct proto package, and we can discard
-            // services in other packages. This means it doesn't matter (for gapic_metadata.json)
-            // if we're actually asked to generate more services than we really want. This currently
-            // happens for services with IAM/location mix-ins, for example.
-            var protoPackage = allServiceDetails.First().ProtoPackage;
+            var protoPackage = primaryLibraryServices.First().ProtoPackage;
+            var libraryNamespace = primaryLibraryServices.First().Namespace;
+            var servicesByName = new SortedDictionary<string, ServiceForTransport>(
+                primaryLibraryServices.ToDictionary(serviceDetails => serviceDetails.ServiceName, ServiceForTransportMetadata),
+                StringComparer.Ordinal);
+
             return new GapicMetadata
             {
                 Schema = GapicMetadataSchemaVersion,
                 Comment = GapicMetadataFileDescription,
                 Language = GapicMetadataLanguage,
                 ProtoPackage = protoPackage,
-                LibraryPackage = allServiceDetails.First().Namespace,
-                Services = 
-                {
-                    new SortedDictionary<string, ServiceForTransport>(
-                        allServiceDetails
-                            .Where(service => service.ProtoPackage == protoPackage)
-                            .ToDictionary(serviceDetails => serviceDetails.ServiceName, ServiceForTransportMetadata),
-                        StringComparer.Ordinal)
-                }
+                LibraryPackage = libraryNamespace,
+                Services = { servicesByName }
             }.ToFormattedJson();
         }
 
