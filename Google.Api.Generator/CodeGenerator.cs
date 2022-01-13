@@ -17,6 +17,8 @@ using Google.Api.Generator.Generation;
 using Google.Api.Generator.ProtoUtils;
 using Google.Api.Generator.Utils;
 using Google.Cloud;
+using Google.Cloud.Iam.V1;
+using Google.Cloud.Location;
 using Google.Cloud.Tools.SnippetGen.SnippetIndex.V1;
 using Google.LongRunning;
 using Google.Protobuf;
@@ -55,23 +57,30 @@ namespace Google.Api.Generator
         };
 
         private static readonly IReadOnlyDictionary<string, string> s_wellknownNamespaceAliases = new Dictionary<string, string>
-            {
-                { typeof(System.Int32).Namespace, "sys" }, // Don't use "s"; one-letter aliases cause a compilation error!
-                { typeof(System.Net.WebUtility).Namespace, "sysnet" },
-                { typeof(System.Collections.Generic.IEnumerable<>).Namespace, "scg" },
-                { typeof(System.Collections.ObjectModel.Collection<>).Namespace, "sco" },
-                { typeof(System.Linq.Enumerable).Namespace, "linq" },
-                { typeof(Google.Api.Gax.Expiration).Namespace, "gax" },
-                { typeof(Google.Api.Gax.Grpc.CallSettings).Namespace, "gaxgrpc" },
-                { typeof(Google.Api.Gax.Grpc.GrpcCore.GrpcCoreAdapter).Namespace, "gaxgrpccore" },
-                { typeof(Grpc.Core.CallCredentials).Namespace, "grpccore" },
-                { typeof(Grpc.Core.Interceptors.Interceptor).Namespace, "grpcinter" },
-                { typeof(Google.Protobuf.WellKnownTypes.Any).Namespace, "wkt" },
-                { typeof(Google.LongRunning.Operation).Namespace, "lro" },
-                { typeof(Google.Protobuf.ByteString).Namespace, "proto" },
-                { typeof(Moq.Mock).Namespace, "moq" },
-                { typeof(Xunit.Assert).Namespace, "xunit" },
-            };
+        {
+            { typeof(System.Int32).Namespace, "sys" }, // Don't use "s"; one-letter aliases cause a compilation error!
+            { typeof(System.Net.WebUtility).Namespace, "sysnet" },
+            { typeof(System.Collections.Generic.IEnumerable<>).Namespace, "scg" },
+            { typeof(System.Collections.ObjectModel.Collection<>).Namespace, "sco" },
+            { typeof(System.Linq.Enumerable).Namespace, "linq" },
+            { typeof(Google.Api.Gax.Expiration).Namespace, "gax" },
+            { typeof(Google.Api.Gax.Grpc.CallSettings).Namespace, "gaxgrpc" },
+            { typeof(Google.Api.Gax.Grpc.GrpcCore.GrpcCoreAdapter).Namespace, "gaxgrpccore" },
+            { typeof(Grpc.Core.CallCredentials).Namespace, "grpccore" },
+            { typeof(Grpc.Core.Interceptors.Interceptor).Namespace, "grpcinter" },
+            { typeof(Google.Protobuf.WellKnownTypes.Any).Namespace, "wkt" },
+            { typeof(Google.LongRunning.Operation).Namespace, "lro" },
+            { typeof(Google.Protobuf.ByteString).Namespace, "proto" },
+            { typeof(Moq.Mock).Namespace, "moq" },
+            { typeof(Xunit.Assert).Namespace, "xunit" },
+        };
+
+        private static readonly IReadOnlyList<string> AllowedAdditionalServices = new List<string>
+        {
+            IAMPolicy.Descriptor.FullName,
+            Locations.Descriptor.FullName,
+            Operations.Descriptor.FullName,
+        }.AsReadOnly();
 
         /// <summary>
         /// For unaliased source file context, we still have to sometimes aliase some namespaces to avoid
@@ -128,11 +137,29 @@ namespace Google.Api.Generator
                 }
             }
 
-            if (allServiceDetails.Any())
+            // We assume that the first service we've generated corresponds to the service config (if we have one),
+            // and is a service from the primary library we're generating. This is used for API validation and
+            // gapic_metadata.json generation. This means it doesn't matter (for gapic_metadata.json)
+            // if we're actually asked to generate more services than we really want. This currently
+            // happens for services with IAM/location mix-ins, for example.
+            var primaryLibraryProtoPackage = allServiceDetails.FirstOrDefault()?.ProtoPackage;
+            var primaryLibraryServices = allServiceDetails.Where(s => s.ProtoPackage == primaryLibraryProtoPackage).ToList();
+
+            if (primaryLibraryServices.Any())
             {
                 // Generate gapic_metadata.json, if there are any services.
-                var gapicMetadataJsonContent = MetadataGenerator.GenerateGapicMetadataJson(allServiceDetails);
+                var gapicMetadataJsonContent = MetadataGenerator.GenerateGapicMetadataJson(primaryLibraryServices);
                 yield return new ResultFile("gapic_metadata.json", gapicMetadataJsonContent);
+            }
+
+            var unhandledApis = (serviceConfig?.Apis.Select(api => api.Name) ?? Enumerable.Empty<string>())
+                .Except(primaryLibraryServices.Select(s => s.ServiceFullName))
+                .Except(AllowedAdditionalServices)
+                .ToList();
+
+            if (unhandledApis.Any())
+            {
+                throw new InvalidOperationException($"Unhandled APIs in service config: {string.Join(", ", unhandledApis)}");
             }
         }
 
