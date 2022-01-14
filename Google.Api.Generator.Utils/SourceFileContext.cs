@@ -104,13 +104,15 @@ namespace Google.Api.Generator.Utils
                 IClock clock,
                 IReadOnlyDictionary<string, string> wellKnownNamespaceAliases,
                 IReadOnlyCollection<Regex> avoidAliasingNamespaceRegex,
+                IEnumerable<Typ> packageTyps,
                 bool maySkipOwnNamespaceImport) : base(clock) =>
-                (_wellKnownNamespaceAliases, _avoidAliasingNamespaceRegex, _maySkipOwnNamespaceImport) = 
-                (wellKnownNamespaceAliases, avoidAliasingNamespaceRegex, maySkipOwnNamespaceImport);
+                (_wellKnownNamespaceAliases, _avoidAliasingNamespaceRegex, _packageTyps, _maySkipOwnNamespaceImport) =
+                (wellKnownNamespaceAliases, avoidAliasingNamespaceRegex, packageTyps, maySkipOwnNamespaceImport);
 
             private readonly bool _maySkipOwnNamespaceImport;
             private readonly IReadOnlyDictionary<string, string> _wellKnownNamespaceAliases;
             private readonly IReadOnlyCollection<Regex> _avoidAliasingNamespaceRegex;
+            private readonly IEnumerable<Typ> _packageTyps;
             // Seen namespaces. The associated bool value indicates whether we may skip import or not.
             private readonly Dictionary<string, bool> _seenNamespaces = new Dictionary<string, bool>();
             // Seen types. This will be used to avoid name collisions.
@@ -181,6 +183,7 @@ namespace Google.Api.Generator.Utils
                 public static TypeAliaser Create(
                     IReadOnlyDictionary<string, bool> seenNamespaces,
                     IReadOnlyCollection<Typ> seenTypes,
+                    IEnumerable<Typ> packageTyps,
                     IReadOnlyDictionary<string, string> wellKnownNamespaceAliases,
                     IReadOnlyCollection<Regex> avoidAliasingNamespaceRegex)
                 {
@@ -192,12 +195,16 @@ namespace Google.Api.Generator.Utils
                     // We can safely exclude generic types because we don't generate any generic types and we know there
                     // are no clashes between generic types in the non generated dependencies.
                     // This mechanism isn't fool-proof, but will work fine in most cases because this generator
-                    // depends on all assemblies that a generated library will depend on.
+                    // depends on all assemblies that a generated library will depend on, and on the protobuf generated code.
                     // Type name -> namespaces through which it could be imported.
                     var couldBeImportedTypes = AppDomain.CurrentDomain.GetAssemblies()
                         .Where(a => !a.IsDynamic)
                         .SelectMany(a => a.GetExportedTypes())
                         .Where(t => !t.IsGenericTypeDefinition && mustImportNs.Contains(t.Namespace))
+                        .Select(t => (t.Name, t.Namespace))
+                        .Union(packageTyps
+                            .Where(typ => typ.GenericArgTyps is null && mustImportNs.Contains(typ.Namespace))
+                            .Select(typ => (typ.Name, typ.Namespace)))
                         .GroupBy(t => t.Name, t => t.Namespace);
                     // Colliding types are either seen types that collide between them or seen types that collide with a type
                     // that would be imported (even if unused) when importing an unaliased namespace, or both.
@@ -399,7 +406,7 @@ namespace Google.Api.Generator.Utils
             {
                 // Rewrite as fully-aliased any types for which there are name collisions.
                 // This has to be done post-generation, as we don't know the complete set of types & imports until generation is complete.
-                var typeAliaser = TypeAliaser.Create(_seenNamespaces, _seenTypes, _wellKnownNamespaceAliases, _avoidAliasingNamespaceRegex);
+                var typeAliaser = TypeAliaser.Create(_seenNamespaces, _seenTypes, _packageTyps, _wellKnownNamespaceAliases, _avoidAliasingNamespaceRegex);
                 ns = (NamespaceDeclarationSyntax) typeAliaser.Visit(ns);
                 // Add using statements for standard imports, and for fully-qualifying name collisions.
                 var usings = typeAliaser.UnaliasedNamespaces.OrderBy(x => x).Select(x => UsingDirective(IdentifierName(x)))
@@ -471,8 +478,10 @@ namespace Google.Api.Generator.Utils
             IClock clock,
             IReadOnlyDictionary<string, string> wellKnownNamespaceAliases,
             IReadOnlyCollection<Regex> avoidAliasingNamespaceRegex,
+            // We need these here to take into account in collisions.
+            IEnumerable<Typ> packageTyps,
             bool maySkipOwnNamespaceImport) =>
-            new Unaliased(clock, wellKnownNamespaceAliases, avoidAliasingNamespaceRegex, maySkipOwnNamespaceImport);
+            new Unaliased(clock, wellKnownNamespaceAliases, avoidAliasingNamespaceRegex, packageTyps, maySkipOwnNamespaceImport);
 
         public static SourceFileContext CreateFullyQualified(IClock clock) => new FullyQualified(clock);
 

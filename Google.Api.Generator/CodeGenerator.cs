@@ -148,6 +148,11 @@ namespace Google.Api.Generator
             HashSet<string> duplicateResourceNameClasses = new HashSet<string>();
             IList<Snippet> snippets = new List<Snippet>();
 
+            IEnumerable<Typ> packageTyps = packageFileDescriptors.SelectMany(
+                fileDescriptor => fileDescriptor.Services.Select(serv => Typ.Manual(ns, serv.Name))
+                    .Union(fileDescriptor.MessageTypes.Select(msg => Typ.Manual(ns, msg.Name)))
+                    .Union(fileDescriptor.EnumTypes.Select(e => Typ.Manual(ns, e.Name, isEnum: true))));
+
             var seenPaginatedResponseTyps = new HashSet<Typ>();
             foreach (var fileDesc in packageFileDescriptors)
             {
@@ -165,7 +170,7 @@ namespace Google.Api.Generator
                     // TODO: Consider removing this once we have integrated the standalone snippets
                     // with docs generation.
                     var snippetCtx = SourceFileContext.CreateUnaliased(
-                        clock, s_wellknownNamespaceAliases, s_avoidAliasingNamespaceRegex, maySkipOwnNamespaceImport: true);
+                        clock, s_wellknownNamespaceAliases, s_avoidAliasingNamespaceRegex, packageTyps, maySkipOwnNamespaceImport: true);
                     var snippetCode = SnippetCodeGenerator.Generate(snippetCtx, serviceDetails);
                     var snippetFilename = $"{snippetsPathPrefix}{serviceDetails.ClientAbstractTyp.Name}Snippets.g.cs";
                     yield return new ResultFile(snippetFilename, snippetCode);
@@ -175,7 +180,7 @@ namespace Google.Api.Generator
                     foreach (var snippetGenerator in SnippetCodeGenerator.StandaloneGenerators(serviceDetails))
                     {
                         var standaloneSnippetCtx = SourceFileContext.CreateUnaliased(
-                            clock, s_wellknownNamespaceAliases, s_avoidAliasingNamespaceRegex, maySkipOwnNamespaceImport: false);
+                            clock, s_wellknownNamespaceAliases, s_avoidAliasingNamespaceRegex, packageTyps, maySkipOwnNamespaceImport: false);
                         var (standaloneSnippetCode, standaloneSnippetMetadata) = snippetGenerator.Generate(standaloneSnippetCtx);
                         standaloneSnippetMetadata.File = $"{serviceDetails.ClientAbstractTyp.Name}.{snippetGenerator.SnippetMethodName}Snippet.g.cs";
                         var standaloneSnippetFile = $"{standaloneSnippetsPathPrefix}{standaloneSnippetMetadata.File}";
