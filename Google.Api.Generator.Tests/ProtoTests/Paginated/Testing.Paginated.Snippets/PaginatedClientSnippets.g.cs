@@ -22,7 +22,7 @@ namespace Testing.Paginated.Snippets
     using System.Threading.Tasks;
 
     /// <summary>Generated snippets.</summary>
-    public sealed class GeneratedPaginatedClientSnippets
+    public sealed class AllGeneratedPaginatedClientSnippets
     {
         /// <summary>Snippet for SignatureMethod</summary>
         public void SignatureMethodRequestObject()

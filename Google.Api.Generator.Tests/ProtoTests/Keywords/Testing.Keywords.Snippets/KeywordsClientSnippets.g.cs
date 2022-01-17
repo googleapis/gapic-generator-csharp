@@ -19,7 +19,7 @@ namespace Testing.Keywords.Snippets
     using System.Threading.Tasks;
 
     /// <summary>Generated snippets.</summary>
-    public sealed class GeneratedKeywordsClientSnippets
+    public sealed class AllGeneratedKeywordsClientSnippets
     {
         /// <summary>Snippet for Method1</summary>
         public void Method1RequestObject()

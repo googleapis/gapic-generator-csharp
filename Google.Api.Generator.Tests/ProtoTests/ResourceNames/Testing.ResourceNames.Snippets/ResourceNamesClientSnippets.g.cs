@@ -21,7 +21,7 @@ namespace Testing.ResourceNames.Snippets
     using System.Threading.Tasks;
 
     /// <summary>Generated snippets.</summary>
-    public sealed class GeneratedResourceNamesClientSnippets
+    public sealed class AllGeneratedResourceNamesClientSnippets
     {
         /// <summary>Snippet for SinglePatternMethod</summary>
         public void SinglePatternMethodRequestObject()

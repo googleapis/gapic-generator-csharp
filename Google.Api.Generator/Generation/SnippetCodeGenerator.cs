@@ -62,7 +62,7 @@ namespace Google.Api.Generator.Generation
             var ns = Namespace(svc.SnippetsNamespace);
             using (ctx.InNamespace(ns))
             {
-                var cls = Class(Public | Sealed, svc.SnippetsTyp)
+                var cls = Class(Public | Sealed, svc.ServiceSnippetsTyp)
                     .WithXmlDoc(XmlDoc.Summary("Generated snippets."));
                 using (ctx.InClass(cls))
                 {
@@ -73,7 +73,7 @@ namespace Google.Api.Generator.Generation
             return ctx.CreateCompilationUnit(ns);
         }
 
-        public static IEnumerable<SnippetCodeGenerator> StandaloneGenerators(ServiceDetails svc) =>
+        public static IEnumerable<SnippetCodeGenerator> SnippetsGenerators(ServiceDetails svc) =>
             Snippets(null, svc).Select(snippetDef => new SnippetCodeGenerator(snippetDef));
 
         private static IEnumerable<SnippetDef> Snippets(SourceFileContext ctx, ServiceDetails svc)
@@ -151,7 +151,7 @@ namespace Google.Api.Generator.Generation
 
         public (CompilationUnitSyntax, SnippetMetadata) Generate(SourceFileContext ctx)
         {
-            var (snippetCode, snippetMetadata) = Snippet.StandaloneSnippet(ctx);
+            var (snippetCode, snippetMetadata) = Snippet.FullSnippet(ctx);
             return (ctx.CreateCompilationUnit(snippetCode), snippetMetadata);
         }
 
@@ -168,7 +168,7 @@ namespace Google.Api.Generator.Generation
             public string SnippetMethodName { get; }
             private string TargetMethodName => Sync ? TargetMethod.SyncMethodName : TargetMethod.AsyncMethodName;
             private string RegionTagDisambiguation { get; }
-            // TODO: Reconsider this ugly hack when refactoring after removing the non standalone snippets.
+            // TODO: Reconsider this ugly hack when refactoring after removing the service-per-file snippets.
             private bool Canonical => RegionTagDisambiguation is null;
             private Func<SourceFileContext, bool, MethodDeclarationSyntax> MethodGenerator { get; }
 
@@ -215,16 +215,16 @@ namespace Google.Api.Generator.Generation
                     }
                 };
 
-            public (NamespaceDeclarationSyntax, SnippetMetadata) StandaloneSnippet(SourceFileContext ctx)
+            public (NamespaceDeclarationSyntax, SnippetMetadata) FullSnippet(SourceFileContext ctx)
             {
                 var ns = Namespace(TargetMethod.Svc.SnippetsNamespace);
                 using (ctx.InNamespace(ns))
                 {
-                    var cls = Class(Public | Sealed | Partial, TargetMethod.Svc.StandaloneSnippetsTyp);
+                    var cls = Class(Public | Sealed | Partial, TargetMethod.Svc.SnippetsTyp);
                     using (ctx.InClass(cls))
                     {
                         cls = cls.AddMembers(
-                            // Do not include doc markers. Standalone snippets use region tags and metadata.
+                            // Do not include doc markers. Full snippets use region tags and metadata.
                             MethodGenerator(ctx, false) 
                                 .WithXmlDoc(
                                     XmlDoc.Summary($"Snippet for {TargetMethodName}"),

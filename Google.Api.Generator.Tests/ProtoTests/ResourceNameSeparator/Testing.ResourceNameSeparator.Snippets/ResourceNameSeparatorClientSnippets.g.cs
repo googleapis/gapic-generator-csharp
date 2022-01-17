@@ -19,7 +19,7 @@ namespace Testing.ResourceNameSeparator.Snippets
     using System.Threading.Tasks;
 
     /// <summary>Generated snippets.</summary>
-    public sealed class GeneratedResourceNameSeparatorClientSnippets
+    public sealed class AllGeneratedResourceNameSeparatorClientSnippets
     {
         /// <summary>Snippet for Method1</summary>
         public void Method1RequestObject()
