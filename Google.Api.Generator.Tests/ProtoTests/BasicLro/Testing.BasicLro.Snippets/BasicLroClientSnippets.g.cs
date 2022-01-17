@@ -20,7 +20,7 @@ namespace Testing.BasicLro.Snippets
     using System.Threading.Tasks;
 
     /// <summary>Generated snippets.</summary>
-    public sealed class GeneratedBasicLroClientSnippets
+    public sealed class AllGeneratedBasicLroClientSnippets
     {
         /// <summary>Snippet for Method1</summary>
         public void Method1RequestObject()

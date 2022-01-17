@@ -25,7 +25,7 @@ namespace Testing.Snippets.Snippets
     using ts = Testing.Snippets;
 
     /// <summary>Generated snippets.</summary>
-    public sealed class GeneratedSnippetsClientSnippets
+    public sealed class AllGeneratedSnippetsClientSnippets
     {
         /// <summary>Snippet for MethodDefaultValues</summary>
         public void MethodDefaultValuesRequestObject()

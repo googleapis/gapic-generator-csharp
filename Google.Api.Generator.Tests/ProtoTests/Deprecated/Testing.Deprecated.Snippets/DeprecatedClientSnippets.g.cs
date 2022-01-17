@@ -19,7 +19,7 @@ namespace Testing.Deprecated.Snippets
     using System.Threading.Tasks;
 
     /// <summary>Generated snippets.</summary>
-    public sealed class GeneratedDeprecatedClientSnippets
+    public sealed class AllGeneratedDeprecatedClientSnippets
     {
         /// <summary>Snippet for DeprecatedFieldMethod</summary>
         public void DeprecatedFieldMethodRequestObject()

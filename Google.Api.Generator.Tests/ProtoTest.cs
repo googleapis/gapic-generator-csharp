@@ -90,7 +90,7 @@ namespace Google.Api.Generator.Tests
             {
                 if ((ignoreCsProj && file.RelativePath.EndsWith(".csproj")) ||
                     (ignoreSnippets && file.RelativePath.Contains($".Snippets{Path.DirectorySeparatorChar}")) ||
-                    (ignoreSnippets && file.RelativePath.Contains($".StandaloneSnippets{Path.DirectorySeparatorChar}")) ||
+                    (ignoreSnippets && file.RelativePath.Contains($".GeneratedSnippets{Path.DirectorySeparatorChar}")) ||
                     (ignoreUnitTests && file.RelativePath.Contains($".Tests{Path.DirectorySeparatorChar}")) ||
                     (ignoreMetadataFile && file.RelativePath.EndsWith("gapic_metadata.json")))
                 {
@@ -114,7 +114,7 @@ namespace Google.Api.Generator.Tests
             Build(clientPath);
             // Test build snippets.
             Build(Path.Combine(baseTestPath, $"Testing.{effectiveTestName}.Snippets"));
-            Build(Path.Combine(baseTestPath, $"Testing.{effectiveTestName}.StandaloneSnippets"));
+            Build(Path.Combine(baseTestPath, $"Testing.{effectiveTestName}.GeneratedSnippets"));
             if (!ignoreUnitTests)
             {
                 // Test build unit-tests.

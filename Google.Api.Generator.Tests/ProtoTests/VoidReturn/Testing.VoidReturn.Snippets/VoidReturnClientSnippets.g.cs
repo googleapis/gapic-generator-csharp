@@ -19,7 +19,7 @@ namespace Testing.VoidReturn.Snippets
     using System.Threading.Tasks;
 
     /// <summary>Generated snippets.</summary>
-    public sealed class GeneratedVoidReturnClientSnippets
+    public sealed class AllGeneratedVoidReturnClientSnippets
     {
         /// <summary>Snippet for VoidMethod</summary>
         public void VoidMethodRequestObject()

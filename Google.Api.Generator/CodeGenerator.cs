@@ -138,8 +138,8 @@ namespace Google.Api.Generator
             ServiceConfig grpcServiceConfig, List<ServiceDetails> allServiceDetails)
         {
             var clientPathPrefix = $"{ns}{Path.DirectorySeparatorChar}";
-            var snippetsPathPrefix = $"{ns}.Snippets{Path.DirectorySeparatorChar}";
-            var standaloneSnippetsPathPrefix = $"{ns}.StandaloneSnippets{Path.DirectorySeparatorChar}";
+            var serviceSnippetsPathPrefix = $"{ns}.Snippets{Path.DirectorySeparatorChar}";
+            var snippetsPathPrefix = $"{ns}.GeneratedSnippets{Path.DirectorySeparatorChar}";
             var unitTestsPathPrefix = $"{ns}.Tests{Path.DirectorySeparatorChar}";
             bool hasLro = false;
             bool hasContent = false;
@@ -166,26 +166,25 @@ namespace Google.Api.Generator
                     var code = ServiceCodeGenerator.Generate(ctx, serviceDetails, seenPaginatedResponseTyps);
                     var filename = $"{clientPathPrefix}{serviceDetails.ClientAbstractTyp.Name}.g.cs";
                     yield return new ResultFile(filename, code);
-                    // Generate snippets for the service
-                    // TODO: Consider removing this once we have integrated the standalone snippets
+                    // Generate service-per-file snippets for the service
+                    // TODO: Consider removing this once we have integrated the snippet-per-file snippets
                     // with docs generation.
-                    var snippetCtx = SourceFileContext.CreateUnaliased(
+                    var serviceSnippetsCtx = SourceFileContext.CreateUnaliased(
                         clock, s_wellknownNamespaceAliases, s_avoidAliasingNamespaceRegex, packageTyps, maySkipOwnNamespaceImport: true);
-                    var snippetCode = SnippetCodeGenerator.Generate(snippetCtx, serviceDetails);
-                    var snippetFilename = $"{snippetsPathPrefix}{serviceDetails.ClientAbstractTyp.Name}Snippets.g.cs";
-                    yield return new ResultFile(snippetFilename, snippetCode);
-                    // Generate standalone snippets for the service
-                    // TODO: Integrate standalone snippets with docs generation.
-                    // TODO: Once (and if we) generate just one set of snippets, stop using "standalone" as a differentiatior.
-                    foreach (var snippetGenerator in SnippetCodeGenerator.StandaloneGenerators(serviceDetails))
+                    var serviceSnippetsCode = SnippetCodeGenerator.Generate(serviceSnippetsCtx, serviceDetails);
+                    var serviceSnippetsFilename = $"{serviceSnippetsPathPrefix}{serviceDetails.ClientAbstractTyp.Name}Snippets.g.cs";
+                    yield return new ResultFile(serviceSnippetsFilename, serviceSnippetsCode);
+                    // Generate snippet-per-file snippets for the service
+                    // TODO: Integrate snippet-per-file snippets with docs generation.
+                    foreach (var snippetGenerator in SnippetCodeGenerator.SnippetsGenerators(serviceDetails))
                     {
-                        var standaloneSnippetCtx = SourceFileContext.CreateUnaliased(
+                        var snippetCtx = SourceFileContext.CreateUnaliased(
                             clock, s_wellknownNamespaceAliases, s_avoidAliasingNamespaceRegex, packageTyps, maySkipOwnNamespaceImport: false);
-                        var (standaloneSnippetCode, standaloneSnippetMetadata) = snippetGenerator.Generate(standaloneSnippetCtx);
-                        standaloneSnippetMetadata.File = $"{serviceDetails.ClientAbstractTyp.Name}.{snippetGenerator.SnippetMethodName}Snippet.g.cs";
-                        var standaloneSnippetFile = $"{standaloneSnippetsPathPrefix}{standaloneSnippetMetadata.File}";
-                        snippets.Add(standaloneSnippetMetadata);
-                        yield return new ResultFile(standaloneSnippetFile, standaloneSnippetCode);
+                        var (snippetCode, snippetMetadata) = snippetGenerator.Generate(snippetCtx);
+                        snippetMetadata.File = $"{serviceDetails.ClientAbstractTyp.Name}.{snippetGenerator.SnippetMethodName}Snippet.g.cs";
+                        var snippetFile = $"{snippetsPathPrefix}{snippetMetadata.File}";
+                        snippets.Add(snippetMetadata);
+                        yield return new ResultFile(snippetFile, snippetCode);
                     }
                     // Generate unit tests for the the service.
                     var unitTestCtx = SourceFileContext.CreateFullyAliased(clock, s_wellknownNamespaceAliases);
@@ -249,19 +248,19 @@ namespace Google.Api.Generator
                     allServiceDetails.AddRange(packageServiceDetails);
 
                     // Generate snippets csproj.
-                    var snippetsCsprojContent = CsProjGenerator.GenerateSnippets(ns);
-                    var snippetsCsProjFilename = $"{snippetsPathPrefix}{ns}.Snippets.csproj";
-                    yield return new ResultFile(snippetsCsProjFilename, snippetsCsprojContent);
-                    // Generate snippet metadata (only for standalone snippets).
+                    var serviceSnippetsCsprojContent = CsProjGenerator.GenerateSnippets(ns);
+                    var serviceSnippetsCsProjFilename = $"{serviceSnippetsPathPrefix}{ns}.Snippets.csproj";
+                    yield return new ResultFile(serviceSnippetsCsProjFilename, serviceSnippetsCsprojContent);
+                    // Generate snippet metadata (only for snippet-per-file snippets).
                     // All services in this package have the same package information, namespace etc. so, we
                     // just pick the first one
                     var serviceDetails = packageServiceDetails.First();
                     var snippetIndexJsonContent = SnippetCodeGenerator.GenerateSnippetIndexJson(snippets, serviceDetails);
-                    yield return new ResultFile($"{standaloneSnippetsPathPrefix}snippet_metadata_{serviceDetails.ProtoPackage}.json", snippetIndexJsonContent);
-                    // Generate standalone snippets csproj.
-                    var standaloneSnippetsCsprojContent = CsProjGenerator.GenerateSnippets(ns);
-                    var standaloneSnippetsCsProjFilename = $"{standaloneSnippetsPathPrefix}{ns}.StandaloneSnippets.csproj";
-                    yield return new ResultFile(standaloneSnippetsCsProjFilename, standaloneSnippetsCsprojContent);
+                    yield return new ResultFile($"{snippetsPathPrefix}snippet_metadata_{serviceDetails.ProtoPackage}.json", snippetIndexJsonContent);
+                    // Generate snippet-per-file snippets csproj.
+                    var snippetsCsprojContent = CsProjGenerator.GenerateSnippets(ns);
+                    var snippetsCsProjFilename = $"{snippetsPathPrefix}{ns}.GeneratedSnippets.csproj";
+                    yield return new ResultFile(snippetsCsProjFilename, snippetsCsprojContent);
                     // Generate unit-tests csproj.
                     var unitTestsCsprojContent = CsProjGenerator.GenerateUnitTests(ns);
                     var unitTestsCsprojFilename = $"{unitTestsPathPrefix}{ns}.Tests.csproj";

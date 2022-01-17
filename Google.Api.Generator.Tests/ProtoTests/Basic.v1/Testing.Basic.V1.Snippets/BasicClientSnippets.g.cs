@@ -19,7 +19,7 @@ namespace Testing.Basic.V1.Snippets
     using System.Threading.Tasks;
 
     /// <summary>Generated snippets.</summary>
-    public sealed class GeneratedBasicClientSnippets
+    public sealed class AllGeneratedBasicClientSnippets
     {
         /// <summary>Snippet for AMethod</summary>
         public void AMethodRequestObject()
