@@ -28,7 +28,6 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Net;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using MessageDescriptor = Google.Protobuf.Reflection.MessageDescriptor;
 
@@ -297,20 +296,18 @@ namespace Google.Api.Generator.Generation
             }
 
             public static RoutingHeader CreateOneFieldNoRegex(string encodedName, IEnumerable<FieldDescriptor> fields) =>
-                new()
+                new RoutingHeader()
                 {
                     EncodedName = encodedName,
-                    Extractions = new List<FieldExtraction> { new() { Fields = fields, NoRegexMatchingNeeded = true } }
+                    Extractions = new List<FieldExtraction> { new FieldExtraction() { Fields = fields, NoRegexMatchingNeeded = true } }
                 };
         }
 
         /// <summary>
         /// A flat representation of the routing header annotation
-        /// with the order reified.
         /// </summary>
         private class ExplicitRoutingHeaderPrecursor
         {
-            public int Order { get; set; }
             public string HeaderName { get; set; }
             public string FieldPath { get; set; }
             public string RegexString { get; set; }
@@ -514,7 +511,7 @@ namespace Google.Api.Generator.Generation
                     yield return new RoutingHeader
                     {
                         EncodedName = WebUtility.UrlEncode(headerGroup.Key),
-                        Extractions = headerGroup.OrderBy(p => p.Order).Select(p =>
+                        Extractions = headerGroup.Select(p =>
                             new RoutingHeader.FieldExtraction
                             {
                                 Fields = SplitVerifyFieldPath(p.FieldPath, requestDesc),
@@ -549,7 +546,6 @@ namespace Google.Api.Generator.Generation
                 {
                     return new ExplicitRoutingHeaderPrecursor
                     {
-                        Order = order,
                         FieldPath = param.Field,
                         RegexString = $"^{ResourcePattern.DoubleWildcardStandaloneRegexStr}$",
                         HeaderName = param.Field,
@@ -573,7 +569,6 @@ namespace Google.Api.Generator.Generation
 
                 return new ExplicitRoutingHeaderPrecursor
                 {
-                    Order = order,
                     FieldPath = param.Field,
                     RegexString =  patternRegex,
                     HeaderName = parameterName,

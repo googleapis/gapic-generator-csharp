@@ -9,108 +9,108 @@ import "google/api/client.proto";
 import "google/api/routing.proto";
 
 service RoutingHeadersExplicit {
-	option (google.api.default_host) = "routingheaders.example.com";
+  option (google.api.default_host) = "routingheaders.example.com";
 
-	rpc NoUrlMethod(SimpleRequest) returns(Response);
+  rpc NoUrlMethod(SimpleRequest) returns(Response);
 
-	rpc PlainNoTemplate(SimpleRequest) returns(Response) {
-		option (google.api.http) = {
-			get: "/v2/{name=projects/*/instances/*/tables/*}:sampleRowKeys"
-		};
-		option (google.api.routing) = {
-			routing_parameters {
-				field: "name"
-			}
-		};
-	}
+  rpc PlainNoTemplate(SimpleRequest) returns(Response) {
+    option (google.api.http) = {
+      get: "/v2/{name=projects/*/instances/*/tables/*}:sampleRowKeys"
+    };
+    option (google.api.routing) = {
+      routing_parameters {
+        field: "name"
+      }
+    };
+  }
 
-	rpc PlainFullField(SimpleRequest) returns(Response) {
-		option (google.api.http) = {
-			get: "/v2/{name=projects/*/instances/*/tables/*}:sampleRowKeys"
-		};
-		option (google.api.routing) = {
-			routing_parameters {
-				field: "name"
-				path_template: "{table_name=projects/*/instances/*/tables/*}"
-			}
-		};
-	}
+  rpc PlainFullField(SimpleRequest) returns(Response) {
+    option (google.api.http) = {
+      get: "/v2/{name=projects/*/instances/*/tables/*}:sampleRowKeys"
+    };
+    option (google.api.routing) = {
+      routing_parameters {
+        field: "name"
+        path_template: "{table_name=projects/*/instances/*/tables/*}"
+      }
+    };
+  }
 
-	rpc PlainExtract(SimpleRequest) returns(Response) {
-		option (google.api.http) = {
-			get: "/v2/{name=projects/*/instances/*/tables/*}:sampleRowKeys"
-		};
-		option (google.api.routing) = {
-			routing_parameters {
-				field: "name"
-				path_template: "projects/*/instances/*/{table_name=tables/*}"
-			}
-		};
-	}
+  rpc PlainExtract(SimpleRequest) returns(Response) {
+    option (google.api.http) = {
+      get: "/v2/{name=projects/*/instances/*/tables/*}:sampleRowKeys"
+    };
+    option (google.api.routing) = {
+      routing_parameters {
+        field: "name"
+        path_template: "projects/*/instances/*/{table_name=tables/*}"
+      }
+    };
+  }
 
-	rpc Nested(NestedRequest) returns(Response) {
-		option (google.api.http) = {
-			get: "/v2/{nest1.nest2.name=projects/*/instances/*/tables/*}:withSubMessage"
-		};
-		option (google.api.routing) = {
-			routing_parameters {
-				field: "nest1.name"
-			}
-			routing_parameters {
-				field: "nest1.nest2.name"
-			}
-			routing_parameters {
-				field: "nest1.nest2.name"
-				path_template: "{table_name=projects/*/instances/*/tables/*}"
-			}
-		};
-	}
+  rpc Nested(NestedRequest) returns(Response) {
+    option (google.api.http) = {
+      get: "/v2/{nest1.nest2.name=projects/*/instances/*/tables/*}:withSubMessage"
+    };
+    option (google.api.routing) = {
+      routing_parameters {
+        field: "nest1.name"
+      }
+      routing_parameters {
+        field: "nest1.nest2.name"
+      }
+      routing_parameters {
+        field: "nest1.nest2.name"
+        path_template: "{table_name=projects/*/instances/*/tables/*}"
+      }
+    };
+  }
 
-	rpc Complex(NestedRequest) returns(Response) {
-		option (google.api.http) = {
-			get: "/v2/{name=projects/*/instances/*/tables/*}:sampleRowKeys"
-		};
-		option (google.api.routing) = {
-			routing_parameters {
-				field: "table_name"
-				path_template: "projects/*/{table_location=instances/*}/tables/*"
-			}
-			routing_parameters {
-				field: "table_name"
-				path_template: "{table_location=regions/*/zones/*}/tables/*"
-			}
-			routing_parameters {
-				field: "table_name"
-				path_template: "{routing_id=projects/*}/**"
-			}
-			routing_parameters {
-				field: "app_profile_id",
-				path_template: "{routing_id=**}"
-			}
-			routing_parameters {
-				field: "app_profile_id"
-				path_template: "profiles/{routing_id=*}"
-			}
-		};
-	}
+  rpc Complex(NestedRequest) returns(Response) {
+    option (google.api.http) = {
+      get: "/v2/{name=projects/*/instances/*/tables/*}:sampleRowKeys"
+    };
+    option (google.api.routing) = {
+      routing_parameters {
+        field: "table_name"
+        path_template: "projects/*/{table_location=instances/*}/tables/*"
+      }
+      routing_parameters {
+        field: "table_name"
+        path_template: "{table_location=regions/*/zones/*}/tables/*"
+      }
+      routing_parameters {
+        field: "table_name"
+        path_template: "{routing_id=projects/*}/**"
+      }
+      routing_parameters {
+        field: "app_profile_id",
+        path_template: "{routing_id=**}"
+      }
+      routing_parameters {
+        field: "app_profile_id"
+        path_template: "profiles/{routing_id=*}"
+      }
+    };
+  }
 }
 
 message SimpleRequest {
-	string name = 1;
+  string name = 1;
 }
 
 message NestedRequest {
-	message Inner1 {
-		message Inner2 {
-			string name = 1;
-		}
-		string name = 1;
-		Inner2 nest2 = 2;
-	}
+  message Inner1 {
+    message Inner2 {
+      string name = 1;
+    }
+    string name = 1;
+    Inner2 nest2 = 2;
+  }
 
-	string table_name = 1;
-	Inner1 nest1 = 2;
-	string app_profile_id = 3;
+  string table_name = 1;
+  Inner1 nest1 = 2;
+  string app_profile_id = 3;
 }
 
 message Response {

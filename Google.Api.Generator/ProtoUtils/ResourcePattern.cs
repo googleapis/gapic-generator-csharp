@@ -17,7 +17,6 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Google.Apis.Util;
 
 namespace Google.Api.Generator.ProtoUtils
 {
@@ -190,6 +189,7 @@ namespace Google.Api.Generator.ProtoUtils
                     ? string.Empty
                     : segment.Substring(indexOfEquals + 1, segment.Length - indexOfEquals - 2);
 
+                // A ResourceId segment `{name}` is equivalent to `{name=*}`
                 string effectiveParamPatternStr = _givenPattern == String.Empty
                     ? "*"
                     : _givenPattern;
@@ -304,13 +304,7 @@ namespace Google.Api.Generator.ProtoUtils
                 (acc, seg) => (acc.result.Add(seg.Expand(parameters.Skip(acc.paramOfs))), acc.paramOfs + seg.ParameterCount),
                 acc => acc.result));
 
-        public string PathTemplateString
-        {
-            get
-            {
-                return string.Join('/', Segments.Select(x => x.PathTemplateString));
-            }
-        }
+        public string PathTemplateString => string.Join('/', Segments.Select(x => x.PathTemplateString));
 
         public string RegexString
         {
@@ -347,6 +341,10 @@ namespace Google.Api.Generator.ProtoUtils
             _ => false
         };
 
+        /// <summary>
+        /// The double-wildcard pattern on the end of the expression
+        /// takes care of a possible trailing slash
+        /// </summary>
         public string FullFieldRegexString =>
             EndsWithDoubleWildcardPattern
                 ? $"^{RegexString}$"
@@ -359,7 +357,6 @@ namespace Google.Api.Generator.ProtoUtils
         private bool EndsWithDoubleWildcardPattern => Segments.Last() switch
         {
             WildcardSegment { Pattern: "**" } wcdId => true,
-            ResourceIdSegment { Pattern: "**" } resId => true,
             ResourceIdSegment resId => resId.EndsWithDoubleWildcardPattern,
             _ => false
         };

@@ -33,10 +33,8 @@ namespace Google.Api.Generator.Tests
             var protoPaths = protoFilenames.Select(x => Path.Combine(Invoker.GeneratorTestsDir, x));
             using (var desc = Invoker.TempFile())
             {
-                var protocArgs = $"-o {desc} --experimental_allow_proto3_optional --include_imports --include_source_info " +
-                           $"-I{Invoker.CommonProtosDir} -I{Invoker.ProtobufDir} -I{Invoker.GeneratorTestsDir} {string.Join(" ", protoPaths)}";
-                
-                Invoker.Protoc(protocArgs);
+                Invoker.Protoc($"-o {desc} --experimental_allow_proto3_optional --include_imports --include_source_info " +
+                    $"-I{Invoker.CommonProtosDir} -I{Invoker.ProtobufDir} -I{Invoker.GeneratorTestsDir} {string.Join(" ", protoPaths)}");
                 var descriptorBytes = File.ReadAllBytes(desc.Path);
                 FileDescriptorSet descriptorSet = FileDescriptorSet.Parser.ParseFrom(descriptorBytes);
                 return CodeGenerator.Generate(descriptorSet, package, clock, grpcServiceConfigPath, serviceConfigPath, commonResourcesConfigPaths);
@@ -100,6 +98,7 @@ namespace Google.Api.Generator.Tests
                     continue;
                 }
                 var expectedFilePath = Path.Combine(Invoker.GeneratorTestsDir, "ProtoTests", dirName, file.RelativePath);
+
                 TextComparer.CompareText(expectedFilePath, file);
             }
         }
