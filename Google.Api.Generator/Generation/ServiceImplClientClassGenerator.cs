@@ -163,47 +163,38 @@ namespace Google.Api.Generator.Generation
                 InvocationExpressionSyntax WithGoogleRequestParams(InvocationExpressionSyntax fieldInitializer)
                 {
                     var request = Parameter(_ctx.Type(method.RequestTyp), "request");
-                    foreach (var header in method.RoutingHeaders)
+                    if (method.RoutingHeaders.Count() == 1 && method.RoutingHeaders.SingleOrDefault() is MethodDetails.RoutingHeader { FullFieldNoRegex: true } implicitOrEquivalent)
                     {
-                        if (header.FullFieldNoRegex)
+                        var extraction = implicitOrEquivalent.Extractions.Single();
+                        var access = FullFieldAccess(extraction.Fields);
+
+                        // Note: the name "WithGoogleRequestParam" is the same across ApiCall and ApiServerStreamingCall,
+                        // so we don't need to distinguish between them here.
+                        fieldInitializer = fieldInitializer.Call(nameof(ApiCall<ProtoMsg, ProtoMsg>.WithGoogleRequestParam))(
+                            implicitOrEquivalent.EncodedName, Lambda(request)(access));
+                    }
+                    else
+                    {
+                        var extractorType = _ctx.Type(Typ.Generic(typeof(RoutingHeaderExtractor<>), method.RequestTyp));
+                        ExpressionSyntax extractorSyntax = New(extractorType)();
+
+                        foreach (var header in method.RoutingHeaders)
                         {
-                            var extraction = header.Extractions.Single();
-                            var access = FullFieldAccess(extraction.Fields);
-
-                            // Note: the name "WithGoogleRequestParam" is the same across ApiCall and ApiServerStreamingCall,
-                            // so we don't need to distinguish between them here.
-                            fieldInitializer = fieldInitializer.Call(nameof(ApiCall<ProtoMsg, ProtoMsg>.WithGoogleRequestParam))(
-                                header.EncodedName, Lambda(request)(access));
-                        }
-                        else if (header.Extractions.Count == 1)
-                        {
-                            var extraction = header.Extractions.Single();
-                            var access = FullFieldAccess(extraction.Fields);
-
-                            // Note: the name "WithExtractedGoogleRequestParam" is the same across ApiCall and ApiServerStreamingCall,
-                            // so we don't need to distinguish between them here.
-                            fieldInitializer = fieldInitializer.Call(nameof(ApiCall<ProtoMsg, ProtoMsg>.WithExtractedGoogleRequestParam))(
-                                header.EncodedName, New(_ctx.Type<Regex>())(extraction.RegexStr), Lambda(request)(access));
-                        }
-                        else
-                        {
-                            var first = header.Extractions.First();
-                            var firstAccess = FullFieldAccess(first.Fields);
-
-                            var extractorType = _ctx.Type(Typ.Generic(typeof(HeaderParameterExtractor<>), method.RequestTyp));
-                            ExpressionSyntax extractorSyntax = New(extractorType)(New(_ctx.Type<Regex>())(first.RegexStr), Lambda(request)(firstAccess));
-
-                            foreach (var extraction in header.Extractions.Skip(1))
+                            foreach (var extraction in header.Extractions)
                             {
                                 var access = FullFieldAccess(extraction.Fields);
-                                extractorSyntax = extractorSyntax.Call(nameof(HeaderParameterExtractor<ProtoMsg>.Add))(New(_ctx.Type<Regex>())(extraction.RegexStr), Lambda(request)(access));
+                                extractorSyntax =
+                                    extractorSyntax.Call(nameof(RoutingHeaderExtractor<ProtoMsg>
+                                        .WithExtractedParameter))(header.EncodedName, extraction.RegexStr,
+                                        Lambda(request)(access));
                             }
-
-                            // Note: the name "WithExtractedGoogleRequestParam" is the same across ApiCall and ApiServerStreamingCall,
-                            // so we don't need to distinguish between them here.
-                            fieldInitializer = fieldInitializer.Call(nameof(ApiCall<ProtoMsg, ProtoMsg>.WithExtractedGoogleRequestParam))(header.EncodedName, extractorSyntax);
                         }
+
+                        // Note: the name "WithExtractedGoogleRequestParam" is the same across ApiCall and ApiServerStreamingCall,
+                        // so we don't need to distinguish between them here.
+                        fieldInitializer = fieldInitializer.Call(nameof(ApiCall<ProtoMsg, ProtoMsg>.WithExtractedGoogleRequestParam))(extractorSyntax);
                     }
+                    
                     return fieldInitializer;
                     
                     ExpressionSyntax FullFieldAccess(IEnumerable<FieldDescriptor> extractionField)

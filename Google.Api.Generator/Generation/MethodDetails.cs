@@ -569,9 +569,7 @@ namespace Google.Api.Generator.Generation
 
                 // The full pattern should match the entire field and allow for an
                 // optional `/` at the end.
-                var patternRegex = pattern.EndsWithDoubleWildcardPattern
-                    ? $"^{pattern.RegexString}$"
-                    : $"^{pattern.RegexString}/?$";
+                var patternRegex = pattern.FullFieldRegexString;
 
                 return new ExplicitRoutingHeaderPrecursor
                 {

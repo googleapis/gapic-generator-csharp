@@ -53,76 +53,75 @@ namespace Testing.RoutingHeadersExplicit
 
         private readonly gaxgrpc::ApiCall<NestedRequest, Response> _callNested;
 
-        private readonly gaxgrpc::ApiCall<SimpleRequest, Response> _callComplex;
+        private readonly gaxgrpc::ApiCall<NestedRequest, Response> _callComplex;
 
-        
+
         public RoutingHeadersExplicitClientImpl(RoutingHeadersExplicit.RoutingHeadersExplicitClient grpcClient, RoutingHeadersExplicitSettings settings)
         {
             // TEST_START
             GrpcClient = grpcClient;
             RoutingHeadersExplicitSettings effectiveSettings = settings ?? RoutingHeadersExplicitSettings.GetDefault();
             gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings);
-            _callNoUrlMethod = clientHelper.BuildApiCall<SimpleRequest, Response>(grpcClient.NoUrlMethodAsync, grpcClient.NoUrlMethod, effectiveSettings.NoUrlMethodSettings);
+            _callNoUrlMethod = clientHelper.BuildApiCall<SimpleRequest, Response>(grpcClient.NoUrlMethodAsync, grpcClient.NoUrlMethod, effectiveSettings.NoUrlMethodSettings).WithExtractedGoogleRequestParam(new gaxgrpc::RoutingHeaderExtractor<SimpleRequest>());
             Modify_ApiCall(ref _callNoUrlMethod);
             Modify_NoUrlMethodApiCall(ref _callNoUrlMethod);
             _callPlainNoTemplate = clientHelper.BuildApiCall<SimpleRequest, Response>(grpcClient.PlainNoTemplateAsync, grpcClient.PlainNoTemplate, effectiveSettings.PlainNoTemplateSettings).WithGoogleRequestParam("name", request => request.Name);
             Modify_ApiCall(ref _callPlainNoTemplate);
             Modify_PlainNoTemplateApiCall(ref _callPlainNoTemplate);
-            _callPlainFullField = clientHelper.BuildApiCall<SimpleRequest, Response>(grpcClient.PlainFullFieldAsync, grpcClient.PlainFullField, effectiveSettings.PlainFullFieldSettings).WithExtractedGoogleRequestParam("table_name", new str::Regex("^(?<table_name>projects/[^/]+/instances/[^/]+/tables/[^/]+)/?$"), request => request.Name);
+            _callPlainFullField = clientHelper.BuildApiCall<SimpleRequest, Response>(grpcClient.PlainFullFieldAsync, grpcClient.PlainFullField, effectiveSettings.PlainFullFieldSettings).WithExtractedGoogleRequestParam(new gaxgrpc::RoutingHeaderExtractor<SimpleRequest>().WithExtractedParameter("table_name", "^(projects/[^/]+/instances/[^/]+/tables/[^/]+)/?$", request => request.Name));
             Modify_ApiCall(ref _callPlainFullField);
             Modify_PlainFullFieldApiCall(ref _callPlainFullField);
-            _callPlainExtract = clientHelper.BuildApiCall<SimpleRequest, Response>(grpcClient.PlainExtractAsync, grpcClient.PlainExtract, effectiveSettings.PlainExtractSettings).WithExtractedGoogleRequestParam("table_name", new str::Regex("^projects/[^/]+/instances/[^/]+/(?<table_name>tables/[^/]+)/?$"), request => request.Name);
+            _callPlainExtract = clientHelper.BuildApiCall<SimpleRequest, Response>(grpcClient.PlainExtractAsync, grpcClient.PlainExtract, effectiveSettings.PlainExtractSettings).WithExtractedGoogleRequestParam(new gaxgrpc::RoutingHeaderExtractor<SimpleRequest>().WithExtractedParameter("table_name", "^projects/[^/]+/instances/[^/]+/(tables/[^/]+)/?$", request => request.Name));
             Modify_ApiCall(ref _callPlainExtract);
             Modify_PlainExtractApiCall(ref _callPlainExtract);
-            _callNested = clientHelper.BuildApiCall<NestedRequest, Response>(grpcClient.NestedAsync, grpcClient.Nested, effectiveSettings.NestedSettings).WithExtractedGoogleRequestParam("table_name", new str::Regex("^(?<table_name>projects/[^/]+/instances/[^/]+/tables/[^/]+)/?$"), request => request.Nest1?.Nest2?.Name).WithGoogleRequestParam("app_profile_id", request => request.AppProfileId);
+            _callNested = clientHelper.BuildApiCall<NestedRequest, Response>(grpcClient.NestedAsync, grpcClient.Nested, effectiveSettings.NestedSettings).WithExtractedGoogleRequestParam(new gaxgrpc::RoutingHeaderExtractor<NestedRequest>().WithExtractedParameter("nest1.name", "^.*$", request => request.Nest1?.Name).WithExtractedParameter("nest1.nest2.name", "^.*$", request => request.Nest1?.Nest2?.Name).WithExtractedParameter("table_name", "^(projects/[^/]+/instances/[^/]+/tables/[^/]+)/?$", request => request.Nest1?.Nest2?.Name));
             Modify_ApiCall(ref _callNested);
             Modify_NestedApiCall(ref _callNested);
-            _callComplex = clientHelper.BuildApiCall<SimpleRequest, Response>(grpcClient.ComplexAsync, grpcClient.Complex, effectiveSettings.ComplexSettings).WithExtractedGoogleRequestParam("project_id", new str::Regex("^(?<project_id>projects/[^/]+)/instances/[^/]+/tables/[^/]+/?$"), request => request.Name).WithExtractedGoogleRequestParam("instance_id", new str::Regex("^projects/[^/]+/(?<instance_id>instances/[^/]+)/tables/[^/]+/?$"), request => request.Name).WithExtractedGoogleRequestParam("table_id", new str::Regex("^projects/[^/]+/instances/[^/]+/(?<table_id>tables/[^/]+)/?$"), request => request.Name).WithExtractedGoogleRequestParam("table_name", new gaxgrpc::HeaderParameterExtractor<SimpleRequest>(new str::Regex("^(?<table_name>projects/[^/]+/instances/[^/]+/tables/[^/]+)/?$"), request => request.Name).Add(new str::Regex("^(?<table_name>projects/[^/]+/instances/[^/]+/tables/[^/]+/aliases(?:/.*)?)/?$"), request => request.Name)).WithGoogleRequestParam("app_profile_id", request => request.AppProfileId).WithGoogleRequestParam("app_profile_id_renamed", request => request.AppProfileId);
+            _callComplex = clientHelper.BuildApiCall<NestedRequest, Response>(grpcClient.ComplexAsync, grpcClient.Complex, effectiveSettings.ComplexSettings).WithExtractedGoogleRequestParam(new gaxgrpc::RoutingHeaderExtractor<NestedRequest>().WithExtractedParameter("table_location", "^projects/[^/]+/(instances/[^/]+)/tables/[^/]+/?$", request => request.TableName).WithExtractedParameter("table_location", "^(regions/[^/]+/zones/[^/]+)/tables/[^/]+/?$", request => request.TableName).WithExtractedParameter("routing_id", "^(projects/[^/]+)(?:/.*)?$", request => request.TableName).WithExtractedParameter("routing_id", "^(.*)$", request => request.AppProfileId).WithExtractedParameter("routing_id", "^profiles/([^/]+)/?$", request => request.AppProfileId));
             Modify_ApiCall(ref _callComplex);
             Modify_ComplexApiCall(ref _callComplex);
             OnConstruction(grpcClient, effectiveSettings, clientHelper);
             // TEST_END
-            
+
             // for the easier reading, while the CR is in draft
             _callPlainNoTemplate = clientHelper.BuildApiCall<SimpleRequest, Response>(grpcClient.PlainNoTemplateAsync, grpcClient.PlainNoTemplate, effectiveSettings.PlainNoTemplateSettings)
                 .WithGoogleRequestParam("name", request => request.Name);
 
-            _callPlainFullField = clientHelper.BuildApiCall<SimpleRequest, Response>(grpcClient.PlainFullFieldAsync, grpcClient.PlainFullField, effectiveSettings.PlainFullFieldSettings)
-                .WithExtractedGoogleRequestParam("table_name",
-                    new str::Regex("^(?<table_name>projects/[^/]+/instances/[^/]+/tables/[^/]+)/?$"),
-                    request => request.Name);
+            _callPlainFullField = clientHelper
+                .BuildApiCall<SimpleRequest, Response>(grpcClient.PlainFullFieldAsync, grpcClient.PlainFullField, effectiveSettings.PlainFullFieldSettings)
+                .WithExtractedGoogleRequestParam(new gaxgrpc::RoutingHeaderExtractor<SimpleRequest>()
+                    .WithExtractedParameter("table_name",
+                        "^(projects/[^/]+/instances/[^/]+/tables/[^/]+)/?$", request => request.Name));
 
-            _callPlainExtract = clientHelper.BuildApiCall<SimpleRequest, Response>(grpcClient.PlainExtractAsync, grpcClient.PlainExtract, effectiveSettings.PlainExtractSettings)
-                .WithExtractedGoogleRequestParam("table_name",
-                    new str::Regex("^projects/[^/]+/instances/[^/]+/(?<table_name>tables/[^/]+)/?$"),
-                    request => request.Name);
+            _callPlainExtract = clientHelper
+                .BuildApiCall<SimpleRequest, Response>(grpcClient.PlainExtractAsync, grpcClient.PlainExtract, effectiveSettings.PlainExtractSettings)
+                .WithExtractedGoogleRequestParam(new gaxgrpc::RoutingHeaderExtractor<SimpleRequest>()
+                    .WithExtractedParameter("table_name",
+                        "^projects/[^/]+/instances/[^/]+/(tables/[^/]+)/?$", request => request.Name));
 
-            _callNested = clientHelper.BuildApiCall<NestedRequest, Response>(grpcClient.NestedAsync, grpcClient.Nested, effectiveSettings.NestedSettings)
-                .WithExtractedGoogleRequestParam("table_name",
-                    new str::Regex("^(?<table_name>projects/[^/]+/instances/[^/]+/tables/[^/]+)/?$"), 
-                    request => request.Nest1?.Nest2?.Name)
-                .WithGoogleRequestParam("app_profile_id", request => request.AppProfileId);
+            _callNested = clientHelper
+                .BuildApiCall<NestedRequest, Response>(grpcClient.NestedAsync, grpcClient.Nested, effectiveSettings.NestedSettings)
+                .WithExtractedGoogleRequestParam(new gaxgrpc::RoutingHeaderExtractor<NestedRequest>()
+                    .WithExtractedParameter("nest1.name",
+                        "^.*$", request => request.Nest1?.Name)
+                    .WithExtractedParameter("nest1.nest2.name",
+                        "^.*$", request => request.Nest1?.Nest2?.Name)
+                    .WithExtractedParameter("table_name",
+                        "^(projects/[^/]+/instances/[^/]+/tables/[^/]+)/?$", request => request.Nest1?.Nest2?.Name));
 
             _callComplex = clientHelper
-                .BuildApiCall<SimpleRequest, Response>(grpcClient.ComplexAsync, grpcClient.Complex, effectiveSettings.ComplexSettings)
-                .WithExtractedGoogleRequestParam("project_id",
-                    new str::Regex("^(?<project_id>projects/[^/]+)/instances/[^/]+/tables/[^/]+/?$"),
-                    request => request.Name)
-                .WithExtractedGoogleRequestParam("instance_id",
-                    new str::Regex("^projects/[^/]+/(?<instance_id>instances/[^/]+)/tables/[^/]+/?$"),
-                    request => request.Name)
-                .WithExtractedGoogleRequestParam("table_id",
-                    new str::Regex("^projects/[^/]+/instances/[^/]+/(?<table_id>tables/[^/]+)/?$"),
-                    request => request.Name)
-                .WithExtractedGoogleRequestParam("table_name",
-                    new gaxgrpc::HeaderParameterExtractor<SimpleRequest>(
-                            new str::Regex("^(?<table_name>projects/[^/]+/instances/[^/]+/tables/[^/]+)/?$"),
-                            request => request.Name)
-                        .Add(
-                            new str::Regex("^(?<table_name>projects/[^/]+/instances/[^/]+/tables/[^/]+/aliases(?:/.*)?)/?$"),
-                            request => request.Name))
-                .WithGoogleRequestParam("app_profile_id", request => request.AppProfileId)
-                .WithGoogleRequestParam("app_profile_id_renamed", request => request.AppProfileId);
+                .BuildApiCall<NestedRequest, Response>(grpcClient.ComplexAsync, grpcClient.Complex, effectiveSettings.ComplexSettings)
+                .WithExtractedGoogleRequestParam(new gaxgrpc::RoutingHeaderExtractor<NestedRequest>()
+                    .WithExtractedParameter("table_location",
+                        "^projects/[^/]+/(instances/[^/]+)/tables/[^/]+/?$", request => request.TableName)
+                    .WithExtractedParameter("table_location",
+                        "^(regions/[^/]+/zones/[^/]+)/tables/[^/]+/?$", request => request.TableName)
+                    .WithExtractedParameter("routing_id",
+                        "^(projects/[^/]+)(?:/.*)?$", request => request.TableName)
+                    .WithExtractedParameter("routing_id",
+                        "^(.*)$", request => request.AppProfileId)
+                    .WithExtractedParameter("routing_id",
+                        "^profiles/([^/]+)/?$", request => request.AppProfileId));
         }
 
         partial void Modify_ApiCall<TRequest, TResponse>(ref gaxgrpc::ApiCall<TRequest, TResponse> call) where TRequest : class, proto::IMessage<TRequest> where TResponse : class, proto::IMessage<TResponse>;
@@ -137,7 +136,7 @@ namespace Testing.RoutingHeadersExplicit
 
         partial void Modify_NestedApiCall(ref gaxgrpc::ApiCall<NestedRequest, Response> call);
 
-        partial void Modify_ComplexApiCall(ref gaxgrpc::ApiCall<SimpleRequest, Response> call);
+        partial void Modify_ComplexApiCall(ref gaxgrpc::ApiCall<NestedRequest, Response> call);
 
         partial void OnConstruction(RoutingHeadersExplicit.RoutingHeadersExplicitClient grpcClient, RoutingHeadersExplicitSettings effectiveSettings, gaxgrpc::ClientHelper clientHelper);
 

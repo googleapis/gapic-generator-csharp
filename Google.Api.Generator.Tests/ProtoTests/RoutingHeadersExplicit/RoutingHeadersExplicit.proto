@@ -54,46 +54,42 @@ service RoutingHeadersExplicit {
 		};
 		option (google.api.routing) = {
 			routing_parameters {
-				field: "nest1.nest2.name"
-				path_template: "{table_name=projects/*/instances/*/tables/*}"
+				field: "nest1.name"
 			}
 			routing_parameters {
-				field: "app_profile_id"
+				field: "nest1.nest2.name"
+			}
+			routing_parameters {
+				field: "nest1.nest2.name"
+				path_template: "{table_name=projects/*/instances/*/tables/*}"
 			}
 		};
 	}
 
-	rpc Complex(SimpleRequest) returns(Response) {
+	rpc Complex(NestedRequest) returns(Response) {
 		option (google.api.http) = {
 			get: "/v2/{name=projects/*/instances/*/tables/*}:sampleRowKeys"
 		};
 		option (google.api.routing) = {
 			routing_parameters {
-				field: "name"
-				path_template: "{project_id=projects/*}/instances/*/tables/*"
+				field: "table_name"
+				path_template: "projects/*/{table_location=instances/*}/tables/*"
 			}
 			routing_parameters {
-				field: "name"
-				path_template: "projects/*/{instance_id=instances/*}/tables/*"
+				field: "table_name"
+				path_template: "{table_location=regions/*/zones/*}/tables/*"
 			}
 			routing_parameters {
-				field: "name"
-				path_template: "projects/*/instances/*/{table_id=tables/*}"
+				field: "table_name"
+				path_template: "{routing_id=projects/*}/**"
 			}
 			routing_parameters {
-				field: "name"
-				path_template: "{table_name=projects/*/instances/*/tables/*}"
-			}
-			routing_parameters {
-				field: "name"
-				path_template: "{table_name=projects/*/instances/*/tables/*/aliases/**}"
+				field: "app_profile_id",
+				path_template: "{routing_id=**}"
 			}
 			routing_parameters {
 				field: "app_profile_id"
-			}
-			routing_parameters {
-				field: "app_profile_id"
-				path_template: "{app_profile_id_renamed=**}"
+				path_template: "profiles/{routing_id=*}"
 			}
 		};
 	}
@@ -101,7 +97,6 @@ service RoutingHeadersExplicit {
 
 message SimpleRequest {
 	string name = 1;
-	string app_profile_id = 2;
 }
 
 message NestedRequest {
@@ -109,10 +104,11 @@ message NestedRequest {
 		message Inner2 {
 			string name = 1;
 		}
-		Inner2 nest2 = 1;
+		string name = 1;
+		Inner2 nest2 = 2;
 	}
 
-	string name = 1;
+	string table_name = 1;
 	Inner1 nest1 = 2;
 	string app_profile_id = 3;
 }

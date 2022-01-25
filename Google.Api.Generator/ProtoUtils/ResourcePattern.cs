@@ -182,7 +182,7 @@ namespace Google.Api.Generator.ProtoUtils
                     ? segment.Substring(1, segment.Length-2)
                     : segment.Substring(1, indexOfEquals-1);
 
-                bool valid = paramName[0] >= 'a' && paramName[0] <= 'z' && paramName.All(c => (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_');
+                bool valid = Regex.IsMatch(paramName, "^[a-zA-Z][a-zA-Z0-9_.]*$");
                 Check(valid, $"parameter name '{paramName}' contains invalid characters.");
                 _parameterName = paramName;
 
@@ -214,10 +214,12 @@ namespace Google.Api.Generator.ProtoUtils
             public override IReadOnlyList<char> Separators => ImmutableList<char>.Empty;
             public override IReadOnlyList<string> ParameterNames => new List<string> { _parameterName };
             public override string PathTemplateString => _givenSegment;
-            public override string RegexString => $"(?<{_parameterName}>{_effectivePattern.RegexString})";
+            public override string RegexString => $"({_effectivePattern.RegexString})";
             public override string Expand(IEnumerable<string> parameters) =>
                 parameters.First() + string.Join("", Separators.Zip(parameters.Skip(1), (s, p) => $"{s}{p}"));
             public override string ToString() => PathTemplateString;
+
+            internal bool EndsWithDoubleWildcardPattern => _effectivePattern.EndsWithDoubleWildcardPattern;
         }
 
         // When double wildcard is by itself it can be anything
@@ -345,14 +347,20 @@ namespace Google.Api.Generator.ProtoUtils
             _ => false
         };
 
+        public string FullFieldRegexString =>
+            EndsWithDoubleWildcardPattern
+                ? $"^{RegexString}$"
+                : $"^{RegexString}/?$";
+
         /// <summary>
         /// If the pattern end with a double wildcard, its regex does not need to be updated
         /// to match an optional `/` at the end
         /// </summary>
-        public bool EndsWithDoubleWildcardPattern => Segments.Last() switch
+        private bool EndsWithDoubleWildcardPattern => Segments.Last() switch
         {
             WildcardSegment { Pattern: "**" } wcdId => true,
             ResourceIdSegment { Pattern: "**" } resId => true,
+            ResourceIdSegment resId => resId.EndsWithDoubleWildcardPattern,
             _ => false
         };
 

@@ -58,16 +58,45 @@ namespace Google.Api.Generator.Tests
         [Theory]
         [InlineData("as/bs/cs", "as/bs/cs")]
         [InlineData("*", "[^/]+")]
+        [InlineData("{a=*}", "([^/]+)")]
         [InlineData("**", ".*")]
+        [InlineData("{a=**}", "(.*)")]
         [InlineData("as/*", "as/[^/]+")]
         [InlineData("as/*/bs/**", "as/[^/]+/bs(?:/.*)?")]
-        [InlineData("as/{a}", "as/(?<a>[^/]+)")]
-        [InlineData("as/{a=*}", "as/(?<a>[^/]+)")]
-        [InlineData("as/{a=*}/bs/{b=**}", "as/(?<a>[^/]+)/bs(?<b>/.*)?")]
+        [InlineData("as/{a}", "as/([^/]+)")]
+        [InlineData("as/{a=*}", "as/([^/]+)")]
+        [InlineData("as/{a=**}", "as(/.*)?")]
+        [InlineData("as/{a=*}/bs/{b=**}", "as/([^/]+)/bs(/.*)?")]
+        [InlineData("{a=as/*}/{b=bs/**}", "(as/[^/]+)/(bs(?:/.*)?)")]
         public void ValidRegexes(string pattern, string regexStr)
         {
             var pat = new ResourcePattern(pattern);
             Assert.Equal(regexStr, pat.RegexString);
+        }
+
+        /// <summary>
+        /// This patterns in this test are used in the tests in GAX (RoutingExtractorTest).
+        /// It is therefore intentionally contains similar test cases.
+        /// </summary>
+        [Theory]
+        [InlineData("{table_name=projects/*/instances/*/**}", "^(projects/[^/]+/instances/[^/]+(?:/.*)?)$")]
+        [InlineData("{table_name=regions/*/zones/*/**}", "^(regions/[^/]+/zones/[^/]+(?:/.*)?)$")]
+        [InlineData("{routing_id=projects/*}/**", "^(projects/[^/]+)(?:/.*)?$")]
+        [InlineData("{routing_id=projects/*/instances/*}/**", "^(projects/[^/]+/instances/[^/]+)(?:/.*)?$")]
+        [InlineData("{project_id=projects/*}/instances/*/**", "^(projects/[^/]+)/instances/[^/]+(?:/.*)?$")]
+        [InlineData("projects/*/{instance_id=instances/*}/**", "^projects/[^/]+/(instances/[^/]+)(?:/.*)?$")]
+        [InlineData("{project_id=projects/*}/**", "^(projects/[^/]+)(?:/.*)?$")]
+        [InlineData("subs/{sub.sub_name}", "^subs/([^/]+)/?$")]
+        [InlineData("{legacy.routing_id=**}", "^(.*)$")]
+        [InlineData("{routing_id=regions/*/**}", "^(regions/[^/]+(?:/.*)?)$")]
+        [InlineData("{routing_id=**}", "^(.*)$")]
+        [InlineData("projects/*/{table_location=instances/*}/tables/*", "^projects/[^/]+/(instances/[^/]+)/tables/[^/]+/?$")]
+        [InlineData("{table_location=regions/*/zones/*}/tables/*", "^(regions/[^/]+/zones/[^/]+)/tables/[^/]+/?$")]
+        [InlineData("profiles/{routing_id=*}", "^profiles/([^/]+)/?$")]
+        public void ValidRegexMatchingGaxTest(string pattern, string regexStr)
+        {
+            var pat = new ResourcePattern(pattern);
+            Assert.Equal(regexStr, pat.FullFieldRegexString);
         }
 
         [Theory]

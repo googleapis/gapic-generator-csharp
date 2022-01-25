@@ -32,8 +32,8 @@ namespace Testing.RoutingHeadersExplicit
             public AsyncUnaryCall<Response> PlainExtractAsync(SimpleRequest request, CallOptions options) => throw new NotImplementedException();
             public Response Nested(NestedRequest request, CallOptions options) => throw new NotImplementedException();
             public AsyncUnaryCall<Response> NestedAsync(NestedRequest request, CallOptions options) => throw new NotImplementedException();
-            public Response Complex(SimpleRequest request, CallOptions options) => throw new NotImplementedException();
-            public AsyncUnaryCall<Response> ComplexAsync(SimpleRequest request, CallOptions options) => throw new NotImplementedException();
+            public Response Complex(NestedRequest request, CallOptions options) => throw new NotImplementedException();
+            public AsyncUnaryCall<Response> ComplexAsync(NestedRequest request, CallOptions options) => throw new NotImplementedException();
 
         }
     }
@@ -41,7 +41,6 @@ namespace Testing.RoutingHeadersExplicit
     public class SimpleRequest : ProtoMsgFake<SimpleRequest>
     {
         public string Name { get; set; }
-        public string AppProfileId { get; set; }
     }
 
     public class NestedRequest : ProtoMsgFake<NestedRequest>
@@ -57,12 +56,13 @@ namespace Testing.RoutingHeadersExplicit
                         public string Name { get; set; }
                     }
                 }
+                public string Name { get; set; }
                 public Types.Inner2 Nest2 { get; set; }
             }
         }
 
         public Types.Inner1 Nest1 { get; set; }
-        public string Name { get; set; }
+        public string TableName { get; set; }
         public string AppProfileId { get; set; }
     }
 
