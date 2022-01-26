@@ -558,9 +558,7 @@ namespace Google.Api.Generator.Generation
                 var parameterName = pattern.ParameterNames.SingleOrDefault();
                 if (parameterName == null)
                 {
-                    var msg = $"The explicit routing header pattern {param.PathTemplate} should have exactly one non-multivariate ResourceId segment";
-                    throw new InvalidOperationException(
-                        msg);
+                    throw new InvalidOperationException($"The explicit routing header pattern {param.PathTemplate} should have exactly one non-multivariate ResourceId segment");
                 }
 
                 // The full pattern should match the entire field and allow for an
@@ -578,27 +576,34 @@ namespace Google.Api.Generator.Generation
 
             List<FieldDescriptor> SplitVerifyFieldPath(string path, MessageDescriptor desc)
             {
-                var fields = new List<FieldDescriptor>();
-                foreach (var fieldName in path.Split('.'))
+                var fields = path.Split('.');
+                return fields.Select((fieldName, order) =>
                 {
-                    if (desc == null)
-                    {
-                        throw new InvalidOperationException($"Invalid path in http url: '{path}'. '{fields.Last().Name}' does not have subfields.");
-                    }
                     var field = desc.FindFieldByName(fieldName);
                     if (field == null)
                     {
                         throw new InvalidOperationException($"Invalid path in http url: '{path}'. '{fieldName}' does not exist.");
                     }
-                    desc = field.FieldType == FieldType.Message ? field.MessageType : null;
-                    fields.Add(field);
-                }
-                if (fields.Last().FieldType != FieldType.String)
-                {
-                    throw new InvalidOperationException($"Path in http url must resolve to a string field: '{path}'.");
-                }
 
-                return fields;
+                    if (order == fields.Length - 1)
+                    {
+                        if (field.FieldType != FieldType.String)
+                        {
+                            throw new InvalidOperationException($"Path in http url must resolve to a string field: '{path}'.");
+                        }
+                    }
+                    else
+                    {
+                        if (field.FieldType != FieldType.Message)
+                        {
+                            throw new InvalidOperationException($"Invalid path in http url: '{path}'. Non-last field '{field.Name}' does not have subfields.");
+                        }
+
+                        desc = field.MessageType;
+                    }
+
+                    return field;
+                }).ToList();
             }
 
             IEnumerable<string> ExtractBracedPaths(string s)

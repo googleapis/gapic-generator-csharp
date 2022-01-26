@@ -14,8 +14,6 @@
 
 using Google.Api.Generator.ProtoUtils;
 using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
 using Xunit;
 
 namespace Google.Api.Generator.Tests
@@ -57,17 +55,48 @@ namespace Google.Api.Generator.Tests
 
         [Theory]
         [InlineData("as/bs/cs", "as/bs/cs")]
+
         [InlineData("*", "[^/]+")]
+        [InlineData("*/bs/cs", "[^/]+/bs/cs")]
+        [InlineData("as/*/cs", "as/[^/]+/cs")]
+        [InlineData("as/bs/*", "as/bs/[^/]+")]
+
         [InlineData("{a=*}", "([^/]+)")]
+        [InlineData("{a=*}/bs/cs", "([^/]+)/bs/cs")]
+        [InlineData("{a=*/bs}/cs", "([^/]+/bs)/cs")]
+        [InlineData("as/{a=*}/cs", "as/([^/]+)/cs")]
+        [InlineData("as/{a=*/cs}", "as/([^/]+/cs)")]
+        [InlineData("as/bs/{a=*}", "as/bs/([^/]+)")]
+        [InlineData("as/{a=bs/*}", "as/(bs/[^/]+)")]
+
+        [InlineData("{a}", "([^/]+)")]
+        [InlineData("{a}/bs/cs", "([^/]+)/bs/cs")]
+        [InlineData("as/{a}/cs", "as/([^/]+)/cs")]
+        [InlineData("as/bs/{a}", "as/bs/([^/]+)")]
+
         [InlineData("**", ".*")]
-        [InlineData("{a=**}", "(.*)")]
-        [InlineData("as/*", "as/[^/]+")]
+        [InlineData("**/bs/cs", ".*/bs/cs")]
+        [InlineData("as/**/cs", "as(?:/.*)?/cs")]
+        [InlineData("as/bs/**", "as/bs(?:/.*)?")]
+
+        [InlineData("{a=**}", "(.+)")]
+        [InlineData("{a=**}/bs/cs", "(.+)/bs/cs")]
+        [InlineData("{a=**/bs}/cs", "(.*/bs)/cs")]
+        [InlineData("as/{a=**}/cs", "as/(.+)/cs")]
+        [InlineData("as/{a=**/cs}", "as/(.*/cs)")]
+        [InlineData("as/bs/{a=**}", "as/bs/(.+)")]
+        [InlineData("as/{a=bs/**}", "as/(bs(?:/.*)?)")]
+
         [InlineData("as/*/bs/**", "as/[^/]+/bs(?:/.*)?")]
-        [InlineData("as/{a}", "as/([^/]+)")]
-        [InlineData("as/{a=*}", "as/([^/]+)")]
-        [InlineData("as/{a=**}", "as(/.*)?")]
-        [InlineData("as/{a=*}/bs/{b=**}", "as/([^/]+)/bs(/.*)?")]
+        [InlineData("as/{a=*}/bs/{b=**}", "as/([^/]+)/bs/(.+)")]
         [InlineData("{a=as/*}/{b=bs/**}", "(as/[^/]+)/(bs(?:/.*)?)")]
+        [InlineData("as/{a=*}/bs/{b=**}", "as/([^/]+)/bs/(.+)")]
+        [InlineData("{a=as/*}/{b=bs/**}", "(as/[^/]+)/(bs(?:/.*)?)")]
+
+        [InlineData("as/*/**", "as/[^/]+(?:/.*)?")]
+        [InlineData("as/{a=*}/**", "as/([^/]+)(?:/.*)?")]
+        [InlineData("as/*/{b=**}", "as/[^/]+/(.+)")]
+        [InlineData("as/{a=*}/{b=**}", "as/([^/]+)/(.+)")]
         public void ValidRegexes(string pattern, string regexStr)
         {
             var pat = new ResourcePattern(pattern);
@@ -87,9 +116,9 @@ namespace Google.Api.Generator.Tests
         [InlineData("projects/*/{instance_id=instances/*}/**", "^projects/[^/]+/(instances/[^/]+)(?:/.*)?$")]
         [InlineData("{project_id=projects/*}/**", "^(projects/[^/]+)(?:/.*)?$")]
         [InlineData("subs/{sub.sub_name}", "^subs/([^/]+)/?$")]
-        [InlineData("{legacy.routing_id=**}", "^(.*)$")]
+        [InlineData("{legacy.routing_id=**}", "^(.+)$")]
         [InlineData("{routing_id=regions/*/**}", "^(regions/[^/]+(?:/.*)?)$")]
-        [InlineData("{routing_id=**}", "^(.*)$")]
+        [InlineData("{routing_id=**}", "^(.+)$")]
         [InlineData("projects/*/{table_location=instances/*}/tables/*", "^projects/[^/]+/(instances/[^/]+)/tables/[^/]+/?$")]
         [InlineData("{table_location=regions/*/zones/*}/tables/*", "^(regions/[^/]+/zones/[^/]+)/tables/[^/]+/?$")]
         [InlineData("profiles/{routing_id=*}", "^profiles/([^/]+)/?$")]

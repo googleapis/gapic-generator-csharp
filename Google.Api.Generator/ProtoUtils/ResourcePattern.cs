@@ -71,7 +71,7 @@ namespace Google.Api.Generator.ProtoUtils
             public override string ToString() => Identifier;
         }
 
-        private class WildcardSegment: Segment
+        private class WildcardSegment : Segment
         {
             public WildcardSegment(string segment)
             {
@@ -172,7 +172,7 @@ namespace Google.Api.Generator.ProtoUtils
                 Check(segment.IndexOf('}') != -1, $"missing '}}' in the segment `{segment}`.");
                 Check( segment.IndexOf('}') == segment.LastIndexOf('}'), $"extra '}}' in the segment `{segment}`.");
                 Check(segment.Last() == '}', $"'}}' expected to be at the end of the segment `{segment}`.");
-                _givenSegment = segment;
+                PathTemplateString = segment;
 
                 var indexOfEquals = segment.IndexOf('=');
                 Check(indexOfEquals == segment.LastIndexOf('='), $"extra `=` in the segment `{segment}`." );
@@ -205,7 +205,6 @@ namespace Google.Api.Generator.ProtoUtils
                 }
             }
 
-            private readonly string _givenSegment;
             private readonly string _parameterName;
             private readonly string _givenPattern;
             private readonly ResourcePattern _effectivePattern;
@@ -213,21 +212,61 @@ namespace Google.Api.Generator.ProtoUtils
             public string Pattern => _givenPattern;
             public override IReadOnlyList<char> Separators => ImmutableList<char>.Empty;
             public override IReadOnlyList<string> ParameterNames => new List<string> { _parameterName };
-            public override string PathTemplateString => _givenSegment;
-            public override string RegexString => $"({_effectivePattern.RegexString})";
+            public override string PathTemplateString { get; }
+
+            public override string RegexString => IsDoubleWildcardPattern
+                ? DoubleWildcardResourceIdRegexStr
+                : $"({_effectivePattern.RegexString})";
             public override string Expand(IEnumerable<string> parameters) =>
                 parameters.First() + string.Join("", Separators.Zip(parameters.Skip(1), (s, p) => $"{s}{p}"));
             public override string ToString() => PathTemplateString;
 
+            private bool IsDoubleWildcardPattern => _effectivePattern.IsDoubleWildcardPattern;
+
             internal bool EndsWithDoubleWildcardPattern => _effectivePattern.EndsWithDoubleWildcardPattern;
         }
 
-        // When double wildcard is by itself it can be anything
+        // `**` -> `.*`
+        //
+        // When double wildcard is by itself it can be anything including nothing
+        // This is used when the whole pattern is just `**` or when the pattern
+        // starts with `**`, e.g. `**/bs`.
+        // It is also used when the ResourceId segment pattern start with `**`,
+        // even if the ResourceId segment is not the first segment,
+        // e.g. `as/{a=**/cs}` -> as/(.*/cs), which is not 100% correct,
+        // since `as/cs` ends up not matching.
+        // However this in technically undefined behaviour, since `**` is supposed
+        // to only occur in the last position in any given pattern.
+        // If this ever ends up mattering, we should switch to something
+        // complicated and ugly, like `as/?((?:(?<=/).*)?/cs)` but I don't think
+        // it is worth to do it right now.
         public const string DoubleWildcardStandaloneRegexStr = ".*";
-        // When double wildcard has a segment before it, it's either nothing or slash-separated anything
+
+        // `as/**` -> `as(?:/.*)?`
+        //
+        // When double wildcard segment has a segment before it, it can
+        // 'eat' the preceding slash and be nothing. E.g. `as/**` should match `as`.
+        // But if the double wildcard segment matches anything, the match should
+        // have `/` between the segments, e.g. `as/**` should match `as/1` but not `as1`.
+        //
+        // Thus this slightly complicated pattern.
+        // It is used in e.g. cases like this: `as/**`, `as/**/cs`
+        // It is also used within the ResourceId segments when segment pattern
+        // has a double wildcard, but not _just_ a double wildcard,
+        // in e.g. `{a="foo/**"}`, or `as/{a="bar/**"}.
         public const string DoubleWildcardInPatternRegexStr = "(?:/.*)?";
+
+        // {a=**} -> `(.+)`
+        //
+        // When a ResourceId segment is _just_ a double wildcard, we enforce
+        // the segment having something in it.
+        // This is used in e.g. cases like this: `{a=**}`, `as/{a=**}`, `as/{a=**}/cs`
+        public const string DoubleWildcardResourceIdRegexStr = "(.+)";
+
+        // `*` -> `[^/]+`
+        //
+        // This pattern is used for `*` segments.
         public const string SingleWildcardRegexStr = "[^/]+";
-        
         
         public ResourcePattern(string pattern)
         {
@@ -310,24 +349,18 @@ namespace Google.Api.Generator.ProtoUtils
         {
             get
             {
-                var regexStr = Segments.First().RegexString;
-                // for double wildcards the leading `/`` is optional
-                // e.g. `foo/**` should match `foo`
-                // this is why we can't simply join segments' regex strings
+                var first = Segments.First().RegexString;
 
+                // For the double wildcards the leading `/`` is optional,
+                // e.g. `foo/**` should match `foo`.
+                // This is why we can't simply join segments' regex strings.
+                // When a ResourceId starts with `**` though, we don't want the leading / to be attributed
                 return Segments.Skip(1)
-                    .Aggregate(regexStr, (current, segment) => segment switch
+                    .Aggregate(first, (current, segment) => segment switch
                     {
-                        WildcardSegment { Pattern: "**" } => $"{current}{DoubleWildcardInPatternRegexStr}",
-                        ResourceIdSegment { Pattern: "**" } seg => $"{current}{ConvertStandaloneWildcardSegmentRegexStr(seg.RegexString)}",
-                        _ => $"{current}/{segment.RegexString}"
+                       WildcardSegment { Pattern: "**" } => $"{current}{DoubleWildcardInPatternRegexStr}",
+                       _ => $"{current}/{segment.RegexString}"
                     });
-
-                // Converts `(<name>.*)` to `(<name>/.*)?`
-                string ConvertStandaloneWildcardSegmentRegexStr(string standalone)
-                {
-                    return $"{standalone.Replace(".", "/.")}?";
-                }
             }
         }
 

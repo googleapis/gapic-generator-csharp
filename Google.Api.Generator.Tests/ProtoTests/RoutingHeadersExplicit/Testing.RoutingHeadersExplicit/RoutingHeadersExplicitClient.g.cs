@@ -27,6 +27,7 @@ namespace Testing.RoutingHeadersExplicit
         public static RoutingHeadersExplicitSettings GetDefault() => throw new sys::NotImplementedException();
         public gaxgrpc::CallSettings NoUrlMethodSettings => throw new sys::NotImplementedException();
         public gaxgrpc::CallSettings PlainNoTemplateSettings => throw new sys::NotImplementedException();
+        public gaxgrpc::CallSettings PlainNoExtractionSettings => throw new sys::NotImplementedException();
         public gaxgrpc::CallSettings PlainFullFieldSettings => throw new sys::NotImplementedException();
         public gaxgrpc::CallSettings PlainExtractSettings => throw new sys::NotImplementedException();
         public gaxgrpc::CallSettings NestedSettings => throw new sys::NotImplementedException();
@@ -46,6 +47,8 @@ namespace Testing.RoutingHeadersExplicit
         private readonly gaxgrpc::ApiCall<SimpleRequest, Response> _callNoUrlMethod;
 
         private readonly gaxgrpc::ApiCall<SimpleRequest, Response> _callPlainNoTemplate;
+
+        private readonly gaxgrpc::ApiCall<SimpleRequest, Response> _callPlainNoExtraction;
 
         private readonly gaxgrpc::ApiCall<SimpleRequest, Response> _callPlainFullField;
 
@@ -68,6 +71,9 @@ namespace Testing.RoutingHeadersExplicit
             _callPlainNoTemplate = clientHelper.BuildApiCall<SimpleRequest, Response>(grpcClient.PlainNoTemplateAsync, grpcClient.PlainNoTemplate, effectiveSettings.PlainNoTemplateSettings).WithGoogleRequestParam("name", request => request.Name);
             Modify_ApiCall(ref _callPlainNoTemplate);
             Modify_PlainNoTemplateApiCall(ref _callPlainNoTemplate);
+            _callPlainNoExtraction = clientHelper.BuildApiCall<SimpleRequest, Response>(grpcClient.PlainNoExtractionAsync, grpcClient.PlainNoExtraction, effectiveSettings.PlainNoExtractionSettings).WithGoogleRequestParam("name", request => request.Name);
+            Modify_ApiCall(ref _callPlainNoExtraction);
+            Modify_PlainNoExtractionApiCall(ref _callPlainNoExtraction);
             _callPlainFullField = clientHelper.BuildApiCall<SimpleRequest, Response>(grpcClient.PlainFullFieldAsync, grpcClient.PlainFullField, effectiveSettings.PlainFullFieldSettings).WithExtractedGoogleRequestParam(new gaxgrpc::RoutingHeaderExtractor<SimpleRequest>().WithExtractedParameter("table_name", "^(projects/[^/]+/instances/[^/]+/tables/[^/]+)/?$", request => request.Name));
             Modify_ApiCall(ref _callPlainFullField);
             Modify_PlainFullFieldApiCall(ref _callPlainFullField);
@@ -77,14 +83,18 @@ namespace Testing.RoutingHeadersExplicit
             _callNested = clientHelper.BuildApiCall<NestedRequest, Response>(grpcClient.NestedAsync, grpcClient.Nested, effectiveSettings.NestedSettings).WithExtractedGoogleRequestParam(new gaxgrpc::RoutingHeaderExtractor<NestedRequest>().WithExtractedParameter("nest1.name", "^.*$", request => request.Nest1?.Name).WithExtractedParameter("nest1.nest2.name", "^.*$", request => request.Nest1?.Nest2?.Name).WithExtractedParameter("table_name", "^(projects/[^/]+/instances/[^/]+/tables/[^/]+)/?$", request => request.Nest1?.Nest2?.Name));
             Modify_ApiCall(ref _callNested);
             Modify_NestedApiCall(ref _callNested);
-            _callComplex = clientHelper.BuildApiCall<NestedRequest, Response>(grpcClient.ComplexAsync, grpcClient.Complex, effectiveSettings.ComplexSettings).WithExtractedGoogleRequestParam(new gaxgrpc::RoutingHeaderExtractor<NestedRequest>().WithExtractedParameter("table_location", "^projects/[^/]+/(instances/[^/]+)/tables/[^/]+/?$", request => request.TableName).WithExtractedParameter("table_location", "^(regions/[^/]+/zones/[^/]+)/tables/[^/]+/?$", request => request.TableName).WithExtractedParameter("routing_id", "^(projects/[^/]+)(?:/.*)?$", request => request.TableName).WithExtractedParameter("routing_id", "^(.*)$", request => request.AppProfileId).WithExtractedParameter("routing_id", "^profiles/([^/]+)/?$", request => request.AppProfileId));
+            _callComplex = clientHelper.BuildApiCall<NestedRequest, Response>(grpcClient.ComplexAsync, grpcClient.Complex, effectiveSettings.ComplexSettings).WithExtractedGoogleRequestParam(new gaxgrpc::RoutingHeaderExtractor<NestedRequest>().WithExtractedParameter("table_location", "^projects/[^/]+/(instances/[^/]+)/tables/[^/]+/?$", request => request.TableName).WithExtractedParameter("table_location", "^(regions/[^/]+/zones/[^/]+)/tables/[^/]+/?$", request => request.TableName).WithExtractedParameter("routing_id", "^(projects/[^/]+)(?:/.*)?$", request => request.TableName).WithExtractedParameter("routing_id", "^(.+)$", request => request.AppProfileId).WithExtractedParameter("routing_id", "^profiles/([^/]+)/?$", request => request.AppProfileId));
             Modify_ApiCall(ref _callComplex);
             Modify_ComplexApiCall(ref _callComplex);
             OnConstruction(grpcClient, effectiveSettings, clientHelper);
             // TEST_END
 
-            // for the easier reading, while the CR is in draft
+            // for the easier reading, the above calls but indented
             _callPlainNoTemplate = clientHelper.BuildApiCall<SimpleRequest, Response>(grpcClient.PlainNoTemplateAsync, grpcClient.PlainNoTemplate, effectiveSettings.PlainNoTemplateSettings)
+                .WithGoogleRequestParam("name", request => request.Name);
+
+            _callPlainNoExtraction = clientHelper
+                .BuildApiCall<SimpleRequest, Response>(grpcClient.PlainNoExtractionAsync, grpcClient.PlainNoExtraction, effectiveSettings.PlainNoExtractionSettings)
                 .WithGoogleRequestParam("name", request => request.Name);
 
             _callPlainFullField = clientHelper
@@ -119,7 +129,7 @@ namespace Testing.RoutingHeadersExplicit
                     .WithExtractedParameter("routing_id",
                         "^(projects/[^/]+)(?:/.*)?$", request => request.TableName)
                     .WithExtractedParameter("routing_id",
-                        "^(.*)$", request => request.AppProfileId)
+                        "^(.+)$", request => request.AppProfileId)
                     .WithExtractedParameter("routing_id",
                         "^profiles/([^/]+)/?$", request => request.AppProfileId));
         }
@@ -129,6 +139,8 @@ namespace Testing.RoutingHeadersExplicit
         partial void Modify_NoUrlMethodApiCall(ref gaxgrpc::ApiCall<SimpleRequest, Response> call);
 
         partial void Modify_PlainNoTemplateApiCall(ref gaxgrpc::ApiCall<SimpleRequest, Response> call);
+
+        partial void Modify_PlainNoExtractionApiCall(ref gaxgrpc::ApiCall<SimpleRequest, Response> call);
 
         partial void Modify_PlainFullFieldApiCall(ref gaxgrpc::ApiCall<SimpleRequest, Response> call);
 

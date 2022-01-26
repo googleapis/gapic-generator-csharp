@@ -1,4 +1,4 @@
-﻿// Copyright 2019 Google Inc. All Rights Reserved.
+﻿// Copyright 2022 Google Inc. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,6 +26,8 @@ namespace Testing.RoutingHeadersExplicit
             public AsyncUnaryCall<Response> NoUrlMethodAsync(SimpleRequest request, CallOptions options) => throw new NotImplementedException();
             public Response PlainNoTemplate(SimpleRequest request, CallOptions options) => throw new NotImplementedException();
             public AsyncUnaryCall<Response> PlainNoTemplateAsync(SimpleRequest request, CallOptions options) => throw new NotImplementedException();
+            public Response PlainNoExtraction(SimpleRequest request, CallOptions options) => throw new NotImplementedException();
+            public AsyncUnaryCall<Response> PlainNoExtractionAsync(SimpleRequest request, CallOptions options) => throw new NotImplementedException();
             public Response PlainFullField(SimpleRequest request, CallOptions options) => throw new NotImplementedException();
             public AsyncUnaryCall<Response> PlainFullFieldAsync(SimpleRequest request, CallOptions options) => throw new NotImplementedException();
             public Response PlainExtract(SimpleRequest request, CallOptions options) => throw new NotImplementedException();

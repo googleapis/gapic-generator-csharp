@@ -24,6 +24,18 @@ service RoutingHeadersExplicit {
     };
   }
 
+  rpc PlainNoExtraction(SimpleRequest) returns(Response) {
+	  option (google.api.http) = {
+		  get: "/v2/{name=projects/*/instances/*/tables/*}:sampleRowKeys"
+	  };
+	  option (google.api.routing) = {
+		  routing_parameters {
+			  field: "name"
+			  path_template: "{name=**}"
+		  }
+	  };
+  }
+
   rpc PlainFullField(SimpleRequest) returns(Response) {
     option (google.api.http) = {
       get: "/v2/{name=projects/*/instances/*/tables/*}:sampleRowKeys"
