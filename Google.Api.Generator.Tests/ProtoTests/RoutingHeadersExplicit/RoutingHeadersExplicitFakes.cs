@@ -15,7 +15,6 @@
 using Grpc.Core;
 using System;
 
-
 namespace Testing.RoutingHeadersExplicit
 {
     public class RoutingHeadersExplicit

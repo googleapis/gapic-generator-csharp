@@ -299,7 +299,7 @@ namespace Google.Api.Generator.Generation
                 new RoutingHeader()
                 {
                     EncodedName = encodedName,
-                    Extractions = new List<FieldExtraction> { new FieldExtraction() { Fields = fields, NoRegexMatchingNeeded = true } }
+                    Extractions = new List<FieldExtraction> { new FieldExtraction() { Fields = fields, RegexStr = $"^{ResourcePattern.DoubleWildcardResourceIdRegexStr}$", NoRegexMatchingNeeded = true } }
                 };
         }
 

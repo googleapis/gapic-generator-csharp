@@ -79,7 +79,7 @@ namespace Testing.RoutingHeaders
             _callGetNoTemplateMethod = clientHelper.BuildApiCall<SimpleRequest, Response>(grpcClient.GetNoTemplateMethodAsync, grpcClient.GetNoTemplateMethod, effectiveSettings.GetNoTemplateMethodSettings).WithGoogleRequestParam("name", request => request.Name);
             Modify_ApiCall(ref _callGetNoTemplateMethod);
             Modify_GetNoTemplateMethodApiCall(ref _callGetNoTemplateMethod);
-            _callNestedMultiMethod = clientHelper.BuildApiCall<NestedRequest, Response>(grpcClient.NestedMultiMethodAsync, grpcClient.NestedMultiMethod, effectiveSettings.NestedMultiMethodSettings).WithGoogleRequestParam("nest1.nest2.name", request => request.Nest1?.Nest2?.Name).WithGoogleRequestParam("name", request => request.Name);
+            _callNestedMultiMethod = clientHelper.BuildApiCall<NestedRequest, Response>(grpcClient.NestedMultiMethodAsync, grpcClient.NestedMultiMethod, effectiveSettings.NestedMultiMethodSettings).WithExtractedGoogleRequestParam(new gaxgrpc::RoutingHeaderExtractor<NestedRequest>().WithExtractedParameter("nest1.nest2.name", "^(.+)$", request => request.Nest1?.Nest2?.Name).WithExtractedParameter("name", "^(.+)$", request => request.Name));
             Modify_ApiCall(ref _callNestedMultiMethod);
             Modify_NestedMultiMethodApiCall(ref _callNestedMultiMethod);
             _callServerStreamingMethod = clientHelper.BuildApiCall<SimpleRequest, Response>(grpcClient.ServerStreamingMethod, effectiveSettings.ServerStreamingMethodSettings).WithGoogleRequestParam("name", request => request.Name);
