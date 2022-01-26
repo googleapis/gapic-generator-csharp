@@ -22,8 +22,8 @@ namespace Testing.RoutingHeadersExplicit
     {
         public class RoutingHeadersExplicitClient
         {
-            public Response NoUrlMethod(SimpleRequest request, CallOptions options) => throw new NotImplementedException();
-            public AsyncUnaryCall<Response> NoUrlMethodAsync(SimpleRequest request, CallOptions options) => throw new NotImplementedException();
+            public Response NoRouting(SimpleRequest request, CallOptions options) => throw new NotImplementedException();
+            public AsyncUnaryCall<Response> NoRoutingAsync(SimpleRequest request, CallOptions options) => throw new NotImplementedException();
             public Response PlainNoTemplate(SimpleRequest request, CallOptions options) => throw new NotImplementedException();
             public AsyncUnaryCall<Response> PlainNoTemplateAsync(SimpleRequest request, CallOptions options) => throw new NotImplementedException();
             public Response PlainNoExtraction(SimpleRequest request, CallOptions options) => throw new NotImplementedException();

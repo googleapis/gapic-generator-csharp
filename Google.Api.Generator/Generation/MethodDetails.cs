@@ -547,7 +547,7 @@ namespace Google.Api.Generator.Generation
                     return new ExplicitRoutingHeaderPrecursor
                     {
                         FieldPath = param.Field,
-                        RegexString = $"^{ResourcePattern.DoubleWildcardStandaloneRegexStr}$",
+                        RegexString = $"^{ResourcePattern.DoubleWildcardResourceIdRegexStr}$",
                         HeaderName = param.Field,
                         NoRegexMatchingNeeded = true 
                     };

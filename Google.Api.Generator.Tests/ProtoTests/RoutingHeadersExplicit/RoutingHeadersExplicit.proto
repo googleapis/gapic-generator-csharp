@@ -11,7 +11,7 @@ import "google/api/routing.proto";
 service RoutingHeadersExplicit {
   option (google.api.default_host) = "routingheaders.example.com";
 
-  rpc NoUrlMethod(SimpleRequest) returns(Response);
+  rpc NoRouting(SimpleRequest) returns(Response);
 
   rpc PlainNoTemplate(SimpleRequest) returns(Response) {
     option (google.api.http) = {
@@ -70,10 +70,7 @@ service RoutingHeadersExplicit {
       }
       routing_parameters {
         field: "nest1.nest2.name"
-      }
-      routing_parameters {
-        field: "nest1.nest2.name"
-        path_template: "{table_name=projects/*/instances/*/tables/*}"
+        path_template: "{nest1.nest2.name=**}"
       }
     };
   }

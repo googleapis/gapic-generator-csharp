@@ -25,7 +25,7 @@ namespace Testing.RoutingHeadersExplicit
     public sealed partial class RoutingHeadersExplicitSettings : gaxgrpc::ServiceSettingsBase
     {
         public static RoutingHeadersExplicitSettings GetDefault() => throw new sys::NotImplementedException();
-        public gaxgrpc::CallSettings NoUrlMethodSettings => throw new sys::NotImplementedException();
+        public gaxgrpc::CallSettings NoRoutingSettings => throw new sys::NotImplementedException();
         public gaxgrpc::CallSettings PlainNoTemplateSettings => throw new sys::NotImplementedException();
         public gaxgrpc::CallSettings PlainNoExtractionSettings => throw new sys::NotImplementedException();
         public gaxgrpc::CallSettings PlainFullFieldSettings => throw new sys::NotImplementedException();
@@ -44,7 +44,7 @@ namespace Testing.RoutingHeadersExplicit
     /// </remarks>
     public sealed partial class RoutingHeadersExplicitClientImpl : RoutingHeadersExplicitClient
     {
-        private readonly gaxgrpc::ApiCall<SimpleRequest, Response> _callNoUrlMethod;
+        private readonly gaxgrpc::ApiCall<SimpleRequest, Response> _callNoRouting;
 
         private readonly gaxgrpc::ApiCall<SimpleRequest, Response> _callPlainNoTemplate;
 
@@ -65,9 +65,9 @@ namespace Testing.RoutingHeadersExplicit
             GrpcClient = grpcClient;
             RoutingHeadersExplicitSettings effectiveSettings = settings ?? RoutingHeadersExplicitSettings.GetDefault();
             gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings);
-            _callNoUrlMethod = clientHelper.BuildApiCall<SimpleRequest, Response>(grpcClient.NoUrlMethodAsync, grpcClient.NoUrlMethod, effectiveSettings.NoUrlMethodSettings).WithExtractedGoogleRequestParam(new gaxgrpc::RoutingHeaderExtractor<SimpleRequest>());
-            Modify_ApiCall(ref _callNoUrlMethod);
-            Modify_NoUrlMethodApiCall(ref _callNoUrlMethod);
+            _callNoRouting = clientHelper.BuildApiCall<SimpleRequest, Response>(grpcClient.NoRoutingAsync, grpcClient.NoRouting, effectiveSettings.NoRoutingSettings);
+            Modify_ApiCall(ref _callNoRouting);
+            Modify_NoRoutingApiCall(ref _callNoRouting);
             _callPlainNoTemplate = clientHelper.BuildApiCall<SimpleRequest, Response>(grpcClient.PlainNoTemplateAsync, grpcClient.PlainNoTemplate, effectiveSettings.PlainNoTemplateSettings).WithGoogleRequestParam("name", request => request.Name);
             Modify_ApiCall(ref _callPlainNoTemplate);
             Modify_PlainNoTemplateApiCall(ref _callPlainNoTemplate);
@@ -80,7 +80,7 @@ namespace Testing.RoutingHeadersExplicit
             _callPlainExtract = clientHelper.BuildApiCall<SimpleRequest, Response>(grpcClient.PlainExtractAsync, grpcClient.PlainExtract, effectiveSettings.PlainExtractSettings).WithExtractedGoogleRequestParam(new gaxgrpc::RoutingHeaderExtractor<SimpleRequest>().WithExtractedParameter("table_name", "^projects/[^/]+/instances/[^/]+/(tables/[^/]+)/?$", request => request.Name));
             Modify_ApiCall(ref _callPlainExtract);
             Modify_PlainExtractApiCall(ref _callPlainExtract);
-            _callNested = clientHelper.BuildApiCall<NestedRequest, Response>(grpcClient.NestedAsync, grpcClient.Nested, effectiveSettings.NestedSettings).WithExtractedGoogleRequestParam(new gaxgrpc::RoutingHeaderExtractor<NestedRequest>().WithExtractedParameter("nest1.name", "^.*$", request => request.Nest1?.Name).WithExtractedParameter("nest1.nest2.name", "^.*$", request => request.Nest1?.Nest2?.Name).WithExtractedParameter("table_name", "^(projects/[^/]+/instances/[^/]+/tables/[^/]+)/?$", request => request.Nest1?.Nest2?.Name));
+            _callNested = clientHelper.BuildApiCall<NestedRequest, Response>(grpcClient.NestedAsync, grpcClient.Nested, effectiveSettings.NestedSettings).WithExtractedGoogleRequestParam(new gaxgrpc::RoutingHeaderExtractor<NestedRequest>().WithExtractedParameter("nest1.name", "^(.+)$", request => request.Nest1?.Name).WithExtractedParameter("nest1.nest2.name", "^(.+)$", request => request.Nest1?.Nest2?.Name));
             Modify_ApiCall(ref _callNested);
             Modify_NestedApiCall(ref _callNested);
             _callComplex = clientHelper.BuildApiCall<NestedRequest, Response>(grpcClient.ComplexAsync, grpcClient.Complex, effectiveSettings.ComplexSettings).WithExtractedGoogleRequestParam(new gaxgrpc::RoutingHeaderExtractor<NestedRequest>().WithExtractedParameter("table_location", "^projects/[^/]+/(instances/[^/]+)/tables/[^/]+/?$", request => request.TableName).WithExtractedParameter("table_location", "^(regions/[^/]+/zones/[^/]+)/tables/[^/]+/?$", request => request.TableName).WithExtractedParameter("routing_id", "^(projects/[^/]+)(?:/.*)?$", request => request.TableName).WithExtractedParameter("routing_id", "^(.+)$", request => request.AppProfileId).WithExtractedParameter("routing_id", "^profiles/([^/]+)/?$", request => request.AppProfileId));
@@ -113,11 +113,9 @@ namespace Testing.RoutingHeadersExplicit
                 .BuildApiCall<NestedRequest, Response>(grpcClient.NestedAsync, grpcClient.Nested, effectiveSettings.NestedSettings)
                 .WithExtractedGoogleRequestParam(new gaxgrpc::RoutingHeaderExtractor<NestedRequest>()
                     .WithExtractedParameter("nest1.name",
-                        "^.*$", request => request.Nest1?.Name)
+                        "^(.+)$", request => request.Nest1?.Name)
                     .WithExtractedParameter("nest1.nest2.name",
-                        "^.*$", request => request.Nest1?.Nest2?.Name)
-                    .WithExtractedParameter("table_name",
-                        "^(projects/[^/]+/instances/[^/]+/tables/[^/]+)/?$", request => request.Nest1?.Nest2?.Name));
+                        "^(.+)$", request => request.Nest1?.Nest2?.Name));
 
             _callComplex = clientHelper
                 .BuildApiCall<NestedRequest, Response>(grpcClient.ComplexAsync, grpcClient.Complex, effectiveSettings.ComplexSettings)
@@ -136,7 +134,7 @@ namespace Testing.RoutingHeadersExplicit
 
         partial void Modify_ApiCall<TRequest, TResponse>(ref gaxgrpc::ApiCall<TRequest, TResponse> call) where TRequest : class, proto::IMessage<TRequest> where TResponse : class, proto::IMessage<TResponse>;
 
-        partial void Modify_NoUrlMethodApiCall(ref gaxgrpc::ApiCall<SimpleRequest, Response> call);
+        partial void Modify_NoRoutingApiCall(ref gaxgrpc::ApiCall<SimpleRequest, Response> call);
 
         partial void Modify_PlainNoTemplateApiCall(ref gaxgrpc::ApiCall<SimpleRequest, Response> call);
 
