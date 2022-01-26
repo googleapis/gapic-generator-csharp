@@ -231,6 +231,10 @@ namespace Google.Api.Generator.Tests
         [Fact]
         public void OptionalFields() => ProtoTestSingle("OptionalFields", ignoreCsProj: true, ignoreUnitTests: true, ignoreSnippets: true);
 
+        [Fact]
+        public void Mixins() => ProtoTestSingle("Mixins", ignoreMetadataFile: false, ignoreSnippets: true,
+            serviceConfigPath: Path.Combine(Invoker.GeneratorTestsDir, "ProtoTests", "Mixins", "Mixins.yaml"));
+
         // Build tests are testing `csproj` file generation only.
         // All other generated code is effectively "build tested" when this test project is built.
 
@@ -239,9 +243,5 @@ namespace Google.Api.Generator.Tests
 
         [Fact]
         public void BuildLro() => BuildTest("Lro", ignoreUnitTests: true);
-
-        [Fact]
-        public void Mixins() => ProtoTestSingle("Mixins", ignoreMetadataFile: false, ignoreSnippets: true,
-            serviceConfigPath: Path.Combine(Invoker.GeneratorTestsDir, "ProtoTests", "Mixins", "Mixins.yaml"));
     }
 }

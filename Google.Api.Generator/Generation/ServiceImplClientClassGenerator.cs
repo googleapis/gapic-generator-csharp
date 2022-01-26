@@ -172,7 +172,7 @@ namespace Google.Api.Generator.Generation
                         fieldInitializer = fieldInitializer.Call(nameof(ApiCall<ProtoMsg, ProtoMsg>.WithGoogleRequestParam))(
                             implicitOrEquivalent.EncodedName, Lambda(request)(access));
                     }
-                    else
+                    else if (method.RoutingHeaders.Any())
                     {
                         var extractorType = _ctx.Type(Typ.Generic(typeof(RoutingHeaderExtractor<>), method.RequestTyp));
                         ExpressionSyntax extractorSyntax = New(extractorType)();
