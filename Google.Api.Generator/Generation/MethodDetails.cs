@@ -274,9 +274,10 @@ namespace Google.Api.Generator.Generation
         /// Represents a routing header model, with multiple ways to match-and-extract
         /// the value to be evaluated
         /// </summary>
-        public sealed class RoutingHeader
+        internal sealed class RoutingHeader
         {
             public string EncodedName { get; set; }
+            public HeaderType Type { get; set; }
             public List<FieldExtraction> Extractions { get; set; }
 
             /// <summary>
@@ -295,12 +296,19 @@ namespace Google.Api.Generator.Generation
                 public bool NoRegexMatchingNeeded { get; set; }
             }
 
-            public static RoutingHeader CreateOneFieldNoRegex(string encodedName, IEnumerable<FieldDescriptor> fields) =>
-                new RoutingHeader()
+            public static RoutingHeader CreateImplicit(string encodedName, IEnumerable<FieldDescriptor> fields) =>
+                new RoutingHeader
                 {
                     EncodedName = encodedName,
-                    Extractions = new List<FieldExtraction> { new FieldExtraction() { Fields = fields, RegexStr = $"^{ResourcePattern.DoubleWildcardResourceIdRegexStr}$", NoRegexMatchingNeeded = true } }
+                    Type = HeaderType.Implicit,
+                    Extractions = new List<FieldExtraction> { new FieldExtraction() { Fields = fields, NoRegexMatchingNeeded = true } }
                 };
+            
+            public enum HeaderType
+            {
+                Implicit = 0,
+                Explicit = 1
+            }
         }
 
         /// <summary>
@@ -511,6 +519,7 @@ namespace Google.Api.Generator.Generation
                     yield return new RoutingHeader
                     {
                         EncodedName = WebUtility.UrlEncode(headerGroup.Key),
+                        Type = RoutingHeader.HeaderType.Explicit,
                         Extractions = headerGroup.Select(p =>
                             new RoutingHeader.FieldExtraction
                             {
@@ -534,8 +543,7 @@ namespace Google.Api.Generator.Generation
                 {
                     foreach (var path in ExtractBracedPaths(url))
                     {
-                        yield return RoutingHeader.CreateOneFieldNoRegex(WebUtility.UrlEncode(path),
-                            SplitVerifyFieldPath(path, requestDesc));
+                        yield return RoutingHeader.CreateImplicit(WebUtility.UrlEncode(path), SplitVerifyFieldPath(path, requestDesc));
                     }
                 }
             }

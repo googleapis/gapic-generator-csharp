@@ -82,14 +82,13 @@ namespace Google.Api.Generator.Tests
         [InlineData("{a=**}", "(.+)")]
         [InlineData("{a=**}/bs/cs", "(.+)/bs/cs")]
         [InlineData("{a=**/bs}/cs", "(.*/bs)/cs")]
+        [InlineData("{a=as/**}/cs", "(as(?:/.*)?)/cs")]
         [InlineData("as/{a=**}/cs", "as/(.+)/cs")]
         [InlineData("as/{a=**/cs}", "as/(.*/cs)")]
         [InlineData("as/bs/{a=**}", "as/bs/(.+)")]
         [InlineData("as/{a=bs/**}", "as/(bs(?:/.*)?)")]
 
         [InlineData("as/*/bs/**", "as/[^/]+/bs(?:/.*)?")]
-        [InlineData("as/{a=*}/bs/{b=**}", "as/([^/]+)/bs/(.+)")]
-        [InlineData("{a=as/*}/{b=bs/**}", "(as/[^/]+)/(bs(?:/.*)?)")]
         [InlineData("as/{a=*}/bs/{b=**}", "as/([^/]+)/bs/(.+)")]
         [InlineData("{a=as/*}/{b=bs/**}", "(as/[^/]+)/(bs(?:/.*)?)")]
 

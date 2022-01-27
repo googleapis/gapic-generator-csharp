@@ -162,22 +162,47 @@ namespace Google.Api.Generator.Generation
                 InvocationExpressionSyntax WithGoogleRequestParams(InvocationExpressionSyntax fieldInitializer)
                 {
                     var request = Parameter(_ctx.Type(method.RequestTyp), "request");
-                    if (method.RoutingHeaders.Count() == 1 && method.RoutingHeaders.SingleOrDefault() is MethodDetails.RoutingHeader { FullFieldNoRegex: true } implicitOrEquivalent)
+                    if (method.RoutingHeaders.All(header => header.Type == MethodDetails.RoutingHeader.HeaderType.Implicit))
                     {
-                        var extraction = implicitOrEquivalent.Extractions.Single();
-                        var access = FullFieldAccess(extraction.Fields);
+                        // This is backwards-compatible with how C# generated implicit headers --
+                        // `WithGoogleRequestParam` call per parameter, ending up with several
+                        // `x-goog-request-params` headers in the Metadata
+                        // TODO [virost, 2022-01] figure out what GRPC does with multiple headers in the metadata. Does it `&`-merge them correctly?
+                        foreach (var routingHeader in method.RoutingHeaders)
+                        {
+                            var extraction = routingHeader.Extractions.Single();
+                            var access = FullFieldAccess(extraction.Fields);
+
+                            // Note: the name "WithGoogleRequestParam" is the same across ApiCall and ApiServerStreamingCall,
+                            // so we don't need to distinguish between them here.
+                            fieldInitializer = fieldInitializer.Call(nameof(ApiCall<ProtoMsg, ProtoMsg>.WithGoogleRequestParam))(
+                                routingHeader.EncodedName, Lambda(request)(access));
+                        }
+                    }
+                    else if (method.RoutingHeaders.Count() == 1 && method.RoutingHeaders.Single() is MethodDetails.RoutingHeader { FullFieldNoRegex: true } singleHeader)
+                    {
+                        // This is to simplify for when there is just one explicit header without any regex specified
+                        var access = FullFieldAccess(singleHeader.Extractions.Single().Fields);
 
                         // Note: the name "WithGoogleRequestParam" is the same across ApiCall and ApiServerStreamingCall,
                         // so we don't need to distinguish between them here.
                         fieldInitializer = fieldInitializer.Call(nameof(ApiCall<ProtoMsg, ProtoMsg>.WithGoogleRequestParam))(
-                            implicitOrEquivalent.EncodedName, Lambda(request)(access));
+                            singleHeader.EncodedName, Lambda(request)(access));
                     }
                     else if (method.RoutingHeaders.Any())
                     {
+                        // This is the code path for generating the code for the explicit headers.
+
+                        // A small safeguard in case the parsing code changes
+                        if (method.RoutingHeaders.Any(rh => rh.Type == MethodDetails.RoutingHeader.HeaderType.Implicit))
+                        {
+                            throw new InvalidOperationException("Generating a mix of implicit and explicit headers is not supported");
+                        }
+
                         var extractorType = _ctx.Type(Typ.Generic(typeof(RoutingHeaderExtractor<>), method.RequestTyp));
                         ExpressionSyntax extractorSyntax = New(extractorType)();
 
-                        foreach (var header in method.RoutingHeaders)
+                        foreach (var header in method.RoutingHeaders.Where(rh => rh.Type == MethodDetails.RoutingHeader.HeaderType.Explicit))
                         {
                             foreach (var extraction in header.Extractions)
                             {
@@ -196,10 +221,10 @@ namespace Google.Api.Generator.Generation
                     
                     return fieldInitializer;
                     
-                    ExpressionSyntax FullFieldAccess(IEnumerable<FieldDescriptor> extractionField)
+                    ExpressionSyntax FullFieldAccess(IEnumerable<FieldDescriptor> extractionFields)
                     {  
-                        var access = request.Access(FieldAccess(extractionField.First()));
-                        foreach (var field in extractionField.Skip(1))
+                        var access = request.Access(FieldAccess(extractionFields.First()));
+                        foreach (var field in extractionFields.Skip(1))
                         {
                             access = access.Access(FieldAccess(field), conditional: true);
                         }
