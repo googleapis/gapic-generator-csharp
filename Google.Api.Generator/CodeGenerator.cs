@@ -49,6 +49,7 @@ namespace Google.Api.Generator
             ResourceExtensions.Resource,
             ResourceExtensions.ResourceDefinition,
             ResourceExtensions.ResourceReference,
+            RoutingExtensions.Routing,
             ExtendedOperationsExtensions.OperationField,
             ExtendedOperationsExtensions.OperationPollingMethod,
             ExtendedOperationsExtensions.OperationRequestField,

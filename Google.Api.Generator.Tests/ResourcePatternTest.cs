@@ -21,19 +21,110 @@ namespace Google.Api.Generator.Tests
     public class ResourcePatternTest
     {
         [Theory]
-        [InlineData("as/{a}", new[] { "a" }, "as/{a}", new[] { "A" }, "as/A")]
-        [InlineData("as/{a=*}", new[] { "a" }, "as/{a=*}", new[] { "A" }, "as/A")]
-        [InlineData("as/{a=**}", new[] { "a" }, "as/{a=**}", new[] { "A/AA/AAA" }, "as/A/AA/AAA")]
-        [InlineData("as/{a_1}~{a_2}.{a_3}", new[] { "a_1", "a_2", "a_3" }, "as/{a_1_a_2_a_3}", new[] { "A1", "A2", "A3" }, "as/A1~A2.A3")]
-        [InlineData("as/{a_1=*}~{a_2=*}.{a_3=*}", new[] { "a_1", "a_2", "a_3" }, "as/{a_1_a_2_a_3}", new[] { "A1", "A2", "A3" }, "as/A1~A2.A3")]
+        [InlineData("as/{a}", new[] { "a" }, "as/{a}")]
+        [InlineData("as/{a=*}", new[] { "a" }, "as/{a=*}")]
+        [InlineData("as/*", new string[] { }, "as/*")]
+        [InlineData("as/{a=**}", new[] { "a" }, "as/{a=**}")]
+        [InlineData("as/**", new string[] { }, "as/**")]
+        [InlineData("as/{a=*}/bs/{b=*}/cs/{c=**}", new[] { "a", "b", "c" }, "as/{a=*}/bs/{b=*}/cs/{c=**}")]
+        [InlineData("as/*/bs/*/cs/**", new string[] { }, "as/*/bs/*/cs/**")]
+        [InlineData("as/{a_1}~{a_2}.{a_3}", new[] { "a_1", "a_2", "a_3" }, "as/{a_1_a_2_a_3}")]
+        [InlineData("as/{a_1=*}~{a_2=*}.{a_3=*}", new[] { "a_1", "a_2", "a_3" }, "as/{a_1_a_2_a_3}")]
         [InlineData("as/{a=*}/bs/{b_1}-{b_2}/cs/{c_1=*}_{c_2}/{d=**}", new[] { "a", "b_1", "b_2", "c_1", "c_2", "d" },
-            "as/{a=*}/bs/{b_1_b_2}/cs/{c_1_c_2}/{d=**}", new[] { "A", "B1", "B2", "C1", "C2", "D" }, "as/A/bs/B1-B2/cs/C1_C2/D")]
-        public void ValidPattern(string pattern, string[] paramNames, string pathTemplateString, string[] expandArgs, string expanded)
+            "as/{a=*}/bs/{b_1_b_2}/cs/{c_1_c_2}/{d=**}")]
+        public void ValidPattern(string pattern, string[] paramNames, string pathTemplateString)
         {
             var pat = new ResourcePattern(pattern);
             Assert.Equal(paramNames, pat.ParameterNames);
             Assert.Equal(pathTemplateString, pat.PathTemplateString);
+        }
+
+        [Theory]
+        [InlineData("as/{a}", new[] { "A" }, "as/A")]
+        [InlineData("as/{a=*}", new[] { "A" }, "as/A")]
+        [InlineData("as/{a=**}", new[] { "A/AA/AAA" }, "as/A/AA/AAA")]
+        [InlineData("as/{a=*}/bs/{b=*}/cs/{c=**}", new[] { "A", "B", "C/CC/CCC" }, "as/A/bs/B/cs/C/CC/CCC")]
+        [InlineData("as/{a_1}~{a_2}.{a_3}", new[] { "A1", "A2", "A3" }, "as/A1~A2.A3")]
+        [InlineData("as/{a_1=*}~{a_2=*}.{a_3=*}", new[] { "A1", "A2", "A3" }, "as/A1~A2.A3")]
+        [InlineData("as/{a=*}/bs/{b_1}-{b_2}/cs/{c_1=*}_{c_2}/{d=**}", new[] { "A", "B1", "B2", "C1", "C2", "D" }, "as/A/bs/B1-B2/cs/C1_C2/D")]
+        public void ValidExpansion(string pattern, string[] expandArgs, string expanded)
+        {
+            var pat = new ResourcePattern(pattern);
             Assert.Equal(expanded, pat.Expand(expandArgs));
+        }
+
+        [Theory]
+        [InlineData("as/bs/cs", "as/bs/cs")]
+
+        [InlineData("*", "[^/]+")]
+        [InlineData("*/bs/cs", "[^/]+/bs/cs")]
+        [InlineData("as/*/cs", "as/[^/]+/cs")]
+        [InlineData("as/bs/*", "as/bs/[^/]+")]
+
+        [InlineData("{a=*}", "([^/]+)")]
+        [InlineData("{a=*}/bs/cs", "([^/]+)/bs/cs")]
+        [InlineData("{a=*/bs}/cs", "([^/]+/bs)/cs")]
+        [InlineData("as/{a=*}/cs", "as/([^/]+)/cs")]
+        [InlineData("as/{a=*/cs}", "as/([^/]+/cs)")]
+        [InlineData("as/bs/{a=*}", "as/bs/([^/]+)")]
+        [InlineData("as/{a=bs/*}", "as/(bs/[^/]+)")]
+
+        [InlineData("{a}", "([^/]+)")]
+        [InlineData("{a}/bs/cs", "([^/]+)/bs/cs")]
+        [InlineData("as/{a}/cs", "as/([^/]+)/cs")]
+        [InlineData("as/bs/{a}", "as/bs/([^/]+)")]
+
+        [InlineData("**", ".*")]
+        [InlineData("**/bs/cs", ".*/bs/cs")]
+        [InlineData("as/**/cs", "as(?:/.*)?/cs")]
+        [InlineData("as/bs/**", "as/bs(?:/.*)?")]
+
+        [InlineData("{a=**}", "(.+)")]
+        [InlineData("{a=**}/bs/cs", "(.+)/bs/cs")]
+        [InlineData("{a=**/bs}/cs", "(.*/bs)/cs")]
+        [InlineData("{a=as/**}/cs", "(as(?:/.*)?)/cs")]
+        [InlineData("as/{a=**}/cs", "as/(.+)/cs")]
+        [InlineData("as/{a=**/cs}", "as/(.*/cs)")]
+        [InlineData("as/bs/{a=**}", "as/bs/(.+)")]
+        [InlineData("as/{a=bs/**}", "as/(bs(?:/.*)?)")]
+
+        [InlineData("as/*/bs/**", "as/[^/]+/bs(?:/.*)?")]
+        [InlineData("as/{a=*}/bs/{b=**}", "as/([^/]+)/bs/(.+)")]
+        [InlineData("{a=as/*}/{b=bs/**}", "(as/[^/]+)/(bs(?:/.*)?)")]
+
+        [InlineData("as/*/**", "as/[^/]+(?:/.*)?")]
+        [InlineData("as/{a=*}/**", "as/([^/]+)(?:/.*)?")]
+        [InlineData("as/*/{b=**}", "as/[^/]+/(.+)")]
+        [InlineData("as/{a=*}/{b=**}", "as/([^/]+)/(.+)")]
+        public void ValidRegexes(string pattern, string regexStr)
+        {
+            var pat = new ResourcePattern(pattern);
+            Assert.Equal(regexStr, pat.RegexString);
+        }
+
+        /// <summary>
+        /// This patterns in this test are used in the tests in GAX (RoutingExtractorTest).
+        /// It is therefore intentionally contains similar test cases.
+        /// </summary>
+        [Theory]
+        [InlineData("{table_name=projects/*/instances/*/**}", "^(projects/[^/]+/instances/[^/]+(?:/.*)?)$")]
+        [InlineData("{table_name=regions/*/zones/*/**}", "^(regions/[^/]+/zones/[^/]+(?:/.*)?)$")]
+        [InlineData("{routing_id=projects/*}/**", "^(projects/[^/]+)(?:/.*)?$")]
+        [InlineData("{routing_id=projects/*/instances/*}/**", "^(projects/[^/]+/instances/[^/]+)(?:/.*)?$")]
+        [InlineData("{project_id=projects/*}/instances/*/**", "^(projects/[^/]+)/instances/[^/]+(?:/.*)?$")]
+        [InlineData("projects/*/{instance_id=instances/*}/**", "^projects/[^/]+/(instances/[^/]+)(?:/.*)?$")]
+        [InlineData("{project_id=projects/*}/**", "^(projects/[^/]+)(?:/.*)?$")]
+        [InlineData("subs/{sub.sub_name}", "^subs/([^/]+)/?$")]
+        [InlineData("{legacy.routing_id=**}", "^(.+)$")]
+        [InlineData("{routing_id=regions/*/**}", "^(regions/[^/]+(?:/.*)?)$")]
+        [InlineData("{routing_id=**}", "^(.+)$")]
+        [InlineData("projects/*/{table_location=instances/*}/tables/*", "^projects/[^/]+/(instances/[^/]+)/tables/[^/]+/?$")]
+        [InlineData("{table_location=regions/*/zones/*}/tables/*", "^(regions/[^/]+/zones/[^/]+)/tables/[^/]+/?$")]
+        [InlineData("profiles/{routing_id=*}", "^profiles/([^/]+)/?$")]
+        public void ValidRegexMatchingGaxTest(string pattern, string regexStr)
+        {
+            var pat = new ResourcePattern(pattern);
+            Assert.Equal(regexStr, pat.FullFieldRegexString);
         }
 
         [Theory]

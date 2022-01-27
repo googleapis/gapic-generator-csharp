@@ -29,6 +29,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using MessageDescriptor = Google.Protobuf.Reflection.MessageDescriptor;
 
 namespace Google.Api.Generator.Generation
 {
@@ -269,11 +270,56 @@ namespace Google.Api.Generator.Generation
             public bool HasDeprecatedField => Fields.Any(field => field.IsDeprecated);
         }
 
-        public sealed class RoutingHeader
+        /// <summary>
+        /// Represents a routing header model, with multiple ways to match-and-extract
+        /// the value to be evaluated
+        /// </summary>
+        internal sealed class RoutingHeader
         {
-            public RoutingHeader(string encodedName, IEnumerable<FieldDescriptor> fields) => (EncodedName, Fields) = (encodedName, fields);
-            public string EncodedName { get; }
-            public IEnumerable<FieldDescriptor> Fields { get; }
+            public string EncodedName { get; set; }
+            public HeaderType Type { get; set; }
+            public List<FieldExtraction> Extractions { get; set; }
+
+            /// <summary>
+            /// Whether a routing header should a full value of a single field with no Regex matching needed.
+            /// True e.g. for all implicit headers, and for the explicit headers where the field pattern is `**`.
+            /// </summary>
+            public bool FullFieldNoRegex => Extractions.Count == 1 && Extractions.Single().NoRegexMatchingNeeded;
+            
+            /// <summary>
+            /// A way to match-and-extract the value from a request's field.
+            /// </summary>
+            public sealed class FieldExtraction
+            {
+                public IEnumerable<FieldDescriptor> Fields { get; set; }
+                public string RegexStr { get; set; }
+                public bool NoRegexMatchingNeeded { get; set; }
+            }
+
+            public static RoutingHeader CreateImplicit(string encodedName, IEnumerable<FieldDescriptor> fields) =>
+                new RoutingHeader
+                {
+                    EncodedName = encodedName,
+                    Type = HeaderType.Implicit,
+                    Extractions = new List<FieldExtraction> { new FieldExtraction() { Fields = fields, NoRegexMatchingNeeded = true } }
+                };
+            
+            public enum HeaderType
+            {
+                Implicit = 0,
+                Explicit = 1
+            }
+        }
+
+        /// <summary>
+        /// A flat representation of the routing header annotation
+        /// </summary>
+        private class ExplicitRoutingHeaderPrecursor
+        {
+            public string HeaderName { get; set; }
+            public string FieldPath { get; set; }
+            public string RegexString { get; set; }
+            public bool NoRegexMatchingNeeded { get; set; }
         }
 
         public static MethodDetails Create(ServiceDetails svc, MethodDescriptor desc) =>
@@ -422,7 +468,8 @@ namespace Google.Api.Generator.Generation
             RequestMessageDesc = desc.InputType;
             ResponseMessageDesc = desc.OutputType;
             var http = desc.GetExtension(AnnotationsExtensions.Http);
-            RoutingHeaders = ReadRoutingHeaders(http, desc.InputType).ToList();
+            var routing = desc.GetExtension(RoutingExtensions.Routing);
+            RoutingHeaders = ReadRoutingHeaders(routing, http, desc.InputType).ToList();
             (MethodRetry, MethodRetryStatusCodes, Expiration) = LoadTiming(svc, desc);
             // The method is considered deprecated if the RPC, request or response messages are deprecated.
             // In reality, it would be very odd to deprecate the messages without deprecating the RPC, but this makes it consistent.
@@ -461,9 +508,29 @@ namespace Google.Api.Generator.Generation
             return (retry, statusCodes, expiration);
         }
 
-        private IEnumerable<RoutingHeader> ReadRoutingHeaders(HttpRule http, MessageDescriptor requestDesc)
+        private IEnumerable<RoutingHeader> ReadRoutingHeaders(RoutingRule routingRule, HttpRule http,
+            MessageDescriptor requestDesc)
         {
-            if (http != null)
+            if (routingRule != null)
+            {
+                var precursors = routingRule.RoutingParameters.Select(ExtractHeaderPrecursor);
+                foreach (var headerGroup in  precursors.GroupBy(p => p.HeaderName))
+                {
+                    yield return new RoutingHeader
+                    {
+                        EncodedName = WebUtility.UrlEncode(headerGroup.Key),
+                        Type = RoutingHeader.HeaderType.Explicit,
+                        Extractions = headerGroup.Select(p =>
+                            new RoutingHeader.FieldExtraction
+                            {
+                                Fields = SplitVerifyFieldPath(p.FieldPath, requestDesc),
+                                RegexStr = p.RegexString,
+                                NoRegexMatchingNeeded = p.NoRegexMatchingNeeded
+                            }).ToList()
+                    };
+                }
+            }
+            else if (http != null)
             {
                 // Read routing headers(s) from any of the http urls
                 var url =
@@ -476,26 +543,75 @@ namespace Google.Api.Generator.Generation
                 {
                     foreach (var path in ExtractBracedPaths(url))
                     {
-                        var desc = requestDesc;
-                        var fields = new List<FieldDescriptor>();
-                        FieldDescriptor finalField = null;
-                        foreach (var fieldName in path.Split('.'))
-                        {
-                            var field = finalField = desc.FindFieldByName(fieldName);
-                            desc = field.FieldType == FieldType.Message ? field.MessageType : null;
-                            if (field == null)
-                            {
-                                throw new InvalidOperationException($"Invalid path in http url: '{path}'. '{fieldName}' does not exist.");
-                            }
-                            fields.Add(field);
-                        }
-                        if (finalField.FieldType != FieldType.String)
+                        yield return RoutingHeader.CreateImplicit(WebUtility.UrlEncode(path), SplitVerifyFieldPath(path, requestDesc));
+                    }
+                }
+            }
+
+            ExplicitRoutingHeaderPrecursor ExtractHeaderPrecursor(RoutingParameter param, int order)
+            {
+                if (param.PathTemplate == string.Empty)
+                {
+                    return new ExplicitRoutingHeaderPrecursor
+                    {
+                        FieldPath = param.Field,
+                        RegexString = $"^{ResourcePattern.DoubleWildcardResourceIdRegexStr}$",
+                        HeaderName = param.Field,
+                        NoRegexMatchingNeeded = true 
+                    };
+                }
+
+                var pattern = new ResourcePattern(param.PathTemplate);
+
+                var parameterName = pattern.ParameterNames.SingleOrDefault();
+                if (parameterName == null)
+                {
+                    throw new InvalidOperationException($"The explicit routing header pattern {param.PathTemplate} should have exactly one non-multivariate ResourceId segment");
+                }
+
+                // The full pattern should match the entire field and allow for an
+                // optional `/` at the end.
+                var patternRegex = pattern.FullFieldRegexString;
+
+                return new ExplicitRoutingHeaderPrecursor
+                {
+                    FieldPath = param.Field,
+                    RegexString =  patternRegex,
+                    HeaderName = parameterName,
+                    NoRegexMatchingNeeded = pattern.IsDoubleWildcardPattern
+                };
+            }
+
+            List<FieldDescriptor> SplitVerifyFieldPath(string path, MessageDescriptor desc)
+            {
+                var fields = path.Split('.');
+                return fields.Select((fieldName, order) =>
+                {
+                    var field = desc.FindFieldByName(fieldName);
+                    if (field == null)
+                    {
+                        throw new InvalidOperationException($"Invalid path in http url: '{path}'. '{fieldName}' does not exist.");
+                    }
+
+                    if (order == fields.Length - 1)
+                    {
+                        if (field.FieldType != FieldType.String)
                         {
                             throw new InvalidOperationException($"Path in http url must resolve to a string field: '{path}'.");
                         }
-                        yield return new RoutingHeader(WebUtility.UrlEncode(path), fields);
                     }
-                }
+                    else
+                    {
+                        if (field.FieldType != FieldType.Message)
+                        {
+                            throw new InvalidOperationException($"Invalid path in http url: '{path}'. Non-last field '{field.Name}' does not have subfields.");
+                        }
+
+                        desc = field.MessageType;
+                    }
+
+                    return field;
+                }).ToList();
             }
 
             IEnumerable<string> ExtractBracedPaths(string s)

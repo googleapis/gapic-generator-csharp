@@ -135,46 +135,102 @@ namespace Google.Api.Generator.Generation
 
             IEnumerable<SyntaxNode> PerMethod(MethodDetails method)
             {
-                var field = ApiCallField(_ctx, method);
+                var apiCallField = ApiCallField(_ctx, method);
                 // Initialize ApiCall field.
                 switch (method)
                 {
                     case MethodDetails.BidiStreaming methodBidi:
                         var fieldInitBidi = clientHelper.MaybeObsoleteCall(nameof(ClientHelper.BuildApiCall), method.IsDeprecated, _ctx.Type(method.RequestTyp), _ctx.Type(method.ResponseTyp))(
                             grpcClient.Access(method.SyncMethodName), effectiveSettings.Access(method.SettingsName), effectiveSettings.Access(methodBidi.StreamingSettingsName));
-                        yield return field.Assign(fieldInitBidi);
+                        yield return apiCallField.Assign(fieldInitBidi);
                         break;
                     case MethodDetails.ServerStreaming _:
                         var fieldInitServer = clientHelper.MaybeObsoleteCall(nameof(ClientHelper.BuildApiCall), method.IsDeprecated, _ctx.Type(method.RequestTyp), _ctx.Type(method.ResponseTyp))(
                             grpcClient.Access(method.SyncMethodName), effectiveSettings.Access(method.SettingsName));
-                        yield return field.Assign(WithGoogleRequestParams(fieldInitServer));
+                        yield return apiCallField.Assign(WithGoogleRequestParams(fieldInitServer));
                         break;
                     default:
                         var fieldInit = clientHelper.MaybeObsoleteCall(nameof(ClientHelper.BuildApiCall), method.IsDeprecated, _ctx.Type(method.RequestTyp), _ctx.Type(method.ResponseTyp))(
                             grpcClient.Access(method.AsyncMethodName), grpcClient.Access(method.SyncMethodName), effectiveSettings.Access(method.SettingsName));
-                        yield return field.Assign(WithGoogleRequestParams(fieldInit));
+                        yield return apiCallField.Assign(WithGoogleRequestParams(fieldInit));
                         break;
                 }
                 // Call modify partial methods.
-                yield return This.Call(modifyApiCall)(Ref(field));
-                yield return This.Call(method.ModifyApiCallMethodName)(Ref(field));
+                yield return This.Call(modifyApiCall)(Ref(apiCallField));
+                yield return This.Call(method.ModifyApiCallMethodName)(Ref(apiCallField));
 
                 InvocationExpressionSyntax WithGoogleRequestParams(InvocationExpressionSyntax fieldInitializer)
                 {
                     var request = Parameter(_ctx.Type(method.RequestTyp), "request");
-                    foreach (var header in method.RoutingHeaders)
+                    if (method.RoutingHeaders.All(header => header.Type == MethodDetails.RoutingHeader.HeaderType.Implicit))
                     {
-                        var access = request.Access(FieldAccess(header.Fields.First()));
-                        foreach (var field in header.Fields.Skip(1))
+                        // This is backwards-compatible with how C# generated implicit headers --
+                        // `WithGoogleRequestParam` call per parameter, ending up with several
+                        // `x-goog-request-params` headers in the Metadata
+                        // TODO [virost, 2022-01] figure out what GRPC does with multiple headers in the metadata. Does it `&`-merge them correctly?
+                        foreach (var routingHeader in method.RoutingHeaders)
                         {
-                            access = access.Access(FieldAccess(field), conditional: true);
+                            var extraction = routingHeader.Extractions.Single();
+                            var access = FullFieldAccess(extraction.Fields);
+
+                            // Note: the name "WithGoogleRequestParam" is the same across ApiCall and ApiServerStreamingCall,
+                            // so we don't need to distinguish between them here.
+                            fieldInitializer = fieldInitializer.Call(nameof(ApiCall<ProtoMsg, ProtoMsg>.WithGoogleRequestParam))(
+                                routingHeader.EncodedName, Lambda(request)(access));
                         }
+                    }
+                    else if (method.RoutingHeaders.Count() == 1 && method.RoutingHeaders.Single() is MethodDetails.RoutingHeader { FullFieldNoRegex: true } singleHeader)
+                    {
+                        // This is to simplify for when there is just one explicit header without any regex specified
+                        var access = FullFieldAccess(singleHeader.Extractions.Single().Fields);
+
                         // Note: the name "WithGoogleRequestParam" is the same across ApiCall and ApiServerStreamingCall,
                         // so we don't need to distinguish between them here.
                         fieldInitializer = fieldInitializer.Call(nameof(ApiCall<ProtoMsg, ProtoMsg>.WithGoogleRequestParam))(
-                            header.EncodedName, Lambda(request)(access));
+                            singleHeader.EncodedName, Lambda(request)(access));
                     }
+                    else if (method.RoutingHeaders.Any())
+                    {
+                        // This is the code path for generating the code for the explicit headers.
+
+                        // A small safeguard in case the parsing code changes
+                        if (method.RoutingHeaders.Any(rh => rh.Type == MethodDetails.RoutingHeader.HeaderType.Implicit))
+                        {
+                            throw new InvalidOperationException("Generating a mix of implicit and explicit headers is not supported");
+                        }
+
+                        var extractorType = _ctx.Type(Typ.Generic(typeof(RoutingHeaderExtractor<>), method.RequestTyp));
+                        ExpressionSyntax extractorSyntax = New(extractorType)();
+
+                        foreach (var header in method.RoutingHeaders.Where(rh => rh.Type == MethodDetails.RoutingHeader.HeaderType.Explicit))
+                        {
+                            foreach (var extraction in header.Extractions)
+                            {
+                                var access = FullFieldAccess(extraction.Fields);
+                                extractorSyntax =
+                                    extractorSyntax.Call(nameof(RoutingHeaderExtractor<ProtoMsg>
+                                        .WithExtractedParameter))(header.EncodedName, extraction.RegexStr,
+                                        Lambda(request)(access));
+                            }
+                        }
+
+                        // Note: the name "WithExtractedGoogleRequestParam" is the same across ApiCall and ApiServerStreamingCall,
+                        // so we don't need to distinguish between them here.
+                        fieldInitializer = fieldInitializer.Call(nameof(ApiCall<ProtoMsg, ProtoMsg>.WithExtractedGoogleRequestParam))(extractorSyntax);
+                    }
+                    
                     return fieldInitializer;
+                    
+                    ExpressionSyntax FullFieldAccess(IEnumerable<FieldDescriptor> extractionFields)
+                    {  
+                        var access = request.Access(FieldAccess(extractionFields.First()));
+                        foreach (var field in extractionFields.Skip(1))
+                        {
+                            access = access.Access(FieldAccess(field), conditional: true);
+                        }
+
+                        return access;
+                    }
 
                     // Returns a simple name to access a field, adding an pragma to disable obsolete warnings if necessary.
                     SimpleNameSyntax FieldAccess(FieldDescriptor field) =>
