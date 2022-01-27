@@ -2,41 +2,36 @@
 
 package testing.routingheadersexplicit;
 
-option csharp_namespace = "Testing.RoutingHeadersExplicit";
-
 import "google/api/annotations.proto";
 import "google/api/client.proto";
 import "google/api/routing.proto";
 
+option csharp_namespace = "Testing.RoutingHeadersExplicit";
+
 service RoutingHeadersExplicit {
   option (google.api.default_host) = "routingheaders.example.com";
 
-  rpc NoRouting(SimpleRequest) returns(Response);
+  rpc NoRouting(SimpleRequest) returns (Response);
 
-  rpc PlainNoTemplate(SimpleRequest) returns(Response) {
+  rpc PlainNoTemplate(SimpleRequest) returns (Response) {
     option (google.api.http) = {
       get: "/v2/{name=projects/*/instances/*/tables/*}:sampleRowKeys"
     };
     option (google.api.routing) = {
-      routing_parameters {
-        field: "name"
-      }
+      routing_parameters { field: "name" }
     };
   }
 
-  rpc PlainNoExtraction(SimpleRequest) returns(Response) {
-	  option (google.api.http) = {
-		  get: "/v2/{name=projects/*/instances/*/tables/*}:sampleRowKeys"
-	  };
-	  option (google.api.routing) = {
-		  routing_parameters {
-			  field: "name"
-			  path_template: "{name=**}"
-		  }
-	  };
+  rpc PlainNoExtraction(SimpleRequest) returns (Response) {
+    option (google.api.http) = {
+      get: "/v2/{name=projects/*/instances/*/tables/*}:sampleRowKeys"
+    };
+    option (google.api.routing) = {
+      routing_parameters { field: "name" path_template: "{name=**}" }
+    };
   }
 
-  rpc PlainFullField(SimpleRequest) returns(Response) {
+  rpc PlainFullField(SimpleRequest) returns (Response) {
     option (google.api.http) = {
       get: "/v2/{name=projects/*/instances/*/tables/*}:sampleRowKeys"
     };
@@ -48,7 +43,7 @@ service RoutingHeadersExplicit {
     };
   }
 
-  rpc PlainExtract(SimpleRequest) returns(Response) {
+  rpc PlainExtract(SimpleRequest) returns (Response) {
     option (google.api.http) = {
       get: "/v2/{name=projects/*/instances/*/tables/*}:sampleRowKeys"
     };
@@ -60,14 +55,12 @@ service RoutingHeadersExplicit {
     };
   }
 
-  rpc Nested(NestedRequest) returns(Response) {
+  rpc Nested(NestedRequest) returns (Response) {
     option (google.api.http) = {
       get: "/v2/{nest1.nest2.name=projects/*/instances/*/tables/*}:withSubMessage"
     };
     option (google.api.routing) = {
-      routing_parameters {
-        field: "nest1.name"
-      }
+      routing_parameters { field: "nest1.name" }
       routing_parameters {
         field: "nest1.nest2.name"
         path_template: "{nest1.nest2.name=**}"
@@ -75,7 +68,7 @@ service RoutingHeadersExplicit {
     };
   }
 
-  rpc Complex(NestedRequest) returns(Response) {
+  rpc Complex(NestedRequest) returns (Response) {
     option (google.api.http) = {
       get: "/v2/{name=projects/*/instances/*/tables/*}:sampleRowKeys"
     };
@@ -122,5 +115,4 @@ message NestedRequest {
   string app_profile_id = 3;
 }
 
-message Response {
-}
+message Response {}
