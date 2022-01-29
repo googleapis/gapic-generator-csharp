@@ -153,7 +153,7 @@ namespace Google.Api.Generator.Generation
                     case MethodDetails.ClientStreaming methodClient:
                         var fieldInitClient = clientHelper.MaybeObsoleteCall(nameof(ClientHelper.BuildApiCall), method.IsDeprecated, _ctx.Type(method.RequestTyp), _ctx.Type(method.ResponseTyp))(
                             grpcClient.Access(method.SyncMethodName), effectiveSettings.Access(method.SettingsName), effectiveSettings.Access(methodClient.StreamingSettingsName));
-                        yield return field.Assign(fieldInitClient);
+                        yield return apiCallField.Assign(fieldInitClient);
                         break;
                     case MethodDetails.ServerStreaming _:
                         var fieldInitServer = clientHelper.MaybeObsoleteCall(nameof(ClientHelper.BuildApiCall), method.IsDeprecated, _ctx.Type(method.RequestTyp), _ctx.Type(method.ResponseTyp))(

@@ -209,7 +209,7 @@ namespace Google.Api.Generator.Generation
             private DocumentationCommentTriviaSyntax BidiStreamingSettingsXmlDoc => XmlDoc.Param(BidiStreamingSettingsParam, "If not null, applies streaming overrides to this RPC call.");
             private DocumentationCommentTriviaSyntax ReturnsBidiStreamingXmlDoc => XmlDoc.Returns("The client-server stream.");
             private DocumentationCommentTriviaSyntax ReturnsServerStreamingXmlDoc => XmlDoc.Returns("The server stream.");
-            private DocumentationCommentTriviaSyntax ClientStreamingSettingsXmlDoc => XmlDoc.Param(BidiStreamingSettingsParam, "If not null, applies streaming overrides to this RPC call.");
+            private DocumentationCommentTriviaSyntax ClientStreamingSettingsXmlDoc => XmlDoc.Param(ClientStreamingSettingsParam, "If not null, applies streaming overrides to this RPC call.");
             private DocumentationCommentTriviaSyntax ReturnsClientStreamingXmlDoc => XmlDoc.Returns("The client stream.");
 
             // Base abstract members.
