@@ -198,6 +198,9 @@ namespace Google.Api.Generator.Generation
                     case MethodDetails.BidiStreaming bidi:
                         yield return BidiSettingsProperty(bidi);
                         break;
+                    case MethodDetails.ClientStreaming client:
+                        yield return ClientSettingsProperty(client);
+                        break;
                 }
             }
 
@@ -239,6 +242,14 @@ namespace Google.Api.Generator.Generation
                         XmlDoc.C($"{_svc.ClientAbstractTyp.Name}.{method.AsyncMethodName}"), "."),
                     XmlDoc.Remarks("The default local send queue size is 100."));
 
+        private PropertyDeclarationSyntax ClientSettingsProperty(MethodDetails.ClientStreaming method) =>
+            AutoProperty(Public, _ctx.Type<ClientStreamingSettings>(), method.StreamingSettingsName, hasSetter: true)
+                .WithInitializer(New(_ctx.Type<ClientStreamingSettings>())(100))
+                .WithXmlDoc(
+                    XmlDoc.Summary(_ctx.Type<ClientStreamingSettings>(), " for calls to ",
+                        XmlDoc.C($"{_svc.ClientAbstractTyp.Name}.{method.SyncMethodName}"), " and ",
+                        XmlDoc.C($"{_svc.ClientAbstractTyp.Name}.{method.AsyncMethodName}"), "."),
+                    XmlDoc.Remarks("The default local send queue size is 100."));
         private MemberDeclarationSyntax OnCopyPartial() => PartialMethod("OnCopy")(Parameter(_ctx.CurrentType, "existing"));
 
         private MemberDeclarationSyntax Clone() =>

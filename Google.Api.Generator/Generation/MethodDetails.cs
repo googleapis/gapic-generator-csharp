@@ -221,6 +221,26 @@ namespace Google.Api.Generator.Generation
             public Typ AsyncEnumeratorTyp { get; }
         }
 
+        public sealed class ClientStreaming : MethodDetails
+        {
+            public ClientStreaming(ServiceDetails svc, MethodDescriptor desc) : base(svc, desc)
+            {
+                ApiCallTyp = Typ.Generic(typeof(ApiClientStreamingCall<,>), RequestTyp, ResponseTyp);
+                AbstractStreamTyp = Typ.Nested(svc.ClientAbstractTyp, $"{SyncMethodName}Stream");
+                ImplStreamTyp = Typ.Nested(svc.ClientImplTyp, $"{SyncMethodName}StreamImpl");
+                StreamingSettingsName = $"{desc.Name}StreamingSettings";
+                ModifyStreamingCallSettingsMethodName = $"Modify_{RequestTyp.Name}CallSettings";
+                ModifyStreamingRequestMethodName = $"Modify_{RequestTyp.Name}Request";
+            }
+            public override Typ ApiCallTyp { get; }
+            public override Typ SyncReturnTyp => AbstractStreamTyp;
+            public Typ AbstractStreamTyp { get; }
+            public Typ ImplStreamTyp { get; }
+            public string StreamingSettingsName { get; }
+            public string ModifyStreamingCallSettingsMethodName { get; }
+            public string ModifyStreamingRequestMethodName { get; }
+        }
+
         public sealed class Signature
         {
             public sealed class Field
@@ -326,7 +346,7 @@ namespace Google.Api.Generator.Generation
             DetectPagination(svc, desc) ?? (
             desc.IsClientStreaming && desc.IsServerStreaming ? new BidiStreaming(svc, desc) :
             desc.IsServerStreaming ? new ServerStreaming(svc, desc) :
-            desc.IsClientStreaming ? throw new NotImplementedException() :
+            desc.IsClientStreaming ? new ClientStreaming(svc, desc) :
             // Any LRO-returning methods within the LRO package itself should be treated normally. Anywhere else, they get special treatment.
             desc.OutputType.FullName == "google.longrunning.Operation" && desc.File.Package != "google.longrunning" ? new StandardLro(svc, desc) :
             !string.IsNullOrEmpty(desc.GetExtension(ExtendedOperationsExtensions.OperationService)) ? new NonStandardLro(svc, desc) :
@@ -390,10 +410,11 @@ namespace Google.Api.Generator.Generation
 
             // GRPC case first.
             // - PageSizeCandidate should be named page_size
+            // - there should be non-map candidates
             // - The repeated candidate should be the first in both orders
             // - There should be 0 or more than 1 map candidates, to disambiguate with DiREGapic single-map case
             //   OR The repeated candidate should have a field number of 1 
-            if (pageSizeCandidate.Name == "page_size" && repeatedCandidatesByDeclOrder[0] == repeatedCandidatesByNumOrder[0] && 
+            if (pageSizeCandidate.Name == "page_size" && repeatedCandidatesByNumOrder.Any() && repeatedCandidatesByDeclOrder[0] == repeatedCandidatesByNumOrder[0] && 
                 (repeatedCandidatesByNumOrder[0].FieldNumber == 1 || mapCandidates.Count != 1))
             {
                 return new Paginated(svc, desc, repeatedCandidatesByDeclOrder[0], pageSizeCandidate.FieldNumber, pageTokenCandidate.FieldNumber);

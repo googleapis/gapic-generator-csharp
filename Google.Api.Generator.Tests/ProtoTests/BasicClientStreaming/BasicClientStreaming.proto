@@ -1,0 +1,18 @@
+﻿syntax = "proto3";
+
+package testing.basicclientstreaming;
+
+import "google/api/client.proto";
+
+option csharp_namespace = "Testing.BasicClientStreaming";
+
+service BasicClientStreaming {
+  option (google.api.default_host) = "clientstreaming.example.com";
+  option (google.api.oauth_scopes) = "scope1,scope2";
+
+  rpc MethodClient(stream Request) returns (Response);
+}
+
+message Request {}
+
+message Response {}
