@@ -33,9 +33,17 @@ namespace Google.Api.Generator.Tests
             var protoPaths = protoFilenames.Select(x => Path.Combine(Invoker.GeneratorTestsDir, x));
             using (var desc = Invoker.TempFile())
             {
-                var args = $"-o {desc} --experimental_allow_proto3_optional --include_imports --include_source_info " +
-                           $"-I{Invoker.CommonProtosDir} -I{Invoker.ProtobufDir} -I{Invoker.GeneratorTestsDir} {string.Join(" ", protoPaths)}";
-                Invoker.Protoc(args);
+                var args = new[]
+                {
+                    "-o", desc.Path,
+                    "--include_imports",
+                    "--include_source_info",
+                    $"-I{Invoker.CommonProtosDir}",
+                    $"-I{Invoker.ProtobufDir}",
+                    $"-I{Invoker.GeneratorTestsDir}",
+                }.Concat(protoPaths);
+                Invoker.Protoc(string.Join(" ", args));
+
                 var descriptorBytes = File.ReadAllBytes(desc.Path);
                 FileDescriptorSet descriptorSet = FileDescriptorSet.Parser.ParseFrom(descriptorBytes);
                 return CodeGenerator.Generate(descriptorSet, package, clock, grpcServiceConfigPath, serviceConfigPath, commonResourcesConfigPaths);
@@ -55,6 +63,10 @@ namespace Google.Api.Generator.Tests
             string grpcServiceConfigPath = null, string serviceConfigPath = null, IEnumerable<string> commonResourcesConfigPaths = null, bool ignoreMetadataFile = true) =>
             ProtoTestSingle(
                 new[] { testProtoName },
+                // The following three don't need to be customized for simple cases
+                sourceDir: null,
+                outputDir: null,
+                package: null,
                 ignoreCsProj,
                 ignoreSnippets,
                 ignoreUnitTests,
@@ -64,23 +76,17 @@ namespace Google.Api.Generator.Tests
                 ignoreMetadataFile
             );
 
-        private void ProtoTestSingle(IEnumerable<string> testProtoNames,
+        private void ProtoTestSingle(IEnumerable<string> testProtoNames, string sourceDir = null, string outputDir = null, string package = null,
             bool ignoreCsProj = false, bool ignoreSnippets = false, bool ignoreUnitTests = false,
             string grpcServiceConfigPath = null, string serviceConfigPath = null, IEnumerable<string> commonResourcesConfigPaths = null, bool ignoreMetadataFile = true)
         {
             // Confirm each generated file is identical to the expected output.
             // Use `// TEST_START` and `// TEST_END` lines in the expected file to test subsets of output files.
             // Or include `// TEST_DISABLE` to disable testing of the entire file.
-            var dirName = testProtoNames.First();
-            var protoPaths = testProtoNames.Select(x => Path.Combine("ProtoTests", dirName, $"{x}.proto"));
-
-            var package = $"testing.{dirName.ToLowerInvariant()}";
-            if (testProtoNames.Count() == 1 && testProtoNames.Single() == "Showcase")
-            {
-                protoPaths = new[] {"compliance.proto", "echo.proto", "identity.proto", "messaging.proto", "sequence.proto", "testing.proto"}
-                    .Select(f => Path.Combine("ProtoTests", "Showcase", "google", "showcase", "v1beta1", $"{f}"));
-                package = "google.showcase.v1beta1";
-            }
+            sourceDir = sourceDir ?? testProtoNames.First();
+            outputDir = outputDir ?? sourceDir;
+            var protoPaths = testProtoNames.Select(x => Path.Combine("ProtoTests", sourceDir, $"{x}.proto"));
+            package = package ?? $"testing.{sourceDir.ToLowerInvariant()}";
 
             var files = Run(protoPaths, package,
                 grpcServiceConfigPath, serviceConfigPath, commonResourcesConfigPaths);
@@ -91,7 +97,7 @@ namespace Google.Api.Generator.Tests
             // This makes it easier to see the complete set of outputs.
             foreach (var file in files)
             {
-                var pathToWriteTo = Path.Combine(Invoker.ActualGeneratedFilesDir, dirName, file.RelativePath);
+                var pathToWriteTo = Path.Combine(Invoker.ActualGeneratedFilesDir, outputDir, file.RelativePath);
                 Directory.CreateDirectory(Path.GetDirectoryName(pathToWriteTo));
                 File.WriteAllText(pathToWriteTo, file.Content);
             }
@@ -107,7 +113,7 @@ namespace Google.Api.Generator.Tests
                 {
                     continue;
                 }
-                var expectedFilePath = Path.Combine(Invoker.GeneratorTestsDir, "ProtoTests", dirName, file.RelativePath);
+                var expectedFilePath = Path.Combine(Invoker.GeneratorTestsDir, "ProtoTests", outputDir, file.RelativePath);
                 TextComparer.CompareText(expectedFilePath, file);
             }
         }
@@ -135,7 +141,6 @@ namespace Google.Api.Generator.Tests
             {
                 Assert.True(Directory.Exists(path), $"Test directory doesn't exist: '{path}'");
                 // TODO: Use Roslyn directly, rather than invoking `dotnet`.
-                var errors = new List<string>();
                 try
                 {
                     Invoker.Dotnet("build", path);
@@ -248,7 +253,11 @@ namespace Google.Api.Generator.Tests
             serviceConfigPath: Path.Combine(Invoker.GeneratorTestsDir, "ProtoTests", "Mixins", "Mixins.yaml"));
 
         [Fact]
-        public void Showcase() => ProtoTestSingle("Showcase", ignoreUnitTests: true, ignoreSnippets: true);
+        public void Showcase() => ProtoTestSingle(testProtoNames: new[] { "compliance", "echo", "identity", "messaging", "sequence", "testing" },
+            sourceDir: "Showcase/google/showcase/v1beta1",
+            outputDir: "Showcase",
+            package: "google.showcase.v1beta1",
+            ignoreUnitTests: true, ignoreSnippets: true);
 
         // Build tests are testing `csproj` file generation only.
         // All other generated code is effectively "build tested" when this test project is built.
