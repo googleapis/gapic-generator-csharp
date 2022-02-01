@@ -75,7 +75,7 @@ namespace Google.Api.Generator.Tests
             var protoPaths = testProtoNames.Select(x => Path.Combine("ProtoTests", dirName, $"{x}.proto"));
 
             var package = $"testing.{dirName.ToLowerInvariant()}";
-            if (testProtoNames.SingleOrDefault() == "Showcase")
+            if (testProtoNames.Count() == 1 && testProtoNames.Single() == "Showcase")
             {
                 protoPaths = new[] {"compliance.proto", "echo.proto", "identity.proto", "messaging.proto", "sequence.proto", "testing.proto"}
                     .Select(f => Path.Combine("ProtoTests", "Showcase", "google", "showcase", "v1beta1", $"{f}"));
