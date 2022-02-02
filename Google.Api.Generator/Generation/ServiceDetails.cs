@@ -78,7 +78,12 @@ namespace Google.Api.Generator.Generation
             SnippetsClientName = $"{desc.Name.ToLowerCamelCase()}Client";
             UnitTestsTyp = Typ.Manual(UnitTestsNamespace, $"Generated{desc.Name}ClientTest");
             NonStandardLro = NonStandardLroDetails.ForService(desc);
-            Mixins = serviceConfig?.Apis.Select(api => AvailableMixins.GetValueOrDefault(api.Name)).Where(mixin => mixin is object).ToList() ?? Enumerable.Empty<MixinDetails>();
+            Mixins = serviceConfig?.Apis
+                .Select(api => AvailableMixins.GetValueOrDefault(api.Name))
+                .Where(mixin => mixin is object)
+                // Don't use mixins within the package that contains that mixin.
+                .Where(mixin => mixin.GapicClientType.Namespace != ns)
+                .ToList() ?? Enumerable.Empty<MixinDetails>();
         }
 
         /// <summary>The lines of service documentation from the proto.</summary>
