@@ -47,7 +47,7 @@ namespace Google.Api.Generator.Tests
             Runtime = isWindows ? "win-x64" : "linux-x64";
             PluginFile = Path.Combine(GeneratorDir, "bin", "Debug", "netcoreapp3.1", Runtime, "publish",
                 isWindows ? "Google.Api.Generator.exe" : "Google.Api.Generator");
-            CommonProtosDir = Path.Combine(RootDir, "api-common-protos");
+            CommonProtosDir = Path.Combine(RootDir, "googleapis");
             ProtobufDir = Path.Combine(RootDir, "tools", "protos");
             var now = DateTime.UtcNow;
             ActualGeneratedFilesDir = Path.Combine(Path.GetTempPath(), $"GeneratorTests-{now:yyyyMMddHHmmssZ}");
