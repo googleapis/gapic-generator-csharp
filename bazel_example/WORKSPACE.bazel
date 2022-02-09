@@ -40,8 +40,8 @@ switched_rules_by_language(
 # Note: Although this is referencing grpc v1.x, the generated C# is for use
 # with nuget packages Grpc.Core and Grpc.Core.Api v2.x
 #
-_grpc_version = "1.39.1"
-_grpc_sha256 = "4608e92cf528b625888cc874a5d21c78923322dc8c66d2c4c146134efbac69bc"
+_grpc_version = "1.43.2"
+_grpc_sha256 = "d6827949d9a32d205c802a3338196f161c0c058416a0248bd50a13a8e124b53c"
 
 http_archive(
     name = "com_github_grpc_grpc",
