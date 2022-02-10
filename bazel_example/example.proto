@@ -5,7 +5,7 @@ package example;
 import "google/api/client.proto";
 import "google/api/resource.proto";
 
-service Example {
+service ExampleService {
     option (google.api.default_host) = "example.com";
 
     rpc ExampleMethod(Request) returns(Response);
