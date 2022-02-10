@@ -1,0 +1,7 @@
+type: google.api.Service
+config_version: 3
+name: example.googleapis.com
+title: Example API
+
+apis:
+- name: example.ExampleService
