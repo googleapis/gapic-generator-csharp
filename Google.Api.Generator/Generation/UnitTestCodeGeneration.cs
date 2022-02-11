@@ -234,7 +234,8 @@ namespace Google.Api.Generator.Generation
                             yield return new ObjectInitExpr(
                                 propertyName,
                                 New(Ctx.Type(ProtoTyp.Of(fieldDesc.MessageType)))()
-                                    .WithInitializer(InitMessage(fieldDesc.MessageType, fieldGroup, fieldDepth + 1).ToArray()));
+                                    .WithInitializer(InitMessage(fieldDesc.MessageType, fieldGroup, fieldDepth + 1).ToArray()),
+                                isDeprecated: fieldDesc.IsDeprecated());
                         }
                     }
                 }

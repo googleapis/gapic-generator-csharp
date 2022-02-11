@@ -41,7 +41,8 @@ namespace Google.Api.Generator.ProtoUtils
 
         public static bool IsDeprecated(this MethodDescriptor desc) => desc?.GetOptions()?.Deprecated ?? false;
 
-        public static bool IsDeprecated(this FieldDescriptor desc) => desc?.GetOptions()?.Deprecated ?? false;
+        public static bool IsDeprecated(this FieldDescriptor desc) =>
+            (desc?.GetOptions()?.Deprecated ?? false) || IsDeprecated(desc?.ContainingType);
 
         public static IEnumerable<string> DocLines(this DescriptorDeclaration decl) =>
             decl?.LeadingComments.Split('\n').Select(x => x.Trim())
