@@ -40,7 +40,7 @@
 
   <ItemGroup>
     <PackageReference Include="Google.Api.Gax.Grpc.GrpcCore" Version="[3.7.0, 4.0.0)" />
-    <PackageReference Include="Grpc.Core" Version="[2.41.0, 3.0.0)" />
+    <PackageReference Include="Grpc.Core" Version="[2.43.0, 3.0.0)" />
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="All" />
     <PackageReference Include="Google.LongRunning" Version="[2.3.0, 3.0.0)" />
   </ItemGroup>
