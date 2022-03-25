@@ -16,7 +16,6 @@
 
 using gax = Google.Api.Gax;
 using gaxgrpc = Google.Api.Gax.Grpc;
-using gaxgrpccore = Google.Api.Gax.Grpc.GrpcCore;
 using proto = Google.Protobuf;
 using wkt = Google.Protobuf.WellKnownTypes;
 using grpccore = Grpc.Core;
@@ -131,7 +130,6 @@ namespace Google.Showcase.V1Beta1
         /// <summary>Creates a new builder with default settings.</summary>
         public IdentityClientBuilder()
         {
-            UseJwtAccessWithScopes = IdentityClient.UseJwtAccessWithScopes;
         }
 
         partial void InterceptBuild(ref IdentityClient client);
@@ -179,8 +177,8 @@ namespace Google.Showcase.V1Beta1
         /// <summary>Returns the channel pool to use when no other options are specified.</summary>
         protected override gaxgrpc::ChannelPool GetChannelPool() => IdentityClient.ChannelPool;
 
-        /// <summary>Returns the default <see cref="gaxgrpc::GrpcAdapter"/>to use if not otherwise specified.</summary>
-        protected override gaxgrpc::GrpcAdapter DefaultGrpcAdapter => gaxgrpccore::GrpcCoreAdapter.Instance;
+        /// <summary>Returns the API descriptor for this API.</summary>
+        protected override gaxgrpc::ApiDescriptor ApiDescriptor => GaxApiDescriptor.ApiDescriptor;
     }
 
     /// <summary>Identity client wrapper, for convenient use.</summary>
@@ -198,19 +196,7 @@ namespace Google.Showcase.V1Beta1
         /// <remarks>The default Identity scopes are:<list type="bullet"></list></remarks>
         public static scg::IReadOnlyList<string> DefaultScopes { get; } = new sco::ReadOnlyCollection<string>(new string[] { });
 
-        internal static gaxgrpc::ChannelPool ChannelPool { get; } = new gaxgrpc::ChannelPool(DefaultScopes, UseJwtAccessWithScopes);
-
-        internal static bool UseJwtAccessWithScopes
-        {
-            get
-            {
-                bool useJwtAccessWithScopes = true;
-                MaybeUseJwtAccessWithScopes(ref useJwtAccessWithScopes);
-                return useJwtAccessWithScopes;
-            }
-        }
-
-        static partial void MaybeUseJwtAccessWithScopes(ref bool useJwtAccessWithScopes);
+        internal static gaxgrpc::ChannelPool ChannelPool { get; } = new gaxgrpc::ChannelPool(GaxApiDescriptor.ApiDescriptor, DefaultScopes, true);
 
         /// <summary>
         /// Asynchronously creates a <see cref="IdentityClient"/> using the default credentials, endpoint and settings. 
