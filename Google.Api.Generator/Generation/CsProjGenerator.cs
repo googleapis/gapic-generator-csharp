@@ -22,11 +22,11 @@ namespace Google.Api.Generator.Generation
 {
     internal static class CsProjGenerator
     {
-        private const string GaxGrpcCoreVersion = "[3.7.0, 4.0.0)";
+        private const string GaxGrpcVersion = "[4.0.0-alpha01, 5.0.0)";
         private const string GrpcCoreVersion = "[2.41.0, 3.0.0)";
-        private const string LroVersion = "[2.3.0, 3.0.0)";
-        private const string IamVersion = "[2.3.0, 3.0.0)";
-        private const string LocationVersion = "[1.0.0, 2.0.0)";
+        private const string LroVersion = "[3.0.0-alpha01, 4.0.0)";
+        private const string IamVersion = "[3.0.0-alpha01, 4.0.0)";
+        private const string LocationVersion = "[2.0.0-alpha01, 3.0.0)";
         private const string ReferenceAssembliesVersion = "1.0.2";
         private const string SystemLinqAsyncVersion = "5.1.0";
         private const string TestSdkVersion = "17.1.0";
@@ -76,7 +76,7 @@ namespace Google.Api.Generator.Generation
     -->
 
     <!-- These items should not require editing -->
-    <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
+    <TargetFrameworks>netstandard2.1;net462</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Deterministic>true</Deterministic>
@@ -85,7 +85,7 @@ namespace Google.Api.Generator.Generation
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include=""Google.Api.Gax.Grpc.GrpcCore"" Version=""{GaxGrpcCoreVersion}"" />
+    <PackageReference Include=""Google.Api.Gax.Grpc"" Version=""{GaxGrpcVersion}"" />
     <PackageReference Include=""Grpc.Core"" Version=""{GrpcCoreVersion}"" />
     <PackageReference Include=""Microsoft.NETFramework.ReferenceAssemblies"" Version=""{ReferenceAssembliesVersion}"" PrivateAssets=""All"" />{packageRefs}
   </ItemGroup>
@@ -115,7 +115,7 @@ namespace Google.Api.Generator.Generation
 <Project Sdk=""Microsoft.NET.Sdk"">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;net461</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;net462</TargetFrameworks>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 

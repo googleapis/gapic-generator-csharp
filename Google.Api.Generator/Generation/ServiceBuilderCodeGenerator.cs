@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using Google.Api.Gax.Grpc;
-using Google.Api.Gax.Grpc.GrpcCore;
 using Google.Api.Generator.Utils;
 using Google.Api.Generator.Utils.Roslyn;
 using Grpc.Core;
@@ -59,7 +58,7 @@ namespace Google.Api.Generator.Generation
                 cls = cls.AddMembers(GetDefaultEndpoint());
                 cls = cls.AddMembers(GetDefaultScopes());
                 cls = cls.AddMembers(GetChannelPool());
-                cls = cls.AddMembers(DefaultGrpcAdapter());
+                cls = cls.AddMembers(ApiDescriptor());
             }
             return cls;
         }
@@ -71,10 +70,7 @@ namespace Google.Api.Generator.Generation
         private ConstructorDeclarationSyntax ParameterlessConstructor() =>
             Ctor(Public, _svc.BuilderTyp)()
                 .WithXmlDoc(XmlDoc.Summary("Creates a new builder with default settings."))
-                .WithBlockBody(new[]
-                {
-                    Property(Public, _ctx.Type(_svc.BuilderTyp), "UseJwtAccessWithScopes").Assign(_ctx.Type(_svc.ClientAbstractTyp).Access("UseJwtAccessWithScopes"))
-                });
+                .WithBlockBody();
 
         private MethodDeclarationSyntax InterceptBuild() => PartialMethod("InterceptBuild")(Parameter(_ctx.Type(_svc.ClientAbstractTyp), "client").Ref());
 
@@ -141,9 +137,9 @@ namespace Google.Api.Generator.Generation
                 .WithBody(_ctx.Type(_svc.ClientAbstractTyp).Access("ChannelPool"))
                 .WithXmlDoc(XmlDoc.Summary("Returns the channel pool to use when no other options are specified."));
 
-        private PropertyDeclarationSyntax DefaultGrpcAdapter() =>
-            Property(Protected | Override, _ctx.Type<GrpcAdapter>(), "DefaultGrpcAdapter")
-                .WithGetBody(_ctx.Type<GrpcCoreAdapter>().Access(nameof(GrpcCoreAdapter.Instance)))
-                .WithXmlDoc(XmlDoc.Summary("Returns the default ", _ctx.Type<GrpcAdapter>(), "to use if not otherwise specified."));
+        private PropertyDeclarationSyntax ApiDescriptor() =>
+            Property(Protected | Override, _ctx.Type<ApiDescriptor>(), "ApiDescriptor")
+                .WithGetBody(_ctx.Type(Typ.Manual(_svc.Namespace, ApiDescriptorGenerator.ClassName)).Access(ApiDescriptorGenerator.PropertyName))
+                .WithXmlDoc(XmlDoc.Summary("Returns the API descriptor for this API."));
     }
 }

@@ -17,6 +17,7 @@ using Google.Protobuf;
 using Google.Protobuf.Reflection;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 using static Google.Api.Generator.Utils.Typ;
@@ -50,6 +51,13 @@ namespace Google.Api.Generator.ProtoUtils
                 default:
                     return false;
             }
+        }
+
+        public static Typ OfReflectionClass(FileDescriptor desc)
+        {
+            string protoFile = desc.Name;
+            string name = Path.GetFileNameWithoutExtension(protoFile);
+            return Manual(desc.CSharpNamespace(), name.ToUpperCamelCase() + "Reflection");
         }
 
         public static Typ Of(MessageDescriptor desc)
