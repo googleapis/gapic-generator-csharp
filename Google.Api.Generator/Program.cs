@@ -125,7 +125,7 @@ namespace Google.Api.Generator
                 var index = Task.WaitAny(new[] { readTask }, millisecondsTimeout: ReadTimeout);
                 if (index == 0)
                 {
-                    return readTask.Result;
+                    return readTask.ResultWithUnwrappedExceptions();
                 }
                 throw new TimeoutException("Read timed-out.");
             }
@@ -140,6 +140,13 @@ namespace Google.Api.Generator
             try
             {
                 codeGenRequest = CodeGeneratorRequest.Parser.ParseFrom(stdinTimeout);
+            }
+            catch (IOException)
+            {
+                // We weren't able to read the data from the console.
+                // This can happen in tests that launch dotnet without any console attached, for example.
+                // Fail without an error message (as even writing the error message could fail).
+                return 1;
             }
             catch (TimeoutException)
             {
