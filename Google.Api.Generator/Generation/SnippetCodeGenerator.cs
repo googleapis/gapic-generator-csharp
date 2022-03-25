@@ -54,7 +54,7 @@ namespace Google.Api.Generator.Generation
                         Version = serviceDetails.PackageVersion ?? ""
                     }}
                 },
-                Snippets = { snippets }
+                Snippets = { snippets.OrderBy(snippet => snippet.ClientMethod.Method.Service.ShortName, StringComparer.Ordinal) }
             }.ToFormattedJson();
 
         public static CompilationUnitSyntax Generate(SourceFileContext ctx, ServiceDetails svc)
