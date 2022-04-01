@@ -13,7 +13,7 @@
     <PackageReference Include="Google.Api.Gax.Grpc.GrpcCore" Version="3.7.0" />
     <PackageReference Include="Google.Cloud.Iam.V1" Version="2.3.0" />
     <PackageReference Include="Google.Cloud.Location" Version="1.0.0" />
-    <PackageReference Include="Google.Protobuf" Version="3.19.0" />
+    <PackageReference Include="Google.Protobuf" Version="3.20.0" />
     <PackageReference Include="Google.LongRunning" Version="2.3.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.11.0" />
     <PackageReference Include="Moq" Version="4.17.2" />
