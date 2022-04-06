@@ -25,7 +25,7 @@ namespace Google.Api.Generator.Generation
         private const string GaxGrpcCoreVersion = "[3.7.0, 4.0.0)";
         private const string GrpcCoreVersion = "[2.41.0, 3.0.0)";
         private const string LroVersion = "[2.3.0, 3.0.0)";
-        private const string IamVersion = "[2.3.0, 3.0.0)";
+        private const string IamVersion = "[2.4.0, 3.0.0)";
         private const string LocationVersion = "[1.0.0, 2.0.0)";
         private const string ReferenceAssembliesVersion = "1.0.2";
         private const string SystemLinqAsyncVersion = "5.1.0";
