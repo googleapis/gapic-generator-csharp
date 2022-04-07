@@ -15,6 +15,7 @@
 using Google.LongRunning;
 using Google.Protobuf;
 using Google.Protobuf.Collections;
+using Google.Protobuf.Reflection;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using System;
@@ -24,6 +25,8 @@ namespace Testing.UnitTests
     // gRPC fake.
     public partial class UnitTests
     {
+        public static ServiceDescriptor Descriptor => null;
+
         public partial class UnitTestsClient
         {
             public UnitTestsClient() { }
