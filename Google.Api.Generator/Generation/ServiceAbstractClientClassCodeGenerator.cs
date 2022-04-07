@@ -18,7 +18,6 @@ using Google.Api.Generator.Utils;
 using Google.Api.Generator.Utils.Roslyn;
 using Grpc.Core;
 using Grpc.Core.Interceptors;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
@@ -52,16 +51,15 @@ namespace Google.Api.Generator.Generation
             {
                 var defaultEndpoint = DefaultEndpoint();
                 var defaultScopes = DefaultScopes();
-                var maybeUseJwtAccessWithScopes = MaybeUseJwtAccessWithScopes();
-                var useJwtAccessWithScopes = UseJwtAccessWithScopes(maybeUseJwtAccessWithScopes);
-                var channelPool = ChannelPool(defaultScopes, useJwtAccessWithScopes);
+                var serviceMetadata = ServiceMetadata(defaultEndpoint, defaultScopes);
+                var channelPool = ChannelPool(serviceMetadata);
                 var createAsync = CreateAsync();
                 var create = Create();
                 var createFromCallInvoker = CreateFromCallInvoker();
                 var shutdown = ShutdownDefaultChannelsAsync(channelPool, create, createAsync);
                 var grpcClient = GrpcClient();
                 cls = cls.AddMembers(
-                    defaultEndpoint, defaultScopes, channelPool, useJwtAccessWithScopes, maybeUseJwtAccessWithScopes,
+                    defaultEndpoint, defaultScopes, serviceMetadata, channelPool, 
                     createAsync, create, createFromCallInvoker, shutdown, grpcClient);
                 cls = cls.AddMembers(Mixins().ToArray());
                 var methods = ServiceMethodGenerator.Generate(_ctx, _svc, inAbstract: true);
@@ -84,24 +82,21 @@ namespace Google.Api.Generator.Generation
                     XmlDoc.Summary($"The default {_svc.DocumentationName} scopes."),
                     XmlDoc.Remarks($"The default {_svc.DocumentationName} scopes are:", XmlDoc.UL(_svc.DefaultScopes)));
 
-        private PropertyDeclarationSyntax ChannelPool(PropertyDeclarationSyntax defaultScopes, PropertyDeclarationSyntax useJwtAccessWithScopes) =>
-            AutoProperty(Internal | Static, _ctx.Type<ChannelPool>(), "ChannelPool")
-                .WithInitializer(New(_ctx.Type<ChannelPool>())(defaultScopes, useJwtAccessWithScopes));
-
-        private PropertyDeclarationSyntax UseJwtAccessWithScopes(MethodDeclarationSyntax maybeUseJwtAccessWithScopes)
+        private PropertyDeclarationSyntax ServiceMetadata(PropertyDeclarationSyntax defaultEndpoint, PropertyDeclarationSyntax defaultScopes)
         {
-            var local = Local(_ctx.Type<bool>(), "useJwtAccessWithScopes").WithInitializer(true);
-            return Property(Internal | Static, _ctx.Type<bool>(), "UseJwtAccessWithScopes")
-                .WithGetBody(
-                    local,
-                    This.Call(maybeUseJwtAccessWithScopes)(Ref(local)),
-                    Return(local)
-                );
+            var serviceDescriptor = _ctx.Type(_svc.ProtoTyp).Access("Descriptor");
+            var supportsScopedJwts = true;
+            // TODO: make this observe the transports we've been asked for.
+            var apiTransports = _ctx.Type<ApiTransports>().Access(nameof(ApiTransports.Grpc));
+            var apiMetadata = _ctx.Type(Typ.Manual(_svc.Namespace, PackageApiMetadataGenerator.ClassName)).Access(PackageApiMetadataGenerator.PropertyName);
+            return AutoProperty(Internal | Static, _ctx.Type<ServiceMetadata>(), "ServiceMetadata")
+                .WithInitializer(New(_ctx.Type<ServiceMetadata>())(serviceDescriptor, defaultEndpoint, defaultScopes, supportsScopedJwts, apiTransports, apiMetadata))
+                .WithXmlDoc(XmlDoc.Summary($"The service metadata associated with this client type."));
         }
 
-        private MethodDeclarationSyntax MaybeUseJwtAccessWithScopes() =>
-            Method(Static | Partial, VoidType, "MaybeUseJwtAccessWithScopes")(Parameter(_ctx.Type<bool>(), "useJwtAccessWithScopes").Ref())
-                .WithSemicolonToken(SyntaxFactory.Token(SyntaxKind.SemicolonToken));
+        private PropertyDeclarationSyntax ChannelPool(PropertyDeclarationSyntax serviceMetadata) =>
+            AutoProperty(Internal | Static, _ctx.Type<ChannelPool>(), "ChannelPool")
+                .WithInitializer(New(_ctx.Type<ChannelPool>())(serviceMetadata));
 
         // This isn't strictly required; it could be moved into the builder type if we wanted.
         // That can be done later if we want, as this is an internal method.
