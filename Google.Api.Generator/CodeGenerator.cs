@@ -66,7 +66,6 @@ namespace Google.Api.Generator
             { typeof(System.Linq.Enumerable).Namespace, "linq" },
             { typeof(Google.Api.Gax.Expiration).Namespace, "gax" },
             { typeof(Google.Api.Gax.Grpc.CallSettings).Namespace, "gaxgrpc" },
-            { typeof(Google.Api.Gax.Grpc.GrpcCore.GrpcCoreAdapter).Namespace, "gaxgrpccore" },
             { typeof(Grpc.Core.CallCredentials).Namespace, "grpccore" },
             { typeof(Grpc.Core.Interceptors.Interceptor).Namespace, "grpcinter" },
             { typeof(Google.Protobuf.WellKnownTypes.Any).Namespace, "wkt" },
@@ -302,6 +301,12 @@ namespace Google.Api.Generator
                 if (packageServiceDetails.Count > 0)
                 {
                     allServiceDetails.AddRange(packageServiceDetails);
+
+                    // Generate the package-wide API metadata
+                    var ctx = SourceFileContext.CreateFullyAliased(clock, s_wellknownNamespaceAliases);
+                    var packageApiMetadataContent = PackageApiMetadataGenerator.GeneratePackageApiMetadata(ns, ctx, packageFileDescriptors);
+                    var packageApiMetadataFilename = $"{clientPathPrefix}{PackageApiMetadataGenerator.FileName}";
+                    yield return new ResultFile(packageApiMetadataFilename, packageApiMetadataContent);
 
                     // Generate snippets csproj.
                     var serviceSnippetsCsprojContent = CsProjGenerator.GenerateSnippets(ns);
