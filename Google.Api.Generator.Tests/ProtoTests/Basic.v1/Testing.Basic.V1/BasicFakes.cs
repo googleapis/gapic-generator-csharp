@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Google.Protobuf.Reflection;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using System;
@@ -34,8 +35,15 @@ namespace Testing.Basic.V1
         public void WriteTo(Google.Protobuf.CodedOutputStream output) => throw new NotImplementedException();
     }
 
+    public static class BasicV1Reflection
+    {
+        public static FileDescriptor Descriptor => null;
+    }
+
     public class Basic
     {
+        public static ServiceDescriptor Descriptor => null;
+
         // Fake gRPC client, to allow `BasicClient.cs` to compile.
         public class BasicClient
         {
