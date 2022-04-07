@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Google.Protobuf.Reflection;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using System;
@@ -36,6 +37,8 @@ namespace Testing.Mixins
 
     public partial class MixinService
     {
+        public static ServiceDescriptor Descriptor => null;
+
         public partial class MixinServiceClient
         {
             public MixinServiceClient() { }

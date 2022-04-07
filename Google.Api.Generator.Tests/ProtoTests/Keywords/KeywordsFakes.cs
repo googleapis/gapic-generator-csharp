@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Google.Protobuf.Reflection;
 using Grpc.Core;
 using System;
 
@@ -20,6 +21,8 @@ namespace Testing.Keywords
     // gRPC fakes
     public class Keywords
     {
+        public static ServiceDescriptor Descriptor => null;
+
         public class KeywordsClient
         {
             public KeywordsClient() { }
