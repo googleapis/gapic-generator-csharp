@@ -400,6 +400,17 @@ namespace Google.Api.Generator.Utils.Formatting
             return node;
         }
 
+        public override SyntaxNode VisitYieldStatement(YieldStatementSyntax node)
+        {
+            node = (YieldStatementSyntax) base.VisitYieldStatement(node);
+            node = node.WithReturnOrBreakKeyword(node.ReturnOrBreakKeyword.WithLeadingSpace());
+            if (node.Expression != null)
+            {
+                node = node.WithExpression(node.Expression.WithLeadingSpace());
+            }
+            return node;
+        }
+
         public override SyntaxNode VisitAccessorList(AccessorListSyntax node)
         {
             var anyBodies = node.Accessors.Any(x => x.Body != null || x.ExpressionBody != null);
