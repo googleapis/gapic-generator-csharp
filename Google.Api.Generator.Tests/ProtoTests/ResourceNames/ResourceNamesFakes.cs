@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Google.Protobuf.Collections;
+using Google.Protobuf.Reflection;
 using Grpc.Core;
 using System;
 
@@ -20,6 +21,8 @@ namespace Testing.ResourceNames
 {
     public class ResourceNames
     {
+        public static ServiceDescriptor Descriptor => null;
+
         // Fake gRPC client, to allow generated tests to compile.
         public class ResourceNamesClient
         {

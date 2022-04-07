@@ -14,6 +14,7 @@
 
 using Google.Protobuf;
 using Google.Protobuf.Collections;
+using Google.Protobuf.Reflection;
 using Grpc.Core;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,8 @@ namespace Testing.MethodSignatures
     // Fake gRPC client.
     public static partial class MethodSignatures
     {
+        public static ServiceDescriptor Descriptor => null;
+
         public partial class MethodSignaturesClient
         {
             public MethodSignaturesClient() { }
