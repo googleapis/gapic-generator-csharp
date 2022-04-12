@@ -28,6 +28,7 @@ using static Google.Api.Generator.Utils.Roslyn.Modifier;
 using static Google.Api.Generator.Utils.Roslyn.RoslynBuilder;
 using Microsoft.CodeAnalysis.CSharp;
 using Google.Protobuf.Reflection;
+using Microsoft.Extensions.Logging;
 
 namespace Google.Api.Generator.Generation
 {
@@ -99,44 +100,46 @@ namespace Google.Api.Generator.Generation
         {
             var grpcClient = Parameter(_ctx.Type(_svc.GrpcClientTyp), "grpcClient");
             var settings = Parameter(_ctx.Type(_svc.SettingsTyp), "settings");
+            var logger = Parameter(_ctx.Type<ILogger>(), "logger");
             var effectiveSettings = Local(_ctx.Type(_svc.SettingsTyp), "effectiveSettings");
             var clientHelper = Local(_ctx.Type<ClientHelper>(), "clientHelper");
-            return Ctor(Public, _ctx.CurrentTyp)(grpcClient, settings)
+            return Ctor(Public, _ctx.CurrentTyp)(grpcClient, settings, logger)
                 .WithBody(
                     grpcClientProperty.Assign(grpcClient),
                     effectiveSettings.WithInitializer(settings.NullCoalesce(_ctx.Type(_svc.SettingsTyp).Call("GetDefault")())),
-                    clientHelper.WithInitializer(New(_ctx.Type<ClientHelper>())(effectiveSettings)),
-                    _svc.Methods.OfType<MethodDetails.StandardLro>().Select(StandardLroClient),
-                    _svc.Methods.OfType<MethodDetails.NonStandardLro>().Select(NonStandardLroClient),
-                    _svc.Mixins.Select(MixinClient),
+                    clientHelper.WithInitializer(New(_ctx.Type<ClientHelper>())(effectiveSettings, logger)),
+                    _svc.Methods.OfType<MethodDetails.StandardLro>().Select(m => StandardLroClient(m, logger)),
+                    _svc.Methods.OfType<MethodDetails.NonStandardLro>().Select(m => NonStandardLroClient(m, logger)),
+                    _svc.Mixins.Select(m => MixinClient(m, logger)),
                     _svc.Methods.SelectMany(PerMethod),
                     This.Call(onCtor)(grpcClient, effectiveSettings, clientHelper)
                 )
                 .WithXmlDoc(
                     XmlDoc.Summary($"Constructs a client wrapper for the {_svc.DocumentationName} service, with the specified gRPC client and settings."),
                     XmlDoc.Param(grpcClient, "The underlying gRPC client."),
-                    XmlDoc.Param(settings, "The base ", _ctx.Type(_svc.SettingsTyp), " used within this client.")
+                    XmlDoc.Param(settings, "The base ", settings.Type, " used within this client."),
+                    XmlDoc.Param(logger, "Optional ", logger.Type, " to use within this client.")
                 );
 
-            SyntaxNode StandardLroClient(MethodDetails.StandardLro lro)
+            SyntaxNode StandardLroClient(MethodDetails.StandardLro lro, ParameterSyntax logger)
             {
                 var lroOperationsClientProperty = Property(Public, _ctx.Type<OperationsClient>(), lro.LroClientName);
                 return lroOperationsClientProperty.Assign(New(_ctx.Type<OperationsClientImpl>())(
-                    grpcClient.Call("CreateOperationsClient")(), effectiveSettings.Access(lro.LroSettingsName)));
+                    grpcClient.Call("CreateOperationsClient")(), effectiveSettings.Access(lro.LroSettingsName), logger));
             }
 
-            SyntaxNode NonStandardLroClient(MethodDetails.NonStandardLro lro)
+            SyntaxNode NonStandardLroClient(MethodDetails.NonStandardLro lro, ParameterSyntax logger)
             {
                 var lroOperationsClientProperty = Property(Public, _ctx.Type<OperationsClient>(), lro.LroClientName);
                 return lroOperationsClientProperty.Assign(New(_ctx.Type<OperationsClientImpl>())(
-                    grpcClient.Call($"CreateOperationsClientFor{lro.OperationService}")(), effectiveSettings.Access(lro.LroSettingsName)));
+                    grpcClient.Call($"CreateOperationsClientFor{lro.OperationService}")(), effectiveSettings.Access(lro.LroSettingsName), logger));
             }
 
-            SyntaxNode MixinClient(ServiceDetails.MixinDetails mixin)
+            SyntaxNode MixinClient(ServiceDetails.MixinDetails mixin, ParameterSyntax logger)
             {
                 var mixinClientProperty = Property(Public, _ctx.Type(mixin.GapicClientType), mixin.GapicClientType.Name);
                 return mixinClientProperty.Assign(New(_ctx.Type(mixin.GapicClientImplType))(
-                    grpcClient.Call("Create" + mixin.GrpcClientType.Name)(), effectiveSettings.Access(mixin.GapicSettingsType.Name)));
+                    grpcClient.Call("Create" + mixin.GrpcClientType.Name)(), effectiveSettings.Access(mixin.GapicSettingsType.Name), logger));
             }
 
             IEnumerable<SyntaxNode> PerMethod(MethodDetails method)
@@ -147,22 +150,22 @@ namespace Google.Api.Generator.Generation
                 {
                     case MethodDetails.BidiStreaming methodBidi:
                         var fieldInitBidi = clientHelper.MaybeObsoleteCall(nameof(ClientHelper.BuildApiCall), method.IsDeprecated, _ctx.Type(method.RequestTyp), _ctx.Type(method.ResponseTyp))(
-                            grpcClient.Access(method.SyncMethodName), effectiveSettings.Access(method.SettingsName), effectiveSettings.Access(methodBidi.StreamingSettingsName));
+                            method.ProtoRpcName, grpcClient.Access(method.SyncMethodName), effectiveSettings.Access(method.SettingsName), effectiveSettings.Access(methodBidi.StreamingSettingsName));
                         yield return apiCallField.Assign(fieldInitBidi);
                         break;
                     case MethodDetails.ClientStreaming methodClient:
                         var fieldInitClient = clientHelper.MaybeObsoleteCall(nameof(ClientHelper.BuildApiCall), method.IsDeprecated, _ctx.Type(method.RequestTyp), _ctx.Type(method.ResponseTyp))(
-                            grpcClient.Access(method.SyncMethodName), effectiveSettings.Access(method.SettingsName), effectiveSettings.Access(methodClient.StreamingSettingsName));
+                            method.ProtoRpcName, grpcClient.Access(method.SyncMethodName), effectiveSettings.Access(method.SettingsName), effectiveSettings.Access(methodClient.StreamingSettingsName));
                         yield return apiCallField.Assign(fieldInitClient);
                         break;
                     case MethodDetails.ServerStreaming _:
                         var fieldInitServer = clientHelper.MaybeObsoleteCall(nameof(ClientHelper.BuildApiCall), method.IsDeprecated, _ctx.Type(method.RequestTyp), _ctx.Type(method.ResponseTyp))(
-                            grpcClient.Access(method.SyncMethodName), effectiveSettings.Access(method.SettingsName));
+                            method.ProtoRpcName, grpcClient.Access(method.SyncMethodName), effectiveSettings.Access(method.SettingsName));
                         yield return apiCallField.Assign(WithGoogleRequestParams(fieldInitServer));
                         break;
                     default:
                         var fieldInit = clientHelper.MaybeObsoleteCall(nameof(ClientHelper.BuildApiCall), method.IsDeprecated, _ctx.Type(method.RequestTyp), _ctx.Type(method.ResponseTyp))(
-                            grpcClient.Access(method.AsyncMethodName), grpcClient.Access(method.SyncMethodName), effectiveSettings.Access(method.SettingsName));
+                            method.ProtoRpcName, grpcClient.Access(method.AsyncMethodName), grpcClient.Access(method.SyncMethodName), effectiveSettings.Access(method.SettingsName));
                         yield return apiCallField.Assign(WithGoogleRequestParams(fieldInit));
                         break;
                 }

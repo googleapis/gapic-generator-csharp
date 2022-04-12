@@ -19,6 +19,7 @@ using Google.Api.Generator.Utils.Roslyn;
 using Grpc.Core;
 using Grpc.Core.Interceptors;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -104,21 +105,23 @@ namespace Google.Api.Generator.Generation
         {
             var callInvoker = Parameter(_ctx.Type<CallInvoker>(), "callInvoker");
             var settings = Parameter(_ctx.Type(_svc.SettingsTyp), "settings", @default: Null);
+            var logger = Parameter(_ctx.Type<ILogger>(), "logger", @default: Null);
             var interceptor = Local(_ctx.Type<Interceptor>(), "interceptor");
             var grpcClient = Local(_ctx.Type(_svc.GrpcClientTyp), "grpcClient");
-            return Method(Internal | Static, _ctx.CurrentType, "Create")(callInvoker, settings)
+            return Method(Internal | Static, _ctx.CurrentType, "Create")(callInvoker, settings, logger)
                 .WithBody(
                     _ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(callInvoker, Nameof(callInvoker)),
                     interceptor.WithInitializer(settings.Access("Interceptor", conditional: true)),
                     If(interceptor.NotEqualTo(Null)).Then(
                         callInvoker.Assign(_ctx.Type(typeof(CallInvokerExtensions)).Call(nameof(CallInvokerExtensions.Intercept))(callInvoker, interceptor))),
                     grpcClient.WithInitializer(New(_ctx.Type(_svc.GrpcClientTyp))(callInvoker)),
-                    Return(New(_ctx.Type(_svc.ClientImplTyp))(grpcClient, settings))
+                    Return(New(_ctx.Type(_svc.ClientImplTyp))(grpcClient, settings, logger))
                 )
                 .WithXmlDoc(
                     XmlDoc.Summary("Creates a ", _ctx.CurrentType, " which uses the specified call invoker for remote operations."),
                     XmlDoc.Param(callInvoker, "The ", callInvoker.Type, " for remote operations. Must not be null."),
                     XmlDoc.Param(settings, "Optional ", settings.Type, "."),
+                    XmlDoc.Param(logger, "Optional ", logger.Type, "."),
                     XmlDoc.Returns("The created ", _ctx.CurrentType, "."));
         }
 

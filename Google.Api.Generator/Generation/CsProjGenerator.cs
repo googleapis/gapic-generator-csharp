@@ -22,11 +22,11 @@ namespace Google.Api.Generator.Generation
 {
     internal static class CsProjGenerator
     {
-        private const string GaxGrpcVersion = "[4.0.0-alpha01, 5.0.0)";
+        private const string GaxGrpcVersion = "[4.0.0-alpha02, 5.0.0)";
         private const string GrpcCoreVersion = "[2.41.0, 3.0.0)";
-        private const string LroVersion = "[3.0.0-alpha01, 4.0.0)";
-        private const string IamVersion = "[3.0.0-alpha01, 4.0.0)";
-        private const string LocationVersion = "[2.0.0-alpha01, 3.0.0)";
+        private const string LroVersion = "[3.0.0-alpha02, 4.0.0)";
+        private const string IamVersion = "[3.0.0-alpha02, 4.0.0)";
+        private const string LocationVersion = "[2.0.0-alpha02, 3.0.0)";
         private const string ReferenceAssembliesVersion = "1.0.2";
         private const string SystemLinqAsyncVersion = "5.1.0";
         private const string TestSdkVersion = "17.1.0";
