@@ -17,6 +17,7 @@ using Google.Api.Generator.Utils;
 using Google.Api.Generator.Utils.Roslyn;
 using Grpc.Core;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -101,22 +102,24 @@ namespace Google.Api.Generator.Generation
         private MethodDeclarationSyntax BuildImpl()
         {
             var callInvoker = Local(_ctx.Type<CallInvoker>(), "callInvoker");
+            var logger = Property(Public, _ctx.Type<ILogger>(), nameof(ClientBuilderBase<string>.Logger));
             return Method(Private, _ctx.Type(_svc.ClientAbstractTyp), "BuildImpl")()
                 .WithBody(
                     This.Call("Validate")(),
                     callInvoker.WithInitializer(This.Call("CreateCallInvoker")()),
-                    Return(_ctx.Type(_svc.ClientAbstractTyp).Call("Create")(callInvoker, Settings())));
+                    Return(_ctx.Type(_svc.ClientAbstractTyp).Call("Create")(callInvoker, Settings(), logger)));
         }
 
         private MethodDeclarationSyntax BuildAsyncImpl()
         {
             var cancellationToken = Parameter(_ctx.Type<CancellationToken>(), "cancellationToken");
             var callInvoker = Local(_ctx.Type<CallInvoker>(), "callInvoker");
+            var logger = Property(Public, _ctx.Type<ILogger>(), nameof(ClientBuilderBase<string>.Logger));
             return Method(Private | Async, _ctx.Type(Typ.Generic(typeof(Task<>), _svc.ClientAbstractTyp)), "BuildAsyncImpl")(cancellationToken)
                 .WithBody(
                     This.Call("Validate")(),
                     callInvoker.WithInitializer(Await(This.Call("CreateCallInvokerAsync")(cancellationToken).ConfigureAwait())),
-                    Return(_ctx.Type(_svc.ClientAbstractTyp).Call("Create")(callInvoker, Settings())));
+                    Return(_ctx.Type(_svc.ClientAbstractTyp).Call("Create")(callInvoker, Settings(), logger)));
         }
 
         private MethodDeclarationSyntax GetChannelPool() =>
