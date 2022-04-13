@@ -1,4 +1,4 @@
-﻿// Copyright 2019 Google LLC
+// Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ using gaxgrpc = Google.Api.Gax.Grpc;
 using proto = Google.Protobuf;
 using grpccore = Grpc.Core;
 using grpcinter = Grpc.Core.Interceptors;
+using mel = Microsoft.Extensions.Logging;
 using sys = System;
 using scg = System.Collections.Generic;
 using sco = System.Collections.ObjectModel;
@@ -208,14 +209,14 @@ namespace Testing.MethodSignatures
         {
             Validate();
             grpccore::CallInvoker callInvoker = CreateCallInvoker();
-            return MethodSignaturesClient.Create(callInvoker, Settings);
+            return MethodSignaturesClient.Create(callInvoker, Settings, Logger);
         }
 
         private async stt::Task<MethodSignaturesClient> BuildAsyncImpl(st::CancellationToken cancellationToken)
         {
             Validate();
             grpccore::CallInvoker callInvoker = await CreateCallInvokerAsync(cancellationToken).ConfigureAwait(false);
-            return MethodSignaturesClient.Create(callInvoker, Settings);
+            return MethodSignaturesClient.Create(callInvoker, Settings, Logger);
         }
 
         /// <summary>Returns the channel pool to use when no other options are specified.</summary>
@@ -267,8 +268,9 @@ namespace Testing.MethodSignatures
         /// The <see cref="grpccore::CallInvoker"/> for remote operations. Must not be null.
         /// </param>
         /// <param name="settings">Optional <see cref="MethodSignaturesSettings"/>.</param>
+        /// <param name="logger">Optional <see cref="mel::ILogger"/>.</param>
         /// <returns>The created <see cref="MethodSignaturesClient"/>.</returns>
-        internal static MethodSignaturesClient Create(grpccore::CallInvoker callInvoker, MethodSignaturesSettings settings = null)
+        internal static MethodSignaturesClient Create(grpccore::CallInvoker callInvoker, MethodSignaturesSettings settings = null, mel::ILogger logger = null)
         {
             gax::GaxPreconditions.CheckNotNull(callInvoker, nameof(callInvoker));
             grpcinter::Interceptor interceptor = settings?.Interceptor;
@@ -277,7 +279,7 @@ namespace Testing.MethodSignatures
                 callInvoker = grpcinter::CallInvokerExtensions.Intercept(callInvoker, interceptor);
             }
             MethodSignatures.MethodSignaturesClient grpcClient = new MethodSignatures.MethodSignaturesClient(callInvoker);
-            return new MethodSignaturesClientImpl(grpcClient, settings);
+            return new MethodSignaturesClientImpl(grpcClient, settings, logger);
         }
 
         /// <summary>
@@ -1363,36 +1365,37 @@ namespace Testing.MethodSignatures
         /// </summary>
         /// <param name="grpcClient">The underlying gRPC client.</param>
         /// <param name="settings">The base <see cref="MethodSignaturesSettings"/> used within this client.</param>
-        public MethodSignaturesClientImpl(MethodSignatures.MethodSignaturesClient grpcClient, MethodSignaturesSettings settings)
+        /// <param name="logger">Optional <see cref="mel::ILogger"/> to use within this client.</param>
+        public MethodSignaturesClientImpl(MethodSignatures.MethodSignaturesClient grpcClient, MethodSignaturesSettings settings, mel::ILogger logger)
         {
             GrpcClient = grpcClient;
             MethodSignaturesSettings effectiveSettings = settings ?? MethodSignaturesSettings.GetDefault();
-            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings);
-            _callSimpleMethod = clientHelper.BuildApiCall<SimpleRequest, Response>(grpcClient.SimpleMethodAsync, grpcClient.SimpleMethod, effectiveSettings.SimpleMethodSettings);
+            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings, logger);
+            _callSimpleMethod = clientHelper.BuildApiCall<SimpleRequest, Response>("SimpleMethod", grpcClient.SimpleMethodAsync, grpcClient.SimpleMethod, effectiveSettings.SimpleMethodSettings);
             Modify_ApiCall(ref _callSimpleMethod);
             Modify_SimpleMethodApiCall(ref _callSimpleMethod);
-            _callPrimitiveArgs = clientHelper.BuildApiCall<PrimitiveRequest, Response>(grpcClient.PrimitiveArgsAsync, grpcClient.PrimitiveArgs, effectiveSettings.PrimitiveArgsSettings);
+            _callPrimitiveArgs = clientHelper.BuildApiCall<PrimitiveRequest, Response>("PrimitiveArgs", grpcClient.PrimitiveArgsAsync, grpcClient.PrimitiveArgs, effectiveSettings.PrimitiveArgsSettings);
             Modify_ApiCall(ref _callPrimitiveArgs);
             Modify_PrimitiveArgsApiCall(ref _callPrimitiveArgs);
-            _callStringArgs = clientHelper.BuildApiCall<StringRequest, Response>(grpcClient.StringArgsAsync, grpcClient.StringArgs, effectiveSettings.StringArgsSettings);
+            _callStringArgs = clientHelper.BuildApiCall<StringRequest, Response>("StringArgs", grpcClient.StringArgsAsync, grpcClient.StringArgs, effectiveSettings.StringArgsSettings);
             Modify_ApiCall(ref _callStringArgs);
             Modify_StringArgsApiCall(ref _callStringArgs);
-            _callBytesArgs = clientHelper.BuildApiCall<BytesRequest, Response>(grpcClient.BytesArgsAsync, grpcClient.BytesArgs, effectiveSettings.BytesArgsSettings);
+            _callBytesArgs = clientHelper.BuildApiCall<BytesRequest, Response>("BytesArgs", grpcClient.BytesArgsAsync, grpcClient.BytesArgs, effectiveSettings.BytesArgsSettings);
             Modify_ApiCall(ref _callBytesArgs);
             Modify_BytesArgsApiCall(ref _callBytesArgs);
-            _callMessageArgs = clientHelper.BuildApiCall<MessageRequest, Response>(grpcClient.MessageArgsAsync, grpcClient.MessageArgs, effectiveSettings.MessageArgsSettings);
+            _callMessageArgs = clientHelper.BuildApiCall<MessageRequest, Response>("MessageArgs", grpcClient.MessageArgsAsync, grpcClient.MessageArgs, effectiveSettings.MessageArgsSettings);
             Modify_ApiCall(ref _callMessageArgs);
             Modify_MessageArgsApiCall(ref _callMessageArgs);
-            _callMapArgs = clientHelper.BuildApiCall<MapRequest, Response>(grpcClient.MapArgsAsync, grpcClient.MapArgs, effectiveSettings.MapArgsSettings);
+            _callMapArgs = clientHelper.BuildApiCall<MapRequest, Response>("MapArgs", grpcClient.MapArgsAsync, grpcClient.MapArgs, effectiveSettings.MapArgsSettings);
             Modify_ApiCall(ref _callMapArgs);
             Modify_MapArgsApiCall(ref _callMapArgs);
-            _callEnumArgs = clientHelper.BuildApiCall<EnumRequest, Response>(grpcClient.EnumArgsAsync, grpcClient.EnumArgs, effectiveSettings.EnumArgsSettings);
+            _callEnumArgs = clientHelper.BuildApiCall<EnumRequest, Response>("EnumArgs", grpcClient.EnumArgsAsync, grpcClient.EnumArgs, effectiveSettings.EnumArgsSettings);
             Modify_ApiCall(ref _callEnumArgs);
             Modify_EnumArgsApiCall(ref _callEnumArgs);
-            _callNestedArgs = clientHelper.BuildApiCall<NestedRequest, Response>(grpcClient.NestedArgsAsync, grpcClient.NestedArgs, effectiveSettings.NestedArgsSettings);
+            _callNestedArgs = clientHelper.BuildApiCall<NestedRequest, Response>("NestedArgs", grpcClient.NestedArgsAsync, grpcClient.NestedArgs, effectiveSettings.NestedArgsSettings);
             Modify_ApiCall(ref _callNestedArgs);
             Modify_NestedArgsApiCall(ref _callNestedArgs);
-            _callWktArgs = clientHelper.BuildApiCall<WktRequest, Response>(grpcClient.WktArgsAsync, grpcClient.WktArgs, effectiveSettings.WktArgsSettings);
+            _callWktArgs = clientHelper.BuildApiCall<WktRequest, Response>("WktArgs", grpcClient.WktArgsAsync, grpcClient.WktArgs, effectiveSettings.WktArgsSettings);
             Modify_ApiCall(ref _callWktArgs);
             Modify_WktArgsApiCall(ref _callWktArgs);
             OnConstruction(grpcClient, effectiveSettings, clientHelper);

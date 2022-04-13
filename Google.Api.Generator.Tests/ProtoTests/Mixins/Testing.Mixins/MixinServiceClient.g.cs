@@ -21,6 +21,7 @@ using gcl = Google.Cloud.Location;
 using proto = Google.Protobuf;
 using grpccore = Grpc.Core;
 using grpcinter = Grpc.Core.Interceptors;
+using mel = Microsoft.Extensions.Logging;
 using sys = System;
 using scg = System.Collections.Generic;
 using sco = System.Collections.ObjectModel;
@@ -120,14 +121,14 @@ namespace Testing.Mixins
         {
             Validate();
             grpccore::CallInvoker callInvoker = CreateCallInvoker();
-            return MixinServiceClient.Create(callInvoker, Settings);
+            return MixinServiceClient.Create(callInvoker, Settings, Logger);
         }
 
         private async stt::Task<MixinServiceClient> BuildAsyncImpl(st::CancellationToken cancellationToken)
         {
             Validate();
             grpccore::CallInvoker callInvoker = await CreateCallInvokerAsync(cancellationToken).ConfigureAwait(false);
-            return MixinServiceClient.Create(callInvoker, Settings);
+            return MixinServiceClient.Create(callInvoker, Settings, Logger);
         }
 
         /// <summary>Returns the channel pool to use when no other options are specified.</summary>
@@ -185,8 +186,9 @@ namespace Testing.Mixins
         /// The <see cref="grpccore::CallInvoker"/> for remote operations. Must not be null.
         /// </param>
         /// <param name="settings">Optional <see cref="MixinServiceSettings"/>.</param>
+        /// <param name="logger">Optional <see cref="mel::ILogger"/>.</param>
         /// <returns>The created <see cref="MixinServiceClient"/>.</returns>
-        internal static MixinServiceClient Create(grpccore::CallInvoker callInvoker, MixinServiceSettings settings = null)
+        internal static MixinServiceClient Create(grpccore::CallInvoker callInvoker, MixinServiceSettings settings = null, mel::ILogger logger = null)
         {
             gax::GaxPreconditions.CheckNotNull(callInvoker, nameof(callInvoker));
             grpcinter::Interceptor interceptor = settings?.Interceptor;
@@ -195,7 +197,7 @@ namespace Testing.Mixins
                 callInvoker = grpcinter::CallInvokerExtensions.Intercept(callInvoker, interceptor);
             }
             MixinService.MixinServiceClient grpcClient = new MixinService.MixinServiceClient(callInvoker);
-            return new MixinServiceClientImpl(grpcClient, settings);
+            return new MixinServiceClientImpl(grpcClient, settings, logger);
         }
 
         /// <summary>
@@ -260,14 +262,15 @@ namespace Testing.Mixins
         /// </summary>
         /// <param name="grpcClient">The underlying gRPC client.</param>
         /// <param name="settings">The base <see cref="MixinServiceSettings"/> used within this client.</param>
-        public MixinServiceClientImpl(MixinService.MixinServiceClient grpcClient, MixinServiceSettings settings)
+        /// <param name="logger">Optional <see cref="mel::ILogger"/> to use within this client.</param>
+        public MixinServiceClientImpl(MixinService.MixinServiceClient grpcClient, MixinServiceSettings settings, mel::ILogger logger)
         {
             GrpcClient = grpcClient;
             MixinServiceSettings effectiveSettings = settings ?? MixinServiceSettings.GetDefault();
-            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings);
-            LocationsClient = new gcl::LocationsClientImpl(grpcClient.CreateLocationsClient(), effectiveSettings.LocationsSettings);
-            IAMPolicyClient = new gciv::IAMPolicyClientImpl(grpcClient.CreateIAMPolicyClient(), effectiveSettings.IAMPolicySettings);
-            _callMethod = clientHelper.BuildApiCall<Request, Response>(grpcClient.MethodAsync, grpcClient.Method, effectiveSettings.MethodSettings);
+            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings, logger);
+            LocationsClient = new gcl::LocationsClientImpl(grpcClient.CreateLocationsClient(), effectiveSettings.LocationsSettings, logger);
+            IAMPolicyClient = new gciv::IAMPolicyClientImpl(grpcClient.CreateIAMPolicyClient(), effectiveSettings.IAMPolicySettings, logger);
+            _callMethod = clientHelper.BuildApiCall<Request, Response>("Method", grpcClient.MethodAsync, grpcClient.Method, effectiveSettings.MethodSettings);
             Modify_ApiCall(ref _callMethod);
             Modify_MethodApiCall(ref _callMethod);
             OnConstruction(grpcClient, effectiveSettings, clientHelper);

@@ -16,6 +16,7 @@
 
 using gaxgrpc = Google.Api.Gax.Grpc;
 using grpccore = Grpc.Core;
+using mel = Microsoft.Extensions.Logging;
 using proto = Google.Protobuf;
 using scg = System.Collections.Generic;
 using sys = System;
@@ -51,12 +52,12 @@ namespace Testing.BasicServerStreaming
         private readonly gaxgrpc::ApiServerStreamingCall<Request, Response> _callMethodServer;
         // TEST_END
 
-        public BasicServerStreamingClientImpl(BasicServerStreaming.BasicServerStreamingClient grpcClient)
+        public BasicServerStreamingClientImpl(BasicServerStreaming.BasicServerStreamingClient grpcClient, mel::ILogger logger)
         {
             BasicServerStreamingSettings effectiveSettings = null;
-            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings);
+            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings, logger);
             // TEST_START
-            _callMethodServer = clientHelper.BuildApiCall<Request, Response>(grpcClient.MethodServer, effectiveSettings.MethodServerSettings);
+            _callMethodServer = clientHelper.BuildApiCall<Request, Response>("MethodServer", grpcClient.MethodServer, effectiveSettings.MethodServerSettings);
             // TEST_END
         }
 

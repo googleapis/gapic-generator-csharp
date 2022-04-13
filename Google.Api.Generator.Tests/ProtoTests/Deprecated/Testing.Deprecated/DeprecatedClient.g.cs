@@ -1,4 +1,4 @@
-﻿// Copyright 2019 Google LLC
+// Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ using gaxgrpc = Google.Api.Gax.Grpc;
 using proto = Google.Protobuf;
 using grpccore = Grpc.Core;
 using grpcinter = Grpc.Core.Interceptors;
+using mel = Microsoft.Extensions.Logging;
 using sys = System;
 using scg = System.Collections.Generic;
 using sco = System.Collections.ObjectModel;
@@ -141,14 +142,14 @@ namespace Testing.Deprecated
         {
             Validate();
             grpccore::CallInvoker callInvoker = CreateCallInvoker();
-            return DeprecatedClient.Create(callInvoker, Settings);
+            return DeprecatedClient.Create(callInvoker, Settings, Logger);
         }
 
         private async stt::Task<DeprecatedClient> BuildAsyncImpl(st::CancellationToken cancellationToken)
         {
             Validate();
             grpccore::CallInvoker callInvoker = await CreateCallInvokerAsync(cancellationToken).ConfigureAwait(false);
-            return DeprecatedClient.Create(callInvoker, Settings);
+            return DeprecatedClient.Create(callInvoker, Settings, Logger);
         }
 
         /// <summary>Returns the channel pool to use when no other options are specified.</summary>
@@ -200,8 +201,9 @@ namespace Testing.Deprecated
         /// The <see cref="grpccore::CallInvoker"/> for remote operations. Must not be null.
         /// </param>
         /// <param name="settings">Optional <see cref="DeprecatedSettings"/>.</param>
+        /// <param name="logger">Optional <see cref="mel::ILogger"/>.</param>
         /// <returns>The created <see cref="DeprecatedClient"/>.</returns>
-        internal static DeprecatedClient Create(grpccore::CallInvoker callInvoker, DeprecatedSettings settings = null)
+        internal static DeprecatedClient Create(grpccore::CallInvoker callInvoker, DeprecatedSettings settings = null, mel::ILogger logger = null)
         {
             gax::GaxPreconditions.CheckNotNull(callInvoker, nameof(callInvoker));
             grpcinter::Interceptor interceptor = settings?.Interceptor;
@@ -210,7 +212,7 @@ namespace Testing.Deprecated
                 callInvoker = grpcinter::CallInvokerExtensions.Intercept(callInvoker, interceptor);
             }
             Deprecated.DeprecatedClient grpcClient = new Deprecated.DeprecatedClient(callInvoker);
-            return new DeprecatedClientImpl(grpcClient, settings);
+            return new DeprecatedClientImpl(grpcClient, settings, logger);
         }
 
         /// <summary>
@@ -413,26 +415,27 @@ namespace Testing.Deprecated
         /// </summary>
         /// <param name="grpcClient">The underlying gRPC client.</param>
         /// <param name="settings">The base <see cref="DeprecatedSettings"/> used within this client.</param>
-        public DeprecatedClientImpl(Deprecated.DeprecatedClient grpcClient, DeprecatedSettings settings)
+        /// <param name="logger">Optional <see cref="mel::ILogger"/> to use within this client.</param>
+        public DeprecatedClientImpl(Deprecated.DeprecatedClient grpcClient, DeprecatedSettings settings, mel::ILogger logger)
         {
             GrpcClient = grpcClient;
             DeprecatedSettings effectiveSettings = settings ?? DeprecatedSettings.GetDefault();
-            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings);
-            _callDeprecatedFieldMethod = clientHelper.BuildApiCall<DeprecatedFieldRequest, Response>(grpcClient.DeprecatedFieldMethodAsync, grpcClient.DeprecatedFieldMethod, effectiveSettings.DeprecatedFieldMethodSettings);
+            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings, logger);
+            _callDeprecatedFieldMethod = clientHelper.BuildApiCall<DeprecatedFieldRequest, Response>("DeprecatedFieldMethod", grpcClient.DeprecatedFieldMethodAsync, grpcClient.DeprecatedFieldMethod, effectiveSettings.DeprecatedFieldMethodSettings);
             Modify_ApiCall(ref _callDeprecatedFieldMethod);
             Modify_DeprecatedFieldMethodApiCall(ref _callDeprecatedFieldMethod);
 #pragma warning disable CS0612
-            _callDeprecatedMessageMethod = clientHelper.BuildApiCall<DeprecatedMessageRequest, Response>(grpcClient.DeprecatedMessageMethodAsync, grpcClient.DeprecatedMessageMethod, effectiveSettings.DeprecatedMessageMethodSettings);
+            _callDeprecatedMessageMethod = clientHelper.BuildApiCall<DeprecatedMessageRequest, Response>("DeprecatedMessageMethod", grpcClient.DeprecatedMessageMethodAsync, grpcClient.DeprecatedMessageMethod, effectiveSettings.DeprecatedMessageMethodSettings);
 #pragma warning restore CS0612
             Modify_ApiCall(ref _callDeprecatedMessageMethod);
             Modify_DeprecatedMessageMethodApiCall(ref _callDeprecatedMessageMethod);
 #pragma warning disable CS0612
-            _callDeprecatedMethod = clientHelper.BuildApiCall<Request, Response>(grpcClient.DeprecatedMethodAsync, grpcClient.DeprecatedMethod, effectiveSettings.DeprecatedMethodSettings);
+            _callDeprecatedMethod = clientHelper.BuildApiCall<Request, Response>("DeprecatedMethod", grpcClient.DeprecatedMethodAsync, grpcClient.DeprecatedMethod, effectiveSettings.DeprecatedMethodSettings);
 #pragma warning restore CS0612
             Modify_ApiCall(ref _callDeprecatedMethod);
             Modify_DeprecatedMethodApiCall(ref _callDeprecatedMethod);
 #pragma warning disable CS0612
-            _callDeprecatedResponseMethod = clientHelper.BuildApiCall<Request, DeprecatedMessageResponse>(grpcClient.DeprecatedResponseMethodAsync, grpcClient.DeprecatedResponseMethod, effectiveSettings.DeprecatedResponseMethodSettings);
+            _callDeprecatedResponseMethod = clientHelper.BuildApiCall<Request, DeprecatedMessageResponse>("DeprecatedResponseMethod", grpcClient.DeprecatedResponseMethodAsync, grpcClient.DeprecatedResponseMethod, effectiveSettings.DeprecatedResponseMethodSettings);
 #pragma warning restore CS0612
             Modify_ApiCall(ref _callDeprecatedResponseMethod);
             Modify_DeprecatedResponseMethodApiCall(ref _callDeprecatedResponseMethod);
