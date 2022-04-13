@@ -1,4 +1,4 @@
-﻿// Copyright 2019 Google LLC
+// Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ using lro = Google.LongRunning;
 using proto = Google.Protobuf;
 using grpccore = Grpc.Core;
 using grpcinter = Grpc.Core.Interceptors;
+using mel = Microsoft.Extensions.Logging;
 using sys = System;
 using scg = System.Collections.Generic;
 using sco = System.Collections.ObjectModel;
@@ -136,14 +137,14 @@ namespace Testing.UnitTests
         {
             Validate();
             grpccore::CallInvoker callInvoker = CreateCallInvoker();
-            return UnitTestsClient.Create(callInvoker, Settings);
+            return UnitTestsClient.Create(callInvoker, Settings, Logger);
         }
 
         private async stt::Task<UnitTestsClient> BuildAsyncImpl(st::CancellationToken cancellationToken)
         {
             Validate();
             grpccore::CallInvoker callInvoker = await CreateCallInvokerAsync(cancellationToken).ConfigureAwait(false);
-            return UnitTestsClient.Create(callInvoker, Settings);
+            return UnitTestsClient.Create(callInvoker, Settings, Logger);
         }
 
         /// <summary>Returns the channel pool to use when no other options are specified.</summary>
@@ -195,8 +196,9 @@ namespace Testing.UnitTests
         /// The <see cref="grpccore::CallInvoker"/> for remote operations. Must not be null.
         /// </param>
         /// <param name="settings">Optional <see cref="UnitTestsSettings"/>.</param>
+        /// <param name="logger">Optional <see cref="mel::ILogger"/>.</param>
         /// <returns>The created <see cref="UnitTestsClient"/>.</returns>
-        internal static UnitTestsClient Create(grpccore::CallInvoker callInvoker, UnitTestsSettings settings = null)
+        internal static UnitTestsClient Create(grpccore::CallInvoker callInvoker, UnitTestsSettings settings = null, mel::ILogger logger = null)
         {
             gax::GaxPreconditions.CheckNotNull(callInvoker, nameof(callInvoker));
             grpcinter::Interceptor interceptor = settings?.Interceptor;
@@ -205,7 +207,7 @@ namespace Testing.UnitTests
                 callInvoker = grpcinter::CallInvokerExtensions.Intercept(callInvoker, interceptor);
             }
             UnitTests.UnitTestsClient grpcClient = new UnitTests.UnitTestsClient(callInvoker);
-            return new UnitTestsClientImpl(grpcClient, settings);
+            return new UnitTestsClientImpl(grpcClient, settings, logger);
         }
 
         /// <summary>
@@ -801,16 +803,17 @@ namespace Testing.UnitTests
         /// </summary>
         /// <param name="grpcClient">The underlying gRPC client.</param>
         /// <param name="settings">The base <see cref="UnitTestsSettings"/> used within this client.</param>
-        public UnitTestsClientImpl(UnitTests.UnitTestsClient grpcClient, UnitTestsSettings settings)
+        /// <param name="logger">Optional <see cref="mel::ILogger"/> to use within this client.</param>
+        public UnitTestsClientImpl(UnitTests.UnitTestsClient grpcClient, UnitTestsSettings settings, mel::ILogger logger)
         {
             GrpcClient = grpcClient;
             UnitTestsSettings effectiveSettings = settings ?? UnitTestsSettings.GetDefault();
-            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings);
-            MethodLroOperationsClient = new lro::OperationsClientImpl(grpcClient.CreateOperationsClient(), effectiveSettings.MethodLroOperationsSettings);
-            _callMethodValues = clientHelper.BuildApiCall<ValuesRequest, Response>(grpcClient.MethodValuesAsync, grpcClient.MethodValues, effectiveSettings.MethodValuesSettings);
+            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings, logger);
+            MethodLroOperationsClient = new lro::OperationsClientImpl(grpcClient.CreateOperationsClient(), effectiveSettings.MethodLroOperationsSettings, logger);
+            _callMethodValues = clientHelper.BuildApiCall<ValuesRequest, Response>("MethodValues", grpcClient.MethodValuesAsync, grpcClient.MethodValues, effectiveSettings.MethodValuesSettings);
             Modify_ApiCall(ref _callMethodValues);
             Modify_MethodValuesApiCall(ref _callMethodValues);
-            _callMethodLro = clientHelper.BuildApiCall<LroRequest, lro::Operation>(grpcClient.MethodLroAsync, grpcClient.MethodLro, effectiveSettings.MethodLroSettings);
+            _callMethodLro = clientHelper.BuildApiCall<LroRequest, lro::Operation>("MethodLro", grpcClient.MethodLroAsync, grpcClient.MethodLro, effectiveSettings.MethodLroSettings);
             Modify_ApiCall(ref _callMethodLro);
             Modify_MethodLroApiCall(ref _callMethodLro);
             OnConstruction(grpcClient, effectiveSettings, clientHelper);

@@ -19,6 +19,7 @@ using gaxgrpc = Google.Api.Gax.Grpc;
 using proto = Google.Protobuf;
 using grpccore = Grpc.Core;
 using grpcinter = Grpc.Core.Interceptors;
+using mel = Microsoft.Extensions.Logging;
 using sys = System;
 using scg = System.Collections.Generic;
 using sco = System.Collections.ObjectModel;
@@ -194,14 +195,14 @@ namespace Google.Showcase.V1Beta1
         {
             Validate();
             grpccore::CallInvoker callInvoker = CreateCallInvoker();
-            return ComplianceClient.Create(callInvoker, Settings);
+            return ComplianceClient.Create(callInvoker, Settings, Logger);
         }
 
         private async stt::Task<ComplianceClient> BuildAsyncImpl(st::CancellationToken cancellationToken)
         {
             Validate();
             grpccore::CallInvoker callInvoker = await CreateCallInvokerAsync(cancellationToken).ConfigureAwait(false);
-            return ComplianceClient.Create(callInvoker, Settings);
+            return ComplianceClient.Create(callInvoker, Settings, Logger);
         }
 
         /// <summary>Returns the channel pool to use when no other options are specified.</summary>
@@ -254,8 +255,9 @@ namespace Google.Showcase.V1Beta1
         /// The <see cref="grpccore::CallInvoker"/> for remote operations. Must not be null.
         /// </param>
         /// <param name="settings">Optional <see cref="ComplianceSettings"/>.</param>
+        /// <param name="logger">Optional <see cref="mel::ILogger"/>.</param>
         /// <returns>The created <see cref="ComplianceClient"/>.</returns>
-        internal static ComplianceClient Create(grpccore::CallInvoker callInvoker, ComplianceSettings settings = null)
+        internal static ComplianceClient Create(grpccore::CallInvoker callInvoker, ComplianceSettings settings = null, mel::ILogger logger = null)
         {
             gax::GaxPreconditions.CheckNotNull(callInvoker, nameof(callInvoker));
             grpcinter::Interceptor interceptor = settings?.Interceptor;
@@ -264,7 +266,7 @@ namespace Google.Showcase.V1Beta1
                 callInvoker = grpcinter::CallInvokerExtensions.Intercept(callInvoker, interceptor);
             }
             Compliance.ComplianceClient grpcClient = new Compliance.ComplianceClient(callInvoker);
-            return new ComplianceClientImpl(grpcClient, settings);
+            return new ComplianceClientImpl(grpcClient, settings, logger);
         }
 
         /// <summary>
@@ -546,33 +548,34 @@ namespace Google.Showcase.V1Beta1
         /// </summary>
         /// <param name="grpcClient">The underlying gRPC client.</param>
         /// <param name="settings">The base <see cref="ComplianceSettings"/> used within this client.</param>
-        public ComplianceClientImpl(Compliance.ComplianceClient grpcClient, ComplianceSettings settings)
+        /// <param name="logger">Optional <see cref="mel::ILogger"/> to use within this client.</param>
+        public ComplianceClientImpl(Compliance.ComplianceClient grpcClient, ComplianceSettings settings, mel::ILogger logger)
         {
             GrpcClient = grpcClient;
             ComplianceSettings effectiveSettings = settings ?? ComplianceSettings.GetDefault();
-            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings);
-            _callRepeatDataBody = clientHelper.BuildApiCall<RepeatRequest, RepeatResponse>(grpcClient.RepeatDataBodyAsync, grpcClient.RepeatDataBody, effectiveSettings.RepeatDataBodySettings);
+            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings, logger);
+            _callRepeatDataBody = clientHelper.BuildApiCall<RepeatRequest, RepeatResponse>("RepeatDataBody", grpcClient.RepeatDataBodyAsync, grpcClient.RepeatDataBody, effectiveSettings.RepeatDataBodySettings);
             Modify_ApiCall(ref _callRepeatDataBody);
             Modify_RepeatDataBodyApiCall(ref _callRepeatDataBody);
-            _callRepeatDataBodyInfo = clientHelper.BuildApiCall<RepeatRequest, RepeatResponse>(grpcClient.RepeatDataBodyInfoAsync, grpcClient.RepeatDataBodyInfo, effectiveSettings.RepeatDataBodyInfoSettings);
+            _callRepeatDataBodyInfo = clientHelper.BuildApiCall<RepeatRequest, RepeatResponse>("RepeatDataBodyInfo", grpcClient.RepeatDataBodyInfoAsync, grpcClient.RepeatDataBodyInfo, effectiveSettings.RepeatDataBodyInfoSettings);
             Modify_ApiCall(ref _callRepeatDataBodyInfo);
             Modify_RepeatDataBodyInfoApiCall(ref _callRepeatDataBodyInfo);
-            _callRepeatDataQuery = clientHelper.BuildApiCall<RepeatRequest, RepeatResponse>(grpcClient.RepeatDataQueryAsync, grpcClient.RepeatDataQuery, effectiveSettings.RepeatDataQuerySettings);
+            _callRepeatDataQuery = clientHelper.BuildApiCall<RepeatRequest, RepeatResponse>("RepeatDataQuery", grpcClient.RepeatDataQueryAsync, grpcClient.RepeatDataQuery, effectiveSettings.RepeatDataQuerySettings);
             Modify_ApiCall(ref _callRepeatDataQuery);
             Modify_RepeatDataQueryApiCall(ref _callRepeatDataQuery);
-            _callRepeatDataSimplePath = clientHelper.BuildApiCall<RepeatRequest, RepeatResponse>(grpcClient.RepeatDataSimplePathAsync, grpcClient.RepeatDataSimplePath, effectiveSettings.RepeatDataSimplePathSettings).WithGoogleRequestParam("info.f_string", request => request.Info?.FString);
+            _callRepeatDataSimplePath = clientHelper.BuildApiCall<RepeatRequest, RepeatResponse>("RepeatDataSimplePath", grpcClient.RepeatDataSimplePathAsync, grpcClient.RepeatDataSimplePath, effectiveSettings.RepeatDataSimplePathSettings).WithGoogleRequestParam("info.f_string", request => request.Info?.FString);
             Modify_ApiCall(ref _callRepeatDataSimplePath);
             Modify_RepeatDataSimplePathApiCall(ref _callRepeatDataSimplePath);
-            _callRepeatDataPathResource = clientHelper.BuildApiCall<RepeatRequest, RepeatResponse>(grpcClient.RepeatDataPathResourceAsync, grpcClient.RepeatDataPathResource, effectiveSettings.RepeatDataPathResourceSettings).WithGoogleRequestParam("info.f_string", request => request.Info?.FString).WithGoogleRequestParam("info.f_child.f_string", request => request.Info?.FChild?.FString);
+            _callRepeatDataPathResource = clientHelper.BuildApiCall<RepeatRequest, RepeatResponse>("RepeatDataPathResource", grpcClient.RepeatDataPathResourceAsync, grpcClient.RepeatDataPathResource, effectiveSettings.RepeatDataPathResourceSettings).WithGoogleRequestParam("info.f_string", request => request.Info?.FString).WithGoogleRequestParam("info.f_child.f_string", request => request.Info?.FChild?.FString);
             Modify_ApiCall(ref _callRepeatDataPathResource);
             Modify_RepeatDataPathResourceApiCall(ref _callRepeatDataPathResource);
-            _callRepeatDataPathTrailingResource = clientHelper.BuildApiCall<RepeatRequest, RepeatResponse>(grpcClient.RepeatDataPathTrailingResourceAsync, grpcClient.RepeatDataPathTrailingResource, effectiveSettings.RepeatDataPathTrailingResourceSettings).WithGoogleRequestParam("info.f_string", request => request.Info?.FString).WithGoogleRequestParam("info.f_child.f_string", request => request.Info?.FChild?.FString);
+            _callRepeatDataPathTrailingResource = clientHelper.BuildApiCall<RepeatRequest, RepeatResponse>("RepeatDataPathTrailingResource", grpcClient.RepeatDataPathTrailingResourceAsync, grpcClient.RepeatDataPathTrailingResource, effectiveSettings.RepeatDataPathTrailingResourceSettings).WithGoogleRequestParam("info.f_string", request => request.Info?.FString).WithGoogleRequestParam("info.f_child.f_string", request => request.Info?.FChild?.FString);
             Modify_ApiCall(ref _callRepeatDataPathTrailingResource);
             Modify_RepeatDataPathTrailingResourceApiCall(ref _callRepeatDataPathTrailingResource);
-            _callRepeatDataBodyPut = clientHelper.BuildApiCall<RepeatRequest, RepeatResponse>(grpcClient.RepeatDataBodyPutAsync, grpcClient.RepeatDataBodyPut, effectiveSettings.RepeatDataBodyPutSettings);
+            _callRepeatDataBodyPut = clientHelper.BuildApiCall<RepeatRequest, RepeatResponse>("RepeatDataBodyPut", grpcClient.RepeatDataBodyPutAsync, grpcClient.RepeatDataBodyPut, effectiveSettings.RepeatDataBodyPutSettings);
             Modify_ApiCall(ref _callRepeatDataBodyPut);
             Modify_RepeatDataBodyPutApiCall(ref _callRepeatDataBodyPut);
-            _callRepeatDataBodyPatch = clientHelper.BuildApiCall<RepeatRequest, RepeatResponse>(grpcClient.RepeatDataBodyPatchAsync, grpcClient.RepeatDataBodyPatch, effectiveSettings.RepeatDataBodyPatchSettings);
+            _callRepeatDataBodyPatch = clientHelper.BuildApiCall<RepeatRequest, RepeatResponse>("RepeatDataBodyPatch", grpcClient.RepeatDataBodyPatchAsync, grpcClient.RepeatDataBodyPatch, effectiveSettings.RepeatDataBodyPatchSettings);
             Modify_ApiCall(ref _callRepeatDataBodyPatch);
             Modify_RepeatDataBodyPatchApiCall(ref _callRepeatDataBodyPatch);
             OnConstruction(grpcClient, effectiveSettings, clientHelper);

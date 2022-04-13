@@ -1,4 +1,4 @@
-﻿// Copyright 2019 Google LLC
+// Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -40,7 +40,7 @@ namespace Testing.Keywords.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.Method1(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            KeywordsClient client = new KeywordsClientImpl(mockGrpcClient.Object, null);
+            KeywordsClient client = new KeywordsClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.Method1(request);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -60,7 +60,7 @@ namespace Testing.Keywords.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.Method1Async(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            KeywordsClient client = new KeywordsClientImpl(mockGrpcClient.Object, null);
+            KeywordsClient client = new KeywordsClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.Method1Async(request, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.Method1Async(request, st::CancellationToken.None);
@@ -82,7 +82,7 @@ namespace Testing.Keywords.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.Method1(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            KeywordsClient client = new KeywordsClientImpl(mockGrpcClient.Object, null);
+            KeywordsClient client = new KeywordsClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.Method1(request.Event, request.Switch, request.Void, request.Request_, request.Types_);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -102,7 +102,7 @@ namespace Testing.Keywords.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.Method1Async(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            KeywordsClient client = new KeywordsClientImpl(mockGrpcClient.Object, null);
+            KeywordsClient client = new KeywordsClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.Method1Async(request.Event, request.Switch, request.Void, request.Request_, request.Types_, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.Method1Async(request.Event, request.Switch, request.Void, request.Request_, request.Types_, st::CancellationToken.None);
@@ -124,7 +124,7 @@ namespace Testing.Keywords.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.Method1(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            KeywordsClient client = new KeywordsClientImpl(mockGrpcClient.Object, null);
+            KeywordsClient client = new KeywordsClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.Method1(request.EventAsResourceName, request.Switch, request.Void, request.Request_, request.Types_);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -144,7 +144,7 @@ namespace Testing.Keywords.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.Method1Async(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            KeywordsClient client = new KeywordsClientImpl(mockGrpcClient.Object, null);
+            KeywordsClient client = new KeywordsClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.Method1Async(request.EventAsResourceName, request.Switch, request.Void, request.Request_, request.Types_, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.Method1Async(request.EventAsResourceName, request.Switch, request.Void, request.Request_, request.Types_, st::CancellationToken.None);
@@ -163,7 +163,7 @@ namespace Testing.Keywords.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.Method2(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            KeywordsClient client = new KeywordsClientImpl(mockGrpcClient.Object, null);
+            KeywordsClient client = new KeywordsClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.Method2(request);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -180,7 +180,7 @@ namespace Testing.Keywords.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.Method2Async(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            KeywordsClient client = new KeywordsClientImpl(mockGrpcClient.Object, null);
+            KeywordsClient client = new KeywordsClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.Method2Async(request, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.Method2Async(request, st::CancellationToken.None);
@@ -199,7 +199,7 @@ namespace Testing.Keywords.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.Method2(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            KeywordsClient client = new KeywordsClientImpl(mockGrpcClient.Object, null);
+            KeywordsClient client = new KeywordsClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.Method2(request.While, request.Enum);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -216,7 +216,7 @@ namespace Testing.Keywords.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.Method2Async(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            KeywordsClient client = new KeywordsClientImpl(mockGrpcClient.Object, null);
+            KeywordsClient client = new KeywordsClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.Method2Async(request.While, request.Enum, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.Method2Async(request.While, request.Enum, st::CancellationToken.None);
@@ -235,7 +235,7 @@ namespace Testing.Keywords.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.Method2(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            KeywordsClient client = new KeywordsClientImpl(mockGrpcClient.Object, null);
+            KeywordsClient client = new KeywordsClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.Method2(request.WhileAsResourceName, request.Enum);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -252,7 +252,7 @@ namespace Testing.Keywords.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.Method2Async(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            KeywordsClient client = new KeywordsClientImpl(mockGrpcClient.Object, null);
+            KeywordsClient client = new KeywordsClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.Method2Async(request.WhileAsResourceName, request.Enum, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.Method2Async(request.WhileAsResourceName, request.Enum, st::CancellationToken.None);

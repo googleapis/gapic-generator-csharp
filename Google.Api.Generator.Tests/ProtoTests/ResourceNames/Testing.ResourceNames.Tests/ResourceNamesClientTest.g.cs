@@ -1,4 +1,4 @@
-﻿// Copyright 2019 Google LLC
+// Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -47,7 +47,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.SinglePatternMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.SinglePatternMethod(request);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -73,7 +73,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.SinglePatternMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.SinglePatternMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.SinglePatternMethodAsync(request, st::CancellationToken.None);
@@ -101,7 +101,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.SinglePatternMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.SinglePatternMethod(request.RealName, request.Ref, request.RepeatedRef, request.ValueRef, request.RepeatedValueRef);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -127,7 +127,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.SinglePatternMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.SinglePatternMethodAsync(request.RealName, request.Ref, request.RepeatedRef, request.ValueRef, request.RepeatedValueRef, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.SinglePatternMethodAsync(request.RealName, request.Ref, request.RepeatedRef, request.ValueRef, request.RepeatedValueRef, st::CancellationToken.None);
@@ -155,7 +155,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.SinglePatternMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.SinglePatternMethod(request.RealNameAsSinglePatternName, request.RefAsSinglePatternName, request.RepeatedRefAsSinglePatternNames, request.ValueRefAsSinglePatternName, request.RepeatedValueRefAsSinglePatternNames);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -181,7 +181,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.SinglePatternMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.SinglePatternMethodAsync(request.RealNameAsSinglePatternName, request.RefAsSinglePatternName, request.RepeatedRefAsSinglePatternNames, request.ValueRefAsSinglePatternName, request.RepeatedValueRefAsSinglePatternNames, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.SinglePatternMethodAsync(request.RealNameAsSinglePatternName, request.RefAsSinglePatternName, request.RepeatedRefAsSinglePatternNames, request.ValueRefAsSinglePatternName, request.RepeatedValueRefAsSinglePatternNames, st::CancellationToken.None);
@@ -201,7 +201,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.DeprecatedPatternMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.DeprecatedPatternMethod(request);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -219,7 +219,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.DeprecatedPatternMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.DeprecatedPatternMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.DeprecatedPatternMethodAsync(request, st::CancellationToken.None);
@@ -239,7 +239,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.DeprecatedPatternMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
 #pragma warning disable CS0612
             Response response = client.DeprecatedPatternMethod(request.Name);
 #pragma warning restore CS0612
@@ -259,7 +259,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.DeprecatedPatternMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
 #pragma warning disable CS0612
             Response responseCallSettings = await client.DeprecatedPatternMethodAsync(request.Name, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
 #pragma warning restore CS0612
@@ -283,7 +283,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.DeprecatedPatternMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
 #pragma warning disable CS0612
             Response response = client.DeprecatedPatternMethod(request.DeprecatedPatternName);
 #pragma warning restore CS0612
@@ -303,7 +303,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.DeprecatedPatternMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
 #pragma warning disable CS0612
             Response responseCallSettings = await client.DeprecatedPatternMethodAsync(request.DeprecatedPatternName, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
 #pragma warning restore CS0612
@@ -335,7 +335,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.WildcardOnlyPatternMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.WildcardOnlyPatternMethod(request);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -361,7 +361,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.WildcardOnlyPatternMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.WildcardOnlyPatternMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.WildcardOnlyPatternMethodAsync(request, st::CancellationToken.None);
@@ -389,7 +389,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.WildcardOnlyPatternMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.WildcardOnlyPatternMethod(request.Name, request.Ref, request.RepeatedRef, request.RefSugar, request.RepeatedRefSugar);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -415,7 +415,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.WildcardOnlyPatternMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.WildcardOnlyPatternMethodAsync(request.Name, request.Ref, request.RepeatedRef, request.RefSugar, request.RepeatedRefSugar, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.WildcardOnlyPatternMethodAsync(request.Name, request.Ref, request.RepeatedRef, request.RefSugar, request.RepeatedRefSugar, st::CancellationToken.None);
@@ -443,7 +443,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.WildcardOnlyPatternMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.WildcardOnlyPatternMethod(request.ResourceName, request.RefAsResourceName, request.RepeatedRefAsResourceNames, request.RefSugarAsResourceName, request.RepeatedRefSugarAsResourceNames);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -469,7 +469,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.WildcardOnlyPatternMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.WildcardOnlyPatternMethodAsync(request.ResourceName, request.RefAsResourceName, request.RepeatedRefAsResourceNames, request.RefSugarAsResourceName, request.RepeatedRefSugarAsResourceNames, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.WildcardOnlyPatternMethodAsync(request.ResourceName, request.RefAsResourceName, request.RepeatedRefAsResourceNames, request.RefSugarAsResourceName, request.RepeatedRefSugarAsResourceNames, st::CancellationToken.None);
@@ -492,7 +492,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.WildcardMultiPatternMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.WildcardMultiPatternMethod(request);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -513,7 +513,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.WildcardMultiPatternMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.WildcardMultiPatternMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.WildcardMultiPatternMethodAsync(request, st::CancellationToken.None);
@@ -536,7 +536,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.WildcardMultiPatternMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.WildcardMultiPatternMethod(request.Name, request.Ref, request.RepeatedRef);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -557,7 +557,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.WildcardMultiPatternMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.WildcardMultiPatternMethodAsync(request.Name, request.Ref, request.RepeatedRef, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.WildcardMultiPatternMethodAsync(request.Name, request.Ref, request.RepeatedRef, st::CancellationToken.None);
@@ -580,7 +580,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.WildcardMultiPatternMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.WildcardMultiPatternMethod(request.WildcardMultiPatternName, request.RefAsWildcardMultiPatternName, request.RepeatedRefAsWildcardMultiPatternNames);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -601,7 +601,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.WildcardMultiPatternMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.WildcardMultiPatternMethodAsync(request.WildcardMultiPatternName, request.RefAsWildcardMultiPatternName, request.RepeatedRefAsWildcardMultiPatternNames, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.WildcardMultiPatternMethodAsync(request.WildcardMultiPatternName, request.RefAsWildcardMultiPatternName, request.RepeatedRefAsWildcardMultiPatternNames, st::CancellationToken.None);
@@ -624,7 +624,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.WildcardMultiPatternMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.WildcardMultiPatternMethod(request.WildcardMultiPatternName, request.RefAsWildcardMultiPatternName, request.RepeatedRefAsResourceNames);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -645,7 +645,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.WildcardMultiPatternMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.WildcardMultiPatternMethodAsync(request.WildcardMultiPatternName, request.RefAsWildcardMultiPatternName, request.RepeatedRefAsResourceNames, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.WildcardMultiPatternMethodAsync(request.WildcardMultiPatternName, request.RefAsWildcardMultiPatternName, request.RepeatedRefAsResourceNames, st::CancellationToken.None);
@@ -668,7 +668,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.WildcardMultiPatternMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.WildcardMultiPatternMethod(request.WildcardMultiPatternName, request.RefAsResourceName, request.RepeatedRefAsWildcardMultiPatternNames);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -689,7 +689,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.WildcardMultiPatternMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.WildcardMultiPatternMethodAsync(request.WildcardMultiPatternName, request.RefAsResourceName, request.RepeatedRefAsWildcardMultiPatternNames, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.WildcardMultiPatternMethodAsync(request.WildcardMultiPatternName, request.RefAsResourceName, request.RepeatedRefAsWildcardMultiPatternNames, st::CancellationToken.None);
@@ -712,7 +712,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.WildcardMultiPatternMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.WildcardMultiPatternMethod(request.WildcardMultiPatternName, request.RefAsResourceName, request.RepeatedRefAsResourceNames);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -733,7 +733,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.WildcardMultiPatternMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.WildcardMultiPatternMethodAsync(request.WildcardMultiPatternName, request.RefAsResourceName, request.RepeatedRefAsResourceNames, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.WildcardMultiPatternMethodAsync(request.WildcardMultiPatternName, request.RefAsResourceName, request.RepeatedRefAsResourceNames, st::CancellationToken.None);
@@ -756,7 +756,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.WildcardMultiPatternMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.WildcardMultiPatternMethod(request.ResourceName, request.RefAsWildcardMultiPatternName, request.RepeatedRefAsWildcardMultiPatternNames);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -777,7 +777,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.WildcardMultiPatternMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.WildcardMultiPatternMethodAsync(request.ResourceName, request.RefAsWildcardMultiPatternName, request.RepeatedRefAsWildcardMultiPatternNames, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.WildcardMultiPatternMethodAsync(request.ResourceName, request.RefAsWildcardMultiPatternName, request.RepeatedRefAsWildcardMultiPatternNames, st::CancellationToken.None);
@@ -800,7 +800,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.WildcardMultiPatternMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.WildcardMultiPatternMethod(request.ResourceName, request.RefAsWildcardMultiPatternName, request.RepeatedRefAsResourceNames);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -821,7 +821,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.WildcardMultiPatternMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.WildcardMultiPatternMethodAsync(request.ResourceName, request.RefAsWildcardMultiPatternName, request.RepeatedRefAsResourceNames, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.WildcardMultiPatternMethodAsync(request.ResourceName, request.RefAsWildcardMultiPatternName, request.RepeatedRefAsResourceNames, st::CancellationToken.None);
@@ -844,7 +844,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.WildcardMultiPatternMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.WildcardMultiPatternMethod(request.ResourceName, request.RefAsResourceName, request.RepeatedRefAsWildcardMultiPatternNames);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -865,7 +865,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.WildcardMultiPatternMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.WildcardMultiPatternMethodAsync(request.ResourceName, request.RefAsResourceName, request.RepeatedRefAsWildcardMultiPatternNames, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.WildcardMultiPatternMethodAsync(request.ResourceName, request.RefAsResourceName, request.RepeatedRefAsWildcardMultiPatternNames, st::CancellationToken.None);
@@ -888,7 +888,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.WildcardMultiPatternMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.WildcardMultiPatternMethod(request.ResourceName, request.RefAsResourceName, request.RepeatedRefAsResourceNames);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -909,7 +909,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.WildcardMultiPatternMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.WildcardMultiPatternMethodAsync(request.ResourceName, request.RefAsResourceName, request.RepeatedRefAsResourceNames, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.WildcardMultiPatternMethodAsync(request.ResourceName, request.RefAsResourceName, request.RepeatedRefAsResourceNames, st::CancellationToken.None);
@@ -932,7 +932,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.WildcardMultiPatternMultipleMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.WildcardMultiPatternMultipleMethod(request);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -953,7 +953,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.WildcardMultiPatternMultipleMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.WildcardMultiPatternMultipleMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.WildcardMultiPatternMultipleMethodAsync(request, st::CancellationToken.None);
@@ -975,7 +975,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.WildcardMultiPatternMultipleMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.WildcardMultiPatternMultipleMethod(request.Ref, request.RepeatedRef);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -995,7 +995,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.WildcardMultiPatternMultipleMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.WildcardMultiPatternMultipleMethodAsync(request.Ref, request.RepeatedRef, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.WildcardMultiPatternMultipleMethodAsync(request.Ref, request.RepeatedRef, st::CancellationToken.None);
@@ -1017,7 +1017,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.WildcardMultiPatternMultipleMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.WildcardMultiPatternMultipleMethod(request.RefAsWildcardMultiPatternMultipleName, request.RepeatedRefAsWildcardMultiPatternMultipleNames);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -1037,7 +1037,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.WildcardMultiPatternMultipleMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.WildcardMultiPatternMultipleMethodAsync(request.RefAsWildcardMultiPatternMultipleName, request.RepeatedRefAsWildcardMultiPatternMultipleNames, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.WildcardMultiPatternMultipleMethodAsync(request.RefAsWildcardMultiPatternMultipleName, request.RepeatedRefAsWildcardMultiPatternMultipleNames, st::CancellationToken.None);
@@ -1059,7 +1059,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.WildcardMultiPatternMultipleMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.WildcardMultiPatternMultipleMethod(request.RefAsWildcardMultiPatternMultipleName, request.RepeatedRefAsResourceNames);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -1079,7 +1079,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.WildcardMultiPatternMultipleMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.WildcardMultiPatternMultipleMethodAsync(request.RefAsWildcardMultiPatternMultipleName, request.RepeatedRefAsResourceNames, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.WildcardMultiPatternMultipleMethodAsync(request.RefAsWildcardMultiPatternMultipleName, request.RepeatedRefAsResourceNames, st::CancellationToken.None);
@@ -1101,7 +1101,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.WildcardMultiPatternMultipleMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.WildcardMultiPatternMultipleMethod(request.RefAsResourceName, request.RepeatedRefAsWildcardMultiPatternMultipleNames);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -1121,7 +1121,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.WildcardMultiPatternMultipleMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.WildcardMultiPatternMultipleMethodAsync(request.RefAsResourceName, request.RepeatedRefAsWildcardMultiPatternMultipleNames, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.WildcardMultiPatternMultipleMethodAsync(request.RefAsResourceName, request.RepeatedRefAsWildcardMultiPatternMultipleNames, st::CancellationToken.None);
@@ -1143,7 +1143,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.WildcardMultiPatternMultipleMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.WildcardMultiPatternMultipleMethod(request.RefAsResourceName, request.RepeatedRefAsResourceNames);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -1163,7 +1163,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.WildcardMultiPatternMultipleMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.WildcardMultiPatternMultipleMethodAsync(request.RefAsResourceName, request.RepeatedRefAsResourceNames, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.WildcardMultiPatternMultipleMethodAsync(request.RefAsResourceName, request.RepeatedRefAsResourceNames, st::CancellationToken.None);

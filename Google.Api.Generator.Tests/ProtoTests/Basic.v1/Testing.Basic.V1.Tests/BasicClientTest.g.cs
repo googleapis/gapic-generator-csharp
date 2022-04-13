@@ -1,4 +1,4 @@
-﻿// Copyright 2019 Google LLC
+// Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ namespace Testing.Basic.V1.Tests
             Request request = new Request { };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.AMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            BasicClient client = new BasicClientImpl(mockGrpcClient.Object, null);
+            BasicClient client = new BasicClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.AMethod(request);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -46,7 +46,7 @@ namespace Testing.Basic.V1.Tests
             Request request = new Request { };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.AMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            BasicClient client = new BasicClientImpl(mockGrpcClient.Object, null);
+            BasicClient client = new BasicClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.AMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.AMethodAsync(request, st::CancellationToken.None);

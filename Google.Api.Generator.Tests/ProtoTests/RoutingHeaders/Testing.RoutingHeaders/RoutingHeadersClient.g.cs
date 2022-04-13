@@ -15,6 +15,7 @@
 // Generated code. DO NOT EDIT!
 
 using gaxgrpc = Google.Api.Gax.Grpc;
+using mel = Microsoft.Extensions.Logging;
 using proto = Google.Protobuf;
 using sysnet = System.Net;
 using sys = System;
@@ -53,36 +54,36 @@ namespace Testing.RoutingHeaders
         private readonly gaxgrpc::ApiServerStreamingCall<SimpleRequest, Response> _callServerStreamingMethod;
 
         // TEST_START
-        public RoutingHeadersClientImpl(RoutingHeaders.RoutingHeadersClient grpcClient, RoutingHeadersSettings settings)
+        public RoutingHeadersClientImpl(RoutingHeaders.RoutingHeadersClient grpcClient, RoutingHeadersSettings settings, mel::ILogger logger)
         {
             GrpcClient = grpcClient;
             RoutingHeadersSettings effectiveSettings = settings ?? RoutingHeadersSettings.GetDefault();
-            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings);
-            _callNoUrlMethod = clientHelper.BuildApiCall<SimpleRequest, Response>(grpcClient.NoUrlMethodAsync, grpcClient.NoUrlMethod, effectiveSettings.NoUrlMethodSettings);
+            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings, logger);
+            _callNoUrlMethod = clientHelper.BuildApiCall<SimpleRequest, Response>("NoUrlMethod", grpcClient.NoUrlMethodAsync, grpcClient.NoUrlMethod, effectiveSettings.NoUrlMethodSettings);
             Modify_ApiCall(ref _callNoUrlMethod);
             Modify_NoUrlMethodApiCall(ref _callNoUrlMethod);
-            _callGetMethod = clientHelper.BuildApiCall<SimpleRequest, Response>(grpcClient.GetMethodAsync, grpcClient.GetMethod, effectiveSettings.GetMethodSettings).WithGoogleRequestParam("name", request => request.Name);
+            _callGetMethod = clientHelper.BuildApiCall<SimpleRequest, Response>("GetMethod", grpcClient.GetMethodAsync, grpcClient.GetMethod, effectiveSettings.GetMethodSettings).WithGoogleRequestParam("name", request => request.Name);
             Modify_ApiCall(ref _callGetMethod);
             Modify_GetMethodApiCall(ref _callGetMethod);
-            _callPostMethod = clientHelper.BuildApiCall<SimpleRequest, Response>(grpcClient.PostMethodAsync, grpcClient.PostMethod, effectiveSettings.PostMethodSettings).WithGoogleRequestParam("name", request => request.Name);
+            _callPostMethod = clientHelper.BuildApiCall<SimpleRequest, Response>("PostMethod", grpcClient.PostMethodAsync, grpcClient.PostMethod, effectiveSettings.PostMethodSettings).WithGoogleRequestParam("name", request => request.Name);
             Modify_ApiCall(ref _callPostMethod);
             Modify_PostMethodApiCall(ref _callPostMethod);
-            _callPutMethod = clientHelper.BuildApiCall<SimpleRequest, Response>(grpcClient.PutMethodAsync, grpcClient.PutMethod, effectiveSettings.PutMethodSettings).WithGoogleRequestParam("name", request => request.Name);
+            _callPutMethod = clientHelper.BuildApiCall<SimpleRequest, Response>("PutMethod", grpcClient.PutMethodAsync, grpcClient.PutMethod, effectiveSettings.PutMethodSettings).WithGoogleRequestParam("name", request => request.Name);
             Modify_ApiCall(ref _callPutMethod);
             Modify_PutMethodApiCall(ref _callPutMethod);
-            _callPatchMethod = clientHelper.BuildApiCall<SimpleRequest, Response>(grpcClient.PatchMethodAsync, grpcClient.PatchMethod, effectiveSettings.PatchMethodSettings).WithGoogleRequestParam("name", request => request.Name);
+            _callPatchMethod = clientHelper.BuildApiCall<SimpleRequest, Response>("PatchMethod", grpcClient.PatchMethodAsync, grpcClient.PatchMethod, effectiveSettings.PatchMethodSettings).WithGoogleRequestParam("name", request => request.Name);
             Modify_ApiCall(ref _callPatchMethod);
             Modify_PatchMethodApiCall(ref _callPatchMethod);
-            _callDeleteMethod = clientHelper.BuildApiCall<SimpleRequest, Response>(grpcClient.DeleteMethodAsync, grpcClient.DeleteMethod, effectiveSettings.DeleteMethodSettings).WithGoogleRequestParam("name", request => request.Name);
+            _callDeleteMethod = clientHelper.BuildApiCall<SimpleRequest, Response>("DeleteMethod", grpcClient.DeleteMethodAsync, grpcClient.DeleteMethod, effectiveSettings.DeleteMethodSettings).WithGoogleRequestParam("name", request => request.Name);
             Modify_ApiCall(ref _callDeleteMethod);
             Modify_DeleteMethodApiCall(ref _callDeleteMethod);
-            _callGetNoTemplateMethod = clientHelper.BuildApiCall<SimpleRequest, Response>(grpcClient.GetNoTemplateMethodAsync, grpcClient.GetNoTemplateMethod, effectiveSettings.GetNoTemplateMethodSettings).WithGoogleRequestParam("name", request => request.Name);
+            _callGetNoTemplateMethod = clientHelper.BuildApiCall<SimpleRequest, Response>("GetNoTemplateMethod", grpcClient.GetNoTemplateMethodAsync, grpcClient.GetNoTemplateMethod, effectiveSettings.GetNoTemplateMethodSettings).WithGoogleRequestParam("name", request => request.Name);
             Modify_ApiCall(ref _callGetNoTemplateMethod);
             Modify_GetNoTemplateMethodApiCall(ref _callGetNoTemplateMethod);
-            _callNestedMultiMethod = clientHelper.BuildApiCall<NestedRequest, Response>(grpcClient.NestedMultiMethodAsync, grpcClient.NestedMultiMethod, effectiveSettings.NestedMultiMethodSettings).WithGoogleRequestParam("nest1.nest2.name", request => request.Nest1?.Nest2?.Name).WithGoogleRequestParam("name", request => request.Name);
+            _callNestedMultiMethod = clientHelper.BuildApiCall<NestedRequest, Response>("NestedMultiMethod", grpcClient.NestedMultiMethodAsync, grpcClient.NestedMultiMethod, effectiveSettings.NestedMultiMethodSettings).WithGoogleRequestParam("nest1.nest2.name", request => request.Nest1?.Nest2?.Name).WithGoogleRequestParam("name", request => request.Name);
             Modify_ApiCall(ref _callNestedMultiMethod);
             Modify_NestedMultiMethodApiCall(ref _callNestedMultiMethod);
-            _callServerStreamingMethod = clientHelper.BuildApiCall<SimpleRequest, Response>(grpcClient.ServerStreamingMethod, effectiveSettings.ServerStreamingMethodSettings).WithGoogleRequestParam("name", request => request.Name);
+            _callServerStreamingMethod = clientHelper.BuildApiCall<SimpleRequest, Response>("ServerStreamingMethod", grpcClient.ServerStreamingMethod, effectiveSettings.ServerStreamingMethodSettings).WithGoogleRequestParam("name", request => request.Name);
             Modify_ApiCall(ref _callServerStreamingMethod);
             Modify_ServerStreamingMethodApiCall(ref _callServerStreamingMethod);
             OnConstruction(grpcClient, effectiveSettings, clientHelper);

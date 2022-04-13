@@ -119,7 +119,8 @@ namespace Testing.VoidReturn
 
     public sealed partial class VoidReturnClientImpl : VoidReturnClient
     {
-        public VoidReturnClientImpl(VoidReturn.VoidReturnClient grpcClient, object callSettings) => throw new sys::NotImplementedException();
+        public VoidReturnClientImpl(VoidReturn.VoidReturnClient grpcClient, object callSettings, object logger) =>
+            throw new sys::NotImplementedException();
 
         private readonly gaxgrpc::ApiCall<Request, wkt::Empty> _callVoidMethod = null;
 

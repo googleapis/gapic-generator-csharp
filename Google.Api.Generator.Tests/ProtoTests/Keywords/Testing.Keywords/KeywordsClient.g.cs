@@ -1,4 +1,4 @@
-﻿// Copyright 2019 Google LLC
+// Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ using gaxgrpc = Google.Api.Gax.Grpc;
 using proto = Google.Protobuf;
 using grpccore = Grpc.Core;
 using grpcinter = Grpc.Core.Interceptors;
+using mel = Microsoft.Extensions.Logging;
 using sys = System;
 using scg = System.Collections.Generic;
 using sco = System.Collections.ObjectModel;
@@ -115,14 +116,14 @@ namespace Testing.Keywords
         {
             Validate();
             grpccore::CallInvoker callInvoker = CreateCallInvoker();
-            return KeywordsClient.Create(callInvoker, Settings);
+            return KeywordsClient.Create(callInvoker, Settings, Logger);
         }
 
         private async stt::Task<KeywordsClient> BuildAsyncImpl(st::CancellationToken cancellationToken)
         {
             Validate();
             grpccore::CallInvoker callInvoker = await CreateCallInvokerAsync(cancellationToken).ConfigureAwait(false);
-            return KeywordsClient.Create(callInvoker, Settings);
+            return KeywordsClient.Create(callInvoker, Settings, Logger);
         }
 
         /// <summary>Returns the channel pool to use when no other options are specified.</summary>
@@ -171,8 +172,9 @@ namespace Testing.Keywords
         /// The <see cref="grpccore::CallInvoker"/> for remote operations. Must not be null.
         /// </param>
         /// <param name="settings">Optional <see cref="KeywordsSettings"/>.</param>
+        /// <param name="logger">Optional <see cref="mel::ILogger"/>.</param>
         /// <returns>The created <see cref="KeywordsClient"/>.</returns>
-        internal static KeywordsClient Create(grpccore::CallInvoker callInvoker, KeywordsSettings settings = null)
+        internal static KeywordsClient Create(grpccore::CallInvoker callInvoker, KeywordsSettings settings = null, mel::ILogger logger = null)
         {
             gax::GaxPreconditions.CheckNotNull(callInvoker, nameof(callInvoker));
             grpcinter::Interceptor interceptor = settings?.Interceptor;
@@ -181,7 +183,7 @@ namespace Testing.Keywords
                 callInvoker = grpcinter::CallInvokerExtensions.Intercept(callInvoker, interceptor);
             }
             Keywords.KeywordsClient grpcClient = new Keywords.KeywordsClient(callInvoker);
-            return new KeywordsClientImpl(grpcClient, settings);
+            return new KeywordsClientImpl(grpcClient, settings, logger);
         }
 
         /// <summary>
@@ -475,15 +477,16 @@ namespace Testing.Keywords
         /// </summary>
         /// <param name="grpcClient">The underlying gRPC client.</param>
         /// <param name="settings">The base <see cref="KeywordsSettings"/> used within this client.</param>
-        public KeywordsClientImpl(Keywords.KeywordsClient grpcClient, KeywordsSettings settings)
+        /// <param name="logger">Optional <see cref="mel::ILogger"/> to use within this client.</param>
+        public KeywordsClientImpl(Keywords.KeywordsClient grpcClient, KeywordsSettings settings, mel::ILogger logger)
         {
             GrpcClient = grpcClient;
             KeywordsSettings effectiveSettings = settings ?? KeywordsSettings.GetDefault();
-            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings);
-            _callMethod1 = clientHelper.BuildApiCall<Request, Response>(grpcClient.Method1Async, grpcClient.Method1, effectiveSettings.Method1Settings);
+            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings, logger);
+            _callMethod1 = clientHelper.BuildApiCall<Request, Response>("Method1", grpcClient.Method1Async, grpcClient.Method1, effectiveSettings.Method1Settings);
             Modify_ApiCall(ref _callMethod1);
             Modify_Method1ApiCall(ref _callMethod1);
-            _callMethod2 = clientHelper.BuildApiCall<Resource, Response>(grpcClient.Method2Async, grpcClient.Method2, effectiveSettings.Method2Settings);
+            _callMethod2 = clientHelper.BuildApiCall<Resource, Response>("Method2", grpcClient.Method2Async, grpcClient.Method2, effectiveSettings.Method2Settings);
             Modify_ApiCall(ref _callMethod2);
             Modify_Method2ApiCall(ref _callMethod2);
             OnConstruction(grpcClient, effectiveSettings, clientHelper);
