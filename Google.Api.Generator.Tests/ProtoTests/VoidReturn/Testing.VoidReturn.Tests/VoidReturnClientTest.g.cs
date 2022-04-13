@@ -1,4 +1,4 @@
-﻿// Copyright 2019 Google LLC
+// Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -40,7 +40,7 @@ namespace Testing.VoidReturn.Tests
             };
             wkt::Empty expectedResponse = new wkt::Empty { };
             mockGrpcClient.Setup(x => x.VoidMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            VoidReturnClient client = new VoidReturnClientImpl(mockGrpcClient.Object, null);
+            VoidReturnClient client = new VoidReturnClientImpl(mockGrpcClient.Object, null, null);
             client.VoidMethod(request);
             mockGrpcClient.VerifyAll();
         }
@@ -56,7 +56,7 @@ namespace Testing.VoidReturn.Tests
             };
             wkt::Empty expectedResponse = new wkt::Empty { };
             mockGrpcClient.Setup(x => x.VoidMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<wkt::Empty>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            VoidReturnClient client = new VoidReturnClientImpl(mockGrpcClient.Object, null);
+            VoidReturnClient client = new VoidReturnClientImpl(mockGrpcClient.Object, null, null);
             await client.VoidMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             await client.VoidMethodAsync(request, st::CancellationToken.None);
             mockGrpcClient.VerifyAll();
@@ -73,7 +73,7 @@ namespace Testing.VoidReturn.Tests
             };
             wkt::Empty expectedResponse = new wkt::Empty { };
             mockGrpcClient.Setup(x => x.VoidMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            VoidReturnClient client = new VoidReturnClientImpl(mockGrpcClient.Object, null);
+            VoidReturnClient client = new VoidReturnClientImpl(mockGrpcClient.Object, null, null);
             client.VoidMethod(request.Name);
             mockGrpcClient.VerifyAll();
         }
@@ -89,7 +89,7 @@ namespace Testing.VoidReturn.Tests
             };
             wkt::Empty expectedResponse = new wkt::Empty { };
             mockGrpcClient.Setup(x => x.VoidMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<wkt::Empty>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            VoidReturnClient client = new VoidReturnClientImpl(mockGrpcClient.Object, null);
+            VoidReturnClient client = new VoidReturnClientImpl(mockGrpcClient.Object, null, null);
             await client.VoidMethodAsync(request.Name, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             await client.VoidMethodAsync(request.Name, st::CancellationToken.None);
             mockGrpcClient.VerifyAll();
@@ -106,7 +106,7 @@ namespace Testing.VoidReturn.Tests
             };
             wkt::Empty expectedResponse = new wkt::Empty { };
             mockGrpcClient.Setup(x => x.VoidMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            VoidReturnClient client = new VoidReturnClientImpl(mockGrpcClient.Object, null);
+            VoidReturnClient client = new VoidReturnClientImpl(mockGrpcClient.Object, null, null);
             client.VoidMethod(request.ResourceName);
             mockGrpcClient.VerifyAll();
         }
@@ -122,7 +122,7 @@ namespace Testing.VoidReturn.Tests
             };
             wkt::Empty expectedResponse = new wkt::Empty { };
             mockGrpcClient.Setup(x => x.VoidMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<wkt::Empty>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            VoidReturnClient client = new VoidReturnClientImpl(mockGrpcClient.Object, null);
+            VoidReturnClient client = new VoidReturnClientImpl(mockGrpcClient.Object, null, null);
             await client.VoidMethodAsync(request.ResourceName, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             await client.VoidMethodAsync(request.ResourceName, st::CancellationToken.None);
             mockGrpcClient.VerifyAll();

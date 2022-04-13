@@ -20,6 +20,7 @@ using proto = Google.Protobuf;
 using wkt = Google.Protobuf.WellKnownTypes;
 using grpccore = Grpc.Core;
 using grpcinter = Grpc.Core.Interceptors;
+using mel = Microsoft.Extensions.Logging;
 using sys = System;
 using sc = System.Collections;
 using scg = System.Collections.Generic;
@@ -156,14 +157,14 @@ namespace Google.Showcase.V1Beta1
         {
             Validate();
             grpccore::CallInvoker callInvoker = CreateCallInvoker();
-            return IdentityClient.Create(callInvoker, Settings);
+            return IdentityClient.Create(callInvoker, Settings, Logger);
         }
 
         private async stt::Task<IdentityClient> BuildAsyncImpl(st::CancellationToken cancellationToken)
         {
             Validate();
             grpccore::CallInvoker callInvoker = await CreateCallInvokerAsync(cancellationToken).ConfigureAwait(false);
-            return IdentityClient.Create(callInvoker, Settings);
+            return IdentityClient.Create(callInvoker, Settings, Logger);
         }
 
         /// <summary>Returns the channel pool to use when no other options are specified.</summary>
@@ -215,8 +216,9 @@ namespace Google.Showcase.V1Beta1
         /// The <see cref="grpccore::CallInvoker"/> for remote operations. Must not be null.
         /// </param>
         /// <param name="settings">Optional <see cref="IdentitySettings"/>.</param>
+        /// <param name="logger">Optional <see cref="mel::ILogger"/>.</param>
         /// <returns>The created <see cref="IdentityClient"/>.</returns>
-        internal static IdentityClient Create(grpccore::CallInvoker callInvoker, IdentitySettings settings = null)
+        internal static IdentityClient Create(grpccore::CallInvoker callInvoker, IdentitySettings settings = null, mel::ILogger logger = null)
         {
             gax::GaxPreconditions.CheckNotNull(callInvoker, nameof(callInvoker));
             grpcinter::Interceptor interceptor = settings?.Interceptor;
@@ -225,7 +227,7 @@ namespace Google.Showcase.V1Beta1
                 callInvoker = grpcinter::CallInvokerExtensions.Intercept(callInvoker, interceptor);
             }
             Identity.IdentityClient grpcClient = new Identity.IdentityClient(callInvoker);
-            return new IdentityClientImpl(grpcClient, settings);
+            return new IdentityClientImpl(grpcClient, settings, logger);
         }
 
         /// <summary>
@@ -722,24 +724,25 @@ namespace Google.Showcase.V1Beta1
         /// </summary>
         /// <param name="grpcClient">The underlying gRPC client.</param>
         /// <param name="settings">The base <see cref="IdentitySettings"/> used within this client.</param>
-        public IdentityClientImpl(Identity.IdentityClient grpcClient, IdentitySettings settings)
+        /// <param name="logger">Optional <see cref="mel::ILogger"/> to use within this client.</param>
+        public IdentityClientImpl(Identity.IdentityClient grpcClient, IdentitySettings settings, mel::ILogger logger)
         {
             GrpcClient = grpcClient;
             IdentitySettings effectiveSettings = settings ?? IdentitySettings.GetDefault();
-            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings);
-            _callCreateUser = clientHelper.BuildApiCall<CreateUserRequest, User>(grpcClient.CreateUserAsync, grpcClient.CreateUser, effectiveSettings.CreateUserSettings);
+            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings, logger);
+            _callCreateUser = clientHelper.BuildApiCall<CreateUserRequest, User>("CreateUser", grpcClient.CreateUserAsync, grpcClient.CreateUser, effectiveSettings.CreateUserSettings);
             Modify_ApiCall(ref _callCreateUser);
             Modify_CreateUserApiCall(ref _callCreateUser);
-            _callGetUser = clientHelper.BuildApiCall<GetUserRequest, User>(grpcClient.GetUserAsync, grpcClient.GetUser, effectiveSettings.GetUserSettings).WithGoogleRequestParam("name", request => request.Name);
+            _callGetUser = clientHelper.BuildApiCall<GetUserRequest, User>("GetUser", grpcClient.GetUserAsync, grpcClient.GetUser, effectiveSettings.GetUserSettings).WithGoogleRequestParam("name", request => request.Name);
             Modify_ApiCall(ref _callGetUser);
             Modify_GetUserApiCall(ref _callGetUser);
-            _callUpdateUser = clientHelper.BuildApiCall<UpdateUserRequest, User>(grpcClient.UpdateUserAsync, grpcClient.UpdateUser, effectiveSettings.UpdateUserSettings).WithGoogleRequestParam("user.name", request => request.User?.Name);
+            _callUpdateUser = clientHelper.BuildApiCall<UpdateUserRequest, User>("UpdateUser", grpcClient.UpdateUserAsync, grpcClient.UpdateUser, effectiveSettings.UpdateUserSettings).WithGoogleRequestParam("user.name", request => request.User?.Name);
             Modify_ApiCall(ref _callUpdateUser);
             Modify_UpdateUserApiCall(ref _callUpdateUser);
-            _callDeleteUser = clientHelper.BuildApiCall<DeleteUserRequest, wkt::Empty>(grpcClient.DeleteUserAsync, grpcClient.DeleteUser, effectiveSettings.DeleteUserSettings).WithGoogleRequestParam("name", request => request.Name);
+            _callDeleteUser = clientHelper.BuildApiCall<DeleteUserRequest, wkt::Empty>("DeleteUser", grpcClient.DeleteUserAsync, grpcClient.DeleteUser, effectiveSettings.DeleteUserSettings).WithGoogleRequestParam("name", request => request.Name);
             Modify_ApiCall(ref _callDeleteUser);
             Modify_DeleteUserApiCall(ref _callDeleteUser);
-            _callListUsers = clientHelper.BuildApiCall<ListUsersRequest, ListUsersResponse>(grpcClient.ListUsersAsync, grpcClient.ListUsers, effectiveSettings.ListUsersSettings);
+            _callListUsers = clientHelper.BuildApiCall<ListUsersRequest, ListUsersResponse>("ListUsers", grpcClient.ListUsersAsync, grpcClient.ListUsers, effectiveSettings.ListUsersSettings);
             Modify_ApiCall(ref _callListUsers);
             Modify_ListUsersApiCall(ref _callListUsers);
             OnConstruction(grpcClient, effectiveSettings, clientHelper);

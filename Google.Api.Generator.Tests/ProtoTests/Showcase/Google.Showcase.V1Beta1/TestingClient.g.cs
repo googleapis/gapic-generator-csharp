@@ -20,6 +20,7 @@ using proto = Google.Protobuf;
 using wkt = Google.Protobuf.WellKnownTypes;
 using grpccore = Grpc.Core;
 using grpcinter = Grpc.Core.Interceptors;
+using mel = Microsoft.Extensions.Logging;
 using sys = System;
 using sc = System.Collections;
 using scg = System.Collections.Generic;
@@ -195,14 +196,14 @@ namespace Google.Showcase.V1Beta1
         {
             Validate();
             grpccore::CallInvoker callInvoker = CreateCallInvoker();
-            return TestingClient.Create(callInvoker, Settings);
+            return TestingClient.Create(callInvoker, Settings, Logger);
         }
 
         private async stt::Task<TestingClient> BuildAsyncImpl(st::CancellationToken cancellationToken)
         {
             Validate();
             grpccore::CallInvoker callInvoker = await CreateCallInvokerAsync(cancellationToken).ConfigureAwait(false);
-            return TestingClient.Create(callInvoker, Settings);
+            return TestingClient.Create(callInvoker, Settings, Logger);
         }
 
         /// <summary>Returns the channel pool to use when no other options are specified.</summary>
@@ -255,8 +256,9 @@ namespace Google.Showcase.V1Beta1
         /// The <see cref="grpccore::CallInvoker"/> for remote operations. Must not be null.
         /// </param>
         /// <param name="settings">Optional <see cref="TestingSettings"/>.</param>
+        /// <param name="logger">Optional <see cref="mel::ILogger"/>.</param>
         /// <returns>The created <see cref="TestingClient"/>.</returns>
-        internal static TestingClient Create(grpccore::CallInvoker callInvoker, TestingSettings settings = null)
+        internal static TestingClient Create(grpccore::CallInvoker callInvoker, TestingSettings settings = null, mel::ILogger logger = null)
         {
             gax::GaxPreconditions.CheckNotNull(callInvoker, nameof(callInvoker));
             grpcinter::Interceptor interceptor = settings?.Interceptor;
@@ -265,7 +267,7 @@ namespace Google.Showcase.V1Beta1
                 callInvoker = grpcinter::CallInvokerExtensions.Intercept(callInvoker, interceptor);
             }
             Testing.TestingClient grpcClient = new Testing.TestingClient(callInvoker);
-            return new TestingClientImpl(grpcClient, settings);
+            return new TestingClientImpl(grpcClient, settings, logger);
         }
 
         /// <summary>
@@ -541,33 +543,34 @@ namespace Google.Showcase.V1Beta1
         /// </summary>
         /// <param name="grpcClient">The underlying gRPC client.</param>
         /// <param name="settings">The base <see cref="TestingSettings"/> used within this client.</param>
-        public TestingClientImpl(Testing.TestingClient grpcClient, TestingSettings settings)
+        /// <param name="logger">Optional <see cref="mel::ILogger"/> to use within this client.</param>
+        public TestingClientImpl(Testing.TestingClient grpcClient, TestingSettings settings, mel::ILogger logger)
         {
             GrpcClient = grpcClient;
             TestingSettings effectiveSettings = settings ?? TestingSettings.GetDefault();
-            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings);
-            _callCreateSession = clientHelper.BuildApiCall<CreateSessionRequest, Session>(grpcClient.CreateSessionAsync, grpcClient.CreateSession, effectiveSettings.CreateSessionSettings);
+            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings, logger);
+            _callCreateSession = clientHelper.BuildApiCall<CreateSessionRequest, Session>("CreateSession", grpcClient.CreateSessionAsync, grpcClient.CreateSession, effectiveSettings.CreateSessionSettings);
             Modify_ApiCall(ref _callCreateSession);
             Modify_CreateSessionApiCall(ref _callCreateSession);
-            _callGetSession = clientHelper.BuildApiCall<GetSessionRequest, Session>(grpcClient.GetSessionAsync, grpcClient.GetSession, effectiveSettings.GetSessionSettings).WithGoogleRequestParam("name", request => request.Name);
+            _callGetSession = clientHelper.BuildApiCall<GetSessionRequest, Session>("GetSession", grpcClient.GetSessionAsync, grpcClient.GetSession, effectiveSettings.GetSessionSettings).WithGoogleRequestParam("name", request => request.Name);
             Modify_ApiCall(ref _callGetSession);
             Modify_GetSessionApiCall(ref _callGetSession);
-            _callListSessions = clientHelper.BuildApiCall<ListSessionsRequest, ListSessionsResponse>(grpcClient.ListSessionsAsync, grpcClient.ListSessions, effectiveSettings.ListSessionsSettings);
+            _callListSessions = clientHelper.BuildApiCall<ListSessionsRequest, ListSessionsResponse>("ListSessions", grpcClient.ListSessionsAsync, grpcClient.ListSessions, effectiveSettings.ListSessionsSettings);
             Modify_ApiCall(ref _callListSessions);
             Modify_ListSessionsApiCall(ref _callListSessions);
-            _callDeleteSession = clientHelper.BuildApiCall<DeleteSessionRequest, wkt::Empty>(grpcClient.DeleteSessionAsync, grpcClient.DeleteSession, effectiveSettings.DeleteSessionSettings).WithGoogleRequestParam("name", request => request.Name);
+            _callDeleteSession = clientHelper.BuildApiCall<DeleteSessionRequest, wkt::Empty>("DeleteSession", grpcClient.DeleteSessionAsync, grpcClient.DeleteSession, effectiveSettings.DeleteSessionSettings).WithGoogleRequestParam("name", request => request.Name);
             Modify_ApiCall(ref _callDeleteSession);
             Modify_DeleteSessionApiCall(ref _callDeleteSession);
-            _callReportSession = clientHelper.BuildApiCall<ReportSessionRequest, ReportSessionResponse>(grpcClient.ReportSessionAsync, grpcClient.ReportSession, effectiveSettings.ReportSessionSettings).WithGoogleRequestParam("name", request => request.Name);
+            _callReportSession = clientHelper.BuildApiCall<ReportSessionRequest, ReportSessionResponse>("ReportSession", grpcClient.ReportSessionAsync, grpcClient.ReportSession, effectiveSettings.ReportSessionSettings).WithGoogleRequestParam("name", request => request.Name);
             Modify_ApiCall(ref _callReportSession);
             Modify_ReportSessionApiCall(ref _callReportSession);
-            _callListTests = clientHelper.BuildApiCall<ListTestsRequest, ListTestsResponse>(grpcClient.ListTestsAsync, grpcClient.ListTests, effectiveSettings.ListTestsSettings).WithGoogleRequestParam("parent", request => request.Parent);
+            _callListTests = clientHelper.BuildApiCall<ListTestsRequest, ListTestsResponse>("ListTests", grpcClient.ListTestsAsync, grpcClient.ListTests, effectiveSettings.ListTestsSettings).WithGoogleRequestParam("parent", request => request.Parent);
             Modify_ApiCall(ref _callListTests);
             Modify_ListTestsApiCall(ref _callListTests);
-            _callDeleteTest = clientHelper.BuildApiCall<DeleteTestRequest, wkt::Empty>(grpcClient.DeleteTestAsync, grpcClient.DeleteTest, effectiveSettings.DeleteTestSettings).WithGoogleRequestParam("name", request => request.Name);
+            _callDeleteTest = clientHelper.BuildApiCall<DeleteTestRequest, wkt::Empty>("DeleteTest", grpcClient.DeleteTestAsync, grpcClient.DeleteTest, effectiveSettings.DeleteTestSettings).WithGoogleRequestParam("name", request => request.Name);
             Modify_ApiCall(ref _callDeleteTest);
             Modify_DeleteTestApiCall(ref _callDeleteTest);
-            _callVerifyTest = clientHelper.BuildApiCall<VerifyTestRequest, VerifyTestResponse>(grpcClient.VerifyTestAsync, grpcClient.VerifyTest, effectiveSettings.VerifyTestSettings).WithGoogleRequestParam("name", request => request.Name);
+            _callVerifyTest = clientHelper.BuildApiCall<VerifyTestRequest, VerifyTestResponse>("VerifyTest", grpcClient.VerifyTestAsync, grpcClient.VerifyTest, effectiveSettings.VerifyTestSettings).WithGoogleRequestParam("name", request => request.Name);
             Modify_ApiCall(ref _callVerifyTest);
             Modify_VerifyTestApiCall(ref _callVerifyTest);
             OnConstruction(grpcClient, effectiveSettings, clientHelper);

@@ -1,4 +1,4 @@
-﻿// Copyright 2019 Google LLC
+// Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -45,7 +45,7 @@ namespace Testing.MethodSignatures.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.SimpleMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null);
+            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.SimpleMethod(request);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -69,7 +69,7 @@ namespace Testing.MethodSignatures.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.SimpleMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null);
+            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.SimpleMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.SimpleMethodAsync(request, st::CancellationToken.None);
@@ -84,7 +84,7 @@ namespace Testing.MethodSignatures.Tests
             SimpleRequest request = new SimpleRequest { };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.SimpleMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null);
+            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.SimpleMethod();
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -97,7 +97,7 @@ namespace Testing.MethodSignatures.Tests
             SimpleRequest request = new SimpleRequest { };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.SimpleMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null);
+            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.SimpleMethodAsync(gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.SimpleMethodAsync(st::CancellationToken.None);
@@ -115,7 +115,7 @@ namespace Testing.MethodSignatures.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.SimpleMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null);
+            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.SimpleMethod(request.ANumber);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -131,7 +131,7 @@ namespace Testing.MethodSignatures.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.SimpleMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null);
+            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.SimpleMethodAsync(request.ANumber, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.SimpleMethodAsync(request.ANumber, st::CancellationToken.None);
@@ -149,7 +149,7 @@ namespace Testing.MethodSignatures.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.SimpleMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null);
+            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.SimpleMethod(request.AString);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -165,7 +165,7 @@ namespace Testing.MethodSignatures.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.SimpleMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null);
+            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.SimpleMethodAsync(request.AString, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.SimpleMethodAsync(request.AString, st::CancellationToken.None);
@@ -184,7 +184,7 @@ namespace Testing.MethodSignatures.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.SimpleMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null);
+            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.SimpleMethod(request.ANumber, request.AString);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -201,7 +201,7 @@ namespace Testing.MethodSignatures.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.SimpleMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null);
+            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.SimpleMethodAsync(request.ANumber, request.AString, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.SimpleMethodAsync(request.ANumber, request.AString, st::CancellationToken.None);
@@ -220,7 +220,7 @@ namespace Testing.MethodSignatures.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.SimpleMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null);
+            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.SimpleMethod(request.AString, request.ANumber);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -237,7 +237,7 @@ namespace Testing.MethodSignatures.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.SimpleMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null);
+            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.SimpleMethodAsync(request.AString, request.ANumber, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.SimpleMethodAsync(request.AString, request.ANumber, st::CancellationToken.None);
@@ -258,7 +258,7 @@ namespace Testing.MethodSignatures.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.PrimitiveArgs(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null);
+            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.PrimitiveArgs(request);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -277,7 +277,7 @@ namespace Testing.MethodSignatures.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.PrimitiveArgsAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null);
+            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.PrimitiveArgsAsync(request, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.PrimitiveArgsAsync(request, st::CancellationToken.None);
@@ -298,7 +298,7 @@ namespace Testing.MethodSignatures.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.PrimitiveArgs(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null);
+            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.PrimitiveArgs(request.Optional, request.Required, request.RepeatedOptional, request.RepeatedRequired);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -317,7 +317,7 @@ namespace Testing.MethodSignatures.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.PrimitiveArgsAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null);
+            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.PrimitiveArgsAsync(request.Optional, request.Required, request.RepeatedOptional, request.RepeatedRequired, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.PrimitiveArgsAsync(request.Optional, request.Required, request.RepeatedOptional, request.RepeatedRequired, st::CancellationToken.None);
@@ -344,7 +344,7 @@ namespace Testing.MethodSignatures.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.StringArgs(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null);
+            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.StringArgs(request);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -369,7 +369,7 @@ namespace Testing.MethodSignatures.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.StringArgsAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null);
+            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.StringArgsAsync(request, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.StringArgsAsync(request, st::CancellationToken.None);
@@ -396,7 +396,7 @@ namespace Testing.MethodSignatures.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.StringArgs(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null);
+            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.StringArgs(request.Optional, request.Required, request.RepeatedOptional, request.RepeatedRequired);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -421,7 +421,7 @@ namespace Testing.MethodSignatures.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.StringArgsAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null);
+            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.StringArgsAsync(request.Optional, request.Required, request.RepeatedOptional, request.RepeatedRequired, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.StringArgsAsync(request.Optional, request.Required, request.RepeatedOptional, request.RepeatedRequired, st::CancellationToken.None);
@@ -448,7 +448,7 @@ namespace Testing.MethodSignatures.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.BytesArgs(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null);
+            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.BytesArgs(request);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -473,7 +473,7 @@ namespace Testing.MethodSignatures.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.BytesArgsAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null);
+            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.BytesArgsAsync(request, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.BytesArgsAsync(request, st::CancellationToken.None);
@@ -500,7 +500,7 @@ namespace Testing.MethodSignatures.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.BytesArgs(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null);
+            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.BytesArgs(request.Optional, request.Required, request.RepeatedOptional, request.RepeatedRequired);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -525,7 +525,7 @@ namespace Testing.MethodSignatures.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.BytesArgsAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null);
+            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.BytesArgsAsync(request.Optional, request.Required, request.RepeatedOptional, request.RepeatedRequired, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.BytesArgsAsync(request.Optional, request.Required, request.RepeatedOptional, request.RepeatedRequired, st::CancellationToken.None);
@@ -552,7 +552,7 @@ namespace Testing.MethodSignatures.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.MessageArgs(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null);
+            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.MessageArgs(request);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -577,7 +577,7 @@ namespace Testing.MethodSignatures.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.MessageArgsAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null);
+            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.MessageArgsAsync(request, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.MessageArgsAsync(request, st::CancellationToken.None);
@@ -604,7 +604,7 @@ namespace Testing.MethodSignatures.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.MessageArgs(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null);
+            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.MessageArgs(request.Optional, request.Required, request.RepeatedOptional, request.RepeatedRequired);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -629,7 +629,7 @@ namespace Testing.MethodSignatures.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.MessageArgsAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null);
+            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.MessageArgsAsync(request.Optional, request.Required, request.RepeatedOptional, request.RepeatedRequired, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.MessageArgsAsync(request.Optional, request.Required, request.RepeatedOptional, request.RepeatedRequired, st::CancellationToken.None);
@@ -660,7 +660,7 @@ namespace Testing.MethodSignatures.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.MapArgs(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null);
+            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.MapArgs(request);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -689,7 +689,7 @@ namespace Testing.MethodSignatures.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.MapArgsAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null);
+            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.MapArgsAsync(request, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.MapArgsAsync(request, st::CancellationToken.None);
@@ -720,7 +720,7 @@ namespace Testing.MethodSignatures.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.MapArgs(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null);
+            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.MapArgs(request.Optional, request.Required);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -749,7 +749,7 @@ namespace Testing.MethodSignatures.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.MapArgsAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null);
+            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.MapArgsAsync(request.Optional, request.Required, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.MapArgsAsync(request.Optional, request.Required, st::CancellationToken.None);
@@ -786,7 +786,7 @@ namespace Testing.MethodSignatures.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.EnumArgs(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null);
+            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.EnumArgs(request);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -821,7 +821,7 @@ namespace Testing.MethodSignatures.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.EnumArgsAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null);
+            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.EnumArgsAsync(request, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.EnumArgsAsync(request, st::CancellationToken.None);
@@ -858,7 +858,7 @@ namespace Testing.MethodSignatures.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.EnumArgs(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null);
+            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.EnumArgs(request.Optional, request.Required, request.RepeatedOptional, request.RepeatedRequired, request.TopLevelOptional, request.TopLevelRequired, request.RepeatedTopLevelOptional, request.RepeatedTopLevelRequired);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -893,7 +893,7 @@ namespace Testing.MethodSignatures.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.EnumArgsAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null);
+            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.EnumArgsAsync(request.Optional, request.Required, request.RepeatedOptional, request.RepeatedRequired, request.TopLevelOptional, request.TopLevelRequired, request.RepeatedTopLevelOptional, request.RepeatedTopLevelRequired, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.EnumArgsAsync(request.Optional, request.Required, request.RepeatedOptional, request.RepeatedRequired, request.TopLevelOptional, request.TopLevelRequired, request.RepeatedTopLevelOptional, request.RepeatedTopLevelRequired, st::CancellationToken.None);
@@ -912,7 +912,7 @@ namespace Testing.MethodSignatures.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.NestedArgs(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null);
+            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.NestedArgs(request);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -929,7 +929,7 @@ namespace Testing.MethodSignatures.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.NestedArgsAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null);
+            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.NestedArgsAsync(request, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.NestedArgsAsync(request, st::CancellationToken.None);
@@ -957,7 +957,7 @@ namespace Testing.MethodSignatures.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.NestedArgs(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null);
+            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.NestedArgs(request.Nest1.AString, request.Nest1.Nest2.ANumber, request.Nest1.Nest2.AnotherNumber, request.Nest1.NestOuter.ABool, request.TopLevelString);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -983,7 +983,7 @@ namespace Testing.MethodSignatures.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.NestedArgsAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null);
+            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.NestedArgsAsync(request.Nest1.AString, request.Nest1.Nest2.ANumber, request.Nest1.Nest2.AnotherNumber, request.Nest1.NestOuter.ABool, request.TopLevelString, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.NestedArgsAsync(request.Nest1.AString, request.Nest1.Nest2.ANumber, request.Nest1.Nest2.AnotherNumber, request.Nest1.NestOuter.ABool, request.TopLevelString, st::CancellationToken.None);
@@ -1014,7 +1014,7 @@ namespace Testing.MethodSignatures.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.WktArgs(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null);
+            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.WktArgs(request);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -1043,7 +1043,7 @@ namespace Testing.MethodSignatures.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.WktArgsAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null);
+            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.WktArgsAsync(request, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.WktArgsAsync(request, st::CancellationToken.None);
@@ -1074,7 +1074,7 @@ namespace Testing.MethodSignatures.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.WktArgs(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null);
+            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.WktArgs(request.OptionalInt32, request.RequiredInt32, request.RepeatedOptionalInt32, request.RepeatedRequiredInt32, request.OptionalString, request.RequiredString, request.RepeatedOptionalString, request.RepeatedRequiredString);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -1103,7 +1103,7 @@ namespace Testing.MethodSignatures.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.WktArgsAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null);
+            MethodSignaturesClient client = new MethodSignaturesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.WktArgsAsync(request.OptionalInt32, request.RequiredInt32, request.RepeatedOptionalInt32, request.RepeatedRequiredInt32, request.OptionalString, request.RequiredString, request.RepeatedOptionalString, request.RepeatedRequiredString, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.WktArgsAsync(request.OptionalInt32, request.RequiredInt32, request.RepeatedOptionalInt32, request.RepeatedRequiredInt32, request.OptionalString, request.RequiredString, request.RepeatedOptionalString, request.RepeatedRequiredString, st::CancellationToken.None);

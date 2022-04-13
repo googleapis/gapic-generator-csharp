@@ -1,4 +1,4 @@
-﻿// Copyright 2019 Google LLC
+// Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ using gaxgrpc = Google.Api.Gax.Grpc;
 using proto = Google.Protobuf;
 using grpccore = Grpc.Core;
 using grpcinter = Grpc.Core.Interceptors;
+using mel = Microsoft.Extensions.Logging;
 using sys = System;
 using scg = System.Collections.Generic;
 using sco = System.Collections.ObjectModel;
@@ -102,14 +103,14 @@ namespace Testing.Basic.V1
         {
             Validate();
             grpccore::CallInvoker callInvoker = CreateCallInvoker();
-            return BasicClient.Create(callInvoker, Settings);
+            return BasicClient.Create(callInvoker, Settings, Logger);
         }
 
         private async stt::Task<BasicClient> BuildAsyncImpl(st::CancellationToken cancellationToken)
         {
             Validate();
             grpccore::CallInvoker callInvoker = await CreateCallInvokerAsync(cancellationToken).ConfigureAwait(false);
-            return BasicClient.Create(callInvoker, Settings);
+            return BasicClient.Create(callInvoker, Settings, Logger);
         }
 
         /// <summary>Returns the channel pool to use when no other options are specified.</summary>
@@ -167,8 +168,9 @@ namespace Testing.Basic.V1
         /// The <see cref="grpccore::CallInvoker"/> for remote operations. Must not be null.
         /// </param>
         /// <param name="settings">Optional <see cref="BasicSettings"/>.</param>
+        /// <param name="logger">Optional <see cref="mel::ILogger"/>.</param>
         /// <returns>The created <see cref="BasicClient"/>.</returns>
-        internal static BasicClient Create(grpccore::CallInvoker callInvoker, BasicSettings settings = null)
+        internal static BasicClient Create(grpccore::CallInvoker callInvoker, BasicSettings settings = null, mel::ILogger logger = null)
         {
             gax::GaxPreconditions.CheckNotNull(callInvoker, nameof(callInvoker));
             grpcinter::Interceptor interceptor = settings?.Interceptor;
@@ -177,7 +179,7 @@ namespace Testing.Basic.V1
                 callInvoker = grpcinter::CallInvokerExtensions.Intercept(callInvoker, interceptor);
             }
             Basic.BasicClient grpcClient = new Basic.BasicClient(callInvoker);
-            return new BasicClientImpl(grpcClient, settings);
+            return new BasicClientImpl(grpcClient, settings, logger);
         }
 
         /// <summary>
@@ -237,12 +239,13 @@ namespace Testing.Basic.V1
         /// </summary>
         /// <param name="grpcClient">The underlying gRPC client.</param>
         /// <param name="settings">The base <see cref="BasicSettings"/> used within this client.</param>
-        public BasicClientImpl(Basic.BasicClient grpcClient, BasicSettings settings)
+        /// <param name="logger">Optional <see cref="mel::ILogger"/> to use within this client.</param>
+        public BasicClientImpl(Basic.BasicClient grpcClient, BasicSettings settings, mel::ILogger logger)
         {
             GrpcClient = grpcClient;
             BasicSettings effectiveSettings = settings ?? BasicSettings.GetDefault();
-            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings);
-            _callAMethod = clientHelper.BuildApiCall<Request, Response>(grpcClient.AMethodAsync, grpcClient.AMethod, effectiveSettings.AMethodSettings);
+            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings, logger);
+            _callAMethod = clientHelper.BuildApiCall<Request, Response>("AMethod", grpcClient.AMethodAsync, grpcClient.AMethod, effectiveSettings.AMethodSettings);
             Modify_ApiCall(ref _callAMethod);
             Modify_AMethodApiCall(ref _callAMethod);
             OnConstruction(grpcClient, effectiveSettings, clientHelper);

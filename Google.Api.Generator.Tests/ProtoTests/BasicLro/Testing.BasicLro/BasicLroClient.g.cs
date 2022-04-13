@@ -17,6 +17,7 @@
 using gax = Google.Api.Gax;
 using gaxgrpc = Google.Api.Gax.Grpc;
 using lro = Google.LongRunning;
+using mel = Microsoft.Extensions.Logging;
 using sys = System;
 using st = System.Threading;
 using stt = System.Threading.Tasks;
@@ -125,11 +126,11 @@ namespace Testing.BasicLro
     {
         private readonly gaxgrpc::ApiCall<Request, lro::Operation> _callMethod1 = null;
 
-        public BasicLroClientImpl(BasicLro.BasicLroClient grpcClient)
+        public BasicLroClientImpl(BasicLro.BasicLroClient grpcClient, mel::ILogger logger)
         {
             var effectiveSettings = new BasicLroSettings();
             // TEST_START
-            Method1OperationsClient = new lro::OperationsClientImpl(grpcClient.CreateOperationsClient(), effectiveSettings.Method1OperationsSettings);
+            Method1OperationsClient = new lro::OperationsClientImpl(grpcClient.CreateOperationsClient(), effectiveSettings.Method1OperationsSettings, logger);
             // TEST_END
         }
 

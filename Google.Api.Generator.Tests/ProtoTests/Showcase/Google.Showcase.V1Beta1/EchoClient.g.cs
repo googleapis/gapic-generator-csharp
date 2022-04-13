@@ -21,6 +21,7 @@ using proto = Google.Protobuf;
 using gr = Google.Rpc;
 using grpccore = Grpc.Core;
 using grpcinter = Grpc.Core.Interceptors;
+using mel = Microsoft.Extensions.Logging;
 using sys = System;
 using sc = System.Collections;
 using scg = System.Collections.Generic;
@@ -243,14 +244,14 @@ namespace Google.Showcase.V1Beta1
         {
             Validate();
             grpccore::CallInvoker callInvoker = CreateCallInvoker();
-            return EchoClient.Create(callInvoker, Settings);
+            return EchoClient.Create(callInvoker, Settings, Logger);
         }
 
         private async stt::Task<EchoClient> BuildAsyncImpl(st::CancellationToken cancellationToken)
         {
             Validate();
             grpccore::CallInvoker callInvoker = await CreateCallInvokerAsync(cancellationToken).ConfigureAwait(false);
-            return EchoClient.Create(callInvoker, Settings);
+            return EchoClient.Create(callInvoker, Settings, Logger);
         }
 
         /// <summary>Returns the channel pool to use when no other options are specified.</summary>
@@ -308,8 +309,9 @@ namespace Google.Showcase.V1Beta1
         /// The <see cref="grpccore::CallInvoker"/> for remote operations. Must not be null.
         /// </param>
         /// <param name="settings">Optional <see cref="EchoSettings"/>.</param>
+        /// <param name="logger">Optional <see cref="mel::ILogger"/>.</param>
         /// <returns>The created <see cref="EchoClient"/>.</returns>
-        internal static EchoClient Create(grpccore::CallInvoker callInvoker, EchoSettings settings = null)
+        internal static EchoClient Create(grpccore::CallInvoker callInvoker, EchoSettings settings = null, mel::ILogger logger = null)
         {
             gax::GaxPreconditions.CheckNotNull(callInvoker, nameof(callInvoker));
             grpcinter::Interceptor interceptor = settings?.Interceptor;
@@ -318,7 +320,7 @@ namespace Google.Showcase.V1Beta1
                 callInvoker = grpcinter::CallInvokerExtensions.Intercept(callInvoker, interceptor);
             }
             Echo.EchoClient grpcClient = new Echo.EchoClient(callInvoker);
-            return new EchoClientImpl(grpcClient, settings);
+            return new EchoClientImpl(grpcClient, settings, logger);
         }
 
         /// <summary>
@@ -630,37 +632,38 @@ namespace Google.Showcase.V1Beta1
         /// </summary>
         /// <param name="grpcClient">The underlying gRPC client.</param>
         /// <param name="settings">The base <see cref="EchoSettings"/> used within this client.</param>
-        public EchoClientImpl(Echo.EchoClient grpcClient, EchoSettings settings)
+        /// <param name="logger">Optional <see cref="mel::ILogger"/> to use within this client.</param>
+        public EchoClientImpl(Echo.EchoClient grpcClient, EchoSettings settings, mel::ILogger logger)
         {
             GrpcClient = grpcClient;
             EchoSettings effectiveSettings = settings ?? EchoSettings.GetDefault();
-            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings);
-            WaitOperationsClient = new lro::OperationsClientImpl(grpcClient.CreateOperationsClient(), effectiveSettings.WaitOperationsSettings);
-            _callEchoCall = clientHelper.BuildApiCall<EchoRequest, EchoResponse>(grpcClient.EchoCallAsync, grpcClient.EchoCall, effectiveSettings.EchoCallSettings).WithExtractedGoogleRequestParam(new gaxgrpc::RoutingHeaderExtractor<EchoRequest>().WithExtractedParameter("header", "^(.+)$", request => request.Header).WithExtractedParameter("routing_id", "^(.+)$", request => request.Header).WithExtractedParameter("table_name", "^(regions/[^/]+/zones/[^/]+(?:/.*)?)$", request => request.Header).WithExtractedParameter("table_name", "^(projects/[^/]+/instances/[^/]+(?:/.*)?)$", request => request.Header).WithExtractedParameter("super_id", "^(projects/[^/]+)(?:/.*)?$", request => request.Header).WithExtractedParameter("instance_id", "^projects/[^/]+/(instances/[^/]+)(?:/.*)?$", request => request.Header).WithExtractedParameter("baz", "^(.+)$", request => request.OtherHeader).WithExtractedParameter("qux", "^(projects/[^/]+)(?:/.*)?$", request => request.OtherHeader));
+            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings, logger);
+            WaitOperationsClient = new lro::OperationsClientImpl(grpcClient.CreateOperationsClient(), effectiveSettings.WaitOperationsSettings, logger);
+            _callEchoCall = clientHelper.BuildApiCall<EchoRequest, EchoResponse>("EchoCall", grpcClient.EchoCallAsync, grpcClient.EchoCall, effectiveSettings.EchoCallSettings).WithExtractedGoogleRequestParam(new gaxgrpc::RoutingHeaderExtractor<EchoRequest>().WithExtractedParameter("header", "^(.+)$", request => request.Header).WithExtractedParameter("routing_id", "^(.+)$", request => request.Header).WithExtractedParameter("table_name", "^(regions/[^/]+/zones/[^/]+(?:/.*)?)$", request => request.Header).WithExtractedParameter("table_name", "^(projects/[^/]+/instances/[^/]+(?:/.*)?)$", request => request.Header).WithExtractedParameter("super_id", "^(projects/[^/]+)(?:/.*)?$", request => request.Header).WithExtractedParameter("instance_id", "^projects/[^/]+/(instances/[^/]+)(?:/.*)?$", request => request.Header).WithExtractedParameter("baz", "^(.+)$", request => request.OtherHeader).WithExtractedParameter("qux", "^(projects/[^/]+)(?:/.*)?$", request => request.OtherHeader));
             Modify_ApiCall(ref _callEchoCall);
             Modify_EchoCallApiCall(ref _callEchoCall);
-            _callExpand = clientHelper.BuildApiCall<ExpandRequest, EchoResponse>(grpcClient.Expand, effectiveSettings.ExpandSettings);
+            _callExpand = clientHelper.BuildApiCall<ExpandRequest, EchoResponse>("Expand", grpcClient.Expand, effectiveSettings.ExpandSettings);
             Modify_ApiCall(ref _callExpand);
             Modify_ExpandApiCall(ref _callExpand);
-            _callCollect = clientHelper.BuildApiCall<EchoRequest, EchoResponse>(grpcClient.Collect, effectiveSettings.CollectSettings, effectiveSettings.CollectStreamingSettings);
+            _callCollect = clientHelper.BuildApiCall<EchoRequest, EchoResponse>("Collect", grpcClient.Collect, effectiveSettings.CollectSettings, effectiveSettings.CollectStreamingSettings);
             Modify_ApiCall(ref _callCollect);
             Modify_CollectApiCall(ref _callCollect);
-            _callChat = clientHelper.BuildApiCall<EchoRequest, EchoResponse>(grpcClient.Chat, effectiveSettings.ChatSettings, effectiveSettings.ChatStreamingSettings);
+            _callChat = clientHelper.BuildApiCall<EchoRequest, EchoResponse>("Chat", grpcClient.Chat, effectiveSettings.ChatSettings, effectiveSettings.ChatStreamingSettings);
             Modify_ApiCall(ref _callChat);
             Modify_ChatApiCall(ref _callChat);
-            _callPagedExpand = clientHelper.BuildApiCall<PagedExpandRequest, PagedExpandResponse>(grpcClient.PagedExpandAsync, grpcClient.PagedExpand, effectiveSettings.PagedExpandSettings);
+            _callPagedExpand = clientHelper.BuildApiCall<PagedExpandRequest, PagedExpandResponse>("PagedExpand", grpcClient.PagedExpandAsync, grpcClient.PagedExpand, effectiveSettings.PagedExpandSettings);
             Modify_ApiCall(ref _callPagedExpand);
             Modify_PagedExpandApiCall(ref _callPagedExpand);
-            _callPagedExpandLegacy = clientHelper.BuildApiCall<PagedExpandLegacyRequest, PagedExpandResponse>(grpcClient.PagedExpandLegacyAsync, grpcClient.PagedExpandLegacy, effectiveSettings.PagedExpandLegacySettings);
+            _callPagedExpandLegacy = clientHelper.BuildApiCall<PagedExpandLegacyRequest, PagedExpandResponse>("PagedExpandLegacy", grpcClient.PagedExpandLegacyAsync, grpcClient.PagedExpandLegacy, effectiveSettings.PagedExpandLegacySettings);
             Modify_ApiCall(ref _callPagedExpandLegacy);
             Modify_PagedExpandLegacyApiCall(ref _callPagedExpandLegacy);
-            _callPagedExpandLegacyMapped = clientHelper.BuildApiCall<PagedExpandRequest, PagedExpandLegacyMappedResponse>(grpcClient.PagedExpandLegacyMappedAsync, grpcClient.PagedExpandLegacyMapped, effectiveSettings.PagedExpandLegacyMappedSettings);
+            _callPagedExpandLegacyMapped = clientHelper.BuildApiCall<PagedExpandRequest, PagedExpandLegacyMappedResponse>("PagedExpandLegacyMapped", grpcClient.PagedExpandLegacyMappedAsync, grpcClient.PagedExpandLegacyMapped, effectiveSettings.PagedExpandLegacyMappedSettings);
             Modify_ApiCall(ref _callPagedExpandLegacyMapped);
             Modify_PagedExpandLegacyMappedApiCall(ref _callPagedExpandLegacyMapped);
-            _callWait = clientHelper.BuildApiCall<WaitRequest, lro::Operation>(grpcClient.WaitAsync, grpcClient.Wait, effectiveSettings.WaitSettings);
+            _callWait = clientHelper.BuildApiCall<WaitRequest, lro::Operation>("Wait", grpcClient.WaitAsync, grpcClient.Wait, effectiveSettings.WaitSettings);
             Modify_ApiCall(ref _callWait);
             Modify_WaitApiCall(ref _callWait);
-            _callBlock = clientHelper.BuildApiCall<BlockRequest, BlockResponse>(grpcClient.BlockAsync, grpcClient.Block, effectiveSettings.BlockSettings);
+            _callBlock = clientHelper.BuildApiCall<BlockRequest, BlockResponse>("Block", grpcClient.BlockAsync, grpcClient.Block, effectiveSettings.BlockSettings);
             Modify_ApiCall(ref _callBlock);
             Modify_BlockApiCall(ref _callBlock);
             OnConstruction(grpcClient, effectiveSettings, clientHelper);
