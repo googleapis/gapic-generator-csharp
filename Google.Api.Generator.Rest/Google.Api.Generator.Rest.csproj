@@ -8,7 +8,6 @@
   <ItemGroup>
     <PackageReference Include="Google.Apis.Discovery.v1" Version="1.57.0" />
     <ProjectReference Include="..\Google.Api.Generator.Utils\Google.Api.Generator.Utils.csproj" />
-    <EmbeddedResource Include="StaticResources/**" />
   </ItemGroup>
 
 </Project>

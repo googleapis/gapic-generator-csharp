@@ -39,7 +39,7 @@ namespace Google.Api.Generator.Rest.Tests
             TestDirectory = rootPath;
         }
 
-        internal static void TestOutput(string directory, bool ignoreCsProj = false, bool ignoreConfig = false)
+        internal static void TestOutput(string directory, bool ignoreCsProj = false)
         {
             var resourceDirectory = Path.Combine(TestDirectory, "GoldenTestData", directory);
             var json = File.ReadAllText(Path.Combine(resourceDirectory, "discovery.json"));
@@ -62,8 +62,7 @@ namespace Google.Api.Generator.Rest.Tests
 
             foreach (var file in files)
             {
-                if ((ignoreCsProj && file.RelativePath.EndsWith(".csproj")) ||
-                    (ignoreConfig && file.RelativePath.EndsWith(".config")))
+                if (ignoreCsProj && file.RelativePath.EndsWith(".csproj"))
                 {
                     continue;
                 }

@@ -339,7 +339,7 @@ namespace Google.Api.Generator.Rest.Models
             );
 
             var buildProperties = new XElement("PropertyGroup",
-                new XElement("TargetFrameworks", "netstandard2.0;netstandard1.3;netstandard1.0;net45;net40"),
+                new XElement("TargetFrameworks", "netstandard2.0;netstandard1.3;net45"),
                 new XElement("SignAssembly", "true"),
                 new XElement("AssemblyOriginatorKeyFile", @"..\..\..\google.apis.snk"),
                 new XElement("DebugType", "portable"),
@@ -362,28 +362,9 @@ namespace Google.Api.Generator.Rest.Models
                 AuthScopes.Any() ? PackageReference("Google.Apis.Auth", _features.CurrentSupportVersion) : null
             );
 
-            var netstandard10Properties = new XElement("PropertyGroup", FrameworkCondition("netstandard1.0"),
-                new XElement("PackageTargetFallback", "portable-net45+win8+wpa81+wp8"),
-                new XElement("AppConfig", "app.netstandard10.config")
-            );
-            var netstandard10Items = new XElement("ItemGroup", FrameworkCondition("netstandard1.0"),
-                PackageReference("Google.Apis", $"[{_features.PclSupportVersion}]", new XAttribute("ExcludeAssets", "build")),
-                AuthScopes.Any() ? PackageReference("Google.Apis.Auth", $"[{_features.PclSupportVersion}]", new XAttribute("ExcludeAssets", "build")) : null,
-                PackageReference("Microsoft.NETCore.Portable.Compatibility", "1.0.1")
-            );
-
             var net45 = new XElement("ItemGroup", FrameworkCondition("net45"),
                 PackageReference("Google.Apis", _features.CurrentSupportVersion),
                 AuthScopes.Any() ? PackageReference("Google.Apis.Auth", _features.CurrentSupportVersion) : null
-            );
-
-            var net40Properties = new XElement("PropertyGroup", FrameworkCondition("net40"),
-                new XElement("AutoUnifyAssemblyReferences", "false"),
-                new XElement("AppConfig", "app.net40.config")
-            );
-            var net40Items = new XElement("ItemGroup", FrameworkCondition("net40"),
-                PackageReference("Google.Apis", $"[{_features.Net40SupportVersion}]", new XAttribute("ExcludeAssets", "build")),
-                AuthScopes.Any() ? PackageReference("Google.Apis.Auth", $"[{_features.Net40SupportVersion}]", new XAttribute("ExcludeAssets", "build")) : null
             );
 
             var project = new XElement("Project", new XAttribute("Sdk", "Microsoft.NET.Sdk"), new XAttribute("ToolsVersion", "15.0"),
@@ -394,9 +375,7 @@ namespace Google.Api.Generator.Rest.Models
                 lineBreak, new XComment(" per-target dependencies "),
                 netstandard20,
                 lineBreak, netstandard13,
-                lineBreak, netstandard10Properties, netstandard10Items,
                 lineBreak, net45,
-                lineBreak, net40Properties, net40Items,
                 lineBreak
             );
 
@@ -434,17 +413,14 @@ namespace Google.Api.Generator.Rest.Models
       - .NET Framework 4.5+
       - .NET Standard 1.3 and .NET Standard 2.0; providing .NET Core support.
 
-      Legacy platforms:
-      - .NET Framework 4.0
-      - Windows 8 Apps
-      - Windows Phone 8.1
-      - Windows Phone Silverlight 8.0
-
       Incompatible platforms:
-      - .NET Framework < 4.0
+      - .NET Framework < 4.5
       - Silverlight
       - UWP (will build, but is known not to work at runtime)
       - Xamarin
+      - Windows 8 Apps
+      - Windows Phone 8.1
+      - Windows Phone Silverlight 8.0
 
       More documentation on the API is available at:
       https://developers.google.com/api-client-library/dotnet/apis/{ApiName}/{ApiVersion}
