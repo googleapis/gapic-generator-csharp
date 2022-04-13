@@ -312,16 +312,24 @@ namespace Google.Api.Generator
                     var serviceSnippetsCsprojContent = CsProjGenerator.GenerateSnippets(ns);
                     var serviceSnippetsCsProjFilename = $"{serviceSnippetsPathPrefix}{ns}.Snippets.csproj";
                     yield return new ResultFile(serviceSnippetsCsProjFilename, serviceSnippetsCsprojContent);
+
+                    // Generate dependency injection extension methods
+                    var dependencyInjectionExtensionsContent = ServiceCollectionExtensionsGenerator.GenerateExtensions(ctx, packageServiceDetails);
+                    var dependencyInjectionExtensionsFilename = $"{clientPathPrefix}{ServiceCollectionExtensionsGenerator.FileName}";
+                    yield return new ResultFile(dependencyInjectionExtensionsFilename, dependencyInjectionExtensionsContent);
+
                     // Generate snippet metadata (only for snippet-per-file snippets).
                     // All services in this package have the same package information, namespace etc. so, we
                     // just pick the first one
                     var serviceDetails = packageServiceDetails.First();
                     var snippetIndexJsonContent = SnippetCodeGenerator.GenerateSnippetIndexJson(snippets, serviceDetails);
                     yield return new ResultFile($"{snippetsPathPrefix}snippet_metadata_{serviceDetails.ProtoPackage}.json", snippetIndexJsonContent);
+
                     // Generate snippet-per-file snippets csproj.
                     var snippetsCsprojContent = CsProjGenerator.GenerateSnippets(ns);
                     var snippetsCsProjFilename = $"{snippetsPathPrefix}{ns}.GeneratedSnippets.csproj";
                     yield return new ResultFile(snippetsCsProjFilename, snippetsCsprojContent);
+
                     // Generate unit-tests csproj.
                     var unitTestsCsprojContent = CsProjGenerator.GenerateUnitTests(ns);
                     var unitTestsCsprojFilename = $"{unitTestsPathPrefix}{ns}.Tests.csproj";
