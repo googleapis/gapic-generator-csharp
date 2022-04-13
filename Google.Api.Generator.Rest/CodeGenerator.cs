@@ -20,7 +20,6 @@ using Google.Apis.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace Google.Api.Generator.Rest
@@ -36,8 +35,6 @@ namespace Google.Api.Generator.Rest
             var package = new PackageModel(discoveryDescription, features, enumStorage);
             yield return GenerateCSharpCode(package);
             yield return GenerateProjectFile(package);
-            yield return GenerateNet40Config(package);
-            yield return GenerateNetStandard10Config(package);
         }
 
         private static string NormalizeDescriptions(string discoveryJson)
@@ -126,24 +123,6 @@ namespace Google.Api.Generator.Rest
             // all we need to do is replace the line with an empty line, and we have a line break.
             string text = doc.ToString().Replace("  <!--linebreak-->", "") + Environment.NewLine;
             return new ResultFile($"{package.PackageName}/{package.PackageName}.csproj", text);
-        }
-
-        private static ResultFile GenerateNet40Config(PackageModel package) =>
-            new ResultFile($"{package.PackageName}/app.net40.config", LoadResource("Net40Config.xml"));
-
-        private static ResultFile GenerateNetStandard10Config(PackageModel package) =>
-            new ResultFile($"{package.PackageName}/app.netstandard10.config", LoadResource("NetStandard10Config.xml"));
-
-        private static string LoadResource(string name)
-        {
-            string resource = "Google.Api.Generator.Rest.StaticResources." + name;
-            using var stream = typeof(CodeGenerator).Assembly.GetManifestResourceStream(resource);
-            if (stream is null)
-            {
-                var allResourceNames = typeof(CodeGenerator).Assembly.GetManifestResourceNames();
-                throw new ArgumentException($"Unable to find resource '{resource}'. Available resources: {string.Join(",", allResourceNames)}");
-            }
-            return new StreamReader(stream).ReadToEnd();
         }
     }
 }
