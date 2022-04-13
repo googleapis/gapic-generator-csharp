@@ -347,20 +347,7 @@ namespace Google.Api.Generator.Rest.Models
 
             var commonDependencies = new XElement("ItemGroup",
                 PackageReference("ConfigureAwaitChecker.Analyzer", "5.0.0", new XAttribute("PrivateAssets", "All")),
-                PackageReference("SourceLink.Create.CommandLine", "2.8.3", new XAttribute("PrivateAssets", "All"))
-            );
-
-            var netstandard20 = new XElement("ItemGroup", FrameworkCondition("netstandard2.0"),
-                PackageReference("Google.Apis", _features.CurrentSupportVersion),
-                AuthScopes.Any() ? PackageReference("Google.Apis.Auth", _features.CurrentSupportVersion) : null
-            );
-
-            var netstandard13 = new XElement("ItemGroup", FrameworkCondition("netstandard1.3"),
-                PackageReference("Google.Apis", _features.CurrentSupportVersion),
-                AuthScopes.Any() ? PackageReference("Google.Apis.Auth", _features.CurrentSupportVersion) : null
-            );
-
-            var net45 = new XElement("ItemGroup", FrameworkCondition("net45"),
+                PackageReference("SourceLink.Create.CommandLine", "2.8.3", new XAttribute("PrivateAssets", "All")),
                 PackageReference("Google.Apis", _features.CurrentSupportVersion),
                 AuthScopes.Any() ? PackageReference("Google.Apis.Auth", _features.CurrentSupportVersion) : null
             );
@@ -370,10 +357,6 @@ namespace Google.Api.Generator.Rest.Models
                 lineBreak, licenseItemGroup,
                 lineBreak, new XComment(" build properties "), buildProperties,
                 lineBreak, new XComment(" common dependencies "), commonDependencies,
-                lineBreak, new XComment(" per-target dependencies "),
-                netstandard20,
-                lineBreak, netstandard13,
-                lineBreak, net45,
                 lineBreak
             );
 
@@ -428,12 +411,10 @@ namespace Google.Api.Generator.Rest.Models
     ";
 
                 return prefix + suffix;
-        }
+            }
 
-        XElement PackageReference(string name, string version, params XAttribute[] extraAttributes) =>
+            XElement PackageReference(string name, string version, params XAttribute[] extraAttributes) =>
                 new XElement("PackageReference", new[] { new XAttribute("Include", name), new XAttribute("Version", version) }.Concat(extraAttributes));
-
-            XAttribute FrameworkCondition(string framework) => new XAttribute("Condition", $"'$(TargetFramework)'=='{framework}'");
         }
 
         internal DataModel GetDataModelByReference(string @ref) => _dataModelsById[@ref];
