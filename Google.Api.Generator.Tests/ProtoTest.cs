@@ -61,7 +61,8 @@ namespace Google.Api.Generator.Tests
 
         private void ProtoTestSingle(string testProtoName,
             bool ignoreCsProj = false, bool ignoreSnippets = false, bool ignoreUnitTests = false,
-            string grpcServiceConfigPath = null, string serviceConfigPath = null, IEnumerable<string> commonResourcesConfigPaths = null, bool ignoreMetadataFile = true, bool ignoreApiDescriptorFile = true) =>
+            string grpcServiceConfigPath = null, string serviceConfigPath = null, IEnumerable<string> commonResourcesConfigPaths = null,
+            bool ignoreGapicMetadataFile = true, bool ignoreApiMetadataFile = true, bool ignoreServiceExtensionsFile = true) =>
             ProtoTestSingle(
                 new[] { testProtoName },
                 // The following three don't need to be customized for simple cases
@@ -74,12 +75,15 @@ namespace Google.Api.Generator.Tests
                 grpcServiceConfigPath,
                 serviceConfigPath,
                 commonResourcesConfigPaths,
-                ignoreMetadataFile
+                ignoreGapicMetadataFile,
+                ignoreApiMetadataFile,
+                ignoreServiceExtensionsFile
             );
 
         private void ProtoTestSingle(IEnumerable<string> testProtoNames, string sourceDir = null, string outputDir = null, string package = null,
             bool ignoreCsProj = false, bool ignoreSnippets = false, bool ignoreUnitTests = false,
-            string grpcServiceConfigPath = null, string serviceConfigPath = null, IEnumerable<string> commonResourcesConfigPaths = null, bool ignoreMetadataFile = true, bool ignoreApiDescriptorFile = true)
+            string grpcServiceConfigPath = null, string serviceConfigPath = null, IEnumerable<string> commonResourcesConfigPaths = null,
+            bool ignoreGapicMetadataFile = true, bool ignoreApiMetadataFile = true, bool ignoreServiceExtensionsFile = true)
         {
             // Confirm each generated file is identical to the expected output.
             // Use `// TEST_START` and `// TEST_END` lines in the expected file to test subsets of output files.
@@ -110,8 +114,9 @@ namespace Google.Api.Generator.Tests
                     (ignoreSnippets && file.RelativePath.Contains($".Snippets{Path.DirectorySeparatorChar}")) ||
                     (ignoreSnippets && file.RelativePath.Contains($".GeneratedSnippets{Path.DirectorySeparatorChar}")) ||
                     (ignoreUnitTests && file.RelativePath.Contains($".Tests{Path.DirectorySeparatorChar}")) ||
-                    (ignoreMetadataFile && file.RelativePath.EndsWith("gapic_metadata.json")) ||
-                    (ignoreApiDescriptorFile && file.RelativePath.EndsWith(PackageApiMetadataGenerator.FileName)))
+                    (ignoreGapicMetadataFile && file.RelativePath.EndsWith("gapic_metadata.json")) ||
+                    (ignoreApiMetadataFile && file.RelativePath.EndsWith(PackageApiMetadataGenerator.FileName)) ||
+                    (ignoreServiceExtensionsFile && file.RelativePath.EndsWith(ServiceCollectionExtensionsGenerator.FileName)))
                 {
                     continue;
                 }
@@ -172,7 +177,7 @@ namespace Google.Api.Generator.Tests
 
         // `0` suffix so it's easier to run this test by itself!
         [Fact]
-        public void Basic0() => ProtoTestSingle("Basic.v1", ignoreMetadataFile: false, ignoreApiDescriptorFile: false);
+        public void Basic0() => ProtoTestSingle("Basic.v1", ignoreGapicMetadataFile: false, ignoreApiMetadataFile: false);
 
         [Fact]
         public void BasicLro() => ProtoTestSingle("BasicLro", ignoreCsProj: true, ignoreUnitTests: true);
@@ -251,7 +256,7 @@ namespace Google.Api.Generator.Tests
         public void OptionalFields() => ProtoTestSingle("OptionalFields", ignoreCsProj: true, ignoreUnitTests: true, ignoreSnippets: true);
 
         [Fact]
-        public void Mixins() => ProtoTestSingle("Mixins", ignoreMetadataFile: false, ignoreSnippets: true,
+        public void Mixins() => ProtoTestSingle("Mixins", ignoreGapicMetadataFile: false, ignoreSnippets: true,
             serviceConfigPath: Path.Combine(Invoker.GeneratorTestsDir, "ProtoTests", "Mixins", "Mixins.yaml"));
 
         [Fact]
@@ -261,7 +266,7 @@ namespace Google.Api.Generator.Tests
             package: "google.showcase.v1beta1",
             ignoreUnitTests: true,
             ignoreSnippets: true,
-            ignoreApiDescriptorFile: false);
+            ignoreApiMetadataFile: false);
 
         // Build tests are testing `csproj` file generation only.
         // All other generated code is effectively "build tested" when this test project is built.
