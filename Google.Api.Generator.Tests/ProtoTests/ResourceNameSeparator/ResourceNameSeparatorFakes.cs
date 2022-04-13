@@ -14,6 +14,7 @@
 
 using Google.Api.Gax.Grpc;
 using Grpc.Core;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -49,7 +50,7 @@ namespace Testing.ResourceNameSeparator
 
     public class ResourceNameSeparatorClientImpl : ResourceNameSeparatorClient
     {
-        public ResourceNameSeparatorClientImpl(ResourceNameSeparator.ResourceNameSeparatorClient client, object settings) => _client = client;
+        public ResourceNameSeparatorClientImpl(ResourceNameSeparator.ResourceNameSeparatorClient client, object settings, ILogger logger) => _client = client;
         private ResourceNameSeparator.ResourceNameSeparatorClient _client;
         public override Response Method1(Request request) => _client.Method1(request, default);
         public override Task<Response> Method1Async(Request request, CallSettings settings = null) => _client.Method1Async(request, default).ResponseAsync;

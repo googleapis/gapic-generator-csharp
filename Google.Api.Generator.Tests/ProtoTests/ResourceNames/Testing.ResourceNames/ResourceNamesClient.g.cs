@@ -19,6 +19,7 @@ using gaxgrpc = Google.Api.Gax.Grpc;
 using proto = Google.Protobuf;
 using grpccore = Grpc.Core;
 using grpcinter = Grpc.Core.Interceptors;
+using mel = Microsoft.Extensions.Logging;
 using sys = System;
 using scg = System.Collections.Generic;
 using sco = System.Collections.ObjectModel;
@@ -174,14 +175,14 @@ namespace Testing.ResourceNames
         {
             Validate();
             grpccore::CallInvoker callInvoker = CreateCallInvoker();
-            return ResourceNamesClient.Create(callInvoker, Settings);
+            return ResourceNamesClient.Create(callInvoker, Settings, Logger);
         }
 
         private async stt::Task<ResourceNamesClient> BuildAsyncImpl(st::CancellationToken cancellationToken)
         {
             Validate();
             grpccore::CallInvoker callInvoker = await CreateCallInvokerAsync(cancellationToken).ConfigureAwait(false);
-            return ResourceNamesClient.Create(callInvoker, Settings);
+            return ResourceNamesClient.Create(callInvoker, Settings, Logger);
         }
 
         /// <summary>Returns the channel pool to use when no other options are specified.</summary>
@@ -232,8 +233,9 @@ namespace Testing.ResourceNames
         /// The <see cref="grpccore::CallInvoker"/> for remote operations. Must not be null.
         /// </param>
         /// <param name="settings">Optional <see cref="ResourceNamesSettings"/>.</param>
+        /// <param name="logger">Optional <see cref="mel::ILogger"/>.</param>
         /// <returns>The created <see cref="ResourceNamesClient"/>.</returns>
-        internal static ResourceNamesClient Create(grpccore::CallInvoker callInvoker, ResourceNamesSettings settings = null)
+        internal static ResourceNamesClient Create(grpccore::CallInvoker callInvoker, ResourceNamesSettings settings = null, mel::ILogger logger = null)
         {
             gax::GaxPreconditions.CheckNotNull(callInvoker, nameof(callInvoker));
             grpcinter::Interceptor interceptor = settings?.Interceptor;
@@ -242,7 +244,7 @@ namespace Testing.ResourceNames
                 callInvoker = grpcinter::CallInvokerExtensions.Intercept(callInvoker, interceptor);
             }
             ResourceNames.ResourceNamesClient grpcClient = new ResourceNames.ResourceNamesClient(callInvoker);
-            return new ResourceNamesClientImpl(grpcClient, settings);
+            return new ResourceNamesClientImpl(grpcClient, settings, logger);
         }
 
         /// <summary>
@@ -1592,24 +1594,25 @@ namespace Testing.ResourceNames
         /// </summary>
         /// <param name="grpcClient">The underlying gRPC client.</param>
         /// <param name="settings">The base <see cref="ResourceNamesSettings"/> used within this client.</param>
-        public ResourceNamesClientImpl(ResourceNames.ResourceNamesClient grpcClient, ResourceNamesSettings settings)
+        /// <param name="logger">Optional <see cref="mel::ILogger"/> to use within this client.</param>
+        public ResourceNamesClientImpl(ResourceNames.ResourceNamesClient grpcClient, ResourceNamesSettings settings, mel::ILogger logger)
         {
             GrpcClient = grpcClient;
             ResourceNamesSettings effectiveSettings = settings ?? ResourceNamesSettings.GetDefault();
-            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings);
-            _callSinglePatternMethod = clientHelper.BuildApiCall<SinglePattern, Response>(grpcClient.SinglePatternMethodAsync, grpcClient.SinglePatternMethod, effectiveSettings.SinglePatternMethodSettings);
+            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings, logger);
+            _callSinglePatternMethod = clientHelper.BuildApiCall<SinglePattern, Response>("SinglePatternMethod", grpcClient.SinglePatternMethodAsync, grpcClient.SinglePatternMethod, effectiveSettings.SinglePatternMethodSettings);
             Modify_ApiCall(ref _callSinglePatternMethod);
             Modify_SinglePatternMethodApiCall(ref _callSinglePatternMethod);
-            _callDeprecatedPatternMethod = clientHelper.BuildApiCall<DeprecatedPattern, Response>(grpcClient.DeprecatedPatternMethodAsync, grpcClient.DeprecatedPatternMethod, effectiveSettings.DeprecatedPatternMethodSettings);
+            _callDeprecatedPatternMethod = clientHelper.BuildApiCall<DeprecatedPattern, Response>("DeprecatedPatternMethod", grpcClient.DeprecatedPatternMethodAsync, grpcClient.DeprecatedPatternMethod, effectiveSettings.DeprecatedPatternMethodSettings);
             Modify_ApiCall(ref _callDeprecatedPatternMethod);
             Modify_DeprecatedPatternMethodApiCall(ref _callDeprecatedPatternMethod);
-            _callWildcardOnlyPatternMethod = clientHelper.BuildApiCall<WildcardOnlyPattern, Response>(grpcClient.WildcardOnlyPatternMethodAsync, grpcClient.WildcardOnlyPatternMethod, effectiveSettings.WildcardOnlyPatternMethodSettings);
+            _callWildcardOnlyPatternMethod = clientHelper.BuildApiCall<WildcardOnlyPattern, Response>("WildcardOnlyPatternMethod", grpcClient.WildcardOnlyPatternMethodAsync, grpcClient.WildcardOnlyPatternMethod, effectiveSettings.WildcardOnlyPatternMethodSettings);
             Modify_ApiCall(ref _callWildcardOnlyPatternMethod);
             Modify_WildcardOnlyPatternMethodApiCall(ref _callWildcardOnlyPatternMethod);
-            _callWildcardMultiPatternMethod = clientHelper.BuildApiCall<WildcardMultiPattern, Response>(grpcClient.WildcardMultiPatternMethodAsync, grpcClient.WildcardMultiPatternMethod, effectiveSettings.WildcardMultiPatternMethodSettings);
+            _callWildcardMultiPatternMethod = clientHelper.BuildApiCall<WildcardMultiPattern, Response>("WildcardMultiPatternMethod", grpcClient.WildcardMultiPatternMethodAsync, grpcClient.WildcardMultiPatternMethod, effectiveSettings.WildcardMultiPatternMethodSettings);
             Modify_ApiCall(ref _callWildcardMultiPatternMethod);
             Modify_WildcardMultiPatternMethodApiCall(ref _callWildcardMultiPatternMethod);
-            _callWildcardMultiPatternMultipleMethod = clientHelper.BuildApiCall<WildcardMultiPatternMultiple, Response>(grpcClient.WildcardMultiPatternMultipleMethodAsync, grpcClient.WildcardMultiPatternMultipleMethod, effectiveSettings.WildcardMultiPatternMultipleMethodSettings);
+            _callWildcardMultiPatternMultipleMethod = clientHelper.BuildApiCall<WildcardMultiPatternMultiple, Response>("WildcardMultiPatternMultipleMethod", grpcClient.WildcardMultiPatternMultipleMethodAsync, grpcClient.WildcardMultiPatternMultipleMethod, effectiveSettings.WildcardMultiPatternMultipleMethodSettings);
             Modify_ApiCall(ref _callWildcardMultiPatternMultipleMethod);
             Modify_WildcardMultiPatternMultipleMethodApiCall(ref _callWildcardMultiPatternMultipleMethod);
             _callLooseValidationPatternMethod = clientHelper.BuildApiCall<LooseValidationPattern, Response>(grpcClient.LooseValidationPatternMethodAsync, grpcClient.LooseValidationPatternMethod, effectiveSettings.LooseValidationPatternMethodSettings);

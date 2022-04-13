@@ -37,7 +37,7 @@ namespace Testing.ResourceNameSeparator.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.Method1(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            ResourceNameSeparatorClient client = new ResourceNameSeparatorClientImpl(mockGrpcClient.Object, null);
+            ResourceNameSeparatorClient client = new ResourceNameSeparatorClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.Method1(request);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -54,7 +54,7 @@ namespace Testing.ResourceNameSeparator.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.Method1Async(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            ResourceNameSeparatorClient client = new ResourceNameSeparatorClientImpl(mockGrpcClient.Object, null);
+            ResourceNameSeparatorClient client = new ResourceNameSeparatorClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.Method1Async(request, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.Method1Async(request, st::CancellationToken.None);
@@ -73,7 +73,7 @@ namespace Testing.ResourceNameSeparator.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.Method1(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            ResourceNameSeparatorClient client = new ResourceNameSeparatorClientImpl(mockGrpcClient.Object, null);
+            ResourceNameSeparatorClient client = new ResourceNameSeparatorClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.Method1(request.Name, request.Ref);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -90,7 +90,7 @@ namespace Testing.ResourceNameSeparator.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.Method1Async(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            ResourceNameSeparatorClient client = new ResourceNameSeparatorClientImpl(mockGrpcClient.Object, null);
+            ResourceNameSeparatorClient client = new ResourceNameSeparatorClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.Method1Async(request.Name, request.Ref, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.Method1Async(request.Name, request.Ref, st::CancellationToken.None);
@@ -109,7 +109,7 @@ namespace Testing.ResourceNameSeparator.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.Method1(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            ResourceNameSeparatorClient client = new ResourceNameSeparatorClientImpl(mockGrpcClient.Object, null);
+            ResourceNameSeparatorClient client = new ResourceNameSeparatorClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.Method1(request.RequestName, request.RefAsRequestName);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -126,7 +126,7 @@ namespace Testing.ResourceNameSeparator.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.Method1Async(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            ResourceNameSeparatorClient client = new ResourceNameSeparatorClientImpl(mockGrpcClient.Object, null);
+            ResourceNameSeparatorClient client = new ResourceNameSeparatorClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.Method1Async(request.RequestName, request.RefAsRequestName, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.Method1Async(request.RequestName, request.RefAsRequestName, st::CancellationToken.None);

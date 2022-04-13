@@ -21,6 +21,7 @@ using proto = Google.Protobuf;
 using wkt = Google.Protobuf.WellKnownTypes;
 using grpccore = Grpc.Core;
 using grpcinter = Grpc.Core.Interceptors;
+using mel = Microsoft.Extensions.Logging;
 using sys = System;
 using sc = System.Collections;
 using scg = System.Collections.Generic;
@@ -309,14 +310,14 @@ namespace Google.Showcase.V1Beta1
         {
             Validate();
             grpccore::CallInvoker callInvoker = CreateCallInvoker();
-            return MessagingClient.Create(callInvoker, Settings);
+            return MessagingClient.Create(callInvoker, Settings, Logger);
         }
 
         private async stt::Task<MessagingClient> BuildAsyncImpl(st::CancellationToken cancellationToken)
         {
             Validate();
             grpccore::CallInvoker callInvoker = await CreateCallInvokerAsync(cancellationToken).ConfigureAwait(false);
-            return MessagingClient.Create(callInvoker, Settings);
+            return MessagingClient.Create(callInvoker, Settings, Logger);
         }
 
         /// <summary>Returns the channel pool to use when no other options are specified.</summary>
@@ -371,8 +372,9 @@ namespace Google.Showcase.V1Beta1
         /// The <see cref="grpccore::CallInvoker"/> for remote operations. Must not be null.
         /// </param>
         /// <param name="settings">Optional <see cref="MessagingSettings"/>.</param>
+        /// <param name="logger">Optional <see cref="mel::ILogger"/>.</param>
         /// <returns>The created <see cref="MessagingClient"/>.</returns>
-        internal static MessagingClient Create(grpccore::CallInvoker callInvoker, MessagingSettings settings = null)
+        internal static MessagingClient Create(grpccore::CallInvoker callInvoker, MessagingSettings settings = null, mel::ILogger logger = null)
         {
             gax::GaxPreconditions.CheckNotNull(callInvoker, nameof(callInvoker));
             grpcinter::Interceptor interceptor = settings?.Interceptor;
@@ -381,7 +383,7 @@ namespace Google.Showcase.V1Beta1
                 callInvoker = grpcinter::CallInvokerExtensions.Intercept(callInvoker, interceptor);
             }
             Messaging.MessagingClient grpcClient = new Messaging.MessagingClient(callInvoker);
-            return new MessagingClientImpl(grpcClient, settings);
+            return new MessagingClientImpl(grpcClient, settings, logger);
         }
 
         /// <summary>
@@ -1713,52 +1715,53 @@ namespace Google.Showcase.V1Beta1
         /// </summary>
         /// <param name="grpcClient">The underlying gRPC client.</param>
         /// <param name="settings">The base <see cref="MessagingSettings"/> used within this client.</param>
-        public MessagingClientImpl(Messaging.MessagingClient grpcClient, MessagingSettings settings)
+        /// <param name="logger">Optional <see cref="mel::ILogger"/> to use within this client.</param>
+        public MessagingClientImpl(Messaging.MessagingClient grpcClient, MessagingSettings settings, mel::ILogger logger)
         {
             GrpcClient = grpcClient;
             MessagingSettings effectiveSettings = settings ?? MessagingSettings.GetDefault();
-            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings);
-            SearchBlurbsOperationsClient = new lro::OperationsClientImpl(grpcClient.CreateOperationsClient(), effectiveSettings.SearchBlurbsOperationsSettings);
-            _callCreateRoom = clientHelper.BuildApiCall<CreateRoomRequest, Room>(grpcClient.CreateRoomAsync, grpcClient.CreateRoom, effectiveSettings.CreateRoomSettings);
+            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings, logger);
+            SearchBlurbsOperationsClient = new lro::OperationsClientImpl(grpcClient.CreateOperationsClient(), effectiveSettings.SearchBlurbsOperationsSettings, logger);
+            _callCreateRoom = clientHelper.BuildApiCall<CreateRoomRequest, Room>("CreateRoom", grpcClient.CreateRoomAsync, grpcClient.CreateRoom, effectiveSettings.CreateRoomSettings);
             Modify_ApiCall(ref _callCreateRoom);
             Modify_CreateRoomApiCall(ref _callCreateRoom);
-            _callGetRoom = clientHelper.BuildApiCall<GetRoomRequest, Room>(grpcClient.GetRoomAsync, grpcClient.GetRoom, effectiveSettings.GetRoomSettings).WithGoogleRequestParam("name", request => request.Name);
+            _callGetRoom = clientHelper.BuildApiCall<GetRoomRequest, Room>("GetRoom", grpcClient.GetRoomAsync, grpcClient.GetRoom, effectiveSettings.GetRoomSettings).WithGoogleRequestParam("name", request => request.Name);
             Modify_ApiCall(ref _callGetRoom);
             Modify_GetRoomApiCall(ref _callGetRoom);
-            _callUpdateRoom = clientHelper.BuildApiCall<UpdateRoomRequest, Room>(grpcClient.UpdateRoomAsync, grpcClient.UpdateRoom, effectiveSettings.UpdateRoomSettings).WithGoogleRequestParam("room.name", request => request.Room?.Name);
+            _callUpdateRoom = clientHelper.BuildApiCall<UpdateRoomRequest, Room>("UpdateRoom", grpcClient.UpdateRoomAsync, grpcClient.UpdateRoom, effectiveSettings.UpdateRoomSettings).WithGoogleRequestParam("room.name", request => request.Room?.Name);
             Modify_ApiCall(ref _callUpdateRoom);
             Modify_UpdateRoomApiCall(ref _callUpdateRoom);
-            _callDeleteRoom = clientHelper.BuildApiCall<DeleteRoomRequest, wkt::Empty>(grpcClient.DeleteRoomAsync, grpcClient.DeleteRoom, effectiveSettings.DeleteRoomSettings).WithGoogleRequestParam("name", request => request.Name);
+            _callDeleteRoom = clientHelper.BuildApiCall<DeleteRoomRequest, wkt::Empty>("DeleteRoom", grpcClient.DeleteRoomAsync, grpcClient.DeleteRoom, effectiveSettings.DeleteRoomSettings).WithGoogleRequestParam("name", request => request.Name);
             Modify_ApiCall(ref _callDeleteRoom);
             Modify_DeleteRoomApiCall(ref _callDeleteRoom);
-            _callListRooms = clientHelper.BuildApiCall<ListRoomsRequest, ListRoomsResponse>(grpcClient.ListRoomsAsync, grpcClient.ListRooms, effectiveSettings.ListRoomsSettings);
+            _callListRooms = clientHelper.BuildApiCall<ListRoomsRequest, ListRoomsResponse>("ListRooms", grpcClient.ListRoomsAsync, grpcClient.ListRooms, effectiveSettings.ListRoomsSettings);
             Modify_ApiCall(ref _callListRooms);
             Modify_ListRoomsApiCall(ref _callListRooms);
-            _callCreateBlurb = clientHelper.BuildApiCall<CreateBlurbRequest, Blurb>(grpcClient.CreateBlurbAsync, grpcClient.CreateBlurb, effectiveSettings.CreateBlurbSettings).WithGoogleRequestParam("parent", request => request.Parent);
+            _callCreateBlurb = clientHelper.BuildApiCall<CreateBlurbRequest, Blurb>("CreateBlurb", grpcClient.CreateBlurbAsync, grpcClient.CreateBlurb, effectiveSettings.CreateBlurbSettings).WithGoogleRequestParam("parent", request => request.Parent);
             Modify_ApiCall(ref _callCreateBlurb);
             Modify_CreateBlurbApiCall(ref _callCreateBlurb);
-            _callGetBlurb = clientHelper.BuildApiCall<GetBlurbRequest, Blurb>(grpcClient.GetBlurbAsync, grpcClient.GetBlurb, effectiveSettings.GetBlurbSettings).WithGoogleRequestParam("name", request => request.Name);
+            _callGetBlurb = clientHelper.BuildApiCall<GetBlurbRequest, Blurb>("GetBlurb", grpcClient.GetBlurbAsync, grpcClient.GetBlurb, effectiveSettings.GetBlurbSettings).WithGoogleRequestParam("name", request => request.Name);
             Modify_ApiCall(ref _callGetBlurb);
             Modify_GetBlurbApiCall(ref _callGetBlurb);
-            _callUpdateBlurb = clientHelper.BuildApiCall<UpdateBlurbRequest, Blurb>(grpcClient.UpdateBlurbAsync, grpcClient.UpdateBlurb, effectiveSettings.UpdateBlurbSettings).WithGoogleRequestParam("blurb.name", request => request.Blurb?.Name);
+            _callUpdateBlurb = clientHelper.BuildApiCall<UpdateBlurbRequest, Blurb>("UpdateBlurb", grpcClient.UpdateBlurbAsync, grpcClient.UpdateBlurb, effectiveSettings.UpdateBlurbSettings).WithGoogleRequestParam("blurb.name", request => request.Blurb?.Name);
             Modify_ApiCall(ref _callUpdateBlurb);
             Modify_UpdateBlurbApiCall(ref _callUpdateBlurb);
-            _callDeleteBlurb = clientHelper.BuildApiCall<DeleteBlurbRequest, wkt::Empty>(grpcClient.DeleteBlurbAsync, grpcClient.DeleteBlurb, effectiveSettings.DeleteBlurbSettings).WithGoogleRequestParam("name", request => request.Name);
+            _callDeleteBlurb = clientHelper.BuildApiCall<DeleteBlurbRequest, wkt::Empty>("DeleteBlurb", grpcClient.DeleteBlurbAsync, grpcClient.DeleteBlurb, effectiveSettings.DeleteBlurbSettings).WithGoogleRequestParam("name", request => request.Name);
             Modify_ApiCall(ref _callDeleteBlurb);
             Modify_DeleteBlurbApiCall(ref _callDeleteBlurb);
-            _callListBlurbs = clientHelper.BuildApiCall<ListBlurbsRequest, ListBlurbsResponse>(grpcClient.ListBlurbsAsync, grpcClient.ListBlurbs, effectiveSettings.ListBlurbsSettings).WithGoogleRequestParam("parent", request => request.Parent);
+            _callListBlurbs = clientHelper.BuildApiCall<ListBlurbsRequest, ListBlurbsResponse>("ListBlurbs", grpcClient.ListBlurbsAsync, grpcClient.ListBlurbs, effectiveSettings.ListBlurbsSettings).WithGoogleRequestParam("parent", request => request.Parent);
             Modify_ApiCall(ref _callListBlurbs);
             Modify_ListBlurbsApiCall(ref _callListBlurbs);
-            _callSearchBlurbs = clientHelper.BuildApiCall<SearchBlurbsRequest, lro::Operation>(grpcClient.SearchBlurbsAsync, grpcClient.SearchBlurbs, effectiveSettings.SearchBlurbsSettings).WithGoogleRequestParam("parent", request => request.Parent);
+            _callSearchBlurbs = clientHelper.BuildApiCall<SearchBlurbsRequest, lro::Operation>("SearchBlurbs", grpcClient.SearchBlurbsAsync, grpcClient.SearchBlurbs, effectiveSettings.SearchBlurbsSettings).WithGoogleRequestParam("parent", request => request.Parent);
             Modify_ApiCall(ref _callSearchBlurbs);
             Modify_SearchBlurbsApiCall(ref _callSearchBlurbs);
-            _callStreamBlurbs = clientHelper.BuildApiCall<StreamBlurbsRequest, StreamBlurbsResponse>(grpcClient.StreamBlurbs, effectiveSettings.StreamBlurbsSettings).WithGoogleRequestParam("name", request => request.Name);
+            _callStreamBlurbs = clientHelper.BuildApiCall<StreamBlurbsRequest, StreamBlurbsResponse>("StreamBlurbs", grpcClient.StreamBlurbs, effectiveSettings.StreamBlurbsSettings).WithGoogleRequestParam("name", request => request.Name);
             Modify_ApiCall(ref _callStreamBlurbs);
             Modify_StreamBlurbsApiCall(ref _callStreamBlurbs);
-            _callSendBlurbs = clientHelper.BuildApiCall<CreateBlurbRequest, SendBlurbsResponse>(grpcClient.SendBlurbs, effectiveSettings.SendBlurbsSettings, effectiveSettings.SendBlurbsStreamingSettings);
+            _callSendBlurbs = clientHelper.BuildApiCall<CreateBlurbRequest, SendBlurbsResponse>("SendBlurbs", grpcClient.SendBlurbs, effectiveSettings.SendBlurbsSettings, effectiveSettings.SendBlurbsStreamingSettings);
             Modify_ApiCall(ref _callSendBlurbs);
             Modify_SendBlurbsApiCall(ref _callSendBlurbs);
-            _callConnect = clientHelper.BuildApiCall<ConnectRequest, StreamBlurbsResponse>(grpcClient.Connect, effectiveSettings.ConnectSettings, effectiveSettings.ConnectStreamingSettings);
+            _callConnect = clientHelper.BuildApiCall<ConnectRequest, StreamBlurbsResponse>("Connect", grpcClient.Connect, effectiveSettings.ConnectSettings, effectiveSettings.ConnectStreamingSettings);
             Modify_ApiCall(ref _callConnect);
             Modify_ConnectApiCall(ref _callConnect);
             OnConstruction(grpcClient, effectiveSettings, clientHelper);

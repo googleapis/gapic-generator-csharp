@@ -31,15 +31,13 @@ namespace Testing.Mixins.Tests
         [xunit::FactAttribute]
         public void MethodRequestObject()
         {
-            // TEST_START
             moq::Mock<MixinService.MixinServiceClient> mockGrpcClient = new moq::Mock<MixinService.MixinServiceClient>(moq::MockBehavior.Strict);
             mockGrpcClient.Setup(x => x.CreateLocationsClient()).Returns(new moq::Mock<gcl::Locations.LocationsClient>().Object);
             mockGrpcClient.Setup(x => x.CreateIAMPolicyClient()).Returns(new moq::Mock<gciv::IAMPolicy.IAMPolicyClient>().Object);
-            // TEST_END
             Request request = new Request { };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.Method(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            MixinServiceClient client = new MixinServiceClientImpl(mockGrpcClient.Object, null);
+            MixinServiceClient client = new MixinServiceClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.Method(request);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -48,15 +46,13 @@ namespace Testing.Mixins.Tests
         [xunit::FactAttribute]
         public async stt::Task MethodRequestObjectAsync()
         {
-            // TEST_START
             moq::Mock<MixinService.MixinServiceClient> mockGrpcClient = new moq::Mock<MixinService.MixinServiceClient>(moq::MockBehavior.Strict);
             mockGrpcClient.Setup(x => x.CreateLocationsClient()).Returns(new moq::Mock<gcl::Locations.LocationsClient>().Object);
             mockGrpcClient.Setup(x => x.CreateIAMPolicyClient()).Returns(new moq::Mock<gciv::IAMPolicy.IAMPolicyClient>().Object);
-            // TEST_END
             Request request = new Request { };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.MethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            MixinServiceClient client = new MixinServiceClientImpl(mockGrpcClient.Object, null);
+            MixinServiceClient client = new MixinServiceClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.MethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.MethodAsync(request, st::CancellationToken.None);

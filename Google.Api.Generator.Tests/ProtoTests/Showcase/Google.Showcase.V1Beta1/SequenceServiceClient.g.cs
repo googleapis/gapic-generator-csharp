@@ -20,6 +20,7 @@ using proto = Google.Protobuf;
 using wkt = Google.Protobuf.WellKnownTypes;
 using grpccore = Grpc.Core;
 using grpcinter = Grpc.Core.Interceptors;
+using mel = Microsoft.Extensions.Logging;
 using sys = System;
 using scg = System.Collections.Generic;
 using sco = System.Collections.ObjectModel;
@@ -130,14 +131,14 @@ namespace Google.Showcase.V1Beta1
         {
             Validate();
             grpccore::CallInvoker callInvoker = CreateCallInvoker();
-            return SequenceServiceClient.Create(callInvoker, Settings);
+            return SequenceServiceClient.Create(callInvoker, Settings, Logger);
         }
 
         private async stt::Task<SequenceServiceClient> BuildAsyncImpl(st::CancellationToken cancellationToken)
         {
             Validate();
             grpccore::CallInvoker callInvoker = await CreateCallInvokerAsync(cancellationToken).ConfigureAwait(false);
-            return SequenceServiceClient.Create(callInvoker, Settings);
+            return SequenceServiceClient.Create(callInvoker, Settings, Logger);
         }
 
         /// <summary>Returns the channel pool to use when no other options are specified.</summary>
@@ -188,8 +189,9 @@ namespace Google.Showcase.V1Beta1
         /// The <see cref="grpccore::CallInvoker"/> for remote operations. Must not be null.
         /// </param>
         /// <param name="settings">Optional <see cref="SequenceServiceSettings"/>.</param>
+        /// <param name="logger">Optional <see cref="mel::ILogger"/>.</param>
         /// <returns>The created <see cref="SequenceServiceClient"/>.</returns>
-        internal static SequenceServiceClient Create(grpccore::CallInvoker callInvoker, SequenceServiceSettings settings = null)
+        internal static SequenceServiceClient Create(grpccore::CallInvoker callInvoker, SequenceServiceSettings settings = null, mel::ILogger logger = null)
         {
             gax::GaxPreconditions.CheckNotNull(callInvoker, nameof(callInvoker));
             grpcinter::Interceptor interceptor = settings?.Interceptor;
@@ -198,7 +200,7 @@ namespace Google.Showcase.V1Beta1
                 callInvoker = grpcinter::CallInvokerExtensions.Intercept(callInvoker, interceptor);
             }
             SequenceService.SequenceServiceClient grpcClient = new SequenceService.SequenceServiceClient(callInvoker);
-            return new SequenceServiceClientImpl(grpcClient, settings);
+            return new SequenceServiceClientImpl(grpcClient, settings, logger);
         }
 
         /// <summary>
@@ -489,18 +491,19 @@ namespace Google.Showcase.V1Beta1
         /// </summary>
         /// <param name="grpcClient">The underlying gRPC client.</param>
         /// <param name="settings">The base <see cref="SequenceServiceSettings"/> used within this client.</param>
-        public SequenceServiceClientImpl(SequenceService.SequenceServiceClient grpcClient, SequenceServiceSettings settings)
+        /// <param name="logger">Optional <see cref="mel::ILogger"/> to use within this client.</param>
+        public SequenceServiceClientImpl(SequenceService.SequenceServiceClient grpcClient, SequenceServiceSettings settings, mel::ILogger logger)
         {
             GrpcClient = grpcClient;
             SequenceServiceSettings effectiveSettings = settings ?? SequenceServiceSettings.GetDefault();
-            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings);
-            _callCreateSequence = clientHelper.BuildApiCall<CreateSequenceRequest, Sequence>(grpcClient.CreateSequenceAsync, grpcClient.CreateSequence, effectiveSettings.CreateSequenceSettings);
+            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings, logger);
+            _callCreateSequence = clientHelper.BuildApiCall<CreateSequenceRequest, Sequence>("CreateSequence", grpcClient.CreateSequenceAsync, grpcClient.CreateSequence, effectiveSettings.CreateSequenceSettings);
             Modify_ApiCall(ref _callCreateSequence);
             Modify_CreateSequenceApiCall(ref _callCreateSequence);
-            _callGetSequenceReport = clientHelper.BuildApiCall<GetSequenceReportRequest, SequenceReport>(grpcClient.GetSequenceReportAsync, grpcClient.GetSequenceReport, effectiveSettings.GetSequenceReportSettings).WithGoogleRequestParam("name", request => request.Name);
+            _callGetSequenceReport = clientHelper.BuildApiCall<GetSequenceReportRequest, SequenceReport>("GetSequenceReport", grpcClient.GetSequenceReportAsync, grpcClient.GetSequenceReport, effectiveSettings.GetSequenceReportSettings).WithGoogleRequestParam("name", request => request.Name);
             Modify_ApiCall(ref _callGetSequenceReport);
             Modify_GetSequenceReportApiCall(ref _callGetSequenceReport);
-            _callAttemptSequence = clientHelper.BuildApiCall<AttemptSequenceRequest, wkt::Empty>(grpcClient.AttemptSequenceAsync, grpcClient.AttemptSequence, effectiveSettings.AttemptSequenceSettings).WithGoogleRequestParam("name", request => request.Name);
+            _callAttemptSequence = clientHelper.BuildApiCall<AttemptSequenceRequest, wkt::Empty>("AttemptSequence", grpcClient.AttemptSequenceAsync, grpcClient.AttemptSequence, effectiveSettings.AttemptSequenceSettings).WithGoogleRequestParam("name", request => request.Name);
             Modify_ApiCall(ref _callAttemptSequence);
             Modify_AttemptSequenceApiCall(ref _callAttemptSequence);
             OnConstruction(grpcClient, effectiveSettings, clientHelper);
