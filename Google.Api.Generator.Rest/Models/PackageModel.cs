@@ -195,8 +195,6 @@ namespace Google.Api.Generator.Rest.Models
                     .WithGetBody(ApiName)
                     .WithXmlDoc(XmlDoc.Summary("Gets the service name."));
 
-                // Note: the following 4 properties have special handling post-generation, in terms
-                // of adding the #if directives in.
                 var baseUriValue = _discoveryDoc.RootUrl + _discoveryDoc.ServicePath;
                 var basePathValue = _discoveryDoc.ServicePath;
                 var batchUriValue = _discoveryDoc.RootUrl + _discoveryDoc.BatchPath;
