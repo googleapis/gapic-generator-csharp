@@ -27,7 +27,7 @@ namespace Testing.Basic.V1
         internal static gaxgrpc::ApiMetadata ApiMetadata { get; } = new gaxgrpc::ApiMetadata("Testing.Basic.V1", GetFileDescriptors);
 
         private static scg::IEnumerable<gpr::FileDescriptor> GetFileDescriptors()
-        {//
+        {
             yield return BasicV1Reflection.Descriptor;
         }
     }
