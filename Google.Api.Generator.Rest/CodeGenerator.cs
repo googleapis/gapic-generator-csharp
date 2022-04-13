@@ -54,64 +54,8 @@ namespace Google.Api.Generator.Rest
         private static ResultFile GenerateCSharpCode(PackageModel package)
         {
             var syntax = package.GenerateCompilationUnit();
-            string content = ApplyIfDirectives(CodeFormatter.Format(syntax).ToFullString());
+            string content = CodeFormatter.Format(syntax).ToFullString();
             return new ResultFile($"{package.PackageName}/{package.PackageName}.cs", content);
-        }
-
-        /// <summary>
-        /// The #if directives in the service are relatively tricky to generate. We hack them in here...
-        /// </summary>
-        private static string ApplyIfDirectives(string code)
-        {
-            bool usesCarriageReturn = code.Contains('\r');
-            var lines = code.Replace("\r", "").Split('\n').ToList();
-
-            int baseUriIndex = lines.FindIndex(line => line.Contains("public override string BaseUri => BaseUriOverride ??"));
-            string withBaseUriOverrideExpression = lines[baseUriIndex].Split(" => ").Last();
-            string withoutBaseUriOverrideExpression = withBaseUriOverrideExpression.Split('?').Last().Trim();
-            lines[baseUriIndex] = lines[baseUriIndex].Split(" => ").First() + " =>";
-            lines.InsertRange(baseUriIndex + 1, new[]
-            {
-                "        #if NETSTANDARD1_3 || NETSTANDARD2_0 || NET45",
-                "            " + withBaseUriOverrideExpression,
-                "        #else",
-                "            " + withoutBaseUriOverrideExpression,
-                "        #endif"
-            });
-
-            InsertLine("/// <summary>Gets the batch base URI; <c>null</c> if unspecified.</summary>", 0, "#if !NET40");
-            InsertLine("public override string BatchPath =>", 1, "#endif");
-
-            // We clear the range in all download methods for non-obsolete platforms, but the old support library
-            // doesn't have the Range property.
-            InsertLine("mediaDownloader.Range = null;", 0, "#if !NET40");
-            InsertLine("mediaDownloader.Range = null;", 1, "#endif");
-
-            InsertLine("/// <summary>Synchronously download a range of the media into the given stream.</summary>", 0, "#if !NET40");
-            // We need to insert the line, after the closing } of the method. We can't use the code to detect the method, as
-            // the same statements are used in multiple methods.
-            InsertLine("public virtual System.Threading.Tasks.Task<Google.Apis.Download.IDownloadProgress> DownloadRangeAsync", 8, "#endif");
-
-            string separator = usesCarriageReturn ? "\r\n" : "\n";
-            return string.Join(separator, lines);
-
-            void InsertLine(string contentToFind, int offset, string extraLine)
-            {
-                int startIndex = 0;
-                while (true)
-                {
-                    int index = lines.FindIndex(startIndex, line => line.Contains(contentToFind, StringComparison.Ordinal));
-                    if (index == -1)
-                    {
-                        return;
-                    }
-                    // Use the leading whitespace of the existing line to work out how far to indent the new content.
-                    string extraWhitespace = lines[index].Substring(0, lines[index].IndexOf(contentToFind, StringComparison.Ordinal));
-                    lines.Insert(index + offset, extraWhitespace + extraLine);
-                    // Start after the existing line - which may now be one later than it was before.
-                    startIndex = index + 2;
-                }
-            }
         }
 
         private static ResultFile GenerateProjectFile(PackageModel package)
