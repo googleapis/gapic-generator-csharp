@@ -1,4 +1,4 @@
-﻿// Copyright 2019 Google LLC
+// Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -973,6 +973,93 @@ namespace Testing.ResourceNames.Snippets
             };
             // Make the request
             Response response = await resourceNamesClient.WildcardMultiPatternMultipleMethodAsync(@ref, repeatedRef);
+            // End snippet
+        }
+
+        /// <summary>Snippet for LooseValidationPatternMethod</summary>
+        public void LooseValidationPatternMethodRequestObject()
+        {
+            // Snippet: LooseValidationPatternMethod(LooseValidationPattern, CallSettings)
+            // Create client
+            ResourceNamesClient resourceNamesClient = ResourceNamesClient.Create();
+            // Initialize request argument(s)
+            LooseValidationPattern request = new LooseValidationPattern
+            {
+                LooseValidationPatternName = LooseValidationPatternName.FromParentItem("[PARENT_ID]", "[ITEM_ID]"),
+            };
+            // Make the request
+            Response response = resourceNamesClient.LooseValidationPatternMethod(request);
+            // End snippet
+        }
+
+        /// <summary>Snippet for LooseValidationPatternMethodAsync</summary>
+        public async Task LooseValidationPatternMethodRequestObjectAsync()
+        {
+            // Snippet: LooseValidationPatternMethodAsync(LooseValidationPattern, CallSettings)
+            // Additional: LooseValidationPatternMethodAsync(LooseValidationPattern, CancellationToken)
+            // Create client
+            ResourceNamesClient resourceNamesClient = await ResourceNamesClient.CreateAsync();
+            // Initialize request argument(s)
+            LooseValidationPattern request = new LooseValidationPattern
+            {
+                LooseValidationPatternName = LooseValidationPatternName.FromParentItem("[PARENT_ID]", "[ITEM_ID]"),
+            };
+            // Make the request
+            Response response = await resourceNamesClient.LooseValidationPatternMethodAsync(request);
+            // End snippet
+        }
+
+        /// <summary>Snippet for LooseValidationPatternMethod</summary>
+        public void LooseValidationPatternMethod()
+        {
+            // Snippet: LooseValidationPatternMethod(string, CallSettings)
+            // Create client
+            ResourceNamesClient resourceNamesClient = ResourceNamesClient.Create();
+            // Initialize request argument(s)
+            string name = "parents/[PARENT_ID]/invalid_name/items/[ITEM_ID]";
+            // Make the request
+            Response response = resourceNamesClient.LooseValidationPatternMethod(name);
+            // End snippet
+        }
+
+        /// <summary>Snippet for LooseValidationPatternMethodAsync</summary>
+        public async Task LooseValidationPatternMethodAsync()
+        {
+            // Snippet: LooseValidationPatternMethodAsync(string, CallSettings)
+            // Additional: LooseValidationPatternMethodAsync(string, CancellationToken)
+            // Create client
+            ResourceNamesClient resourceNamesClient = await ResourceNamesClient.CreateAsync();
+            // Initialize request argument(s)
+            string name = "parents/[PARENT_ID]/invalid_name/items/[ITEM_ID]";
+            // Make the request
+            Response response = await resourceNamesClient.LooseValidationPatternMethodAsync(name);
+            // End snippet
+        }
+
+        /// <summary>Snippet for LooseValidationPatternMethod</summary>
+        public void LooseValidationPatternMethodResourceNames()
+        {
+            // Snippet: LooseValidationPatternMethod(LooseValidationPatternName, CallSettings)
+            // Create client
+            ResourceNamesClient resourceNamesClient = ResourceNamesClient.Create();
+            // Initialize request argument(s)
+            LooseValidationPatternName name = LooseValidationPatternName.FromParentItem("[PARENT_ID]", "[ITEM_ID]");
+            // Make the request
+            Response response = resourceNamesClient.LooseValidationPatternMethod(name);
+            // End snippet
+        }
+
+        /// <summary>Snippet for LooseValidationPatternMethodAsync</summary>
+        public async Task LooseValidationPatternMethodResourceNamesAsync()
+        {
+            // Snippet: LooseValidationPatternMethodAsync(LooseValidationPatternName, CallSettings)
+            // Additional: LooseValidationPatternMethodAsync(LooseValidationPatternName, CancellationToken)
+            // Create client
+            ResourceNamesClient resourceNamesClient = await ResourceNamesClient.CreateAsync();
+            // Initialize request argument(s)
+            LooseValidationPatternName name = LooseValidationPatternName.FromParentItem("[PARENT_ID]", "[ITEM_ID]");
+            // Make the request
+            Response response = await resourceNamesClient.LooseValidationPatternMethodAsync(name);
             // End snippet
         }
     }

@@ -35,6 +35,8 @@ namespace Testing.ResourceNames
             public virtual AsyncUnaryCall<Response> WildcardMultiPatternMethodAsync(WildcardMultiPattern request, CallOptions callOptions) => throw new NotImplementedException();
             public virtual Response WildcardMultiPatternMultipleMethod(WildcardMultiPatternMultiple request, CallOptions callOptions) => throw new NotImplementedException();
             public virtual AsyncUnaryCall<Response> WildcardMultiPatternMultipleMethodAsync(WildcardMultiPatternMultiple request, CallOptions callOptions) => throw new NotImplementedException();
+            public virtual Response LooseValidationPatternMethod(LooseValidationPattern request, CallOptions callOptions) => throw new NotImplementedException();
+            public virtual AsyncUnaryCall<Response> LooseValidationPatternMethodAsync(LooseValidationPattern request, CallOptions callOptions) => throw new NotImplementedException();
         }
     }
 
@@ -74,6 +76,11 @@ namespace Testing.ResourceNames
         public string Name { get; set; }
         public string Ref { get; set; }
         public RepeatedField<string> RepeatedRef { get; } = new RepeatedField<string>();
+    }
+
+    public partial class LooseValidationPattern : ProtoMsgFake<LooseValidationPattern>
+    {
+        public string Name { get; set; }
     }
 
     public partial class Response : ProtoMsgFake<Response> { }
