@@ -40,6 +40,18 @@ namespace Google.Api.Generator.Tests
         }
 
         [Theory]
+        [InlineData("projects/{project}/iap_tunnel/locations/{location}", new[] { "project", "location" },
+            "projects/{project}/iap_tunnel/locations/{location}")]
+        public void SemiValidPattern(string pattern, string[] paramNames, string pathTemplateString)
+        {
+            // TODO: When we make tight/loose validation conditional, this test should change to
+            // assert that the patterns provided are valid under loose validation, and invalid under tight validation.
+            var pat = new ResourcePattern(pattern);
+            Assert.Equal(paramNames, pat.ParameterNames);
+            Assert.Equal(pathTemplateString, pat.PathTemplateString);
+        }
+
+        [Theory]
         [InlineData("as/{a}", new[] { "A" }, "as/A")]
         [InlineData("as/{a=*}", new[] { "A" }, "as/A")]
         [InlineData("as/{a=**}", new[] { "A/AA/AAA" }, "as/A/AA/AAA")]

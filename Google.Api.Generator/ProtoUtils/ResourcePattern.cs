@@ -288,11 +288,16 @@ namespace Google.Api.Generator.ProtoUtils
             Segments = segments.ToImmutableList();
             if (Segments.OfType<ResourceIdSegment>().Any())
             {
-                // Perform tight (standard) validation if there are any resource-id path-segments in this pattern.
+                // We normally perform tight (standard) validation if there are any resource-id path-segments in this pattern.
                 // Loose validation is required to support pubsub's legacy use of the pattern '_deleted-topic_'
+                // Temporarily, we perform loose validation here, to unblock IAP.
+                // TODO: Make this configurable, so we can use tight validation in almost all cases, and loose validation
+                // where an API has an exemption.
+                bool tightValidation = false;
+
                 foreach (var segment in Segments.OfType<CollectionIdentifierSegment>())
                 {
-                    segment.Validate(tightValidation: true);
+                    segment.Validate(tightValidation);
                 }
             }
         }
