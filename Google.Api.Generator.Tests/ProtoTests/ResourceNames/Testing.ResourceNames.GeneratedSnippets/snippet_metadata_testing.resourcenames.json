@@ -1,4 +1,4 @@
-﻿{
+{
   "clientLibrary": {
     "name": "Testing.ResourceNames",
     "language": "C_SHARP",
@@ -1286,6 +1286,161 @@
         "method": {
           "shortName": "WildcardMultiPatternMultipleMethod",
           "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMultipleMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_LooseValidationPatternMethod_sync",
+      "title": "LooseValidationPatternMethodRequestObject",
+      "description": "Snippet for LooseValidationPatternMethod",
+      "file": "ResourceNamesClient.LooseValidationPatternMethodRequestObjectSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "LooseValidationPatternMethod",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.LooseValidationPatternMethod",
+        "resultType": "Testing.ResourceNames.Response",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "LooseValidationPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.LooseValidationPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_LooseValidationPatternMethod_async",
+      "title": "LooseValidationPatternMethodRequestObjectAsync",
+      "description": "Snippet for LooseValidationPatternMethodAsync",
+      "file": "ResourceNamesClient.LooseValidationPatternMethodRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "LooseValidationPatternMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.LooseValidationPatternMethodAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "LooseValidationPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.LooseValidationPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_LooseValidationPatternMethod_sync_flattened",
+      "title": "LooseValidationPatternMethod",
+      "description": "Snippet for LooseValidationPatternMethod",
+      "file": "ResourceNamesClient.LooseValidationPatternMethodSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "LooseValidationPatternMethod",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.LooseValidationPatternMethod",
+        "resultType": "Testing.ResourceNames.Response",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "LooseValidationPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.LooseValidationPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_LooseValidationPatternMethod_async_flattened",
+      "title": "LooseValidationPatternMethodAsync",
+      "description": "Snippet for LooseValidationPatternMethodAsync",
+      "file": "ResourceNamesClient.LooseValidationPatternMethodAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "LooseValidationPatternMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.LooseValidationPatternMethodAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "LooseValidationPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.LooseValidationPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_LooseValidationPatternMethod_sync_flattened_resourceNames",
+      "title": "LooseValidationPatternMethodResourceNames",
+      "description": "Snippet for LooseValidationPatternMethod",
+      "file": "ResourceNamesClient.LooseValidationPatternMethodResourceNamesSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "LooseValidationPatternMethod",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.LooseValidationPatternMethod",
+        "resultType": "Testing.ResourceNames.Response",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "LooseValidationPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.LooseValidationPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION"
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_LooseValidationPatternMethod_async_flattened_resourceNames",
+      "title": "LooseValidationPatternMethodResourceNamesAsync",
+      "description": "Snippet for LooseValidationPatternMethodAsync",
+      "file": "ResourceNamesClient.LooseValidationPatternMethodResourceNamesAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "LooseValidationPatternMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.LooseValidationPatternMethodAsync",
+        "async": true,
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "LooseValidationPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.LooseValidationPatternMethod",
           "service": {
             "shortName": "ResourceNames",
             "fullName": "testing.resourcenames.ResourceNames"

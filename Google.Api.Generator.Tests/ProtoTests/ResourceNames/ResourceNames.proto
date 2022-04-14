@@ -29,6 +29,10 @@ service ResourceNames {
   rpc WildcardMultiPatternMultipleMethod(WildcardMultiPatternMultiple) returns(Response) {
     option (google.api.method_signature) = "ref, repeated_ref"; // `name` parameter delibrately missing.
   }
+
+  rpc LooseValidationPatternMethod(LooseValidationPattern) returns(Response) {
+    option (google.api.method_signature) = "name";
+  }
 }
 
 message SinglePattern {
@@ -89,6 +93,14 @@ message WildcardMultiPatternMultiple {
   string name = 1;
   string ref = 2 [(google.api.resource_reference).type = "resourcenames.example.com/WildcardMultiPatternMultiple"];
   repeated string repeated_ref = 3 [(google.api.resource_reference).type = "resourcenames.example.com/WildcardMultiPatternMultiple"];
+}
+
+message LooseValidationPattern {
+  option (google.api.resource) = {
+    type: "resourcenames.example.com/LooseValidationPattern"
+    pattern: "parents/{parent_id}/invalid_name/items/{item_id}"
+  };
+  string name = 1;
 }
 
 message Response { }

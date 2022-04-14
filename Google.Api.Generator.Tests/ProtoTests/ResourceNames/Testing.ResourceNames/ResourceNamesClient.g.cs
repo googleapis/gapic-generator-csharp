@@ -1,4 +1,4 @@
-﻿// Copyright 2019 Google LLC
+// Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -49,6 +49,7 @@ namespace Testing.ResourceNames
             WildcardOnlyPatternMethodSettings = existing.WildcardOnlyPatternMethodSettings;
             WildcardMultiPatternMethodSettings = existing.WildcardMultiPatternMethodSettings;
             WildcardMultiPatternMultipleMethodSettings = existing.WildcardMultiPatternMultipleMethodSettings;
+            LooseValidationPatternMethodSettings = existing.LooseValidationPatternMethodSettings;
             OnCopy(existing);
         }
 
@@ -117,6 +118,19 @@ namespace Testing.ResourceNames
         /// </list>
         /// </remarks>
         public gaxgrpc::CallSettings WildcardMultiPatternMultipleMethodSettings { get; set; } = gaxgrpc::CallSettings.FromExpiration(gax::Expiration.None);
+
+        /// <summary>
+        /// <see cref="gaxgrpc::CallSettings"/> for synchronous and asynchronous calls to
+        /// <c>ResourceNamesClient.LooseValidationPatternMethod</c> and
+        /// <c>ResourceNamesClient.LooseValidationPatternMethodAsync</c>.
+        /// </summary>
+        /// <remarks>
+        /// <list type="bullet">
+        /// <item><description>This call will not be retried.</description></item>
+        /// <item><description>No timeout is applied.</description></item>
+        /// </list>
+        /// </remarks>
+        public gaxgrpc::CallSettings LooseValidationPatternMethodSettings { get; set; } = gaxgrpc::CallSettings.FromExpiration(gax::Expiration.None);
 
         /// <summary>Creates a deep clone of this object, with all the same property values.</summary>
         /// <returns>A deep clone of this <see cref="ResourceNamesSettings"/> object.</returns>
@@ -1492,6 +1506,90 @@ namespace Testing.ResourceNames
         /// <returns>A Task containing the RPC response.</returns>
         public virtual stt::Task<Response> WildcardMultiPatternMultipleMethodAsync(gax::IResourceName @ref, scg::IEnumerable<gax::IResourceName> repeatedRef, st::CancellationToken cancellationToken) =>
             WildcardMultiPatternMultipleMethodAsync(@ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+
+        /// <summary>
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>The RPC response.</returns>
+        public virtual Response LooseValidationPatternMethod(LooseValidationPattern request, gaxgrpc::CallSettings callSettings = null) =>
+            throw new sys::NotImplementedException();
+
+        /// <summary>
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<Response> LooseValidationPatternMethodAsync(LooseValidationPattern request, gaxgrpc::CallSettings callSettings = null) =>
+            throw new sys::NotImplementedException();
+
+        /// <summary>
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<Response> LooseValidationPatternMethodAsync(LooseValidationPattern request, st::CancellationToken cancellationToken) =>
+            LooseValidationPatternMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+
+        /// <summary>
+        /// </summary>
+        /// <param name="name">
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>The RPC response.</returns>
+        public virtual Response LooseValidationPatternMethod(string name, gaxgrpc::CallSettings callSettings = null) =>
+            LooseValidationPatternMethod(new LooseValidationPattern { Name = name ?? "", }, callSettings);
+
+        /// <summary>
+        /// </summary>
+        /// <param name="name">
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<Response> LooseValidationPatternMethodAsync(string name, gaxgrpc::CallSettings callSettings = null) =>
+            LooseValidationPatternMethodAsync(new LooseValidationPattern { Name = name ?? "", }, callSettings);
+
+        /// <summary>
+        /// </summary>
+        /// <param name="name">
+        /// </param>
+        /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<Response> LooseValidationPatternMethodAsync(string name, st::CancellationToken cancellationToken) =>
+            LooseValidationPatternMethodAsync(name, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+
+        /// <summary>
+        /// </summary>
+        /// <param name="name">
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>The RPC response.</returns>
+        public virtual Response LooseValidationPatternMethod(LooseValidationPatternName name, gaxgrpc::CallSettings callSettings = null) =>
+            LooseValidationPatternMethod(new LooseValidationPattern
+            {
+                LooseValidationPatternName = name,
+            }, callSettings);
+
+        /// <summary>
+        /// </summary>
+        /// <param name="name">
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<Response> LooseValidationPatternMethodAsync(LooseValidationPatternName name, gaxgrpc::CallSettings callSettings = null) =>
+            LooseValidationPatternMethodAsync(new LooseValidationPattern
+            {
+                LooseValidationPatternName = name,
+            }, callSettings);
+
+        /// <summary>
+        /// </summary>
+        /// <param name="name">
+        /// </param>
+        /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<Response> LooseValidationPatternMethodAsync(LooseValidationPatternName name, st::CancellationToken cancellationToken) =>
+            LooseValidationPatternMethodAsync(name, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
     }
 
     /// <summary>ResourceNames client wrapper implementation, for convenient use.</summary>
@@ -1508,6 +1606,8 @@ namespace Testing.ResourceNames
         private readonly gaxgrpc::ApiCall<WildcardMultiPattern, Response> _callWildcardMultiPatternMethod;
 
         private readonly gaxgrpc::ApiCall<WildcardMultiPatternMultiple, Response> _callWildcardMultiPatternMultipleMethod;
+
+        private readonly gaxgrpc::ApiCall<LooseValidationPattern, Response> _callLooseValidationPatternMethod;
 
         /// <summary>
         /// Constructs a client wrapper for the ResourceNames service, with the specified gRPC client and settings.
@@ -1534,6 +1634,9 @@ namespace Testing.ResourceNames
             _callWildcardMultiPatternMultipleMethod = clientHelper.BuildApiCall<WildcardMultiPatternMultiple, Response>(grpcClient.WildcardMultiPatternMultipleMethodAsync, grpcClient.WildcardMultiPatternMultipleMethod, effectiveSettings.WildcardMultiPatternMultipleMethodSettings);
             Modify_ApiCall(ref _callWildcardMultiPatternMultipleMethod);
             Modify_WildcardMultiPatternMultipleMethodApiCall(ref _callWildcardMultiPatternMultipleMethod);
+            _callLooseValidationPatternMethod = clientHelper.BuildApiCall<LooseValidationPattern, Response>(grpcClient.LooseValidationPatternMethodAsync, grpcClient.LooseValidationPatternMethod, effectiveSettings.LooseValidationPatternMethodSettings);
+            Modify_ApiCall(ref _callLooseValidationPatternMethod);
+            Modify_LooseValidationPatternMethodApiCall(ref _callLooseValidationPatternMethod);
             OnConstruction(grpcClient, effectiveSettings, clientHelper);
         }
 
@@ -1549,6 +1652,8 @@ namespace Testing.ResourceNames
 
         partial void Modify_WildcardMultiPatternMultipleMethodApiCall(ref gaxgrpc::ApiCall<WildcardMultiPatternMultiple, Response> call);
 
+        partial void Modify_LooseValidationPatternMethodApiCall(ref gaxgrpc::ApiCall<LooseValidationPattern, Response> call);
+
         partial void OnConstruction(ResourceNames.ResourceNamesClient grpcClient, ResourceNamesSettings effectiveSettings, gaxgrpc::ClientHelper clientHelper);
 
         /// <summary>The underlying gRPC ResourceNames client</summary>
@@ -1563,6 +1668,8 @@ namespace Testing.ResourceNames
         partial void Modify_WildcardMultiPattern(ref WildcardMultiPattern request, ref gaxgrpc::CallSettings settings);
 
         partial void Modify_WildcardMultiPatternMultiple(ref WildcardMultiPatternMultiple request, ref gaxgrpc::CallSettings settings);
+
+        partial void Modify_LooseValidationPattern(ref LooseValidationPattern request, ref gaxgrpc::CallSettings settings);
 
         /// <summary>
         /// </summary>
@@ -1672,6 +1779,28 @@ namespace Testing.ResourceNames
         {
             Modify_WildcardMultiPatternMultiple(ref request, ref callSettings);
             return _callWildcardMultiPatternMultipleMethod.Async(request, callSettings);
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>The RPC response.</returns>
+        public override Response LooseValidationPatternMethod(LooseValidationPattern request, gaxgrpc::CallSettings callSettings = null)
+        {
+            Modify_LooseValidationPattern(ref request, ref callSettings);
+            return _callLooseValidationPatternMethod.Sync(request, callSettings);
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public override stt::Task<Response> LooseValidationPatternMethodAsync(LooseValidationPattern request, gaxgrpc::CallSettings callSettings = null)
+        {
+            Modify_LooseValidationPattern(ref request, ref callSettings);
+            return _callLooseValidationPatternMethod.Async(request, callSettings);
         }
     }
 }
