@@ -346,6 +346,7 @@ namespace Google.Api.Generator.Rest.Models
             );
 
             var commonDependencies = new XElement("ItemGroup",
+                PackageReference("Microsoft.NETFramework.ReferenceAssemblies", "1.0.2", new XAttribute("PrivateAssets", "All")),
                 PackageReference("ConfigureAwaitChecker.Analyzer", "5.0.0", new XAttribute("PrivateAssets", "All")),
                 PackageReference("SourceLink.Create.CommandLine", "2.8.3", new XAttribute("PrivateAssets", "All")),
                 PackageReference("Google.Apis", _features.CurrentSupportVersion),
