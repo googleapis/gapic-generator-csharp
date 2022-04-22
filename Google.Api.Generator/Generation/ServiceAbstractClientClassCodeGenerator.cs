@@ -90,7 +90,7 @@ namespace Google.Api.Generator.Generation
             // TODO: make this observe the transports we've been asked for.
             var apiTransports = _ctx.Type<ApiTransports>().Access(nameof(ApiTransports.Grpc));
             var apiMetadata = _ctx.Type(Typ.Manual(_svc.Namespace, PackageApiMetadataGenerator.ClassName)).Access(PackageApiMetadataGenerator.PropertyName);
-            return AutoProperty(Internal | Static, _ctx.Type<ServiceMetadata>(), "ServiceMetadata")
+            return AutoProperty(Public | Static, _ctx.Type<ServiceMetadata>(), "ServiceMetadata")
                 .WithInitializer(New(_ctx.Type<ServiceMetadata>())(serviceDescriptor, defaultEndpoint, defaultScopes, supportsScopedJwts, apiTransports, apiMetadata))
                 .WithXmlDoc(XmlDoc.Summary($"The service metadata associated with this client type."));
         }
