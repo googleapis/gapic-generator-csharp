@@ -6,6 +6,6 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.11.0" />
-    <PackageReference Include="Google.Api.Gax" Version="4.0.0-alpha02" />
+    <PackageReference Include="Google.Api.Gax" Version="4.0.0-alpha05" />
   </ItemGroup>
 </Project>
