@@ -1615,7 +1615,7 @@ namespace Testing.ResourceNames
             _callWildcardMultiPatternMultipleMethod = clientHelper.BuildApiCall<WildcardMultiPatternMultiple, Response>("WildcardMultiPatternMultipleMethod", grpcClient.WildcardMultiPatternMultipleMethodAsync, grpcClient.WildcardMultiPatternMultipleMethod, effectiveSettings.WildcardMultiPatternMultipleMethodSettings);
             Modify_ApiCall(ref _callWildcardMultiPatternMultipleMethod);
             Modify_WildcardMultiPatternMultipleMethodApiCall(ref _callWildcardMultiPatternMultipleMethod);
-            _callLooseValidationPatternMethod = clientHelper.BuildApiCall<LooseValidationPattern, Response>(grpcClient.LooseValidationPatternMethodAsync, grpcClient.LooseValidationPatternMethod, effectiveSettings.LooseValidationPatternMethodSettings);
+            _callLooseValidationPatternMethod = clientHelper.BuildApiCall<LooseValidationPattern, Response>("LooseValidationPatternMethod", grpcClient.LooseValidationPatternMethodAsync, grpcClient.LooseValidationPatternMethod, effectiveSettings.LooseValidationPatternMethodSettings);
             Modify_ApiCall(ref _callLooseValidationPatternMethod);
             Modify_LooseValidationPatternMethodApiCall(ref _callLooseValidationPatternMethod);
             OnConstruction(grpcClient, effectiveSettings, clientHelper);
