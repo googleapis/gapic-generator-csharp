@@ -1181,7 +1181,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.LooseValidationPatternMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.LooseValidationPatternMethod(request);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -1197,7 +1197,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.LooseValidationPatternMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.LooseValidationPatternMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.LooseValidationPatternMethodAsync(request, st::CancellationToken.None);
@@ -1215,7 +1215,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.LooseValidationPatternMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.LooseValidationPatternMethod(request.Name);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -1231,7 +1231,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.LooseValidationPatternMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.LooseValidationPatternMethodAsync(request.Name, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.LooseValidationPatternMethodAsync(request.Name, st::CancellationToken.None);
@@ -1249,7 +1249,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.LooseValidationPatternMethod(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(expectedResponse);
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response response = client.LooseValidationPatternMethod(request.LooseValidationPatternName);
             xunit::Assert.Same(expectedResponse, response);
             mockGrpcClient.VerifyAll();
@@ -1265,7 +1265,7 @@ namespace Testing.ResourceNames.Tests
             };
             Response expectedResponse = new Response { };
             mockGrpcClient.Setup(x => x.LooseValidationPatternMethodAsync(request, moq::It.IsAny<grpccore::CallOptions>())).Returns(new grpccore::AsyncUnaryCall<Response>(stt::Task.FromResult(expectedResponse), null, null, null, null));
-            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null);
+            ResourceNamesClient client = new ResourceNamesClientImpl(mockGrpcClient.Object, null, null);
             Response responseCallSettings = await client.LooseValidationPatternMethodAsync(request.LooseValidationPatternName, gaxgrpc::CallSettings.FromCancellationToken(st::CancellationToken.None));
             xunit::Assert.Same(expectedResponse, responseCallSettings);
             Response responseCancellationToken = await client.LooseValidationPatternMethodAsync(request.LooseValidationPatternName, st::CancellationToken.None);
