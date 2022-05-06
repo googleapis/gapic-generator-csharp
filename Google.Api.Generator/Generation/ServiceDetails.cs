@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Google.Api.Gax;
 
 namespace Google.Api.Generator.Generation
 {
@@ -40,7 +41,7 @@ namespace Google.Api.Generator.Generation
             new MixinDetails(Locations.Descriptor.FullName, typeof(LocationsClient), typeof(LocationsClientImpl), typeof(Locations.LocationsClient), typeof(LocationsSettings)),
         }.ToDictionary(details => details.GrpcServiceName);
 
-        public ServiceDetails(ProtoCatalog catalog, string ns, ServiceDescriptor desc, ServiceConfig grpcServiceConfig, Service serviceConfig)
+        public ServiceDetails(ProtoCatalog catalog, string ns, ServiceDescriptor desc, ServiceConfig grpcServiceConfig, Service serviceConfig, ApiTransports transports)
         {
             Catalog = catalog;
             Namespace = ns;
@@ -84,6 +85,7 @@ namespace Google.Api.Generator.Generation
                 // Don't use mixins within the package that contains that mixin.
                 .Where(mixin => mixin.GapicClientType.Namespace != ns)
                 .ToList() ?? Enumerable.Empty<MixinDetails>();
+            Transports = transports;
         }
 
         /// <summary>The lines of service documentation from the proto.</summary>
@@ -177,6 +179,11 @@ namespace Google.Api.Generator.Generation
         /// The services to be mixed in via additional client properties.
         /// </summary>
         public IEnumerable<MixinDetails> Mixins { get; }
+
+        /// <summary>
+        /// The transports that can be used with this service.
+        /// </summary>
+        public ApiTransports Transports { get; }
 
         /// <summary>
         /// The details of a service responsible for LRO polling for a non-standard LRO implementation.
