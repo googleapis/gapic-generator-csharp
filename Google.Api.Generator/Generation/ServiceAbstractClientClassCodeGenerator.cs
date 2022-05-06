@@ -18,6 +18,7 @@ using Google.Api.Generator.Utils;
 using Google.Api.Generator.Utils.Roslyn;
 using Grpc.Core;
 using Grpc.Core.Interceptors;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Logging;
 using System;
@@ -28,6 +29,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using static Google.Api.Generator.Utils.Roslyn.Modifier;
 using static Google.Api.Generator.Utils.Roslyn.RoslynBuilder;
+using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace Google.Api.Generator.Generation
 {
@@ -87,8 +89,17 @@ namespace Google.Api.Generator.Generation
         {
             var serviceDescriptor = _ctx.Type(_svc.ProtoTyp).Access("Descriptor");
             var supportsScopedJwts = true;
-            // TODO: make this observe the transports we've been asked for.
-            var apiTransports = _ctx.Type<ApiTransports>().Access(nameof(ApiTransports.Grpc));
+
+            // This is somewhat messy, but simpler than trying to generalise it - and even if we add a third transport, we'll only end up with another
+            // four cases to consider. It seems unlikely we'll ever have more than three...
+            var apiTransports = _svc.Transports switch
+            {
+                ApiTransports.Grpc => _ctx.Type<ApiTransports>().Access(nameof(ApiTransports.Grpc)),
+                ApiTransports.Rest => _ctx.Type<ApiTransports>().Access(nameof(ApiTransports.Rest)),
+                ApiTransports.Rest | ApiTransports.Grpc => BinaryExpression(SyntaxKind.BitwiseOrExpression, _ctx.Type<ApiTransports>().Access(nameof(ApiTransports.Grpc)), _ctx.Type<ApiTransports>().Access(nameof(ApiTransports.Rest))),
+                _ => throw new ArgumentException($"Unable to create service metadata for transports '{_svc.Transports}'")
+            };
+            
             var apiMetadata = _ctx.Type(Typ.Manual(_svc.Namespace, PackageApiMetadataGenerator.ClassName)).Access(PackageApiMetadataGenerator.PropertyName);
             return AutoProperty(Public | Static, _ctx.Type<ServiceMetadata>(), "ServiceMetadata")
                 .WithInitializer(New(_ctx.Type<ServiceMetadata>())(serviceDescriptor, defaultEndpoint, defaultScopes, supportsScopedJwts, apiTransports, apiMetadata))

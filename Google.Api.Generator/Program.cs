@@ -32,11 +32,13 @@ namespace Google.Api.Generator
         private const string nameGrpcServiceConfig = "grpc-service-config";
         private const string nameServiceConfigYaml = "service-config";
         private const string nameCommonResourcesConfig = "common-resources-config";
+        private const string nameTransport = "transport";
 
         private static IImmutableSet<string> s_validParameters = ImmutableHashSet.Create(
             nameGrpcServiceConfig,
             nameCommonResourcesConfig,
-            nameServiceConfigYaml);
+            nameServiceConfigYaml,
+            nameTransport);
 
         public class Options
         {
@@ -58,6 +60,9 @@ namespace Google.Api.Generator
             [Option(nameCommonResourcesConfig, Required = false, HelpText = "Common resources config path. JSON proto of type CommonResources.")]
             public IEnumerable<string> CommonResourcesConfigs { get; private set; }
 
+            [Option(nameTransport, Required = false, HelpText = "Semi-colon-separated list of transports to generate for the main API.")]
+            public string Transport { get; private set; }
+
             [Usage]
             public static IEnumerable<Example> Examples => new[]
             {
@@ -69,6 +74,7 @@ namespace Google.Api.Generator
                         Descriptor = Path.Combine("path", "to", "serialized", "FileDescriptorSet"),
                         Package = "your.service.proto_package",
                         Output = Path.Combine("path", "to", "output", "directory"),
+                        Transport = "grpc;rest"
                     }),
             };
         }
@@ -173,9 +179,10 @@ namespace Google.Api.Generator
                 var grpcServiceConfigPath = extraParams.GetValueOrDefault(nameGrpcServiceConfig)?.SingleOrDefault();
                 var serviceConfigPath = extraParams.GetValueOrDefault(nameServiceConfigYaml)?.SingleOrDefault();
                 var commonResourcesConfigPaths = extraParams.GetValueOrDefault(nameCommonResourcesConfig);
+                var transports = ParseTransports(extraParams.GetValueOrDefault(nameTransport)?.SingleOrDefault());
 
                 var results = CodeGenerator.Generate(codeGenRequest.ProtoFile, codeGenRequest.FileToGenerate,
-                    SystemClock.Instance, grpcServiceConfigPath, serviceConfigPath, commonResourcesConfigPaths);
+                    SystemClock.Instance, grpcServiceConfigPath, serviceConfigPath, commonResourcesConfigPaths, transports);
 
                 codeGenResponse = new CodeGeneratorResponse
                 {
@@ -233,14 +240,30 @@ namespace Google.Api.Generator
         {
             var descriptorBytes = File.ReadAllBytes(options.Descriptor);
             var fileDescriptorSet = FileDescriptorSet.Parser.ParseFrom(descriptorBytes);
+            var transports = ParseTransports(options.Transport);
             var files = CodeGenerator.Generate(fileDescriptorSet, options.Package, SystemClock.Instance,
-                options.GrpcServiceConfig, options.ServiceConfigYaml, options.CommonResourcesConfigs);
+                options.GrpcServiceConfig, options.ServiceConfigYaml, options.CommonResourcesConfigs, transports);
             foreach (var file in files)
             {
                 var path = Path.Combine(options.Output, file.RelativePath);
                 Directory.CreateDirectory(Path.GetDirectoryName(path));
                 File.WriteAllText(path, file.Content);
             }
+
+        }
+        private static ApiTransports ParseTransports(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return ApiTransports.Grpc;
+            }
+            var parts = text.Split(';');
+            ApiTransports ret = ApiTransports.None;
+            foreach (var part in parts)
+            {
+                ret |= Enum.Parse<ApiTransports>(part, ignoreCase: true);
+            }
+            return ret;
         }
     }
 }
