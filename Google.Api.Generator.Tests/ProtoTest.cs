@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Google.Api.Gax;
 using Google.Api.Gax.Testing;
 using Google.Api.Generator.Generation;
 using Google.Api.Generator.Testing;
@@ -28,7 +29,7 @@ namespace Google.Api.Generator.Tests
     public class ProtoTest
     {
         private IEnumerable<ResultFile> Run(IEnumerable<string> protoFilenames, string package,
-            string grpcServiceConfigPath, string serviceConfigPath, IEnumerable<string> commonResourcesConfigPaths)
+            string grpcServiceConfigPath, string serviceConfigPath, IEnumerable<string> commonResourcesConfigPaths, ApiTransports transports)
         {
             var clock = new FakeClock(new DateTime(2019, 1, 1));
             var protoPaths = protoFilenames.Select(x => Path.Combine(Invoker.GeneratorTestsDir, x));
@@ -47,7 +48,7 @@ namespace Google.Api.Generator.Tests
 
                 var descriptorBytes = File.ReadAllBytes(desc.Path);
                 FileDescriptorSet descriptorSet = FileDescriptorSet.Parser.ParseFrom(descriptorBytes);
-                return CodeGenerator.Generate(descriptorSet, package, clock, grpcServiceConfigPath, serviceConfigPath, commonResourcesConfigPaths);
+                return CodeGenerator.Generate(descriptorSet, package, clock, grpcServiceConfigPath, serviceConfigPath, commonResourcesConfigPaths, transports);
             }
         }
 
@@ -56,12 +57,12 @@ namespace Google.Api.Generator.Tests
         {
             // Test that protoc executes successfully,
             // and the generator processes the descriptors without crashing!
-            Run(new[] { "ProtoTest.proto" }, "testing", null, null, null);
+            Run(new[] { "ProtoTest.proto" }, "testing", null, null, null, ApiTransports.Grpc);
         }
 
         private void ProtoTestSingle(string testProtoName,
             bool ignoreCsProj = false, bool ignoreSnippets = false, bool ignoreUnitTests = false,
-            string grpcServiceConfigPath = null, string serviceConfigPath = null, IEnumerable<string> commonResourcesConfigPaths = null,
+            string grpcServiceConfigPath = null, string serviceConfigPath = null, IEnumerable<string> commonResourcesConfigPaths = null, ApiTransports transports = ApiTransports.Grpc,
             bool ignoreGapicMetadataFile = true, bool ignoreApiMetadataFile = true, bool ignoreServiceExtensionsFile = true) =>
             ProtoTestSingle(
                 new[] { testProtoName },
@@ -75,6 +76,7 @@ namespace Google.Api.Generator.Tests
                 grpcServiceConfigPath,
                 serviceConfigPath,
                 commonResourcesConfigPaths,
+                transports,
                 ignoreGapicMetadataFile,
                 ignoreApiMetadataFile,
                 ignoreServiceExtensionsFile
@@ -82,7 +84,7 @@ namespace Google.Api.Generator.Tests
 
         private void ProtoTestSingle(IEnumerable<string> testProtoNames, string sourceDir = null, string outputDir = null, string package = null,
             bool ignoreCsProj = false, bool ignoreSnippets = false, bool ignoreUnitTests = false,
-            string grpcServiceConfigPath = null, string serviceConfigPath = null, IEnumerable<string> commonResourcesConfigPaths = null,
+            string grpcServiceConfigPath = null, string serviceConfigPath = null, IEnumerable<string> commonResourcesConfigPaths = null, ApiTransports transports = ApiTransports.Grpc,
             bool ignoreGapicMetadataFile = true, bool ignoreApiMetadataFile = true, bool ignoreServiceExtensionsFile = true)
         {
             // Confirm each generated file is identical to the expected output.
@@ -94,7 +96,7 @@ namespace Google.Api.Generator.Tests
             package = package ?? $"testing.{sourceDir.ToLowerInvariant()}";
 
             var files = Run(protoPaths, package,
-                grpcServiceConfigPath, serviceConfigPath, commonResourcesConfigPaths);
+                grpcServiceConfigPath, serviceConfigPath, commonResourcesConfigPaths, transports);
             // Check output is present.
             Assert.NotEmpty(files);
 
@@ -264,6 +266,7 @@ namespace Google.Api.Generator.Tests
             sourceDir: "Showcase/google/showcase/v1beta1",
             outputDir: "Showcase",
             package: "google.showcase.v1beta1",
+            transports: ApiTransports.Grpc | ApiTransports.Rest,
             ignoreUnitTests: true,
             ignoreSnippets: true,
             ignoreApiMetadataFile: false);

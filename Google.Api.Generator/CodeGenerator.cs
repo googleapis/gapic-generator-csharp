@@ -94,15 +94,15 @@ namespace Google.Api.Generator
         };
 
         public static IEnumerable<ResultFile> Generate(FileDescriptorSet descriptorSet, string package, IClock clock,
-            string grpcServiceConfigPath, string serviceConfigPath, IEnumerable<string> commonResourcesConfigPaths)
+            string grpcServiceConfigPath, string serviceConfigPath, IEnumerable<string> commonResourcesConfigPaths, ApiTransports transports)
         {
             var descriptors = descriptorSet.File;
             var filesToGenerate = descriptors.Where(x => x.Package == package).Select(x => x.Name).ToList();
-            return Generate(descriptors, filesToGenerate, clock, grpcServiceConfigPath, serviceConfigPath, commonResourcesConfigPaths);
+            return Generate(descriptors, filesToGenerate, clock, grpcServiceConfigPath, serviceConfigPath, commonResourcesConfigPaths, transports);
         }
 
         public static IEnumerable<ResultFile> Generate(IReadOnlyList<FileDescriptorProto> descriptorProtos, IEnumerable<string> filesToGenerate, IClock clock,
-            string grpcServiceConfigPath, string serviceConfigPath, IEnumerable<string> commonResourcesConfigPaths)
+            string grpcServiceConfigPath, string serviceConfigPath, IEnumerable<string> commonResourcesConfigPaths, ApiTransports transports)
         {
             var descriptors = FileDescriptor.BuildFromByteStrings(descriptorProtos.Select(proto => proto.ToByteString()), s_registry);
             // Load side-loaded configurations; both optional.
@@ -131,7 +131,7 @@ namespace Google.Api.Generator
                         $"Found namespaces '{string.Join(", ", namespaces)}' in package '{singlePackageFileDescs.Key}'.");
                 }
                 var catalog = new ProtoCatalog(singlePackageFileDescs.Key, descriptors, singlePackageFileDescs, commonResourcesConfigs);
-                foreach (var resultFile in GeneratePackage(namespaces[0], singlePackageFileDescs, catalog, clock, grpcServiceConfig, serviceConfig, allServiceDetails))
+                foreach (var resultFile in GeneratePackage(namespaces[0], singlePackageFileDescs, catalog, clock, grpcServiceConfig, serviceConfig, allServiceDetails, transports))
                 {
                     yield return resultFile;
                 }
@@ -185,7 +185,7 @@ namespace Google.Api.Generator
 
         private static IEnumerable<ResultFile> GeneratePackage(string ns,
             IEnumerable<FileDescriptor> packageFileDescriptors, ProtoCatalog catalog, IClock clock,
-            ServiceConfig grpcServiceConfig, Service serviceConfig, List<ServiceDetails> allServiceDetails)
+            ServiceConfig grpcServiceConfig, Service serviceConfig, List<ServiceDetails> allServiceDetails, ApiTransports transports)
         {
             var clientPathPrefix = $"{ns}{Path.DirectorySeparatorChar}";
             var serviceSnippetsPathPrefix = $"{ns}.Snippets{Path.DirectorySeparatorChar}";
@@ -210,7 +210,7 @@ namespace Google.Api.Generator
                 foreach (var service in fileDesc.Services)
                 {
                     // Generate settings and client code for requested package.
-                    var serviceDetails = new ServiceDetails(catalog, ns, service, grpcServiceConfig, serviceConfig);
+                    var serviceDetails = new ServiceDetails(catalog, ns, service, grpcServiceConfig, serviceConfig, transports);
                     packageServiceDetails.Add(serviceDetails);
 
                     var ctx = SourceFileContext.CreateFullyAliased(clock, s_wellknownNamespaceAliases);
