@@ -32,7 +32,7 @@ namespace Google.Api.Generator.Generation
         private const string TestSdkVersion = "17.2.0";
         private const string XUnitRunnerVersion = "2.4.5";
         private const string XUnitVersion = "2.4.1";
-        private const string MoqVersion = "4.17.2";
+        private const string MoqVersion = "4.18.0";
         private static readonly Dictionary<string, (string, string)> MixinToPackageAndVersion = new Dictionary<string, (string, string)>
         {
             { IAMPolicy.Descriptor.FullName, (typeof(IAMPolicyClient).Namespace, IamVersion) },
