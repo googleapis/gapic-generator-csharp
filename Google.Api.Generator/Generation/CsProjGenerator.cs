@@ -29,7 +29,7 @@ namespace Google.Api.Generator.Generation
         private const string LocationVersion = "[2.0.0-alpha05, 3.0.0)";
         private const string ReferenceAssembliesVersion = "1.0.2";
         private const string SystemLinqAsyncVersion = "6.0.1";
-        private const string TestSdkVersion = "17.1.0";
+        private const string TestSdkVersion = "17.2.0";
         private const string XUnitRunnerVersion = "2.4.5";
         private const string XUnitVersion = "2.4.1";
         private const string MoqVersion = "4.17.2";
