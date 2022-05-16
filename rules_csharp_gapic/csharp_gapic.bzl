@@ -41,6 +41,7 @@ def csharp_gapic_library(
         grpc_service_config = None,
         common_resources_config = None,
         service_yaml = None,
+        generator_binary = "//rules_csharp_gapic:csharp_gapic_generator_binary",
         **kwargs):
     # Build zip file of gapic-generator output
     name_srcjar = "{name}_srcjar".format(name = name)
@@ -54,7 +55,7 @@ def csharp_gapic_library(
     proto_custom_library(
         name = name_srcjar,
         deps = srcs,
-        plugin = Label("//rules_csharp_gapic:csharp_gapic_generator_binary"),
+        plugin = Label(generator_binary),
         plugin_file_args = plugin_file_args,
         output_type = "gapic",
         output_suffix = ".srcjar",

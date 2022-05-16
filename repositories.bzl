@@ -16,7 +16,7 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 load("@bazel_tools//tools/build_defs/repo:utils.bzl", "maybe")
 load("//rules_csharp_gapic:csharp_compiler_repo.bzl", "csharp_compiler", "dotnet_restore")
 
-def gapic_generator_csharp_repositories():
+def gapic_generator_csharp_repositories(gapic_generator_suffix = ""):
     _rules_gapic_version = "0.8.0"
     _rules_gapic_sha256 = "75705d03068ba07cc885a85bb4585e2a278414e31510e60577df8437a28a4ae1"
 
@@ -34,6 +34,6 @@ def gapic_generator_csharp_repositories():
     )
     maybe(
         dotnet_restore,
-        name = "gapic_generator_restore",
-        csproj = "@gapic_generator_csharp//:Google.Api.Generator/Google.Api.Generator.csproj",
+        name = "gapic_generator_restore%s" % gapic_generator_suffix,
+        csproj = "@gapic_generator_csharp%s//:Google.Api.Generator/Google.Api.Generator.csproj" % gapic_generator_suffix,
     )
