@@ -14,6 +14,7 @@
 
 // Generated code. DO NOT EDIT!
 
+#pragma warning disable CS8981
 using gaxgrpc = Google.Api.Gax.Grpc;
 using gpr = Google.Protobuf.Reflection;
 using gsv = Google.Showcase.V1Beta1;

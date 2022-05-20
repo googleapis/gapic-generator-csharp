@@ -14,6 +14,8 @@
 
 // Generated code. DO NOT EDIT!
 
+#pragma warning disable CS8981
+
 namespace Testing.Snippets.Snippets
 {
     using Google.Api.Gax;

@@ -14,6 +14,8 @@
 
 // Generated code. DO NOT EDIT!
 
+#pragma warning disable CS8981
+
 namespace Testing.Snippets.Snippets
 {
     // [START snippets_generated_Snippets_MethodResourceSignature_async]

@@ -14,6 +14,7 @@
 
 // Generated code. DO NOT EDIT!
 
+#pragma warning disable CS8981
 using cn = Common.Namespace;
 
 namespace Testing.CommonResource

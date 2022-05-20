@@ -14,6 +14,7 @@
 
 // Generated code. DO NOT EDIT!
 
+#pragma warning disable CS8981
 using cn = Common.Namespace;
 using gaxgrpc = Google.Api.Gax.Grpc;
 using stt = System.Threading.Tasks;
