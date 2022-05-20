@@ -23,6 +23,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Text.RegularExpressions;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
+using static Google.Api.Generator.Utils.Roslyn.RoslynBuilder;
 
 namespace Google.Api.Generator.Utils
 {
@@ -31,6 +32,14 @@ namespace Google.Api.Generator.Utils
     /// </summary>
     public abstract class SourceFileContext
     {
+        /// <summary>
+        /// Warning ID for "The type name only contains lower-cased ascii characters".
+        /// This is a warning to avoid conflicts between type names and contextual keywords introduced
+        /// in later versions of C#, but it also applies to namespace aliases - which we use quite a lot.
+        /// The aliases we use are very unlikely to become keywords, so we disable the warning.
+        /// </summary>
+        private const string LowerCaseTypeWarning = "CS8981";
+
         private sealed class FullyAliased : SourceFileContext
         {
             private readonly IReadOnlyDictionary<string, string> _wellKnownNamespaceAliases;
@@ -92,7 +101,11 @@ namespace Google.Api.Generator.Utils
                 var usings = _namespaceAliases
                     .OrderBy(x => x.Key)
                     .Select(x => UsingDirective(NameEquals(x.Value), IdentifierName(x.Key)));
-                return AddLicense(CompilationUnit().AddUsings(usings.ToArray()).AddMembers(ns));
+                var unit = CompilationUnit()
+                    .AddUsings(usings.ToArray())
+                    .AddMembers(ns)
+                    .WithLeadingTrivia(DisableWarningPragma(LowerCaseTypeWarning));
+                return AddLicense(unit);
             }
         }
 
@@ -412,6 +425,11 @@ namespace Google.Api.Generator.Utils
                 var usings = typeAliaser.UnaliasedNamespaces.OrderBy(x => x).Select(x => UsingDirective(IdentifierName(x)))
                     .Concat(typeAliaser.AliasedNamespaces.OrderBy(x => x.Key).Select(x => UsingDirective(NameEquals(x.Value), IdentifierName(x.Key))));
                 ns = ns.AddUsings(usings.ToArray());
+                // Only disable warning CS8981 if we need to.
+                if (typeAliaser.AliasedNamespaces.Any())
+                {
+                    ns = ns.WithLeadingTrivia(DisableWarningPragma(LowerCaseTypeWarning));
+                }
                 // Return compilation-unit with license.
                 var compilationUnit = CompilationUnit().AddMembers(ns);
                 return AddLicense(compilationUnit);
@@ -669,12 +687,13 @@ namespace Google.Api.Generator.Utils
 ".TrimStart();
             var licenseTrivia = TriviaList(licenseText.Replace("\r\n", "\n").Replace('\r', '\n')
                 .Split('\n')
-                .Select(x => x.StartsWith("//") || x == "" ? Comment(x) : throw new InvalidOperationException("Invalid text in license.")));
+                .Select(x => x.StartsWith("//") || x == "" ? Comment(x) : throw new InvalidOperationException("Invalid text in license.")))
+                .ToArray();
             if (cu.Usings.Any())
             {
                 // Using directives present, so attach license to the first using directive.
                 var u0 = cu.Usings[0];
-                var u0Licensed = u0.WithUsingKeyword(u0.UsingKeyword.WithLeadingTrivia(licenseTrivia));
+                var u0Licensed = u0.WithUsingKeyword(u0.UsingKeyword.WithPrependedLeadingTrivia(licenseTrivia));
                 return cu.WithUsings(List(cu.Usings.Skip(1).Prepend(u0Licensed)));
             }
             else
@@ -683,7 +702,9 @@ namespace Google.Api.Generator.Utils
                 switch (cu.Members[0])
                 {
                     case NamespaceDeclarationSyntax ns0:
-                        var ns0Licensed = ns0.WithNamespaceKeyword(ns0.NamespaceKeyword.WithLeadingTrivia(licenseTrivia));
+                        // Note: this is fiddlier than is ideal, but it's easy to either end up with no whitespace
+                        // before the namespace declaration, or too much. Ideally, the WhitespaceFormatter would handle all of this.
+                        var ns0Licensed = ns0.WithLeadingTrivia(licenseTrivia.Concat(ns0.GetLeadingTrivia().SkipWhile(x => x.Span.IsEmpty)));
                         return cu.WithMembers(List(cu.Members.Skip(1).Prepend(ns0Licensed)));
                     default:
                         throw new InvalidOperationException("Cannot find an item to attach license to.");
