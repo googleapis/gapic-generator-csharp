@@ -338,5 +338,8 @@ namespace Google.Api.Generator.Utils.Roslyn
         public static ArgumentsFunc<ExpressionSyntax> ThisQualifiedCall(object method, params TypeSyntax[] genericArgs) => args =>
             InvocationExpression(MemberAccessExpression(
                 SyntaxKind.SimpleMemberAccessExpression, This, ToSimpleName(method, genericArgs)), CreateArgList(args));
+
+        public static SyntaxTrivia DisableWarningPragma(string warningId) =>
+            Trivia(PragmaWarningDirectiveTrivia(Token(SyntaxKind.DisableKeyword), SingletonSeparatedList<ExpressionSyntax>(IdentifierName(warningId)), true));
     }
 }
