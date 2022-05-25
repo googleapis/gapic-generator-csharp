@@ -86,7 +86,7 @@ namespace Google.Api.Generator.Generation
 
   <ItemGroup>
     <PackageReference Include=""Google.Api.Gax.Grpc"" Version=""{GaxGrpcVersion}"" />
-    <PackageReference Include=""Grpc.Core"" Version=""{GrpcCoreVersion}"" />
+    <PackageReference Include=""Grpc.Core"" Version=""{GrpcCoreVersion}"" Condition=""'$(TargetFramework)'=='net462'"" />
     <PackageReference Include=""Microsoft.NETFramework.ReferenceAssemblies"" Version=""{ReferenceAssembliesVersion}"" PrivateAssets=""All"" />{packageRefs}
   </ItemGroup>
 
