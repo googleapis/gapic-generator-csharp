@@ -60,7 +60,7 @@ namespace Google.Api.Generator
             [Option(nameCommonResourcesConfig, Required = false, HelpText = "Common resources config path. JSON proto of type CommonResources.")]
             public IEnumerable<string> CommonResourcesConfigs { get; private set; }
 
-            [Option(nameTransport, Required = false, HelpText = "Semi-colon-separated list of transports to generate for the main API.")]
+            [Option(nameTransport, Required = false, HelpText = "Plus-separated list of transports to generate for the main API.")]
             public string Transport { get; private set; }
 
             [Usage]
@@ -74,7 +74,7 @@ namespace Google.Api.Generator
                         Descriptor = Path.Combine("path", "to", "serialized", "FileDescriptorSet"),
                         Package = "your.service.proto_package",
                         Output = Path.Combine("path", "to", "output", "directory"),
-                        Transport = "grpc;rest"
+                        Transport = "grpc+rest"
                     }),
             };
         }
@@ -257,7 +257,7 @@ namespace Google.Api.Generator
             {
                 return ApiTransports.Grpc;
             }
-            var parts = text.Split(';');
+            var parts = text.Split('+');
             ApiTransports ret = ApiTransports.None;
             foreach (var part in parts)
             {
