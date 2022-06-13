@@ -41,7 +41,7 @@ namespace Google.Api.Generator.Tests
             var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
             ProtocFile = Path.Combine(RootDir, "tools", isWindows ? "protoc.exe" : "protoc");
             Runtime = isWindows ? "win-x64" : "linux-x64";
-            PluginFile = Path.Combine(GeneratorDir, "bin", "Debug", "netcoreapp3.1", Runtime, "publish",
+            PluginFile = Path.Combine(GeneratorDir, "bin", "Debug", "net6.0", Runtime, "publish",
                 isWindows ? "Google.Api.Generator.exe" : "Google.Api.Generator");
             CommonProtosDir = Path.Combine(RootDir, "googleapis");
             ProtobufDir = Path.Combine(RootDir, "tools", "protos");
