@@ -81,7 +81,7 @@ csharp_binary = rule(
         "csharp_compiler": attr.label(default=Label("@csharp_compiler//:dotnet_compiler"), allow_single_file=True, executable=True, cfg="host"),
         "restore": attr.label(allow_single_file=True),
         "csproj": attr.label(allow_single_file=True),
-        "framework": attr.string(default="netcoreapp3.1"),
+        "framework": attr.string(default="net6.0"),
         "configuration": attr.string(default="Debug"),
     },
     executable = True,
