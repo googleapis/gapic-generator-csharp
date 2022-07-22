@@ -94,15 +94,15 @@ namespace Google.Api.Generator
         };
 
         public static IEnumerable<ResultFile> Generate(FileDescriptorSet descriptorSet, string package, IClock clock,
-            string grpcServiceConfigPath, string serviceConfigPath, IEnumerable<string> commonResourcesConfigPaths, ApiTransports transports)
+            string grpcServiceConfigPath, string serviceConfigPath, IEnumerable<string> commonResourcesConfigPaths, ApiTransports transports, bool requestNumericEnumJsonEncoding)
         {
             var descriptors = descriptorSet.File;
             var filesToGenerate = descriptors.Where(x => x.Package == package).Select(x => x.Name).ToList();
-            return Generate(descriptors, filesToGenerate, clock, grpcServiceConfigPath, serviceConfigPath, commonResourcesConfigPaths, transports);
+            return Generate(descriptors, filesToGenerate, clock, grpcServiceConfigPath, serviceConfigPath, commonResourcesConfigPaths, transports, requestNumericEnumJsonEncoding);
         }
 
         public static IEnumerable<ResultFile> Generate(IReadOnlyList<FileDescriptorProto> descriptorProtos, IEnumerable<string> filesToGenerate, IClock clock,
-            string grpcServiceConfigPath, string serviceConfigPath, IEnumerable<string> commonResourcesConfigPaths, ApiTransports transports)
+            string grpcServiceConfigPath, string serviceConfigPath, IEnumerable<string> commonResourcesConfigPaths, ApiTransports transports, bool requestNumericEnumJsonEncoding)
         {
             var descriptors = FileDescriptor.BuildFromByteStrings(descriptorProtos.Select(proto => proto.ToByteString()), s_registry);
             // Load side-loaded configurations; both optional.
@@ -131,7 +131,10 @@ namespace Google.Api.Generator
                         $"Found namespaces '{string.Join(", ", namespaces)}' in package '{singlePackageFileDescs.Key}'.");
                 }
                 var catalog = new ProtoCatalog(singlePackageFileDescs.Key, descriptors, singlePackageFileDescs, commonResourcesConfigs);
-                foreach (var resultFile in GeneratePackage(namespaces[0], singlePackageFileDescs, catalog, clock, grpcServiceConfig, serviceConfig, allServiceDetails, transports))
+                foreach (var resultFile in GeneratePackage(
+                    namespaces[0], singlePackageFileDescs, catalog, clock,
+                    grpcServiceConfig, serviceConfig, allServiceDetails,
+                    transports, requestNumericEnumJsonEncoding))
                 {
                     yield return resultFile;
                 }
@@ -185,7 +188,8 @@ namespace Google.Api.Generator
 
         private static IEnumerable<ResultFile> GeneratePackage(string ns,
             IEnumerable<FileDescriptor> packageFileDescriptors, ProtoCatalog catalog, IClock clock,
-            ServiceConfig grpcServiceConfig, Service serviceConfig, List<ServiceDetails> allServiceDetails, ApiTransports transports)
+            ServiceConfig grpcServiceConfig, Service serviceConfig, List<ServiceDetails> allServiceDetails,
+            ApiTransports transports, bool requestNumericEnumJsonEncoding)
         {
             var clientPathPrefix = $"{ns}{Path.DirectorySeparatorChar}";
             var serviceSnippetsPathPrefix = $"{ns}.Snippets{Path.DirectorySeparatorChar}";
@@ -304,7 +308,7 @@ namespace Google.Api.Generator
 
                     // Generate the package-wide API metadata
                     var ctx = SourceFileContext.CreateFullyAliased(clock, s_wellknownNamespaceAliases);
-                    var packageApiMetadataContent = PackageApiMetadataGenerator.GeneratePackageApiMetadata(ns, ctx, packageFileDescriptors);
+                    var packageApiMetadataContent = PackageApiMetadataGenerator.GeneratePackageApiMetadata(ns, ctx, packageFileDescriptors, requestNumericEnumJsonEncoding);
                     var packageApiMetadataFilename = $"{clientPathPrefix}{PackageApiMetadataGenerator.FileName}";
                     yield return new ResultFile(packageApiMetadataFilename, packageApiMetadataContent);
 

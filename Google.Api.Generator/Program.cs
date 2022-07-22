@@ -33,6 +33,7 @@ namespace Google.Api.Generator
         private const string nameServiceConfigYaml = "service-config";
         private const string nameCommonResourcesConfig = "common-resources-config";
         private const string nameTransport = "transport";
+        private const string nameRequestNumericEnumJsonEncoding = "rest-numeric-enums";
 
         private static IImmutableSet<string> s_validParameters = ImmutableHashSet.Create(
             nameGrpcServiceConfig,
@@ -62,6 +63,9 @@ namespace Google.Api.Generator
 
             [Option(nameTransport, Required = false, HelpText = "Plus-separated list of transports to generate for the main API.")]
             public string Transport { get; private set; }
+
+            [Option(nameRequestNumericEnumJsonEncoding, Required = false, HelpText = "Whether to add an alt query parameter to request numeric enums for REST requests")]
+            public bool RequestNumericEnumJsonEncoding { get; private set; }
 
             [Usage]
             public static IEnumerable<Example> Examples => new[]
@@ -180,9 +184,10 @@ namespace Google.Api.Generator
                 var serviceConfigPath = extraParams.GetValueOrDefault(nameServiceConfigYaml)?.SingleOrDefault();
                 var commonResourcesConfigPaths = extraParams.GetValueOrDefault(nameCommonResourcesConfig);
                 var transports = ParseTransports(extraParams.GetValueOrDefault(nameTransport)?.SingleOrDefault());
+                var requestNumericEnumJsonEncoding = extraParams.GetValueOrDefault(nameRequestNumericEnumJsonEncoding)?.SingleOrDefault() == "true";
 
                 var results = CodeGenerator.Generate(codeGenRequest.ProtoFile, codeGenRequest.FileToGenerate,
-                    SystemClock.Instance, grpcServiceConfigPath, serviceConfigPath, commonResourcesConfigPaths, transports);
+                    SystemClock.Instance, grpcServiceConfigPath, serviceConfigPath, commonResourcesConfigPaths, transports, requestNumericEnumJsonEncoding);
 
                 codeGenResponse = new CodeGeneratorResponse
                 {
@@ -242,7 +247,8 @@ namespace Google.Api.Generator
             var fileDescriptorSet = FileDescriptorSet.Parser.ParseFrom(descriptorBytes);
             var transports = ParseTransports(options.Transport);
             var files = CodeGenerator.Generate(fileDescriptorSet, options.Package, SystemClock.Instance,
-                options.GrpcServiceConfig, options.ServiceConfigYaml, options.CommonResourcesConfigs, transports);
+                options.GrpcServiceConfig, options.ServiceConfigYaml, options.CommonResourcesConfigs,
+                transports, options.RequestNumericEnumJsonEncoding);
             foreach (var file in files)
             {
                 var path = Path.Combine(options.Output, file.RelativePath);
