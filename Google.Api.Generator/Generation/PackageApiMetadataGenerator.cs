@@ -34,18 +34,18 @@ namespace Google.Api.Generator.Generation
         internal const string FileName = ClassName + ".g.cs";
         internal const string PropertyName = "ApiMetadata";
 
-        public static CompilationUnitSyntax GeneratePackageApiMetadata(string ns, SourceFileContext ctx, IEnumerable<FileDescriptor> packageFileDescriptors)
+        public static CompilationUnitSyntax GeneratePackageApiMetadata(string ns, SourceFileContext ctx, IEnumerable<FileDescriptor> packageFileDescriptors, bool requestNumericEnumJsonEncoding)
         {
             var namespaceDeclaration = Namespace(ns);
             using (ctx.InNamespace(namespaceDeclaration))
             {
-                var descriptorClass = GenerateClass(ns, ctx, packageFileDescriptors);
+                var descriptorClass = GenerateClass(ns, ctx, packageFileDescriptors, requestNumericEnumJsonEncoding);
                 namespaceDeclaration = namespaceDeclaration.AddMembers(descriptorClass);
             }
             return ctx.CreateCompilationUnit(namespaceDeclaration);
         }
 
-        private static ClassDeclarationSyntax GenerateClass(string ns, SourceFileContext ctx, IEnumerable<FileDescriptor> packageFileDescriptors)
+        private static ClassDeclarationSyntax GenerateClass(string ns, SourceFileContext ctx, IEnumerable<FileDescriptor> packageFileDescriptors, bool requestNumericEnumJsonEncoding)
         {
             var typ = Typ.Manual(ns, ClassName);
             var cls = Class(Internal | Static, typ)
@@ -56,8 +56,13 @@ namespace Google.Api.Generator.Generation
                 .WithBlockBody(yieldStatements);
 
             var apiMetadataType = ctx.Type<ApiMetadata>();
+            ExpressionSyntax initializer = New(apiMetadataType)(ns, IdentifierName(fileDescriptorMethod.Identifier));
+            if (requestNumericEnumJsonEncoding)
+            {
+                initializer = initializer.Call(nameof(ApiMetadata.WithRequestNumericEnumJsonEncoding))(true);
+            }
             var property = AutoProperty(Internal | Static, apiMetadataType, PropertyName)
-                .WithInitializer(New(apiMetadataType)(ns, IdentifierName(fileDescriptorMethod.Identifier)))
+                .WithInitializer(initializer)
                 .WithXmlDoc(XmlDoc.Summary("The ", apiMetadataType, " for services in this package."));
             return cls.AddMembers(property, fileDescriptorMethod);
 
