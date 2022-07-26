@@ -20,6 +20,7 @@ using Google.Api.Generator.Utils.Roslyn;
 using Google.Protobuf.Reflection;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using static Google.Api.Generator.Utils.Roslyn.Modifier;
@@ -51,7 +52,11 @@ namespace Google.Api.Generator.Generation
             var cls = Class(Internal | Static, typ)
                 .WithXmlDoc(XmlDoc.Summary("Static class to provide common access to package-wide API metadata."));
 
-            var yieldStatements = packageFileDescriptors.Select(GenerateYieldStatement).ToArray();
+            var yieldStatements = packageFileDescriptors
+                .OrderBy(p => p.CSharpNamespace(), StringComparer.Ordinal)
+                .ThenBy(p => p.Name, StringComparer.Ordinal)
+                .Select(GenerateYieldStatement)
+                .ToArray();
             var fileDescriptorMethod = Method(Private | Static, ctx.Type(Typ.Of<IEnumerable<FileDescriptor>>()), "GetFileDescriptors")()
                 .WithBlockBody(yieldStatements);
 

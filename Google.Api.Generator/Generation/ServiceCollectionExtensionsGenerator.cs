@@ -41,7 +41,11 @@ namespace Google.Api.Generator.Generation
                 var cls = Class(Public | Static | Partial, Typ.Manual(ns, ClassName))
                     .WithXmlDoc(XmlDoc.Summary("Static class to provide extension methods to configure API clients."));
 
-                cls = cls.AddMembers(packageServiceDetails.Select(m => GenerateMethod(ctx, m)).ToArray());
+                var extensionMethods = packageServiceDetails
+                    .OrderBy(p => p.ServiceFullName, StringComparer.Ordinal)
+                    .Select(m => GenerateMethod(ctx, m))
+                    .ToArray();
+                cls = cls.AddMembers(extensionMethods);
                 namespaceDeclaration = namespaceDeclaration.AddMembers(cls);
             }
             return ctx.CreateCompilationUnit(namespaceDeclaration);
