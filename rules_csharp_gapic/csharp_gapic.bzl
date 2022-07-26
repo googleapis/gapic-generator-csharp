@@ -54,7 +54,7 @@ def csharp_gapic_library(
     if service_yaml:
         plugin_file_args[service_yaml] = "service-config"
     if rest_numeric_enums:
-        plugin_args.append("rest-numeric-enums")
+        plugin_file_args[rest_numeric_enums] = "rest-numeric-enums"
     proto_custom_library(
         name = name_srcjar,
         deps = srcs,
