@@ -47,22 +47,24 @@ def csharp_gapic_library(
         **kwargs):
     # Build zip file of gapic-generator output
     name_srcjar = "{name}_srcjar".format(name = name)
-    plugin_file_args = {}
+    opt_file_args = {}
+    opt_args = []
     if grpc_service_config:
-        plugin_file_args[grpc_service_config] = "grpc-service-config"
+        opt_file_args[grpc_service_config] = "grpc-service-config"
     if common_resources_config:
-        plugin_file_args[common_resources_config] = "common-resources-config"
+        opt_file_args[common_resources_config] = "common-resources-config"
     if service_yaml:
-        plugin_file_args[service_yaml] = "service-config"
+        opt_file_args[service_yaml] = "service-config"
     if rest_numeric_enums:
-        plugin_file_args[rest_numeric_enums] = "rest-numeric-enums"
+        opt_args.append("rest-numeric-enums={}".format(rest_numeric_enums))
     if transport:
-        plugin_file_args[transport] = "transport"
+        opt_args.append("transport={}".format(transport))
     proto_custom_library(
         name = name_srcjar,
         deps = srcs,
         plugin = Label(generator_binary),
-        plugin_file_args = plugin_file_args,
+        opt_file_args = opt_file_args,
+        opt_args = opt_args,
         output_type = "gapic",
         output_suffix = ".srcjar",
         **kwargs

@@ -39,7 +39,8 @@ namespace Google.Api.Generator
             nameGrpcServiceConfig,
             nameCommonResourcesConfig,
             nameServiceConfigYaml,
-            nameTransport);
+            nameTransport,
+            nameRequestNumericEnumJsonEncoding);
 
         public class Options
         {
@@ -184,7 +185,7 @@ namespace Google.Api.Generator
                 var serviceConfigPath = extraParams.GetValueOrDefault(nameServiceConfigYaml)?.SingleOrDefault();
                 var commonResourcesConfigPaths = extraParams.GetValueOrDefault(nameCommonResourcesConfig);
                 var transports = ParseTransports(extraParams.GetValueOrDefault(nameTransport)?.SingleOrDefault());
-                var requestNumericEnumJsonEncoding = extraParams.GetValueOrDefault(nameRequestNumericEnumJsonEncoding)?.SingleOrDefault() == "true";
+                var requestNumericEnumJsonEncoding = string.Equals(extraParams.GetValueOrDefault(nameRequestNumericEnumJsonEncoding)?.SingleOrDefault(), "true", StringComparison.OrdinalIgnoreCase);
 
                 var results = CodeGenerator.Generate(codeGenRequest.ProtoFile, codeGenRequest.FileToGenerate,
                     SystemClock.Instance, grpcServiceConfigPath, serviceConfigPath, commonResourcesConfigPaths, transports, requestNumericEnumJsonEncoding);
