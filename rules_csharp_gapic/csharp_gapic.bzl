@@ -42,6 +42,7 @@ def csharp_gapic_library(
         common_resources_config = None,
         service_yaml = None,
         rest_numeric_enums = False,
+        transport = None,
         generator_binary = "//rules_csharp_gapic:csharp_gapic_generator_binary",
         **kwargs):
     # Build zip file of gapic-generator output
@@ -55,6 +56,8 @@ def csharp_gapic_library(
         plugin_file_args[service_yaml] = "service-config"
     if rest_numeric_enums:
         plugin_file_args[rest_numeric_enums] = "rest-numeric-enums"
+    if transport:
+        plugin_file_args[transport] = "transport"
     proto_custom_library(
         name = name_srcjar,
         deps = srcs,
