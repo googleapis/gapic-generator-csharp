@@ -478,7 +478,8 @@ namespace Google.Api.Generator.Generation
             AsyncMethodName = $"{desc.Name}Async";
             AsyncSnippetMethodName = $"{desc.Name}RequestObjectAsync";
             AsyncTestMethodName = $"{desc.Name}RequestObjectAsync";
-            SettingsName = $"{desc.Name}Settings";
+            var settingsSuffix = desc.Name == svc.ServiceName ? "_" : "";
+            SettingsName = $"{desc.Name}Settings{settingsSuffix}";
             RequestTyp = ProtoTyp.Of(desc.InputType);
             ResponseTyp = ProtoTyp.Of(desc.OutputType);
             ApiCallFieldName = $"_call{desc.Name}";
