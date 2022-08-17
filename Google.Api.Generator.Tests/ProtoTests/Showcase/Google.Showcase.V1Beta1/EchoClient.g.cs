@@ -20,6 +20,7 @@ using gaxgrpc = Google.Api.Gax.Grpc;
 using lro = Google.LongRunning;
 using proto = Google.Protobuf;
 using gr = Google.Rpc;
+using gsv = Google.Showcase.V1Beta1;
 using grpccore = Grpc.Core;
 using grpcinter = Grpc.Core.Interceptors;
 using mel = Microsoft.Extensions.Logging;
@@ -47,7 +48,7 @@ namespace Google.Showcase.V1Beta1
         private EchoSettings(EchoSettings existing) : base(existing)
         {
             gax::GaxPreconditions.CheckNotNull(existing, nameof(existing));
-            EchoCallSettings = existing.EchoCallSettings;
+            EchoSettings_ = existing.EchoSettings_;
             ExpandSettings = existing.ExpandSettings;
             CollectSettings = existing.CollectSettings;
             CollectStreamingSettings = existing.CollectStreamingSettings;
@@ -65,8 +66,8 @@ namespace Google.Showcase.V1Beta1
         partial void OnCopy(EchoSettings existing);
 
         /// <summary>
-        /// <see cref="gaxgrpc::CallSettings"/> for synchronous and asynchronous calls to <c>EchoClient.EchoCall</c> and
-        /// <c>EchoClient.EchoCallAsync</c>.
+        /// <see cref="gaxgrpc::CallSettings"/> for synchronous and asynchronous calls to <c>EchoClient.Echo</c> and
+        /// <c>EchoClient.EchoAsync</c>.
         /// </summary>
         /// <remarks>
         /// <list type="bullet">
@@ -74,7 +75,7 @@ namespace Google.Showcase.V1Beta1
         /// <item><description>No timeout is applied.</description></item>
         /// </list>
         /// </remarks>
-        public gaxgrpc::CallSettings EchoCallSettings { get; set; } = gaxgrpc::CallSettings.FromExpiration(gax::Expiration.None);
+        public gaxgrpc::CallSettings EchoSettings_ { get; set; } = gaxgrpc::CallSettings.FromExpiration(gax::Expiration.None);
 
         /// <summary>
         /// <see cref="gaxgrpc::CallSettings"/> for synchronous and asynchronous calls to <c>EchoClient.Expand</c> and
@@ -281,7 +282,7 @@ namespace Google.Showcase.V1Beta1
         public static scg::IReadOnlyList<string> DefaultScopes { get; } = new sco::ReadOnlyCollection<string>(new string[] { });
 
         /// <summary>The service metadata associated with this client type.</summary>
-        public static gaxgrpc::ServiceMetadata ServiceMetadata { get; } = new gaxgrpc::ServiceMetadata(Echo.Descriptor, DefaultEndpoint, DefaultScopes, true, gax::ApiTransports.Grpc | gax::ApiTransports.Rest, PackageApiMetadata.ApiMetadata);
+        public static gaxgrpc::ServiceMetadata ServiceMetadata { get; } = new gaxgrpc::ServiceMetadata(gsv::Echo.Descriptor, DefaultEndpoint, DefaultScopes, true, gax::ApiTransports.Grpc | gax::ApiTransports.Rest, PackageApiMetadata.ApiMetadata);
 
         internal static gaxgrpc::ChannelPool ChannelPool { get; } = new gaxgrpc::ChannelPool(ServiceMetadata);
 
@@ -320,7 +321,7 @@ namespace Google.Showcase.V1Beta1
             {
                 callInvoker = grpcinter::CallInvokerExtensions.Intercept(callInvoker, interceptor);
             }
-            Echo.EchoClient grpcClient = new Echo.EchoClient(callInvoker);
+            gsv::Echo.EchoClient grpcClient = new gsv::Echo.EchoClient(callInvoker);
             return new EchoClientImpl(grpcClient, settings, logger);
         }
 
@@ -338,7 +339,7 @@ namespace Google.Showcase.V1Beta1
         public static stt::Task ShutdownDefaultChannelsAsync() => ChannelPool.ShutdownChannelsAsync();
 
         /// <summary>The underlying gRPC Echo client</summary>
-        public virtual Echo.EchoClient GrpcClient => throw new sys::NotImplementedException();
+        public virtual gsv::Echo.EchoClient GrpcClient => throw new sys::NotImplementedException();
 
         /// <summary>
         /// This method simply echoes the request. This method showcases unary RPCs.
@@ -346,7 +347,7 @@ namespace Google.Showcase.V1Beta1
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The RPC response.</returns>
-        public virtual EchoResponse EchoCall(EchoRequest request, gaxgrpc::CallSettings callSettings = null) =>
+        public virtual EchoResponse Echo(EchoRequest request, gaxgrpc::CallSettings callSettings = null) =>
             throw new sys::NotImplementedException();
 
         /// <summary>
@@ -355,7 +356,7 @@ namespace Google.Showcase.V1Beta1
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<EchoResponse> EchoCallAsync(EchoRequest request, gaxgrpc::CallSettings callSettings = null) =>
+        public virtual stt::Task<EchoResponse> EchoAsync(EchoRequest request, gaxgrpc::CallSettings callSettings = null) =>
             throw new sys::NotImplementedException();
 
         /// <summary>
@@ -364,8 +365,8 @@ namespace Google.Showcase.V1Beta1
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
         /// <returns>A Task containing the RPC response.</returns>
-        public virtual stt::Task<EchoResponse> EchoCallAsync(EchoRequest request, st::CancellationToken cancellationToken) =>
-            EchoCallAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+        public virtual stt::Task<EchoResponse> EchoAsync(EchoRequest request, st::CancellationToken cancellationToken) =>
+            EchoAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>Server streaming methods for <see cref="Expand(ExpandRequest,gaxgrpc::CallSettings)"/>.</summary>
         public abstract partial class ExpandStream : gaxgrpc::ServerStreamingBase<EchoResponse>
@@ -610,7 +611,7 @@ namespace Google.Showcase.V1Beta1
     /// </remarks>
     public sealed partial class EchoClientImpl : EchoClient
     {
-        private readonly gaxgrpc::ApiCall<EchoRequest, EchoResponse> _callEchoCall;
+        private readonly gaxgrpc::ApiCall<EchoRequest, EchoResponse> _callEcho;
 
         private readonly gaxgrpc::ApiServerStreamingCall<ExpandRequest, EchoResponse> _callExpand;
 
@@ -634,15 +635,15 @@ namespace Google.Showcase.V1Beta1
         /// <param name="grpcClient">The underlying gRPC client.</param>
         /// <param name="settings">The base <see cref="EchoSettings"/> used within this client.</param>
         /// <param name="logger">Optional <see cref="mel::ILogger"/> to use within this client.</param>
-        public EchoClientImpl(Echo.EchoClient grpcClient, EchoSettings settings, mel::ILogger logger)
+        public EchoClientImpl(gsv::Echo.EchoClient grpcClient, EchoSettings settings, mel::ILogger logger)
         {
             GrpcClient = grpcClient;
             EchoSettings effectiveSettings = settings ?? EchoSettings.GetDefault();
             gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings, logger);
             WaitOperationsClient = new lro::OperationsClientImpl(grpcClient.CreateOperationsClient(), effectiveSettings.WaitOperationsSettings, logger);
-            _callEchoCall = clientHelper.BuildApiCall<EchoRequest, EchoResponse>("EchoCall", grpcClient.EchoCallAsync, grpcClient.EchoCall, effectiveSettings.EchoCallSettings).WithExtractedGoogleRequestParam(new gaxgrpc::RoutingHeaderExtractor<EchoRequest>().WithExtractedParameter("header", "^(.+)$", request => request.Header).WithExtractedParameter("routing_id", "^(.+)$", request => request.Header).WithExtractedParameter("table_name", "^(regions/[^/]+/zones/[^/]+(?:/.*)?)$", request => request.Header).WithExtractedParameter("table_name", "^(projects/[^/]+/instances/[^/]+(?:/.*)?)$", request => request.Header).WithExtractedParameter("super_id", "^(projects/[^/]+)(?:/.*)?$", request => request.Header).WithExtractedParameter("instance_id", "^projects/[^/]+/(instances/[^/]+)(?:/.*)?$", request => request.Header).WithExtractedParameter("baz", "^(.+)$", request => request.OtherHeader).WithExtractedParameter("qux", "^(projects/[^/]+)(?:/.*)?$", request => request.OtherHeader));
-            Modify_ApiCall(ref _callEchoCall);
-            Modify_EchoCallApiCall(ref _callEchoCall);
+            _callEcho = clientHelper.BuildApiCall<EchoRequest, EchoResponse>("Echo", grpcClient.EchoAsync, grpcClient.Echo, effectiveSettings.EchoSettings_).WithExtractedGoogleRequestParam(new gaxgrpc::RoutingHeaderExtractor<EchoRequest>().WithExtractedParameter("header", "^(.+)$", request => request.Header).WithExtractedParameter("routing_id", "^(.+)$", request => request.Header).WithExtractedParameter("table_name", "^(regions/[^/]+/zones/[^/]+(?:/.*)?)$", request => request.Header).WithExtractedParameter("table_name", "^(projects/[^/]+/instances/[^/]+(?:/.*)?)$", request => request.Header).WithExtractedParameter("super_id", "^(projects/[^/]+)(?:/.*)?$", request => request.Header).WithExtractedParameter("instance_id", "^projects/[^/]+/(instances/[^/]+)(?:/.*)?$", request => request.Header).WithExtractedParameter("baz", "^(.+)$", request => request.OtherHeader).WithExtractedParameter("qux", "^(projects/[^/]+)(?:/.*)?$", request => request.OtherHeader));
+            Modify_ApiCall(ref _callEcho);
+            Modify_EchoApiCall(ref _callEcho);
             _callExpand = clientHelper.BuildApiCall<ExpandRequest, EchoResponse>("Expand", grpcClient.Expand, effectiveSettings.ExpandSettings);
             Modify_ApiCall(ref _callExpand);
             Modify_ExpandApiCall(ref _callExpand);
@@ -678,7 +679,7 @@ namespace Google.Showcase.V1Beta1
 
         partial void Modify_ApiCall<TRequest, TResponse>(ref gaxgrpc::ApiClientStreamingCall<TRequest, TResponse> call) where TRequest : class, proto::IMessage<TRequest> where TResponse : class, proto::IMessage<TResponse>;
 
-        partial void Modify_EchoCallApiCall(ref gaxgrpc::ApiCall<EchoRequest, EchoResponse> call);
+        partial void Modify_EchoApiCall(ref gaxgrpc::ApiCall<EchoRequest, EchoResponse> call);
 
         partial void Modify_ExpandApiCall(ref gaxgrpc::ApiServerStreamingCall<ExpandRequest, EchoResponse> call);
 
@@ -696,10 +697,10 @@ namespace Google.Showcase.V1Beta1
 
         partial void Modify_BlockApiCall(ref gaxgrpc::ApiCall<BlockRequest, BlockResponse> call);
 
-        partial void OnConstruction(Echo.EchoClient grpcClient, EchoSettings effectiveSettings, gaxgrpc::ClientHelper clientHelper);
+        partial void OnConstruction(gsv::Echo.EchoClient grpcClient, EchoSettings effectiveSettings, gaxgrpc::ClientHelper clientHelper);
 
         /// <summary>The underlying gRPC Echo client</summary>
-        public override Echo.EchoClient GrpcClient { get; }
+        public override gsv::Echo.EchoClient GrpcClient { get; }
 
         partial void Modify_EchoRequest(ref EchoRequest request, ref gaxgrpc::CallSettings settings);
 
@@ -723,10 +724,10 @@ namespace Google.Showcase.V1Beta1
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The RPC response.</returns>
-        public override EchoResponse EchoCall(EchoRequest request, gaxgrpc::CallSettings callSettings = null)
+        public override EchoResponse Echo(EchoRequest request, gaxgrpc::CallSettings callSettings = null)
         {
             Modify_EchoRequest(ref request, ref callSettings);
-            return _callEchoCall.Sync(request, callSettings);
+            return _callEcho.Sync(request, callSettings);
         }
 
         /// <summary>
@@ -735,10 +736,10 @@ namespace Google.Showcase.V1Beta1
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A Task containing the RPC response.</returns>
-        public override stt::Task<EchoResponse> EchoCallAsync(EchoRequest request, gaxgrpc::CallSettings callSettings = null)
+        public override stt::Task<EchoResponse> EchoAsync(EchoRequest request, gaxgrpc::CallSettings callSettings = null)
         {
             Modify_EchoRequest(ref request, ref callSettings);
-            return _callEchoCall.Async(request, callSettings);
+            return _callEcho.Async(request, callSettings);
         }
 
         internal sealed partial class ExpandStreamImpl : ExpandStream

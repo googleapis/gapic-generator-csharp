@@ -43,7 +43,7 @@ service Echo {
   option (google.api.default_host) = "localhost:7469";
 
   // This method simply echoes the request. This method showcases unary RPCs.
-  rpc EchoCall(EchoRequest) returns (EchoResponse) {
+  rpc Echo(EchoRequest) returns (EchoResponse) {
     option (google.api.http) = {
       post: "/v1beta1/echo:echo"
       body: "*"
