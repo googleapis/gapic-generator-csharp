@@ -73,6 +73,7 @@ namespace Google.Api.Generator.Generation
                     XmlDoc.RemarksPreFormatted(_svc.DocLines));
             using (_ctx.InClass(cls))
             {
+                _ctx.RegisterClassMemberNames(_svc.Methods.Select(m => m.SyncMethodName));
                 var apiCallFields = ApiCallFields().ToArray();
                 var grpcClient = GrpcClient();
                 var modifyApiCallGeneric = ModifyApiCallGenericPartialMethods().ToArray();

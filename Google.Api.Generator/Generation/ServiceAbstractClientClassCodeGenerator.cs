@@ -52,6 +52,7 @@ namespace Google.Api.Generator.Generation
                     XmlDoc.RemarksPreFormatted(_svc.DocLines));
             using (_ctx.InClass(cls))
             {
+                _ctx.RegisterClassMemberNames(_svc.Methods.Select(m => m.SyncMethodName));
                 var defaultEndpoint = DefaultEndpoint();
                 var defaultScopes = DefaultScopes();
                 var serviceMetadata = ServiceMetadata(defaultEndpoint, defaultScopes);
