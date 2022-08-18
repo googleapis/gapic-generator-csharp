@@ -64,6 +64,7 @@ def _dotnet_restore_impl(ctx):
                 "DOTNET_SKIP_FIRST_TIME_EXPERIENCE": "1",
                 "DOTNET_CLI_TELEMETRY_OPTOUT": "1",
                 "DOTNET_NOLOGO": "1",
+                "DOTNET_SYSTEM_GLOBALIZATION_INVARIANT": "1",
             },
         )
         if res.return_code == 0:

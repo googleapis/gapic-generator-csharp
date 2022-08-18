@@ -32,6 +32,7 @@ DOTNET_CLI_HOME="$(pwd)/local_tmp" \
 DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1 \
 DOTNET_CLI_TELEMETRY_OPTOUT=1 \
 DOTNET_NOLOGO=1 \
+DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1 \
 $cmd || $cmd
 
 cp -r src/* {out}/
@@ -60,6 +61,7 @@ DOTNET_CLI_HOME="$(pwd)/local_tmp" \
 DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1 \
 DOTNET_CLI_TELEMETRY_OPTOUT=1 \
 DOTNET_NOLOGO=1 \
+DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1 \
 $cmd || $cmd
     """.format(
         csharp_compiler = ctx.file.csharp_compiler.short_path,
