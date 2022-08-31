@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Google.Api.Generator.Testing;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -34,12 +35,7 @@ namespace Google.Api.Generator.Tests
 
         static Invoker()
         {
-            var rootPath = Environment.CurrentDirectory;
-            while (!rootPath.EndsWith("Google.Api.Generator.Tests"))
-            {
-                rootPath = Path.GetFullPath(Path.Combine(rootPath, ".."));
-            }
-            RootDir = Path.GetFullPath(Path.Combine(rootPath, ".."));
+            RootDir = PathUtils.GetRepoRoot();
             GeneratorDir = Path.Combine(RootDir, "Google.Api.Generator");
             GeneratorTestsDir = Path.Combine(RootDir, "Google.Api.Generator.Tests");
             var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);

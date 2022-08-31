@@ -26,7 +26,7 @@
 // into multiple source files, and/or multiple tests.
 
 // TEST_SOURCE_START
-using Google.Api.Generator.Utils.Formatting;
+using Google.Api.Generator.Testing;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using System;
@@ -39,7 +39,7 @@ using System.Threading.Tasks;
 using Xunit;
 using sys = System;
 
-namespace Google.Api.Generator.Tests
+namespace Google.Api.Generator.Utils.Formatting.Tests
 {
     [Description("ClassDescription")]
     public class WhitespaceFormatterTest
@@ -344,8 +344,11 @@ namespace Google.Api.Generator.Tests
             }
         }
 
-        private static string ThisFilename([CallerFilePath] string filePath = null) =>
-            Path.Combine(Invoker.GeneratorTestsDir, Path.GetFileName(filePath));
+        private static string ThisFilename([CallerFilePath] string filePath = null)
+        {
+            var utilTestDir = Path.Combine(PathUtils.GetRepoRoot(), "Google.Api.Generator.Utils.Tests");
+            return Path.Combine(utilTestDir, "Formatting", Path.GetFileName(filePath));
+        }            
 
         [Fact]
         public void ThisSourceFile()

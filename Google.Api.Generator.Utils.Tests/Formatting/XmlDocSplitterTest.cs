@@ -20,7 +20,7 @@ using System;
 using Xunit;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
-namespace Google.Api.Generator.Tests
+namespace Google.Api.Generator.Utils.Formatting.Tests
 {
     public class XmlDocSplitterTest
     {
