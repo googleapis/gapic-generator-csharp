@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29613.14
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32804.467
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Google.Api.Generator", "Google.Api.Generator\Google.Api.Generator.csproj", "{C28A3B50-A61C-488C-9E2A-82A5C38C8B6B}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Google.Api.Generator.Rest.Tests", "Google.Api.Generator.Rest.Tests\Google.Api.Generator.Rest.Tests.csproj", "{36C6BBAE-FBF8-4C38-9231-57E71F67D71F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Google.Api.Generator.Testing", "Google.Api.Generator.Testing\Google.Api.Generator.Testing.csproj", "{7B7E19A1-38E8-460A-BC86-90FC9AADC483}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Google.Api.Generator.Utils.Tests", "Google.Api.Generator.Utils.Tests\Google.Api.Generator.Utils.Tests.csproj", "{98EC3797-5ED8-4364-832A-E147CAF4F3F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{7B7E19A1-38E8-460A-BC86-90FC9AADC483}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B7E19A1-38E8-460A-BC86-90FC9AADC483}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B7E19A1-38E8-460A-BC86-90FC9AADC483}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98EC3797-5ED8-4364-832A-E147CAF4F3F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98EC3797-5ED8-4364-832A-E147CAF4F3F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98EC3797-5ED8-4364-832A-E147CAF4F3F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98EC3797-5ED8-4364-832A-E147CAF4F3F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
