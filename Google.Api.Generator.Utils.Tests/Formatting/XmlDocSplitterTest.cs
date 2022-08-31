@@ -46,9 +46,17 @@ namespace Google.Api.Generator.Utils.Formatting.Tests
         [Fact]
         public void Preformatted()
         {
-            // Whitespace around " Line 2 " is delibrate, to test extra whitespace removal at end of lines only.
+            // Whitespace around " Line 2 " is deliberate, to test extra whitespace removal at end of lines only.
             var s = XmlDocSplitter.Split(s_indent4, 40, TrivList(XmlDoc.SummaryPreFormatted(new[] { "Line 1", " Line 2 " }))).ToFullString();
             Assert.Equal($"    /// <summary>{s_nl}    /// Line 1{s_nl}    ///  Line 2{s_nl}    /// </summary>{s_nl}", s);
+        }
+
+        [Fact]
+        public void PreformattedWithAngleBrackets()
+        {
+            var summary = XmlDoc.SummaryPreFormatted(new[] { "Before <angles> after" });
+            var split = XmlDocSplitter.Split(s_indent4, 80, TrivList(summary)).ToFullString();
+            Assert.Equal($"    /// <summary>{s_nl}    /// Before &lt;angles&gt; after{s_nl}    /// </summary>{s_nl}", split);
         }
     }
 }

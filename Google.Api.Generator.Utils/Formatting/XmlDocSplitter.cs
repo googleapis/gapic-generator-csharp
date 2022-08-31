@@ -85,7 +85,10 @@ namespace Google.Api.Generator.Utils.Formatting
                 {
                     if (node is XmlTextSyntax text)
                     {
-                        yield return OneLine(XmlText(string.Join("", text.GetText().Lines).TrimEnd()));
+                        // Create an XmlTextLiteral with exactly the value we've fetched. This avoids
+                        // double-escaping < to &amp;lt; when it should just be &lt;
+                        string value = string.Join("", text.GetText().Lines).TrimEnd();
+                        yield return OneLine(XmlText(XmlTextLiteral(value, value)));
                     }
                     else
                     {
