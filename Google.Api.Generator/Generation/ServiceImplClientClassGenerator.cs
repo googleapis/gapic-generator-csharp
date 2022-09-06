@@ -29,6 +29,7 @@ using static Google.Api.Generator.Utils.Roslyn.RoslynBuilder;
 using Microsoft.CodeAnalysis.CSharp;
 using Google.Protobuf.Reflection;
 using Microsoft.Extensions.Logging;
+using Google.Api.Gax;
 
 namespace Google.Api.Generator.Generation
 {
@@ -243,7 +244,11 @@ namespace Google.Api.Generator.Generation
                         {
                             access = access.Access(FieldAccess(field), conditional: true);
                         }
-
+                        if (extractionFields.Last().FieldType != FieldType.String)
+                        {
+                            var extractorType = _ctx.Type(Typ.Generic(typeof(RoutingHeaderExtractor<>), method.RequestTyp));
+                            access = extractorType.Call(nameof(RoutingHeaderExtractor<string>.FormatRoutingHeaderValue))(access);
+                        }
                         return access;
                     }
 
