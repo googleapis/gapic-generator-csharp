@@ -52,6 +52,8 @@ namespace Google.Showcase.V1Beta1
             RepeatDataPathTrailingResourceSettings = existing.RepeatDataPathTrailingResourceSettings;
             RepeatDataBodyPutSettings = existing.RepeatDataBodyPutSettings;
             RepeatDataBodyPatchSettings = existing.RepeatDataBodyPatchSettings;
+            GetEnumSettings = existing.GetEnumSettings;
+            VerifyEnumSettings = existing.VerifyEnumSettings;
             OnCopy(existing);
         }
 
@@ -154,6 +156,30 @@ namespace Google.Showcase.V1Beta1
         /// </remarks>
         public gaxgrpc::CallSettings RepeatDataBodyPatchSettings { get; set; } = gaxgrpc::CallSettings.FromExpiration(gax::Expiration.None);
 
+        /// <summary>
+        /// <see cref="gaxgrpc::CallSettings"/> for synchronous and asynchronous calls to <c>ComplianceClient.GetEnum</c>
+        ///  and <c>ComplianceClient.GetEnumAsync</c>.
+        /// </summary>
+        /// <remarks>
+        /// <list type="bullet">
+        /// <item><description>This call will not be retried.</description></item>
+        /// <item><description>No timeout is applied.</description></item>
+        /// </list>
+        /// </remarks>
+        public gaxgrpc::CallSettings GetEnumSettings { get; set; } = gaxgrpc::CallSettings.FromExpiration(gax::Expiration.None);
+
+        /// <summary>
+        /// <see cref="gaxgrpc::CallSettings"/> for synchronous and asynchronous calls to <c>ComplianceClient.VerifyEnum</c>
+        ///  and <c>ComplianceClient.VerifyEnumAsync</c>.
+        /// </summary>
+        /// <remarks>
+        /// <list type="bullet">
+        /// <item><description>This call will not be retried.</description></item>
+        /// <item><description>No timeout is applied.</description></item>
+        /// </list>
+        /// </remarks>
+        public gaxgrpc::CallSettings VerifyEnumSettings { get; set; } = gaxgrpc::CallSettings.FromExpiration(gax::Expiration.None);
+
         /// <summary>Creates a deep clone of this object, with all the same property values.</summary>
         /// <returns>A deep clone of this <see cref="ComplianceSettings"/> object.</returns>
         public ComplianceSettings Clone() => new ComplianceSettings(this);
@@ -212,8 +238,9 @@ namespace Google.Showcase.V1Beta1
 
     /// <summary>Compliance client wrapper, for convenient use.</summary>
     /// <remarks>
-    /// This service is used to test that GAPICs can transcode proto3 requests to
-    /// REST format correctly for various types of HTTP annotations.
+    /// This service is used to test that GAPICs implement various REST-related features correctly. This mostly means transcoding proto3 requests to REST format
+    /// correctly for various types of HTTP annotations, but it also includes verifying that unknown (numeric) enums received by clients can be round-tripped
+    /// correctly.
     /// </remarks>
     public abstract partial class ComplianceClient
     {
@@ -519,12 +546,97 @@ namespace Google.Showcase.V1Beta1
         /// <returns>A Task containing the RPC response.</returns>
         public virtual stt::Task<RepeatResponse> RepeatDataBodyPatchAsync(RepeatRequest request, st::CancellationToken cancellationToken) =>
             RepeatDataBodyPatchAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+
+        /// <summary>
+        /// This method requests an enum value from the server. Depending on the contents of EnumRequest, the enum value returned will be a known enum declared in the
+        /// .proto file, or a made-up enum value the is unknown to the client. To verify that clients can round-trip unknown enum vaues they receive, use the
+        /// response from this RPC as the request to VerifyEnum()
+        /// 
+        /// The values of enums sent by the server when a known or unknown value is requested will be the same within a single Showcase server run (this is needed for
+        /// VerifyEnum() to work) but are not guaranteed to be the same across separate Showcase server runs.
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>The RPC response.</returns>
+        public virtual EnumResponse GetEnum(EnumRequest request, gaxgrpc::CallSettings callSettings = null) =>
+            throw new sys::NotImplementedException();
+
+        /// <summary>
+        /// This method requests an enum value from the server. Depending on the contents of EnumRequest, the enum value returned will be a known enum declared in the
+        /// .proto file, or a made-up enum value the is unknown to the client. To verify that clients can round-trip unknown enum vaues they receive, use the
+        /// response from this RPC as the request to VerifyEnum()
+        /// 
+        /// The values of enums sent by the server when a known or unknown value is requested will be the same within a single Showcase server run (this is needed for
+        /// VerifyEnum() to work) but are not guaranteed to be the same across separate Showcase server runs.
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<EnumResponse> GetEnumAsync(EnumRequest request, gaxgrpc::CallSettings callSettings = null) =>
+            throw new sys::NotImplementedException();
+
+        /// <summary>
+        /// This method requests an enum value from the server. Depending on the contents of EnumRequest, the enum value returned will be a known enum declared in the
+        /// .proto file, or a made-up enum value the is unknown to the client. To verify that clients can round-trip unknown enum vaues they receive, use the
+        /// response from this RPC as the request to VerifyEnum()
+        /// 
+        /// The values of enums sent by the server when a known or unknown value is requested will be the same within a single Showcase server run (this is needed for
+        /// VerifyEnum() to work) but are not guaranteed to be the same across separate Showcase server runs.
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<EnumResponse> GetEnumAsync(EnumRequest request, st::CancellationToken cancellationToken) =>
+            GetEnumAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+
+        /// <summary>
+        /// This method is used to verify that clients can round-trip enum values, which is particularly important for unknown enum values over REST. VerifyEnum()
+        /// verifies that its request, which is presumably the response that the client previously got to a GetEnum(), contains the correct data. If so, it responds
+        /// with the same EnumResponse; otherwise, the RPC errors.
+        /// 
+        /// This works because the values of enums sent by the server when a known or unknown value is requested will be the same within a single Showcase server run,
+        /// although they are not guaranteed to be the same across separate Showcase server runs.
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>The RPC response.</returns>
+        public virtual EnumResponse VerifyEnum(EnumResponse request, gaxgrpc::CallSettings callSettings = null) =>
+            throw new sys::NotImplementedException();
+
+        /// <summary>
+        /// This method is used to verify that clients can round-trip enum values, which is particularly important for unknown enum values over REST. VerifyEnum()
+        /// verifies that its request, which is presumably the response that the client previously got to a GetEnum(), contains the correct data. If so, it responds
+        /// with the same EnumResponse; otherwise, the RPC errors.
+        /// 
+        /// This works because the values of enums sent by the server when a known or unknown value is requested will be the same within a single Showcase server run,
+        /// although they are not guaranteed to be the same across separate Showcase server runs.
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<EnumResponse> VerifyEnumAsync(EnumResponse request, gaxgrpc::CallSettings callSettings = null) =>
+            throw new sys::NotImplementedException();
+
+        /// <summary>
+        /// This method is used to verify that clients can round-trip enum values, which is particularly important for unknown enum values over REST. VerifyEnum()
+        /// verifies that its request, which is presumably the response that the client previously got to a GetEnum(), contains the correct data. If so, it responds
+        /// with the same EnumResponse; otherwise, the RPC errors.
+        /// 
+        /// This works because the values of enums sent by the server when a known or unknown value is requested will be the same within a single Showcase server run,
+        /// although they are not guaranteed to be the same across separate Showcase server runs.
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<EnumResponse> VerifyEnumAsync(EnumResponse request, st::CancellationToken cancellationToken) =>
+            VerifyEnumAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
     }
 
     /// <summary>Compliance client wrapper implementation, for convenient use.</summary>
     /// <remarks>
-    /// This service is used to test that GAPICs can transcode proto3 requests to
-    /// REST format correctly for various types of HTTP annotations.
+    /// This service is used to test that GAPICs implement various REST-related features correctly. This mostly means transcoding proto3 requests to REST format
+    /// correctly for various types of HTTP annotations, but it also includes verifying that unknown (numeric) enums received by clients can be round-tripped
+    /// correctly.
     /// </remarks>
     public sealed partial class ComplianceClientImpl : ComplianceClient
     {
@@ -543,6 +655,10 @@ namespace Google.Showcase.V1Beta1
         private readonly gaxgrpc::ApiCall<RepeatRequest, RepeatResponse> _callRepeatDataBodyPut;
 
         private readonly gaxgrpc::ApiCall<RepeatRequest, RepeatResponse> _callRepeatDataBodyPatch;
+
+        private readonly gaxgrpc::ApiCall<EnumRequest, EnumResponse> _callGetEnum;
+
+        private readonly gaxgrpc::ApiCall<EnumResponse, EnumResponse> _callVerifyEnum;
 
         /// <summary>
         /// Constructs a client wrapper for the Compliance service, with the specified gRPC client and settings.
@@ -564,10 +680,10 @@ namespace Google.Showcase.V1Beta1
             _callRepeatDataQuery = clientHelper.BuildApiCall<RepeatRequest, RepeatResponse>("RepeatDataQuery", grpcClient.RepeatDataQueryAsync, grpcClient.RepeatDataQuery, effectiveSettings.RepeatDataQuerySettings);
             Modify_ApiCall(ref _callRepeatDataQuery);
             Modify_RepeatDataQueryApiCall(ref _callRepeatDataQuery);
-            _callRepeatDataSimplePath = clientHelper.BuildApiCall<RepeatRequest, RepeatResponse>("RepeatDataSimplePath", grpcClient.RepeatDataSimplePathAsync, grpcClient.RepeatDataSimplePath, effectiveSettings.RepeatDataSimplePathSettings).WithGoogleRequestParam("info.f_string", request => request.Info?.FString);
+            _callRepeatDataSimplePath = clientHelper.BuildApiCall<RepeatRequest, RepeatResponse>("RepeatDataSimplePath", grpcClient.RepeatDataSimplePathAsync, grpcClient.RepeatDataSimplePath, effectiveSettings.RepeatDataSimplePathSettings).WithGoogleRequestParam("info.f_string", request => request.Info?.FString).WithGoogleRequestParam("info.f_int32", request => gaxgrpc::RoutingHeaderExtractor<RepeatRequest>.FormatRoutingHeaderValue(request.Info?.FInt32)).WithGoogleRequestParam("info.f_double", request => gaxgrpc::RoutingHeaderExtractor<RepeatRequest>.FormatRoutingHeaderValue(request.Info?.FDouble)).WithGoogleRequestParam("info.f_bool", request => gaxgrpc::RoutingHeaderExtractor<RepeatRequest>.FormatRoutingHeaderValue(request.Info?.FBool)).WithGoogleRequestParam("info.f_kingdom", request => gaxgrpc::RoutingHeaderExtractor<RepeatRequest>.FormatRoutingHeaderValue(request.Info?.FKingdom));
             Modify_ApiCall(ref _callRepeatDataSimplePath);
             Modify_RepeatDataSimplePathApiCall(ref _callRepeatDataSimplePath);
-            _callRepeatDataPathResource = clientHelper.BuildApiCall<RepeatRequest, RepeatResponse>("RepeatDataPathResource", grpcClient.RepeatDataPathResourceAsync, grpcClient.RepeatDataPathResource, effectiveSettings.RepeatDataPathResourceSettings).WithGoogleRequestParam("info.f_string", request => request.Info?.FString).WithGoogleRequestParam("info.f_child.f_string", request => request.Info?.FChild?.FString);
+            _callRepeatDataPathResource = clientHelper.BuildApiCall<RepeatRequest, RepeatResponse>("RepeatDataPathResource", grpcClient.RepeatDataPathResourceAsync, grpcClient.RepeatDataPathResource, effectiveSettings.RepeatDataPathResourceSettings).WithGoogleRequestParam("info.f_string", request => request.Info?.FString).WithGoogleRequestParam("info.f_child.f_string", request => request.Info?.FChild?.FString).WithGoogleRequestParam("info.f_bool", request => gaxgrpc::RoutingHeaderExtractor<RepeatRequest>.FormatRoutingHeaderValue(request.Info?.FBool));
             Modify_ApiCall(ref _callRepeatDataPathResource);
             Modify_RepeatDataPathResourceApiCall(ref _callRepeatDataPathResource);
             _callRepeatDataPathTrailingResource = clientHelper.BuildApiCall<RepeatRequest, RepeatResponse>("RepeatDataPathTrailingResource", grpcClient.RepeatDataPathTrailingResourceAsync, grpcClient.RepeatDataPathTrailingResource, effectiveSettings.RepeatDataPathTrailingResourceSettings).WithGoogleRequestParam("info.f_string", request => request.Info?.FString).WithGoogleRequestParam("info.f_child.f_string", request => request.Info?.FChild?.FString);
@@ -579,6 +695,12 @@ namespace Google.Showcase.V1Beta1
             _callRepeatDataBodyPatch = clientHelper.BuildApiCall<RepeatRequest, RepeatResponse>("RepeatDataBodyPatch", grpcClient.RepeatDataBodyPatchAsync, grpcClient.RepeatDataBodyPatch, effectiveSettings.RepeatDataBodyPatchSettings);
             Modify_ApiCall(ref _callRepeatDataBodyPatch);
             Modify_RepeatDataBodyPatchApiCall(ref _callRepeatDataBodyPatch);
+            _callGetEnum = clientHelper.BuildApiCall<EnumRequest, EnumResponse>("GetEnum", grpcClient.GetEnumAsync, grpcClient.GetEnum, effectiveSettings.GetEnumSettings);
+            Modify_ApiCall(ref _callGetEnum);
+            Modify_GetEnumApiCall(ref _callGetEnum);
+            _callVerifyEnum = clientHelper.BuildApiCall<EnumResponse, EnumResponse>("VerifyEnum", grpcClient.VerifyEnumAsync, grpcClient.VerifyEnum, effectiveSettings.VerifyEnumSettings);
+            Modify_ApiCall(ref _callVerifyEnum);
+            Modify_VerifyEnumApiCall(ref _callVerifyEnum);
             OnConstruction(grpcClient, effectiveSettings, clientHelper);
         }
 
@@ -600,12 +722,20 @@ namespace Google.Showcase.V1Beta1
 
         partial void Modify_RepeatDataBodyPatchApiCall(ref gaxgrpc::ApiCall<RepeatRequest, RepeatResponse> call);
 
+        partial void Modify_GetEnumApiCall(ref gaxgrpc::ApiCall<EnumRequest, EnumResponse> call);
+
+        partial void Modify_VerifyEnumApiCall(ref gaxgrpc::ApiCall<EnumResponse, EnumResponse> call);
+
         partial void OnConstruction(Compliance.ComplianceClient grpcClient, ComplianceSettings effectiveSettings, gaxgrpc::ClientHelper clientHelper);
 
         /// <summary>The underlying gRPC Compliance client</summary>
         public override Compliance.ComplianceClient GrpcClient { get; }
 
         partial void Modify_RepeatRequest(ref RepeatRequest request, ref gaxgrpc::CallSettings settings);
+
+        partial void Modify_EnumRequest(ref EnumRequest request, ref gaxgrpc::CallSettings settings);
+
+        partial void Modify_EnumResponse(ref EnumResponse request, ref gaxgrpc::CallSettings settings);
 
         /// <summary>
         /// This method echoes the ComplianceData request. This method exercises
@@ -809,6 +939,74 @@ namespace Google.Showcase.V1Beta1
         {
             Modify_RepeatRequest(ref request, ref callSettings);
             return _callRepeatDataBodyPatch.Async(request, callSettings);
+        }
+
+        /// <summary>
+        /// This method requests an enum value from the server. Depending on the contents of EnumRequest, the enum value returned will be a known enum declared in the
+        /// .proto file, or a made-up enum value the is unknown to the client. To verify that clients can round-trip unknown enum vaues they receive, use the
+        /// response from this RPC as the request to VerifyEnum()
+        /// 
+        /// The values of enums sent by the server when a known or unknown value is requested will be the same within a single Showcase server run (this is needed for
+        /// VerifyEnum() to work) but are not guaranteed to be the same across separate Showcase server runs.
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>The RPC response.</returns>
+        public override EnumResponse GetEnum(EnumRequest request, gaxgrpc::CallSettings callSettings = null)
+        {
+            Modify_EnumRequest(ref request, ref callSettings);
+            return _callGetEnum.Sync(request, callSettings);
+        }
+
+        /// <summary>
+        /// This method requests an enum value from the server. Depending on the contents of EnumRequest, the enum value returned will be a known enum declared in the
+        /// .proto file, or a made-up enum value the is unknown to the client. To verify that clients can round-trip unknown enum vaues they receive, use the
+        /// response from this RPC as the request to VerifyEnum()
+        /// 
+        /// The values of enums sent by the server when a known or unknown value is requested will be the same within a single Showcase server run (this is needed for
+        /// VerifyEnum() to work) but are not guaranteed to be the same across separate Showcase server runs.
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public override stt::Task<EnumResponse> GetEnumAsync(EnumRequest request, gaxgrpc::CallSettings callSettings = null)
+        {
+            Modify_EnumRequest(ref request, ref callSettings);
+            return _callGetEnum.Async(request, callSettings);
+        }
+
+        /// <summary>
+        /// This method is used to verify that clients can round-trip enum values, which is particularly important for unknown enum values over REST. VerifyEnum()
+        /// verifies that its request, which is presumably the response that the client previously got to a GetEnum(), contains the correct data. If so, it responds
+        /// with the same EnumResponse; otherwise, the RPC errors.
+        /// 
+        /// This works because the values of enums sent by the server when a known or unknown value is requested will be the same within a single Showcase server run,
+        /// although they are not guaranteed to be the same across separate Showcase server runs.
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>The RPC response.</returns>
+        public override EnumResponse VerifyEnum(EnumResponse request, gaxgrpc::CallSettings callSettings = null)
+        {
+            Modify_EnumResponse(ref request, ref callSettings);
+            return _callVerifyEnum.Sync(request, callSettings);
+        }
+
+        /// <summary>
+        /// This method is used to verify that clients can round-trip enum values, which is particularly important for unknown enum values over REST. VerifyEnum()
+        /// verifies that its request, which is presumably the response that the client previously got to a GetEnum(), contains the correct data. If so, it responds
+        /// with the same EnumResponse; otherwise, the RPC errors.
+        /// 
+        /// This works because the values of enums sent by the server when a known or unknown value is requested will be the same within a single Showcase server run,
+        /// although they are not guaranteed to be the same across separate Showcase server runs.
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public override stt::Task<EnumResponse> VerifyEnumAsync(EnumResponse request, gaxgrpc::CallSettings callSettings = null)
+        {
+            Modify_EnumResponse(ref request, ref callSettings);
+            return _callVerifyEnum.Async(request, callSettings);
         }
     }
 }

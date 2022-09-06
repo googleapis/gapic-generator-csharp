@@ -24,8 +24,9 @@ using grpc = global::Grpc.Core;
 
 namespace Google.Showcase.V1Beta1 {
   /// <summary>
-  /// This service is used to test that GAPICs can transcode proto3 requests to
-  /// REST format correctly for various types of HTTP annotations.
+  /// This service is used to test that GAPICs implement various REST-related features correctly. This mostly means transcoding proto3 requests to REST format
+  /// correctly for various types of HTTP annotations, but it also includes verifying that unknown (numeric) enums received by clients can be round-tripped
+  /// correctly.
   /// </summary>
   public static partial class Compliance
   {
@@ -68,6 +69,10 @@ namespace Google.Showcase.V1Beta1 {
     static readonly grpc::Marshaller<global::Google.Showcase.V1Beta1.RepeatRequest> __Marshaller_google_showcase_v1beta1_RepeatRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Google.Showcase.V1Beta1.RepeatRequest.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::Google.Showcase.V1Beta1.RepeatResponse> __Marshaller_google_showcase_v1beta1_RepeatResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Google.Showcase.V1Beta1.RepeatResponse.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::Google.Showcase.V1Beta1.EnumRequest> __Marshaller_google_showcase_v1beta1_EnumRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Google.Showcase.V1Beta1.EnumRequest.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::Google.Showcase.V1Beta1.EnumResponse> __Marshaller_google_showcase_v1beta1_EnumResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Google.Showcase.V1Beta1.EnumResponse.Parser));
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Method<global::Google.Showcase.V1Beta1.RepeatRequest, global::Google.Showcase.V1Beta1.RepeatResponse> __Method_RepeatDataBody = new grpc::Method<global::Google.Showcase.V1Beta1.RepeatRequest, global::Google.Showcase.V1Beta1.RepeatResponse>(
@@ -132,6 +137,22 @@ namespace Google.Showcase.V1Beta1 {
         "RepeatDataBodyPatch",
         __Marshaller_google_showcase_v1beta1_RepeatRequest,
         __Marshaller_google_showcase_v1beta1_RepeatResponse);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::Google.Showcase.V1Beta1.EnumRequest, global::Google.Showcase.V1Beta1.EnumResponse> __Method_GetEnum = new grpc::Method<global::Google.Showcase.V1Beta1.EnumRequest, global::Google.Showcase.V1Beta1.EnumResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "GetEnum",
+        __Marshaller_google_showcase_v1beta1_EnumRequest,
+        __Marshaller_google_showcase_v1beta1_EnumResponse);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::Google.Showcase.V1Beta1.EnumResponse, global::Google.Showcase.V1Beta1.EnumResponse> __Method_VerifyEnum = new grpc::Method<global::Google.Showcase.V1Beta1.EnumResponse, global::Google.Showcase.V1Beta1.EnumResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "VerifyEnum",
+        __Marshaller_google_showcase_v1beta1_EnumResponse,
+        __Marshaller_google_showcase_v1beta1_EnumResponse);
 
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
@@ -241,6 +262,40 @@ namespace Google.Showcase.V1Beta1 {
       /// <returns>The response to send back to the client (wrapped by a task).</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       public virtual global::System.Threading.Tasks.Task<global::Google.Showcase.V1Beta1.RepeatResponse> RepeatDataBodyPatch(global::Google.Showcase.V1Beta1.RepeatRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      /// <summary>
+      /// This method requests an enum value from the server. Depending on the contents of EnumRequest, the enum value returned will be a known enum declared in the
+      /// .proto file, or a made-up enum value the is unknown to the client. To verify that clients can round-trip unknown enum vaues they receive, use the
+      /// response from this RPC as the request to VerifyEnum()
+      ///
+      /// The values of enums sent by the server when a known or unknown value is requested will be the same within a single Showcase server run (this is needed for
+      /// VerifyEnum() to work) but are not guaranteed to be the same across separate Showcase server runs.
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::Google.Showcase.V1Beta1.EnumResponse> GetEnum(global::Google.Showcase.V1Beta1.EnumRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      /// <summary>
+      /// This method is used to verify that clients can round-trip enum values, which is particularly important for unknown enum values over REST. VerifyEnum()
+      /// verifies that its request, which is presumably the response that the client previously got to a GetEnum(), contains the correct data. If so, it responds
+      /// with the same EnumResponse; otherwise, the RPC errors.
+      ///
+      /// This works because the values of enums sent by the server when a known or unknown value is requested will be the same within a single Showcase server run,
+      /// although they are not guaranteed to be the same across separate Showcase server runs.
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::Google.Showcase.V1Beta1.EnumResponse> VerifyEnum(global::Google.Showcase.V1Beta1.EnumResponse request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -682,6 +737,142 @@ namespace Google.Showcase.V1Beta1 {
       {
         return CallInvoker.AsyncUnaryCall(__Method_RepeatDataBodyPatch, null, options, request);
       }
+      /// <summary>
+      /// This method requests an enum value from the server. Depending on the contents of EnumRequest, the enum value returned will be a known enum declared in the
+      /// .proto file, or a made-up enum value the is unknown to the client. To verify that clients can round-trip unknown enum vaues they receive, use the
+      /// response from this RPC as the request to VerifyEnum()
+      ///
+      /// The values of enums sent by the server when a known or unknown value is requested will be the same within a single Showcase server run (this is needed for
+      /// VerifyEnum() to work) but are not guaranteed to be the same across separate Showcase server runs.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Google.Showcase.V1Beta1.EnumResponse GetEnum(global::Google.Showcase.V1Beta1.EnumRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetEnum(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// This method requests an enum value from the server. Depending on the contents of EnumRequest, the enum value returned will be a known enum declared in the
+      /// .proto file, or a made-up enum value the is unknown to the client. To verify that clients can round-trip unknown enum vaues they receive, use the
+      /// response from this RPC as the request to VerifyEnum()
+      ///
+      /// The values of enums sent by the server when a known or unknown value is requested will be the same within a single Showcase server run (this is needed for
+      /// VerifyEnum() to work) but are not guaranteed to be the same across separate Showcase server runs.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Google.Showcase.V1Beta1.EnumResponse GetEnum(global::Google.Showcase.V1Beta1.EnumRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_GetEnum, null, options, request);
+      }
+      /// <summary>
+      /// This method requests an enum value from the server. Depending on the contents of EnumRequest, the enum value returned will be a known enum declared in the
+      /// .proto file, or a made-up enum value the is unknown to the client. To verify that clients can round-trip unknown enum vaues they receive, use the
+      /// response from this RPC as the request to VerifyEnum()
+      ///
+      /// The values of enums sent by the server when a known or unknown value is requested will be the same within a single Showcase server run (this is needed for
+      /// VerifyEnum() to work) but are not guaranteed to be the same across separate Showcase server runs.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Google.Showcase.V1Beta1.EnumResponse> GetEnumAsync(global::Google.Showcase.V1Beta1.EnumRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return GetEnumAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// This method requests an enum value from the server. Depending on the contents of EnumRequest, the enum value returned will be a known enum declared in the
+      /// .proto file, or a made-up enum value the is unknown to the client. To verify that clients can round-trip unknown enum vaues they receive, use the
+      /// response from this RPC as the request to VerifyEnum()
+      ///
+      /// The values of enums sent by the server when a known or unknown value is requested will be the same within a single Showcase server run (this is needed for
+      /// VerifyEnum() to work) but are not guaranteed to be the same across separate Showcase server runs.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Google.Showcase.V1Beta1.EnumResponse> GetEnumAsync(global::Google.Showcase.V1Beta1.EnumRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_GetEnum, null, options, request);
+      }
+      /// <summary>
+      /// This method is used to verify that clients can round-trip enum values, which is particularly important for unknown enum values over REST. VerifyEnum()
+      /// verifies that its request, which is presumably the response that the client previously got to a GetEnum(), contains the correct data. If so, it responds
+      /// with the same EnumResponse; otherwise, the RPC errors.
+      ///
+      /// This works because the values of enums sent by the server when a known or unknown value is requested will be the same within a single Showcase server run,
+      /// although they are not guaranteed to be the same across separate Showcase server runs.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Google.Showcase.V1Beta1.EnumResponse VerifyEnum(global::Google.Showcase.V1Beta1.EnumResponse request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return VerifyEnum(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// This method is used to verify that clients can round-trip enum values, which is particularly important for unknown enum values over REST. VerifyEnum()
+      /// verifies that its request, which is presumably the response that the client previously got to a GetEnum(), contains the correct data. If so, it responds
+      /// with the same EnumResponse; otherwise, the RPC errors.
+      ///
+      /// This works because the values of enums sent by the server when a known or unknown value is requested will be the same within a single Showcase server run,
+      /// although they are not guaranteed to be the same across separate Showcase server runs.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Google.Showcase.V1Beta1.EnumResponse VerifyEnum(global::Google.Showcase.V1Beta1.EnumResponse request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_VerifyEnum, null, options, request);
+      }
+      /// <summary>
+      /// This method is used to verify that clients can round-trip enum values, which is particularly important for unknown enum values over REST. VerifyEnum()
+      /// verifies that its request, which is presumably the response that the client previously got to a GetEnum(), contains the correct data. If so, it responds
+      /// with the same EnumResponse; otherwise, the RPC errors.
+      ///
+      /// This works because the values of enums sent by the server when a known or unknown value is requested will be the same within a single Showcase server run,
+      /// although they are not guaranteed to be the same across separate Showcase server runs.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Google.Showcase.V1Beta1.EnumResponse> VerifyEnumAsync(global::Google.Showcase.V1Beta1.EnumResponse request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return VerifyEnumAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// This method is used to verify that clients can round-trip enum values, which is particularly important for unknown enum values over REST. VerifyEnum()
+      /// verifies that its request, which is presumably the response that the client previously got to a GetEnum(), contains the correct data. If so, it responds
+      /// with the same EnumResponse; otherwise, the RPC errors.
+      ///
+      /// This works because the values of enums sent by the server when a known or unknown value is requested will be the same within a single Showcase server run,
+      /// although they are not guaranteed to be the same across separate Showcase server runs.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Google.Showcase.V1Beta1.EnumResponse> VerifyEnumAsync(global::Google.Showcase.V1Beta1.EnumResponse request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_VerifyEnum, null, options, request);
+      }
       /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       protected override ComplianceClient NewInstance(ClientBaseConfiguration configuration)
@@ -703,7 +894,9 @@ namespace Google.Showcase.V1Beta1 {
           .AddMethod(__Method_RepeatDataPathResource, serviceImpl.RepeatDataPathResource)
           .AddMethod(__Method_RepeatDataPathTrailingResource, serviceImpl.RepeatDataPathTrailingResource)
           .AddMethod(__Method_RepeatDataBodyPut, serviceImpl.RepeatDataBodyPut)
-          .AddMethod(__Method_RepeatDataBodyPatch, serviceImpl.RepeatDataBodyPatch).Build();
+          .AddMethod(__Method_RepeatDataBodyPatch, serviceImpl.RepeatDataBodyPatch)
+          .AddMethod(__Method_GetEnum, serviceImpl.GetEnum)
+          .AddMethod(__Method_VerifyEnum, serviceImpl.VerifyEnum).Build();
     }
 
     /// <summary>Register service method with a service binder with or without implementation. Useful when customizing the service binding logic.
@@ -721,6 +914,8 @@ namespace Google.Showcase.V1Beta1 {
       serviceBinder.AddMethod(__Method_RepeatDataPathTrailingResource, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Google.Showcase.V1Beta1.RepeatRequest, global::Google.Showcase.V1Beta1.RepeatResponse>(serviceImpl.RepeatDataPathTrailingResource));
       serviceBinder.AddMethod(__Method_RepeatDataBodyPut, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Google.Showcase.V1Beta1.RepeatRequest, global::Google.Showcase.V1Beta1.RepeatResponse>(serviceImpl.RepeatDataBodyPut));
       serviceBinder.AddMethod(__Method_RepeatDataBodyPatch, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Google.Showcase.V1Beta1.RepeatRequest, global::Google.Showcase.V1Beta1.RepeatResponse>(serviceImpl.RepeatDataBodyPatch));
+      serviceBinder.AddMethod(__Method_GetEnum, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Google.Showcase.V1Beta1.EnumRequest, global::Google.Showcase.V1Beta1.EnumResponse>(serviceImpl.GetEnum));
+      serviceBinder.AddMethod(__Method_VerifyEnum, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Google.Showcase.V1Beta1.EnumResponse, global::Google.Showcase.V1Beta1.EnumResponse>(serviceImpl.VerifyEnum));
     }
 
   }

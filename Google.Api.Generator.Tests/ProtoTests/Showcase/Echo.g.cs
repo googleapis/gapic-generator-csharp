@@ -100,7 +100,7 @@ namespace Google.Showcase.V1Beta1 {
             "QmxvY2tSZXNwb25zZSIegtPkkwIYIhMvdjFiZXRhMS9lY2hvOmJsb2NrOgEq",
             "GhHKQQ5sb2NhbGhvc3Q6NzQ2OUJxChtjb20uZ29vZ2xlLnNob3djYXNlLnYx",
             "YmV0YTFQAVo0Z2l0aHViLmNvbS9nb29nbGVhcGlzL2dhcGljLXNob3djYXNl",
-            "L3NlcnZlci9nZW5wcm90b+oCGUdvb2dsZTo6U2hvd2Nhc2U6OlYxQmV0YTFi",
+            "L3NlcnZlci9nZW5wcm90b+oCGUdvb2dsZTo6U2hvd2Nhc2U6OlYxYmV0YTFi",
             "BnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Api.AnnotationsReflection.Descriptor, global::Google.Api.ClientReflection.Descriptor, global::Google.Api.FieldBehaviorReflection.Descriptor, global::Google.Api.RoutingReflection.Descriptor, global::Google.LongRunning.OperationsReflection.Descriptor, global::Google.Protobuf.WellKnownTypes.DurationReflection.Descriptor, global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, global::Google.Rpc.StatusReflection.Descriptor, },

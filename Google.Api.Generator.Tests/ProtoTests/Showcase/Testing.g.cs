@@ -109,7 +109,7 @@ namespace Google.Showcase.V1Beta1 {
             "dGExL3tuYW1lPXNlc3Npb25zLyovdGVzdHMvKn06Y2hlY2saEcpBDmxvY2Fs",
             "aG9zdDo3NDY5QnEKG2NvbS5nb29nbGUuc2hvd2Nhc2UudjFiZXRhMVABWjRn",
             "aXRodWIuY29tL2dvb2dsZWFwaXMvZ2FwaWMtc2hvd2Nhc2Uvc2VydmVyL2dl",
-            "bnByb3Rv6gIZR29vZ2xlOjpTaG93Y2FzZTo6VjFCZXRhMWIGcHJvdG8z"));
+            "bnByb3Rv6gIZR29vZ2xlOjpTaG93Y2FzZTo6VjFiZXRhMWIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Api.AnnotationsReflection.Descriptor, global::Google.Api.ClientReflection.Descriptor, global::Google.Api.ResourceReflection.Descriptor, global::Google.Protobuf.WellKnownTypes.EmptyReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
