@@ -64,14 +64,17 @@ service Compliance {
   // "/bar/{foo}" rather than "/{foo=bar/*}"), and the rest as query parameters.
   rpc RepeatDataSimplePath(RepeatRequest) returns (RepeatResponse) {
     option (google.api.http) = {
-      get: "/v1beta1/repeat/{info.f_string}:simplepath"
+      get: "/v1beta1/repeat/{info.f_string}/{info.f_int32}/{info.f_double}/{info.f_bool}/{info.f_kingdom}:simplepath"
     };
   }
 
   // Same as RepeatDataSimplePath, but with a path resource.
   rpc RepeatDataPathResource(RepeatRequest) returns (RepeatResponse) {
     option (google.api.http) = {
-      get: "/v1beta1/repeat/{info.f_string=first/*}/{info.f_child.f_string=second/*}:pathresource"
+      get: "/v1beta1/repeat/{info.f_string=first/*}/{info.f_child.f_string=second/*}/bool/{info.f_bool}:pathresource"
+      additional_bindings {
+        get: "/v1beta1/repeat/{info.f_child.f_string=first/*}/{info.f_string=second/*}/bool/{info.f_bool}:childfirstpathresource"
+      }
     };
   }
 
