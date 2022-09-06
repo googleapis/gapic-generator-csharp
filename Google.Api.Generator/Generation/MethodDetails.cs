@@ -615,14 +615,11 @@ namespace Google.Api.Generator.Generation
                         throw new InvalidOperationException($"Invalid path in http url: '{path}'. '{fieldName}' does not exist.");
                     }
 
-                    if (order == fields.Length - 1)
+                    if (field.IsRepeated)
                     {
-                        if (field.FieldType != FieldType.String)
-                        {
-                            throw new InvalidOperationException($"Path in http url must resolve to a string field: '{path}'.");
-                        }
+                        throw new InvalidOperationException($"Repeated fields cannot be used in path: '{path}'.");
                     }
-                    else
+                    if (order != fields.Length - 1)
                     {
                         if (field.FieldType != FieldType.Message)
                         {
