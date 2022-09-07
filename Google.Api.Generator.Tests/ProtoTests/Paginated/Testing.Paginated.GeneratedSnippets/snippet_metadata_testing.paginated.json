@@ -33,7 +33,19 @@
         }
       },
       "canonical": true,
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 79,
+          "type": "FULL"
+        },
+        {
+          "start": 36,
+          "end": 77,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "paginated_generated_Paginated_SignatureMethod_async",
@@ -60,7 +72,19 @@
         }
       },
       "canonical": true,
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 81,
+          "type": "FULL"
+        },
+        {
+          "start": 38,
+          "end": 79,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "paginated_generated_Paginated_SignatureMethod_sync_flattened1",
@@ -85,7 +109,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 76,
+          "type": "FULL"
+        },
+        {
+          "start": 36,
+          "end": 74,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "paginated_generated_Paginated_SignatureMethod_async_flattened1",
@@ -111,7 +147,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 78,
+          "type": "FULL"
+        },
+        {
+          "start": 38,
+          "end": 76,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "paginated_generated_Paginated_SignatureMethod_sync_flattened2",
@@ -136,7 +184,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 75,
+          "type": "FULL"
+        },
+        {
+          "start": 36,
+          "end": 73,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "paginated_generated_Paginated_SignatureMethod_async_flattened2",
@@ -162,7 +222,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 77,
+          "type": "FULL"
+        },
+        {
+          "start": 38,
+          "end": 75,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "paginated_generated_Paginated_SignatureMethod_sync_flattened3",
@@ -187,7 +259,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 73,
+          "type": "FULL"
+        },
+        {
+          "start": 36,
+          "end": 71,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "paginated_generated_Paginated_SignatureMethod_async_flattened3",
@@ -213,7 +297,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 75,
+          "type": "FULL"
+        },
+        {
+          "start": 38,
+          "end": 73,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "paginated_generated_Paginated_SignatureMethod2_sync",
@@ -239,7 +335,19 @@
         }
       },
       "canonical": true,
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 79,
+          "type": "FULL"
+        },
+        {
+          "start": 36,
+          "end": 77,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "paginated_generated_Paginated_SignatureMethod2_async",
@@ -266,7 +374,19 @@
         }
       },
       "canonical": true,
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 81,
+          "type": "FULL"
+        },
+        {
+          "start": 38,
+          "end": 79,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "paginated_generated_Paginated_ResourcedMethod_sync",
@@ -292,7 +412,19 @@
         }
       },
       "canonical": true,
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 79,
+          "type": "FULL"
+        },
+        {
+          "start": 36,
+          "end": 77,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "paginated_generated_Paginated_ResourcedMethod_async",
@@ -319,7 +451,19 @@
         }
       },
       "canonical": true,
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 81,
+          "type": "FULL"
+        },
+        {
+          "start": 38,
+          "end": 79,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "paginated_generated_Paginated_ResourcedMethod_sync_flattened1",
@@ -344,7 +488,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 75,
+          "type": "FULL"
+        },
+        {
+          "start": 36,
+          "end": 73,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "paginated_generated_Paginated_ResourcedMethod_async_flattened1",
@@ -370,7 +526,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 77,
+          "type": "FULL"
+        },
+        {
+          "start": 38,
+          "end": 75,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "paginated_generated_Paginated_ResourcedMethod_sync_flattened1_resourceNames",
@@ -395,7 +563,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 75,
+          "type": "FULL"
+        },
+        {
+          "start": 36,
+          "end": 73,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "paginated_generated_Paginated_ResourcedMethod_async_flattened1_resourceNames",
@@ -421,7 +601,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 77,
+          "type": "FULL"
+        },
+        {
+          "start": 38,
+          "end": 75,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "paginated_generated_Paginated_ResourcedMethod_sync_flattened2",
@@ -446,7 +638,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 76,
+          "type": "FULL"
+        },
+        {
+          "start": 36,
+          "end": 74,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "paginated_generated_Paginated_ResourcedMethod_async_flattened2",
@@ -472,7 +676,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 78,
+          "type": "FULL"
+        },
+        {
+          "start": 38,
+          "end": 76,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "paginated_generated_Paginated_ResourcedMethod_sync_flattened2_resourceNames",
@@ -497,7 +713,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 76,
+          "type": "FULL"
+        },
+        {
+          "start": 36,
+          "end": 74,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "paginated_generated_Paginated_ResourcedMethod_async_flattened2_resourceNames",
@@ -523,7 +751,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 78,
+          "type": "FULL"
+        },
+        {
+          "start": 38,
+          "end": 76,
+          "type": "SHORT"
+        }
+      ]
     }
   ]
 }

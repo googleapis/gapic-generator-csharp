@@ -16,13 +16,16 @@ using Google.Api.Gax;
 using Google.Api.Gax.Grpc;
 using Google.Api.Generator.ProtoUtils;
 using Google.Api.Generator.Utils;
+using Google.Api.Generator.Utils.Formatting;
 using Google.Api.Generator.Utils.Roslyn;
 using Google.Cloud.Tools.SnippetGen.SnippetIndex.V1;
 using Google.LongRunning;
 using Google.Protobuf;
 using Google.Protobuf.Reflection;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Text;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -31,6 +34,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using static Google.Api.Generator.Utils.Roslyn.Modifier;
 using static Google.Api.Generator.Utils.Roslyn.RoslynBuilder;
+using static Google.Cloud.Tools.SnippetGen.SnippetIndex.V1.Snippet.Types.Segment.Types;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using ApiMetadata = Google.Cloud.Tools.SnippetGen.SnippetIndex.V1.Api;
 using ServiceMetadata = Google.Cloud.Tools.SnippetGen.SnippetIndex.V1.Service;
@@ -149,10 +153,16 @@ namespace Google.Api.Generator.Generation
         private SnippetDef Snippet { get; }
         public string SnippetMethodName => Snippet.SnippetMethodName;
 
-        public (CompilationUnitSyntax, SnippetMetadata) Generate(SourceFileContext ctx)
+        public (string, SnippetMetadata) Generate(SourceFileContext ctx)
         {
             var (snippetCode, snippetMetadata) = Snippet.FullSnippet(ctx);
-            return (ctx.CreateCompilationUnit(snippetCode), snippetMetadata);
+            // We now need to format the code to make sure that we extract segment line numbers correctly.
+            var formattedCode = CodeFormatter.Format(ctx.CreateCompilationUnit(snippetCode));
+
+            SnippetSegmentFinder.UpdateMetadataWithSegmentInfo(formattedCode, snippetMetadata);
+
+            // Let's return the string so that the code is not formatted or otherwise changed further.
+            return (formattedCode.ToFullString(), snippetMetadata);
         }
 
         private class SnippetDef
@@ -252,9 +262,16 @@ namespace Google.Api.Generator.Generation
 
                 metadata.RegionTag = regionTagName;
 
+                // We define these consts here instead of using the literals directly so that snippet-bot-checker
+                // doesn't recognize the interpolated string as a malformed region tag.
+                const string start = "START";
+                const string end = "END";
+
                 return ns
-                    .WithOpenBraceToken(ns.OpenBraceToken.WithTrailingTrivia(Comment($"// [START {regionTagName}]")))
-                    .WithCloseBraceToken(ns.CloseBraceToken.WithLeadingTrivia(Comment($"// [END {regionTagName}]")));
+                    .WithOpenBraceToken(ns.OpenBraceToken.WithTrailingTrivia(Comment($"// [{start} {regionTagName}]")
+                        .WithAdditionalAnnotations(SnippetSegmentFinder.FullSegmentStart)))
+                    .WithCloseBraceToken(ns.CloseBraceToken.WithLeadingTrivia(Comment($"// [{end} {regionTagName}]")
+                        .WithAdditionalAnnotations(SnippetSegmentFinder.FullSegmentEnd)));
             }
         }
 
@@ -421,7 +438,7 @@ namespace Google.Api.Generator.Generation
 
             private MethodDeclarationSyntax Sync(string methodName, IEnumerable<Typ> snippetTyps, object initRequest, object makeRequest) =>
                 Method(Public, VoidType, methodName)()
-                    .WithBody(
+                    .WithShortSnippetBody(
                         IncludeDocMarkers ? $"// Snippet: {Method.SyncMethodName}({SnippetTypes(snippetTyps)}{nameof(CallSettings)})" : null,
                         "// Create client",
                         Client.WithInitializer(Ctx.Type(Svc.ClientAbstractTyp).Call("Create")()),
@@ -433,7 +450,7 @@ namespace Google.Api.Generator.Generation
 
             private MethodDeclarationSyntax Async(string methodName, IEnumerable<Typ> snippetTyps, object initRequest, object makeRequest) =>
                 Method(Public | Modifier.Async, Ctx.Type<Task>(), methodName)()
-                    .WithBody(
+                    .WithShortSnippetBody(
                         IncludeDocMarkers ? $"// Snippet: {Method.AsyncMethodName}({SnippetTypes(snippetTyps)}{nameof(CallSettings)})" : null,
                         IncludeDocMarkers ? $"// Additional: {Method.AsyncMethodName}({SnippetTypes(snippetTyps)}{nameof(CancellationToken)})" : null,
                         "// Create client",
@@ -446,7 +463,7 @@ namespace Google.Api.Generator.Generation
 
             private MethodDeclarationSyntax SyncLro(string methodName, IEnumerable<Typ> snippetTyps, object initRequest, object makeRequest) =>
                 Method(Public, VoidType, methodName)()
-                    .WithBody(
+                    .WithShortSnippetBody(
                         IncludeDocMarkers ? $"// Snippet: {Method.SyncMethodName}({SnippetTypes(snippetTyps)}{nameof(CallSettings)})" : null,
                         "// Create client",
                         Client.WithInitializer(Ctx.Type(Svc.ClientAbstractTyp).Call("Create")()),
@@ -473,7 +490,7 @@ namespace Google.Api.Generator.Generation
 
             private MethodDeclarationSyntax AsyncLro(string methodName, IEnumerable<Typ> snippetTyps, object initRequest, object makeRequest) =>
                 Method(Public | Modifier.Async, Ctx.Type<Task>(), methodName)()
-                    .WithBody(
+                    .WithShortSnippetBody(
                         IncludeDocMarkers ? $"// Snippet: {Method.AsyncMethodName}({SnippetTypes(snippetTyps)}{nameof(CallSettings)})" : null,
                         IncludeDocMarkers ? $"// Additional: {Method.AsyncMethodName}({SnippetTypes(snippetTyps)}{nameof(CancellationToken)})" : null,
                         "// Create client",
@@ -503,7 +520,7 @@ namespace Google.Api.Generator.Generation
 
             private MethodDeclarationSyntax SyncPaginated(string methodName, IEnumerable<Typ> snippetTyps, object initRequest, object makeRequest, bool isSig) =>
                 Method(Public, VoidType, methodName)()
-                    .WithBody(
+                    .WithShortSnippetBody(
                         IncludeDocMarkers ? $"// Snippet: {Method.SyncMethodName}({SnippetTypes(snippetTyps)}{PaginatedSnippetTypes(isSig)}{nameof(CallSettings)})" : null,
                         "// Create client",
                         Client.WithInitializer(Ctx.Type(Svc.ClientAbstractTyp).Call("Create")()),
@@ -540,7 +557,7 @@ namespace Google.Api.Generator.Generation
 
             private MethodDeclarationSyntax AsyncPaginated(string methodName, IEnumerable<Typ> snippetTyps, object initRequest, object makeRequest, bool isSig) =>
                 Method(Public | Modifier.Async, Ctx.Type<Task>(), methodName)()
-                    .WithBody(
+                    .WithShortSnippetBody(
                         IncludeDocMarkers ? $"// Snippet: {Method.AsyncMethodName}({SnippetTypes(snippetTyps)}{PaginatedSnippetTypes(isSig)}{nameof(CallSettings)})" : null,
                         "// Create client",
                         Client.WithInitializer(Await(Ctx.Type(Svc.ClientAbstractTyp).Call("CreateAsync")())),
@@ -577,7 +594,7 @@ namespace Google.Api.Generator.Generation
 
             private MethodDeclarationSyntax ServerStreaming(string methodName, IEnumerable<Typ> snippetTyps, object initRequest, object makeRequest) =>
                 Method(Public | Modifier.Async, Ctx.Type<Task>(), methodName)()
-                    .WithBody(
+                    .WithShortSnippetBody(
                         IncludeDocMarkers ? $"// Snippet: {Method.SyncMethodName}({SnippetTypes(snippetTyps)}{nameof(CallSettings)})" : null,
                         "// Create client",
                         Client.WithInitializer(Ctx.Type(Svc.ClientAbstractTyp).Call("Create")()),
@@ -645,7 +662,7 @@ namespace Google.Api.Generator.Generation
 
             private MethodDeclarationSyntax BidiStreamingMethod =>
                 Method(Public | Modifier.Async, Ctx.Type<Task>(), Method.SyncMethodName)()
-                    .WithBody(
+                    .WithShortSnippetBody(
                         IncludeDocMarkers ? $"// Snippet: {Method.SyncMethodName}({nameof(CallSettings)}, {nameof(BidirectionalStreamingSettings)})" : null,
                         "// Create client",
                         Client.WithInitializer(Ctx.Type(Svc.ClientAbstractTyp).Call("Create")()),
@@ -881,6 +898,107 @@ namespace Google.Api.Generator.Generation
             }
 
             public IEnumerable<Signature> Signatures => Method.Signatures.Select((sig, i) => new Signature(this, sig, Method.Signatures.Count > 1 ? i : (int?)null));
+        }
+    }
+
+    /// <summary>
+    /// Recursively traverses a syntax element, (usually a single snippet compilation unit)
+    /// looking for snippet segment annotations. It then uses the annotations to extract
+    /// segment information, including segment type and segment start and end line numbers, and
+    /// includes this information on the given snippet metadata.
+    /// </summary>
+    internal class SnippetSegmentFinder : CSharpSyntaxWalker
+    {
+        private static string SegmentAnnotationKind { get; } = "snippet-segment";
+
+        public static SyntaxAnnotation ShortSegmentStart { get; } = AnnotationFor(SegmentType.Short, start: true, lineAddition: 2);
+        public static SyntaxAnnotation ShortSegmentEnd { get; } = AnnotationFor(SegmentType.Short, start: false);
+
+        public static SyntaxAnnotation FullSegmentStart { get; } = AnnotationFor(SegmentType.Full, start: true, lineAddition: 2);
+        public static SyntaxAnnotation FullSegmentEnd { get; } = AnnotationFor(SegmentType.Full, start: false);
+
+        private SnippetMetadata _snippetMedata;
+
+        private SnippetSegmentFinder(SnippetMetadata snippetMetadata)
+            : base(SyntaxWalkerDepth.StructuredTrivia) => _snippetMedata = snippetMetadata;
+
+        public override void Visit(SyntaxNode node)
+        {
+            UpdateMetadata(node.GetAnnotations(SegmentAnnotationKind), node.SyntaxTree, node.Span);
+            base.Visit(node);
+        }
+
+        public override void VisitToken(SyntaxToken token)
+        {
+            UpdateMetadata(token.GetAnnotations(SegmentAnnotationKind), token.SyntaxTree, token.Span);
+            base.VisitToken(token);
+        }
+
+        public override void VisitTrivia(SyntaxTrivia trivia)
+        {
+            UpdateMetadata(trivia.GetAnnotations(SegmentAnnotationKind), trivia.SyntaxTree, trivia.Span);
+            base.VisitTrivia(trivia);
+        }
+
+        // Note: Nodes, tokens and trivia may be annotated with segment annotations.
+        // This method just works for all, as their corresponding types don't have a common base class.
+        private void UpdateMetadata(IEnumerable<SyntaxAnnotation> annotations, SyntaxTree syntaxTree, TextSpan span)
+        {
+            foreach (var segmentAnnotation in annotations)
+            {
+                // Extract information from annotation
+                var rawData = segmentAnnotation.Data.Split(';');
+                var segmentType = System.Enum.Parse<SegmentType>(rawData[0]);
+                var isStart = bool.Parse(rawData[1]);
+                var lineAddition = int.Parse(rawData[2]);
+
+                // We will encounter start and end segment markers in different visitis,
+                // so let's check if the segment with partial information has
+                // already been added to the metadata.
+                var segment = _snippetMedata.Segments.FirstOrDefault(segment => segment.Type == segmentType);
+                if (segment is null)
+                {
+                    segment = new SnippetMetadata.Types.Segment { Type = segmentType };
+                    _snippetMedata.Segments.Add(segment);
+                }
+
+                // Get the line number
+                var lineNumber = syntaxTree.GetLineSpan(span).StartLinePosition.Line + lineAddition;
+
+                // Add the line number to the metadata
+                if (isStart)
+                {
+                    segment.Start = lineNumber;
+                }
+                else
+                {
+                    segment.End = lineNumber;
+                }
+            }
+        }
+
+        private static SyntaxAnnotation AnnotationFor(SegmentType type, bool start, int lineAddition = 0) =>
+            new SyntaxAnnotation(SegmentAnnotationKind, $"{type};{start};{lineAddition}");
+
+        public static void UpdateMetadataWithSegmentInfo(CompilationUnitSyntax formattedCode, SnippetMetadata snippetMetadata)
+        {
+            var segmentFinder = new SnippetSegmentFinder(snippetMetadata);
+            segmentFinder.Visit(formattedCode);
+        }
+    }
+
+    internal static class RoslynSnippetExtensions
+    {
+        public static MethodDeclarationSyntax WithShortSnippetBody(this MethodDeclarationSyntax method, params object[] code)
+        {
+            method = method.WithBody(code);
+            method = method.WithBody(
+                method.Body.WithOpenBraceToken(
+                    method.Body.OpenBraceToken.WithAdditionalAnnotations(SnippetSegmentFinder.ShortSegmentStart)));
+            method = method.WithBody(
+                method.Body.WithCloseBraceToken(
+                    method.Body.CloseBraceToken.WithAdditionalAnnotations(SnippetSegmentFinder.ShortSegmentEnd)));
+            return method;
         }
     }
 }
