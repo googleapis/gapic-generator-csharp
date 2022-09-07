@@ -32,7 +32,19 @@
         }
       },
       "canonical": true,
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 44,
+          "type": "FULL"
+        },
+        {
+          "start": 34,
+          "end": 42,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "unknown_generated_VoidReturn_VoidMethod_async",
@@ -59,7 +71,19 @@
         }
       },
       "canonical": true,
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 45,
+          "type": "FULL"
+        },
+        {
+          "start": 35,
+          "end": 43,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "unknown_generated_VoidReturn_VoidMethod_sync_flattened",
@@ -83,7 +107,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 41,
+          "type": "FULL"
+        },
+        {
+          "start": 34,
+          "end": 39,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "unknown_generated_VoidReturn_VoidMethod_async_flattened",
@@ -109,7 +145,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 42,
+          "type": "FULL"
+        },
+        {
+          "start": 35,
+          "end": 40,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "unknown_generated_VoidReturn_VoidMethod_sync_flattened_resourceNames",
@@ -133,7 +181,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 41,
+          "type": "FULL"
+        },
+        {
+          "start": 34,
+          "end": 39,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "unknown_generated_VoidReturn_VoidMethod_async_flattened_resourceNames",
@@ -159,7 +219,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 42,
+          "type": "FULL"
+        },
+        {
+          "start": 35,
+          "end": 40,
+          "type": "SHORT"
+        }
+      ]
     }
   ]
 }

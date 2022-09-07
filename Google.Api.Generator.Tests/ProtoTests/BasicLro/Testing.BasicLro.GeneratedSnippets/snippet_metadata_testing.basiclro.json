@@ -33,7 +33,19 @@
         }
       },
       "canonical": true,
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 58,
+          "type": "FULL"
+        },
+        {
+          "start": 35,
+          "end": 56,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "lro_generated_BasicLro_Method1_async",
@@ -60,7 +72,19 @@
         }
       },
       "canonical": true,
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 59,
+          "type": "FULL"
+        },
+        {
+          "start": 36,
+          "end": 57,
+          "type": "SHORT"
+        }
+      ]
     }
   ]
 }

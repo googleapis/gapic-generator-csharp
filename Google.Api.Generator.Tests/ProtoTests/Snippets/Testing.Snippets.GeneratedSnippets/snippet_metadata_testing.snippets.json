@@ -33,7 +33,19 @@
         }
       },
       "canonical": true,
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 126,
+          "type": "FULL"
+        },
+        {
+          "start": 36,
+          "end": 124,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodDefaultValues_async",
@@ -60,7 +72,19 @@
         }
       },
       "canonical": true,
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 129,
+          "type": "FULL"
+        },
+        {
+          "start": 39,
+          "end": 127,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodDefaultValues_sync_flattened",
@@ -85,7 +109,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 50,
+          "type": "FULL"
+        },
+        {
+          "start": 35,
+          "end": 48,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodDefaultValues_async_flattened",
@@ -111,7 +147,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 53,
+          "type": "FULL"
+        },
+        {
+          "start": 38,
+          "end": 51,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodDefaultValues_sync_flattened_resourceNames",
@@ -136,7 +184,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 50,
+          "type": "FULL"
+        },
+        {
+          "start": 35,
+          "end": 48,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodDefaultValues_async_flattened_resourceNames",
@@ -162,7 +222,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 53,
+          "type": "FULL"
+        },
+        {
+          "start": 38,
+          "end": 51,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodOneSignature_sync",
@@ -188,7 +260,19 @@
         }
       },
       "canonical": true,
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 47,
+          "type": "FULL"
+        },
+        {
+          "start": 34,
+          "end": 45,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodOneSignature_async",
@@ -215,7 +299,19 @@
         }
       },
       "canonical": true,
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 50,
+          "type": "FULL"
+        },
+        {
+          "start": 37,
+          "end": 48,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodOneSignature_sync_flattened",
@@ -240,7 +336,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 43,
+          "type": "FULL"
+        },
+        {
+          "start": 34,
+          "end": 41,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodOneSignature_async_flattened",
@@ -266,7 +374,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 46,
+          "type": "FULL"
+        },
+        {
+          "start": 37,
+          "end": 44,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodThreeSignatures_sync",
@@ -292,7 +412,19 @@
         }
       },
       "canonical": true,
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 47,
+          "type": "FULL"
+        },
+        {
+          "start": 34,
+          "end": 45,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodThreeSignatures_async",
@@ -319,7 +451,19 @@
         }
       },
       "canonical": true,
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 50,
+          "type": "FULL"
+        },
+        {
+          "start": 37,
+          "end": 48,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodThreeSignatures_sync_flattened1",
@@ -344,7 +488,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 43,
+          "type": "FULL"
+        },
+        {
+          "start": 34,
+          "end": 41,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodThreeSignatures_async_flattened1",
@@ -370,7 +526,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 46,
+          "type": "FULL"
+        },
+        {
+          "start": 37,
+          "end": 44,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodThreeSignatures_sync_flattened2",
@@ -395,7 +563,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 42,
+          "type": "FULL"
+        },
+        {
+          "start": 34,
+          "end": 40,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodThreeSignatures_async_flattened2",
@@ -421,7 +601,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 45,
+          "type": "FULL"
+        },
+        {
+          "start": 37,
+          "end": 43,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodThreeSignatures_sync_flattened3",
@@ -446,7 +638,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 39,
+          "type": "FULL"
+        },
+        {
+          "start": 34,
+          "end": 37,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodThreeSignatures_async_flattened3",
@@ -472,7 +676,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 42,
+          "type": "FULL"
+        },
+        {
+          "start": 37,
+          "end": 40,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodMapSignature_sync",
@@ -498,7 +714,19 @@
         }
       },
       "canonical": true,
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 47,
+          "type": "FULL"
+        },
+        {
+          "start": 34,
+          "end": 45,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodMapSignature_async",
@@ -525,7 +753,19 @@
         }
       },
       "canonical": true,
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 50,
+          "type": "FULL"
+        },
+        {
+          "start": 37,
+          "end": 48,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodMapSignature_sync_flattened",
@@ -550,7 +790,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 42,
+          "type": "FULL"
+        },
+        {
+          "start": 35,
+          "end": 40,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodMapSignature_async_flattened",
@@ -576,7 +828,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 45,
+          "type": "FULL"
+        },
+        {
+          "start": 38,
+          "end": 43,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodResourceSignature_sync",
@@ -602,7 +866,19 @@
         }
       },
       "canonical": true,
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 46,
+          "type": "FULL"
+        },
+        {
+          "start": 34,
+          "end": 44,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodResourceSignature_async",
@@ -629,7 +905,19 @@
         }
       },
       "canonical": true,
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 49,
+          "type": "FULL"
+        },
+        {
+          "start": 37,
+          "end": 47,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodResourceSignature_sync_flattened1",
@@ -654,7 +942,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 43,
+          "type": "FULL"
+        },
+        {
+          "start": 34,
+          "end": 41,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodResourceSignature_async_flattened1",
@@ -680,7 +980,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 46,
+          "type": "FULL"
+        },
+        {
+          "start": 37,
+          "end": 44,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodResourceSignature_sync_flattened1_resourceNames",
@@ -705,7 +1017,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 43,
+          "type": "FULL"
+        },
+        {
+          "start": 34,
+          "end": 41,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodResourceSignature_async_flattened1_resourceNames",
@@ -731,7 +1055,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 46,
+          "type": "FULL"
+        },
+        {
+          "start": 37,
+          "end": 44,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodResourceSignature_sync_flattened2",
@@ -756,7 +1092,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 41,
+          "type": "FULL"
+        },
+        {
+          "start": 34,
+          "end": 39,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodResourceSignature_async_flattened2",
@@ -782,7 +1130,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 44,
+          "type": "FULL"
+        },
+        {
+          "start": 37,
+          "end": 42,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodResourceSignature_sync_flattened2_resourceNames",
@@ -807,7 +1167,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 41,
+          "type": "FULL"
+        },
+        {
+          "start": 34,
+          "end": 39,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodResourceSignature_async_flattened2_resourceNames",
@@ -833,7 +1205,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 44,
+          "type": "FULL"
+        },
+        {
+          "start": 37,
+          "end": 42,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodRepeatedResourceSignature_sync",
@@ -859,7 +1243,19 @@
         }
       },
       "canonical": true,
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 47,
+          "type": "FULL"
+        },
+        {
+          "start": 34,
+          "end": 45,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodRepeatedResourceSignature_async",
@@ -886,7 +1282,19 @@
         }
       },
       "canonical": true,
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 50,
+          "type": "FULL"
+        },
+        {
+          "start": 37,
+          "end": 48,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodRepeatedResourceSignature_sync_flattened",
@@ -911,7 +1319,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 42,
+          "type": "FULL"
+        },
+        {
+          "start": 35,
+          "end": 40,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodRepeatedResourceSignature_async_flattened",
@@ -937,7 +1357,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 45,
+          "type": "FULL"
+        },
+        {
+          "start": 38,
+          "end": 43,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodRepeatedResourceSignature_sync_flattened_resourceNames",
@@ -962,7 +1394,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 45,
+          "type": "FULL"
+        },
+        {
+          "start": 35,
+          "end": 43,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodRepeatedResourceSignature_async_flattened_resourceNames",
@@ -988,7 +1432,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 48,
+          "type": "FULL"
+        },
+        {
+          "start": 38,
+          "end": 46,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodLroSignatures_sync",
@@ -1014,7 +1470,19 @@
         }
       },
       "canonical": true,
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 64,
+          "type": "FULL"
+        },
+        {
+          "start": 35,
+          "end": 62,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodLroSignatures_async",
@@ -1041,7 +1509,19 @@
         }
       },
       "canonical": true,
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 67,
+          "type": "FULL"
+        },
+        {
+          "start": 38,
+          "end": 65,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodLroSignatures_sync_flattened",
@@ -1066,7 +1546,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 60,
+          "type": "FULL"
+        },
+        {
+          "start": 35,
+          "end": 58,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodLroSignatures_async_flattened",
@@ -1092,7 +1584,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 63,
+          "type": "FULL"
+        },
+        {
+          "start": 38,
+          "end": 61,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodLroResourceSignature_sync",
@@ -1118,7 +1622,19 @@
         }
       },
       "canonical": true,
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 63,
+          "type": "FULL"
+        },
+        {
+          "start": 35,
+          "end": 61,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodLroResourceSignature_async",
@@ -1145,7 +1661,19 @@
         }
       },
       "canonical": true,
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 66,
+          "type": "FULL"
+        },
+        {
+          "start": 38,
+          "end": 64,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodLroResourceSignature_sync_flattened",
@@ -1170,7 +1698,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 60,
+          "type": "FULL"
+        },
+        {
+          "start": 35,
+          "end": 58,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodLroResourceSignature_async_flattened",
@@ -1196,7 +1736,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 63,
+          "type": "FULL"
+        },
+        {
+          "start": 38,
+          "end": 61,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodLroResourceSignature_sync_flattened_resourceNames",
@@ -1221,7 +1773,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 60,
+          "type": "FULL"
+        },
+        {
+          "start": 35,
+          "end": 58,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodLroResourceSignature_async_flattened_resourceNames",
@@ -1247,7 +1811,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 63,
+          "type": "FULL"
+        },
+        {
+          "start": 38,
+          "end": 61,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodServerStreaming_sync",
@@ -1273,7 +1849,19 @@
         }
       },
       "canonical": true,
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 61,
+          "type": "FULL"
+        },
+        {
+          "start": 38,
+          "end": 59,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodServerStreaming_sync_flattened1",
@@ -1298,7 +1886,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 56,
+          "type": "FULL"
+        },
+        {
+          "start": 38,
+          "end": 54,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodServerStreaming_sync_flattened2",
@@ -1323,7 +1923,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 53,
+          "type": "FULL"
+        },
+        {
+          "start": 38,
+          "end": 51,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodServerStreamingResources_sync",
@@ -1349,7 +1961,19 @@
         }
       },
       "canonical": true,
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 60,
+          "type": "FULL"
+        },
+        {
+          "start": 38,
+          "end": 58,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodServerStreamingResources_sync_flattened",
@@ -1374,7 +1998,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 57,
+          "type": "FULL"
+        },
+        {
+          "start": 38,
+          "end": 55,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodServerStreamingResources_sync_flattened_resourceNames",
@@ -1399,7 +2035,19 @@
           }
         }
       },
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 57,
+          "type": "FULL"
+        },
+        {
+          "start": 38,
+          "end": 55,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_MethodBidiStreaming_sync",
@@ -1425,7 +2073,19 @@
         }
       },
       "canonical": true,
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 82,
+          "type": "FULL"
+        },
+        {
+          "start": 38,
+          "end": 80,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_TaskMethod_sync",
@@ -1451,7 +2111,19 @@
         }
       },
       "canonical": true,
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 41,
+          "type": "FULL"
+        },
+        {
+          "start": 34,
+          "end": 39,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_TaskMethod_async",
@@ -1478,7 +2150,19 @@
         }
       },
       "canonical": true,
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 44,
+          "type": "FULL"
+        },
+        {
+          "start": 37,
+          "end": 42,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_OneOfMethod_sync",
@@ -1504,7 +2188,19 @@
         }
       },
       "canonical": true,
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 45,
+          "type": "FULL"
+        },
+        {
+          "start": 34,
+          "end": 43,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "snippets_generated_Snippets_OneOfMethod_async",
@@ -1531,7 +2227,19 @@
         }
       },
       "canonical": true,
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 48,
+          "type": "FULL"
+        },
+        {
+          "start": 37,
+          "end": 46,
+          "type": "SHORT"
+        }
+      ]
     }
   ]
 }

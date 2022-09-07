@@ -34,7 +34,19 @@
         }
       },
       "canonical": true,
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 41,
+          "type": "FULL"
+        },
+        {
+          "start": 34,
+          "end": 39,
+          "type": "SHORT"
+        }
+      ]
     },
     {
       "regionTag": "basic_v1_generated_Basic_AMethod_async",
@@ -61,7 +73,19 @@
         }
       },
       "canonical": true,
-      "origin": "API_DEFINITION"
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 42,
+          "type": "FULL"
+        },
+        {
+          "start": 35,
+          "end": 40,
+          "type": "SHORT"
+        }
+      ]
     }
   ]
 }
