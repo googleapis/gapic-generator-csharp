@@ -61,7 +61,7 @@ namespace Google.Api.Generator.Tests
         }
 
         private void ProtoTestSingle(string testProtoName,
-            bool ignoreCsProj = false, bool ignoreSnippets = false, bool ignoreUnitTests = false,
+            bool ignoreCsProj = false, bool ignoreSnippets = false,
             string grpcServiceConfigPath = null, string serviceConfigPath = null, IEnumerable<string> commonResourcesConfigPaths = null,
             ApiTransports transports = ApiTransports.Grpc, bool requestNumericEnumJsonEncoding = false,
             bool ignoreGapicMetadataFile = true, bool ignoreApiMetadataFile = true, bool ignoreServiceExtensionsFile = true) =>
@@ -73,7 +73,6 @@ namespace Google.Api.Generator.Tests
                 package: null,
                 ignoreCsProj,
                 ignoreSnippets,
-                ignoreUnitTests,
                 grpcServiceConfigPath,
                 serviceConfigPath,
                 commonResourcesConfigPaths,
@@ -85,7 +84,7 @@ namespace Google.Api.Generator.Tests
             );
 
         private void ProtoTestSingle(IEnumerable<string> testProtoNames, string sourceDir = null, string outputDir = null, string package = null,
-            bool ignoreCsProj = false, bool ignoreSnippets = false, bool ignoreUnitTests = false,
+            bool ignoreCsProj = false, bool ignoreSnippets = false,
             string grpcServiceConfigPath = null, string serviceConfigPath = null, IEnumerable<string> commonResourcesConfigPaths = null,
             ApiTransports transports = ApiTransports.Grpc, bool requestNumericEnumJsonEncoding = false,
             bool ignoreGapicMetadataFile = true, bool ignoreApiMetadataFile = true, bool ignoreServiceExtensionsFile = true)
@@ -123,7 +122,6 @@ namespace Google.Api.Generator.Tests
                 if ((ignoreCsProj && file.RelativePath.EndsWith(".csproj")) ||
                     (ignoreSnippets && file.RelativePath.Contains($".Snippets{Path.DirectorySeparatorChar}")) ||
                     (ignoreSnippets && file.RelativePath.Contains($".GeneratedSnippets{Path.DirectorySeparatorChar}")) ||
-                    (ignoreUnitTests && file.RelativePath.Contains($".Tests{Path.DirectorySeparatorChar}")) ||
                     (ignoreGapicMetadataFile && file.RelativePath.EndsWith("gapic_metadata.json")) ||
                     (ignoreApiMetadataFile && file.RelativePath.EndsWith(PackageApiMetadataGenerator.FileName)) ||
                     (ignoreServiceExtensionsFile && file.RelativePath.EndsWith(ServiceCollectionExtensionsGenerator.FileName)))
@@ -135,7 +133,7 @@ namespace Google.Api.Generator.Tests
             }
         }
 
-        private void BuildTest(string serviceName, string protoPackageVersion = null, bool ignoreUnitTests = false)
+        private void BuildTest(string serviceName, string protoPackageVersion = null)
         {
             var (effectiveBasePathPart, effectiveTestName) = protoPackageVersion == null
                 ? (serviceName, serviceName)
@@ -148,11 +146,6 @@ namespace Google.Api.Generator.Tests
             // Test build snippets.
             Build(Path.Combine(baseTestPath, $"Testing.{effectiveTestName}.Snippets"));
             Build(Path.Combine(baseTestPath, $"Testing.{effectiveTestName}.GeneratedSnippets"));
-            if (!ignoreUnitTests)
-            {
-                // Test build unit-tests.
-                Build(Path.Combine(baseTestPath, $"Testing.{effectiveTestName}.Tests"));
-            }
 
             void Build(string path)
             {
@@ -190,19 +183,19 @@ namespace Google.Api.Generator.Tests
         public void Basic0() => ProtoTestSingle("Basic.v1", ignoreGapicMetadataFile: false, ignoreApiMetadataFile: false);
 
         [Fact]
-        public void BasicLro() => ProtoTestSingle("BasicLro", ignoreCsProj: true, ignoreUnitTests: true);
+        public void BasicLro() => ProtoTestSingle("BasicLro", ignoreCsProj: true);
 
         [Fact]
-        public void BasicBidiStreaming() => ProtoTestSingle("BasicBidiStreaming", ignoreCsProj: true, ignoreSnippets: true, ignoreUnitTests: true);
+        public void BasicBidiStreaming() => ProtoTestSingle("BasicBidiStreaming", ignoreCsProj: true, ignoreSnippets: true);
 
         [Fact]
-        public void BasicClientStreaming() => ProtoTestSingle("BasicClientStreaming", ignoreCsProj: true, ignoreSnippets: true, ignoreUnitTests: true);
+        public void BasicClientStreaming() => ProtoTestSingle("BasicClientStreaming", ignoreCsProj: true, ignoreSnippets: true);
 
         [Fact]
-        public void BasicServerStreaming() => ProtoTestSingle("BasicServerStreaming", ignoreCsProj: true, ignoreSnippets: true, ignoreUnitTests: true);
+        public void BasicServerStreaming() => ProtoTestSingle("BasicServerStreaming", ignoreCsProj: true, ignoreSnippets: true);
 
         [Fact]
-        public void BasicPaginated() => ProtoTestSingle("BasicPaginated", ignoreCsProj: true, ignoreSnippets: true, ignoreUnitTests: true);
+        public void BasicPaginated() => ProtoTestSingle("BasicPaginated", ignoreCsProj: true, ignoreSnippets: true);
 
         [Fact]
         public void MethodSignatures() => ProtoTestSingle("MethodSignatures", ignoreCsProj: true, ignoreSnippets: true);
@@ -211,33 +204,30 @@ namespace Google.Api.Generator.Tests
         public void ResourceNames() => ProtoTestSingle("ResourceNames", ignoreCsProj: true);
 
         [Fact]
-        public void Paginated0() => ProtoTestSingle("Paginated", ignoreCsProj: true, ignoreUnitTests: true);
+        public void Paginated0() => ProtoTestSingle("Paginated", ignoreCsProj: true);
 
         [Fact]
-        public void Lro0() => ProtoTestSingle("Lro", ignoreUnitTests: true);
+        public void Lro0() => ProtoTestSingle("Lro");
 
         [Fact]
-        public void ServerStreaming0() => ProtoTestSingle("ServerStreaming", ignoreCsProj: true, ignoreSnippets: true, ignoreUnitTests: true);
+        public void ServerStreaming0() => ProtoTestSingle("ServerStreaming", ignoreCsProj: true, ignoreSnippets: true);
 
         [Fact]
-        public void Snippets() => ProtoTestSingle("Snippets", ignoreCsProj: true, ignoreUnitTests: true);
+        public void Snippets() => ProtoTestSingle("Snippets", ignoreCsProj: true);
 
         [Fact]
-        public void RoutingHeaders() => ProtoTestSingle("RoutingHeaders", ignoreCsProj: true, ignoreSnippets: true, ignoreUnitTests: true);
+        public void RoutingHeaders() => ProtoTestSingle("RoutingHeaders", ignoreCsProj: true, ignoreSnippets: true);
 
         [Fact]
-        public void RoutingHeadersExplicit() => ProtoTestSingle("RoutingHeadersExplicit", ignoreCsProj: true, ignoreSnippets: true, ignoreUnitTests: true);
+        public void RoutingHeadersExplicit() => ProtoTestSingle("RoutingHeadersExplicit", ignoreCsProj: true, ignoreSnippets: true);
 
         [Fact]
-        public void UnitTests() => ProtoTestSingle("UnitTests", ignoreCsProj: true, ignoreSnippets: true);
-
-        [Fact]
-        public void GrpcServiceConfig() => ProtoTestSingle("GrpcServiceConfig", ignoreCsProj: true, ignoreSnippets: true, ignoreUnitTests: true,
+        public void GrpcServiceConfig() => ProtoTestSingle("GrpcServiceConfig", ignoreCsProj: true, ignoreSnippets: true,
                 grpcServiceConfigPath: Path.Combine(Invoker.GeneratorTestsDir, "ProtoTests", "GrpcServiceConfig", "GrpcServiceConfig.json"));
 
         [Fact]
         public void CommonResource() => ProtoTestSingle(new[] { "CommonResource", "CommonResourceDef" },
-            ignoreCsProj: true, ignoreSnippets: true, ignoreUnitTests: true,
+            ignoreCsProj: true, ignoreSnippets: true,
             commonResourcesConfigPaths: new[]
             {
                 Path.Combine(Invoker.GeneratorTestsDir, "ProtoTests", "CommonResource", "CommonResourceConfig1.json"),
@@ -245,10 +235,10 @@ namespace Google.Api.Generator.Tests
             });
 
         [Fact]
-        public void ChildResource() => ProtoTestSingle("ChildResource", ignoreCsProj: true, ignoreUnitTests: true, ignoreSnippets: true);
+        public void ChildResource() => ProtoTestSingle("ChildResource", ignoreCsProj: true, ignoreSnippets: true);
 
         [Fact]
-        public void UnknownResource() => ProtoTestSingle("UnknownResource", ignoreCsProj: true, ignoreUnitTests: true, ignoreSnippets: true);
+        public void UnknownResource() => ProtoTestSingle("UnknownResource", ignoreCsProj: true, ignoreSnippets: true);
 
         [Fact]
         public void ResourceNameSeparator() => ProtoTestSingle("ResourceNameSeparator", ignoreCsProj: true);
@@ -263,7 +253,7 @@ namespace Google.Api.Generator.Tests
         public void Deprecated() => ProtoTestSingle("Deprecated", ignoreCsProj: true);
 
         [Fact]
-        public void OptionalFields() => ProtoTestSingle("OptionalFields", ignoreCsProj: true, ignoreUnitTests: true, ignoreSnippets: true);
+        public void OptionalFields() => ProtoTestSingle("OptionalFields", ignoreCsProj: true, ignoreSnippets: true);
 
         [Fact]
         public void Mixins() => ProtoTestSingle("Mixins", ignoreGapicMetadataFile: false, ignoreSnippets: true, serviceConfigPath: "Mixins.yaml");
@@ -276,7 +266,6 @@ namespace Google.Api.Generator.Tests
             serviceConfigPath: "showcase_v1beta1.yaml",
             transports: ApiTransports.Grpc | ApiTransports.Rest,
             requestNumericEnumJsonEncoding: true,
-            ignoreUnitTests: true,
             ignoreSnippets: true,
             ignoreApiMetadataFile: false);
 
@@ -287,6 +276,6 @@ namespace Google.Api.Generator.Tests
         public void BuildBasic() => BuildTest("Basic", protoPackageVersion: "v1");
 
         [Fact]
-        public void BuildLro() => BuildTest("Lro", ignoreUnitTests: true);
+        public void BuildLro() => BuildTest("Lro");
     }
 }
