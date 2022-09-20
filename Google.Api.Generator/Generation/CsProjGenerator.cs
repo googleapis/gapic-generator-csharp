@@ -29,10 +29,6 @@ namespace Google.Api.Generator.Generation
         private const string LocationVersion = "[2.0.0, 3.0.0)";
         private const string ReferenceAssembliesVersion = "1.0.2";
         private const string SystemLinqAsyncVersion = "6.0.1";
-        private const string TestSdkVersion = "17.3.1";
-        private const string XUnitRunnerVersion = "2.4.5";
-        private const string XUnitVersion = "2.4.2";
-        private const string MoqVersion = "4.18.1";
         private static readonly Dictionary<string, (string, string)> MixinToPackageAndVersion = new Dictionary<string, (string, string)>
         {
             { IAMPolicy.Descriptor.FullName, (typeof(IAMPolicyClient).Namespace, IamVersion) },
@@ -123,31 +119,6 @@ namespace Google.Api.Generator.Generation
     <ProjectReference Include=""../{clientNamespace}/{clientNamespace}.csproj"" />
     <PackageReference Include=""System.Linq.Async"" Version=""{SystemLinqAsyncVersion}"" />
     <PackageReference Include=""Microsoft.NETFramework.ReferenceAssemblies"" Version=""{ReferenceAssembliesVersion}"" PrivateAssets=""All"" />
-  </ItemGroup>
-
-</Project>
-";
-            return content.Trim();
-        }
-
-        public static string GenerateUnitTests(string clientNamespace)
-        {
-            string content = $@"
-<?xml version=""1.0"" encoding=""utf-8""?>
-<Project Sdk=""Microsoft.NET.Sdk"">
-
-  <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <LangVersion>latest</LangVersion>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include=""Microsoft.NET.Test.Sdk"" Version=""{TestSdkVersion}"" />
-    <PackageReference Include=""xunit.runner.visualstudio"" Version=""{XUnitRunnerVersion}"" />
-    <PackageReference Include=""Moq"" Version=""{MoqVersion}"" />
-    <PackageReference Include=""xunit"" Version=""{XUnitVersion}"" />
-    <PackageReference Include=""Microsoft.NETFramework.ReferenceAssemblies"" Version=""{ReferenceAssembliesVersion}"" PrivateAssets=""All"" />
-    <ProjectReference Include=""../{clientNamespace}/{clientNamespace}.csproj"" />
   </ItemGroup>
 
 </Project>

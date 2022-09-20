@@ -241,11 +241,6 @@ namespace Google.Api.Generator
                         snippets.Add(snippetMetadata);
                         yield return new ResultFile(snippetFile, snippetCode);
                     }
-                    // Generate unit tests for the the service.
-                    var unitTestCtx = SourceFileContext.CreateFullyAliased(clock, s_wellknownNamespaceAliases);
-                    var unitTestCode = UnitTestCodeGeneration.Generate(unitTestCtx, serviceDetails);
-                    var unitTestFilename = $"{unitTestsPathPrefix}{serviceDetails.ClientAbstractTyp.Name}Test.g.cs";
-                    yield return new ResultFile(unitTestFilename, unitTestCode);
                     // Record whether LRO/mixins are used.
                     hasLro |= serviceDetails.Methods.Any(x => x is MethodDetails.Lro);
                     foreach (var mixin in serviceDetails.Mixins)
@@ -333,11 +328,6 @@ namespace Google.Api.Generator
                     var snippetsCsprojContent = CsProjGenerator.GenerateSnippets(ns);
                     var snippetsCsProjFilename = $"{snippetsPathPrefix}{ns}.GeneratedSnippets.csproj";
                     yield return new ResultFile(snippetsCsProjFilename, snippetsCsprojContent);
-
-                    // Generate unit-tests csproj.
-                    var unitTestsCsprojContent = CsProjGenerator.GenerateUnitTests(ns);
-                    var unitTestsCsprojFilename = $"{unitTestsPathPrefix}{ns}.Tests.csproj";
-                    yield return new ResultFile(unitTestsCsprojFilename, unitTestsCsprojContent);
                 }
             }
         }
