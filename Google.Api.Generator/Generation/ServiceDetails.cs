@@ -66,10 +66,14 @@ namespace Google.Api.Generator.Generation
             ClientAbstractTyp = Typ.Manual(ns, $"{desc.Name}Client");
             ClientImplTyp = Typ.Manual(ns, $"{desc.Name}ClientImpl");
             DefaultHost = desc.GetExtension(ClientExtensions.DefaultHost) ?? "";
-            // We need to account for regional default endpoints like "us-east1-pubsub.googleapis.com"
-            DefaultHostServiceName = DefaultHost
-                .Split('.', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault()
-                ?.Split('-', StringSplitOptions.RemoveEmptyEntries).LastOrDefault();
+            // We need to account for regional default endpoints like "us-east1-pubsub.googleapis.com".
+            // We also need to account for IAM, which looks like "iam-meta-api.googleapis.com" and whose
+            // DefaultHostServiceName will be "api" if we treat it as a regional endpoint.
+            DefaultHostServiceName = DefaultHost.Contains("iam-meta-api.googleapis.com")
+                ? "iam"
+                : DefaultHost
+                    .Split('.', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault()
+                    ?.Split('-', StringSplitOptions.RemoveEmptyEntries).LastOrDefault();
             DefaultPort = 443; // Hardcoded; this is not specifiable by proto annotation.
             var oauthScopes = desc.GetExtension(ClientExtensions.OauthScopes);
             DefaultScopes = string.IsNullOrEmpty(oauthScopes) ? Enumerable.Empty<string>() : oauthScopes.Split(',', ' ');
