@@ -19,6 +19,7 @@ using Google.Api.Generator.Utils.Roslyn;
 using Google.Cloud.Iam.V1;
 using Google.Cloud.Location;
 using Google.LongRunning;
+using Google.Protobuf;
 using Google.Protobuf.Reflection;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -51,7 +52,7 @@ namespace Google.Api.Generator.Generation
 
         public static CompilationUnitSyntax GeneratePackageApiMetadata(
             string ns, SourceFileContext ctx, IEnumerable<FileDescriptor> packageFileDescriptors,
-            bool hasLro, IEnumerable<string> mixins, bool requestNumericEnumJsonEncoding)
+            bool hasLro, IEnumerable<string> mixins, Service serviceConfig, bool requestNumericEnumJsonEncoding)
         {
             // Treat LRO as just another mixin in this context.
             if (hasLro)
@@ -64,13 +65,13 @@ namespace Google.Api.Generator.Generation
             var namespaceDeclaration = Namespace(ns);
             using (ctx.InNamespace(namespaceDeclaration))
             {
-                var descriptorClass = GenerateClass(ns, ctx, allFileDescriptors, requestNumericEnumJsonEncoding);
+                var descriptorClass = GenerateClass(ns, ctx, allFileDescriptors, mixins, serviceConfig, requestNumericEnumJsonEncoding);
                 namespaceDeclaration = namespaceDeclaration.AddMembers(descriptorClass);
             }
             return ctx.CreateCompilationUnit(namespaceDeclaration);
         }
 
-        private static ClassDeclarationSyntax GenerateClass(string ns, SourceFileContext ctx, IEnumerable<FileDescriptor> fileDescriptors, bool requestNumericEnumJsonEncoding)
+        private static ClassDeclarationSyntax GenerateClass(string ns, SourceFileContext ctx, IEnumerable<FileDescriptor> fileDescriptors, IEnumerable<string> mixins, Service serviceConfig, bool requestNumericEnumJsonEncoding)
         {
             var typ = Typ.Manual(ns, ClassName);
             var cls = Class(Internal | Static, typ)
@@ -91,6 +92,23 @@ namespace Google.Api.Generator.Generation
                 var invocation = initializer.Call(nameof(ApiMetadata.WithRequestNumericEnumJsonEncoding))(true);
                 initializer = invocation.WithExpression(invocation.Expression.WithAdditionalAnnotations(Annotations.LineBreakAnnotation));
             }
+            var httpOverrides = (serviceConfig?.Http?.Rules ?? Enumerable.Empty<HttpRule>())
+                // We only care about overrides for mixins. (There probably won't be any others present
+                // anyway, but we should ignore them.)
+                .Where(rule => mixins.Any(mixin => rule.Selector.StartsWith(mixin)))
+                .ToDictionary(rule => rule.Selector, rule => new HttpRule(rule) { Selector = "" })
+                .OrderBy(pair => pair.Key, StringComparer.Ordinal)
+                .ToList();
+
+            if (httpOverrides.Any())
+            {
+                var dictionaryInitializers = httpOverrides
+                    .Select(pair => new object[] { pair.Key, GetKeyValuePairValue(pair.Value)})
+                    .ToArray<object>();
+                var invocation = initializer.Call(nameof(ApiMetadata.WithHttpRuleOverrides))(New(ctx.Type<Dictionary<string, ByteString>>())().WithCollectionInitializer(dictionaryInitializers));
+                initializer = invocation.WithExpression(invocation.Expression.WithAdditionalAnnotations(Annotations.LineBreakAnnotation));
+            }
+
             var property = AutoProperty(Internal | Static, apiMetadataType, PropertyName)
                 .WithInitializer(initializer)
                 .WithXmlDoc(XmlDoc.Summary("The ", apiMetadataType, " for services in this package."));
@@ -100,6 +118,14 @@ namespace Google.Api.Generator.Generation
             {
                 var type = ctx.Type(ProtoTyp.OfReflectionClass(descriptor));
                 return YieldStatement(SyntaxKind.YieldReturnStatement, type.Access("Descriptor"));
+            }
+
+            object GetKeyValuePairValue(HttpRule rule)
+            {
+                var json = rule.ToString();
+                var base64 = rule.ToByteString().ToBase64();
+                var fromBase64 = ctx.Type<ByteString>().Call(nameof(ByteString.FromBase64))(base64);
+                return fromBase64.WithLeadingTrivia(Comment($"// {json}"));
             }
         }
     }
