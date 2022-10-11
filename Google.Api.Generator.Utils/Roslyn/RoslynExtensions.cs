@@ -129,6 +129,21 @@ namespace Google.Api.Generator.Utils.Roslyn
                 }))));
         }
 
+        public static ObjectCreationExpressionSyntax WithCollectionInitializer(
+            this ObjectCreationExpressionSyntax obj, params object[] inits)
+        {
+            if (!obj.ArgumentList.Arguments.Any())
+            {
+                // If calling the parameterless ctor, recreate the `new` expression without an argument list.
+                obj = ObjectCreationExpression(obj.Type);
+            }
+            return obj.WithInitializer(InitializerExpression(SyntaxKind.CollectionInitializerExpression,
+                SeparatedList(inits.Select(init =>
+                    init is object[] sublist
+                    ? InitializerExpression(SyntaxKind.ComplexElementInitializerExpression, SeparatedList(sublist.Select(ToExpression)))
+                    : ToExpression(init)))));
+        }
+
         public static PropertyDeclarationSyntax WithInitializer(this PropertyDeclarationSyntax prop, object code) =>
             prop.WithInitializer(EqualsValueClause(ToExpression(code))).WithSemicolonToken(s_semicolonToken);
 
