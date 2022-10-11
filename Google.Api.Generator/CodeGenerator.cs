@@ -308,7 +308,7 @@ namespace Google.Api.Generator
 
                     // Generate the package-wide API metadata
                     var ctx = SourceFileContext.CreateFullyAliased(clock, s_wellknownNamespaceAliases);
-                    var packageApiMetadataContent = PackageApiMetadataGenerator.GeneratePackageApiMetadata(ns, ctx, packageFileDescriptors, hasLro, mixins, requestNumericEnumJsonEncoding);
+                    var packageApiMetadataContent = PackageApiMetadataGenerator.GeneratePackageApiMetadata(ns, ctx, packageFileDescriptors, hasLro, mixins, serviceConfig, requestNumericEnumJsonEncoding);
                     var packageApiMetadataFilename = $"{clientPathPrefix}{PackageApiMetadataGenerator.FileName}";
                     yield return new ResultFile(packageApiMetadataFilename, packageApiMetadataContent);
 

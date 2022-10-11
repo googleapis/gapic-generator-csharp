@@ -503,7 +503,9 @@ namespace Google.Api.Generator.Utils.Formatting
                 {
                     var items = nodeExprs.SelectMany(x => new SyntaxNodeOrToken[]
                     {
-                        x.WithLeadingTrivia(_indentTrivia),
+                        // If there are comments, we want to preserve and indent them (on their own lines).
+                        // Any other leading trivia should be discarded, as it leads to too many line breaks.
+                        x.WithLeadingTrivia(GetIndentedTriviaWithSingleLineComments(x)),
                         Token(SyntaxKind.CommaToken).WithTrailingNewLine()
                     }).ToList();
                     if (isComplex)
@@ -516,7 +518,28 @@ namespace Google.Api.Generator.Utils.Formatting
                 node = node.WithOpenBraceToken(node.OpenBraceToken.WithLeadingTrivia(NewLine, _indentTrivia).WithTrailingNewLine());
                 node = node.WithCloseBraceToken(node.CloseBraceToken.WithLeadingTrivia(_indentTrivia));
             }
+
             return node;
+
+            SyntaxTrivia[] GetIndentedTriviaWithSingleLineComments(SyntaxNode node)
+            {
+                if (!node.HasLeadingTrivia)
+                {
+                    return new[] { _indentTrivia };
+                }
+                var newTrivia = new List<SyntaxTrivia>();
+                foreach (var trivia in node.GetLeadingTrivia())
+                {
+                    if (trivia.IsKind(SyntaxKind.SingleLineCommentTrivia))
+                    {
+                        newTrivia.Add(_indentTrivia);
+                        newTrivia.Add(trivia);
+                        newTrivia.Add(NewLine);
+                    }
+                }
+                newTrivia.Add(_indentTrivia);
+                return newTrivia.ToArray();
+            }
         }
 
         public override SyntaxNode VisitReturnStatement(ReturnStatementSyntax node)
