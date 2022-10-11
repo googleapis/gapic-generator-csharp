@@ -17,6 +17,8 @@
 #pragma warning disable CS8981
 using gax = Google.Api.Gax;
 using gaxgrpc = Google.Api.Gax.Grpc;
+using gciv = Google.Cloud.Iam.V1;
+using gcl = Google.Cloud.Location;
 using lro = Google.LongRunning;
 using proto = Google.Protobuf;
 using gr = Google.Rpc;
@@ -60,6 +62,8 @@ namespace Google.Showcase.V1Beta1
             WaitSettings = existing.WaitSettings;
             WaitOperationsSettings = existing.WaitOperationsSettings.Clone();
             BlockSettings = existing.BlockSettings;
+            LocationsSettings = existing.LocationsSettings;
+            IAMPolicySettings = existing.IAMPolicySettings;
             OnCopy(existing);
         }
 
@@ -204,6 +208,16 @@ namespace Google.Showcase.V1Beta1
         /// </remarks>
         public gaxgrpc::CallSettings BlockSettings { get; set; } = gaxgrpc::CallSettings.FromExpiration(gax::Expiration.None);
 
+        /// <summary>
+        /// The settings to use for the <see cref="gcl::LocationsClient"/> associated with the client.
+        /// </summary>
+        public gcl::LocationsSettings LocationsSettings { get; set; } = gcl::LocationsSettings.GetDefault();
+
+        /// <summary>
+        /// The settings to use for the <see cref="gciv::IAMPolicyClient"/> associated with the client.
+        /// </summary>
+        public gciv::IAMPolicySettings IAMPolicySettings { get; set; } = gciv::IAMPolicySettings.GetDefault();
+
         /// <summary>Creates a deep clone of this object, with all the same property values.</summary>
         /// <returns>A deep clone of this <see cref="EchoSettings"/> object.</returns>
         public EchoSettings Clone() => new EchoSettings(this);
@@ -340,6 +354,12 @@ namespace Google.Showcase.V1Beta1
 
         /// <summary>The underlying gRPC Echo client</summary>
         public virtual gsv::Echo.EchoClient GrpcClient => throw new sys::NotImplementedException();
+
+        /// <summary>The <see cref="gcl::LocationsClient"/> associated with this client.</summary>
+        public virtual gcl::LocationsClient LocationsClient => throw new sys::NotImplementedException();
+
+        /// <summary>The <see cref="gciv::IAMPolicyClient"/> associated with this client.</summary>
+        public virtual gciv::IAMPolicyClient IAMPolicyClient => throw new sys::NotImplementedException();
 
         /// <summary>
         /// This method simply echoes the request. This method showcases unary RPCs.
@@ -641,6 +661,8 @@ namespace Google.Showcase.V1Beta1
             EchoSettings effectiveSettings = settings ?? EchoSettings.GetDefault();
             gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings, logger);
             WaitOperationsClient = new lro::OperationsClientImpl(grpcClient.CreateOperationsClient(), effectiveSettings.WaitOperationsSettings, logger);
+            LocationsClient = new gcl::LocationsClientImpl(grpcClient.CreateLocationsClient(), effectiveSettings.LocationsSettings, logger);
+            IAMPolicyClient = new gciv::IAMPolicyClientImpl(grpcClient.CreateIAMPolicyClient(), effectiveSettings.IAMPolicySettings, logger);
             _callEcho = clientHelper.BuildApiCall<EchoRequest, EchoResponse>("Echo", grpcClient.EchoAsync, grpcClient.Echo, effectiveSettings.EchoSettings_).WithExtractedGoogleRequestParam(new gaxgrpc::RoutingHeaderExtractor<EchoRequest>().WithExtractedParameter("header", "^(.+)$", request => request.Header).WithExtractedParameter("routing_id", "^(.+)$", request => request.Header).WithExtractedParameter("table_name", "^(regions/[^/]+/zones/[^/]+(?:/.*)?)$", request => request.Header).WithExtractedParameter("table_name", "^(projects/[^/]+/instances/[^/]+(?:/.*)?)$", request => request.Header).WithExtractedParameter("super_id", "^(projects/[^/]+)(?:/.*)?$", request => request.Header).WithExtractedParameter("instance_id", "^projects/[^/]+/(instances/[^/]+)(?:/.*)?$", request => request.Header).WithExtractedParameter("baz", "^(.+)$", request => request.OtherHeader).WithExtractedParameter("qux", "^(projects/[^/]+)(?:/.*)?$", request => request.OtherHeader));
             Modify_ApiCall(ref _callEcho);
             Modify_EchoApiCall(ref _callEcho);
@@ -701,6 +723,12 @@ namespace Google.Showcase.V1Beta1
 
         /// <summary>The underlying gRPC Echo client</summary>
         public override gsv::Echo.EchoClient GrpcClient { get; }
+
+        /// <summary>The <see cref="gcl::LocationsClient"/> associated with this client.</summary>
+        public override gcl::LocationsClient LocationsClient { get; }
+
+        /// <summary>The <see cref="gciv::IAMPolicyClient"/> associated with this client.</summary>
+        public override gciv::IAMPolicyClient IAMPolicyClient { get; }
 
         partial void Modify_EchoRequest(ref EchoRequest request, ref gaxgrpc::CallSettings settings);
 
@@ -1074,6 +1102,32 @@ namespace Google.Showcase.V1Beta1
             /// <returns>A new Operations client for the same target as this client.</returns>
             public virtual lro::Operations.OperationsClient CreateOperationsClient() =>
                 new lro::Operations.OperationsClient(CallInvoker);
+        }
+    }
+
+    public static partial class Echo
+    {
+        public partial class EchoClient
+        {
+            /// <summary>
+            /// Creates a new instance of <see cref="gcl::Locations.LocationsClient"/> using the same call invoker as
+            /// this client.
+            /// </summary>
+            /// <returns>
+            /// A new <see cref="gcl::Locations.LocationsClient"/> for the same target as this client.
+            /// </returns>
+            public virtual gcl::Locations.LocationsClient CreateLocationsClient() =>
+                new gcl::Locations.LocationsClient(CallInvoker);
+
+            /// <summary>
+            /// Creates a new instance of <see cref="gciv::IAMPolicy.IAMPolicyClient"/> using the same call invoker as
+            /// this client.
+            /// </summary>
+            /// <returns>
+            /// A new <see cref="gciv::IAMPolicy.IAMPolicyClient"/> for the same target as this client.
+            /// </returns>
+            public virtual gciv::IAMPolicy.IAMPolicyClient CreateIAMPolicyClient() =>
+                new gciv::IAMPolicy.IAMPolicyClient(CallInvoker);
         }
     }
 }
