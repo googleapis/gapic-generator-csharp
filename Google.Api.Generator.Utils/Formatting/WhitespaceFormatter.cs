@@ -86,7 +86,6 @@ namespace Google.Api.Generator.Utils.Formatting
         private SyntaxTriviaList FormatXmlDoc(SyntaxTriviaList trivList) =>
             XmlDocSplitter.Split(_indentTrivia, _maxLineLength, trivList);
 
-
         /// <summary>
         /// Format in code comments by prepending the current indent and appending a new line.
         /// Handles empty and blank space only trivia as well.
@@ -119,7 +118,7 @@ namespace Google.Api.Generator.Utils.Formatting
 
         public override SyntaxNode VisitCompilationUnit(CompilationUnitSyntax node)
         {
-            node = (CompilationUnitSyntax)base.VisitCompilationUnit(node);
+            node = (CompilationUnitSyntax) base.VisitCompilationUnit(node);
             node = node.WithMembers(List(node.Members.Take(1).Select(m =>
             {
                 // If there's not already a blank line before the namespace, then add one.
@@ -137,7 +136,7 @@ namespace Google.Api.Generator.Utils.Formatting
 
         public override SyntaxNode VisitUsingDirective(UsingDirectiveSyntax node)
         {
-            node = (UsingDirectiveSyntax)base.VisitUsingDirective(node);
+            node = (UsingDirectiveSyntax) base.VisitUsingDirective(node);
             node = HandleLeadingTrivia(node);
             node = node.WithUsingKeyword(node.UsingKeyword.WithTrailingSpace());
             node = node.WithSemicolonToken(node.SemicolonToken.WithTrailingNewLine());
@@ -146,7 +145,7 @@ namespace Google.Api.Generator.Utils.Formatting
 
         public override SyntaxNode VisitNameEquals(NameEqualsSyntax node)
         {
-            node = (NameEqualsSyntax)base.VisitNameEquals(node);
+            node = (NameEqualsSyntax) base.VisitNameEquals(node);
             node = node.WithEqualsToken(node.EqualsToken.WithLeadingSpace().WithTrailingSpace());
             return node;
         }
@@ -155,7 +154,7 @@ namespace Google.Api.Generator.Utils.Formatting
         {
             using (WithIndent())
             {
-                node = (NamespaceDeclarationSyntax)base.VisitNamespaceDeclaration(node);
+                node = (NamespaceDeclarationSyntax) base.VisitNamespaceDeclaration(node);
 
                 // If the trivia is not empty, it's probably the start region tag.
                 // We need to do this here to use the correct indent.
@@ -170,7 +169,7 @@ namespace Google.Api.Generator.Utils.Formatting
                 // If the trivia is not empty, it's probably the end region tag.
                 // We need to do this here to use the correct indent.
                 var innerBottomTrivia = node.CloseBraceToken.LeadingTrivia.SelectMany(FormatInCodeComment);
-                node = node.WithCloseBraceToken(node.CloseBraceToken.WithLeadingTrivia(innerBottomTrivia)) ;
+                node = node.WithCloseBraceToken(node.CloseBraceToken.WithLeadingTrivia(innerBottomTrivia));
             }
             node = HandleLeadingTrivia(node);
             node = node.WithNamespaceKeyword(node.NamespaceKeyword.WithTrailingSpace());
@@ -186,7 +185,7 @@ namespace Google.Api.Generator.Utils.Formatting
         {
             using (WithIndent())
             {
-                node = (ClassDeclarationSyntax)base.VisitClassDeclaration(node);
+                node = (ClassDeclarationSyntax) base.VisitClassDeclaration(node);
             }
             node = node.WithLeadingTrivia(FormatXmlDoc(node.GetLeadingTrivia()).Append(_indentTrivia));
             node = node.WithModifiers(TokenList(node.Modifiers.Select(m => m.WithTrailingSpace())));
@@ -201,7 +200,7 @@ namespace Google.Api.Generator.Utils.Formatting
 
         public override SyntaxNode VisitBaseList(BaseListSyntax node)
         {
-            node = (BaseListSyntax)base.VisitBaseList(node);
+            node = (BaseListSyntax) base.VisitBaseList(node);
             node = node.WithColonToken(node.ColonToken.WithLeadingSpace().WithTrailingSpace());
             node = node.WithTypes(SeparatedList(node.Types, CommaSpaces(node.Types.Count - 1)));
             return node;
@@ -209,7 +208,7 @@ namespace Google.Api.Generator.Utils.Formatting
 
         public override SyntaxNode VisitConstructorDeclaration(ConstructorDeclarationSyntax node)
         {
-            node = (ConstructorDeclarationSyntax)base.VisitConstructorDeclaration(node);
+            node = (ConstructorDeclarationSyntax) base.VisitConstructorDeclaration(node);
             node = node.WithLeadingTrivia(FormatXmlDoc(node.GetLeadingTrivia()).Append(_indentTrivia));
             node = node.WithModifiers(TokenList(node.Modifiers.Select(m => m.WithTrailingSpace())));
             return node;
@@ -217,7 +216,7 @@ namespace Google.Api.Generator.Utils.Formatting
 
         public override SyntaxNode VisitConstructorInitializer(ConstructorInitializerSyntax node)
         {
-            node = (ConstructorInitializerSyntax)base.VisitConstructorInitializer(node);
+            node = (ConstructorInitializerSyntax) base.VisitConstructorInitializer(node);
             if (node.HasAnnotation(Annotations.LineBreakAnnotation))
             {
                 using (WithIndent())
