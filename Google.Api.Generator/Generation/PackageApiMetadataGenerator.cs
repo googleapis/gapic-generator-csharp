@@ -64,7 +64,8 @@ namespace Google.Api.Generator.Generation
             ExpressionSyntax initializer = New(apiMetadataType)(ns, IdentifierName(fileDescriptorMethod.Identifier));
             if (requestNumericEnumJsonEncoding)
             {
-                initializer = initializer.Call(nameof(ApiMetadata.WithRequestNumericEnumJsonEncoding))(true);
+                var invocation = initializer.Call(nameof(ApiMetadata.WithRequestNumericEnumJsonEncoding))(true);
+                initializer = invocation.WithExpression(invocation.Expression.WithAdditionalAnnotations(Annotations.LineBreakAnnotation));
             }
             var property = AutoProperty(Internal | Static, apiMetadataType, PropertyName)
                 .WithInitializer(initializer)
