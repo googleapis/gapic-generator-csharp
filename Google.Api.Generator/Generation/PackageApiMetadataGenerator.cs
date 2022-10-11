@@ -12,12 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Google.Api.Gax;
 using Google.Api.Gax.Grpc;
 using Google.Api.Generator.ProtoUtils;
 using Google.Api.Generator.Utils;
 using Google.Api.Generator.Utils.Roslyn;
+using Google.Cloud.Iam.V1;
+using Google.Cloud.Location;
+using Google.LongRunning;
 using Google.Protobuf.Reflection;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
@@ -31,28 +34,49 @@ namespace Google.Api.Generator.Generation
 {
     internal class PackageApiMetadataGenerator
     {
+        // FileDescriptors required for mixins. This feels somewhat fragile as a new service could be introduced - but that seems
+        // *very* unlikely for the existing mixins, and we don't expect to add any new mixin APIs. The alternative would be to scan
+        // the types in the mixin libraries via reflection, but this feels preferable. If we miss a proto which doesn't contain a service
+        // and isn't used in a google.protobuf.Any anywhere, we should be okay anyway.
+        private static readonly Dictionary<string, FileDescriptor[]> MixinToFileDescriptors = new Dictionary<string, FileDescriptor[]>
+        {
+            { Operations.Descriptor.FullName, new[] { OperationsReflection.Descriptor } },
+            { IAMPolicy.Descriptor.FullName, new[] { PolicyReflection.Descriptor, IamPolicyReflection.Descriptor, OptionsReflection.Descriptor } },
+            { Locations.Descriptor.FullName, new[] { LocationsReflection.Descriptor } }
+        };
+
         internal const string ClassName = "PackageApiMetadata";
         internal const string FileName = ClassName + ".g.cs";
         internal const string PropertyName = "ApiMetadata";
 
-        public static CompilationUnitSyntax GeneratePackageApiMetadata(string ns, SourceFileContext ctx, IEnumerable<FileDescriptor> packageFileDescriptors, bool requestNumericEnumJsonEncoding)
+        public static CompilationUnitSyntax GeneratePackageApiMetadata(
+            string ns, SourceFileContext ctx, IEnumerable<FileDescriptor> packageFileDescriptors,
+            bool hasLro, IEnumerable<string> mixins, bool requestNumericEnumJsonEncoding)
         {
+            // Treat LRO as just another mixin in this context.
+            if (hasLro)
+            {
+                mixins = mixins.Append(Operations.Descriptor.FullName);
+            }
+
+            var allFileDescriptors = packageFileDescriptors.Concat(mixins.SelectMany(mixin => MixinToFileDescriptors[mixin]));
+
             var namespaceDeclaration = Namespace(ns);
             using (ctx.InNamespace(namespaceDeclaration))
             {
-                var descriptorClass = GenerateClass(ns, ctx, packageFileDescriptors, requestNumericEnumJsonEncoding);
+                var descriptorClass = GenerateClass(ns, ctx, allFileDescriptors, requestNumericEnumJsonEncoding);
                 namespaceDeclaration = namespaceDeclaration.AddMembers(descriptorClass);
             }
             return ctx.CreateCompilationUnit(namespaceDeclaration);
         }
 
-        private static ClassDeclarationSyntax GenerateClass(string ns, SourceFileContext ctx, IEnumerable<FileDescriptor> packageFileDescriptors, bool requestNumericEnumJsonEncoding)
+        private static ClassDeclarationSyntax GenerateClass(string ns, SourceFileContext ctx, IEnumerable<FileDescriptor> fileDescriptors, bool requestNumericEnumJsonEncoding)
         {
             var typ = Typ.Manual(ns, ClassName);
             var cls = Class(Internal | Static, typ)
                 .WithXmlDoc(XmlDoc.Summary("Static class to provide common access to package-wide API metadata."));
 
-            var yieldStatements = packageFileDescriptors
+            var yieldStatements = fileDescriptors
                 .OrderBy(p => p.CSharpNamespace(), StringComparer.Ordinal)
                 .ThenBy(p => p.Name, StringComparer.Ordinal)
                 .Select(GenerateYieldStatement)
