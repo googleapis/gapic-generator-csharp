@@ -98,6 +98,11 @@ namespace Google.Api.Generator.Tests
             var protoPaths = testProtoNames.Select(x => Path.Combine("ProtoTests", sourceDir, $"{x}.proto"));
             package = package ?? $"testing.{sourceDir.ToLowerInvariant()}";
 
+            if (serviceConfigPath is string)
+            {
+                serviceConfigPath = Path.Combine(Invoker.GeneratorTestsDir, "ProtoTests", sourceDir, serviceConfigPath);
+            }
+
             var files = Run(protoPaths, package,
                 grpcServiceConfigPath, serviceConfigPath, commonResourcesConfigPaths, transports, requestNumericEnumJsonEncoding);
             // Check output is present.
@@ -261,14 +266,14 @@ namespace Google.Api.Generator.Tests
         public void OptionalFields() => ProtoTestSingle("OptionalFields", ignoreCsProj: true, ignoreUnitTests: true, ignoreSnippets: true);
 
         [Fact]
-        public void Mixins() => ProtoTestSingle("Mixins", ignoreGapicMetadataFile: false, ignoreSnippets: true,
-            serviceConfigPath: Path.Combine(Invoker.GeneratorTestsDir, "ProtoTests", "Mixins", "Mixins.yaml"));
+        public void Mixins() => ProtoTestSingle("Mixins", ignoreGapicMetadataFile: false, ignoreSnippets: true, serviceConfigPath: "Mixins.yaml");
 
         [Fact]
         public void Showcase() => ProtoTestSingle(testProtoNames: new[] { "compliance", "echo", "identity", "messaging", "sequence", "testing" },
             sourceDir: "Showcase/google/showcase/v1beta1",
             outputDir: "Showcase",
             package: "google.showcase.v1beta1",
+            serviceConfigPath: "showcase_v1beta1.yaml",
             transports: ApiTransports.Grpc | ApiTransports.Rest,
             requestNumericEnumJsonEncoding: true,
             ignoreUnitTests: true,
