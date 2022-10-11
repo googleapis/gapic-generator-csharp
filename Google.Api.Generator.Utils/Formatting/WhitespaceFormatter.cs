@@ -36,6 +36,10 @@ namespace Google.Api.Generator.Utils.Formatting
 
     public class WhitespaceFormatter : CSharpSyntaxRewriter
     {
+        // Indicates that the current level of indentation has already increased due to a line break in a member access,
+        // so we don't need additional indentation for that specific purpose.
+        private static SyntaxAnnotation s_indentedForMemberAccessLineBreak { get; } = new SyntaxAnnotation("indented_for_member_access_line_break");
+
         private static readonly SyntaxToken s_commaSpace = Token(SyntaxKind.CommaToken).WithTrailingSpace();
         private static IEnumerable<SyntaxToken> CommaSpaces(int count) => Enumerable.Repeat(s_commaSpace, Math.Max(0, count));
         private static readonly SyntaxTrivia s_singleIndentTrivia = SyntaxTrivia(SyntaxKind.WhitespaceTrivia, "    ");
@@ -56,13 +60,17 @@ namespace Google.Api.Generator.Utils.Formatting
             }
         }
 
-        private IDisposable WithIndent(bool withIndent = true)
+        private SyntaxTrivia NextIndentTrivia() => SyntaxTrivia(SyntaxKind.WhitespaceTrivia, new string(' ', _indentTrivia.Span.Length + 4));
+
+        private IDisposable WithIndent(bool withIndent = true) => WithIndent(NextIndentTrivia(), withIndent);
+
+        private IDisposable WithIndent(SyntaxTrivia newIndent, bool withIndent)
         {
             if (withIndent)
             {
                 var orgPreviousIndentTrivia = _previousIndentTrivia;
                 _previousIndentTrivia = _indentTrivia;
-                _indentTrivia = SyntaxTrivia(SyntaxKind.WhitespaceTrivia, new string(' ', _indentTrivia.Span.Length + 4));
+                _indentTrivia = newIndent;
                 return new Disposable(() =>
                 {
                     _indentTrivia = _previousIndentTrivia;
@@ -222,6 +230,19 @@ namespace Google.Api.Generator.Utils.Formatting
                 node = node.WithColonToken(node.ColonToken.WithLeadingSpace().WithTrailingSpace());
             }
             return node;
+        }
+
+        public override SyntaxNode VisitInvocationExpression(InvocationExpressionSyntax node)
+        {
+            if (node.Expression is MemberAccessExpressionSyntax access && access.HasAnnotation(Annotations.LineBreakAnnotation))
+            {
+                using (WithIndent(NextIndentTrivia().WithAdditionalAnnotations(s_indentedForMemberAccessLineBreak), !_indentTrivia.HasAnnotations(s_indentedForMemberAccessLineBreak.Kind)))
+                {
+                    node = node.WithExpression(access.WithOperatorToken(access.OperatorToken.WithLeadingTrivia(WhitespaceFormatterNewLine.NewLine, _indentTrivia)));
+                    return base.VisitInvocationExpression(node);
+                }
+            }
+            return base.VisitInvocationExpression(node);
         }
 
         public override SyntaxNode VisitMethodDeclaration(MethodDeclarationSyntax node)
