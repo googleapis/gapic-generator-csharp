@@ -62,7 +62,7 @@ namespace Google.Api.Generator.Rest.Models
             ParentTyp = resource?.Typ ?? package.ServiceTyp;
             RequestTyp = Typ.Nested(ParentTyp, $"{PascalCasedName}Request");
             BodyTyp = restMethod.Request is object ? package.GetDataModelByReference(restMethod.Request.Ref__).GetTypForReference() : null;
-            ResponseTyp = restMethod.Response is object ? package.GetDataModelByReference(restMethod.Response.Ref__).GetTypForReference() : Typ.Of<string>();
+            ResponseTyp = restMethod.Response?.Ref__ is string refName ? package.GetDataModelByReference(refName).GetTypForReference() : Typ.Of<string>();
             _restMethod = restMethod;
         }
 
