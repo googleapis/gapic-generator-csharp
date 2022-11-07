@@ -18,6 +18,16 @@
       "clientMethod": {
         "shortName": "Method1",
         "fullName": "Testing.BasicLro.BasicLroClient.Method1",
+        "parameters": [
+          {
+            "type": "Testing.BasicLro.Request",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Google.LongRunning.Operation<Testing.BasicLro.LroResponse, Testing.BasicLro.LroMetadata>",
         "client": {
           "shortName": "BasicLroClient",
@@ -57,6 +67,16 @@
         "shortName": "Method1Async",
         "fullName": "Testing.BasicLro.BasicLroClient.Method1Async",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.BasicLro.Request",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Google.LongRunning.Operation<Testing.BasicLro.LroResponse, Testing.BasicLro.LroMetadata>>",
         "client": {
           "shortName": "BasicLroClient",

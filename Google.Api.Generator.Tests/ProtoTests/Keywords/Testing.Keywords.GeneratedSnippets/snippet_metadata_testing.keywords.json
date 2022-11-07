@@ -18,6 +18,16 @@
       "clientMethod": {
         "shortName": "Method1",
         "fullName": "Testing.Keywords.KeywordsClient.Method1",
+        "parameters": [
+          {
+            "type": "Testing.Keywords.Request",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.Keywords.Response",
         "client": {
           "shortName": "KeywordsClient",
@@ -57,6 +67,16 @@
         "shortName": "Method1Async",
         "fullName": "Testing.Keywords.KeywordsClient.Method1Async",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Keywords.Request",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.Keywords.Response>",
         "client": {
           "shortName": "KeywordsClient",
@@ -95,6 +115,32 @@
       "clientMethod": {
         "shortName": "Method1",
         "fullName": "Testing.Keywords.KeywordsClient.Method1",
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "event"
+          },
+          {
+            "type": "System.Int32",
+            "name": "switch"
+          },
+          {
+            "type": "Testing.Keywords.Enum",
+            "name": "void"
+          },
+          {
+            "type": "System.String",
+            "name": "request"
+          },
+          {
+            "type": "System.String",
+            "name": "types"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.Keywords.Response",
         "client": {
           "shortName": "KeywordsClient",
@@ -133,6 +179,32 @@
         "shortName": "Method1Async",
         "fullName": "Testing.Keywords.KeywordsClient.Method1Async",
         "async": true,
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "event"
+          },
+          {
+            "type": "System.Int32",
+            "name": "switch"
+          },
+          {
+            "type": "Testing.Keywords.Enum",
+            "name": "void"
+          },
+          {
+            "type": "System.String",
+            "name": "request"
+          },
+          {
+            "type": "System.String",
+            "name": "types"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.Keywords.Response>",
         "client": {
           "shortName": "KeywordsClient",
@@ -170,6 +242,32 @@
       "clientMethod": {
         "shortName": "Method1",
         "fullName": "Testing.Keywords.KeywordsClient.Method1",
+        "parameters": [
+          {
+            "type": "Testing.Keywords.ResourceName",
+            "name": "event"
+          },
+          {
+            "type": "System.Int32",
+            "name": "switch"
+          },
+          {
+            "type": "Testing.Keywords.Enum",
+            "name": "void"
+          },
+          {
+            "type": "System.String",
+            "name": "request"
+          },
+          {
+            "type": "System.String",
+            "name": "types"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.Keywords.Response",
         "client": {
           "shortName": "KeywordsClient",
@@ -208,6 +306,32 @@
         "shortName": "Method1Async",
         "fullName": "Testing.Keywords.KeywordsClient.Method1Async",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Keywords.ResourceName",
+            "name": "event"
+          },
+          {
+            "type": "System.Int32",
+            "name": "switch"
+          },
+          {
+            "type": "Testing.Keywords.Enum",
+            "name": "void"
+          },
+          {
+            "type": "System.String",
+            "name": "request"
+          },
+          {
+            "type": "System.String",
+            "name": "types"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.Keywords.Response>",
         "client": {
           "shortName": "KeywordsClient",
@@ -245,6 +369,16 @@
       "clientMethod": {
         "shortName": "Method2",
         "fullName": "Testing.Keywords.KeywordsClient.Method2",
+        "parameters": [
+          {
+            "type": "Testing.Keywords.Resource",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.Keywords.Response",
         "client": {
           "shortName": "KeywordsClient",
@@ -284,6 +418,16 @@
         "shortName": "Method2Async",
         "fullName": "Testing.Keywords.KeywordsClient.Method2Async",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Keywords.Resource",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.Keywords.Response>",
         "client": {
           "shortName": "KeywordsClient",
@@ -322,6 +466,20 @@
       "clientMethod": {
         "shortName": "Method2",
         "fullName": "Testing.Keywords.KeywordsClient.Method2",
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "while"
+          },
+          {
+            "type": "Testing.Keywords.Enum",
+            "name": "enum"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.Keywords.Response",
         "client": {
           "shortName": "KeywordsClient",
@@ -360,6 +518,20 @@
         "shortName": "Method2Async",
         "fullName": "Testing.Keywords.KeywordsClient.Method2Async",
         "async": true,
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "while"
+          },
+          {
+            "type": "Testing.Keywords.Enum",
+            "name": "enum"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.Keywords.Response>",
         "client": {
           "shortName": "KeywordsClient",
@@ -397,6 +569,20 @@
       "clientMethod": {
         "shortName": "Method2",
         "fullName": "Testing.Keywords.KeywordsClient.Method2",
+        "parameters": [
+          {
+            "type": "Testing.Keywords.ResourceName",
+            "name": "while"
+          },
+          {
+            "type": "Testing.Keywords.Enum",
+            "name": "enum"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.Keywords.Response",
         "client": {
           "shortName": "KeywordsClient",
@@ -435,6 +621,20 @@
         "shortName": "Method2Async",
         "fullName": "Testing.Keywords.KeywordsClient.Method2Async",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Keywords.ResourceName",
+            "name": "while"
+          },
+          {
+            "type": "Testing.Keywords.Enum",
+            "name": "enum"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.Keywords.Response>",
         "client": {
           "shortName": "KeywordsClient",

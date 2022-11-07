@@ -18,6 +18,16 @@
       "clientMethod": {
         "shortName": "SinglePatternMethod",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.SinglePatternMethod",
+        "parameters": [
+          {
+            "type": "Testing.ResourceNames.SinglePattern",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.ResourceNames.Response",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -57,6 +67,16 @@
         "shortName": "SinglePatternMethodAsync",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.SinglePatternMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.ResourceNames.SinglePattern",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -95,6 +115,32 @@
       "clientMethod": {
         "shortName": "SinglePatternMethod",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.SinglePatternMethod",
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "realName"
+          },
+          {
+            "type": "System.String",
+            "name": "ref"
+          },
+          {
+            "type": "System.Collections.Generic.IEnumerable",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "System.String",
+            "name": "valueRef"
+          },
+          {
+            "type": "System.Collections.Generic.IEnumerable<System.String>",
+            "name": "repeatedValueRef"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.ResourceNames.Response",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -133,6 +179,32 @@
         "shortName": "SinglePatternMethodAsync",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.SinglePatternMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "realName"
+          },
+          {
+            "type": "System.String",
+            "name": "ref"
+          },
+          {
+            "type": "System.Collections.Generic.IEnumerable",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "System.String",
+            "name": "valueRef"
+          },
+          {
+            "type": "System.Collections.Generic.IEnumerable<System.String>",
+            "name": "repeatedValueRef"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -170,6 +242,32 @@
       "clientMethod": {
         "shortName": "SinglePatternMethod",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.SinglePatternMethod",
+        "parameters": [
+          {
+            "type": "Testing.ResourceNames.SinglePatternName",
+            "name": "realName"
+          },
+          {
+            "type": "Testing.ResourceNames.SinglePatternName",
+            "name": "ref"
+          },
+          {
+            "type": "Testing.ResourceNames.SinglePatternName",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "Testing.ResourceNames.SinglePatternName",
+            "name": "valueRef"
+          },
+          {
+            "type": "Testing.ResourceNames.SinglePatternName",
+            "name": "repeatedValueRef"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.ResourceNames.Response",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -208,6 +306,32 @@
         "shortName": "SinglePatternMethodAsync",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.SinglePatternMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.ResourceNames.SinglePatternName",
+            "name": "realName"
+          },
+          {
+            "type": "Testing.ResourceNames.SinglePatternName",
+            "name": "ref"
+          },
+          {
+            "type": "Testing.ResourceNames.SinglePatternName",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "Testing.ResourceNames.SinglePatternName",
+            "name": "valueRef"
+          },
+          {
+            "type": "Testing.ResourceNames.SinglePatternName",
+            "name": "repeatedValueRef"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -245,6 +369,16 @@
       "clientMethod": {
         "shortName": "DeprecatedPatternMethod",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.DeprecatedPatternMethod",
+        "parameters": [
+          {
+            "type": "Testing.ResourceNames.DeprecatedPattern",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.ResourceNames.Response",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -284,6 +418,16 @@
         "shortName": "DeprecatedPatternMethodAsync",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.DeprecatedPatternMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.ResourceNames.DeprecatedPattern",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -322,6 +466,16 @@
       "clientMethod": {
         "shortName": "DeprecatedPatternMethod",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.DeprecatedPatternMethod",
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "name"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.ResourceNames.Response",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -360,6 +514,16 @@
         "shortName": "DeprecatedPatternMethodAsync",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.DeprecatedPatternMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "name"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -397,6 +561,16 @@
       "clientMethod": {
         "shortName": "DeprecatedPatternMethod",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.DeprecatedPatternMethod",
+        "parameters": [
+          {
+            "type": "Testing.ResourceNames.DeprecatedPatternName",
+            "name": "name"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.ResourceNames.Response",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -435,6 +609,16 @@
         "shortName": "DeprecatedPatternMethodAsync",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.DeprecatedPatternMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.ResourceNames.DeprecatedPatternName",
+            "name": "name"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -472,6 +656,16 @@
       "clientMethod": {
         "shortName": "WildcardOnlyPatternMethod",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardOnlyPatternMethod",
+        "parameters": [
+          {
+            "type": "Testing.ResourceNames.WildcardOnlyPattern",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.ResourceNames.Response",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -511,6 +705,16 @@
         "shortName": "WildcardOnlyPatternMethodAsync",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardOnlyPatternMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.ResourceNames.WildcardOnlyPattern",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -549,6 +753,32 @@
       "clientMethod": {
         "shortName": "WildcardOnlyPatternMethod",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardOnlyPatternMethod",
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "name"
+          },
+          {
+            "type": "System.String",
+            "name": "ref"
+          },
+          {
+            "type": "System.Collections.Generic.IEnumerable",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "System.String",
+            "name": "refSugar"
+          },
+          {
+            "type": "System.Collections.Generic.IEnumerable",
+            "name": "repeatedRefSugar"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.ResourceNames.Response",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -587,6 +817,32 @@
         "shortName": "WildcardOnlyPatternMethodAsync",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardOnlyPatternMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "name"
+          },
+          {
+            "type": "System.String",
+            "name": "ref"
+          },
+          {
+            "type": "System.Collections.Generic.IEnumerable",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "System.String",
+            "name": "refSugar"
+          },
+          {
+            "type": "System.Collections.Generic.IEnumerable",
+            "name": "repeatedRefSugar"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -624,6 +880,32 @@
       "clientMethod": {
         "shortName": "WildcardOnlyPatternMethod",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardOnlyPatternMethod",
+        "parameters": [
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "name"
+          },
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "ref"
+          },
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "refSugar"
+          },
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "repeatedRefSugar"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.ResourceNames.Response",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -662,6 +944,32 @@
         "shortName": "WildcardOnlyPatternMethodAsync",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardOnlyPatternMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "name"
+          },
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "ref"
+          },
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "refSugar"
+          },
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "repeatedRefSugar"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -699,6 +1007,16 @@
       "clientMethod": {
         "shortName": "WildcardMultiPatternMethod",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethod",
+        "parameters": [
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPattern",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.ResourceNames.Response",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -738,6 +1056,16 @@
         "shortName": "WildcardMultiPatternMethodAsync",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPattern",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -776,6 +1104,24 @@
       "clientMethod": {
         "shortName": "WildcardMultiPatternMethod",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethod",
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "name"
+          },
+          {
+            "type": "System.String",
+            "name": "ref"
+          },
+          {
+            "type": "System.Collections.Generic.IEnumerable",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.ResourceNames.Response",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -814,6 +1160,24 @@
         "shortName": "WildcardMultiPatternMethodAsync",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "name"
+          },
+          {
+            "type": "System.String",
+            "name": "ref"
+          },
+          {
+            "type": "System.Collections.Generic.IEnumerable",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -851,6 +1215,24 @@
       "clientMethod": {
         "shortName": "WildcardMultiPatternMethod",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethod",
+        "parameters": [
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternName",
+            "name": "name"
+          },
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternName",
+            "name": "ref"
+          },
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternName",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.ResourceNames.Response",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -889,6 +1271,24 @@
         "shortName": "WildcardMultiPatternMethodAsync",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternName",
+            "name": "name"
+          },
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternName",
+            "name": "ref"
+          },
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternName",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -926,6 +1326,24 @@
       "clientMethod": {
         "shortName": "WildcardMultiPatternMethod",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethod",
+        "parameters": [
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternName",
+            "name": "name"
+          },
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternName",
+            "name": "ref"
+          },
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.ResourceNames.Response",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -964,6 +1382,24 @@
         "shortName": "WildcardMultiPatternMethodAsync",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternName",
+            "name": "name"
+          },
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternName",
+            "name": "ref"
+          },
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -1001,6 +1437,24 @@
       "clientMethod": {
         "shortName": "WildcardMultiPatternMethod",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethod",
+        "parameters": [
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternName",
+            "name": "name"
+          },
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "ref"
+          },
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternName",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.ResourceNames.Response",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -1039,6 +1493,24 @@
         "shortName": "WildcardMultiPatternMethodAsync",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternName",
+            "name": "name"
+          },
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "ref"
+          },
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternName",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -1076,6 +1548,24 @@
       "clientMethod": {
         "shortName": "WildcardMultiPatternMethod",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethod",
+        "parameters": [
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternName",
+            "name": "name"
+          },
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "ref"
+          },
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.ResourceNames.Response",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -1114,6 +1604,24 @@
         "shortName": "WildcardMultiPatternMethodAsync",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternName",
+            "name": "name"
+          },
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "ref"
+          },
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -1151,6 +1659,24 @@
       "clientMethod": {
         "shortName": "WildcardMultiPatternMethod",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethod",
+        "parameters": [
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "name"
+          },
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternName",
+            "name": "ref"
+          },
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternName",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.ResourceNames.Response",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -1189,6 +1715,24 @@
         "shortName": "WildcardMultiPatternMethodAsync",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "name"
+          },
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternName",
+            "name": "ref"
+          },
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternName",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -1226,6 +1770,24 @@
       "clientMethod": {
         "shortName": "WildcardMultiPatternMethod",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethod",
+        "parameters": [
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "name"
+          },
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternName",
+            "name": "ref"
+          },
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.ResourceNames.Response",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -1264,6 +1826,24 @@
         "shortName": "WildcardMultiPatternMethodAsync",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "name"
+          },
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternName",
+            "name": "ref"
+          },
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -1301,6 +1881,24 @@
       "clientMethod": {
         "shortName": "WildcardMultiPatternMethod",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethod",
+        "parameters": [
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "name"
+          },
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "ref"
+          },
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternName",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.ResourceNames.Response",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -1339,6 +1937,24 @@
         "shortName": "WildcardMultiPatternMethodAsync",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "name"
+          },
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "ref"
+          },
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternName",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -1376,6 +1992,24 @@
       "clientMethod": {
         "shortName": "WildcardMultiPatternMethod",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethod",
+        "parameters": [
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "name"
+          },
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "ref"
+          },
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.ResourceNames.Response",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -1414,6 +2048,24 @@
         "shortName": "WildcardMultiPatternMethodAsync",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "name"
+          },
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "ref"
+          },
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -1451,6 +2103,16 @@
       "clientMethod": {
         "shortName": "WildcardMultiPatternMultipleMethod",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMultipleMethod",
+        "parameters": [
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternMultiple",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.ResourceNames.Response",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -1490,6 +2152,16 @@
         "shortName": "WildcardMultiPatternMultipleMethodAsync",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMultipleMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternMultiple",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -1528,6 +2200,20 @@
       "clientMethod": {
         "shortName": "WildcardMultiPatternMultipleMethod",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMultipleMethod",
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "ref"
+          },
+          {
+            "type": "System.Collections.Generic.IEnumerable",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.ResourceNames.Response",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -1566,6 +2252,20 @@
         "shortName": "WildcardMultiPatternMultipleMethodAsync",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMultipleMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "ref"
+          },
+          {
+            "type": "System.Collections.Generic.IEnumerable",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -1603,6 +2303,20 @@
       "clientMethod": {
         "shortName": "WildcardMultiPatternMultipleMethod",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMultipleMethod",
+        "parameters": [
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternMultipleName",
+            "name": "ref"
+          },
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternMultipleName",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.ResourceNames.Response",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -1641,6 +2355,20 @@
         "shortName": "WildcardMultiPatternMultipleMethodAsync",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMultipleMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternMultipleName",
+            "name": "ref"
+          },
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternMultipleName",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -1678,6 +2406,20 @@
       "clientMethod": {
         "shortName": "WildcardMultiPatternMultipleMethod",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMultipleMethod",
+        "parameters": [
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternMultipleName",
+            "name": "ref"
+          },
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.ResourceNames.Response",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -1716,6 +2458,20 @@
         "shortName": "WildcardMultiPatternMultipleMethodAsync",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMultipleMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternMultipleName",
+            "name": "ref"
+          },
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -1753,6 +2509,20 @@
       "clientMethod": {
         "shortName": "WildcardMultiPatternMultipleMethod",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMultipleMethod",
+        "parameters": [
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "ref"
+          },
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternMultipleName",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.ResourceNames.Response",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -1791,6 +2561,20 @@
         "shortName": "WildcardMultiPatternMultipleMethodAsync",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMultipleMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "ref"
+          },
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternMultipleName",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -1828,6 +2612,20 @@
       "clientMethod": {
         "shortName": "WildcardMultiPatternMultipleMethod",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMultipleMethod",
+        "parameters": [
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "ref"
+          },
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.ResourceNames.Response",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -1866,6 +2664,20 @@
         "shortName": "WildcardMultiPatternMultipleMethodAsync",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMultipleMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "ref"
+          },
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -1903,6 +2715,16 @@
       "clientMethod": {
         "shortName": "LooseValidationPatternMethod",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.LooseValidationPatternMethod",
+        "parameters": [
+          {
+            "type": "Testing.ResourceNames.LooseValidationPattern",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.ResourceNames.Response",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -1942,6 +2764,16 @@
         "shortName": "LooseValidationPatternMethodAsync",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.LooseValidationPatternMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.ResourceNames.LooseValidationPattern",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -1980,6 +2812,16 @@
       "clientMethod": {
         "shortName": "LooseValidationPatternMethod",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.LooseValidationPatternMethod",
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "name"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.ResourceNames.Response",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -2018,6 +2860,16 @@
         "shortName": "LooseValidationPatternMethodAsync",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.LooseValidationPatternMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "name"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -2055,6 +2907,16 @@
       "clientMethod": {
         "shortName": "LooseValidationPatternMethod",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.LooseValidationPatternMethod",
+        "parameters": [
+          {
+            "type": "Testing.ResourceNames.LooseValidationPatternName",
+            "name": "name"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.ResourceNames.Response",
         "client": {
           "shortName": "ResourceNamesClient",
@@ -2093,6 +2955,16 @@
         "shortName": "LooseValidationPatternMethodAsync",
         "fullName": "Testing.ResourceNames.ResourceNamesClient.LooseValidationPatternMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.ResourceNames.LooseValidationPatternName",
+            "name": "name"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
         "client": {
           "shortName": "ResourceNamesClient",

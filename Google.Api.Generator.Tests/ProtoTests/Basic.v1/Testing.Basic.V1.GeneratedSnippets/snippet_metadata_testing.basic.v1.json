@@ -19,6 +19,16 @@
       "clientMethod": {
         "shortName": "AMethod",
         "fullName": "Testing.Basic.V1.BasicClient.AMethod",
+        "parameters": [
+          {
+            "type": "Testing.Basic.V1.Request",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.Basic.V1.Response",
         "client": {
           "shortName": "BasicClient",
@@ -58,6 +68,16 @@
         "shortName": "AMethodAsync",
         "fullName": "Testing.Basic.V1.BasicClient.AMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Basic.V1.Request",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.Basic.V1.Response>",
         "client": {
           "shortName": "BasicClient",

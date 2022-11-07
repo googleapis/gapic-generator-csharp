@@ -18,6 +18,16 @@
       "clientMethod": {
         "shortName": "MethodDefaultValues",
         "fullName": "Testing.Snippets.SnippetsClient.MethodDefaultValues",
+        "parameters": [
+          {
+            "type": "Testing.Snippets.DefaultValuesRequest",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.Snippets.Response",
         "client": {
           "shortName": "SnippetsClient",
@@ -57,6 +67,16 @@
         "shortName": "MethodDefaultValuesAsync",
         "fullName": "Testing.Snippets.SnippetsClient.MethodDefaultValuesAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Snippets.DefaultValuesRequest",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
         "client": {
           "shortName": "SnippetsClient",
@@ -95,6 +115,24 @@
       "clientMethod": {
         "shortName": "MethodDefaultValues",
         "fullName": "Testing.Snippets.SnippetsClient.MethodDefaultValues",
+        "parameters": [
+          {
+            "type": "System.Collections.Generic.IEnumerable",
+            "name": "repeatedDouble"
+          },
+          {
+            "type": "System.Collections.Generic.IEnumerable<Testing.Snippets.DefaultValuesRequest+Types+NestedMessage>",
+            "name": "repeatedNestedMessage"
+          },
+          {
+            "type": "System.Collections.Generic.IEnumerable",
+            "name": "repeatedResourceName"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.Snippets.Response",
         "client": {
           "shortName": "SnippetsClient",
@@ -133,6 +171,24 @@
         "shortName": "MethodDefaultValuesAsync",
         "fullName": "Testing.Snippets.SnippetsClient.MethodDefaultValuesAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "System.Collections.Generic.IEnumerable",
+            "name": "repeatedDouble"
+          },
+          {
+            "type": "System.Collections.Generic.IEnumerable<Testing.Snippets.DefaultValuesRequest+Types+NestedMessage>",
+            "name": "repeatedNestedMessage"
+          },
+          {
+            "type": "System.Collections.Generic.IEnumerable",
+            "name": "repeatedResourceName"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
         "client": {
           "shortName": "SnippetsClient",
@@ -170,6 +226,24 @@
       "clientMethod": {
         "shortName": "MethodDefaultValues",
         "fullName": "Testing.Snippets.SnippetsClient.MethodDefaultValues",
+        "parameters": [
+          {
+            "type": "System.Collections.Generic.IEnumerable",
+            "name": "repeatedDouble"
+          },
+          {
+            "type": "System.Collections.Generic.IEnumerable<Testing.Snippets.DefaultValuesRequest+Types+NestedMessage>",
+            "name": "repeatedNestedMessage"
+          },
+          {
+            "type": "Testing.Snippets.AResourceName",
+            "name": "repeatedResourceName"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.Snippets.Response",
         "client": {
           "shortName": "SnippetsClient",
@@ -208,6 +282,24 @@
         "shortName": "MethodDefaultValuesAsync",
         "fullName": "Testing.Snippets.SnippetsClient.MethodDefaultValuesAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "System.Collections.Generic.IEnumerable",
+            "name": "repeatedDouble"
+          },
+          {
+            "type": "System.Collections.Generic.IEnumerable<Testing.Snippets.DefaultValuesRequest+Types+NestedMessage>",
+            "name": "repeatedNestedMessage"
+          },
+          {
+            "type": "Testing.Snippets.AResourceName",
+            "name": "repeatedResourceName"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
         "client": {
           "shortName": "SnippetsClient",
@@ -245,6 +337,16 @@
       "clientMethod": {
         "shortName": "MethodOneSignature",
         "fullName": "Testing.Snippets.SnippetsClient.MethodOneSignature",
+        "parameters": [
+          {
+            "type": "Testing.Snippets.SignatureRequest",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.Snippets.Response",
         "client": {
           "shortName": "SnippetsClient",
@@ -284,6 +386,16 @@
         "shortName": "MethodOneSignatureAsync",
         "fullName": "Testing.Snippets.SnippetsClient.MethodOneSignatureAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Snippets.SignatureRequest",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
         "client": {
           "shortName": "SnippetsClient",
@@ -322,6 +434,24 @@
       "clientMethod": {
         "shortName": "MethodOneSignature",
         "fullName": "Testing.Snippets.SnippetsClient.MethodOneSignature",
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "aString"
+          },
+          {
+            "type": "System.Int32",
+            "name": "anInt"
+          },
+          {
+            "type": "System.Boolean",
+            "name": "aBool"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.Snippets.Response",
         "client": {
           "shortName": "SnippetsClient",
@@ -360,6 +490,24 @@
         "shortName": "MethodOneSignatureAsync",
         "fullName": "Testing.Snippets.SnippetsClient.MethodOneSignatureAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "aString"
+          },
+          {
+            "type": "System.Int32",
+            "name": "anInt"
+          },
+          {
+            "type": "System.Boolean",
+            "name": "aBool"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
         "client": {
           "shortName": "SnippetsClient",
@@ -397,6 +545,16 @@
       "clientMethod": {
         "shortName": "MethodThreeSignatures",
         "fullName": "Testing.Snippets.SnippetsClient.MethodThreeSignatures",
+        "parameters": [
+          {
+            "type": "Testing.Snippets.SignatureRequest",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.Snippets.Response",
         "client": {
           "shortName": "SnippetsClient",
@@ -436,6 +594,16 @@
         "shortName": "MethodThreeSignaturesAsync",
         "fullName": "Testing.Snippets.SnippetsClient.MethodThreeSignaturesAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Snippets.SignatureRequest",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
         "client": {
           "shortName": "SnippetsClient",
@@ -474,6 +642,24 @@
       "clientMethod": {
         "shortName": "MethodThreeSignatures",
         "fullName": "Testing.Snippets.SnippetsClient.MethodThreeSignatures",
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "aString"
+          },
+          {
+            "type": "System.Int32",
+            "name": "anInt"
+          },
+          {
+            "type": "System.Boolean",
+            "name": "aBool"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.Snippets.Response",
         "client": {
           "shortName": "SnippetsClient",
@@ -512,6 +698,24 @@
         "shortName": "MethodThreeSignaturesAsync",
         "fullName": "Testing.Snippets.SnippetsClient.MethodThreeSignaturesAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "aString"
+          },
+          {
+            "type": "System.Int32",
+            "name": "anInt"
+          },
+          {
+            "type": "System.Boolean",
+            "name": "aBool"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
         "client": {
           "shortName": "SnippetsClient",
@@ -549,6 +753,20 @@
       "clientMethod": {
         "shortName": "MethodThreeSignatures",
         "fullName": "Testing.Snippets.SnippetsClient.MethodThreeSignatures",
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "aString"
+          },
+          {
+            "type": "System.Boolean",
+            "name": "aBool"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.Snippets.Response",
         "client": {
           "shortName": "SnippetsClient",
@@ -587,6 +805,20 @@
         "shortName": "MethodThreeSignaturesAsync",
         "fullName": "Testing.Snippets.SnippetsClient.MethodThreeSignaturesAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "aString"
+          },
+          {
+            "type": "System.Boolean",
+            "name": "aBool"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
         "client": {
           "shortName": "SnippetsClient",
@@ -624,6 +856,12 @@
       "clientMethod": {
         "shortName": "MethodThreeSignatures",
         "fullName": "Testing.Snippets.SnippetsClient.MethodThreeSignatures",
+        "parameters": [
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.Snippets.Response",
         "client": {
           "shortName": "SnippetsClient",
@@ -662,6 +900,12 @@
         "shortName": "MethodThreeSignaturesAsync",
         "fullName": "Testing.Snippets.SnippetsClient.MethodThreeSignaturesAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
         "client": {
           "shortName": "SnippetsClient",
@@ -699,6 +943,16 @@
       "clientMethod": {
         "shortName": "MethodMapSignature",
         "fullName": "Testing.Snippets.SnippetsClient.MethodMapSignature",
+        "parameters": [
+          {
+            "type": "Testing.Snippets.SignatureRequest",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.Snippets.Response",
         "client": {
           "shortName": "SnippetsClient",
@@ -738,6 +992,16 @@
         "shortName": "MethodMapSignatureAsync",
         "fullName": "Testing.Snippets.SnippetsClient.MethodMapSignatureAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Snippets.SignatureRequest",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
         "client": {
           "shortName": "SnippetsClient",
@@ -776,6 +1040,16 @@
       "clientMethod": {
         "shortName": "MethodMapSignature",
         "fullName": "Testing.Snippets.SnippetsClient.MethodMapSignature",
+        "parameters": [
+          {
+            "type": "System.Collections.Generic.IDictionary<System.Int32, System.String>",
+            "name": "mapIntString"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.Snippets.Response",
         "client": {
           "shortName": "SnippetsClient",
@@ -814,6 +1088,16 @@
         "shortName": "MethodMapSignatureAsync",
         "fullName": "Testing.Snippets.SnippetsClient.MethodMapSignatureAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "System.Collections.Generic.IDictionary<System.Int32, System.String>",
+            "name": "mapIntString"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
         "client": {
           "shortName": "SnippetsClient",
@@ -851,6 +1135,16 @@
       "clientMethod": {
         "shortName": "MethodResourceSignature",
         "fullName": "Testing.Snippets.SnippetsClient.MethodResourceSignature",
+        "parameters": [
+          {
+            "type": "Testing.Snippets.ResourceSignatureRequest",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.Snippets.Response",
         "client": {
           "shortName": "SnippetsClient",
@@ -890,6 +1184,16 @@
         "shortName": "MethodResourceSignatureAsync",
         "fullName": "Testing.Snippets.SnippetsClient.MethodResourceSignatureAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Snippets.ResourceSignatureRequest",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
         "client": {
           "shortName": "SnippetsClient",
@@ -928,6 +1232,24 @@
       "clientMethod": {
         "shortName": "MethodResourceSignature",
         "fullName": "Testing.Snippets.SnippetsClient.MethodResourceSignature",
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "firstName"
+          },
+          {
+            "type": "System.String",
+            "name": "secondName"
+          },
+          {
+            "type": "System.String",
+            "name": "thirdName"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.Snippets.Response",
         "client": {
           "shortName": "SnippetsClient",
@@ -966,6 +1288,24 @@
         "shortName": "MethodResourceSignatureAsync",
         "fullName": "Testing.Snippets.SnippetsClient.MethodResourceSignatureAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "firstName"
+          },
+          {
+            "type": "System.String",
+            "name": "secondName"
+          },
+          {
+            "type": "System.String",
+            "name": "thirdName"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
         "client": {
           "shortName": "SnippetsClient",
@@ -1003,6 +1343,24 @@
       "clientMethod": {
         "shortName": "MethodResourceSignature",
         "fullName": "Testing.Snippets.SnippetsClient.MethodResourceSignature",
+        "parameters": [
+          {
+            "type": "Testing.Snippets.SimpleResourceName",
+            "name": "firstName"
+          },
+          {
+            "type": "Testing.Snippets.SimpleResourceName",
+            "name": "secondName"
+          },
+          {
+            "type": "Testing.Snippets.SimpleResourceName",
+            "name": "thirdName"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.Snippets.Response",
         "client": {
           "shortName": "SnippetsClient",
@@ -1041,6 +1399,24 @@
         "shortName": "MethodResourceSignatureAsync",
         "fullName": "Testing.Snippets.SnippetsClient.MethodResourceSignatureAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Snippets.SimpleResourceName",
+            "name": "firstName"
+          },
+          {
+            "type": "Testing.Snippets.SimpleResourceName",
+            "name": "secondName"
+          },
+          {
+            "type": "Testing.Snippets.SimpleResourceName",
+            "name": "thirdName"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
         "client": {
           "shortName": "SnippetsClient",
@@ -1078,6 +1454,16 @@
       "clientMethod": {
         "shortName": "MethodResourceSignature",
         "fullName": "Testing.Snippets.SnippetsClient.MethodResourceSignature",
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "firstName"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.Snippets.Response",
         "client": {
           "shortName": "SnippetsClient",
@@ -1116,6 +1502,16 @@
         "shortName": "MethodResourceSignatureAsync",
         "fullName": "Testing.Snippets.SnippetsClient.MethodResourceSignatureAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "firstName"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
         "client": {
           "shortName": "SnippetsClient",
@@ -1153,6 +1549,16 @@
       "clientMethod": {
         "shortName": "MethodResourceSignature",
         "fullName": "Testing.Snippets.SnippetsClient.MethodResourceSignature",
+        "parameters": [
+          {
+            "type": "Testing.Snippets.SimpleResourceName",
+            "name": "firstName"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.Snippets.Response",
         "client": {
           "shortName": "SnippetsClient",
@@ -1191,6 +1597,16 @@
         "shortName": "MethodResourceSignatureAsync",
         "fullName": "Testing.Snippets.SnippetsClient.MethodResourceSignatureAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Snippets.SimpleResourceName",
+            "name": "firstName"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
         "client": {
           "shortName": "SnippetsClient",
@@ -1228,6 +1644,16 @@
       "clientMethod": {
         "shortName": "MethodRepeatedResourceSignature",
         "fullName": "Testing.Snippets.SnippetsClient.MethodRepeatedResourceSignature",
+        "parameters": [
+          {
+            "type": "Testing.Snippets.RepeatedResourceSignatureRequest",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.Snippets.Response",
         "client": {
           "shortName": "SnippetsClient",
@@ -1267,6 +1693,16 @@
         "shortName": "MethodRepeatedResourceSignatureAsync",
         "fullName": "Testing.Snippets.SnippetsClient.MethodRepeatedResourceSignatureAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Snippets.RepeatedResourceSignatureRequest",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
         "client": {
           "shortName": "SnippetsClient",
@@ -1305,6 +1741,16 @@
       "clientMethod": {
         "shortName": "MethodRepeatedResourceSignature",
         "fullName": "Testing.Snippets.SnippetsClient.MethodRepeatedResourceSignature",
+        "parameters": [
+          {
+            "type": "System.Collections.Generic.IEnumerable",
+            "name": "names"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.Snippets.Response",
         "client": {
           "shortName": "SnippetsClient",
@@ -1343,6 +1789,16 @@
         "shortName": "MethodRepeatedResourceSignatureAsync",
         "fullName": "Testing.Snippets.SnippetsClient.MethodRepeatedResourceSignatureAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "System.Collections.Generic.IEnumerable",
+            "name": "names"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
         "client": {
           "shortName": "SnippetsClient",
@@ -1380,6 +1836,16 @@
       "clientMethod": {
         "shortName": "MethodRepeatedResourceSignature",
         "fullName": "Testing.Snippets.SnippetsClient.MethodRepeatedResourceSignature",
+        "parameters": [
+          {
+            "type": "Testing.Snippets.SimpleResourceName",
+            "name": "names"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.Snippets.Response",
         "client": {
           "shortName": "SnippetsClient",
@@ -1418,6 +1884,16 @@
         "shortName": "MethodRepeatedResourceSignatureAsync",
         "fullName": "Testing.Snippets.SnippetsClient.MethodRepeatedResourceSignatureAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Snippets.SimpleResourceName",
+            "name": "names"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
         "client": {
           "shortName": "SnippetsClient",
@@ -1455,6 +1931,16 @@
       "clientMethod": {
         "shortName": "MethodLroSignatures",
         "fullName": "Testing.Snippets.SnippetsClient.MethodLroSignatures",
+        "parameters": [
+          {
+            "type": "Testing.Snippets.SignatureRequest",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Google.LongRunning.Operation<Testing.Snippets.LroResponse, Testing.Snippets.LroMetadata>",
         "client": {
           "shortName": "SnippetsClient",
@@ -1494,6 +1980,16 @@
         "shortName": "MethodLroSignaturesAsync",
         "fullName": "Testing.Snippets.SnippetsClient.MethodLroSignaturesAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Snippets.SignatureRequest",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Google.LongRunning.Operation<Testing.Snippets.LroResponse, Testing.Snippets.LroMetadata>>",
         "client": {
           "shortName": "SnippetsClient",
@@ -1532,6 +2028,24 @@
       "clientMethod": {
         "shortName": "MethodLroSignatures",
         "fullName": "Testing.Snippets.SnippetsClient.MethodLroSignatures",
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "aString"
+          },
+          {
+            "type": "System.Int32",
+            "name": "anInt"
+          },
+          {
+            "type": "System.Boolean",
+            "name": "aBool"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Google.LongRunning.Operation<Testing.Snippets.LroResponse, Testing.Snippets.LroMetadata>",
         "client": {
           "shortName": "SnippetsClient",
@@ -1570,6 +2084,24 @@
         "shortName": "MethodLroSignaturesAsync",
         "fullName": "Testing.Snippets.SnippetsClient.MethodLroSignaturesAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "aString"
+          },
+          {
+            "type": "System.Int32",
+            "name": "anInt"
+          },
+          {
+            "type": "System.Boolean",
+            "name": "aBool"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Google.LongRunning.Operation<Testing.Snippets.LroResponse, Testing.Snippets.LroMetadata>>",
         "client": {
           "shortName": "SnippetsClient",
@@ -1607,6 +2139,16 @@
       "clientMethod": {
         "shortName": "MethodLroResourceSignature",
         "fullName": "Testing.Snippets.SnippetsClient.MethodLroResourceSignature",
+        "parameters": [
+          {
+            "type": "Testing.Snippets.ResourceSignatureRequest",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Google.LongRunning.Operation<Testing.Snippets.LroResponse, Testing.Snippets.LroMetadata>",
         "client": {
           "shortName": "SnippetsClient",
@@ -1646,6 +2188,16 @@
         "shortName": "MethodLroResourceSignatureAsync",
         "fullName": "Testing.Snippets.SnippetsClient.MethodLroResourceSignatureAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Snippets.ResourceSignatureRequest",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Google.LongRunning.Operation<Testing.Snippets.LroResponse, Testing.Snippets.LroMetadata>>",
         "client": {
           "shortName": "SnippetsClient",
@@ -1684,6 +2236,24 @@
       "clientMethod": {
         "shortName": "MethodLroResourceSignature",
         "fullName": "Testing.Snippets.SnippetsClient.MethodLroResourceSignature",
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "firstName"
+          },
+          {
+            "type": "System.String",
+            "name": "secondName"
+          },
+          {
+            "type": "System.String",
+            "name": "thirdName"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Google.LongRunning.Operation<Testing.Snippets.LroResponse, Testing.Snippets.LroMetadata>",
         "client": {
           "shortName": "SnippetsClient",
@@ -1722,6 +2292,24 @@
         "shortName": "MethodLroResourceSignatureAsync",
         "fullName": "Testing.Snippets.SnippetsClient.MethodLroResourceSignatureAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "firstName"
+          },
+          {
+            "type": "System.String",
+            "name": "secondName"
+          },
+          {
+            "type": "System.String",
+            "name": "thirdName"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Google.LongRunning.Operation<Testing.Snippets.LroResponse, Testing.Snippets.LroMetadata>>",
         "client": {
           "shortName": "SnippetsClient",
@@ -1759,6 +2347,24 @@
       "clientMethod": {
         "shortName": "MethodLroResourceSignature",
         "fullName": "Testing.Snippets.SnippetsClient.MethodLroResourceSignature",
+        "parameters": [
+          {
+            "type": "Testing.Snippets.SimpleResourceName",
+            "name": "firstName"
+          },
+          {
+            "type": "Testing.Snippets.SimpleResourceName",
+            "name": "secondName"
+          },
+          {
+            "type": "Testing.Snippets.SimpleResourceName",
+            "name": "thirdName"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Google.LongRunning.Operation<Testing.Snippets.LroResponse, Testing.Snippets.LroMetadata>",
         "client": {
           "shortName": "SnippetsClient",
@@ -1797,6 +2403,24 @@
         "shortName": "MethodLroResourceSignatureAsync",
         "fullName": "Testing.Snippets.SnippetsClient.MethodLroResourceSignatureAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Snippets.SimpleResourceName",
+            "name": "firstName"
+          },
+          {
+            "type": "Testing.Snippets.SimpleResourceName",
+            "name": "secondName"
+          },
+          {
+            "type": "Testing.Snippets.SimpleResourceName",
+            "name": "thirdName"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Google.LongRunning.Operation<Testing.Snippets.LroResponse, Testing.Snippets.LroMetadata>>",
         "client": {
           "shortName": "SnippetsClient",
@@ -1834,6 +2458,16 @@
       "clientMethod": {
         "shortName": "MethodServerStreaming",
         "fullName": "Testing.Snippets.SnippetsClient.MethodServerStreaming",
+        "parameters": [
+          {
+            "type": "Testing.Snippets.SignatureRequest",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.Snippets.SnippetsClient+MethodServerStreamingStream",
         "client": {
           "shortName": "SnippetsClient",
@@ -1872,6 +2506,20 @@
       "clientMethod": {
         "shortName": "MethodServerStreaming",
         "fullName": "Testing.Snippets.SnippetsClient.MethodServerStreaming",
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "aString"
+          },
+          {
+            "type": "System.Boolean",
+            "name": "aBool"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.Snippets.SnippetsClient+MethodServerStreamingStream",
         "client": {
           "shortName": "SnippetsClient",
@@ -1909,6 +2557,12 @@
       "clientMethod": {
         "shortName": "MethodServerStreaming",
         "fullName": "Testing.Snippets.SnippetsClient.MethodServerStreaming",
+        "parameters": [
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.Snippets.SnippetsClient+MethodServerStreamingStream",
         "client": {
           "shortName": "SnippetsClient",
@@ -1946,6 +2600,16 @@
       "clientMethod": {
         "shortName": "MethodServerStreamingResources",
         "fullName": "Testing.Snippets.SnippetsClient.MethodServerStreamingResources",
+        "parameters": [
+          {
+            "type": "Testing.Snippets.ResourceSignatureRequest",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.Snippets.SnippetsClient+MethodServerStreamingResourcesStream",
         "client": {
           "shortName": "SnippetsClient",
@@ -1984,6 +2648,24 @@
       "clientMethod": {
         "shortName": "MethodServerStreamingResources",
         "fullName": "Testing.Snippets.SnippetsClient.MethodServerStreamingResources",
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "firstName"
+          },
+          {
+            "type": "System.String",
+            "name": "secondName"
+          },
+          {
+            "type": "System.String",
+            "name": "thirdName"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.Snippets.SnippetsClient+MethodServerStreamingResourcesStream",
         "client": {
           "shortName": "SnippetsClient",
@@ -2021,6 +2703,24 @@
       "clientMethod": {
         "shortName": "MethodServerStreamingResources",
         "fullName": "Testing.Snippets.SnippetsClient.MethodServerStreamingResources",
+        "parameters": [
+          {
+            "type": "Testing.Snippets.SimpleResourceName",
+            "name": "firstName"
+          },
+          {
+            "type": "Testing.Snippets.SimpleResourceName",
+            "name": "secondName"
+          },
+          {
+            "type": "Testing.Snippets.SimpleResourceName",
+            "name": "thirdName"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.Snippets.SnippetsClient+MethodServerStreamingResourcesStream",
         "client": {
           "shortName": "SnippetsClient",
@@ -2058,6 +2758,16 @@
       "clientMethod": {
         "shortName": "MethodBidiStreaming",
         "fullName": "Testing.Snippets.SnippetsClient.MethodBidiStreaming",
+        "parameters": [
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.BidirectionalStreamingSettings",
+            "name": "streamingSettings"
+          }
+        ],
         "resultType": "Testing.Snippets.SnippetsClient+MethodBidiStreamingStream",
         "client": {
           "shortName": "SnippetsClient",
@@ -2096,6 +2806,16 @@
       "clientMethod": {
         "shortName": "TaskMethod",
         "fullName": "Testing.Snippets.SnippetsClient.TaskMethod",
+        "parameters": [
+          {
+            "type": "Testing.Snippets.Task",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.Snippets.Task",
         "client": {
           "shortName": "SnippetsClient",
@@ -2135,6 +2855,16 @@
         "shortName": "TaskMethodAsync",
         "fullName": "Testing.Snippets.SnippetsClient.TaskMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Snippets.Task",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Task>",
         "client": {
           "shortName": "SnippetsClient",
@@ -2173,6 +2903,16 @@
       "clientMethod": {
         "shortName": "OneOfMethod",
         "fullName": "Testing.Snippets.SnippetsClient.OneOfMethod",
+        "parameters": [
+          {
+            "type": "Testing.Snippets.OneOfRequest",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.Snippets.Response",
         "client": {
           "shortName": "SnippetsClient",
@@ -2212,6 +2952,16 @@
         "shortName": "OneOfMethodAsync",
         "fullName": "Testing.Snippets.SnippetsClient.OneOfMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Snippets.OneOfRequest",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
         "client": {
           "shortName": "SnippetsClient",

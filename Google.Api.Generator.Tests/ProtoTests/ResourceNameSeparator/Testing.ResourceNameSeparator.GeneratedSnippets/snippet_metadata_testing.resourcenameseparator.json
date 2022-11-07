@@ -18,6 +18,16 @@
       "clientMethod": {
         "shortName": "Method1",
         "fullName": "Testing.ResourceNameSeparator.ResourceNameSeparatorClient.Method1",
+        "parameters": [
+          {
+            "type": "Testing.ResourceNameSeparator.Request",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.ResourceNameSeparator.Response",
         "client": {
           "shortName": "ResourceNameSeparatorClient",
@@ -57,6 +67,16 @@
         "shortName": "Method1Async",
         "fullName": "Testing.ResourceNameSeparator.ResourceNameSeparatorClient.Method1Async",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.ResourceNameSeparator.Request",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNameSeparator.Response>",
         "client": {
           "shortName": "ResourceNameSeparatorClient",
@@ -95,6 +115,20 @@
       "clientMethod": {
         "shortName": "Method1",
         "fullName": "Testing.ResourceNameSeparator.ResourceNameSeparatorClient.Method1",
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "name"
+          },
+          {
+            "type": "System.String",
+            "name": "ref"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.ResourceNameSeparator.Response",
         "client": {
           "shortName": "ResourceNameSeparatorClient",
@@ -133,6 +167,20 @@
         "shortName": "Method1Async",
         "fullName": "Testing.ResourceNameSeparator.ResourceNameSeparatorClient.Method1Async",
         "async": true,
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "name"
+          },
+          {
+            "type": "System.String",
+            "name": "ref"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNameSeparator.Response>",
         "client": {
           "shortName": "ResourceNameSeparatorClient",
@@ -170,6 +218,20 @@
       "clientMethod": {
         "shortName": "Method1",
         "fullName": "Testing.ResourceNameSeparator.ResourceNameSeparatorClient.Method1",
+        "parameters": [
+          {
+            "type": "Testing.ResourceNameSeparator.RequestName",
+            "name": "name"
+          },
+          {
+            "type": "Testing.ResourceNameSeparator.RequestName",
+            "name": "ref"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.ResourceNameSeparator.Response",
         "client": {
           "shortName": "ResourceNameSeparatorClient",
@@ -208,6 +270,20 @@
         "shortName": "Method1Async",
         "fullName": "Testing.ResourceNameSeparator.ResourceNameSeparatorClient.Method1Async",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.ResourceNameSeparator.RequestName",
+            "name": "name"
+          },
+          {
+            "type": "Testing.ResourceNameSeparator.RequestName",
+            "name": "ref"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNameSeparator.Response>",
         "client": {
           "shortName": "ResourceNameSeparatorClient",

@@ -18,6 +18,16 @@
       "clientMethod": {
         "shortName": "VoidMethod",
         "fullName": "Testing.VoidReturn.VoidReturnClient.VoidMethod",
+        "parameters": [
+          {
+            "type": "Testing.VoidReturn.Request",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "client": {
           "shortName": "VoidReturnClient",
           "fullName": "Testing.VoidReturn.VoidReturnClient"
@@ -56,6 +66,16 @@
         "shortName": "VoidMethodAsync",
         "fullName": "Testing.VoidReturn.VoidReturnClient.VoidMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.VoidReturn.Request",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task",
         "client": {
           "shortName": "VoidReturnClient",
@@ -94,6 +114,16 @@
       "clientMethod": {
         "shortName": "VoidMethod",
         "fullName": "Testing.VoidReturn.VoidReturnClient.VoidMethod",
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "name"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "client": {
           "shortName": "VoidReturnClient",
           "fullName": "Testing.VoidReturn.VoidReturnClient"
@@ -131,6 +161,16 @@
         "shortName": "VoidMethodAsync",
         "fullName": "Testing.VoidReturn.VoidReturnClient.VoidMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "name"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task",
         "client": {
           "shortName": "VoidReturnClient",
@@ -168,6 +208,16 @@
       "clientMethod": {
         "shortName": "VoidMethod",
         "fullName": "Testing.VoidReturn.VoidReturnClient.VoidMethod",
+        "parameters": [
+          {
+            "type": "Testing.VoidReturn.ResourceName",
+            "name": "name"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "client": {
           "shortName": "VoidReturnClient",
           "fullName": "Testing.VoidReturn.VoidReturnClient"
@@ -205,6 +255,16 @@
         "shortName": "VoidMethodAsync",
         "fullName": "Testing.VoidReturn.VoidReturnClient.VoidMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.VoidReturn.ResourceName",
+            "name": "name"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task",
         "client": {
           "shortName": "VoidReturnClient",
