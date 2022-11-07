@@ -18,6 +18,16 @@
       "clientMethod": {
         "shortName": "DeprecatedFieldMethod",
         "fullName": "Testing.Deprecated.DeprecatedClient.DeprecatedFieldMethod",
+        "parameters": [
+          {
+            "type": "Testing.Deprecated.DeprecatedFieldRequest",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.Deprecated.Response",
         "client": {
           "shortName": "DeprecatedClient",
@@ -57,6 +67,16 @@
         "shortName": "DeprecatedFieldMethodAsync",
         "fullName": "Testing.Deprecated.DeprecatedClient.DeprecatedFieldMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Deprecated.DeprecatedFieldRequest",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.Deprecated.Response>",
         "client": {
           "shortName": "DeprecatedClient",
@@ -95,6 +115,20 @@
       "clientMethod": {
         "shortName": "DeprecatedFieldMethod",
         "fullName": "Testing.Deprecated.DeprecatedClient.DeprecatedFieldMethod",
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "deprecatedField1"
+          },
+          {
+            "type": "System.String",
+            "name": "deprecatedField2"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.Deprecated.Response",
         "client": {
           "shortName": "DeprecatedClient",
@@ -133,6 +167,20 @@
         "shortName": "DeprecatedFieldMethodAsync",
         "fullName": "Testing.Deprecated.DeprecatedClient.DeprecatedFieldMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "deprecatedField1"
+          },
+          {
+            "type": "System.String",
+            "name": "deprecatedField2"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.Deprecated.Response>",
         "client": {
           "shortName": "DeprecatedClient",
@@ -170,6 +218,16 @@
       "clientMethod": {
         "shortName": "DeprecatedMessageMethod",
         "fullName": "Testing.Deprecated.DeprecatedClient.DeprecatedMessageMethod",
+        "parameters": [
+          {
+            "type": "Testing.Deprecated.DeprecatedMessageRequest",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.Deprecated.Response",
         "client": {
           "shortName": "DeprecatedClient",
@@ -209,6 +267,16 @@
         "shortName": "DeprecatedMessageMethodAsync",
         "fullName": "Testing.Deprecated.DeprecatedClient.DeprecatedMessageMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Deprecated.DeprecatedMessageRequest",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.Deprecated.Response>",
         "client": {
           "shortName": "DeprecatedClient",
@@ -247,6 +315,16 @@
       "clientMethod": {
         "shortName": "DeprecatedMethod",
         "fullName": "Testing.Deprecated.DeprecatedClient.DeprecatedMethod",
+        "parameters": [
+          {
+            "type": "Testing.Deprecated.Request",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.Deprecated.Response",
         "client": {
           "shortName": "DeprecatedClient",
@@ -286,6 +364,16 @@
         "shortName": "DeprecatedMethodAsync",
         "fullName": "Testing.Deprecated.DeprecatedClient.DeprecatedMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Deprecated.Request",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.Deprecated.Response>",
         "client": {
           "shortName": "DeprecatedClient",
@@ -324,6 +412,16 @@
       "clientMethod": {
         "shortName": "DeprecatedResponseMethod",
         "fullName": "Testing.Deprecated.DeprecatedClient.DeprecatedResponseMethod",
+        "parameters": [
+          {
+            "type": "Testing.Deprecated.Request",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Testing.Deprecated.DeprecatedMessageResponse",
         "client": {
           "shortName": "DeprecatedClient",
@@ -363,6 +461,16 @@
         "shortName": "DeprecatedResponseMethodAsync",
         "fullName": "Testing.Deprecated.DeprecatedClient.DeprecatedResponseMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Deprecated.Request",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "System.Threading.Tasks.Task<Testing.Deprecated.DeprecatedMessageResponse>",
         "client": {
           "shortName": "DeprecatedClient",

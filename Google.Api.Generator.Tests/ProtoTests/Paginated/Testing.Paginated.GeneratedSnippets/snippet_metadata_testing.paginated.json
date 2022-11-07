@@ -18,6 +18,16 @@
       "clientMethod": {
         "shortName": "SignatureMethod",
         "fullName": "Testing.Paginated.PaginatedClient.SignatureMethod",
+        "parameters": [
+          {
+            "type": "Testing.Paginated.Request",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Google.Api.Gax.PagedEnumerable<Testing.Paginated.Response, Testing.Paginated.Response+Types+NestedResult>",
         "client": {
           "shortName": "PaginatedClient",
@@ -57,6 +67,16 @@
         "shortName": "SignatureMethodAsync",
         "fullName": "Testing.Paginated.PaginatedClient.SignatureMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Paginated.Request",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Google.Api.Gax.PagedAsyncEnumerable<Testing.Paginated.Response, Testing.Paginated.Response+Types+NestedResult>",
         "client": {
           "shortName": "PaginatedClient",
@@ -95,6 +115,28 @@
       "clientMethod": {
         "shortName": "SignatureMethod",
         "fullName": "Testing.Paginated.PaginatedClient.SignatureMethod",
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "aString"
+          },
+          {
+            "type": "System.Int32",
+            "name": "aNumber"
+          },
+          {
+            "type": "System.String",
+            "name": "pageToken"
+          },
+          {
+            "type": "System.Nullable[System.Int32]",
+            "name": "pageSize"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Google.Api.Gax.PagedEnumerable<Testing.Paginated.Response, Testing.Paginated.Response+Types+NestedResult>",
         "client": {
           "shortName": "PaginatedClient",
@@ -133,6 +175,28 @@
         "shortName": "SignatureMethodAsync",
         "fullName": "Testing.Paginated.PaginatedClient.SignatureMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "aString"
+          },
+          {
+            "type": "System.Int32",
+            "name": "aNumber"
+          },
+          {
+            "type": "System.String",
+            "name": "pageToken"
+          },
+          {
+            "type": "System.Nullable[System.Int32]",
+            "name": "pageSize"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Google.Api.Gax.PagedAsyncEnumerable<Testing.Paginated.Response, Testing.Paginated.Response+Types+NestedResult>",
         "client": {
           "shortName": "PaginatedClient",
@@ -170,6 +234,24 @@
       "clientMethod": {
         "shortName": "SignatureMethod",
         "fullName": "Testing.Paginated.PaginatedClient.SignatureMethod",
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "aString"
+          },
+          {
+            "type": "System.String",
+            "name": "pageToken"
+          },
+          {
+            "type": "System.Nullable[System.Int32]",
+            "name": "pageSize"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Google.Api.Gax.PagedEnumerable<Testing.Paginated.Response, Testing.Paginated.Response+Types+NestedResult>",
         "client": {
           "shortName": "PaginatedClient",
@@ -208,6 +290,24 @@
         "shortName": "SignatureMethodAsync",
         "fullName": "Testing.Paginated.PaginatedClient.SignatureMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "aString"
+          },
+          {
+            "type": "System.String",
+            "name": "pageToken"
+          },
+          {
+            "type": "System.Nullable[System.Int32]",
+            "name": "pageSize"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Google.Api.Gax.PagedAsyncEnumerable<Testing.Paginated.Response, Testing.Paginated.Response+Types+NestedResult>",
         "client": {
           "shortName": "PaginatedClient",
@@ -245,6 +345,20 @@
       "clientMethod": {
         "shortName": "SignatureMethod",
         "fullName": "Testing.Paginated.PaginatedClient.SignatureMethod",
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "pageToken"
+          },
+          {
+            "type": "System.Nullable[System.Int32]",
+            "name": "pageSize"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Google.Api.Gax.PagedEnumerable<Testing.Paginated.Response, Testing.Paginated.Response+Types+NestedResult>",
         "client": {
           "shortName": "PaginatedClient",
@@ -283,6 +397,20 @@
         "shortName": "SignatureMethodAsync",
         "fullName": "Testing.Paginated.PaginatedClient.SignatureMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "pageToken"
+          },
+          {
+            "type": "System.Nullable[System.Int32]",
+            "name": "pageSize"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Google.Api.Gax.PagedAsyncEnumerable<Testing.Paginated.Response, Testing.Paginated.Response+Types+NestedResult>",
         "client": {
           "shortName": "PaginatedClient",
@@ -320,6 +448,16 @@
       "clientMethod": {
         "shortName": "SignatureMethod2",
         "fullName": "Testing.Paginated.PaginatedClient.SignatureMethod2",
+        "parameters": [
+          {
+            "type": "Testing.Paginated.Request",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Google.Api.Gax.PagedEnumerable<Testing.Paginated.Response, Testing.Paginated.Response+Types+NestedResult>",
         "client": {
           "shortName": "PaginatedClient",
@@ -359,6 +497,16 @@
         "shortName": "SignatureMethod2Async",
         "fullName": "Testing.Paginated.PaginatedClient.SignatureMethod2Async",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Paginated.Request",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Google.Api.Gax.PagedAsyncEnumerable<Testing.Paginated.Response, Testing.Paginated.Response+Types+NestedResult>",
         "client": {
           "shortName": "PaginatedClient",
@@ -397,6 +545,16 @@
       "clientMethod": {
         "shortName": "ResourcedMethod",
         "fullName": "Testing.Paginated.PaginatedClient.ResourcedMethod",
+        "parameters": [
+          {
+            "type": "Testing.Paginated.ResourceRequest",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Google.Api.Gax.PagedEnumerable<Testing.Paginated.ResourceResponse, System.String>",
         "client": {
           "shortName": "PaginatedClient",
@@ -436,6 +594,16 @@
         "shortName": "ResourcedMethodAsync",
         "fullName": "Testing.Paginated.PaginatedClient.ResourcedMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Paginated.ResourceRequest",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Google.Api.Gax.PagedAsyncEnumerable<Testing.Paginated.ResourceResponse, System.String>",
         "client": {
           "shortName": "PaginatedClient",
@@ -474,6 +642,24 @@
       "clientMethod": {
         "shortName": "ResourcedMethod",
         "fullName": "Testing.Paginated.PaginatedClient.ResourcedMethod",
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "name"
+          },
+          {
+            "type": "System.String",
+            "name": "pageToken"
+          },
+          {
+            "type": "System.Nullable[System.Int32]",
+            "name": "pageSize"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Google.Api.Gax.PagedEnumerable<Testing.Paginated.ResourceResponse, System.String>",
         "client": {
           "shortName": "PaginatedClient",
@@ -512,6 +698,24 @@
         "shortName": "ResourcedMethodAsync",
         "fullName": "Testing.Paginated.PaginatedClient.ResourcedMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "name"
+          },
+          {
+            "type": "System.String",
+            "name": "pageToken"
+          },
+          {
+            "type": "System.Nullable[System.Int32]",
+            "name": "pageSize"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Google.Api.Gax.PagedAsyncEnumerable<Testing.Paginated.ResourceResponse, System.String>",
         "client": {
           "shortName": "PaginatedClient",
@@ -549,6 +753,24 @@
       "clientMethod": {
         "shortName": "ResourcedMethod",
         "fullName": "Testing.Paginated.PaginatedClient.ResourcedMethod",
+        "parameters": [
+          {
+            "type": "Testing.Paginated.ResourceName",
+            "name": "name"
+          },
+          {
+            "type": "System.String",
+            "name": "pageToken"
+          },
+          {
+            "type": "System.Nullable[System.Int32]",
+            "name": "pageSize"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Google.Api.Gax.PagedEnumerable<Testing.Paginated.ResourceResponse, System.String>",
         "client": {
           "shortName": "PaginatedClient",
@@ -587,6 +809,24 @@
         "shortName": "ResourcedMethodAsync",
         "fullName": "Testing.Paginated.PaginatedClient.ResourcedMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Paginated.ResourceName",
+            "name": "name"
+          },
+          {
+            "type": "System.String",
+            "name": "pageToken"
+          },
+          {
+            "type": "System.Nullable[System.Int32]",
+            "name": "pageSize"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Google.Api.Gax.PagedAsyncEnumerable<Testing.Paginated.ResourceResponse, System.String>",
         "client": {
           "shortName": "PaginatedClient",
@@ -624,6 +864,28 @@
       "clientMethod": {
         "shortName": "ResourcedMethod",
         "fullName": "Testing.Paginated.PaginatedClient.ResourcedMethod",
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "name"
+          },
+          {
+            "type": "System.String",
+            "name": "extraString"
+          },
+          {
+            "type": "System.String",
+            "name": "pageToken"
+          },
+          {
+            "type": "System.Nullable[System.Int32]",
+            "name": "pageSize"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Google.Api.Gax.PagedEnumerable<Testing.Paginated.ResourceResponse, System.String>",
         "client": {
           "shortName": "PaginatedClient",
@@ -662,6 +924,28 @@
         "shortName": "ResourcedMethodAsync",
         "fullName": "Testing.Paginated.PaginatedClient.ResourcedMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "name"
+          },
+          {
+            "type": "System.String",
+            "name": "extraString"
+          },
+          {
+            "type": "System.String",
+            "name": "pageToken"
+          },
+          {
+            "type": "System.Nullable[System.Int32]",
+            "name": "pageSize"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Google.Api.Gax.PagedAsyncEnumerable<Testing.Paginated.ResourceResponse, System.String>",
         "client": {
           "shortName": "PaginatedClient",
@@ -699,6 +983,28 @@
       "clientMethod": {
         "shortName": "ResourcedMethod",
         "fullName": "Testing.Paginated.PaginatedClient.ResourcedMethod",
+        "parameters": [
+          {
+            "type": "Testing.Paginated.ResourceName",
+            "name": "name"
+          },
+          {
+            "type": "System.String",
+            "name": "extraString"
+          },
+          {
+            "type": "System.String",
+            "name": "pageToken"
+          },
+          {
+            "type": "System.Nullable[System.Int32]",
+            "name": "pageSize"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Google.Api.Gax.PagedEnumerable<Testing.Paginated.ResourceResponse, System.String>",
         "client": {
           "shortName": "PaginatedClient",
@@ -737,6 +1043,28 @@
         "shortName": "ResourcedMethodAsync",
         "fullName": "Testing.Paginated.PaginatedClient.ResourcedMethodAsync",
         "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Paginated.ResourceName",
+            "name": "name"
+          },
+          {
+            "type": "System.String",
+            "name": "extraString"
+          },
+          {
+            "type": "System.String",
+            "name": "pageToken"
+          },
+          {
+            "type": "System.Nullable[System.Int32]",
+            "name": "pageSize"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
         "resultType": "Google.Api.Gax.PagedAsyncEnumerable<Testing.Paginated.ResourceResponse, System.String>",
         "client": {
           "shortName": "PaginatedClient",
