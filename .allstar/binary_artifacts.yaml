@@ -1,0 +1,9 @@
+# Ignore reason: These artifacts are used for testing.
+# These artifacts are official Google released binaries.
+# The alternative would be to download them on each test run
+# which is possibly more vulnerable.
+ignorePaths:
+- tools/grpc_csharp_plugin
+- tools/grpc_csharp_plugin.exe
+- tools/protoc
+- tools/protoc.exe
