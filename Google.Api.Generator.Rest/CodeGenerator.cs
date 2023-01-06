@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Google.Api.Gax;
 using Google.Api.Generator.Rest.Models;
 using Google.Api.Generator.Utils;
 using Google.Api.Generator.Utils.Formatting;
@@ -26,15 +27,15 @@ namespace Google.Api.Generator.Rest
 {
     internal class CodeGenerator
     {
-        public static IEnumerable<ResultFile> Generate(string discoveryJson, Features features, PackageEnumStorage enumStorage)
+        public static IEnumerable<ResultFile> Generate(string discoveryJson, Features features, PackageEnumStorage enumStorage, IClock clock)
         {
             discoveryJson = NormalizeDescriptions(discoveryJson);
 
             var discoveryDescription = NewtonsoftJsonSerializer.Instance.Deserialize<RestDescription>(discoveryJson);
 
             var package = new PackageModel(discoveryDescription, features, enumStorage);
-            yield return GenerateCSharpCode(package);
-            yield return GenerateProjectFile(package);
+            yield return GenerateCSharpCode(package, clock);
+            yield return GenerateProjectFile(package, clock);
         }
 
         private static string NormalizeDescriptions(string discoveryJson)
@@ -51,16 +52,16 @@ namespace Google.Api.Generator.Rest
             return raw.ToString();
         }
 
-        private static ResultFile GenerateCSharpCode(PackageModel package)
+        private static ResultFile GenerateCSharpCode(PackageModel package, IClock clock)
         {
-            var syntax = package.GenerateCompilationUnit();
+            var syntax = package.GenerateCompilationUnit(clock);
             string content = CodeFormatter.Format(syntax).ToFullString();
             return new ResultFile($"{package.PackageName}/{package.PackageName}.cs", content);
         }
 
-        private static ResultFile GenerateProjectFile(PackageModel package)
+        private static ResultFile GenerateProjectFile(PackageModel package, IClock clock)
         {
-            var doc = package.GenerateProjectFile();
+            var doc = package.GenerateProjectFile(clock);
             // Take care of fine-grained line-break placement, and add a final line break for compatibility
             // with existing generator (which really doesn't need to be changed for this).
             // Note that the built-in XDocument formatting puts the comment on a line on its own, so

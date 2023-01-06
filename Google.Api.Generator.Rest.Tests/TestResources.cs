@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Google.Api.Gax.Testing;
 using Google.Api.Generator.Rest.Models;
 using Google.Api.Generator.Testing;
 using System;
@@ -41,6 +42,7 @@ namespace Google.Api.Generator.Rest.Tests
 
         internal static void TestOutput(string directory, bool ignoreCsProj = false)
         {
+            var clock = new FakeClock(new DateTime(2022, 1, 1));
             var resourceDirectory = Path.Combine(TestDirectory, "GoldenTestData", directory);
             var json = File.ReadAllText(Path.Combine(resourceDirectory, "discovery.json"));
             var features = new Features
@@ -56,7 +58,7 @@ namespace Google.Api.Generator.Rest.Tests
                 }
             };
             PackageEnumStorage enumStorage = PackageEnumStorage.FromJson("{}");
-            var files = CodeGenerator.Generate(json, features, enumStorage).ToList();
+            var files = CodeGenerator.Generate(json, features, enumStorage, clock).ToList();
             // Check output is present.
             Assert.NotEmpty(files);
 
