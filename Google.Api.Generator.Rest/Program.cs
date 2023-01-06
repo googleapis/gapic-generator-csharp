@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Google.Api.Gax;
 using Google.Api.Generator.Rest.Models;
 using Newtonsoft.Json;
 using System;
@@ -37,7 +38,7 @@ namespace Google.Api.Generator.Rest
             var enumStorage = PackageEnumStorage.FromJson(enumStorageJson);
 
             var features = JsonConvert.DeserializeObject<Features>(featuresJson);
-            var files = CodeGenerator.Generate(json, features, enumStorage);
+            var files = CodeGenerator.Generate(json, features, enumStorage, SystemClock.Instance);
             foreach (var file in files)
             {
                 var path = Path.Combine(outputDirectory, file.RelativePath);

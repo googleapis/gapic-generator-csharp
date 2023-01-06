@@ -130,9 +130,9 @@ namespace Google.Api.Generator.Rest.Models
             PackageEnumStorage = enumStorage;
         }
 
-        internal CompilationUnitSyntax GenerateCompilationUnit()
+        internal CompilationUnitSyntax GenerateCompilationUnit(IClock clock)
         {
-            var ctx = SourceFileContext.CreateFullyQualified(SystemClock.Instance);
+            var ctx = SourceFileContext.CreateFullyQualified(clock);
             var ns = Namespace(PackageName);
             using (ctx.InNamespace(ns))
             {
@@ -301,7 +301,7 @@ namespace Google.Api.Generator.Rest.Models
             return cls;
         }
 
-        public XDocument GenerateProjectFile()
+        public XDocument GenerateProjectFile(IClock clock)
         {
             string releaseVersion = _features.ReleaseVersion;
 
@@ -320,7 +320,7 @@ namespace Google.Api.Generator.Rest.Models
                     new XElement("Title", $"{PackageName} Client Library"),
                     new XElement("Version", $"{releaseVersion}.{GetRevision()}"),
                     new XElement("Authors", "Google LLC"),
-                    new XElement("Copyright", $"Copyright {DateTime.UtcNow.Year} {(_discoveryDoc.OwnerName == "Google" ? "Google LLC" : _discoveryDoc.OwnerName)}"),
+                    new XElement("Copyright", $"Copyright {clock.GetCurrentDateTimeUtc().Year} {(_discoveryDoc.OwnerName == "Google" ? "Google LLC" : _discoveryDoc.OwnerName)}"),
                     new XElement("PackageTags", "Google"),
                     new XElement("PackageProjectUrl", "https://github.com/google/google-api-dotnet-client"),
                     new XElement("PackageLicenseFile", "LICENSE"),
