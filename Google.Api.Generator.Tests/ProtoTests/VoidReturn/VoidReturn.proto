@@ -8,6 +8,10 @@ import "google/api/client.proto";
 import "google/api/resource.proto";
 import "google/protobuf/empty.proto";
 
+// Note: this service deliberately doesn't have any HTTP options.
+// It is used to test generation failure in the case where REST is requested
+// without any annotated methods being present.
+
 service VoidReturn {
   // Test returning `void`, with request methods and a method signature (flattening).
   rpc VoidMethod(Request) returns(google.protobuf.Empty) {

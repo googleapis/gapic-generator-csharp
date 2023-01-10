@@ -246,6 +246,13 @@ namespace Google.Api.Generator.Tests
         [Fact]
         public void VoidReturn() => ProtoTestSingle("VoidReturn", ignoreCsProj: true);
 
+        // Note: VoidReturn is just picked as a proto example which doesn't need or have any HTTP bindings.
+        // It's simpler to reuse an existing one than to create a separate sample just for this.
+        // If we want to add HTTP bindings to all test protos later, we can create a separate sample at that point.
+        [Fact]
+        public void VoidReturn_FailsWithRestTransport() =>
+            Assert.Throws<InvalidOperationException>(() => ProtoTestSingle("VoidReturn", transports: ApiTransports.Rest | ApiTransports.Grpc));
+
         [Fact]
         public void Keywords() => ProtoTestSingle("Keywords", ignoreCsProj: true);
 
