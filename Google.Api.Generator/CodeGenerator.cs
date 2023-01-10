@@ -164,6 +164,28 @@ namespace Google.Api.Generator
             {
                 throw new InvalidOperationException($"Unhandled APIs in service config: {string.Join(", ", unhandledApis)}");
             }
+
+            ValidateTransports(transports, allServiceDetails);
+        }
+
+        private static void ValidateTransports(ApiTransports transports, List<ServiceDetails> services)
+        {
+            // Note: we only look at the HttpRule options in the proto. While others can be provided
+            // in the service config, those should only be for mixins, which aren't included in the list
+            // of services. If we discover a need to use service config overrides for the "main" services,
+            // we can accept the service config here and find the overrides.
+            // It's just possible that a user could create a client with the REST adapter solely for the purpose
+            // of accessing mixins to call via REST, and we're effectively prohibiting that - but it's much more
+            // likely that this is an accidental configuration failure that's worth fixing, so it's fine to be
+            // conservative.
+            if ((transports & ApiTransports.Rest) != 0)
+            {
+                var methodDescriptors = services.SelectMany(svc => svc.Methods).Select(method => method.Descriptor);
+                if (methodDescriptors.All(method => method.GetOptions()?.GetExtension(AnnotationsExtensions.Http) is null))
+                {
+                    throw new InvalidOperationException("REST transport was requested, but no method in any service has an HTTP annotation");
+                }
+            }
         }
 
         private static Service ParseServiceConfigYaml(string path)
