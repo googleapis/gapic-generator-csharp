@@ -471,20 +471,9 @@ namespace Google.Api.Generator.Generation
         private MethodDetails(ServiceDetails svc, MethodDescriptor desc)
         {
             Svc = svc;
-            ProtoRpcName = desc.Name;
-            SyncMethodName = desc.Name;
-            SyncSnippetMethodName = $"{desc.Name}RequestObject";
-            SyncTestMethodName = $"{desc.Name}RequestObject";
-            AsyncMethodName = $"{desc.Name}Async";
-            AsyncSnippetMethodName = $"{desc.Name}RequestObjectAsync";
-            AsyncTestMethodName = $"{desc.Name}RequestObjectAsync";
-            var settingsSuffix = desc.Name == svc.ServiceName ? "_" : "";
-            SettingsName = $"{desc.Name}Settings{settingsSuffix}";
+            Descriptor = desc;
             RequestTyp = ProtoTyp.Of(desc.InputType);
             ResponseTyp = ProtoTyp.Of(desc.OutputType);
-            ApiCallFieldName = $"_call{desc.Name}";
-            ModifyApiCallMethodName = $"Modify_{desc.Name}ApiCall";
-            ModifyRequestMethodName = $"Modify_{RequestTyp.Name}";
             DocLines = desc.Declaration.DocLines().ToList();
             Signatures = desc.GetExtension(ClientExtensions.MethodSignature).Select(sig => new Signature(svc, desc.InputType, sig)).ToList();
             RequestMessageDesc = desc.InputType;
@@ -657,32 +646,37 @@ namespace Google.Api.Generator.Generation
             }
         }
 
+        /// <summary>
+        /// The protobuf method descriptor for this method.
+        /// </summary>
+        public MethodDescriptor Descriptor { get; }
+
         /// <summary>The service in which this method is defined.</summary>
         public ServiceDetails Svc { get; }
 
         /// <summary>The name of this method in the method descriptor</summary>
-        public string ProtoRpcName { get; }
+        public string ProtoRpcName => Descriptor.Name;
 
         /// <summary>The sync name for this method.</summary>
-        public string SyncMethodName { get; }
+        public string SyncMethodName => Descriptor.Name;
 
         /// <summary>The sync name for the snippet method.</summary>
-        public string SyncSnippetMethodName { get; }
+        public string SyncSnippetMethodName => $"{Descriptor.Name}RequestObject";
 
         /// <summary>The sync name for the unit test method.</summary>
-        public string SyncTestMethodName { get; }
+        public string SyncTestMethodName => $"{Descriptor.Name}RequestObject";
 
         /// <summary>The async name for this method.</summary>
-        public string AsyncMethodName { get; }
+        public string AsyncMethodName => $"{Descriptor.Name}Async";
 
         /// <summary>The async name for the snippet method.</summary>
-        public string AsyncSnippetMethodName { get; }
+        public string AsyncSnippetMethodName => $"{Descriptor.Name}RequestObjectAsync";
 
         /// <summary>The async name for the unit test method.</summary>
-        public string AsyncTestMethodName { get; }
+        public string AsyncTestMethodName => $"{Descriptor.Name}RequestObjectAsync";
 
         /// <summary>The per-method settings property name.</summary>
-        public string SettingsName { get; }
+        public string SettingsName => $"{Descriptor.Name}Settings{(Descriptor.Name == Svc.ServiceName ? "_" : "")}";
 
         /// <summary>The typ of the method request.</summary>
         public Typ RequestTyp { get; }
@@ -700,13 +694,13 @@ namespace Google.Api.Generator.Generation
         public abstract Typ ApiCallTyp { get; }
 
         /// <summary>The name of the ApiCall<> field.</summary>
-        public string ApiCallFieldName { get; }
+        public string ApiCallFieldName => $"_call{Descriptor.Name}";
 
         /// <summary>The name of the per-method partial method to modify the ApiCall.</summary>
-        public string ModifyApiCallMethodName { get; }
+        public string ModifyApiCallMethodName => $"Modify_{Descriptor.Name}ApiCall";
 
         /// <summary>The name of the per-request-type partial method to modify the request.</summary>
-        public string ModifyRequestMethodName { get; }
+        public string ModifyRequestMethodName => $"Modify_{RequestTyp.Name}";
 
         /// <summary>The lines of method documentation from the proto.</summary>
         public IEnumerable<string> DocLines { get; }
