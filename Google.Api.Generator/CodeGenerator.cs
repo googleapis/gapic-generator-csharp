@@ -258,10 +258,14 @@ namespace Google.Api.Generator
                         var snippetCtx = SourceFileContext.CreateUnaliased(
                             clock, s_wellknownNamespaceAliases, s_avoidAliasingNamespaceRegex, packageTyps, maySkipOwnNamespaceImport: false);
                         var (snippetCode, snippetMetadata) = snippetGenerator.Generate(snippetCtx);
-                        snippetMetadata.File = $"{serviceDetails.ClientAbstractTyp.Name}.{snippetGenerator.SnippetMethodName}Snippet.g.cs";
-                        var snippetFile = $"{snippetsPathPrefix}{snippetMetadata.File}";
-                        snippets.Add(snippetMetadata);
-                        yield return new ResultFile(snippetFile, snippetCode);
+                        var snippetFile = $"{serviceDetails.ClientAbstractTyp.Name}.{snippetGenerator.SnippetMethodName}Snippet.g.cs";
+                        var snippetFilePath = $"{snippetsPathPrefix}{snippetFile}";
+                        foreach(var md in snippetMetadata)
+                        {
+                            md.File = snippetFile;
+                            snippets.Add(md);
+                        }
+                        yield return new ResultFile(snippetFilePath, snippetCode);
                     }
                     // Record whether LRO/mixins are used.
                     hasLro |= serviceDetails.Methods.Any(x => x is MethodDetails.Lro);
