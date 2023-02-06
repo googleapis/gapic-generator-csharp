@@ -106,6 +106,55 @@
           "type": "SHORT"
         }
       ]
+    },
+    {
+      "regionTag": "basic_v1_generated_Basic_AMethod_async",
+      "title": "AMethodRequestObjectAsync",
+      "description": "Snippet for AMethodAsync",
+      "file": "BasicClient.AMethodRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "AMethodAsync",
+        "fullName": "Testing.Basic.V1.BasicClient.AMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Basic.V1.Request",
+            "name": "request"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.Basic.V1.Response>",
+        "client": {
+          "shortName": "BasicClient",
+          "fullName": "Testing.Basic.V1.BasicClient"
+        },
+        "method": {
+          "shortName": "AMethod",
+          "fullName": "testing.basic.v1.Basic.AMethod",
+          "service": {
+            "shortName": "Basic",
+            "fullName": "testing.basic.v1.Basic"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 42,
+          "type": "FULL"
+        },
+        {
+          "start": 35,
+          "end": 40,
+          "type": "SHORT"
+        }
+      ]
     }
   ]
 }

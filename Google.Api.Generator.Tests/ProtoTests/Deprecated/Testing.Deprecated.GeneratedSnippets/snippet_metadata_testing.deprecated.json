@@ -107,6 +107,55 @@
       ]
     },
     {
+      "regionTag": "deprecated_generated_Deprecated_DeprecatedFieldMethod_async",
+      "title": "DeprecatedFieldMethodRequestObjectAsync",
+      "description": "Snippet for DeprecatedFieldMethodAsync",
+      "file": "DeprecatedClient.DeprecatedFieldMethodRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "DeprecatedFieldMethodAsync",
+        "fullName": "Testing.Deprecated.DeprecatedClient.DeprecatedFieldMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Deprecated.DeprecatedFieldRequest",
+            "name": "request"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.Deprecated.Response>",
+        "client": {
+          "shortName": "DeprecatedClient",
+          "fullName": "Testing.Deprecated.DeprecatedClient"
+        },
+        "method": {
+          "shortName": "DeprecatedFieldMethod",
+          "fullName": "testing.deprecated.Deprecated.DeprecatedFieldMethod",
+          "service": {
+            "shortName": "Deprecated",
+            "fullName": "testing.deprecated.Deprecated"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 42,
+          "type": "FULL"
+        },
+        {
+          "start": 35,
+          "end": 40,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
       "regionTag": "deprecated_generated_Deprecated_DeprecatedFieldMethod_sync_flattened",
       "title": "DeprecatedFieldMethod",
       "description": "Snippet for DeprecatedFieldMethod",
@@ -210,6 +259,58 @@
       ]
     },
     {
+      "regionTag": "deprecated_generated_Deprecated_DeprecatedFieldMethod_async_flattened",
+      "title": "DeprecatedFieldMethodAsync",
+      "description": "Snippet for DeprecatedFieldMethodAsync",
+      "file": "DeprecatedClient.DeprecatedFieldMethodAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "DeprecatedFieldMethodAsync",
+        "fullName": "Testing.Deprecated.DeprecatedClient.DeprecatedFieldMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "deprecatedField1"
+          },
+          {
+            "type": "System.String",
+            "name": "deprecatedField2"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.Deprecated.Response>",
+        "client": {
+          "shortName": "DeprecatedClient",
+          "fullName": "Testing.Deprecated.DeprecatedClient"
+        },
+        "method": {
+          "shortName": "DeprecatedFieldMethod",
+          "fullName": "testing.deprecated.Deprecated.DeprecatedFieldMethod",
+          "service": {
+            "shortName": "Deprecated",
+            "fullName": "testing.deprecated.Deprecated"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 45,
+          "type": "FULL"
+        },
+        {
+          "start": 35,
+          "end": 43,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
       "regionTag": "deprecated_generated_Deprecated_DeprecatedMessageMethod_sync",
       "title": "DeprecatedMessageMethodRequestObject",
       "description": "Snippet for DeprecatedMessageMethod",
@@ -275,6 +376,55 @@
           {
             "type": "Google.Api.Gax.Grpc.CallSettings",
             "name": "callSettings"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.Deprecated.Response>",
+        "client": {
+          "shortName": "DeprecatedClient",
+          "fullName": "Testing.Deprecated.DeprecatedClient"
+        },
+        "method": {
+          "shortName": "DeprecatedMessageMethod",
+          "fullName": "testing.deprecated.Deprecated.DeprecatedMessageMethod",
+          "service": {
+            "shortName": "Deprecated",
+            "fullName": "testing.deprecated.Deprecated"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 46,
+          "type": "FULL"
+        },
+        {
+          "start": 35,
+          "end": 44,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "deprecated_generated_Deprecated_DeprecatedMessageMethod_async",
+      "title": "DeprecatedMessageMethodRequestObjectAsync",
+      "description": "Snippet for DeprecatedMessageMethodAsync",
+      "file": "DeprecatedClient.DeprecatedMessageMethodRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "DeprecatedMessageMethodAsync",
+        "fullName": "Testing.Deprecated.DeprecatedClient.DeprecatedMessageMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Deprecated.DeprecatedMessageRequest",
+            "name": "request"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
           }
         ],
         "resultType": "System.Threading.Tasks.Task<Testing.Deprecated.Response>",
@@ -404,6 +554,55 @@
       ]
     },
     {
+      "regionTag": "deprecated_generated_Deprecated_DeprecatedMethod_async",
+      "title": "DeprecatedMethodRequestObjectAsync",
+      "description": "Snippet for DeprecatedMethodAsync",
+      "file": "DeprecatedClient.DeprecatedMethodRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "DeprecatedMethodAsync",
+        "fullName": "Testing.Deprecated.DeprecatedClient.DeprecatedMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Deprecated.Request",
+            "name": "request"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.Deprecated.Response>",
+        "client": {
+          "shortName": "DeprecatedClient",
+          "fullName": "Testing.Deprecated.DeprecatedClient"
+        },
+        "method": {
+          "shortName": "DeprecatedMethod",
+          "fullName": "testing.deprecated.Deprecated.DeprecatedMethod",
+          "service": {
+            "shortName": "Deprecated",
+            "fullName": "testing.deprecated.Deprecated"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 44,
+          "type": "FULL"
+        },
+        {
+          "start": 35,
+          "end": 42,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
       "regionTag": "deprecated_generated_Deprecated_DeprecatedResponseMethod_sync",
       "title": "DeprecatedResponseMethodRequestObject",
       "description": "Snippet for DeprecatedResponseMethod",
@@ -469,6 +668,55 @@
           {
             "type": "Google.Api.Gax.Grpc.CallSettings",
             "name": "callSettings"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.Deprecated.DeprecatedMessageResponse>",
+        "client": {
+          "shortName": "DeprecatedClient",
+          "fullName": "Testing.Deprecated.DeprecatedClient"
+        },
+        "method": {
+          "shortName": "DeprecatedResponseMethod",
+          "fullName": "testing.deprecated.Deprecated.DeprecatedResponseMethod",
+          "service": {
+            "shortName": "Deprecated",
+            "fullName": "testing.deprecated.Deprecated"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 44,
+          "type": "FULL"
+        },
+        {
+          "start": 35,
+          "end": 42,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "deprecated_generated_Deprecated_DeprecatedResponseMethod_async",
+      "title": "DeprecatedResponseMethodRequestObjectAsync",
+      "description": "Snippet for DeprecatedResponseMethodAsync",
+      "file": "DeprecatedClient.DeprecatedResponseMethodRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "DeprecatedResponseMethodAsync",
+        "fullName": "Testing.Deprecated.DeprecatedClient.DeprecatedResponseMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Deprecated.Request",
+            "name": "request"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
           }
         ],
         "resultType": "System.Threading.Tasks.Task<Testing.Deprecated.DeprecatedMessageResponse>",

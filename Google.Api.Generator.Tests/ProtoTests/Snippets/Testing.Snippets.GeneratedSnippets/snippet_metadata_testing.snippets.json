@@ -107,6 +107,55 @@
       ]
     },
     {
+      "regionTag": "snippets_generated_Snippets_MethodDefaultValues_async",
+      "title": "MethodDefaultValuesRequestObjectAsync",
+      "description": "Snippet for MethodDefaultValuesAsync",
+      "file": "SnippetsClient.MethodDefaultValuesRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodDefaultValuesAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodDefaultValuesAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Snippets.DefaultValuesRequest",
+            "name": "request"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodDefaultValues",
+          "fullName": "testing.snippets.Snippets.MethodDefaultValues",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 129,
+          "type": "FULL"
+        },
+        {
+          "start": 39,
+          "end": 127,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
       "regionTag": "snippets_generated_Snippets_MethodDefaultValues_sync_flattened",
       "title": "MethodDefaultValues",
       "description": "Snippet for MethodDefaultValues",
@@ -187,6 +236,62 @@
           {
             "type": "Google.Api.Gax.Grpc.CallSettings",
             "name": "callSettings"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodDefaultValues",
+          "fullName": "testing.snippets.Snippets.MethodDefaultValues",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 53,
+          "type": "FULL"
+        },
+        {
+          "start": 38,
+          "end": 51,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodDefaultValues_async_flattened",
+      "title": "MethodDefaultValuesAsync",
+      "description": "Snippet for MethodDefaultValuesAsync",
+      "file": "SnippetsClient.MethodDefaultValuesAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodDefaultValuesAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodDefaultValuesAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "System.Collections.Generic.IEnumerable",
+            "name": "repeatedDouble"
+          },
+          {
+            "type": "System.Collections.Generic.IEnumerable<Testing.Snippets.DefaultValuesRequest+Types+NestedMessage>",
+            "name": "repeatedNestedMessage"
+          },
+          {
+            "type": "System.Collections.Generic.IEnumerable",
+            "name": "repeatedResourceName"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
           }
         ],
         "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
@@ -329,6 +434,62 @@
       ]
     },
     {
+      "regionTag": "snippets_generated_Snippets_MethodDefaultValues_async_flattened_resourceNames",
+      "title": "MethodDefaultValuesResourceNamesAsync",
+      "description": "Snippet for MethodDefaultValuesAsync",
+      "file": "SnippetsClient.MethodDefaultValuesResourceNamesAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodDefaultValuesAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodDefaultValuesAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "System.Collections.Generic.IEnumerable",
+            "name": "repeatedDouble"
+          },
+          {
+            "type": "System.Collections.Generic.IEnumerable<Testing.Snippets.DefaultValuesRequest+Types+NestedMessage>",
+            "name": "repeatedNestedMessage"
+          },
+          {
+            "type": "Testing.Snippets.AResourceName",
+            "name": "repeatedResourceName"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodDefaultValues",
+          "fullName": "testing.snippets.Snippets.MethodDefaultValues",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 53,
+          "type": "FULL"
+        },
+        {
+          "start": 38,
+          "end": 51,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
       "regionTag": "snippets_generated_Snippets_MethodOneSignature_sync",
       "title": "MethodOneSignatureRequestObject",
       "description": "Snippet for MethodOneSignature",
@@ -394,6 +555,55 @@
           {
             "type": "Google.Api.Gax.Grpc.CallSettings",
             "name": "callSettings"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodOneSignature",
+          "fullName": "testing.snippets.Snippets.MethodOneSignature",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 50,
+          "type": "FULL"
+        },
+        {
+          "start": 37,
+          "end": 48,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodOneSignature_async",
+      "title": "MethodOneSignatureRequestObjectAsync",
+      "description": "Snippet for MethodOneSignatureAsync",
+      "file": "SnippetsClient.MethodOneSignatureRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodOneSignatureAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodOneSignatureAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Snippets.SignatureRequest",
+            "name": "request"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
           }
         ],
         "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
@@ -537,6 +747,62 @@
       ]
     },
     {
+      "regionTag": "snippets_generated_Snippets_MethodOneSignature_async_flattened",
+      "title": "MethodOneSignatureAsync",
+      "description": "Snippet for MethodOneSignatureAsync",
+      "file": "SnippetsClient.MethodOneSignatureAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodOneSignatureAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodOneSignatureAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "aString"
+          },
+          {
+            "type": "System.Int32",
+            "name": "anInt"
+          },
+          {
+            "type": "System.Boolean",
+            "name": "aBool"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodOneSignature",
+          "fullName": "testing.snippets.Snippets.MethodOneSignature",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 46,
+          "type": "FULL"
+        },
+        {
+          "start": 37,
+          "end": 44,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
       "regionTag": "snippets_generated_Snippets_MethodThreeSignatures_sync",
       "title": "MethodThreeSignaturesRequestObject",
       "description": "Snippet for MethodThreeSignatures",
@@ -602,6 +868,55 @@
           {
             "type": "Google.Api.Gax.Grpc.CallSettings",
             "name": "callSettings"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodThreeSignatures",
+          "fullName": "testing.snippets.Snippets.MethodThreeSignatures",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 50,
+          "type": "FULL"
+        },
+        {
+          "start": 37,
+          "end": 48,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodThreeSignatures_async",
+      "title": "MethodThreeSignaturesRequestObjectAsync",
+      "description": "Snippet for MethodThreeSignaturesAsync",
+      "file": "SnippetsClient.MethodThreeSignaturesRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodThreeSignaturesAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodThreeSignaturesAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Snippets.SignatureRequest",
+            "name": "request"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
           }
         ],
         "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
@@ -745,6 +1060,62 @@
       ]
     },
     {
+      "regionTag": "snippets_generated_Snippets_MethodThreeSignatures_async_flattened1",
+      "title": "MethodThreeSignatures1Async",
+      "description": "Snippet for MethodThreeSignaturesAsync",
+      "file": "SnippetsClient.MethodThreeSignatures1AsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodThreeSignaturesAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodThreeSignaturesAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "aString"
+          },
+          {
+            "type": "System.Int32",
+            "name": "anInt"
+          },
+          {
+            "type": "System.Boolean",
+            "name": "aBool"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodThreeSignatures",
+          "fullName": "testing.snippets.Snippets.MethodThreeSignatures",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 46,
+          "type": "FULL"
+        },
+        {
+          "start": 37,
+          "end": 44,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
       "regionTag": "snippets_generated_Snippets_MethodThreeSignatures_sync_flattened2",
       "title": "MethodThreeSignatures2",
       "description": "Snippet for MethodThreeSignatures",
@@ -848,6 +1219,58 @@
       ]
     },
     {
+      "regionTag": "snippets_generated_Snippets_MethodThreeSignatures_async_flattened2",
+      "title": "MethodThreeSignatures2Async",
+      "description": "Snippet for MethodThreeSignaturesAsync",
+      "file": "SnippetsClient.MethodThreeSignatures2AsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodThreeSignaturesAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodThreeSignaturesAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "aString"
+          },
+          {
+            "type": "System.Boolean",
+            "name": "aBool"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodThreeSignatures",
+          "fullName": "testing.snippets.Snippets.MethodThreeSignatures",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 45,
+          "type": "FULL"
+        },
+        {
+          "start": 37,
+          "end": 43,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
       "regionTag": "snippets_generated_Snippets_MethodThreeSignatures_sync_flattened3",
       "title": "MethodThreeSignatures3",
       "description": "Snippet for MethodThreeSignatures",
@@ -904,6 +1327,50 @@
           {
             "type": "Google.Api.Gax.Grpc.CallSettings",
             "name": "callSettings"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodThreeSignatures",
+          "fullName": "testing.snippets.Snippets.MethodThreeSignatures",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 42,
+          "type": "FULL"
+        },
+        {
+          "start": 37,
+          "end": 40,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodThreeSignatures_async_flattened3",
+      "title": "MethodThreeSignatures3Async",
+      "description": "Snippet for MethodThreeSignaturesAsync",
+      "file": "SnippetsClient.MethodThreeSignatures3AsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodThreeSignaturesAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodThreeSignaturesAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
           }
         ],
         "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
@@ -1032,6 +1499,55 @@
       ]
     },
     {
+      "regionTag": "snippets_generated_Snippets_MethodMapSignature_async",
+      "title": "MethodMapSignatureRequestObjectAsync",
+      "description": "Snippet for MethodMapSignatureAsync",
+      "file": "SnippetsClient.MethodMapSignatureRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodMapSignatureAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodMapSignatureAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Snippets.SignatureRequest",
+            "name": "request"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodMapSignature",
+          "fullName": "testing.snippets.Snippets.MethodMapSignature",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 50,
+          "type": "FULL"
+        },
+        {
+          "start": 37,
+          "end": 48,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
       "regionTag": "snippets_generated_Snippets_MethodMapSignature_sync_flattened",
       "title": "MethodMapSignature",
       "description": "Snippet for MethodMapSignature",
@@ -1096,6 +1612,54 @@
           {
             "type": "Google.Api.Gax.Grpc.CallSettings",
             "name": "callSettings"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodMapSignature",
+          "fullName": "testing.snippets.Snippets.MethodMapSignature",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 45,
+          "type": "FULL"
+        },
+        {
+          "start": 38,
+          "end": 43,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodMapSignature_async_flattened",
+      "title": "MethodMapSignatureAsync",
+      "description": "Snippet for MethodMapSignatureAsync",
+      "file": "SnippetsClient.MethodMapSignatureAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodMapSignatureAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodMapSignatureAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "System.Collections.Generic.IDictionary<System.Int32, System.String>",
+            "name": "mapIntString"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
           }
         ],
         "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
@@ -1192,6 +1756,55 @@
           {
             "type": "Google.Api.Gax.Grpc.CallSettings",
             "name": "callSettings"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodResourceSignature",
+          "fullName": "testing.snippets.Snippets.MethodResourceSignature",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 49,
+          "type": "FULL"
+        },
+        {
+          "start": 37,
+          "end": 47,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodResourceSignature_async",
+      "title": "MethodResourceSignatureRequestObjectAsync",
+      "description": "Snippet for MethodResourceSignatureAsync",
+      "file": "SnippetsClient.MethodResourceSignatureRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodResourceSignatureAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodResourceSignatureAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Snippets.ResourceSignatureRequest",
+            "name": "request"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
           }
         ],
         "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
@@ -1335,6 +1948,62 @@
       ]
     },
     {
+      "regionTag": "snippets_generated_Snippets_MethodResourceSignature_async_flattened1",
+      "title": "MethodResourceSignature1Async",
+      "description": "Snippet for MethodResourceSignatureAsync",
+      "file": "SnippetsClient.MethodResourceSignature1AsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodResourceSignatureAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodResourceSignatureAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "firstName"
+          },
+          {
+            "type": "System.String",
+            "name": "secondName"
+          },
+          {
+            "type": "System.String",
+            "name": "thirdName"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodResourceSignature",
+          "fullName": "testing.snippets.Snippets.MethodResourceSignature",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 46,
+          "type": "FULL"
+        },
+        {
+          "start": 37,
+          "end": 44,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
       "regionTag": "snippets_generated_Snippets_MethodResourceSignature_sync_flattened1_resourceNames",
       "title": "MethodResourceSignature1ResourceNames",
       "description": "Snippet for MethodResourceSignature",
@@ -1415,6 +2084,62 @@
           {
             "type": "Google.Api.Gax.Grpc.CallSettings",
             "name": "callSettings"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodResourceSignature",
+          "fullName": "testing.snippets.Snippets.MethodResourceSignature",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 46,
+          "type": "FULL"
+        },
+        {
+          "start": 37,
+          "end": 44,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodResourceSignature_async_flattened1_resourceNames",
+      "title": "MethodResourceSignature1ResourceNamesAsync",
+      "description": "Snippet for MethodResourceSignatureAsync",
+      "file": "SnippetsClient.MethodResourceSignature1ResourceNamesAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodResourceSignatureAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodResourceSignatureAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Snippets.SimpleResourceName",
+            "name": "firstName"
+          },
+          {
+            "type": "Testing.Snippets.SimpleResourceName",
+            "name": "secondName"
+          },
+          {
+            "type": "Testing.Snippets.SimpleResourceName",
+            "name": "thirdName"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
           }
         ],
         "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
@@ -1541,6 +2266,54 @@
       ]
     },
     {
+      "regionTag": "snippets_generated_Snippets_MethodResourceSignature_async_flattened2",
+      "title": "MethodResourceSignature2Async",
+      "description": "Snippet for MethodResourceSignatureAsync",
+      "file": "SnippetsClient.MethodResourceSignature2AsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodResourceSignatureAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodResourceSignatureAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "firstName"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodResourceSignature",
+          "fullName": "testing.snippets.Snippets.MethodResourceSignature",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 44,
+          "type": "FULL"
+        },
+        {
+          "start": 37,
+          "end": 42,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
       "regionTag": "snippets_generated_Snippets_MethodResourceSignature_sync_flattened2_resourceNames",
       "title": "MethodResourceSignature2ResourceNames",
       "description": "Snippet for MethodResourceSignature",
@@ -1605,6 +2378,54 @@
           {
             "type": "Google.Api.Gax.Grpc.CallSettings",
             "name": "callSettings"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodResourceSignature",
+          "fullName": "testing.snippets.Snippets.MethodResourceSignature",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 44,
+          "type": "FULL"
+        },
+        {
+          "start": 37,
+          "end": 42,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodResourceSignature_async_flattened2_resourceNames",
+      "title": "MethodResourceSignature2ResourceNamesAsync",
+      "description": "Snippet for MethodResourceSignatureAsync",
+      "file": "SnippetsClient.MethodResourceSignature2ResourceNamesAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodResourceSignatureAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodResourceSignatureAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Snippets.SimpleResourceName",
+            "name": "firstName"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
           }
         ],
         "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
@@ -1733,6 +2554,55 @@
       ]
     },
     {
+      "regionTag": "snippets_generated_Snippets_MethodRepeatedResourceSignature_async",
+      "title": "MethodRepeatedResourceSignatureRequestObjectAsync",
+      "description": "Snippet for MethodRepeatedResourceSignatureAsync",
+      "file": "SnippetsClient.MethodRepeatedResourceSignatureRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodRepeatedResourceSignatureAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodRepeatedResourceSignatureAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Snippets.RepeatedResourceSignatureRequest",
+            "name": "request"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodRepeatedResourceSignature",
+          "fullName": "testing.snippets.Snippets.MethodRepeatedResourceSignature",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 50,
+          "type": "FULL"
+        },
+        {
+          "start": 37,
+          "end": 48,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
       "regionTag": "snippets_generated_Snippets_MethodRepeatedResourceSignature_sync_flattened",
       "title": "MethodRepeatedResourceSignature",
       "description": "Snippet for MethodRepeatedResourceSignature",
@@ -1797,6 +2667,54 @@
           {
             "type": "Google.Api.Gax.Grpc.CallSettings",
             "name": "callSettings"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodRepeatedResourceSignature",
+          "fullName": "testing.snippets.Snippets.MethodRepeatedResourceSignature",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 45,
+          "type": "FULL"
+        },
+        {
+          "start": 38,
+          "end": 43,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodRepeatedResourceSignature_async_flattened",
+      "title": "MethodRepeatedResourceSignatureAsync",
+      "description": "Snippet for MethodRepeatedResourceSignatureAsync",
+      "file": "SnippetsClient.MethodRepeatedResourceSignatureAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodRepeatedResourceSignatureAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodRepeatedResourceSignatureAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "System.Collections.Generic.IEnumerable",
+            "name": "names"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
           }
         ],
         "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
@@ -1923,6 +2841,54 @@
       ]
     },
     {
+      "regionTag": "snippets_generated_Snippets_MethodRepeatedResourceSignature_async_flattened_resourceNames",
+      "title": "MethodRepeatedResourceSignatureResourceNamesAsync",
+      "description": "Snippet for MethodRepeatedResourceSignatureAsync",
+      "file": "SnippetsClient.MethodRepeatedResourceSignatureResourceNamesAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodRepeatedResourceSignatureAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodRepeatedResourceSignatureAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Snippets.SimpleResourceName",
+            "name": "names"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodRepeatedResourceSignature",
+          "fullName": "testing.snippets.Snippets.MethodRepeatedResourceSignature",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 48,
+          "type": "FULL"
+        },
+        {
+          "start": 38,
+          "end": 46,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
       "regionTag": "snippets_generated_Snippets_MethodLroSignatures_sync",
       "title": "MethodLroSignaturesRequestObject",
       "description": "Snippet for MethodLroSignatures",
@@ -1988,6 +2954,55 @@
           {
             "type": "Google.Api.Gax.Grpc.CallSettings",
             "name": "callSettings"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Google.LongRunning.Operation<Testing.Snippets.LroResponse, Testing.Snippets.LroMetadata>>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodLroSignatures",
+          "fullName": "testing.snippets.Snippets.MethodLroSignatures",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 67,
+          "type": "FULL"
+        },
+        {
+          "start": 38,
+          "end": 65,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodLroSignatures_async",
+      "title": "MethodLroSignaturesRequestObjectAsync",
+      "description": "Snippet for MethodLroSignaturesAsync",
+      "file": "SnippetsClient.MethodLroSignaturesRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodLroSignaturesAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodLroSignaturesAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Snippets.SignatureRequest",
+            "name": "request"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
           }
         ],
         "resultType": "System.Threading.Tasks.Task<Google.LongRunning.Operation<Testing.Snippets.LroResponse, Testing.Snippets.LroMetadata>>",
@@ -2131,6 +3146,62 @@
       ]
     },
     {
+      "regionTag": "snippets_generated_Snippets_MethodLroSignatures_async_flattened",
+      "title": "MethodLroSignaturesAsync",
+      "description": "Snippet for MethodLroSignaturesAsync",
+      "file": "SnippetsClient.MethodLroSignaturesAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodLroSignaturesAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodLroSignaturesAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "aString"
+          },
+          {
+            "type": "System.Int32",
+            "name": "anInt"
+          },
+          {
+            "type": "System.Boolean",
+            "name": "aBool"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Google.LongRunning.Operation<Testing.Snippets.LroResponse, Testing.Snippets.LroMetadata>>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodLroSignatures",
+          "fullName": "testing.snippets.Snippets.MethodLroSignatures",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 63,
+          "type": "FULL"
+        },
+        {
+          "start": 38,
+          "end": 61,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
       "regionTag": "snippets_generated_Snippets_MethodLroResourceSignature_sync",
       "title": "MethodLroResourceSignatureRequestObject",
       "description": "Snippet for MethodLroResourceSignature",
@@ -2196,6 +3267,55 @@
           {
             "type": "Google.Api.Gax.Grpc.CallSettings",
             "name": "callSettings"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Google.LongRunning.Operation<Testing.Snippets.LroResponse, Testing.Snippets.LroMetadata>>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodLroResourceSignature",
+          "fullName": "testing.snippets.Snippets.MethodLroResourceSignature",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 66,
+          "type": "FULL"
+        },
+        {
+          "start": 38,
+          "end": 64,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodLroResourceSignature_async",
+      "title": "MethodLroResourceSignatureRequestObjectAsync",
+      "description": "Snippet for MethodLroResourceSignatureAsync",
+      "file": "SnippetsClient.MethodLroResourceSignatureRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodLroResourceSignatureAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodLroResourceSignatureAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Snippets.ResourceSignatureRequest",
+            "name": "request"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
           }
         ],
         "resultType": "System.Threading.Tasks.Task<Google.LongRunning.Operation<Testing.Snippets.LroResponse, Testing.Snippets.LroMetadata>>",
@@ -2339,6 +3459,62 @@
       ]
     },
     {
+      "regionTag": "snippets_generated_Snippets_MethodLroResourceSignature_async_flattened",
+      "title": "MethodLroResourceSignatureAsync",
+      "description": "Snippet for MethodLroResourceSignatureAsync",
+      "file": "SnippetsClient.MethodLroResourceSignatureAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodLroResourceSignatureAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodLroResourceSignatureAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "firstName"
+          },
+          {
+            "type": "System.String",
+            "name": "secondName"
+          },
+          {
+            "type": "System.String",
+            "name": "thirdName"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Google.LongRunning.Operation<Testing.Snippets.LroResponse, Testing.Snippets.LroMetadata>>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodLroResourceSignature",
+          "fullName": "testing.snippets.Snippets.MethodLroResourceSignature",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 63,
+          "type": "FULL"
+        },
+        {
+          "start": 38,
+          "end": 61,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
       "regionTag": "snippets_generated_Snippets_MethodLroResourceSignature_sync_flattened_resourceNames",
       "title": "MethodLroResourceSignatureResourceNames",
       "description": "Snippet for MethodLroResourceSignature",
@@ -2419,6 +3595,62 @@
           {
             "type": "Google.Api.Gax.Grpc.CallSettings",
             "name": "callSettings"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Google.LongRunning.Operation<Testing.Snippets.LroResponse, Testing.Snippets.LroMetadata>>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "MethodLroResourceSignature",
+          "fullName": "testing.snippets.Snippets.MethodLroResourceSignature",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 63,
+          "type": "FULL"
+        },
+        {
+          "start": 38,
+          "end": 61,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_MethodLroResourceSignature_async_flattened_resourceNames",
+      "title": "MethodLroResourceSignatureResourceNamesAsync",
+      "description": "Snippet for MethodLroResourceSignatureAsync",
+      "file": "SnippetsClient.MethodLroResourceSignatureResourceNamesAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "MethodLroResourceSignatureAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.MethodLroResourceSignatureAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Snippets.SimpleResourceName",
+            "name": "firstName"
+          },
+          {
+            "type": "Testing.Snippets.SimpleResourceName",
+            "name": "secondName"
+          },
+          {
+            "type": "Testing.Snippets.SimpleResourceName",
+            "name": "thirdName"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
           }
         ],
         "resultType": "System.Threading.Tasks.Task<Google.LongRunning.Operation<Testing.Snippets.LroResponse, Testing.Snippets.LroMetadata>>",
@@ -2895,6 +4127,55 @@
       ]
     },
     {
+      "regionTag": "snippets_generated_Snippets_TaskMethod_async",
+      "title": "TaskMethodRequestObjectAsync",
+      "description": "Snippet for TaskMethodAsync",
+      "file": "SnippetsClient.TaskMethodRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "TaskMethodAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.TaskMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Snippets.Task",
+            "name": "request"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Task>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "TaskMethod",
+          "fullName": "testing.snippets.Snippets.TaskMethod",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 44,
+          "type": "FULL"
+        },
+        {
+          "start": 37,
+          "end": 42,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
       "regionTag": "snippets_generated_Snippets_OneOfMethod_sync",
       "title": "OneOfMethodRequestObject",
       "description": "Snippet for OneOfMethod",
@@ -2960,6 +4241,55 @@
           {
             "type": "Google.Api.Gax.Grpc.CallSettings",
             "name": "callSettings"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",
+        "client": {
+          "shortName": "SnippetsClient",
+          "fullName": "Testing.Snippets.SnippetsClient"
+        },
+        "method": {
+          "shortName": "OneOfMethod",
+          "fullName": "testing.snippets.Snippets.OneOfMethod",
+          "service": {
+            "shortName": "Snippets",
+            "fullName": "testing.snippets.Snippets"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 22,
+          "end": 48,
+          "type": "FULL"
+        },
+        {
+          "start": 37,
+          "end": 46,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "snippets_generated_Snippets_OneOfMethod_async",
+      "title": "OneOfMethodRequestObjectAsync",
+      "description": "Snippet for OneOfMethodAsync",
+      "file": "SnippetsClient.OneOfMethodRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "OneOfMethodAsync",
+        "fullName": "Testing.Snippets.SnippetsClient.OneOfMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Snippets.OneOfRequest",
+            "name": "request"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
           }
         ],
         "resultType": "System.Threading.Tasks.Task<Testing.Snippets.Response>",

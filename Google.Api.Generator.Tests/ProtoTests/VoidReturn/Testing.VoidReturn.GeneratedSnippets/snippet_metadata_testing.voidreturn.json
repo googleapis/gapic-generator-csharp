@@ -106,6 +106,55 @@
       ]
     },
     {
+      "regionTag": "unknown_generated_VoidReturn_VoidMethod_async",
+      "title": "VoidMethodRequestObjectAsync",
+      "description": "Snippet for VoidMethodAsync",
+      "file": "VoidReturnClient.VoidMethodRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "VoidMethodAsync",
+        "fullName": "Testing.VoidReturn.VoidReturnClient.VoidMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.VoidReturn.Request",
+            "name": "request"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task",
+        "client": {
+          "shortName": "VoidReturnClient",
+          "fullName": "Testing.VoidReturn.VoidReturnClient"
+        },
+        "method": {
+          "shortName": "VoidMethod",
+          "fullName": "testing.voidreturn.VoidReturn.VoidMethod",
+          "service": {
+            "shortName": "VoidReturn",
+            "fullName": "testing.voidreturn.VoidReturn"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 45,
+          "type": "FULL"
+        },
+        {
+          "start": 35,
+          "end": 43,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
       "regionTag": "unknown_generated_VoidReturn_VoidMethod_sync_flattened",
       "title": "VoidMethod",
       "description": "Snippet for VoidMethod",
@@ -200,6 +249,54 @@
       ]
     },
     {
+      "regionTag": "unknown_generated_VoidReturn_VoidMethod_async_flattened",
+      "title": "VoidMethodAsync",
+      "description": "Snippet for VoidMethodAsync",
+      "file": "VoidReturnClient.VoidMethodAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "VoidMethodAsync",
+        "fullName": "Testing.VoidReturn.VoidReturnClient.VoidMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "name"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task",
+        "client": {
+          "shortName": "VoidReturnClient",
+          "fullName": "Testing.VoidReturn.VoidReturnClient"
+        },
+        "method": {
+          "shortName": "VoidMethod",
+          "fullName": "testing.voidreturn.VoidReturn.VoidMethod",
+          "service": {
+            "shortName": "VoidReturn",
+            "fullName": "testing.voidreturn.VoidReturn"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 42,
+          "type": "FULL"
+        },
+        {
+          "start": 35,
+          "end": 40,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
       "regionTag": "unknown_generated_VoidReturn_VoidMethod_sync_flattened_resourceNames",
       "title": "VoidMethodResourceNames",
       "description": "Snippet for VoidMethod",
@@ -263,6 +360,54 @@
           {
             "type": "Google.Api.Gax.Grpc.CallSettings",
             "name": "callSettings"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task",
+        "client": {
+          "shortName": "VoidReturnClient",
+          "fullName": "Testing.VoidReturn.VoidReturnClient"
+        },
+        "method": {
+          "shortName": "VoidMethod",
+          "fullName": "testing.voidreturn.VoidReturn.VoidMethod",
+          "service": {
+            "shortName": "VoidReturn",
+            "fullName": "testing.voidreturn.VoidReturn"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 42,
+          "type": "FULL"
+        },
+        {
+          "start": 35,
+          "end": 40,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "unknown_generated_VoidReturn_VoidMethod_async_flattened_resourceNames",
+      "title": "VoidMethodResourceNamesAsync",
+      "description": "Snippet for VoidMethodAsync",
+      "file": "VoidReturnClient.VoidMethodResourceNamesAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "VoidMethodAsync",
+        "fullName": "Testing.VoidReturn.VoidReturnClient.VoidMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.VoidReturn.ResourceName",
+            "name": "name"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
           }
         ],
         "resultType": "System.Threading.Tasks.Task",

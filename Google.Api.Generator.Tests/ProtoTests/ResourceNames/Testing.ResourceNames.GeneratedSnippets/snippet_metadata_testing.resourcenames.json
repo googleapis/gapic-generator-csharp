@@ -107,6 +107,55 @@
       ]
     },
     {
+      "regionTag": "unknown_generated_ResourceNames_SinglePatternMethod_async",
+      "title": "SinglePatternMethodRequestObjectAsync",
+      "description": "Snippet for SinglePatternMethodAsync",
+      "file": "ResourceNamesClient.SinglePatternMethodRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "SinglePatternMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.SinglePatternMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.ResourceNames.SinglePattern",
+            "name": "request"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "SinglePatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.SinglePatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 55,
+          "type": "FULL"
+        },
+        {
+          "start": 35,
+          "end": 53,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
       "regionTag": "unknown_generated_ResourceNames_SinglePatternMethod_sync_flattened",
       "title": "SinglePatternMethod",
       "description": "Snippet for SinglePatternMethod",
@@ -203,6 +252,70 @@
           {
             "type": "Google.Api.Gax.Grpc.CallSettings",
             "name": "callSettings"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "SinglePatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.SinglePatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 47,
+          "type": "FULL"
+        },
+        {
+          "start": 36,
+          "end": 45,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_SinglePatternMethod_async_flattened",
+      "title": "SinglePatternMethodAsync",
+      "description": "Snippet for SinglePatternMethodAsync",
+      "file": "ResourceNamesClient.SinglePatternMethodAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "SinglePatternMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.SinglePatternMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "realName"
+          },
+          {
+            "type": "System.String",
+            "name": "ref"
+          },
+          {
+            "type": "System.Collections.Generic.IEnumerable",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "System.String",
+            "name": "valueRef"
+          },
+          {
+            "type": "System.Collections.Generic.IEnumerable<System.String>",
+            "name": "repeatedValueRef"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
           }
         ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
@@ -361,6 +474,70 @@
       ]
     },
     {
+      "regionTag": "unknown_generated_ResourceNames_SinglePatternMethod_async_flattened_resourceNames",
+      "title": "SinglePatternMethodResourceNamesAsync",
+      "description": "Snippet for SinglePatternMethodAsync",
+      "file": "ResourceNamesClient.SinglePatternMethodResourceNamesAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "SinglePatternMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.SinglePatternMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.ResourceNames.SinglePatternName",
+            "name": "realName"
+          },
+          {
+            "type": "Testing.ResourceNames.SinglePatternName",
+            "name": "ref"
+          },
+          {
+            "type": "Testing.ResourceNames.SinglePatternName",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "Testing.ResourceNames.SinglePatternName",
+            "name": "valueRef"
+          },
+          {
+            "type": "Testing.ResourceNames.SinglePatternName",
+            "name": "repeatedValueRef"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "SinglePatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.SinglePatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 53,
+          "type": "FULL"
+        },
+        {
+          "start": 36,
+          "end": 51,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
       "regionTag": "unknown_generated_ResourceNames_DeprecatedPatternMethod_sync",
       "title": "DeprecatedPatternMethodRequestObject",
       "description": "Snippet for DeprecatedPatternMethod",
@@ -426,6 +603,55 @@
           {
             "type": "Google.Api.Gax.Grpc.CallSettings",
             "name": "callSettings"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "DeprecatedPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.DeprecatedPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 42,
+          "type": "FULL"
+        },
+        {
+          "start": 35,
+          "end": 40,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_DeprecatedPatternMethod_async",
+      "title": "DeprecatedPatternMethodRequestObjectAsync",
+      "description": "Snippet for DeprecatedPatternMethodAsync",
+      "file": "ResourceNamesClient.DeprecatedPatternMethodRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "DeprecatedPatternMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.DeprecatedPatternMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.ResourceNames.DeprecatedPattern",
+            "name": "request"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
           }
         ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
@@ -553,6 +779,54 @@
       ]
     },
     {
+      "regionTag": "unknown_generated_ResourceNames_DeprecatedPatternMethod_async_flattened",
+      "title": "DeprecatedPatternMethodAsync",
+      "description": "Snippet for DeprecatedPatternMethodAsync",
+      "file": "ResourceNamesClient.DeprecatedPatternMethodAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "DeprecatedPatternMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.DeprecatedPatternMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "name"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "DeprecatedPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.DeprecatedPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 44,
+          "type": "FULL"
+        },
+        {
+          "start": 35,
+          "end": 42,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
       "regionTag": "unknown_generated_ResourceNames_DeprecatedPatternMethod_sync_flattened_resourceNames",
       "title": "DeprecatedPatternMethodResourceNames",
       "description": "Snippet for DeprecatedPatternMethod",
@@ -617,6 +891,54 @@
           {
             "type": "Google.Api.Gax.Grpc.CallSettings",
             "name": "callSettings"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "DeprecatedPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.DeprecatedPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 44,
+          "type": "FULL"
+        },
+        {
+          "start": 35,
+          "end": 42,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_DeprecatedPatternMethod_async_flattened_resourceNames",
+      "title": "DeprecatedPatternMethodResourceNamesAsync",
+      "description": "Snippet for DeprecatedPatternMethodAsync",
+      "file": "ResourceNamesClient.DeprecatedPatternMethodResourceNamesAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "DeprecatedPatternMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.DeprecatedPatternMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.ResourceNames.DeprecatedPatternName",
+            "name": "name"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
           }
         ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
@@ -713,6 +1035,55 @@
           {
             "type": "Google.Api.Gax.Grpc.CallSettings",
             "name": "callSettings"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardOnlyPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardOnlyPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 56,
+          "type": "FULL"
+        },
+        {
+          "start": 36,
+          "end": 54,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardOnlyPatternMethod_async",
+      "title": "WildcardOnlyPatternMethodRequestObjectAsync",
+      "description": "Snippet for WildcardOnlyPatternMethodAsync",
+      "file": "ResourceNamesClient.WildcardOnlyPatternMethodRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardOnlyPatternMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardOnlyPatternMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.ResourceNames.WildcardOnlyPattern",
+            "name": "request"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
           }
         ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
@@ -872,6 +1243,70 @@
       ]
     },
     {
+      "regionTag": "unknown_generated_ResourceNames_WildcardOnlyPatternMethod_async_flattened",
+      "title": "WildcardOnlyPatternMethodAsync",
+      "description": "Snippet for WildcardOnlyPatternMethodAsync",
+      "file": "ResourceNamesClient.WildcardOnlyPatternMethodAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardOnlyPatternMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardOnlyPatternMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "name"
+          },
+          {
+            "type": "System.String",
+            "name": "ref"
+          },
+          {
+            "type": "System.Collections.Generic.IEnumerable",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "System.String",
+            "name": "refSugar"
+          },
+          {
+            "type": "System.Collections.Generic.IEnumerable",
+            "name": "repeatedRefSugar"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardOnlyPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardOnlyPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 53,
+          "type": "FULL"
+        },
+        {
+          "start": 36,
+          "end": 51,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
       "regionTag": "unknown_generated_ResourceNames_WildcardOnlyPatternMethod_sync_flattened_resourceNames",
       "title": "WildcardOnlyPatternMethodResourceNames",
       "description": "Snippet for WildcardOnlyPatternMethod",
@@ -999,6 +1434,70 @@
       ]
     },
     {
+      "regionTag": "unknown_generated_ResourceNames_WildcardOnlyPatternMethod_async_flattened_resourceNames",
+      "title": "WildcardOnlyPatternMethodResourceNamesAsync",
+      "description": "Snippet for WildcardOnlyPatternMethodAsync",
+      "file": "ResourceNamesClient.WildcardOnlyPatternMethodResourceNamesAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardOnlyPatternMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardOnlyPatternMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "name"
+          },
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "ref"
+          },
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "refSugar"
+          },
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "repeatedRefSugar"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardOnlyPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardOnlyPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 54,
+          "type": "FULL"
+        },
+        {
+          "start": 37,
+          "end": 52,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
       "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMethod_sync",
       "title": "WildcardMultiPatternMethodRequestObject",
       "description": "Snippet for WildcardMultiPatternMethod",
@@ -1064,6 +1563,55 @@
           {
             "type": "Google.Api.Gax.Grpc.CallSettings",
             "name": "callSettings"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 50,
+          "type": "FULL"
+        },
+        {
+          "start": 35,
+          "end": 48,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMethod_async",
+      "title": "WildcardMultiPatternMethodRequestObjectAsync",
+      "description": "Snippet for WildcardMultiPatternMethodAsync",
+      "file": "ResourceNamesClient.WildcardMultiPatternMethodRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPattern",
+            "name": "request"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
           }
         ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
@@ -1207,6 +1755,62 @@
       ]
     },
     {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMethod_async_flattened",
+      "title": "WildcardMultiPatternMethodAsync",
+      "description": "Snippet for WildcardMultiPatternMethodAsync",
+      "file": "ResourceNamesClient.WildcardMultiPatternMethodAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "name"
+          },
+          {
+            "type": "System.String",
+            "name": "ref"
+          },
+          {
+            "type": "System.Collections.Generic.IEnumerable",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 45,
+          "type": "FULL"
+        },
+        {
+          "start": 36,
+          "end": 43,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
       "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMethod_sync_flattened_resourceNames1",
       "title": "WildcardMultiPatternMethodResourceNames1",
       "description": "Snippet for WildcardMultiPatternMethod",
@@ -1287,6 +1891,62 @@
           {
             "type": "Google.Api.Gax.Grpc.CallSettings",
             "name": "callSettings"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 48,
+          "type": "FULL"
+        },
+        {
+          "start": 36,
+          "end": 46,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMethod_async_flattened_resourceNames1",
+      "title": "WildcardMultiPatternMethodResourceNames1Async",
+      "description": "Snippet for WildcardMultiPatternMethodAsync",
+      "file": "ResourceNamesClient.WildcardMultiPatternMethodResourceNames1AsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternName",
+            "name": "name"
+          },
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternName",
+            "name": "ref"
+          },
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternName",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
           }
         ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
@@ -1429,6 +2089,62 @@
       ]
     },
     {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMethod_async_flattened_resourceNames2",
+      "title": "WildcardMultiPatternMethodResourceNames2Async",
+      "description": "Snippet for WildcardMultiPatternMethodAsync",
+      "file": "ResourceNamesClient.WildcardMultiPatternMethodResourceNames2AsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternName",
+            "name": "name"
+          },
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternName",
+            "name": "ref"
+          },
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 49,
+          "type": "FULL"
+        },
+        {
+          "start": 37,
+          "end": 47,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
       "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMethod_sync_flattened_resourceNames3",
       "title": "WildcardMultiPatternMethodResourceNames3",
       "description": "Snippet for WildcardMultiPatternMethod",
@@ -1509,6 +2225,62 @@
           {
             "type": "Google.Api.Gax.Grpc.CallSettings",
             "name": "callSettings"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 49,
+          "type": "FULL"
+        },
+        {
+          "start": 37,
+          "end": 47,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMethod_async_flattened_resourceNames3",
+      "title": "WildcardMultiPatternMethodResourceNames3Async",
+      "description": "Snippet for WildcardMultiPatternMethodAsync",
+      "file": "ResourceNamesClient.WildcardMultiPatternMethodResourceNames3AsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternName",
+            "name": "name"
+          },
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "ref"
+          },
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternName",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
           }
         ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
@@ -1651,6 +2423,62 @@
       ]
     },
     {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMethod_async_flattened_resourceNames4",
+      "title": "WildcardMultiPatternMethodResourceNames4Async",
+      "description": "Snippet for WildcardMultiPatternMethodAsync",
+      "file": "ResourceNamesClient.WildcardMultiPatternMethodResourceNames4AsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternName",
+            "name": "name"
+          },
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "ref"
+          },
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 49,
+          "type": "FULL"
+        },
+        {
+          "start": 37,
+          "end": 47,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
       "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMethod_sync_flattened_resourceNames5",
       "title": "WildcardMultiPatternMethodResourceNames5",
       "description": "Snippet for WildcardMultiPatternMethod",
@@ -1731,6 +2559,62 @@
           {
             "type": "Google.Api.Gax.Grpc.CallSettings",
             "name": "callSettings"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 49,
+          "type": "FULL"
+        },
+        {
+          "start": 37,
+          "end": 47,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMethod_async_flattened_resourceNames5",
+      "title": "WildcardMultiPatternMethodResourceNames5Async",
+      "description": "Snippet for WildcardMultiPatternMethodAsync",
+      "file": "ResourceNamesClient.WildcardMultiPatternMethodResourceNames5AsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "name"
+          },
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternName",
+            "name": "ref"
+          },
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternName",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
           }
         ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
@@ -1873,6 +2757,62 @@
       ]
     },
     {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMethod_async_flattened_resourceNames6",
+      "title": "WildcardMultiPatternMethodResourceNames6Async",
+      "description": "Snippet for WildcardMultiPatternMethodAsync",
+      "file": "ResourceNamesClient.WildcardMultiPatternMethodResourceNames6AsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "name"
+          },
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternName",
+            "name": "ref"
+          },
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 49,
+          "type": "FULL"
+        },
+        {
+          "start": 37,
+          "end": 47,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
       "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMethod_sync_flattened_resourceNames7",
       "title": "WildcardMultiPatternMethodResourceNames7",
       "description": "Snippet for WildcardMultiPatternMethod",
@@ -1953,6 +2893,62 @@
           {
             "type": "Google.Api.Gax.Grpc.CallSettings",
             "name": "callSettings"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 49,
+          "type": "FULL"
+        },
+        {
+          "start": 37,
+          "end": 47,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMethod_async_flattened_resourceNames7",
+      "title": "WildcardMultiPatternMethodResourceNames7Async",
+      "description": "Snippet for WildcardMultiPatternMethodAsync",
+      "file": "ResourceNamesClient.WildcardMultiPatternMethodResourceNames7AsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "name"
+          },
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "ref"
+          },
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternName",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
           }
         ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
@@ -2095,6 +3091,62 @@
       ]
     },
     {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMethod_async_flattened_resourceNames8",
+      "title": "WildcardMultiPatternMethodResourceNames8Async",
+      "description": "Snippet for WildcardMultiPatternMethodAsync",
+      "file": "ResourceNamesClient.WildcardMultiPatternMethodResourceNames8AsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "name"
+          },
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "ref"
+          },
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 49,
+          "type": "FULL"
+        },
+        {
+          "start": 37,
+          "end": 47,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
       "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMultipleMethod_sync",
       "title": "WildcardMultiPatternMultipleMethodRequestObject",
       "description": "Snippet for WildcardMultiPatternMultipleMethod",
@@ -2160,6 +3212,55 @@
           {
             "type": "Google.Api.Gax.Grpc.CallSettings",
             "name": "callSettings"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMultipleMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMultipleMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 50,
+          "type": "FULL"
+        },
+        {
+          "start": 35,
+          "end": 48,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMultipleMethod_async",
+      "title": "WildcardMultiPatternMultipleMethodRequestObjectAsync",
+      "description": "Snippet for WildcardMultiPatternMultipleMethodAsync",
+      "file": "ResourceNamesClient.WildcardMultiPatternMultipleMethodRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMultipleMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMultipleMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternMultiple",
+            "name": "request"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
           }
         ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
@@ -2295,6 +3396,58 @@
       ]
     },
     {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMultipleMethod_async_flattened",
+      "title": "WildcardMultiPatternMultipleMethodAsync",
+      "description": "Snippet for WildcardMultiPatternMultipleMethodAsync",
+      "file": "ResourceNamesClient.WildcardMultiPatternMultipleMethodAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMultipleMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMultipleMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "ref"
+          },
+          {
+            "type": "System.Collections.Generic.IEnumerable",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMultipleMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMultipleMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 44,
+          "type": "FULL"
+        },
+        {
+          "start": 36,
+          "end": 42,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
       "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMultipleMethod_sync_flattened_resourceNames1",
       "title": "WildcardMultiPatternMultipleMethodResourceNames1",
       "description": "Snippet for WildcardMultiPatternMultipleMethod",
@@ -2367,6 +3520,58 @@
           {
             "type": "Google.Api.Gax.Grpc.CallSettings",
             "name": "callSettings"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMultipleMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMultipleMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 47,
+          "type": "FULL"
+        },
+        {
+          "start": 36,
+          "end": 45,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMultipleMethod_async_flattened_resourceNames1",
+      "title": "WildcardMultiPatternMultipleMethodResourceNames1Async",
+      "description": "Snippet for WildcardMultiPatternMultipleMethodAsync",
+      "file": "ResourceNamesClient.WildcardMultiPatternMultipleMethodResourceNames1AsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMultipleMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMultipleMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternMultipleName",
+            "name": "ref"
+          },
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternMultipleName",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
           }
         ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
@@ -2501,6 +3706,58 @@
       ]
     },
     {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMultipleMethod_async_flattened_resourceNames2",
+      "title": "WildcardMultiPatternMultipleMethodResourceNames2Async",
+      "description": "Snippet for WildcardMultiPatternMultipleMethodAsync",
+      "file": "ResourceNamesClient.WildcardMultiPatternMultipleMethodResourceNames2AsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMultipleMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMultipleMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternMultipleName",
+            "name": "ref"
+          },
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMultipleMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMultipleMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 48,
+          "type": "FULL"
+        },
+        {
+          "start": 37,
+          "end": 46,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
       "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMultipleMethod_sync_flattened_resourceNames3",
       "title": "WildcardMultiPatternMultipleMethodResourceNames3",
       "description": "Snippet for WildcardMultiPatternMultipleMethod",
@@ -2573,6 +3830,58 @@
           {
             "type": "Google.Api.Gax.Grpc.CallSettings",
             "name": "callSettings"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMultipleMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMultipleMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 48,
+          "type": "FULL"
+        },
+        {
+          "start": 37,
+          "end": 46,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMultipleMethod_async_flattened_resourceNames3",
+      "title": "WildcardMultiPatternMultipleMethodResourceNames3Async",
+      "description": "Snippet for WildcardMultiPatternMultipleMethodAsync",
+      "file": "ResourceNamesClient.WildcardMultiPatternMultipleMethodResourceNames3AsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMultipleMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMultipleMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "ref"
+          },
+          {
+            "type": "Testing.ResourceNames.WildcardMultiPatternMultipleName",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
           }
         ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
@@ -2707,6 +4016,58 @@
       ]
     },
     {
+      "regionTag": "unknown_generated_ResourceNames_WildcardMultiPatternMultipleMethod_async_flattened_resourceNames4",
+      "title": "WildcardMultiPatternMultipleMethodResourceNames4Async",
+      "description": "Snippet for WildcardMultiPatternMultipleMethodAsync",
+      "file": "ResourceNamesClient.WildcardMultiPatternMultipleMethodResourceNames4AsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "WildcardMultiPatternMultipleMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.WildcardMultiPatternMultipleMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "ref"
+          },
+          {
+            "type": "Google.Api.Gax.IResourceName",
+            "name": "repeatedRef"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "WildcardMultiPatternMultipleMethod",
+          "fullName": "testing.resourcenames.ResourceNames.WildcardMultiPatternMultipleMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 48,
+          "type": "FULL"
+        },
+        {
+          "start": 37,
+          "end": 46,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
       "regionTag": "unknown_generated_ResourceNames_LooseValidationPatternMethod_sync",
       "title": "LooseValidationPatternMethodRequestObject",
       "description": "Snippet for LooseValidationPatternMethod",
@@ -2772,6 +4133,55 @@
           {
             "type": "Google.Api.Gax.Grpc.CallSettings",
             "name": "callSettings"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "LooseValidationPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.LooseValidationPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 45,
+          "type": "FULL"
+        },
+        {
+          "start": 35,
+          "end": 43,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_LooseValidationPatternMethod_async",
+      "title": "LooseValidationPatternMethodRequestObjectAsync",
+      "description": "Snippet for LooseValidationPatternMethodAsync",
+      "file": "ResourceNamesClient.LooseValidationPatternMethodRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "LooseValidationPatternMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.LooseValidationPatternMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.ResourceNames.LooseValidationPattern",
+            "name": "request"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
           }
         ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
@@ -2899,6 +4309,54 @@
       ]
     },
     {
+      "regionTag": "unknown_generated_ResourceNames_LooseValidationPatternMethod_async_flattened",
+      "title": "LooseValidationPatternMethodAsync",
+      "description": "Snippet for LooseValidationPatternMethodAsync",
+      "file": "ResourceNamesClient.LooseValidationPatternMethodAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "LooseValidationPatternMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.LooseValidationPatternMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "name"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "LooseValidationPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.LooseValidationPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 42,
+          "type": "FULL"
+        },
+        {
+          "start": 35,
+          "end": 40,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
       "regionTag": "unknown_generated_ResourceNames_LooseValidationPatternMethod_sync_flattened_resourceNames",
       "title": "LooseValidationPatternMethodResourceNames",
       "description": "Snippet for LooseValidationPatternMethod",
@@ -2963,6 +4421,54 @@
           {
             "type": "Google.Api.Gax.Grpc.CallSettings",
             "name": "callSettings"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",
+        "client": {
+          "shortName": "ResourceNamesClient",
+          "fullName": "Testing.ResourceNames.ResourceNamesClient"
+        },
+        "method": {
+          "shortName": "LooseValidationPatternMethod",
+          "fullName": "testing.resourcenames.ResourceNames.LooseValidationPatternMethod",
+          "service": {
+            "shortName": "ResourceNames",
+            "fullName": "testing.resourcenames.ResourceNames"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 42,
+          "type": "FULL"
+        },
+        {
+          "start": 35,
+          "end": 40,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNames_LooseValidationPatternMethod_async_flattened_resourceNames",
+      "title": "LooseValidationPatternMethodResourceNamesAsync",
+      "description": "Snippet for LooseValidationPatternMethodAsync",
+      "file": "ResourceNamesClient.LooseValidationPatternMethodResourceNamesAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "LooseValidationPatternMethodAsync",
+        "fullName": "Testing.ResourceNames.ResourceNamesClient.LooseValidationPatternMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.ResourceNames.LooseValidationPatternName",
+            "name": "name"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
           }
         ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNames.Response>",

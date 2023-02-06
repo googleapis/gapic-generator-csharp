@@ -107,6 +107,55 @@
       ]
     },
     {
+      "regionTag": "unknown_generated_ResourceNameSeparator_Method1_async",
+      "title": "Method1RequestObjectAsync",
+      "description": "Snippet for Method1Async",
+      "file": "ResourceNameSeparatorClient.Method1RequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "Method1Async",
+        "fullName": "Testing.ResourceNameSeparator.ResourceNameSeparatorClient.Method1Async",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.ResourceNameSeparator.Request",
+            "name": "request"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNameSeparator.Response>",
+        "client": {
+          "shortName": "ResourceNameSeparatorClient",
+          "fullName": "Testing.ResourceNameSeparator.ResourceNameSeparatorClient"
+        },
+        "method": {
+          "shortName": "Method1",
+          "fullName": "testing.resourcenameseparator.ResourceNameSeparator.Method1",
+          "service": {
+            "shortName": "ResourceNameSeparator",
+            "fullName": "testing.resourcenameseparator.ResourceNameSeparator"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 46,
+          "type": "FULL"
+        },
+        {
+          "start": 35,
+          "end": 44,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
       "regionTag": "unknown_generated_ResourceNameSeparator_Method1_sync_flattened",
       "title": "Method1",
       "description": "Snippet for Method1",
@@ -210,6 +259,58 @@
       ]
     },
     {
+      "regionTag": "unknown_generated_ResourceNameSeparator_Method1_async_flattened",
+      "title": "Method1Async",
+      "description": "Snippet for Method1Async",
+      "file": "ResourceNameSeparatorClient.Method1AsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "Method1Async",
+        "fullName": "Testing.ResourceNameSeparator.ResourceNameSeparatorClient.Method1Async",
+        "async": true,
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "name"
+          },
+          {
+            "type": "System.String",
+            "name": "ref"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNameSeparator.Response>",
+        "client": {
+          "shortName": "ResourceNameSeparatorClient",
+          "fullName": "Testing.ResourceNameSeparator.ResourceNameSeparatorClient"
+        },
+        "method": {
+          "shortName": "Method1",
+          "fullName": "testing.resourcenameseparator.ResourceNameSeparator.Method1",
+          "service": {
+            "shortName": "ResourceNameSeparator",
+            "fullName": "testing.resourcenameseparator.ResourceNameSeparator"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 43,
+          "type": "FULL"
+        },
+        {
+          "start": 35,
+          "end": 41,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
       "regionTag": "unknown_generated_ResourceNameSeparator_Method1_sync_flattened_resourceNames",
       "title": "Method1ResourceNames",
       "description": "Snippet for Method1",
@@ -282,6 +383,58 @@
           {
             "type": "Google.Api.Gax.Grpc.CallSettings",
             "name": "callSettings"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.ResourceNameSeparator.Response>",
+        "client": {
+          "shortName": "ResourceNameSeparatorClient",
+          "fullName": "Testing.ResourceNameSeparator.ResourceNameSeparatorClient"
+        },
+        "method": {
+          "shortName": "Method1",
+          "fullName": "testing.resourcenameseparator.ResourceNameSeparator.Method1",
+          "service": {
+            "shortName": "ResourceNameSeparator",
+            "fullName": "testing.resourcenameseparator.ResourceNameSeparator"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 43,
+          "type": "FULL"
+        },
+        {
+          "start": 35,
+          "end": 41,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "unknown_generated_ResourceNameSeparator_Method1_async_flattened_resourceNames",
+      "title": "Method1ResourceNamesAsync",
+      "description": "Snippet for Method1Async",
+      "file": "ResourceNameSeparatorClient.Method1ResourceNamesAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "Method1Async",
+        "fullName": "Testing.ResourceNameSeparator.ResourceNameSeparatorClient.Method1Async",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.ResourceNameSeparator.RequestName",
+            "name": "name"
+          },
+          {
+            "type": "Testing.ResourceNameSeparator.RequestName",
+            "name": "ref"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
           }
         ],
         "resultType": "System.Threading.Tasks.Task<Testing.ResourceNameSeparator.Response>",

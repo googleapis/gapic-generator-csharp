@@ -105,6 +105,55 @@
           "type": "SHORT"
         }
       ]
+    },
+    {
+      "regionTag": "lro_generated_BasicLro_Method1_async",
+      "title": "Method1RequestObjectAsync",
+      "description": "Snippet for Method1Async",
+      "file": "BasicLroClient.Method1RequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "Method1Async",
+        "fullName": "Testing.BasicLro.BasicLroClient.Method1Async",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.BasicLro.Request",
+            "name": "request"
+          },
+          {
+            "type": "System.Threading.CancellationToken",
+            "name": "cancellationToken"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Google.LongRunning.Operation<Testing.BasicLro.LroResponse, Testing.BasicLro.LroMetadata>>",
+        "client": {
+          "shortName": "BasicLroClient",
+          "fullName": "Testing.BasicLro.BasicLroClient"
+        },
+        "method": {
+          "shortName": "Method1",
+          "fullName": "testing.basiclro.BasicLro.Method1",
+          "service": {
+            "shortName": "BasicLro",
+            "fullName": "testing.basiclro.BasicLro"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 59,
+          "type": "FULL"
+        },
+        {
+          "start": 36,
+          "end": 57,
+          "type": "SHORT"
+        }
+      ]
     }
   ]
 }
