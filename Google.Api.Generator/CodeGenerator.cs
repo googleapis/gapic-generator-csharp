@@ -195,17 +195,27 @@ namespace Google.Api.Generator
                 return null;
             }
             
+            // Parsing straight from YAML to the proto representation of a service config is
+            // difficult. Instead, we convert the YAML to JSON, and parse that.
             var deserializer = new Deserializer();
-            using (var reader = File.OpenText(path))
-            {
-                var yamlObject = deserializer.Deserialize(reader);
-                var serializer = new SerializerBuilder().JsonCompatible().Build();
-                var writer = new StringWriter();
-                serializer.Serialize(writer, yamlObject);
-                string json = writer.ToString();
-                var parser = new JsonParser(JsonParser.Settings.Default.WithIgnoreUnknownFields(true));
-                return parser.Parse<Service>(json);
-            }
+            using var reader = File.OpenText(path);
+            var yamlObject = deserializer.Deserialize(reader);
+            var serializer = new SerializerBuilder().JsonCompatible().Build();
+            var writer = new StringWriter();
+            serializer.Serialize(writer, yamlObject);
+            string json = writer.ToString();
+
+            // Unfortunately the YAML to JSON conversion isn't aware of types, so Boolean values
+            // are represented as strings, and need to be converted to JSON Boolean values.
+            // In theory this could create problems if there are *genuine* string values of "true"
+            // or "false", but those will show up at generation time, and we can address them then.
+            // Using a leading space prevents accidentally replacing part of a string value with
+            // an escaped double-quote. (The YAML/JSON conversion always generates spaces before values.)
+            // This is undoubtedly hacky, but should be sufficient for now.
+            json = json.Replace(" \"true\"", " true").Replace(" \"false\"", " false");
+            
+            var parser = new JsonParser(JsonParser.Settings.Default.WithIgnoreUnknownFields(true));
+            return parser.Parse<Service>(json);
         }
 
         private static IEnumerable<ResultFile> GeneratePackage(string ns,
