@@ -23,10 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Google.Protobuf.Compiler\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Google.Api.Generator.Utils\Google.Api.Generator.Utils.csproj" />
   </ItemGroup>
 

@@ -11,17 +11,6 @@
 # so it only runs on Windows; we can use platform detection
 # if that ever becomes an issue.
 
-
-# Protoc compiler plugin
-# This will become obsolete as of protobuf 3.22,
-# when the classes will be in Google.Protobuf.
-echo "Generating protoc compiler plugin"
-tools/protoc.exe \
-  --csharp_out=Google.Api.Generator/Google.Protobuf.Compiler \
-  -Itools/protos \
-  -IGoogle.Api.Generator/Google.Protobuf.Compiler \
-  Google.Api.Generator/Google.Protobuf.Compiler/plugin.proto
-
 # Generator config protos
 echo "Generating generator config protos"
 tools/protoc.exe \
