@@ -38,7 +38,7 @@ namespace Google.Api.Generator
         /// <summary>
         /// Extension registry with everything we need in.
         /// </summary>
-        private static readonly ExtensionRegistry s_registry = new ExtensionRegistry
+        private static readonly ExtensionRegistry Registry = new ExtensionRegistry
         {
             ClientExtensions.DefaultHost,
             ClientExtensions.MethodSignature,
@@ -57,7 +57,7 @@ namespace Google.Api.Generator
             ExtendedOperationsExtensions.OperationService,
         };
 
-        private static readonly IReadOnlyDictionary<string, string> s_wellknownNamespaceAliases = new Dictionary<string, string>
+        private static readonly IReadOnlyDictionary<string, string> WellknownNamespaceAliases = new Dictionary<string, string>
         {
             { typeof(System.Int32).Namespace, "sys" }, // Don't use "s"; one-letter aliases cause a compilation error!
             { typeof(System.Net.WebUtility).Namespace, "sysnet" },
@@ -75,23 +75,23 @@ namespace Google.Api.Generator
             { typeof(Xunit.Assert).Namespace, "xunit" },
         };
 
-        private static readonly IReadOnlyList<string> AllowedAdditionalServices = new List<string>
-        {
-            IAMPolicy.Descriptor.FullName,
-            Locations.Descriptor.FullName,
-            Operations.Descriptor.FullName,
-        }.AsReadOnly();
-
         /// <summary>
         /// For unaliased source file context, we still have to sometimes aliase some namespaces to avoid
         /// name collisions.
         /// This collection is used to influence the order in which colliding namespaces are picked for
         /// aliasing.
         /// </summary>
-        private static readonly IReadOnlyCollection<Regex> s_avoidAliasingNamespaceRegex = new HashSet<Regex>
+        private static readonly IReadOnlyCollection<Regex> AvoidAliasingNamespaceRegex = new HashSet<Regex>
         {
             new Regex(@"^System\.?.*", RegexOptions.Compiled | RegexOptions.CultureInvariant),
         };
+
+        private static readonly IReadOnlyList<string> AllowedAdditionalServices = new List<string>
+        {
+            IAMPolicy.Descriptor.FullName,
+            Locations.Descriptor.FullName,
+            Operations.Descriptor.FullName,
+        }.AsReadOnly();
 
         public static IEnumerable<ResultFile> Generate(FileDescriptorSet descriptorSet, string package, IClock clock,
             string grpcServiceConfigPath, string serviceConfigPath, IEnumerable<string> commonResourcesConfigPaths, ApiTransports transports, bool requestNumericEnumJsonEncoding)
@@ -104,7 +104,7 @@ namespace Google.Api.Generator
         public static IEnumerable<ResultFile> Generate(IReadOnlyList<FileDescriptorProto> descriptorProtos, IEnumerable<string> filesToGenerate, IClock clock,
             string grpcServiceConfigPath, string serviceConfigPath, IEnumerable<string> commonResourcesConfigPaths, ApiTransports transports, bool requestNumericEnumJsonEncoding)
         {
-            var descriptors = FileDescriptor.BuildFromByteStrings(descriptorProtos.Select(proto => proto.ToByteString()), s_registry);
+            var descriptors = FileDescriptor.BuildFromByteStrings(descriptorProtos.Select(proto => proto.ToByteString()), Registry);
             // Load side-loaded configurations; both optional.
             var grpcServiceConfig = grpcServiceConfigPath is object ? ServiceConfig.Parser.ParseJson(File.ReadAllText(grpcServiceConfigPath)) : null;
             var serviceConfig = ParseServiceConfigYaml(serviceConfigPath);
@@ -249,7 +249,7 @@ namespace Google.Api.Generator
                     var serviceDetails = new ServiceDetails(catalog, ns, service, grpcServiceConfig, serviceConfig, transports);
                     packageServiceDetails.Add(serviceDetails);
 
-                    var ctx = SourceFileContext.CreateFullyAliased(clock, s_wellknownNamespaceAliases);
+                    var ctx = SourceFileContext.CreateFullyAliased(clock, WellknownNamespaceAliases);
                     var code = ServiceCodeGenerator.Generate(ctx, serviceDetails, seenPaginatedResponseTyps);
                     var filename = $"{clientPathPrefix}{serviceDetails.ClientAbstractTyp.Name}.g.cs";
                     yield return new ResultFile(filename, code);
@@ -257,7 +257,7 @@ namespace Google.Api.Generator
                     // TODO: Consider removing this once we have integrated the snippet-per-file snippets
                     // with docs generation.
                     var serviceSnippetsCtx = SourceFileContext.CreateUnaliased(
-                        clock, s_wellknownNamespaceAliases, s_avoidAliasingNamespaceRegex, packageTyps, maySkipOwnNamespaceImport: true);
+                        clock, WellknownNamespaceAliases, AvoidAliasingNamespaceRegex, packageTyps, maySkipOwnNamespaceImport: true);
                     var serviceSnippetsCode = SnippetCodeGenerator.Generate(serviceSnippetsCtx, serviceDetails);
                     var serviceSnippetsFilename = $"{serviceSnippetsPathPrefix}{serviceDetails.ClientAbstractTyp.Name}Snippets.g.cs";
                     yield return new ResultFile(serviceSnippetsFilename, serviceSnippetsCode);
@@ -266,7 +266,7 @@ namespace Google.Api.Generator
                     foreach (var snippetGenerator in SnippetCodeGenerator.SnippetsGenerators(serviceDetails))
                     {
                         var snippetCtx = SourceFileContext.CreateUnaliased(
-                            clock, s_wellknownNamespaceAliases, s_avoidAliasingNamespaceRegex, packageTyps, maySkipOwnNamespaceImport: false);
+                            clock, WellknownNamespaceAliases, AvoidAliasingNamespaceRegex, packageTyps, maySkipOwnNamespaceImport: false);
                         var (snippetCode, snippetMetadata) = snippetGenerator.Generate(snippetCtx);
                         snippetMetadata.File = $"{serviceDetails.ClientAbstractTyp.Name}.{snippetGenerator.SnippetMethodName}Snippet.g.cs";
                         var snippetFile = $"{snippetsPathPrefix}{snippetMetadata.File}";
@@ -281,7 +281,7 @@ namespace Google.Api.Generator
                     }
                     hasContent = true;
                 }
-                var resCtx = SourceFileContext.CreateFullyAliased(clock, s_wellknownNamespaceAliases);
+                var resCtx = SourceFileContext.CreateFullyAliased(clock, WellknownNamespaceAliases);
                 var (resCode, resCodeClassCount) = ResourceNamesGenerator.Generate(catalog, resCtx, fileDesc);
                 // Only produce an output file if it contains >0 [partial] classes.
                 if (resCodeClassCount > 0)
@@ -305,7 +305,7 @@ namespace Google.Api.Generator
                     hasContent = true;
                 }
 
-                var lroAdaptationCtx = SourceFileContext.CreateFullyAliased(clock, s_wellknownNamespaceAliases);
+                var lroAdaptationCtx = SourceFileContext.CreateFullyAliased(clock, WellknownNamespaceAliases);
                 var (lroCode, lroClassCount) = LroAdaptationGenerator.Generate(catalog, lroAdaptationCtx, fileDesc);
                 if (lroClassCount > 0)
                 {
@@ -334,7 +334,7 @@ namespace Google.Api.Generator
                     allServiceDetails.AddRange(packageServiceDetails);
 
                     // Generate the package-wide API metadata
-                    var ctx = SourceFileContext.CreateFullyAliased(clock, s_wellknownNamespaceAliases);
+                    var ctx = SourceFileContext.CreateFullyAliased(clock, WellknownNamespaceAliases);
                     var packageApiMetadataContent = PackageApiMetadataGenerator.GeneratePackageApiMetadata(ns, ctx, packageFileDescriptors, hasLro, mixins, serviceConfig, requestNumericEnumJsonEncoding);
                     var packageApiMetadataFilename = $"{clientPathPrefix}{PackageApiMetadataGenerator.FileName}";
                     yield return new ResultFile(packageApiMetadataFilename, packageApiMetadataContent);
