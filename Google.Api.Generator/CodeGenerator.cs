@@ -86,6 +86,18 @@ namespace Google.Api.Generator
             new Regex(@"^System\.?.*", RegexOptions.Compiled | RegexOptions.CultureInvariant),
         };
 
+        /// <summary>
+        /// For unaliased source file context, forces the alias on namespaces listed on "value"
+        /// when generating the package in "key".
+        /// This is useful when a package depends on another package
+        /// (usually on another library, but not a support library like GAX or a mixin library)
+        /// and we know there are name collisions.
+        /// </summary>
+        private static readonly IReadOnlyDictionary<string, IReadOnlyCollection<string>> ForcedAliasesForLibrary = new Dictionary<string, IReadOnlyCollection<string>>
+        {
+            { "Google.Cloud.Kms.Inventory.V1", new List<string> { "Google.Cloud.Kms.V1" } }
+        };
+
         private static readonly IReadOnlyList<string> AllowedAdditionalServices = new List<string>
         {
             IAMPolicy.Descriptor.FullName,
@@ -234,6 +246,10 @@ namespace Google.Api.Generator
             HashSet<string> allResourceNameClasses = new HashSet<string>();
             HashSet<string> duplicateResourceNameClasses = new HashSet<string>();
             IList<Snippet> snippets = new List<Snippet>();
+            if (!ForcedAliasesForLibrary.TryGetValue(ns, out IReadOnlyCollection<string> forcedAliases))
+            {
+                forcedAliases = new HashSet<string>();
+            }
 
             IEnumerable<Typ> packageTyps = packageFileDescriptors.SelectMany(
                 fileDescriptor => fileDescriptor.Services.Select(serv => Typ.Manual(ns, serv.Name))
@@ -257,7 +273,7 @@ namespace Google.Api.Generator
                     // TODO: Consider removing this once we have integrated the snippet-per-file snippets
                     // with docs generation.
                     var serviceSnippetsCtx = SourceFileContext.CreateUnaliased(
-                        clock, WellknownNamespaceAliases, AvoidAliasingNamespaceRegex, packageTyps, maySkipOwnNamespaceImport: true);
+                        clock, WellknownNamespaceAliases, AvoidAliasingNamespaceRegex, forcedAliases, packageTyps, maySkipOwnNamespaceImport: true);
                     var serviceSnippetsCode = SnippetCodeGenerator.Generate(serviceSnippetsCtx, serviceDetails);
                     var serviceSnippetsFilename = $"{serviceSnippetsPathPrefix}{serviceDetails.ClientAbstractTyp.Name}Snippets.g.cs";
                     yield return new ResultFile(serviceSnippetsFilename, serviceSnippetsCode);
@@ -266,7 +282,7 @@ namespace Google.Api.Generator
                     foreach (var snippetGenerator in SnippetCodeGenerator.SnippetsGenerators(serviceDetails))
                     {
                         var snippetCtx = SourceFileContext.CreateUnaliased(
-                            clock, WellknownNamespaceAliases, AvoidAliasingNamespaceRegex, packageTyps, maySkipOwnNamespaceImport: false);
+                            clock, WellknownNamespaceAliases, AvoidAliasingNamespaceRegex, forcedAliases, packageTyps, maySkipOwnNamespaceImport: false);
                         var (snippetCode, snippetMetadata) = snippetGenerator.Generate(snippetCtx);
                         snippetMetadata.File = $"{serviceDetails.ClientAbstractTyp.Name}.{snippetGenerator.SnippetMethodName}Snippet.g.cs";
                         var snippetFile = $"{snippetsPathPrefix}{snippetMetadata.File}";
