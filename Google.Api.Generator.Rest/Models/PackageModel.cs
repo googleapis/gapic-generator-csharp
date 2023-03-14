@@ -323,7 +323,7 @@ namespace Google.Api.Generator.Rest.Models
                     new XElement("Copyright", $"Copyright {clock.GetCurrentDateTimeUtc().Year} {(_discoveryDoc.OwnerName == "Google" ? "Google LLC" : _discoveryDoc.OwnerName)}"),
                     new XElement("PackageTags", "Google"),
                     new XElement("PackageProjectUrl", "https://github.com/google/google-api-dotnet-client"),
-                    new XElement("PackageLicenseFile", "LICENSE"),
+                    new XElement("PackageLicenseExpression", "Apache-2.0"),
                     new XElement("RepositoryType", "git"),
                     new XElement("RepositoryUrl", "https://github.com/google/google-api-dotnet-client"),
                     new XElement("PackageIconUrl", "https://www.gstatic.com/images/branding/product/1x/google_developers_64dp.png"),
