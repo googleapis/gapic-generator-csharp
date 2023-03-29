@@ -58,7 +58,7 @@ namespace Google.Api.Generator.Generation
                         yield return method.AbstractSyncRequestMethod;
                         yield return method.AbstractAsyncCallSettingsRequestMethod;
                         yield return method.AbstractAsyncCancellationTokenRequestMethod;
-                        foreach (var signature in method.Signatures)
+                        foreach (var signature in method.SignaturesToGenerate)
                         {
                             yield return signature.AbstractSyncRequestMethod;
                             yield return signature.AbstractAsyncCallSettingsRequestMethod;
@@ -74,7 +74,7 @@ namespace Google.Api.Generator.Generation
                     case MethodDetails.Paginated _:
                         yield return method.AbstractSyncRequestMethod;
                         yield return method.AbstractAsyncCallSettingsRequestMethod;
-                        foreach (var signature in method.Signatures)
+                        foreach (var signature in method.SignaturesToGenerate)
                         {
                             yield return signature.AbstractSyncPaginatedRequestMethod;
                             yield return signature.AbstractAsyncPaginatedCallSettingsRequestMethod;
@@ -92,7 +92,7 @@ namespace Google.Api.Generator.Generation
                         yield return method.AbstractLroOperationsClientProperty;
                         yield return method.AbstractLroSyncPollMethod;
                         yield return method.AbstractLroAsyncPollMethod;
-                        foreach (var signature in method.Signatures)
+                        foreach (var signature in method.SignaturesToGenerate)
                         {
                             yield return signature.AbstractSyncRequestMethod;
                             yield return signature.AbstractAsyncCallSettingsRequestMethod;
@@ -116,7 +116,7 @@ namespace Google.Api.Generator.Generation
                     case MethodDetails.ServerStreaming _:
                         yield return method.AbstractServerStreamClass;
                         yield return method.AbstractServerStreamSyncRequestMethod;
-                        foreach (var signature in method.Signatures)
+                        foreach (var signature in method.SignaturesToGenerate)
                         {
                             yield return signature.AbstractServerStreamSyncRequestMethod;
                             foreach (var resourceName in signature.ResourceNames)

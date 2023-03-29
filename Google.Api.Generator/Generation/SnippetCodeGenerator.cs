@@ -225,7 +225,7 @@ namespace Google.Api.Generator.Generation
                             FullName = $"{TargetMethod.Svc.ServiceFullName}.{TargetMethod.ProtoRpcName}",
                             Service = new ServiceMetadata
                             {
-                                ShortName = TargetMethod.Svc.ServiceName,
+                                ShortName = TargetMethod.Svc.OriginalServiceName,
                                 FullName = TargetMethod.Svc.ServiceFullName
                             }
                         }
@@ -262,7 +262,7 @@ namespace Google.Api.Generator.Generation
 
                 string regionTagName =
                     // {apishortname}_{apiVersion}_generated_{serviceName}_{rpcName}_{sync|async}_{disambiguation}
-                    $"{effectiveShortName}{effectiveVersion}_generated_{TargetMethod.Svc.ServiceName}_{TargetMethod.ProtoRpcName}_{syncText}{effectiveDisambiguation}";
+                    $"{effectiveShortName}{effectiveVersion}_generated_{TargetMethod.Svc.OriginalServiceName}_{TargetMethod.ProtoRpcName}_{syncText}{effectiveDisambiguation}";
 
                 metadata.RegionTag = regionTagName;
 

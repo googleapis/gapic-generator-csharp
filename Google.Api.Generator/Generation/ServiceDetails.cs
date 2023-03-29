@@ -25,6 +25,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Google.Api.Gax;
+using Grpc.Core;
 
 namespace Google.Api.Generator.Generation
 {
@@ -41,15 +42,15 @@ namespace Google.Api.Generator.Generation
             new MixinDetails(Locations.Descriptor.FullName, typeof(LocationsClient), typeof(LocationsClientImpl), typeof(Locations.LocationsClient), typeof(LocationsSettings)),
         }.ToDictionary(details => details.GrpcServiceName);
 
-        public ServiceDetails(ProtoCatalog catalog, string ns, ServiceDescriptor desc, ServiceConfig grpcServiceConfig, Service serviceConfig, ApiTransports transports)
+        public ServiceDetails(ProtoCatalog catalog, string ns, ServiceDescriptor desc, ServiceConfig grpcServiceConfig, Service serviceConfig, ApiTransports transports, ClientLibrarySettings librarySettings)
         {
+            LibrarySettings = librarySettings;
             Catalog = catalog;
             Namespace = ns;
             ProtoPackage = desc.File.Package;
             PackageVersion = ProtoPackage.Split('.').FirstOrDefault(part => ApiVersionPattern.IsMatch(part));
             DocLines = desc.Declaration.DocLines().ToList();
             SnippetsNamespace = $"{ns}.Snippets";
-            UnitTestsNamespace = $"{ns}.Tests";
             // Must come early; used by `MethodDetails.Create()`
             MethodGrpcConfigsByName = grpcServiceConfig?.MethodConfig
                 .SelectMany(conf => conf.Name.Select(name => (name, conf)))
@@ -57,14 +58,22 @@ namespace Google.Api.Generator.Generation
                 .ToImmutableDictionary(x => $"{x.name.Service}/{x.name.Method}", x => x.conf) ??
                 ImmutableDictionary<string, MethodConfig>.Empty;
             ServiceFullName = desc.FullName;
-            ServiceName = desc.Name;
-            DocumentationName = desc.Name; // TODO: There may be a more suitable name than this.
-            ProtoTyp = Typ.Manual(ns, desc.Name);
-            GrpcClientTyp = Typ.Nested(ProtoTyp, $"{desc.Name}Client");
-            SettingsTyp = Typ.Manual(ns, $"{desc.Name}Settings");
-            BuilderTyp = Typ.Manual(ns, $"{desc.Name}ClientBuilder");
-            ClientAbstractTyp = Typ.Manual(ns, $"{desc.Name}Client");
-            ClientImplTyp = Typ.Manual(ns, $"{desc.Name}ClientImpl");
+
+            // The library settings allow services to be renamed.
+            // In some places (e.g. when accessing the gRPC client) we need to know the original name,
+            // in others (e.g. when generating types) we want the effective service name.
+            OriginalServiceName = desc.Name;
+            ServiceName = librarySettings?.DotnetSettings?.RenamedServices?.TryGetValue(OriginalServiceName, out var newName) == true
+                ? newName : OriginalServiceName;
+
+            DocumentationName = ServiceName;
+            ProtoTyp = Typ.Manual(ns, OriginalServiceName);
+            GrpcClientTyp = Typ.Nested(ProtoTyp, $"{OriginalServiceName}Client");
+            SettingsTyp = Typ.Manual(ns, $"{ServiceName}Settings");
+            BuilderTyp = Typ.Manual(ns, $"{ServiceName}ClientBuilder");
+
+            ClientAbstractTyp = Typ.Manual(ns, $"{ServiceName}Client");
+            ClientImplTyp = Typ.Manual(ns, $"{ServiceName}ClientImpl");
             DefaultHost = desc.GetExtension(ClientExtensions.DefaultHost) ?? "";
             // We need to account for regional default endpoints like "us-east1-pubsub.googleapis.com".
             // We also need to account for IAM, which looks like "iam-meta-api.googleapis.com" and whose
@@ -78,10 +87,9 @@ namespace Google.Api.Generator.Generation
             var oauthScopes = desc.GetExtension(ClientExtensions.OauthScopes);
             DefaultScopes = string.IsNullOrEmpty(oauthScopes) ? Enumerable.Empty<string>() : oauthScopes.Split(',', ' ');
             Methods = desc.Methods.Select(x => MethodDetails.Create(this, x)).ToList();
-            ServiceSnippetsTyp = Typ.Manual(SnippetsNamespace, $"AllGenerated{desc.Name}ClientSnippets");
-            SnippetsTyp = Typ.Manual(SnippetsNamespace, $"Generated{desc.Name}ClientSnippets");
-            SnippetsClientName = $"{desc.Name.ToLowerCamelCase()}Client";
-            UnitTestsTyp = Typ.Manual(UnitTestsNamespace, $"Generated{desc.Name}ClientTest");
+            ServiceSnippetsTyp = Typ.Manual(SnippetsNamespace, $"AllGenerated{ServiceName}ClientSnippets");
+            SnippetsTyp = Typ.Manual(SnippetsNamespace, $"Generated{ServiceName}ClientSnippets");
+            SnippetsClientName = $"{ServiceName.ToLowerCamelCase()}Client";
             NonStandardLro = NonStandardLroDetails.ForService(desc);
             Mixins = serviceConfig?.Apis
                 .Select(api => AvailableMixins.GetValueOrDefault(api.Name))
@@ -98,12 +106,14 @@ namespace Google.Api.Generator.Generation
         public ProtoCatalog Catalog { get; }
         public string Namespace { get; }
         public string SnippetsNamespace { get; }
-        public string UnitTestsNamespace { get; }
 
         /// <summary>The service full name (package name plus service name).</summary>
         public string ServiceFullName { get; }
 
-        /// <summary>The service name</summary>
+        /// <summary>The service name in the proto.</summary>
+        public string OriginalServiceName { get; }
+
+        /// <summary>The service name (potentially after renaming).</summary>
         public string ServiceName { get; }
 
         /// <summary>
@@ -165,9 +175,6 @@ namespace Google.Api.Generator.Generation
         /// <summary>The name of the variable to hold the client instance.</summary>
         public string SnippetsClientName { get; }
 
-        /// <summary>The typ of the unit test class for this service.</summary>
-        public Typ UnitTestsTyp { get; }
-
         /// <summary>Grpc Service-Config Method configs, includes both service-level and method-level.</summary>
         public IReadOnlyDictionary<string, MethodConfig> MethodGrpcConfigsByName { get; }
 
@@ -188,6 +195,11 @@ namespace Google.Api.Generator.Generation
         /// The transports that can be used with this service.
         /// </summary>
         public ApiTransports Transports { get; }
+
+        /// <summary>
+        /// The client library settings used when generating this service.
+        /// </summary>
+        public ClientLibrarySettings LibrarySettings { get; }
 
         /// <summary>
         /// The details of a service responsible for LRO polling for a non-standard LRO implementation.

@@ -31,15 +31,16 @@ namespace Google.Api.Generator.ProtoUtils
         /// <param name="allDescriptors">All the file descriptors that have been loaded.</param>
         /// <param name="requiredFileDescriptors">The file descriptors which *must* have their resource name fields resolved.</param>
         /// <param name="commonResourcesConfigs">The common resource name definitions.</param>
+        /// <param name="serviceConfig">The service configuration, used for additional settings.</param>
         public ProtoCatalog(
             string defaultPackage, IEnumerable<FileDescriptor> allDescriptors,
-            IEnumerable<FileDescriptor> requiredFileDescriptors, IEnumerable<CommonResources> commonResourcesConfigs)
+            IEnumerable<FileDescriptor> requiredFileDescriptors, IEnumerable<CommonResources> commonResourcesConfigs, ClientLibrarySettings librarySettings)
         {
             _defaultPackage = defaultPackage;
             allDescriptors = allDescriptors.ToList();
             _msgs = allDescriptors.SelectMany(desc => desc.MessageTypes).SelectMany(MsgPlusNested).ToDictionary(x => x.FullName);
             _services = allDescriptors.SelectMany(desc => desc.Services).ToDictionary(x => x.FullName);
-            _resourcesByFileName = ResourceDetails.LoadResourceDefinitionsByFileName(allDescriptors, commonResourcesConfigs).GroupBy(x => x.FileName)
+            _resourcesByFileName = ResourceDetails.LoadResourceDefinitionsByFileName(allDescriptors, commonResourcesConfigs, librarySettings).GroupBy(x => x.FileName)
                 .ToImmutableDictionary(x => x.Key, x => (IReadOnlyList<ResourceDetails.Definition>)x.ToImmutableList());
             var resourcesByUrt = _resourcesByFileName.Values.SelectMany(x => x).ToDictionary(x => x.UnifiedResourceTypeName);
             var resourcesByPatternComparison = _resourcesByFileName.Values.SelectMany(x => x)

@@ -207,6 +207,7 @@ namespace Google.Api.Generator.Generation
                     }
                 }
 
+                public bool HasHandWrittenEquivalent => _sig.HasHandwrittenEquivalent;
                 public MethodDeclarationSyntax AbstractSyncRequestMethod => AbstractRequestMethod(true, true, Parameters);
                 public MethodDeclarationSyntax AbstractAsyncCallSettingsRequestMethod => AbstractRequestMethod(false, true, Parameters);
                 public MethodDeclarationSyntax AbstractAsyncCancellationTokenRequestMethod => AbstractRequestMethod(false, false, Parameters);
@@ -275,6 +276,11 @@ namespace Google.Api.Generator.Generation
 
                 public IEnumerable<ResourceName> ResourceNames => ResourceName.Create(this);
             }
+
+            /// <summary>
+            /// Where hand-written equivalents are provided, we don't generate overloads in the client.
+            /// </summary>
+            public IEnumerable<Signature> SignaturesToGenerate => Signatures.Where(sig => !sig.HasHandWrittenEquivalent);
 
             public IEnumerable<Signature> Signatures => MethodDetails.Signatures.Select(sig => new Signature(this, sig));
         }

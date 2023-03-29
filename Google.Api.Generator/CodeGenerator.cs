@@ -86,18 +86,6 @@ namespace Google.Api.Generator
             new Regex(@"^System\.?.*", RegexOptions.Compiled | RegexOptions.CultureInvariant),
         };
 
-        /// <summary>
-        /// For unaliased source file context, forces the alias on namespaces listed on "value"
-        /// when generating the package in "key".
-        /// This is useful when a package depends on another package
-        /// (usually on another library, but not a support library like GAX or a mixin library)
-        /// and we know there are name collisions.
-        /// </summary>
-        private static readonly IReadOnlyDictionary<string, IReadOnlyCollection<string>> ForcedAliasesForLibrary = new Dictionary<string, IReadOnlyCollection<string>>
-        {
-            { "Google.Cloud.Kms.Inventory.V1", new List<string> { "Google.Cloud.Kms.V1" } }
-        };
-
         private static readonly IReadOnlyList<string> AllowedAdditionalServices = new List<string>
         {
             IAMPolicy.Descriptor.FullName,
@@ -135,6 +123,10 @@ namespace Google.Api.Generator
             var allServiceDetails = new List<ServiceDetails>();
             foreach (var singlePackageFileDescs in byPackage)
             {
+                // TODO: Actually make sure we use the right settings by version.
+                // Alternatively, ensure that each *published* service config only contains a single LibrarySettings entry.
+                var librarySettings = serviceConfig?.Publishing?.LibrarySettings?.FirstOrDefault();
+
                 var namespaces = singlePackageFileDescs.Select(x => x.CSharpNamespace()).Distinct().ToList();
                 if (namespaces.Count > 1)
                 {
@@ -142,11 +134,11 @@ namespace Google.Api.Generator
                         "All files in the same package must have the same C# namespace. " +
                         $"Found namespaces '{string.Join(", ", namespaces)}' in package '{singlePackageFileDescs.Key}'.");
                 }
-                var catalog = new ProtoCatalog(singlePackageFileDescs.Key, descriptors, singlePackageFileDescs, commonResourcesConfigs);
+                var catalog = new ProtoCatalog(singlePackageFileDescs.Key, descriptors, singlePackageFileDescs, commonResourcesConfigs, librarySettings);
                 foreach (var resultFile in GeneratePackage(
                     namespaces[0], singlePackageFileDescs, catalog, clock,
                     grpcServiceConfig, serviceConfig, allServiceDetails,
-                    transports, requestNumericEnumJsonEncoding))
+                    transports, requestNumericEnumJsonEncoding, librarySettings))
                 {
                     yield return resultFile;
                 }
@@ -233,7 +225,7 @@ namespace Google.Api.Generator
         private static IEnumerable<ResultFile> GeneratePackage(string ns,
             IEnumerable<FileDescriptor> packageFileDescriptors, ProtoCatalog catalog, IClock clock,
             ServiceConfig grpcServiceConfig, Service serviceConfig, List<ServiceDetails> allServiceDetails,
-            ApiTransports transports, bool requestNumericEnumJsonEncoding)
+            ApiTransports transports, bool requestNumericEnumJsonEncoding, ClientLibrarySettings librarySettings)
         {
             var clientPathPrefix = $"{ns}{Path.DirectorySeparatorChar}";
             var serviceSnippetsPathPrefix = $"{ns}.Snippets{Path.DirectorySeparatorChar}";
@@ -246,10 +238,8 @@ namespace Google.Api.Generator
             HashSet<string> allResourceNameClasses = new HashSet<string>();
             HashSet<string> duplicateResourceNameClasses = new HashSet<string>();
             IList<Snippet> snippets = new List<Snippet>();
-            if (!ForcedAliasesForLibrary.TryGetValue(ns, out IReadOnlyCollection<string> forcedAliases))
-            {
-                forcedAliases = new HashSet<string>();
-            }
+
+            IReadOnlyCollection<string> forcedAliases = librarySettings?.DotnetSettings?.ForcedNamespaceAliases?.ToList() ?? new List<string>();
 
             IEnumerable<Typ> packageTyps = packageFileDescriptors.SelectMany(
                 fileDescriptor => fileDescriptor.Services.Select(serv => Typ.Manual(ns, serv.Name))
@@ -262,7 +252,7 @@ namespace Google.Api.Generator
                 foreach (var service in fileDesc.Services)
                 {
                     // Generate settings and client code for requested package.
-                    var serviceDetails = new ServiceDetails(catalog, ns, service, grpcServiceConfig, serviceConfig, transports);
+                    var serviceDetails = new ServiceDetails(catalog, ns, service, grpcServiceConfig, serviceConfig, transports, librarySettings);
                     packageServiceDetails.Add(serviceDetails);
 
                     var ctx = SourceFileContext.CreateFullyAliased(clock, WellknownNamespaceAliases);
