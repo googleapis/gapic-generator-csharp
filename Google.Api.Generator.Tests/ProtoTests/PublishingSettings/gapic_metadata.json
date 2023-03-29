@@ -1,0 +1,54 @@
+{
+  "schema": "1.0",
+  "comment": "This file maps proto services/RPCs to the corresponding library clients/methods",
+  "language": "csharp",
+  "protoPackage": "testing.publishingsettings",
+  "libraryPackage": "Testing.PublishingSettings",
+  "services": {
+    "OriginalServiceName": {
+      "clients": {
+        "grpc": {
+          "libraryClient": "RenamedServiceNameClient",
+          "rpcs": {
+            "AMethod": {
+              "methods": [
+                "AMethod",
+                "AMethodAsync"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "ServiceWithHandwrittenSignatures": {
+      "clients": {
+        "grpc": {
+          "libraryClient": "ServiceWithHandwrittenSignaturesClient",
+          "rpcs": {
+            "AMethod": {
+              "methods": [
+                "AMethod",
+                "AMethodAsync"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "ServiceWithResources": {
+      "clients": {
+        "grpc": {
+          "libraryClient": "ServiceWithResourcesClient",
+          "rpcs": {
+            "AMethod": {
+              "methods": [
+                "AMethod",
+                "AMethodAsync"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

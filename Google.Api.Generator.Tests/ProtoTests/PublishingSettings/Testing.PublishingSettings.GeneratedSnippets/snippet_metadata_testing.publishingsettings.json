@@ -1,0 +1,502 @@
+{
+  "clientLibrary": {
+    "name": "Testing.PublishingSettings",
+    "language": "C_SHARP",
+    "apis": [
+      {
+        "id": "testing.publishingsettings"
+      }
+    ]
+  },
+  "snippets": [
+    {
+      "regionTag": "unknown_generated_OriginalServiceName_AMethod_sync",
+      "title": "AMethodRequestObject",
+      "description": "Snippet for AMethod",
+      "file": "RenamedServiceNameClient.AMethodRequestObjectSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "AMethod",
+        "fullName": "Testing.PublishingSettings.RenamedServiceNameClient.AMethod",
+        "parameters": [
+          {
+            "type": "Testing.PublishingSettings.Request",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
+        "resultType": "Testing.PublishingSettings.Response",
+        "client": {
+          "shortName": "RenamedServiceNameClient",
+          "fullName": "Testing.PublishingSettings.RenamedServiceNameClient"
+        },
+        "method": {
+          "shortName": "AMethod",
+          "fullName": "testing.publishingsettings.OriginalServiceName.AMethod",
+          "service": {
+            "shortName": "OriginalServiceName",
+            "fullName": "testing.publishingsettings.OriginalServiceName"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 45,
+          "type": "FULL"
+        },
+        {
+          "start": 34,
+          "end": 43,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "unknown_generated_OriginalServiceName_AMethod_async",
+      "title": "AMethodRequestObjectAsync",
+      "description": "Snippet for AMethodAsync",
+      "file": "RenamedServiceNameClient.AMethodRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "AMethodAsync",
+        "fullName": "Testing.PublishingSettings.RenamedServiceNameClient.AMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.PublishingSettings.Request",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.PublishingSettings.Response>",
+        "client": {
+          "shortName": "RenamedServiceNameClient",
+          "fullName": "Testing.PublishingSettings.RenamedServiceNameClient"
+        },
+        "method": {
+          "shortName": "AMethod",
+          "fullName": "testing.publishingsettings.OriginalServiceName.AMethod",
+          "service": {
+            "shortName": "OriginalServiceName",
+            "fullName": "testing.publishingsettings.OriginalServiceName"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 46,
+          "type": "FULL"
+        },
+        {
+          "start": 35,
+          "end": 44,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "unknown_generated_ServiceWithHandwrittenSignatures_AMethod_sync",
+      "title": "AMethodRequestObject",
+      "description": "Snippet for AMethod",
+      "file": "ServiceWithHandwrittenSignaturesClient.AMethodRequestObjectSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "AMethod",
+        "fullName": "Testing.PublishingSettings.ServiceWithHandwrittenSignaturesClient.AMethod",
+        "parameters": [
+          {
+            "type": "Testing.PublishingSettings.Request",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
+        "resultType": "Testing.PublishingSettings.Response",
+        "client": {
+          "shortName": "ServiceWithHandwrittenSignaturesClient",
+          "fullName": "Testing.PublishingSettings.ServiceWithHandwrittenSignaturesClient"
+        },
+        "method": {
+          "shortName": "AMethod",
+          "fullName": "testing.publishingsettings.ServiceWithHandwrittenSignatures.AMethod",
+          "service": {
+            "shortName": "ServiceWithHandwrittenSignatures",
+            "fullName": "testing.publishingsettings.ServiceWithHandwrittenSignatures"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 45,
+          "type": "FULL"
+        },
+        {
+          "start": 34,
+          "end": 43,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "unknown_generated_ServiceWithHandwrittenSignatures_AMethod_async",
+      "title": "AMethodRequestObjectAsync",
+      "description": "Snippet for AMethodAsync",
+      "file": "ServiceWithHandwrittenSignaturesClient.AMethodRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "AMethodAsync",
+        "fullName": "Testing.PublishingSettings.ServiceWithHandwrittenSignaturesClient.AMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.PublishingSettings.Request",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.PublishingSettings.Response>",
+        "client": {
+          "shortName": "ServiceWithHandwrittenSignaturesClient",
+          "fullName": "Testing.PublishingSettings.ServiceWithHandwrittenSignaturesClient"
+        },
+        "method": {
+          "shortName": "AMethod",
+          "fullName": "testing.publishingsettings.ServiceWithHandwrittenSignatures.AMethod",
+          "service": {
+            "shortName": "ServiceWithHandwrittenSignatures",
+            "fullName": "testing.publishingsettings.ServiceWithHandwrittenSignatures"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 46,
+          "type": "FULL"
+        },
+        {
+          "start": 35,
+          "end": 44,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "unknown_generated_ServiceWithHandwrittenSignatures_AMethod_sync_flattened1",
+      "title": "AMethod1",
+      "description": "Snippet for AMethod",
+      "file": "ServiceWithHandwrittenSignaturesClient.AMethod1Snippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "AMethod",
+        "fullName": "Testing.PublishingSettings.ServiceWithHandwrittenSignaturesClient.AMethod",
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "string1"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
+        "resultType": "Testing.PublishingSettings.Response",
+        "client": {
+          "shortName": "ServiceWithHandwrittenSignaturesClient",
+          "fullName": "Testing.PublishingSettings.ServiceWithHandwrittenSignaturesClient"
+        },
+        "method": {
+          "shortName": "AMethod",
+          "fullName": "testing.publishingsettings.ServiceWithHandwrittenSignatures.AMethod",
+          "service": {
+            "shortName": "ServiceWithHandwrittenSignatures",
+            "fullName": "testing.publishingsettings.ServiceWithHandwrittenSignatures"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 41,
+          "type": "FULL"
+        },
+        {
+          "start": 34,
+          "end": 39,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "unknown_generated_ServiceWithHandwrittenSignatures_AMethod_async_flattened1",
+      "title": "AMethod1Async",
+      "description": "Snippet for AMethodAsync",
+      "file": "ServiceWithHandwrittenSignaturesClient.AMethod1AsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "AMethodAsync",
+        "fullName": "Testing.PublishingSettings.ServiceWithHandwrittenSignaturesClient.AMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "string1"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.PublishingSettings.Response>",
+        "client": {
+          "shortName": "ServiceWithHandwrittenSignaturesClient",
+          "fullName": "Testing.PublishingSettings.ServiceWithHandwrittenSignaturesClient"
+        },
+        "method": {
+          "shortName": "AMethod",
+          "fullName": "testing.publishingsettings.ServiceWithHandwrittenSignatures.AMethod",
+          "service": {
+            "shortName": "ServiceWithHandwrittenSignatures",
+            "fullName": "testing.publishingsettings.ServiceWithHandwrittenSignatures"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 42,
+          "type": "FULL"
+        },
+        {
+          "start": 35,
+          "end": 40,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "unknown_generated_ServiceWithHandwrittenSignatures_AMethod_sync_flattened2",
+      "title": "AMethod2",
+      "description": "Snippet for AMethod",
+      "file": "ServiceWithHandwrittenSignaturesClient.AMethod2Snippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "AMethod",
+        "fullName": "Testing.PublishingSettings.ServiceWithHandwrittenSignaturesClient.AMethod",
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "string1"
+          },
+          {
+            "type": "System.String",
+            "name": "string2"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
+        "resultType": "Testing.PublishingSettings.Response",
+        "client": {
+          "shortName": "ServiceWithHandwrittenSignaturesClient",
+          "fullName": "Testing.PublishingSettings.ServiceWithHandwrittenSignaturesClient"
+        },
+        "method": {
+          "shortName": "AMethod",
+          "fullName": "testing.publishingsettings.ServiceWithHandwrittenSignatures.AMethod",
+          "service": {
+            "shortName": "ServiceWithHandwrittenSignatures",
+            "fullName": "testing.publishingsettings.ServiceWithHandwrittenSignatures"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 42,
+          "type": "FULL"
+        },
+        {
+          "start": 34,
+          "end": 40,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "unknown_generated_ServiceWithHandwrittenSignatures_AMethod_async_flattened2",
+      "title": "AMethod2Async",
+      "description": "Snippet for AMethodAsync",
+      "file": "ServiceWithHandwrittenSignaturesClient.AMethod2AsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "AMethodAsync",
+        "fullName": "Testing.PublishingSettings.ServiceWithHandwrittenSignaturesClient.AMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "string1"
+          },
+          {
+            "type": "System.String",
+            "name": "string2"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.PublishingSettings.Response>",
+        "client": {
+          "shortName": "ServiceWithHandwrittenSignaturesClient",
+          "fullName": "Testing.PublishingSettings.ServiceWithHandwrittenSignaturesClient"
+        },
+        "method": {
+          "shortName": "AMethod",
+          "fullName": "testing.publishingsettings.ServiceWithHandwrittenSignatures.AMethod",
+          "service": {
+            "shortName": "ServiceWithHandwrittenSignatures",
+            "fullName": "testing.publishingsettings.ServiceWithHandwrittenSignatures"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 43,
+          "type": "FULL"
+        },
+        {
+          "start": 35,
+          "end": 41,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "unknown_generated_ServiceWithResources_AMethod_sync",
+      "title": "AMethodRequestObject",
+      "description": "Snippet for AMethod",
+      "file": "ServiceWithResourcesClient.AMethodRequestObjectSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "AMethod",
+        "fullName": "Testing.PublishingSettings.ServiceWithResourcesClient.AMethod",
+        "parameters": [
+          {
+            "type": "Testing.PublishingSettings.ResourceRequest",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
+        "resultType": "Testing.PublishingSettings.Resource",
+        "client": {
+          "shortName": "ServiceWithResourcesClient",
+          "fullName": "Testing.PublishingSettings.ServiceWithResourcesClient"
+        },
+        "method": {
+          "shortName": "AMethod",
+          "fullName": "testing.publishingsettings.ServiceWithResources.AMethod",
+          "service": {
+            "shortName": "ServiceWithResources",
+            "fullName": "testing.publishingsettings.ServiceWithResources"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 46,
+          "type": "FULL"
+        },
+        {
+          "start": 35,
+          "end": 44,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "unknown_generated_ServiceWithResources_AMethod_async",
+      "title": "AMethodRequestObjectAsync",
+      "description": "Snippet for AMethodAsync",
+      "file": "ServiceWithResourcesClient.AMethodRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "AMethodAsync",
+        "fullName": "Testing.PublishingSettings.ServiceWithResourcesClient.AMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.PublishingSettings.ResourceRequest",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.PublishingSettings.Resource>",
+        "client": {
+          "shortName": "ServiceWithResourcesClient",
+          "fullName": "Testing.PublishingSettings.ServiceWithResourcesClient"
+        },
+        "method": {
+          "shortName": "AMethod",
+          "fullName": "testing.publishingsettings.ServiceWithResources.AMethod",
+          "service": {
+            "shortName": "ServiceWithResources",
+            "fullName": "testing.publishingsettings.ServiceWithResources"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 47,
+          "type": "FULL"
+        },
+        {
+          "start": 36,
+          "end": 45,
+          "type": "SHORT"
+        }
+      ]
+    }
+  ]
+}
