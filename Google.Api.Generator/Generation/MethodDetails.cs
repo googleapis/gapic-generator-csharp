@@ -282,12 +282,19 @@ namespace Google.Api.Generator.Generation
                 /// <summary>Resource details if this field represents a resource. Null if not a resource field.</summary>
                 public IReadOnlyList<ResourceDetails.Field> FieldResources { get; }
             }
-            public Signature(ServiceDetails svc, MessageDescriptor msg , string sig)
+            public Signature(ServiceDetails svc, MessageDescriptor msg, string sig, string methodName)
             {
                 Fields = sig.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(fieldName => new Field(svc, msg, fieldName.Trim())).ToList();
+                HasHandwrittenEquivalent = svc.LibrarySettings?.DotnetSettings?.HandwrittenSignatures?.Contains($"{svc.OriginalServiceName}.{methodName}({sig})") == true;
             }
             public IEnumerable<Field> Fields { get; }
             public bool HasDeprecatedField => Fields.Any(field => field.IsDeprecated);
+
+            /// <summary>
+            /// Whether this method has a handwritten equivalent, in which case the method
+            /// itself is not generated, but snippets are.
+            /// </summary>
+            public bool HasHandwrittenEquivalent { get; }
         }
 
         /// <summary>
@@ -475,7 +482,8 @@ namespace Google.Api.Generator.Generation
             RequestTyp = ProtoTyp.Of(desc.InputType);
             ResponseTyp = ProtoTyp.Of(desc.OutputType);
             DocLines = desc.Declaration.DocLines().ToList();
-            Signatures = desc.GetExtension(ClientExtensions.MethodSignature).Select(sig => new Signature(svc, desc.InputType, sig)).ToList();
+            Signatures = desc.GetExtension(ClientExtensions.MethodSignature)
+                .Select(sig => new Signature(svc, desc.InputType, sig, desc.Name)).ToList();
             RequestMessageDesc = desc.InputType;
             ResponseMessageDesc = desc.OutputType;
             var http = desc.GetExtension(AnnotationsExtensions.Http);

@@ -34,7 +34,7 @@ namespace Google.Api.Generator.Generation
             var protoPackage = primaryLibraryServices.First().ProtoPackage;
             var libraryNamespace = primaryLibraryServices.First().Namespace;
             var servicesByName = new SortedDictionary<string, ServiceForTransport>(
-                primaryLibraryServices.ToDictionary(serviceDetails => serviceDetails.ServiceName, ServiceForTransportMetadata),
+                primaryLibraryServices.ToDictionary(serviceDetails => serviceDetails.OriginalServiceName, ServiceForTransportMetadata),
                 StringComparer.Ordinal);
 
             return new GapicMetadata

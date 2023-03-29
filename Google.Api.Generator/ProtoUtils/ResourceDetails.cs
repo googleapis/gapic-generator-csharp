@@ -65,7 +65,7 @@ namespace Google.Api.Generator.ProtoUtils
                 IsUnparsed = true;
             }
 
-            public Definition(FileDescriptor fileDesc, MessageDescriptor msgDesc, string type, string nameField, CommonResource common, IEnumerable<string> patterns)
+            public Definition(FileDescriptor fileDesc, MessageDescriptor msgDesc, string type, string nameField, CommonResource common, IEnumerable<string> patterns, ClientLibrarySettings librarySettings)
             {
                 MsgDesc = msgDesc;
                 FileName = fileDesc.Name;
@@ -76,6 +76,10 @@ namespace Google.Api.Generator.ProtoUtils
                     throw new InvalidOperationException($"Invalid unified resource name: '{type}' used in message '{msgDesc?.Name}'");
                 }
                 ShortName = typeNameParts[1];
+                if (librarySettings?.DotnetSettings?.RenamedResources?.TryGetValue(type, out var renamedResource) == true)
+                {
+                    ShortName = renamedResource;
+                }
                 FieldName = ShortName.ToLowerCamelCase();
                 NameField = string.IsNullOrEmpty(nameField) ? "name" : nameField;
                 DocName = ShortName;
@@ -166,7 +170,8 @@ namespace Google.Api.Generator.ProtoUtils
             public bool? ContainsWildcard { get; }
         }
 
-        public static IReadOnlyList<Definition> LoadResourceDefinitionsByFileName(IEnumerable<FileDescriptor> descs, IEnumerable<CommonResources> commonResourcesConfigs)
+        public static IReadOnlyList<Definition> LoadResourceDefinitionsByFileName(
+            IEnumerable<FileDescriptor> descs, IEnumerable<CommonResources> commonResourcesConfigs, ClientLibrarySettings librarySettings)
         {
             var commonsByType = commonResourcesConfigs?.SelectMany(x => x.CommonResources_).ToImmutableDictionary(x => x.Type) ??
                 ImmutableDictionary<string, CommonResource>.Empty;
@@ -182,10 +187,13 @@ namespace Google.Api.Generator.ProtoUtils
                     fileDesc.GetExtension(ResourceExtensions.ResourceDefinition)
                         .Select(resDesc => (fileDesc, msgDesc: (MessageDescriptor)null, resDesc, shortName: GetShortName(resDesc))));
             var msgs = msgsFromProtoMsgs.Concat(msgsFromFileAnnotation).ToImmutableList();
-            return msgs.Select(x =>
+            var ignoredTypes = (librarySettings?.DotnetSettings?.IgnoredResources ?? Enumerable.Empty<string>()).ToHashSet();
+            return msgs
+                .Where(msg => !ignoredTypes.Contains(msg.resDesc.Type))
+                .Select(x =>
             {
                 commonsByType.TryGetValue(x.resDesc.Type, out var common);
-                return new Definition(x.fileDesc, x.msgDesc, x.resDesc.Type, x.resDesc.NameField, common, x.resDesc.Pattern);
+                return new Definition(x.fileDesc, x.msgDesc, x.resDesc.Type, x.resDesc.NameField, common, x.resDesc.Pattern, librarySettings);
             }).ToList();
 
             string GetShortName(ResourceDescriptor resDesc)
