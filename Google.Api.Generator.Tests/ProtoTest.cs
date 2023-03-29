@@ -276,6 +276,15 @@ namespace Google.Api.Generator.Tests
             ignoreSnippets: true,
             ignoreApiMetadataFile: false);
 
+        [Fact]
+        public void PublishingSettings() => ProtoTestSingle(
+            new[] { "PublishingSettings", "CommonResourceDef" },
+            ignoreCsProj: true, serviceConfigPath: "ServiceConfig.yaml",
+            commonResourcesConfigPaths: new[]
+            {
+                Path.Combine(Invoker.GeneratorTestsDir, "ProtoTests", "PublishingSettings", "CommonResourceConfig.json")
+            });
+
         // Build tests are testing `csproj` file generation only.
         // All other generated code is effectively "build tested" when this test project is built.
 

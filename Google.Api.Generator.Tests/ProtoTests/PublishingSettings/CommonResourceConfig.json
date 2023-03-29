@@ -1,0 +1,16 @@
+﻿{
+  "common_resources": [
+    {
+      "type": "commonresource.example.com/Project",
+      "csharp_package_name": "Common.Package",
+      "csharp_namespace": "PublishingSettingsCommon.Namespace",
+      "csharp_class_name":  "CommonProjectName"
+    },
+    {
+      "type": "commonresource.example.com/Location",
+      "csharp_package_name": "Common.Package",
+      "csharp_namespace": "PublishingSettingsCommon.Namespace",
+      "csharp_class_name":  "CommonLocationName"
+    }
+  ]
+}
