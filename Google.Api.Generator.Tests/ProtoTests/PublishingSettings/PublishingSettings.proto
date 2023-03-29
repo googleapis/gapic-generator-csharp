@@ -1,0 +1,69 @@
+﻿syntax = "proto3";
+
+package testing.publishingsettings;
+
+option csharp_namespace = "Testing.PublishingSettings";
+
+import "google/api/client.proto";
+import "google/api/resource.proto";
+import "google/api/field_behavior.proto";
+import "google/protobuf/wrappers.proto";
+
+// This is a resource definition we'll rename.
+option (google.api.resource_definition) = {
+  type: "test.googleapis.com/OriginalDatabase"
+  pattern: "databases/{database}"
+};
+
+// This is a resource definition we'll ignore, using the common one instead.
+option (google.api.resource_definition) = {
+  type: "test.googleapis.com/Location"
+  pattern: "projects/{project}/locations/{location}"
+};
+
+// This is a service we expect to be renamed.
+service OriginalServiceName {
+  // Test summary text for AMethod
+  rpc AMethod(Request) returns(Response);
+}
+
+// This is a service with a handwritten signature.
+service ServiceWithHandwrittenSignatures {
+  // Test summary text for AMethod
+  rpc AMethod(Request) returns (Response) {
+    option (google.api.method_signature) = "string_1"; // This has a hand-written equivalent
+    option (google.api.method_signature) = "string_1,string_2";
+  }
+}
+
+// This is a service using resources.
+service ServiceWithResources {
+  // Test summary text for AMethod
+  rpc AMethod(ResourceRequest) returns (Resource);
+}
+
+message Request {
+  string string_1 = 1;
+  string string_2 = 2;
+}
+
+message Response {
+}
+
+message ResourceRequest {
+  string parent = 1 [
+    (google.api.resource_reference) = { child_type: "test.googleapis.com/Resource" }
+  ];
+
+  string database = 2 [
+    (google.api.resource_reference) = { type: "test.googleapis.com/OriginalDatabase" }
+  ];
+}
+
+message Resource {
+  option (google.api.resource) = {
+    type: "test.googleapis.com/Resource"
+    pattern: "projects/{project}/locations/{location}/resources/{resource}"
+  };
+  string name = 1;
+}

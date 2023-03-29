@@ -1,0 +1,22 @@
+﻿type: google.api.Service
+config_version: 3
+name: test.googleapis.com
+title: Client Libraries Showcase API
+
+apis:
+- name: testing.publishingsettings.OriginalServiceName
+- name: testing.publishingsettings.ServiceWithHandwrittenSignatures
+- name: testing.publishingsettings.ServiceWithResources
+
+publishing:
+  librarySettings:
+  - version: testing.publishingsettings
+    dotnetSettings:
+      ignored_resources:
+      - test.googleapis.com/Location
+      renamed_resources:
+        test.googleapis.com/OriginalDatabase: RenamedDatabase
+      handwritten_signatures:
+      - "ServiceWithHandwrittenSignatures.AMethod(string_1)"
+      renamed_services:
+        OriginalServiceName: RenamedServiceName

@@ -1,0 +1,19 @@
+﻿syntax = "proto3";
+
+// In different package; so no classes (resource-name or partial) will be generated.
+package testing.publishingsettings.def;
+
+option csharp_namespace = "Testing.PublishingSettingsCommonResource.Def";
+
+import "google/api/resource.proto";
+
+// These are also defined as common resources in CommonResourceConfig.json
+option (google.api.resource_definition) = {
+  type: "commonresource.example.com/Project",
+  pattern: "projects/{project}"
+};
+
+option (google.api.resource_definition) = {
+  type: "commonresource.example.com/Location",
+  pattern: "projects/{project}/locations/{location}"
+};
