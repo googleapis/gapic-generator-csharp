@@ -10,6 +10,7 @@ apis:
 
 publishing:
   librarySettings:
+  - version: testing.publishingsettings.wrong1
   - version: testing.publishingsettings
     dotnetSettings:
       ignored_resources:
@@ -20,3 +21,4 @@ publishing:
       - "ServiceWithHandwrittenSignatures.AMethod(string_1)"
       renamed_services:
         OriginalServiceName: RenamedServiceName
+  - version: testing.publishingsettings.wrong2
