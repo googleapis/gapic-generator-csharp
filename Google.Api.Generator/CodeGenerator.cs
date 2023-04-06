@@ -123,9 +123,8 @@ namespace Google.Api.Generator
             var allServiceDetails = new List<ServiceDetails>();
             foreach (var singlePackageFileDescs in byPackage)
             {
-                // TODO: Actually make sure we use the right settings by version.
-                // Alternatively, ensure that each *published* service config only contains a single LibrarySettings entry.
-                var librarySettings = serviceConfig?.Publishing?.LibrarySettings?.FirstOrDefault();
+                // Find the right library settings by matching the proto package we're publishing.
+                var librarySettings = serviceConfig?.Publishing?.LibrarySettings?.FirstOrDefault(ls => ls.Version == singlePackageFileDescs.Key);
 
                 var namespaces = singlePackageFileDescs.Select(x => x.CSharpNamespace()).Distinct().ToList();
                 if (namespaces.Count > 1)
