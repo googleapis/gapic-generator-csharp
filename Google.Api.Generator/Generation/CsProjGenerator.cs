@@ -14,6 +14,7 @@
 
 using Google.Cloud.Iam.V1;
 using Google.Cloud.Location;
+using Google.LongRunning;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,13 +30,14 @@ namespace Google.Api.Generator.Generation
         private const string LocationVersion = "[2.0.0, 3.0.0)";
         private const string ReferenceAssembliesVersion = "1.0.2";
         private const string SystemLinqAsyncVersion = "6.0.1";
-        private static readonly Dictionary<string, (string, string)> MixinToPackageAndVersion = new Dictionary<string, (string, string)>
+        private static readonly Dictionary<string, (string, string)> ProtoPackageToNuGetPackageAndVersion = new Dictionary<string, (string, string)>
         {
-            { IAMPolicy.Descriptor.FullName, (typeof(IAMPolicyClient).Namespace, IamVersion) },
-            { Locations.Descriptor.FullName, (typeof(LocationsClient).Namespace, LocationVersion) }
+            { IamPolicyReflection.Descriptor.Package, (typeof(IAMPolicyClient).Namespace, IamVersion) },
+            { LocationsReflection.Descriptor.Package, (typeof(LocationsClient).Namespace, LocationVersion) },
+            { OperationsReflection.Descriptor.Package, (typeof(OperationsClient).Namespace, LroVersion) }
         };
 
-        public static string GenerateClient(bool hasLro, IEnumerable<string> mixins)
+        public static string GenerateClient(IEnumerable<string> dependencyProtoPackages)
         {
             var packageRefs = string.Join("", ExtraRefs().Select(x => $"{Environment.NewLine}    {x}"));
             // TODO: Use information from package metadata; when it's finalised.
@@ -92,13 +94,14 @@ namespace Google.Api.Generator.Generation
 
             IEnumerable<string> ExtraRefs()
             {
-                if (hasLro)
+                foreach (var dependency in dependencyProtoPackages.OrderBy(m => m, StringComparer.Ordinal))
                 {
-                    yield return $@"<PackageReference Include=""Google.LongRunning"" Version=""{LroVersion}"" />";
-                }
-                foreach (var mixin in mixins.OrderBy(m => m, StringComparer.Ordinal))
-                {
-                    var packageVersion = MixinToPackageAndVersion[mixin];
+                    // We will have many more protobuf packages than we know about as dependencies.
+                    // Just skip the ones we don't know.
+                    if (!ProtoPackageToNuGetPackageAndVersion.TryGetValue(dependency, out var packageVersion))
+                    {
+                        continue;
+                    }
                     yield return $@"<PackageReference Include=""{packageVersion.Item1}"" Version=""{packageVersion.Item2}"" />";
                 }
             }
