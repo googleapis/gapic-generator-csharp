@@ -38,9 +38,9 @@ namespace Google.Api.Generator.Generation
 
         private static readonly Dictionary<string, MixinDetails> AvailableMixins = new[]
         {
-            new MixinDetails(IAMPolicy.Descriptor.FullName, typeof(IAMPolicyClient), typeof(IAMPolicyClientImpl), typeof(IAMPolicy.IAMPolicyClient), typeof(IAMPolicySettings)),
-            new MixinDetails(Locations.Descriptor.FullName, typeof(LocationsClient), typeof(LocationsClientImpl), typeof(Locations.LocationsClient), typeof(LocationsSettings)),
-        }.ToDictionary(details => details.GrpcServiceName);
+            new MixinDetails(IAMPolicy.Descriptor, typeof(IAMPolicyClient), typeof(IAMPolicyClientImpl), typeof(IAMPolicy.IAMPolicyClient), typeof(IAMPolicySettings)),
+            new MixinDetails(Locations.Descriptor, typeof(LocationsClient), typeof(LocationsClientImpl), typeof(Locations.LocationsClient), typeof(LocationsSettings)),
+        }.ToDictionary(details => details.ProtobufServiceDescriptor.FullName);
 
         public ServiceDetails(ProtoCatalog catalog, string ns, ServiceDescriptor desc, ServiceConfig grpcServiceConfig, Service serviceConfig, ApiTransports transports, ClientLibrarySettings librarySettings)
         {
@@ -252,9 +252,10 @@ namespace Google.Api.Generator.Generation
         public class MixinDetails
         {
             /// <summary>
-            /// The fully-qualified gRPC service name, as specified in service config files.
+            /// The original protobuf service descriptor, which we expect
+            /// to have a gRPC client.
             /// </summary>
-            public string GrpcServiceName { get; }
+            public ServiceDescriptor ProtobufServiceDescriptor { get; }
 
             /// <summary>
             /// The type of the generated GAPIC client.
@@ -276,9 +277,9 @@ namespace Google.Api.Generator.Generation
             /// </summary>
             public Typ GapicSettingsType { get; }
 
-            public MixinDetails(string grpcServiceName, System.Type gapicClientType, System.Type gapicClientImplType, System.Type grpcClientType, System.Type gapicSettingsType)
+            public MixinDetails(ServiceDescriptor serviceDescriptor, System.Type gapicClientType, System.Type gapicClientImplType, System.Type grpcClientType, System.Type gapicSettingsType)
             {
-                GrpcServiceName = grpcServiceName;
+                ProtobufServiceDescriptor = serviceDescriptor;
                 GapicClientType = Typ.Of(gapicClientType);
                 GapicClientImplType = Typ.Of(gapicClientImplType);
                 GrpcClientType = Typ.Of(grpcClientType);

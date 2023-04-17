@@ -238,6 +238,11 @@ namespace Google.Api.Generator
             HashSet<string> duplicateResourceNameClasses = new HashSet<string>();
             IList<Snippet> snippets = new List<Snippet>();
 
+            var dependencyProtoPackages = packageFileDescriptors
+                .SelectMany(descriptor => descriptor.Dependencies.Concat(descriptor.PublicDependencies))
+                .Select(dependency => dependency.Package)
+                .ToHashSet();
+
             IReadOnlyCollection<string> forcedAliases = librarySettings?.DotnetSettings?.ForcedNamespaceAliases?.ToList() ?? new List<string>();
 
             IEnumerable<Typ> packageTyps = packageFileDescriptors.SelectMany(
@@ -282,7 +287,8 @@ namespace Google.Api.Generator
                     hasLro |= serviceDetails.Methods.Any(x => x is MethodDetails.Lro);
                     foreach (var mixin in serviceDetails.Mixins)
                     {
-                        mixins.Add(mixin.GrpcServiceName);
+                        mixins.Add(mixin.ProtobufServiceDescriptor.FullName);
+                        dependencyProtoPackages.Add(mixin.ProtobufServiceDescriptor.File.Package);
                     }
                     hasContent = true;
                 }
@@ -330,7 +336,7 @@ namespace Google.Api.Generator
             if (hasContent)
             {
                 // Generate client csproj.
-                var csprojContent = CsProjGenerator.GenerateClient(hasLro, mixins);
+                var csprojContent = CsProjGenerator.GenerateClient(dependencyProtoPackages);
                 var csprojFilename = $"{clientPathPrefix}{ns}.csproj";
                 yield return new ResultFile(csprojFilename, csprojContent);
                 // If we only generated resources, we don't need to generate all of these.
