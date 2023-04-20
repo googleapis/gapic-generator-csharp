@@ -267,7 +267,7 @@ namespace Google.Api.Generator
                     // TODO: Consider removing this once we have integrated the snippet-per-file snippets
                     // with docs generation.
                     var serviceSnippetsCtx = SourceFileContext.CreateUnaliased(
-                        clock, WellknownNamespaceAliases, AvoidAliasingNamespaceRegex, forcedAliases, packageTyps, maySkipOwnNamespaceImport: true);
+                        clock, WellknownNamespaceAliases, AvoidAliasingNamespaceRegex, forcedAliases, packageTyps);
                     var serviceSnippetsCode = SnippetCodeGenerator.Generate(serviceSnippetsCtx, serviceDetails);
                     var serviceSnippetsFilename = $"{serviceSnippetsPathPrefix}{serviceDetails.ClientAbstractTyp.Name}Snippets.g.cs";
                     yield return new ResultFile(serviceSnippetsFilename, serviceSnippetsCode);
@@ -276,7 +276,7 @@ namespace Google.Api.Generator
                     foreach (var snippetGenerator in SnippetCodeGenerator.SnippetsGenerators(serviceDetails))
                     {
                         var snippetCtx = SourceFileContext.CreateUnaliased(
-                            clock, WellknownNamespaceAliases, AvoidAliasingNamespaceRegex, forcedAliases, packageTyps, maySkipOwnNamespaceImport: false);
+                            clock, WellknownNamespaceAliases, AvoidAliasingNamespaceRegex, forcedAliases, packageTyps);
                         var (snippetCode, snippetMetadata) = snippetGenerator.Generate(snippetCtx);
                         snippetMetadata.File = $"{serviceDetails.ClientAbstractTyp.Name}.{snippetGenerator.SnippetMethodName}Snippet.g.cs";
                         var snippetFile = $"{snippetsPathPrefix}{snippetMetadata.File}";

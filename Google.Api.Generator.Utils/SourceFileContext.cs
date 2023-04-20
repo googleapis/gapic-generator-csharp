@@ -118,12 +118,10 @@ namespace Google.Api.Generator.Utils
                 IReadOnlyDictionary<string, string> wellKnownNamespaceAliases,
                 IReadOnlyCollection<Regex> avoidAliasingNamespaceRegex,
                 IReadOnlyCollection<string> forcedAliases,
-                IEnumerable<Typ> packageTyps,
-                bool maySkipOwnNamespaceImport) : base(clock) =>
-                (_wellKnownNamespaceAliases, _avoidAliasingNamespaceRegex, _forcedAliases, _packageTyps, _maySkipOwnNamespaceImport) =
-                (wellKnownNamespaceAliases, avoidAliasingNamespaceRegex, forcedAliases, packageTyps, maySkipOwnNamespaceImport);
+                IEnumerable<Typ> packageTyps) : base(clock) =>
+                (_wellKnownNamespaceAliases, _avoidAliasingNamespaceRegex, _forcedAliases, _packageTyps) =
+                (wellKnownNamespaceAliases, avoidAliasingNamespaceRegex, forcedAliases, packageTyps);
 
-            private readonly bool _maySkipOwnNamespaceImport;
             private readonly IReadOnlyDictionary<string, string> _wellKnownNamespaceAliases;
             private readonly IReadOnlyCollection<Regex> _avoidAliasingNamespaceRegex;
             private readonly IReadOnlyCollection<string> _forcedAliases;
@@ -163,7 +161,7 @@ namespace Google.Api.Generator.Utils
                 // that either.
                 if (!_seenNamespaces.TryGetValue(typ.Namespace, out bool maySkipImport) || maySkipImport)
                 {
-                    _seenNamespaces[typ.Namespace] = _maySkipOwnNamespaceImport && IsParentOrSameNamespace(typ.Namespace, Namespace);
+                    _seenNamespaces[typ.Namespace] = IsParentOrSameNamespace(typ.Namespace, Namespace);
                 }
                 // Track the type as seen.
                 _seenTypes.Add(typ);
@@ -514,9 +512,8 @@ namespace Google.Api.Generator.Utils
             IReadOnlyCollection<Regex> avoidAliasingNamespaceRegex,
             IReadOnlyCollection<string> forcedAliases,
             // We need these here to take into account in collisions.
-            IEnumerable<Typ> packageTyps,
-            bool maySkipOwnNamespaceImport) =>
-            new Unaliased(clock, wellKnownNamespaceAliases, avoidAliasingNamespaceRegex, forcedAliases, packageTyps, maySkipOwnNamespaceImport);
+            IEnumerable<Typ> packageTyps) =>
+            new Unaliased(clock, wellKnownNamespaceAliases, avoidAliasingNamespaceRegex, forcedAliases, packageTyps);
 
         public static SourceFileContext CreateFullyQualified(IClock clock) => new FullyQualified(clock);
 
