@@ -50,7 +50,10 @@ namespace Google.Api.Generator.Generation
             ProtoPackage = desc.File.Package;
             PackageVersion = ProtoPackage.Split('.').FirstOrDefault(part => ApiVersionPattern.IsMatch(part));
             DocLines = desc.Declaration.DocLines().ToList();
-            SnippetsNamespace = $"{ns}.Snippets";
+            // For snippets, we use a namespace unrelated to the library as that's likely to be similar to
+            // user code. Imports are cleaner, with less type name clashes, etc. which in turn means less
+            // namespace aliasing.
+            SnippetsNamespace = "GoogleCSharpSnippets";
             // Must come early; used by `MethodDetails.Create()`
             MethodGrpcConfigsByName = grpcServiceConfig?.MethodConfig
                 .SelectMany(conf => conf.Name.Select(name => (name, conf)))
