@@ -14,7 +14,7 @@
 
 // Generated code. DO NOT EDIT!
 
-namespace Testing.VoidReturn.Snippets
+namespace GoogleCSharpSnippets
 {
     // [START unknown_generated_VoidReturn_VoidMethod_async_flattened_resourceNames]
     using System.Threading.Tasks;

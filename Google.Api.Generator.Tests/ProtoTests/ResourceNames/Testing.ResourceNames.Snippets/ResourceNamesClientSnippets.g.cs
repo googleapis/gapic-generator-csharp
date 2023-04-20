@@ -14,11 +14,12 @@
 
 // Generated code. DO NOT EDIT!
 
-namespace Testing.ResourceNames.Snippets
+namespace GoogleCSharpSnippets
 {
     using Google.Api.Gax;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Testing.ResourceNames;
 
     /// <summary>Generated snippets.</summary>
     public sealed class AllGeneratedResourceNamesClientSnippets

@@ -14,7 +14,7 @@
 
 // Generated code. DO NOT EDIT!
 
-namespace Testing.BasicLro.Snippets
+namespace GoogleCSharpSnippets
 {
     // [START lro_generated_BasicLro_Method1_sync]
     using Google.LongRunning;

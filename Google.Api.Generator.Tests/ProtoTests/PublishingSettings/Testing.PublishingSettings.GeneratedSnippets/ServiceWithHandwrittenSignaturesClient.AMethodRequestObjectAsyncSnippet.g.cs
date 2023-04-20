@@ -14,7 +14,7 @@
 
 // Generated code. DO NOT EDIT!
 
-namespace Testing.PublishingSettings.Snippets
+namespace GoogleCSharpSnippets
 {
     // [START unknown_generated_ServiceWithHandwrittenSignatures_AMethod_async]
     using System.Threading.Tasks;

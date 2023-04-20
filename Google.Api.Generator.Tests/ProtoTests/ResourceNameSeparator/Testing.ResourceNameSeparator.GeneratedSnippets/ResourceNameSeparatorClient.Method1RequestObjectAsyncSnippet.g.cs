@@ -14,7 +14,7 @@
 
 // Generated code. DO NOT EDIT!
 
-namespace Testing.ResourceNameSeparator.Snippets
+namespace GoogleCSharpSnippets
 {
     // [START unknown_generated_ResourceNameSeparator_Method1_async]
     using System.Threading.Tasks;

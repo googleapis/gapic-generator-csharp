@@ -16,7 +16,7 @@
 
 #pragma warning disable CS8981
 
-namespace Testing.Snippets.Snippets
+namespace GoogleCSharpSnippets
 {
     // [START snippets_generated_Snippets_MethodLroResourceSignature_async]
     using Google.LongRunning;
@@ -36,31 +36,31 @@ namespace Testing.Snippets.Snippets
         public async Task MethodLroResourceSignatureRequestObjectAsync()
         {
             // Create client
-            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            ts::SnippetsClient snippetsClient = await ts::SnippetsClient.CreateAsync();
             // Initialize request argument(s)
-            ResourceSignatureRequest request = new ResourceSignatureRequest
+            ts::ResourceSignatureRequest request = new ts::ResourceSignatureRequest
             {
-                FirstNameAsSimpleResourceName = SimpleResourceName.FromItem("[ITEM_ID]"),
-                SecondNameAsSimpleResourceName = SimpleResourceName.FromItem("[ITEM_ID]"),
-                ThirdNameAsSimpleResourceName = SimpleResourceName.FromItem("[ITEM_ID]"),
+                FirstNameAsSimpleResourceName = ts::SimpleResourceName.FromItem("[ITEM_ID]"),
+                SecondNameAsSimpleResourceName = ts::SimpleResourceName.FromItem("[ITEM_ID]"),
+                ThirdNameAsSimpleResourceName = ts::SimpleResourceName.FromItem("[ITEM_ID]"),
             };
             // Make the request
-            Operation<LroResponse, LroMetadata> response = await snippetsClient.MethodLroResourceSignatureAsync(request);
+            Operation<ts::LroResponse, ts::LroMetadata> response = await snippetsClient.MethodLroResourceSignatureAsync(request);
 
             // Poll until the returned long-running operation is complete
-            Operation<LroResponse, LroMetadata> completedResponse = await response.PollUntilCompletedAsync();
+            Operation<ts::LroResponse, ts::LroMetadata> completedResponse = await response.PollUntilCompletedAsync();
             // Retrieve the operation result
-            LroResponse result = completedResponse.Result;
+            ts::LroResponse result = completedResponse.Result;
 
             // Or get the name of the operation
             string operationName = response.Name;
             // This name can be stored, then the long-running operation retrieved later by name
-            Operation<LroResponse, LroMetadata> retrievedResponse = await snippetsClient.PollOnceMethodLroResourceSignatureAsync(operationName);
+            Operation<ts::LroResponse, ts::LroMetadata> retrievedResponse = await snippetsClient.PollOnceMethodLroResourceSignatureAsync(operationName);
             // Check if the retrieved long-running operation has completed
             if (retrievedResponse.IsCompleted)
             {
                 // If it has completed, then access the result
-                LroResponse retrievedResult = retrievedResponse.Result;
+                ts::LroResponse retrievedResult = retrievedResponse.Result;
             }
         }
     }

@@ -14,7 +14,7 @@
 
 // Generated code. DO NOT EDIT!
 
-namespace Testing.Snippets.Snippets
+namespace GoogleCSharpSnippets
 {
     // [START snippets_generated_Snippets_MethodThreeSignatures_sync_flattened1]
     using Testing.Snippets;

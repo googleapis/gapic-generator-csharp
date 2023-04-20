@@ -14,9 +14,10 @@
 
 // Generated code. DO NOT EDIT!
 
-namespace Testing.Basic.V1.Snippets
+namespace GoogleCSharpSnippets
 {
     using System.Threading.Tasks;
+    using Testing.Basic.V1;
 
     /// <summary>Generated snippets.</summary>
     public sealed class AllGeneratedBasicClientSnippets

@@ -14,7 +14,7 @@
 
 // Generated code. DO NOT EDIT!
 
-namespace Testing.Basic.V1.Snippets
+namespace GoogleCSharpSnippets
 {
     // [START basic_v1_generated_Basic_AMethod_async]
     using System.Threading.Tasks;

@@ -16,7 +16,7 @@
 
 #pragma warning disable CS8981
 
-namespace Testing.Snippets.Snippets
+namespace GoogleCSharpSnippets
 {
     // [START snippets_generated_Snippets_MethodServerStreamingResources_sync]
     using Google.Api.Gax.Grpc;
@@ -36,23 +36,23 @@ namespace Testing.Snippets.Snippets
         public async Task MethodServerStreamingResourcesRequestObject()
         {
             // Create client
-            SnippetsClient snippetsClient = SnippetsClient.Create();
+            ts::SnippetsClient snippetsClient = ts::SnippetsClient.Create();
             // Initialize request argument(s)
-            ResourceSignatureRequest request = new ResourceSignatureRequest
+            ts::ResourceSignatureRequest request = new ts::ResourceSignatureRequest
             {
-                FirstNameAsSimpleResourceName = SimpleResourceName.FromItem("[ITEM_ID]"),
-                SecondNameAsSimpleResourceName = SimpleResourceName.FromItem("[ITEM_ID]"),
-                ThirdNameAsSimpleResourceName = SimpleResourceName.FromItem("[ITEM_ID]"),
+                FirstNameAsSimpleResourceName = ts::SimpleResourceName.FromItem("[ITEM_ID]"),
+                SecondNameAsSimpleResourceName = ts::SimpleResourceName.FromItem("[ITEM_ID]"),
+                ThirdNameAsSimpleResourceName = ts::SimpleResourceName.FromItem("[ITEM_ID]"),
             };
             // Make the request, returning a streaming response
-            SnippetsClient.MethodServerStreamingResourcesStream response = snippetsClient.MethodServerStreamingResources(request);
+            ts::SnippetsClient.MethodServerStreamingResourcesStream response = snippetsClient.MethodServerStreamingResources(request);
 
             // Read streaming responses from server until complete
             // Note that C# 8 code can use await foreach
-            AsyncResponseStream<Response> responseStream = response.GetResponseStream();
+            AsyncResponseStream<ts::Response> responseStream = response.GetResponseStream();
             while (await responseStream.MoveNextAsync())
             {
-                Response responseItem = responseStream.Current;
+                ts::Response responseItem = responseStream.Current;
                 // Do something with streamed response
             }
             // The response stream has completed

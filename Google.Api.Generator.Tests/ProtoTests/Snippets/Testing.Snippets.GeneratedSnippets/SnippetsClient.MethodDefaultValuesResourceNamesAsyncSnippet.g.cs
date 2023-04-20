@@ -16,7 +16,7 @@
 
 #pragma warning disable CS8981
 
-namespace Testing.Snippets.Snippets
+namespace GoogleCSharpSnippets
 {
     // [START snippets_generated_Snippets_MethodDefaultValues_async_flattened_resourceNames]
     using System.Collections.Generic;
@@ -36,19 +36,19 @@ namespace Testing.Snippets.Snippets
         public async Task MethodDefaultValuesResourceNamesAsync()
         {
             // Create client
-            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            ts::SnippetsClient snippetsClient = await ts::SnippetsClient.CreateAsync();
             // Initialize request argument(s)
             IEnumerable<double> repeatedDouble = new double[] { 0, };
-            IEnumerable<DefaultValuesRequest.Types.NestedMessage> repeatedNestedMessage = new DefaultValuesRequest.Types.NestedMessage[]
+            IEnumerable<ts::DefaultValuesRequest.Types.NestedMessage> repeatedNestedMessage = new ts::DefaultValuesRequest.Types.NestedMessage[]
             {
-                new DefaultValuesRequest.Types.NestedMessage(),
+                new ts::DefaultValuesRequest.Types.NestedMessage(),
             };
-            IEnumerable<AResourceName> repeatedResourceName = new AResourceName[]
+            IEnumerable<ts::AResourceName> repeatedResourceName = new ts::AResourceName[]
             {
-                AResourceName.FromItemPart("[ITEM_ID]", "[PART_ID]"),
+                ts::AResourceName.FromItemPart("[ITEM_ID]", "[PART_ID]"),
             };
             // Make the request
-            Response response = await snippetsClient.MethodDefaultValuesAsync(repeatedDouble, repeatedNestedMessage, repeatedResourceName);
+            ts::Response response = await snippetsClient.MethodDefaultValuesAsync(repeatedDouble, repeatedNestedMessage, repeatedResourceName);
         }
     }
     // [END snippets_generated_Snippets_MethodDefaultValues_async_flattened_resourceNames]

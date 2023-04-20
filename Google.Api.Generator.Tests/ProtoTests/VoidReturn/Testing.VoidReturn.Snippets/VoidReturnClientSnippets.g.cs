@@ -14,9 +14,10 @@
 
 // Generated code. DO NOT EDIT!
 
-namespace Testing.VoidReturn.Snippets
+namespace GoogleCSharpSnippets
 {
     using System.Threading.Tasks;
+    using Testing.VoidReturn;
 
     /// <summary>Generated snippets.</summary>
     public sealed class AllGeneratedVoidReturnClientSnippets

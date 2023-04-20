@@ -16,7 +16,7 @@
 
 #pragma warning disable CS8981
 
-namespace Testing.Snippets.Snippets
+namespace GoogleCSharpSnippets
 {
     // [START snippets_generated_Snippets_MethodRepeatedResourceSignature_async_flattened]
     using System.Collections.Generic;
@@ -36,11 +36,11 @@ namespace Testing.Snippets.Snippets
         public async Task MethodRepeatedResourceSignatureAsync()
         {
             // Create client
-            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            ts::SnippetsClient snippetsClient = await ts::SnippetsClient.CreateAsync();
             // Initialize request argument(s)
             IEnumerable<string> names = new string[] { "items/[ITEM_ID]", };
             // Make the request
-            Response response = await snippetsClient.MethodRepeatedResourceSignatureAsync(names);
+            ts::Response response = await snippetsClient.MethodRepeatedResourceSignatureAsync(names);
         }
     }
     // [END snippets_generated_Snippets_MethodRepeatedResourceSignature_async_flattened]

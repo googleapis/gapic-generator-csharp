@@ -16,7 +16,7 @@
 
 #pragma warning disable CS8981
 
-namespace Testing.Snippets.Snippets
+namespace GoogleCSharpSnippets
 {
     // [START snippets_generated_Snippets_TaskMethod_async]
     using System.Threading.Tasks;
@@ -35,7 +35,7 @@ namespace Testing.Snippets.Snippets
         public async Task TaskMethodRequestObjectAsync()
         {
             // Create client
-            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            ts::SnippetsClient snippetsClient = await ts::SnippetsClient.CreateAsync();
             // Initialize request argument(s)
             ts::Task request = new ts::Task { };
             // Make the request

@@ -16,7 +16,7 @@
 
 #pragma warning disable CS8981
 
-namespace Testing.Snippets.Snippets
+namespace GoogleCSharpSnippets
 {
     using Google.Api.Gax;
     using Google.Api.Gax.Grpc;
@@ -34,9 +34,9 @@ namespace Testing.Snippets.Snippets
         {
             // Snippet: MethodDefaultValues(DefaultValuesRequest, CallSettings)
             // Create client
-            SnippetsClient snippetsClient = SnippetsClient.Create();
+            ts::SnippetsClient snippetsClient = ts::SnippetsClient.Create();
             // Initialize request argument(s)
-            DefaultValuesRequest request = new DefaultValuesRequest
+            ts::DefaultValuesRequest request = new ts::DefaultValuesRequest
             {
                 SingleDouble = 0,
                 SingleFloat = 0F,
@@ -53,10 +53,10 @@ namespace Testing.Snippets.Snippets
                 SingleBool = false,
                 SingleString = "",
                 SingleBytes = ByteString.Empty,
-                SingleMessage = new AnotherMessage(),
-                SingleNestedMessage = new DefaultValuesRequest.Types.NestedMessage(),
-                SingleEnum = Enum.Default,
-                SingleNestedEnum = DefaultValuesRequest.Types.NestedEnum.DefaultValue,
+                SingleMessage = new ts::AnotherMessage(),
+                SingleNestedMessage = new ts::DefaultValuesRequest.Types.NestedMessage(),
+                SingleEnum = ts::Enum.Default,
+                SingleNestedEnum = ts::DefaultValuesRequest.Types.NestedEnum.DefaultValue,
                 RepeatedDouble = { 0, },
                 RepeatedFloat = { 0F, },
                 RepeatedInt32 = { 0, },
@@ -74,31 +74,31 @@ namespace Testing.Snippets.Snippets
                 RepeatedBytes = { ByteString.Empty, },
                 RepeatedMessage =
                 {
-                    new AnotherMessage(),
+                    new ts::AnotherMessage(),
                 },
                 RepeatedNestedMessage =
                 {
-                    new DefaultValuesRequest.Types.NestedMessage(),
+                    new ts::DefaultValuesRequest.Types.NestedMessage(),
                 },
-                RepeatedEnum = { Enum.Default, },
+                RepeatedEnum = { ts::Enum.Default, },
                 RepeatedNestedEnum =
                 {
-                    DefaultValuesRequest.Types.NestedEnum.DefaultValue,
+                    ts::DefaultValuesRequest.Types.NestedEnum.DefaultValue,
                 },
-                SingleResourceNameAsAResourceName = AResourceName.FromItemPart("[ITEM_ID]", "[PART_ID]"),
+                SingleResourceNameAsAResourceName = ts::AResourceName.FromItemPart("[ITEM_ID]", "[PART_ID]"),
                 RepeatedResourceNameAsAResourceNames =
                 {
-                    AResourceName.FromItemPart("[ITEM_ID]", "[PART_ID]"),
+                    ts::AResourceName.FromItemPart("[ITEM_ID]", "[PART_ID]"),
                 },
                 SingleWildcardResourceAsResourceName = new UnparsedResourceName("a/wildcard/resource"),
                 RepeatedWildcardResourceAsResourceNames =
                 {
                     new UnparsedResourceName("a/wildcard/resource"),
                 },
-                MultiPatternResourceNameAsMultiPatternResourceName = MultiPatternResourceName.FromRootAItem("[ROOT_A_ID]", "[ITEM_ID]"),
+                MultiPatternResourceNameAsMultiPatternResourceName = ts::MultiPatternResourceName.FromRootAItem("[ROOT_A_ID]", "[ITEM_ID]"),
                 RepeatedMultiPatternResourceNameAsMultiPatternResourceNames =
                 {
-                    MultiPatternResourceName.FromRootAItem("[ROOT_A_ID]", "[ITEM_ID]"),
+                    ts::MultiPatternResourceName.FromRootAItem("[ROOT_A_ID]", "[ITEM_ID]"),
                 },
                 MapIntString = { { 0, "" }, },
                 SingleWrappedDouble = 0,
@@ -121,7 +121,7 @@ namespace Testing.Snippets.Snippets
                 RepeatedWrappedBytes = { ByteString.Empty, },
             };
             // Make the request
-            Response response = snippetsClient.MethodDefaultValues(request);
+            ts::Response response = snippetsClient.MethodDefaultValues(request);
             // End snippet
         }
 
@@ -131,9 +131,9 @@ namespace Testing.Snippets.Snippets
             // Snippet: MethodDefaultValuesAsync(DefaultValuesRequest, CallSettings)
             // Additional: MethodDefaultValuesAsync(DefaultValuesRequest, CancellationToken)
             // Create client
-            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            ts::SnippetsClient snippetsClient = await ts::SnippetsClient.CreateAsync();
             // Initialize request argument(s)
-            DefaultValuesRequest request = new DefaultValuesRequest
+            ts::DefaultValuesRequest request = new ts::DefaultValuesRequest
             {
                 SingleDouble = 0,
                 SingleFloat = 0F,
@@ -150,10 +150,10 @@ namespace Testing.Snippets.Snippets
                 SingleBool = false,
                 SingleString = "",
                 SingleBytes = ByteString.Empty,
-                SingleMessage = new AnotherMessage(),
-                SingleNestedMessage = new DefaultValuesRequest.Types.NestedMessage(),
-                SingleEnum = Enum.Default,
-                SingleNestedEnum = DefaultValuesRequest.Types.NestedEnum.DefaultValue,
+                SingleMessage = new ts::AnotherMessage(),
+                SingleNestedMessage = new ts::DefaultValuesRequest.Types.NestedMessage(),
+                SingleEnum = ts::Enum.Default,
+                SingleNestedEnum = ts::DefaultValuesRequest.Types.NestedEnum.DefaultValue,
                 RepeatedDouble = { 0, },
                 RepeatedFloat = { 0F, },
                 RepeatedInt32 = { 0, },
@@ -171,31 +171,31 @@ namespace Testing.Snippets.Snippets
                 RepeatedBytes = { ByteString.Empty, },
                 RepeatedMessage =
                 {
-                    new AnotherMessage(),
+                    new ts::AnotherMessage(),
                 },
                 RepeatedNestedMessage =
                 {
-                    new DefaultValuesRequest.Types.NestedMessage(),
+                    new ts::DefaultValuesRequest.Types.NestedMessage(),
                 },
-                RepeatedEnum = { Enum.Default, },
+                RepeatedEnum = { ts::Enum.Default, },
                 RepeatedNestedEnum =
                 {
-                    DefaultValuesRequest.Types.NestedEnum.DefaultValue,
+                    ts::DefaultValuesRequest.Types.NestedEnum.DefaultValue,
                 },
-                SingleResourceNameAsAResourceName = AResourceName.FromItemPart("[ITEM_ID]", "[PART_ID]"),
+                SingleResourceNameAsAResourceName = ts::AResourceName.FromItemPart("[ITEM_ID]", "[PART_ID]"),
                 RepeatedResourceNameAsAResourceNames =
                 {
-                    AResourceName.FromItemPart("[ITEM_ID]", "[PART_ID]"),
+                    ts::AResourceName.FromItemPart("[ITEM_ID]", "[PART_ID]"),
                 },
                 SingleWildcardResourceAsResourceName = new UnparsedResourceName("a/wildcard/resource"),
                 RepeatedWildcardResourceAsResourceNames =
                 {
                     new UnparsedResourceName("a/wildcard/resource"),
                 },
-                MultiPatternResourceNameAsMultiPatternResourceName = MultiPatternResourceName.FromRootAItem("[ROOT_A_ID]", "[ITEM_ID]"),
+                MultiPatternResourceNameAsMultiPatternResourceName = ts::MultiPatternResourceName.FromRootAItem("[ROOT_A_ID]", "[ITEM_ID]"),
                 RepeatedMultiPatternResourceNameAsMultiPatternResourceNames =
                 {
-                    MultiPatternResourceName.FromRootAItem("[ROOT_A_ID]", "[ITEM_ID]"),
+                    ts::MultiPatternResourceName.FromRootAItem("[ROOT_A_ID]", "[ITEM_ID]"),
                 },
                 MapIntString = { { 0, "" }, },
                 SingleWrappedDouble = 0,
@@ -218,7 +218,7 @@ namespace Testing.Snippets.Snippets
                 RepeatedWrappedBytes = { ByteString.Empty, },
             };
             // Make the request
-            Response response = await snippetsClient.MethodDefaultValuesAsync(request);
+            ts::Response response = await snippetsClient.MethodDefaultValuesAsync(request);
             // End snippet
         }
 
@@ -227,19 +227,19 @@ namespace Testing.Snippets.Snippets
         {
             // Snippet: MethodDefaultValues(IEnumerable<double>, IEnumerable<DefaultValuesRequest.Types.NestedMessage>, IEnumerable<string>, CallSettings)
             // Create client
-            SnippetsClient snippetsClient = SnippetsClient.Create();
+            ts::SnippetsClient snippetsClient = ts::SnippetsClient.Create();
             // Initialize request argument(s)
             IEnumerable<double> repeatedDouble = new double[] { 0, };
-            IEnumerable<DefaultValuesRequest.Types.NestedMessage> repeatedNestedMessage = new DefaultValuesRequest.Types.NestedMessage[]
+            IEnumerable<ts::DefaultValuesRequest.Types.NestedMessage> repeatedNestedMessage = new ts::DefaultValuesRequest.Types.NestedMessage[]
             {
-                new DefaultValuesRequest.Types.NestedMessage(),
+                new ts::DefaultValuesRequest.Types.NestedMessage(),
             };
             IEnumerable<string> repeatedResourceName = new string[]
             {
                 "items/[ITEM_ID]/parts/[PART_ID]",
             };
             // Make the request
-            Response response = snippetsClient.MethodDefaultValues(repeatedDouble, repeatedNestedMessage, repeatedResourceName);
+            ts::Response response = snippetsClient.MethodDefaultValues(repeatedDouble, repeatedNestedMessage, repeatedResourceName);
             // End snippet
         }
 
@@ -249,19 +249,19 @@ namespace Testing.Snippets.Snippets
             // Snippet: MethodDefaultValuesAsync(IEnumerable<double>, IEnumerable<DefaultValuesRequest.Types.NestedMessage>, IEnumerable<string>, CallSettings)
             // Additional: MethodDefaultValuesAsync(IEnumerable<double>, IEnumerable<DefaultValuesRequest.Types.NestedMessage>, IEnumerable<string>, CancellationToken)
             // Create client
-            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            ts::SnippetsClient snippetsClient = await ts::SnippetsClient.CreateAsync();
             // Initialize request argument(s)
             IEnumerable<double> repeatedDouble = new double[] { 0, };
-            IEnumerable<DefaultValuesRequest.Types.NestedMessage> repeatedNestedMessage = new DefaultValuesRequest.Types.NestedMessage[]
+            IEnumerable<ts::DefaultValuesRequest.Types.NestedMessage> repeatedNestedMessage = new ts::DefaultValuesRequest.Types.NestedMessage[]
             {
-                new DefaultValuesRequest.Types.NestedMessage(),
+                new ts::DefaultValuesRequest.Types.NestedMessage(),
             };
             IEnumerable<string> repeatedResourceName = new string[]
             {
                 "items/[ITEM_ID]/parts/[PART_ID]",
             };
             // Make the request
-            Response response = await snippetsClient.MethodDefaultValuesAsync(repeatedDouble, repeatedNestedMessage, repeatedResourceName);
+            ts::Response response = await snippetsClient.MethodDefaultValuesAsync(repeatedDouble, repeatedNestedMessage, repeatedResourceName);
             // End snippet
         }
 
@@ -270,19 +270,19 @@ namespace Testing.Snippets.Snippets
         {
             // Snippet: MethodDefaultValues(IEnumerable<double>, IEnumerable<DefaultValuesRequest.Types.NestedMessage>, IEnumerable<AResourceName>, CallSettings)
             // Create client
-            SnippetsClient snippetsClient = SnippetsClient.Create();
+            ts::SnippetsClient snippetsClient = ts::SnippetsClient.Create();
             // Initialize request argument(s)
             IEnumerable<double> repeatedDouble = new double[] { 0, };
-            IEnumerable<DefaultValuesRequest.Types.NestedMessage> repeatedNestedMessage = new DefaultValuesRequest.Types.NestedMessage[]
+            IEnumerable<ts::DefaultValuesRequest.Types.NestedMessage> repeatedNestedMessage = new ts::DefaultValuesRequest.Types.NestedMessage[]
             {
-                new DefaultValuesRequest.Types.NestedMessage(),
+                new ts::DefaultValuesRequest.Types.NestedMessage(),
             };
-            IEnumerable<AResourceName> repeatedResourceName = new AResourceName[]
+            IEnumerable<ts::AResourceName> repeatedResourceName = new ts::AResourceName[]
             {
-                AResourceName.FromItemPart("[ITEM_ID]", "[PART_ID]"),
+                ts::AResourceName.FromItemPart("[ITEM_ID]", "[PART_ID]"),
             };
             // Make the request
-            Response response = snippetsClient.MethodDefaultValues(repeatedDouble, repeatedNestedMessage, repeatedResourceName);
+            ts::Response response = snippetsClient.MethodDefaultValues(repeatedDouble, repeatedNestedMessage, repeatedResourceName);
             // End snippet
         }
 
@@ -292,19 +292,19 @@ namespace Testing.Snippets.Snippets
             // Snippet: MethodDefaultValuesAsync(IEnumerable<double>, IEnumerable<DefaultValuesRequest.Types.NestedMessage>, IEnumerable<AResourceName>, CallSettings)
             // Additional: MethodDefaultValuesAsync(IEnumerable<double>, IEnumerable<DefaultValuesRequest.Types.NestedMessage>, IEnumerable<AResourceName>, CancellationToken)
             // Create client
-            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            ts::SnippetsClient snippetsClient = await ts::SnippetsClient.CreateAsync();
             // Initialize request argument(s)
             IEnumerable<double> repeatedDouble = new double[] { 0, };
-            IEnumerable<DefaultValuesRequest.Types.NestedMessage> repeatedNestedMessage = new DefaultValuesRequest.Types.NestedMessage[]
+            IEnumerable<ts::DefaultValuesRequest.Types.NestedMessage> repeatedNestedMessage = new ts::DefaultValuesRequest.Types.NestedMessage[]
             {
-                new DefaultValuesRequest.Types.NestedMessage(),
+                new ts::DefaultValuesRequest.Types.NestedMessage(),
             };
-            IEnumerable<AResourceName> repeatedResourceName = new AResourceName[]
+            IEnumerable<ts::AResourceName> repeatedResourceName = new ts::AResourceName[]
             {
-                AResourceName.FromItemPart("[ITEM_ID]", "[PART_ID]"),
+                ts::AResourceName.FromItemPart("[ITEM_ID]", "[PART_ID]"),
             };
             // Make the request
-            Response response = await snippetsClient.MethodDefaultValuesAsync(repeatedDouble, repeatedNestedMessage, repeatedResourceName);
+            ts::Response response = await snippetsClient.MethodDefaultValuesAsync(repeatedDouble, repeatedNestedMessage, repeatedResourceName);
             // End snippet
         }
 
@@ -313,9 +313,9 @@ namespace Testing.Snippets.Snippets
         {
             // Snippet: MethodOneSignature(SignatureRequest, CallSettings)
             // Create client
-            SnippetsClient snippetsClient = SnippetsClient.Create();
+            ts::SnippetsClient snippetsClient = ts::SnippetsClient.Create();
             // Initialize request argument(s)
-            SignatureRequest request = new SignatureRequest
+            ts::SignatureRequest request = new ts::SignatureRequest
             {
                 AString = "",
                 AnInt = 0,
@@ -323,7 +323,7 @@ namespace Testing.Snippets.Snippets
                 MapIntString = { { 0, "" }, },
             };
             // Make the request
-            Response response = snippetsClient.MethodOneSignature(request);
+            ts::Response response = snippetsClient.MethodOneSignature(request);
             // End snippet
         }
 
@@ -333,9 +333,9 @@ namespace Testing.Snippets.Snippets
             // Snippet: MethodOneSignatureAsync(SignatureRequest, CallSettings)
             // Additional: MethodOneSignatureAsync(SignatureRequest, CancellationToken)
             // Create client
-            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            ts::SnippetsClient snippetsClient = await ts::SnippetsClient.CreateAsync();
             // Initialize request argument(s)
-            SignatureRequest request = new SignatureRequest
+            ts::SignatureRequest request = new ts::SignatureRequest
             {
                 AString = "",
                 AnInt = 0,
@@ -343,7 +343,7 @@ namespace Testing.Snippets.Snippets
                 MapIntString = { { 0, "" }, },
             };
             // Make the request
-            Response response = await snippetsClient.MethodOneSignatureAsync(request);
+            ts::Response response = await snippetsClient.MethodOneSignatureAsync(request);
             // End snippet
         }
 
@@ -352,13 +352,13 @@ namespace Testing.Snippets.Snippets
         {
             // Snippet: MethodOneSignature(string, int, bool, CallSettings)
             // Create client
-            SnippetsClient snippetsClient = SnippetsClient.Create();
+            ts::SnippetsClient snippetsClient = ts::SnippetsClient.Create();
             // Initialize request argument(s)
             string aString = "";
             int anInt = 0;
             bool aBool = false;
             // Make the request
-            Response response = snippetsClient.MethodOneSignature(aString, anInt, aBool);
+            ts::Response response = snippetsClient.MethodOneSignature(aString, anInt, aBool);
             // End snippet
         }
 
@@ -368,13 +368,13 @@ namespace Testing.Snippets.Snippets
             // Snippet: MethodOneSignatureAsync(string, int, bool, CallSettings)
             // Additional: MethodOneSignatureAsync(string, int, bool, CancellationToken)
             // Create client
-            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            ts::SnippetsClient snippetsClient = await ts::SnippetsClient.CreateAsync();
             // Initialize request argument(s)
             string aString = "";
             int anInt = 0;
             bool aBool = false;
             // Make the request
-            Response response = await snippetsClient.MethodOneSignatureAsync(aString, anInt, aBool);
+            ts::Response response = await snippetsClient.MethodOneSignatureAsync(aString, anInt, aBool);
             // End snippet
         }
 
@@ -383,9 +383,9 @@ namespace Testing.Snippets.Snippets
         {
             // Snippet: MethodThreeSignatures(SignatureRequest, CallSettings)
             // Create client
-            SnippetsClient snippetsClient = SnippetsClient.Create();
+            ts::SnippetsClient snippetsClient = ts::SnippetsClient.Create();
             // Initialize request argument(s)
-            SignatureRequest request = new SignatureRequest
+            ts::SignatureRequest request = new ts::SignatureRequest
             {
                 AString = "",
                 AnInt = 0,
@@ -393,7 +393,7 @@ namespace Testing.Snippets.Snippets
                 MapIntString = { { 0, "" }, },
             };
             // Make the request
-            Response response = snippetsClient.MethodThreeSignatures(request);
+            ts::Response response = snippetsClient.MethodThreeSignatures(request);
             // End snippet
         }
 
@@ -403,9 +403,9 @@ namespace Testing.Snippets.Snippets
             // Snippet: MethodThreeSignaturesAsync(SignatureRequest, CallSettings)
             // Additional: MethodThreeSignaturesAsync(SignatureRequest, CancellationToken)
             // Create client
-            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            ts::SnippetsClient snippetsClient = await ts::SnippetsClient.CreateAsync();
             // Initialize request argument(s)
-            SignatureRequest request = new SignatureRequest
+            ts::SignatureRequest request = new ts::SignatureRequest
             {
                 AString = "",
                 AnInt = 0,
@@ -413,7 +413,7 @@ namespace Testing.Snippets.Snippets
                 MapIntString = { { 0, "" }, },
             };
             // Make the request
-            Response response = await snippetsClient.MethodThreeSignaturesAsync(request);
+            ts::Response response = await snippetsClient.MethodThreeSignaturesAsync(request);
             // End snippet
         }
 
@@ -422,13 +422,13 @@ namespace Testing.Snippets.Snippets
         {
             // Snippet: MethodThreeSignatures(string, int, bool, CallSettings)
             // Create client
-            SnippetsClient snippetsClient = SnippetsClient.Create();
+            ts::SnippetsClient snippetsClient = ts::SnippetsClient.Create();
             // Initialize request argument(s)
             string aString = "";
             int anInt = 0;
             bool aBool = false;
             // Make the request
-            Response response = snippetsClient.MethodThreeSignatures(aString, anInt, aBool);
+            ts::Response response = snippetsClient.MethodThreeSignatures(aString, anInt, aBool);
             // End snippet
         }
 
@@ -438,13 +438,13 @@ namespace Testing.Snippets.Snippets
             // Snippet: MethodThreeSignaturesAsync(string, int, bool, CallSettings)
             // Additional: MethodThreeSignaturesAsync(string, int, bool, CancellationToken)
             // Create client
-            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            ts::SnippetsClient snippetsClient = await ts::SnippetsClient.CreateAsync();
             // Initialize request argument(s)
             string aString = "";
             int anInt = 0;
             bool aBool = false;
             // Make the request
-            Response response = await snippetsClient.MethodThreeSignaturesAsync(aString, anInt, aBool);
+            ts::Response response = await snippetsClient.MethodThreeSignaturesAsync(aString, anInt, aBool);
             // End snippet
         }
 
@@ -453,12 +453,12 @@ namespace Testing.Snippets.Snippets
         {
             // Snippet: MethodThreeSignatures(string, bool, CallSettings)
             // Create client
-            SnippetsClient snippetsClient = SnippetsClient.Create();
+            ts::SnippetsClient snippetsClient = ts::SnippetsClient.Create();
             // Initialize request argument(s)
             string aString = "";
             bool aBool = false;
             // Make the request
-            Response response = snippetsClient.MethodThreeSignatures(aString, aBool);
+            ts::Response response = snippetsClient.MethodThreeSignatures(aString, aBool);
             // End snippet
         }
 
@@ -468,12 +468,12 @@ namespace Testing.Snippets.Snippets
             // Snippet: MethodThreeSignaturesAsync(string, bool, CallSettings)
             // Additional: MethodThreeSignaturesAsync(string, bool, CancellationToken)
             // Create client
-            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            ts::SnippetsClient snippetsClient = await ts::SnippetsClient.CreateAsync();
             // Initialize request argument(s)
             string aString = "";
             bool aBool = false;
             // Make the request
-            Response response = await snippetsClient.MethodThreeSignaturesAsync(aString, aBool);
+            ts::Response response = await snippetsClient.MethodThreeSignaturesAsync(aString, aBool);
             // End snippet
         }
 
@@ -482,9 +482,9 @@ namespace Testing.Snippets.Snippets
         {
             // Snippet: MethodThreeSignatures(CallSettings)
             // Create client
-            SnippetsClient snippetsClient = SnippetsClient.Create();
+            ts::SnippetsClient snippetsClient = ts::SnippetsClient.Create();
             // Make the request
-            Response response = snippetsClient.MethodThreeSignatures();
+            ts::Response response = snippetsClient.MethodThreeSignatures();
             // End snippet
         }
 
@@ -494,9 +494,9 @@ namespace Testing.Snippets.Snippets
             // Snippet: MethodThreeSignaturesAsync(CallSettings)
             // Additional: MethodThreeSignaturesAsync(CancellationToken)
             // Create client
-            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            ts::SnippetsClient snippetsClient = await ts::SnippetsClient.CreateAsync();
             // Make the request
-            Response response = await snippetsClient.MethodThreeSignaturesAsync();
+            ts::Response response = await snippetsClient.MethodThreeSignaturesAsync();
             // End snippet
         }
 
@@ -505,9 +505,9 @@ namespace Testing.Snippets.Snippets
         {
             // Snippet: MethodMapSignature(SignatureRequest, CallSettings)
             // Create client
-            SnippetsClient snippetsClient = SnippetsClient.Create();
+            ts::SnippetsClient snippetsClient = ts::SnippetsClient.Create();
             // Initialize request argument(s)
-            SignatureRequest request = new SignatureRequest
+            ts::SignatureRequest request = new ts::SignatureRequest
             {
                 AString = "",
                 AnInt = 0,
@@ -515,7 +515,7 @@ namespace Testing.Snippets.Snippets
                 MapIntString = { { 0, "" }, },
             };
             // Make the request
-            Response response = snippetsClient.MethodMapSignature(request);
+            ts::Response response = snippetsClient.MethodMapSignature(request);
             // End snippet
         }
 
@@ -525,9 +525,9 @@ namespace Testing.Snippets.Snippets
             // Snippet: MethodMapSignatureAsync(SignatureRequest, CallSettings)
             // Additional: MethodMapSignatureAsync(SignatureRequest, CancellationToken)
             // Create client
-            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            ts::SnippetsClient snippetsClient = await ts::SnippetsClient.CreateAsync();
             // Initialize request argument(s)
-            SignatureRequest request = new SignatureRequest
+            ts::SignatureRequest request = new ts::SignatureRequest
             {
                 AString = "",
                 AnInt = 0,
@@ -535,7 +535,7 @@ namespace Testing.Snippets.Snippets
                 MapIntString = { { 0, "" }, },
             };
             // Make the request
-            Response response = await snippetsClient.MethodMapSignatureAsync(request);
+            ts::Response response = await snippetsClient.MethodMapSignatureAsync(request);
             // End snippet
         }
 
@@ -544,11 +544,11 @@ namespace Testing.Snippets.Snippets
         {
             // Snippet: MethodMapSignature(IDictionary<int,string>, CallSettings)
             // Create client
-            SnippetsClient snippetsClient = SnippetsClient.Create();
+            ts::SnippetsClient snippetsClient = ts::SnippetsClient.Create();
             // Initialize request argument(s)
             IDictionary<int, string> mapIntString = new Dictionary<int, string> { { 0, "" }, };
             // Make the request
-            Response response = snippetsClient.MethodMapSignature(mapIntString);
+            ts::Response response = snippetsClient.MethodMapSignature(mapIntString);
             // End snippet
         }
 
@@ -558,11 +558,11 @@ namespace Testing.Snippets.Snippets
             // Snippet: MethodMapSignatureAsync(IDictionary<int,string>, CallSettings)
             // Additional: MethodMapSignatureAsync(IDictionary<int,string>, CancellationToken)
             // Create client
-            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            ts::SnippetsClient snippetsClient = await ts::SnippetsClient.CreateAsync();
             // Initialize request argument(s)
             IDictionary<int, string> mapIntString = new Dictionary<int, string> { { 0, "" }, };
             // Make the request
-            Response response = await snippetsClient.MethodMapSignatureAsync(mapIntString);
+            ts::Response response = await snippetsClient.MethodMapSignatureAsync(mapIntString);
             // End snippet
         }
 
@@ -571,16 +571,16 @@ namespace Testing.Snippets.Snippets
         {
             // Snippet: MethodResourceSignature(ResourceSignatureRequest, CallSettings)
             // Create client
-            SnippetsClient snippetsClient = SnippetsClient.Create();
+            ts::SnippetsClient snippetsClient = ts::SnippetsClient.Create();
             // Initialize request argument(s)
-            ResourceSignatureRequest request = new ResourceSignatureRequest
+            ts::ResourceSignatureRequest request = new ts::ResourceSignatureRequest
             {
-                FirstNameAsSimpleResourceName = SimpleResourceName.FromItem("[ITEM_ID]"),
-                SecondNameAsSimpleResourceName = SimpleResourceName.FromItem("[ITEM_ID]"),
-                ThirdNameAsSimpleResourceName = SimpleResourceName.FromItem("[ITEM_ID]"),
+                FirstNameAsSimpleResourceName = ts::SimpleResourceName.FromItem("[ITEM_ID]"),
+                SecondNameAsSimpleResourceName = ts::SimpleResourceName.FromItem("[ITEM_ID]"),
+                ThirdNameAsSimpleResourceName = ts::SimpleResourceName.FromItem("[ITEM_ID]"),
             };
             // Make the request
-            Response response = snippetsClient.MethodResourceSignature(request);
+            ts::Response response = snippetsClient.MethodResourceSignature(request);
             // End snippet
         }
 
@@ -590,16 +590,16 @@ namespace Testing.Snippets.Snippets
             // Snippet: MethodResourceSignatureAsync(ResourceSignatureRequest, CallSettings)
             // Additional: MethodResourceSignatureAsync(ResourceSignatureRequest, CancellationToken)
             // Create client
-            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            ts::SnippetsClient snippetsClient = await ts::SnippetsClient.CreateAsync();
             // Initialize request argument(s)
-            ResourceSignatureRequest request = new ResourceSignatureRequest
+            ts::ResourceSignatureRequest request = new ts::ResourceSignatureRequest
             {
-                FirstNameAsSimpleResourceName = SimpleResourceName.FromItem("[ITEM_ID]"),
-                SecondNameAsSimpleResourceName = SimpleResourceName.FromItem("[ITEM_ID]"),
-                ThirdNameAsSimpleResourceName = SimpleResourceName.FromItem("[ITEM_ID]"),
+                FirstNameAsSimpleResourceName = ts::SimpleResourceName.FromItem("[ITEM_ID]"),
+                SecondNameAsSimpleResourceName = ts::SimpleResourceName.FromItem("[ITEM_ID]"),
+                ThirdNameAsSimpleResourceName = ts::SimpleResourceName.FromItem("[ITEM_ID]"),
             };
             // Make the request
-            Response response = await snippetsClient.MethodResourceSignatureAsync(request);
+            ts::Response response = await snippetsClient.MethodResourceSignatureAsync(request);
             // End snippet
         }
 
@@ -608,13 +608,13 @@ namespace Testing.Snippets.Snippets
         {
             // Snippet: MethodResourceSignature(string, string, string, CallSettings)
             // Create client
-            SnippetsClient snippetsClient = SnippetsClient.Create();
+            ts::SnippetsClient snippetsClient = ts::SnippetsClient.Create();
             // Initialize request argument(s)
             string firstName = "items/[ITEM_ID]";
             string secondName = "items/[ITEM_ID]";
             string thirdName = "items/[ITEM_ID]";
             // Make the request
-            Response response = snippetsClient.MethodResourceSignature(firstName, secondName, thirdName);
+            ts::Response response = snippetsClient.MethodResourceSignature(firstName, secondName, thirdName);
             // End snippet
         }
 
@@ -624,13 +624,13 @@ namespace Testing.Snippets.Snippets
             // Snippet: MethodResourceSignatureAsync(string, string, string, CallSettings)
             // Additional: MethodResourceSignatureAsync(string, string, string, CancellationToken)
             // Create client
-            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            ts::SnippetsClient snippetsClient = await ts::SnippetsClient.CreateAsync();
             // Initialize request argument(s)
             string firstName = "items/[ITEM_ID]";
             string secondName = "items/[ITEM_ID]";
             string thirdName = "items/[ITEM_ID]";
             // Make the request
-            Response response = await snippetsClient.MethodResourceSignatureAsync(firstName, secondName, thirdName);
+            ts::Response response = await snippetsClient.MethodResourceSignatureAsync(firstName, secondName, thirdName);
             // End snippet
         }
 
@@ -639,13 +639,13 @@ namespace Testing.Snippets.Snippets
         {
             // Snippet: MethodResourceSignature(SimpleResourceName, SimpleResourceName, SimpleResourceName, CallSettings)
             // Create client
-            SnippetsClient snippetsClient = SnippetsClient.Create();
+            ts::SnippetsClient snippetsClient = ts::SnippetsClient.Create();
             // Initialize request argument(s)
-            SimpleResourceName firstName = SimpleResourceName.FromItem("[ITEM_ID]");
-            SimpleResourceName secondName = SimpleResourceName.FromItem("[ITEM_ID]");
-            SimpleResourceName thirdName = SimpleResourceName.FromItem("[ITEM_ID]");
+            ts::SimpleResourceName firstName = ts::SimpleResourceName.FromItem("[ITEM_ID]");
+            ts::SimpleResourceName secondName = ts::SimpleResourceName.FromItem("[ITEM_ID]");
+            ts::SimpleResourceName thirdName = ts::SimpleResourceName.FromItem("[ITEM_ID]");
             // Make the request
-            Response response = snippetsClient.MethodResourceSignature(firstName, secondName, thirdName);
+            ts::Response response = snippetsClient.MethodResourceSignature(firstName, secondName, thirdName);
             // End snippet
         }
 
@@ -655,13 +655,13 @@ namespace Testing.Snippets.Snippets
             // Snippet: MethodResourceSignatureAsync(SimpleResourceName, SimpleResourceName, SimpleResourceName, CallSettings)
             // Additional: MethodResourceSignatureAsync(SimpleResourceName, SimpleResourceName, SimpleResourceName, CancellationToken)
             // Create client
-            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            ts::SnippetsClient snippetsClient = await ts::SnippetsClient.CreateAsync();
             // Initialize request argument(s)
-            SimpleResourceName firstName = SimpleResourceName.FromItem("[ITEM_ID]");
-            SimpleResourceName secondName = SimpleResourceName.FromItem("[ITEM_ID]");
-            SimpleResourceName thirdName = SimpleResourceName.FromItem("[ITEM_ID]");
+            ts::SimpleResourceName firstName = ts::SimpleResourceName.FromItem("[ITEM_ID]");
+            ts::SimpleResourceName secondName = ts::SimpleResourceName.FromItem("[ITEM_ID]");
+            ts::SimpleResourceName thirdName = ts::SimpleResourceName.FromItem("[ITEM_ID]");
             // Make the request
-            Response response = await snippetsClient.MethodResourceSignatureAsync(firstName, secondName, thirdName);
+            ts::Response response = await snippetsClient.MethodResourceSignatureAsync(firstName, secondName, thirdName);
             // End snippet
         }
 
@@ -670,11 +670,11 @@ namespace Testing.Snippets.Snippets
         {
             // Snippet: MethodResourceSignature(string, CallSettings)
             // Create client
-            SnippetsClient snippetsClient = SnippetsClient.Create();
+            ts::SnippetsClient snippetsClient = ts::SnippetsClient.Create();
             // Initialize request argument(s)
             string firstName = "items/[ITEM_ID]";
             // Make the request
-            Response response = snippetsClient.MethodResourceSignature(firstName);
+            ts::Response response = snippetsClient.MethodResourceSignature(firstName);
             // End snippet
         }
 
@@ -684,11 +684,11 @@ namespace Testing.Snippets.Snippets
             // Snippet: MethodResourceSignatureAsync(string, CallSettings)
             // Additional: MethodResourceSignatureAsync(string, CancellationToken)
             // Create client
-            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            ts::SnippetsClient snippetsClient = await ts::SnippetsClient.CreateAsync();
             // Initialize request argument(s)
             string firstName = "items/[ITEM_ID]";
             // Make the request
-            Response response = await snippetsClient.MethodResourceSignatureAsync(firstName);
+            ts::Response response = await snippetsClient.MethodResourceSignatureAsync(firstName);
             // End snippet
         }
 
@@ -697,11 +697,11 @@ namespace Testing.Snippets.Snippets
         {
             // Snippet: MethodResourceSignature(SimpleResourceName, CallSettings)
             // Create client
-            SnippetsClient snippetsClient = SnippetsClient.Create();
+            ts::SnippetsClient snippetsClient = ts::SnippetsClient.Create();
             // Initialize request argument(s)
-            SimpleResourceName firstName = SimpleResourceName.FromItem("[ITEM_ID]");
+            ts::SimpleResourceName firstName = ts::SimpleResourceName.FromItem("[ITEM_ID]");
             // Make the request
-            Response response = snippetsClient.MethodResourceSignature(firstName);
+            ts::Response response = snippetsClient.MethodResourceSignature(firstName);
             // End snippet
         }
 
@@ -711,11 +711,11 @@ namespace Testing.Snippets.Snippets
             // Snippet: MethodResourceSignatureAsync(SimpleResourceName, CallSettings)
             // Additional: MethodResourceSignatureAsync(SimpleResourceName, CancellationToken)
             // Create client
-            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            ts::SnippetsClient snippetsClient = await ts::SnippetsClient.CreateAsync();
             // Initialize request argument(s)
-            SimpleResourceName firstName = SimpleResourceName.FromItem("[ITEM_ID]");
+            ts::SimpleResourceName firstName = ts::SimpleResourceName.FromItem("[ITEM_ID]");
             // Make the request
-            Response response = await snippetsClient.MethodResourceSignatureAsync(firstName);
+            ts::Response response = await snippetsClient.MethodResourceSignatureAsync(firstName);
             // End snippet
         }
 
@@ -724,17 +724,17 @@ namespace Testing.Snippets.Snippets
         {
             // Snippet: MethodRepeatedResourceSignature(RepeatedResourceSignatureRequest, CallSettings)
             // Create client
-            SnippetsClient snippetsClient = SnippetsClient.Create();
+            ts::SnippetsClient snippetsClient = ts::SnippetsClient.Create();
             // Initialize request argument(s)
-            RepeatedResourceSignatureRequest request = new RepeatedResourceSignatureRequest
+            ts::RepeatedResourceSignatureRequest request = new ts::RepeatedResourceSignatureRequest
             {
                 SimpleResourceNames =
                 {
-                    SimpleResourceName.FromItem("[ITEM_ID]"),
+                    ts::SimpleResourceName.FromItem("[ITEM_ID]"),
                 },
             };
             // Make the request
-            Response response = snippetsClient.MethodRepeatedResourceSignature(request);
+            ts::Response response = snippetsClient.MethodRepeatedResourceSignature(request);
             // End snippet
         }
 
@@ -744,17 +744,17 @@ namespace Testing.Snippets.Snippets
             // Snippet: MethodRepeatedResourceSignatureAsync(RepeatedResourceSignatureRequest, CallSettings)
             // Additional: MethodRepeatedResourceSignatureAsync(RepeatedResourceSignatureRequest, CancellationToken)
             // Create client
-            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            ts::SnippetsClient snippetsClient = await ts::SnippetsClient.CreateAsync();
             // Initialize request argument(s)
-            RepeatedResourceSignatureRequest request = new RepeatedResourceSignatureRequest
+            ts::RepeatedResourceSignatureRequest request = new ts::RepeatedResourceSignatureRequest
             {
                 SimpleResourceNames =
                 {
-                    SimpleResourceName.FromItem("[ITEM_ID]"),
+                    ts::SimpleResourceName.FromItem("[ITEM_ID]"),
                 },
             };
             // Make the request
-            Response response = await snippetsClient.MethodRepeatedResourceSignatureAsync(request);
+            ts::Response response = await snippetsClient.MethodRepeatedResourceSignatureAsync(request);
             // End snippet
         }
 
@@ -763,11 +763,11 @@ namespace Testing.Snippets.Snippets
         {
             // Snippet: MethodRepeatedResourceSignature(IEnumerable<string>, CallSettings)
             // Create client
-            SnippetsClient snippetsClient = SnippetsClient.Create();
+            ts::SnippetsClient snippetsClient = ts::SnippetsClient.Create();
             // Initialize request argument(s)
             IEnumerable<string> names = new string[] { "items/[ITEM_ID]", };
             // Make the request
-            Response response = snippetsClient.MethodRepeatedResourceSignature(names);
+            ts::Response response = snippetsClient.MethodRepeatedResourceSignature(names);
             // End snippet
         }
 
@@ -777,11 +777,11 @@ namespace Testing.Snippets.Snippets
             // Snippet: MethodRepeatedResourceSignatureAsync(IEnumerable<string>, CallSettings)
             // Additional: MethodRepeatedResourceSignatureAsync(IEnumerable<string>, CancellationToken)
             // Create client
-            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            ts::SnippetsClient snippetsClient = await ts::SnippetsClient.CreateAsync();
             // Initialize request argument(s)
             IEnumerable<string> names = new string[] { "items/[ITEM_ID]", };
             // Make the request
-            Response response = await snippetsClient.MethodRepeatedResourceSignatureAsync(names);
+            ts::Response response = await snippetsClient.MethodRepeatedResourceSignatureAsync(names);
             // End snippet
         }
 
@@ -790,14 +790,14 @@ namespace Testing.Snippets.Snippets
         {
             // Snippet: MethodRepeatedResourceSignature(IEnumerable<SimpleResourceName>, CallSettings)
             // Create client
-            SnippetsClient snippetsClient = SnippetsClient.Create();
+            ts::SnippetsClient snippetsClient = ts::SnippetsClient.Create();
             // Initialize request argument(s)
-            IEnumerable<SimpleResourceName> names = new SimpleResourceName[]
+            IEnumerable<ts::SimpleResourceName> names = new ts::SimpleResourceName[]
             {
-                SimpleResourceName.FromItem("[ITEM_ID]"),
+                ts::SimpleResourceName.FromItem("[ITEM_ID]"),
             };
             // Make the request
-            Response response = snippetsClient.MethodRepeatedResourceSignature(names);
+            ts::Response response = snippetsClient.MethodRepeatedResourceSignature(names);
             // End snippet
         }
 
@@ -807,14 +807,14 @@ namespace Testing.Snippets.Snippets
             // Snippet: MethodRepeatedResourceSignatureAsync(IEnumerable<SimpleResourceName>, CallSettings)
             // Additional: MethodRepeatedResourceSignatureAsync(IEnumerable<SimpleResourceName>, CancellationToken)
             // Create client
-            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            ts::SnippetsClient snippetsClient = await ts::SnippetsClient.CreateAsync();
             // Initialize request argument(s)
-            IEnumerable<SimpleResourceName> names = new SimpleResourceName[]
+            IEnumerable<ts::SimpleResourceName> names = new ts::SimpleResourceName[]
             {
-                SimpleResourceName.FromItem("[ITEM_ID]"),
+                ts::SimpleResourceName.FromItem("[ITEM_ID]"),
             };
             // Make the request
-            Response response = await snippetsClient.MethodRepeatedResourceSignatureAsync(names);
+            ts::Response response = await snippetsClient.MethodRepeatedResourceSignatureAsync(names);
             // End snippet
         }
 
@@ -823,9 +823,9 @@ namespace Testing.Snippets.Snippets
         {
             // Snippet: MethodLroSignatures(SignatureRequest, CallSettings)
             // Create client
-            SnippetsClient snippetsClient = SnippetsClient.Create();
+            ts::SnippetsClient snippetsClient = ts::SnippetsClient.Create();
             // Initialize request argument(s)
-            SignatureRequest request = new SignatureRequest
+            ts::SignatureRequest request = new ts::SignatureRequest
             {
                 AString = "",
                 AnInt = 0,
@@ -833,22 +833,22 @@ namespace Testing.Snippets.Snippets
                 MapIntString = { { 0, "" }, },
             };
             // Make the request
-            Operation<LroResponse, LroMetadata> response = snippetsClient.MethodLroSignatures(request);
+            Operation<ts::LroResponse, ts::LroMetadata> response = snippetsClient.MethodLroSignatures(request);
 
             // Poll until the returned long-running operation is complete
-            Operation<LroResponse, LroMetadata> completedResponse = response.PollUntilCompleted();
+            Operation<ts::LroResponse, ts::LroMetadata> completedResponse = response.PollUntilCompleted();
             // Retrieve the operation result
-            LroResponse result = completedResponse.Result;
+            ts::LroResponse result = completedResponse.Result;
 
             // Or get the name of the operation
             string operationName = response.Name;
             // This name can be stored, then the long-running operation retrieved later by name
-            Operation<LroResponse, LroMetadata> retrievedResponse = snippetsClient.PollOnceMethodLroSignatures(operationName);
+            Operation<ts::LroResponse, ts::LroMetadata> retrievedResponse = snippetsClient.PollOnceMethodLroSignatures(operationName);
             // Check if the retrieved long-running operation has completed
             if (retrievedResponse.IsCompleted)
             {
                 // If it has completed, then access the result
-                LroResponse retrievedResult = retrievedResponse.Result;
+                ts::LroResponse retrievedResult = retrievedResponse.Result;
             }
             // End snippet
         }
@@ -859,9 +859,9 @@ namespace Testing.Snippets.Snippets
             // Snippet: MethodLroSignaturesAsync(SignatureRequest, CallSettings)
             // Additional: MethodLroSignaturesAsync(SignatureRequest, CancellationToken)
             // Create client
-            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            ts::SnippetsClient snippetsClient = await ts::SnippetsClient.CreateAsync();
             // Initialize request argument(s)
-            SignatureRequest request = new SignatureRequest
+            ts::SignatureRequest request = new ts::SignatureRequest
             {
                 AString = "",
                 AnInt = 0,
@@ -869,22 +869,22 @@ namespace Testing.Snippets.Snippets
                 MapIntString = { { 0, "" }, },
             };
             // Make the request
-            Operation<LroResponse, LroMetadata> response = await snippetsClient.MethodLroSignaturesAsync(request);
+            Operation<ts::LroResponse, ts::LroMetadata> response = await snippetsClient.MethodLroSignaturesAsync(request);
 
             // Poll until the returned long-running operation is complete
-            Operation<LroResponse, LroMetadata> completedResponse = await response.PollUntilCompletedAsync();
+            Operation<ts::LroResponse, ts::LroMetadata> completedResponse = await response.PollUntilCompletedAsync();
             // Retrieve the operation result
-            LroResponse result = completedResponse.Result;
+            ts::LroResponse result = completedResponse.Result;
 
             // Or get the name of the operation
             string operationName = response.Name;
             // This name can be stored, then the long-running operation retrieved later by name
-            Operation<LroResponse, LroMetadata> retrievedResponse = await snippetsClient.PollOnceMethodLroSignaturesAsync(operationName);
+            Operation<ts::LroResponse, ts::LroMetadata> retrievedResponse = await snippetsClient.PollOnceMethodLroSignaturesAsync(operationName);
             // Check if the retrieved long-running operation has completed
             if (retrievedResponse.IsCompleted)
             {
                 // If it has completed, then access the result
-                LroResponse retrievedResult = retrievedResponse.Result;
+                ts::LroResponse retrievedResult = retrievedResponse.Result;
             }
             // End snippet
         }
@@ -894,28 +894,28 @@ namespace Testing.Snippets.Snippets
         {
             // Snippet: MethodLroSignatures(string, int, bool, CallSettings)
             // Create client
-            SnippetsClient snippetsClient = SnippetsClient.Create();
+            ts::SnippetsClient snippetsClient = ts::SnippetsClient.Create();
             // Initialize request argument(s)
             string aString = "";
             int anInt = 0;
             bool aBool = false;
             // Make the request
-            Operation<LroResponse, LroMetadata> response = snippetsClient.MethodLroSignatures(aString, anInt, aBool);
+            Operation<ts::LroResponse, ts::LroMetadata> response = snippetsClient.MethodLroSignatures(aString, anInt, aBool);
 
             // Poll until the returned long-running operation is complete
-            Operation<LroResponse, LroMetadata> completedResponse = response.PollUntilCompleted();
+            Operation<ts::LroResponse, ts::LroMetadata> completedResponse = response.PollUntilCompleted();
             // Retrieve the operation result
-            LroResponse result = completedResponse.Result;
+            ts::LroResponse result = completedResponse.Result;
 
             // Or get the name of the operation
             string operationName = response.Name;
             // This name can be stored, then the long-running operation retrieved later by name
-            Operation<LroResponse, LroMetadata> retrievedResponse = snippetsClient.PollOnceMethodLroSignatures(operationName);
+            Operation<ts::LroResponse, ts::LroMetadata> retrievedResponse = snippetsClient.PollOnceMethodLroSignatures(operationName);
             // Check if the retrieved long-running operation has completed
             if (retrievedResponse.IsCompleted)
             {
                 // If it has completed, then access the result
-                LroResponse retrievedResult = retrievedResponse.Result;
+                ts::LroResponse retrievedResult = retrievedResponse.Result;
             }
             // End snippet
         }
@@ -926,28 +926,28 @@ namespace Testing.Snippets.Snippets
             // Snippet: MethodLroSignaturesAsync(string, int, bool, CallSettings)
             // Additional: MethodLroSignaturesAsync(string, int, bool, CancellationToken)
             // Create client
-            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            ts::SnippetsClient snippetsClient = await ts::SnippetsClient.CreateAsync();
             // Initialize request argument(s)
             string aString = "";
             int anInt = 0;
             bool aBool = false;
             // Make the request
-            Operation<LroResponse, LroMetadata> response = await snippetsClient.MethodLroSignaturesAsync(aString, anInt, aBool);
+            Operation<ts::LroResponse, ts::LroMetadata> response = await snippetsClient.MethodLroSignaturesAsync(aString, anInt, aBool);
 
             // Poll until the returned long-running operation is complete
-            Operation<LroResponse, LroMetadata> completedResponse = await response.PollUntilCompletedAsync();
+            Operation<ts::LroResponse, ts::LroMetadata> completedResponse = await response.PollUntilCompletedAsync();
             // Retrieve the operation result
-            LroResponse result = completedResponse.Result;
+            ts::LroResponse result = completedResponse.Result;
 
             // Or get the name of the operation
             string operationName = response.Name;
             // This name can be stored, then the long-running operation retrieved later by name
-            Operation<LroResponse, LroMetadata> retrievedResponse = await snippetsClient.PollOnceMethodLroSignaturesAsync(operationName);
+            Operation<ts::LroResponse, ts::LroMetadata> retrievedResponse = await snippetsClient.PollOnceMethodLroSignaturesAsync(operationName);
             // Check if the retrieved long-running operation has completed
             if (retrievedResponse.IsCompleted)
             {
                 // If it has completed, then access the result
-                LroResponse retrievedResult = retrievedResponse.Result;
+                ts::LroResponse retrievedResult = retrievedResponse.Result;
             }
             // End snippet
         }
@@ -957,31 +957,31 @@ namespace Testing.Snippets.Snippets
         {
             // Snippet: MethodLroResourceSignature(ResourceSignatureRequest, CallSettings)
             // Create client
-            SnippetsClient snippetsClient = SnippetsClient.Create();
+            ts::SnippetsClient snippetsClient = ts::SnippetsClient.Create();
             // Initialize request argument(s)
-            ResourceSignatureRequest request = new ResourceSignatureRequest
+            ts::ResourceSignatureRequest request = new ts::ResourceSignatureRequest
             {
-                FirstNameAsSimpleResourceName = SimpleResourceName.FromItem("[ITEM_ID]"),
-                SecondNameAsSimpleResourceName = SimpleResourceName.FromItem("[ITEM_ID]"),
-                ThirdNameAsSimpleResourceName = SimpleResourceName.FromItem("[ITEM_ID]"),
+                FirstNameAsSimpleResourceName = ts::SimpleResourceName.FromItem("[ITEM_ID]"),
+                SecondNameAsSimpleResourceName = ts::SimpleResourceName.FromItem("[ITEM_ID]"),
+                ThirdNameAsSimpleResourceName = ts::SimpleResourceName.FromItem("[ITEM_ID]"),
             };
             // Make the request
-            Operation<LroResponse, LroMetadata> response = snippetsClient.MethodLroResourceSignature(request);
+            Operation<ts::LroResponse, ts::LroMetadata> response = snippetsClient.MethodLroResourceSignature(request);
 
             // Poll until the returned long-running operation is complete
-            Operation<LroResponse, LroMetadata> completedResponse = response.PollUntilCompleted();
+            Operation<ts::LroResponse, ts::LroMetadata> completedResponse = response.PollUntilCompleted();
             // Retrieve the operation result
-            LroResponse result = completedResponse.Result;
+            ts::LroResponse result = completedResponse.Result;
 
             // Or get the name of the operation
             string operationName = response.Name;
             // This name can be stored, then the long-running operation retrieved later by name
-            Operation<LroResponse, LroMetadata> retrievedResponse = snippetsClient.PollOnceMethodLroResourceSignature(operationName);
+            Operation<ts::LroResponse, ts::LroMetadata> retrievedResponse = snippetsClient.PollOnceMethodLroResourceSignature(operationName);
             // Check if the retrieved long-running operation has completed
             if (retrievedResponse.IsCompleted)
             {
                 // If it has completed, then access the result
-                LroResponse retrievedResult = retrievedResponse.Result;
+                ts::LroResponse retrievedResult = retrievedResponse.Result;
             }
             // End snippet
         }
@@ -992,31 +992,31 @@ namespace Testing.Snippets.Snippets
             // Snippet: MethodLroResourceSignatureAsync(ResourceSignatureRequest, CallSettings)
             // Additional: MethodLroResourceSignatureAsync(ResourceSignatureRequest, CancellationToken)
             // Create client
-            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            ts::SnippetsClient snippetsClient = await ts::SnippetsClient.CreateAsync();
             // Initialize request argument(s)
-            ResourceSignatureRequest request = new ResourceSignatureRequest
+            ts::ResourceSignatureRequest request = new ts::ResourceSignatureRequest
             {
-                FirstNameAsSimpleResourceName = SimpleResourceName.FromItem("[ITEM_ID]"),
-                SecondNameAsSimpleResourceName = SimpleResourceName.FromItem("[ITEM_ID]"),
-                ThirdNameAsSimpleResourceName = SimpleResourceName.FromItem("[ITEM_ID]"),
+                FirstNameAsSimpleResourceName = ts::SimpleResourceName.FromItem("[ITEM_ID]"),
+                SecondNameAsSimpleResourceName = ts::SimpleResourceName.FromItem("[ITEM_ID]"),
+                ThirdNameAsSimpleResourceName = ts::SimpleResourceName.FromItem("[ITEM_ID]"),
             };
             // Make the request
-            Operation<LroResponse, LroMetadata> response = await snippetsClient.MethodLroResourceSignatureAsync(request);
+            Operation<ts::LroResponse, ts::LroMetadata> response = await snippetsClient.MethodLroResourceSignatureAsync(request);
 
             // Poll until the returned long-running operation is complete
-            Operation<LroResponse, LroMetadata> completedResponse = await response.PollUntilCompletedAsync();
+            Operation<ts::LroResponse, ts::LroMetadata> completedResponse = await response.PollUntilCompletedAsync();
             // Retrieve the operation result
-            LroResponse result = completedResponse.Result;
+            ts::LroResponse result = completedResponse.Result;
 
             // Or get the name of the operation
             string operationName = response.Name;
             // This name can be stored, then the long-running operation retrieved later by name
-            Operation<LroResponse, LroMetadata> retrievedResponse = await snippetsClient.PollOnceMethodLroResourceSignatureAsync(operationName);
+            Operation<ts::LroResponse, ts::LroMetadata> retrievedResponse = await snippetsClient.PollOnceMethodLroResourceSignatureAsync(operationName);
             // Check if the retrieved long-running operation has completed
             if (retrievedResponse.IsCompleted)
             {
                 // If it has completed, then access the result
-                LroResponse retrievedResult = retrievedResponse.Result;
+                ts::LroResponse retrievedResult = retrievedResponse.Result;
             }
             // End snippet
         }
@@ -1026,28 +1026,28 @@ namespace Testing.Snippets.Snippets
         {
             // Snippet: MethodLroResourceSignature(string, string, string, CallSettings)
             // Create client
-            SnippetsClient snippetsClient = SnippetsClient.Create();
+            ts::SnippetsClient snippetsClient = ts::SnippetsClient.Create();
             // Initialize request argument(s)
             string firstName = "items/[ITEM_ID]";
             string secondName = "items/[ITEM_ID]";
             string thirdName = "items/[ITEM_ID]";
             // Make the request
-            Operation<LroResponse, LroMetadata> response = snippetsClient.MethodLroResourceSignature(firstName, secondName, thirdName);
+            Operation<ts::LroResponse, ts::LroMetadata> response = snippetsClient.MethodLroResourceSignature(firstName, secondName, thirdName);
 
             // Poll until the returned long-running operation is complete
-            Operation<LroResponse, LroMetadata> completedResponse = response.PollUntilCompleted();
+            Operation<ts::LroResponse, ts::LroMetadata> completedResponse = response.PollUntilCompleted();
             // Retrieve the operation result
-            LroResponse result = completedResponse.Result;
+            ts::LroResponse result = completedResponse.Result;
 
             // Or get the name of the operation
             string operationName = response.Name;
             // This name can be stored, then the long-running operation retrieved later by name
-            Operation<LroResponse, LroMetadata> retrievedResponse = snippetsClient.PollOnceMethodLroResourceSignature(operationName);
+            Operation<ts::LroResponse, ts::LroMetadata> retrievedResponse = snippetsClient.PollOnceMethodLroResourceSignature(operationName);
             // Check if the retrieved long-running operation has completed
             if (retrievedResponse.IsCompleted)
             {
                 // If it has completed, then access the result
-                LroResponse retrievedResult = retrievedResponse.Result;
+                ts::LroResponse retrievedResult = retrievedResponse.Result;
             }
             // End snippet
         }
@@ -1058,28 +1058,28 @@ namespace Testing.Snippets.Snippets
             // Snippet: MethodLroResourceSignatureAsync(string, string, string, CallSettings)
             // Additional: MethodLroResourceSignatureAsync(string, string, string, CancellationToken)
             // Create client
-            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            ts::SnippetsClient snippetsClient = await ts::SnippetsClient.CreateAsync();
             // Initialize request argument(s)
             string firstName = "items/[ITEM_ID]";
             string secondName = "items/[ITEM_ID]";
             string thirdName = "items/[ITEM_ID]";
             // Make the request
-            Operation<LroResponse, LroMetadata> response = await snippetsClient.MethodLroResourceSignatureAsync(firstName, secondName, thirdName);
+            Operation<ts::LroResponse, ts::LroMetadata> response = await snippetsClient.MethodLroResourceSignatureAsync(firstName, secondName, thirdName);
 
             // Poll until the returned long-running operation is complete
-            Operation<LroResponse, LroMetadata> completedResponse = await response.PollUntilCompletedAsync();
+            Operation<ts::LroResponse, ts::LroMetadata> completedResponse = await response.PollUntilCompletedAsync();
             // Retrieve the operation result
-            LroResponse result = completedResponse.Result;
+            ts::LroResponse result = completedResponse.Result;
 
             // Or get the name of the operation
             string operationName = response.Name;
             // This name can be stored, then the long-running operation retrieved later by name
-            Operation<LroResponse, LroMetadata> retrievedResponse = await snippetsClient.PollOnceMethodLroResourceSignatureAsync(operationName);
+            Operation<ts::LroResponse, ts::LroMetadata> retrievedResponse = await snippetsClient.PollOnceMethodLroResourceSignatureAsync(operationName);
             // Check if the retrieved long-running operation has completed
             if (retrievedResponse.IsCompleted)
             {
                 // If it has completed, then access the result
-                LroResponse retrievedResult = retrievedResponse.Result;
+                ts::LroResponse retrievedResult = retrievedResponse.Result;
             }
             // End snippet
         }
@@ -1089,28 +1089,28 @@ namespace Testing.Snippets.Snippets
         {
             // Snippet: MethodLroResourceSignature(SimpleResourceName, SimpleResourceName, SimpleResourceName, CallSettings)
             // Create client
-            SnippetsClient snippetsClient = SnippetsClient.Create();
+            ts::SnippetsClient snippetsClient = ts::SnippetsClient.Create();
             // Initialize request argument(s)
-            SimpleResourceName firstName = SimpleResourceName.FromItem("[ITEM_ID]");
-            SimpleResourceName secondName = SimpleResourceName.FromItem("[ITEM_ID]");
-            SimpleResourceName thirdName = SimpleResourceName.FromItem("[ITEM_ID]");
+            ts::SimpleResourceName firstName = ts::SimpleResourceName.FromItem("[ITEM_ID]");
+            ts::SimpleResourceName secondName = ts::SimpleResourceName.FromItem("[ITEM_ID]");
+            ts::SimpleResourceName thirdName = ts::SimpleResourceName.FromItem("[ITEM_ID]");
             // Make the request
-            Operation<LroResponse, LroMetadata> response = snippetsClient.MethodLroResourceSignature(firstName, secondName, thirdName);
+            Operation<ts::LroResponse, ts::LroMetadata> response = snippetsClient.MethodLroResourceSignature(firstName, secondName, thirdName);
 
             // Poll until the returned long-running operation is complete
-            Operation<LroResponse, LroMetadata> completedResponse = response.PollUntilCompleted();
+            Operation<ts::LroResponse, ts::LroMetadata> completedResponse = response.PollUntilCompleted();
             // Retrieve the operation result
-            LroResponse result = completedResponse.Result;
+            ts::LroResponse result = completedResponse.Result;
 
             // Or get the name of the operation
             string operationName = response.Name;
             // This name can be stored, then the long-running operation retrieved later by name
-            Operation<LroResponse, LroMetadata> retrievedResponse = snippetsClient.PollOnceMethodLroResourceSignature(operationName);
+            Operation<ts::LroResponse, ts::LroMetadata> retrievedResponse = snippetsClient.PollOnceMethodLroResourceSignature(operationName);
             // Check if the retrieved long-running operation has completed
             if (retrievedResponse.IsCompleted)
             {
                 // If it has completed, then access the result
-                LroResponse retrievedResult = retrievedResponse.Result;
+                ts::LroResponse retrievedResult = retrievedResponse.Result;
             }
             // End snippet
         }
@@ -1121,28 +1121,28 @@ namespace Testing.Snippets.Snippets
             // Snippet: MethodLroResourceSignatureAsync(SimpleResourceName, SimpleResourceName, SimpleResourceName, CallSettings)
             // Additional: MethodLroResourceSignatureAsync(SimpleResourceName, SimpleResourceName, SimpleResourceName, CancellationToken)
             // Create client
-            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            ts::SnippetsClient snippetsClient = await ts::SnippetsClient.CreateAsync();
             // Initialize request argument(s)
-            SimpleResourceName firstName = SimpleResourceName.FromItem("[ITEM_ID]");
-            SimpleResourceName secondName = SimpleResourceName.FromItem("[ITEM_ID]");
-            SimpleResourceName thirdName = SimpleResourceName.FromItem("[ITEM_ID]");
+            ts::SimpleResourceName firstName = ts::SimpleResourceName.FromItem("[ITEM_ID]");
+            ts::SimpleResourceName secondName = ts::SimpleResourceName.FromItem("[ITEM_ID]");
+            ts::SimpleResourceName thirdName = ts::SimpleResourceName.FromItem("[ITEM_ID]");
             // Make the request
-            Operation<LroResponse, LroMetadata> response = await snippetsClient.MethodLroResourceSignatureAsync(firstName, secondName, thirdName);
+            Operation<ts::LroResponse, ts::LroMetadata> response = await snippetsClient.MethodLroResourceSignatureAsync(firstName, secondName, thirdName);
 
             // Poll until the returned long-running operation is complete
-            Operation<LroResponse, LroMetadata> completedResponse = await response.PollUntilCompletedAsync();
+            Operation<ts::LroResponse, ts::LroMetadata> completedResponse = await response.PollUntilCompletedAsync();
             // Retrieve the operation result
-            LroResponse result = completedResponse.Result;
+            ts::LroResponse result = completedResponse.Result;
 
             // Or get the name of the operation
             string operationName = response.Name;
             // This name can be stored, then the long-running operation retrieved later by name
-            Operation<LroResponse, LroMetadata> retrievedResponse = await snippetsClient.PollOnceMethodLroResourceSignatureAsync(operationName);
+            Operation<ts::LroResponse, ts::LroMetadata> retrievedResponse = await snippetsClient.PollOnceMethodLroResourceSignatureAsync(operationName);
             // Check if the retrieved long-running operation has completed
             if (retrievedResponse.IsCompleted)
             {
                 // If it has completed, then access the result
-                LroResponse retrievedResult = retrievedResponse.Result;
+                ts::LroResponse retrievedResult = retrievedResponse.Result;
             }
             // End snippet
         }
@@ -1152,9 +1152,9 @@ namespace Testing.Snippets.Snippets
         {
             // Snippet: MethodServerStreaming(SignatureRequest, CallSettings)
             // Create client
-            SnippetsClient snippetsClient = SnippetsClient.Create();
+            ts::SnippetsClient snippetsClient = ts::SnippetsClient.Create();
             // Initialize request argument(s)
-            SignatureRequest request = new SignatureRequest
+            ts::SignatureRequest request = new ts::SignatureRequest
             {
                 AString = "",
                 AnInt = 0,
@@ -1162,14 +1162,14 @@ namespace Testing.Snippets.Snippets
                 MapIntString = { { 0, "" }, },
             };
             // Make the request, returning a streaming response
-            SnippetsClient.MethodServerStreamingStream response = snippetsClient.MethodServerStreaming(request);
+            ts::SnippetsClient.MethodServerStreamingStream response = snippetsClient.MethodServerStreaming(request);
 
             // Read streaming responses from server until complete
             // Note that C# 8 code can use await foreach
-            AsyncResponseStream<Response> responseStream = response.GetResponseStream();
+            AsyncResponseStream<ts::Response> responseStream = response.GetResponseStream();
             while (await responseStream.MoveNextAsync())
             {
-                Response responseItem = responseStream.Current;
+                ts::Response responseItem = responseStream.Current;
                 // Do something with streamed response
             }
             // The response stream has completed
@@ -1181,19 +1181,19 @@ namespace Testing.Snippets.Snippets
         {
             // Snippet: MethodServerStreaming(string, bool, CallSettings)
             // Create client
-            SnippetsClient snippetsClient = SnippetsClient.Create();
+            ts::SnippetsClient snippetsClient = ts::SnippetsClient.Create();
             // Initialize request argument(s)
             string aString = "";
             bool aBool = false;
             // Make the request, returning a streaming response
-            SnippetsClient.MethodServerStreamingStream response = snippetsClient.MethodServerStreaming(aString, aBool);
+            ts::SnippetsClient.MethodServerStreamingStream response = snippetsClient.MethodServerStreaming(aString, aBool);
 
             // Read streaming responses from server until complete
             // Note that C# 8 code can use await foreach
-            AsyncResponseStream<Response> responseStream = response.GetResponseStream();
+            AsyncResponseStream<ts::Response> responseStream = response.GetResponseStream();
             while (await responseStream.MoveNextAsync())
             {
-                Response responseItem = responseStream.Current;
+                ts::Response responseItem = responseStream.Current;
                 // Do something with streamed response
             }
             // The response stream has completed
@@ -1205,16 +1205,16 @@ namespace Testing.Snippets.Snippets
         {
             // Snippet: MethodServerStreaming(CallSettings)
             // Create client
-            SnippetsClient snippetsClient = SnippetsClient.Create();
+            ts::SnippetsClient snippetsClient = ts::SnippetsClient.Create();
             // Make the request, returning a streaming response
-            SnippetsClient.MethodServerStreamingStream response = snippetsClient.MethodServerStreaming();
+            ts::SnippetsClient.MethodServerStreamingStream response = snippetsClient.MethodServerStreaming();
 
             // Read streaming responses from server until complete
             // Note that C# 8 code can use await foreach
-            AsyncResponseStream<Response> responseStream = response.GetResponseStream();
+            AsyncResponseStream<ts::Response> responseStream = response.GetResponseStream();
             while (await responseStream.MoveNextAsync())
             {
-                Response responseItem = responseStream.Current;
+                ts::Response responseItem = responseStream.Current;
                 // Do something with streamed response
             }
             // The response stream has completed
@@ -1226,23 +1226,23 @@ namespace Testing.Snippets.Snippets
         {
             // Snippet: MethodServerStreamingResources(ResourceSignatureRequest, CallSettings)
             // Create client
-            SnippetsClient snippetsClient = SnippetsClient.Create();
+            ts::SnippetsClient snippetsClient = ts::SnippetsClient.Create();
             // Initialize request argument(s)
-            ResourceSignatureRequest request = new ResourceSignatureRequest
+            ts::ResourceSignatureRequest request = new ts::ResourceSignatureRequest
             {
-                FirstNameAsSimpleResourceName = SimpleResourceName.FromItem("[ITEM_ID]"),
-                SecondNameAsSimpleResourceName = SimpleResourceName.FromItem("[ITEM_ID]"),
-                ThirdNameAsSimpleResourceName = SimpleResourceName.FromItem("[ITEM_ID]"),
+                FirstNameAsSimpleResourceName = ts::SimpleResourceName.FromItem("[ITEM_ID]"),
+                SecondNameAsSimpleResourceName = ts::SimpleResourceName.FromItem("[ITEM_ID]"),
+                ThirdNameAsSimpleResourceName = ts::SimpleResourceName.FromItem("[ITEM_ID]"),
             };
             // Make the request, returning a streaming response
-            SnippetsClient.MethodServerStreamingResourcesStream response = snippetsClient.MethodServerStreamingResources(request);
+            ts::SnippetsClient.MethodServerStreamingResourcesStream response = snippetsClient.MethodServerStreamingResources(request);
 
             // Read streaming responses from server until complete
             // Note that C# 8 code can use await foreach
-            AsyncResponseStream<Response> responseStream = response.GetResponseStream();
+            AsyncResponseStream<ts::Response> responseStream = response.GetResponseStream();
             while (await responseStream.MoveNextAsync())
             {
-                Response responseItem = responseStream.Current;
+                ts::Response responseItem = responseStream.Current;
                 // Do something with streamed response
             }
             // The response stream has completed
@@ -1254,20 +1254,20 @@ namespace Testing.Snippets.Snippets
         {
             // Snippet: MethodServerStreamingResources(string, string, string, CallSettings)
             // Create client
-            SnippetsClient snippetsClient = SnippetsClient.Create();
+            ts::SnippetsClient snippetsClient = ts::SnippetsClient.Create();
             // Initialize request argument(s)
             string firstName = "items/[ITEM_ID]";
             string secondName = "items/[ITEM_ID]";
             string thirdName = "items/[ITEM_ID]";
             // Make the request, returning a streaming response
-            SnippetsClient.MethodServerStreamingResourcesStream response = snippetsClient.MethodServerStreamingResources(firstName, secondName, thirdName);
+            ts::SnippetsClient.MethodServerStreamingResourcesStream response = snippetsClient.MethodServerStreamingResources(firstName, secondName, thirdName);
 
             // Read streaming responses from server until complete
             // Note that C# 8 code can use await foreach
-            AsyncResponseStream<Response> responseStream = response.GetResponseStream();
+            AsyncResponseStream<ts::Response> responseStream = response.GetResponseStream();
             while (await responseStream.MoveNextAsync())
             {
-                Response responseItem = responseStream.Current;
+                ts::Response responseItem = responseStream.Current;
                 // Do something with streamed response
             }
             // The response stream has completed
@@ -1279,20 +1279,20 @@ namespace Testing.Snippets.Snippets
         {
             // Snippet: MethodServerStreamingResources(SimpleResourceName, SimpleResourceName, SimpleResourceName, CallSettings)
             // Create client
-            SnippetsClient snippetsClient = SnippetsClient.Create();
+            ts::SnippetsClient snippetsClient = ts::SnippetsClient.Create();
             // Initialize request argument(s)
-            SimpleResourceName firstName = SimpleResourceName.FromItem("[ITEM_ID]");
-            SimpleResourceName secondName = SimpleResourceName.FromItem("[ITEM_ID]");
-            SimpleResourceName thirdName = SimpleResourceName.FromItem("[ITEM_ID]");
+            ts::SimpleResourceName firstName = ts::SimpleResourceName.FromItem("[ITEM_ID]");
+            ts::SimpleResourceName secondName = ts::SimpleResourceName.FromItem("[ITEM_ID]");
+            ts::SimpleResourceName thirdName = ts::SimpleResourceName.FromItem("[ITEM_ID]");
             // Make the request, returning a streaming response
-            SnippetsClient.MethodServerStreamingResourcesStream response = snippetsClient.MethodServerStreamingResources(firstName, secondName, thirdName);
+            ts::SnippetsClient.MethodServerStreamingResourcesStream response = snippetsClient.MethodServerStreamingResources(firstName, secondName, thirdName);
 
             // Read streaming responses from server until complete
             // Note that C# 8 code can use await foreach
-            AsyncResponseStream<Response> responseStream = response.GetResponseStream();
+            AsyncResponseStream<ts::Response> responseStream = response.GetResponseStream();
             while (await responseStream.MoveNextAsync())
             {
-                Response responseItem = responseStream.Current;
+                ts::Response responseItem = responseStream.Current;
                 // Do something with streamed response
             }
             // The response stream has completed
@@ -1304,9 +1304,9 @@ namespace Testing.Snippets.Snippets
         {
             // Snippet: MethodBidiStreaming(CallSettings, BidirectionalStreamingSettings)
             // Create client
-            SnippetsClient snippetsClient = SnippetsClient.Create();
+            ts::SnippetsClient snippetsClient = ts::SnippetsClient.Create();
             // Initialize streaming call, retrieving the stream object
-            SnippetsClient.MethodBidiStreamingStream response = snippetsClient.MethodBidiStreaming();
+            ts::SnippetsClient.MethodBidiStreamingStream response = snippetsClient.MethodBidiStreaming();
 
             // Sending requests and retrieving responses can be arbitrarily interleaved
             // Exact sequence will depend on client/server behavior
@@ -1315,10 +1315,10 @@ namespace Testing.Snippets.Snippets
             Task responseHandlerTask = Task.Run(async () =>
             {
                 // Note that C# 8 code can use await foreach
-                AsyncResponseStream<Response> responseStream = response.GetResponseStream();
+                AsyncResponseStream<ts::Response> responseStream = response.GetResponseStream();
                 while (await responseStream.MoveNextAsync())
                 {
-                    Response responseItem = responseStream.Current;
+                    ts::Response responseItem = responseStream.Current;
                     // Do something with streamed response
                 }
                 // The response stream has completed
@@ -1329,7 +1329,7 @@ namespace Testing.Snippets.Snippets
             while (!done)
             {
                 // Initialize a request
-                SignatureRequest request = new SignatureRequest
+                ts::SignatureRequest request = new ts::SignatureRequest
                 {
                     AString = "",
                     AnInt = 0,
@@ -1354,7 +1354,7 @@ namespace Testing.Snippets.Snippets
         {
             // Snippet: TaskMethod(Task, CallSettings)
             // Create client
-            SnippetsClient snippetsClient = SnippetsClient.Create();
+            ts::SnippetsClient snippetsClient = ts::SnippetsClient.Create();
             // Initialize request argument(s)
             ts::Task request = new ts::Task { };
             // Make the request
@@ -1368,7 +1368,7 @@ namespace Testing.Snippets.Snippets
             // Snippet: TaskMethodAsync(Task, CallSettings)
             // Additional: TaskMethodAsync(Task, CancellationToken)
             // Create client
-            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            ts::SnippetsClient snippetsClient = await ts::SnippetsClient.CreateAsync();
             // Initialize request argument(s)
             ts::Task request = new ts::Task { };
             // Make the request
@@ -1381,15 +1381,15 @@ namespace Testing.Snippets.Snippets
         {
             // Snippet: OneOfMethod(OneOfRequest, CallSettings)
             // Create client
-            SnippetsClient snippetsClient = SnippetsClient.Create();
+            ts::SnippetsClient snippetsClient = ts::SnippetsClient.Create();
             // Initialize request argument(s)
-            OneOfRequest request = new OneOfRequest
+            ts::OneOfRequest request = new ts::OneOfRequest
             {
                 NonOneOfString = "",
                 AString = "",
             };
             // Make the request
-            Response response = snippetsClient.OneOfMethod(request);
+            ts::Response response = snippetsClient.OneOfMethod(request);
             // End snippet
         }
 
@@ -1399,15 +1399,15 @@ namespace Testing.Snippets.Snippets
             // Snippet: OneOfMethodAsync(OneOfRequest, CallSettings)
             // Additional: OneOfMethodAsync(OneOfRequest, CancellationToken)
             // Create client
-            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            ts::SnippetsClient snippetsClient = await ts::SnippetsClient.CreateAsync();
             // Initialize request argument(s)
-            OneOfRequest request = new OneOfRequest
+            ts::OneOfRequest request = new ts::OneOfRequest
             {
                 NonOneOfString = "",
                 AString = "",
             };
             // Make the request
-            Response response = await snippetsClient.OneOfMethodAsync(request);
+            ts::Response response = await snippetsClient.OneOfMethodAsync(request);
             // End snippet
         }
     }

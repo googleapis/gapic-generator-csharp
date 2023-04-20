@@ -16,7 +16,7 @@
 
 #pragma warning disable CS8981
 
-namespace Testing.Snippets.Snippets
+namespace GoogleCSharpSnippets
 {
     // [START snippets_generated_Snippets_MethodServerStreaming_sync_flattened2]
     using Google.Api.Gax.Grpc;
@@ -36,16 +36,16 @@ namespace Testing.Snippets.Snippets
         public async Task MethodServerStreaming2()
         {
             // Create client
-            SnippetsClient snippetsClient = SnippetsClient.Create();
+            ts::SnippetsClient snippetsClient = ts::SnippetsClient.Create();
             // Make the request, returning a streaming response
-            SnippetsClient.MethodServerStreamingStream response = snippetsClient.MethodServerStreaming();
+            ts::SnippetsClient.MethodServerStreamingStream response = snippetsClient.MethodServerStreaming();
 
             // Read streaming responses from server until complete
             // Note that C# 8 code can use await foreach
-            AsyncResponseStream<Response> responseStream = response.GetResponseStream();
+            AsyncResponseStream<ts::Response> responseStream = response.GetResponseStream();
             while (await responseStream.MoveNextAsync())
             {
-                Response responseItem = responseStream.Current;
+                ts::Response responseItem = responseStream.Current;
                 // Do something with streamed response
             }
             // The response stream has completed

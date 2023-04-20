@@ -14,7 +14,7 @@
 
 // Generated code. DO NOT EDIT!
 
-namespace Testing.Paginated.Snippets
+namespace GoogleCSharpSnippets
 {
     // [START paginated_generated_Paginated_ResourcedMethod_async_flattened2_resourceNames]
     using Google.Api.Gax;
