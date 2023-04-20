@@ -16,7 +16,7 @@
 
 #pragma warning disable CS8981
 
-namespace Testing.Snippets.Snippets
+namespace GoogleCSharpSnippets
 {
     // [START snippets_generated_Snippets_MethodThreeSignatures_async_flattened3]
     using System.Threading.Tasks;
@@ -35,9 +35,9 @@ namespace Testing.Snippets.Snippets
         public async Task MethodThreeSignatures3Async()
         {
             // Create client
-            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            ts::SnippetsClient snippetsClient = await ts::SnippetsClient.CreateAsync();
             // Make the request
-            Response response = await snippetsClient.MethodThreeSignaturesAsync();
+            ts::Response response = await snippetsClient.MethodThreeSignaturesAsync();
         }
     }
     // [END snippets_generated_Snippets_MethodThreeSignatures_async_flattened3]

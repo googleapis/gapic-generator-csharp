@@ -16,7 +16,7 @@
 
 #pragma warning disable CS8981
 
-namespace Testing.Snippets.Snippets
+namespace GoogleCSharpSnippets
 {
     // [START snippets_generated_Snippets_MethodMapSignature_async]
     using System.Threading.Tasks;
@@ -35,9 +35,9 @@ namespace Testing.Snippets.Snippets
         public async Task MethodMapSignatureRequestObjectAsync()
         {
             // Create client
-            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            ts::SnippetsClient snippetsClient = await ts::SnippetsClient.CreateAsync();
             // Initialize request argument(s)
-            SignatureRequest request = new SignatureRequest
+            ts::SignatureRequest request = new ts::SignatureRequest
             {
                 AString = "",
                 AnInt = 0,
@@ -45,7 +45,7 @@ namespace Testing.Snippets.Snippets
                 MapIntString = { { 0, "" }, },
             };
             // Make the request
-            Response response = await snippetsClient.MethodMapSignatureAsync(request);
+            ts::Response response = await snippetsClient.MethodMapSignatureAsync(request);
         }
     }
     // [END snippets_generated_Snippets_MethodMapSignature_async]

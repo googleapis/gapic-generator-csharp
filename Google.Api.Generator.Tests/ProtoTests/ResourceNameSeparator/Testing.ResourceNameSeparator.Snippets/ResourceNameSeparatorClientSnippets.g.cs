@@ -14,9 +14,10 @@
 
 // Generated code. DO NOT EDIT!
 
-namespace Testing.ResourceNameSeparator.Snippets
+namespace GoogleCSharpSnippets
 {
     using System.Threading.Tasks;
+    using Testing.ResourceNameSeparator;
 
     /// <summary>Generated snippets.</summary>
     public sealed class AllGeneratedResourceNameSeparatorClientSnippets

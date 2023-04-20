@@ -14,7 +14,7 @@
 
 // Generated code. DO NOT EDIT!
 
-namespace Testing.PublishingSettings.Snippets
+namespace GoogleCSharpSnippets
 {
     // [START unknown_generated_ServiceWithResources_AMethod_async]
     using PublishingSettingsCommon.Namespace;

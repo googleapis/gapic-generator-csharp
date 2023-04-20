@@ -14,7 +14,7 @@
 
 // Generated code. DO NOT EDIT!
 
-namespace Testing.Keywords.Snippets
+namespace GoogleCSharpSnippets
 {
     // [START unknown_generated_Keywords_Method1_sync_flattened_resourceNames]
     using Testing.Keywords;

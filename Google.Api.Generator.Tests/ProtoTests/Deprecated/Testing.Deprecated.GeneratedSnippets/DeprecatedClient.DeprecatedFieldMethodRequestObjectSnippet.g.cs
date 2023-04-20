@@ -14,7 +14,7 @@
 
 // Generated code. DO NOT EDIT!
 
-namespace Testing.Deprecated.Snippets
+namespace GoogleCSharpSnippets
 {
     // [START deprecated_generated_Deprecated_DeprecatedFieldMethod_sync]
     using Testing.Deprecated;

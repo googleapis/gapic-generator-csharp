@@ -16,7 +16,7 @@
 
 #pragma warning disable CS8981
 
-namespace Testing.Snippets.Snippets
+namespace GoogleCSharpSnippets
 {
     // [START snippets_generated_Snippets_MethodLroResourceSignature_async_flattened]
     using Google.LongRunning;
@@ -36,28 +36,28 @@ namespace Testing.Snippets.Snippets
         public async Task MethodLroResourceSignatureAsync()
         {
             // Create client
-            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            ts::SnippetsClient snippetsClient = await ts::SnippetsClient.CreateAsync();
             // Initialize request argument(s)
             string firstName = "items/[ITEM_ID]";
             string secondName = "items/[ITEM_ID]";
             string thirdName = "items/[ITEM_ID]";
             // Make the request
-            Operation<LroResponse, LroMetadata> response = await snippetsClient.MethodLroResourceSignatureAsync(firstName, secondName, thirdName);
+            Operation<ts::LroResponse, ts::LroMetadata> response = await snippetsClient.MethodLroResourceSignatureAsync(firstName, secondName, thirdName);
 
             // Poll until the returned long-running operation is complete
-            Operation<LroResponse, LroMetadata> completedResponse = await response.PollUntilCompletedAsync();
+            Operation<ts::LroResponse, ts::LroMetadata> completedResponse = await response.PollUntilCompletedAsync();
             // Retrieve the operation result
-            LroResponse result = completedResponse.Result;
+            ts::LroResponse result = completedResponse.Result;
 
             // Or get the name of the operation
             string operationName = response.Name;
             // This name can be stored, then the long-running operation retrieved later by name
-            Operation<LroResponse, LroMetadata> retrievedResponse = await snippetsClient.PollOnceMethodLroResourceSignatureAsync(operationName);
+            Operation<ts::LroResponse, ts::LroMetadata> retrievedResponse = await snippetsClient.PollOnceMethodLroResourceSignatureAsync(operationName);
             // Check if the retrieved long-running operation has completed
             if (retrievedResponse.IsCompleted)
             {
                 // If it has completed, then access the result
-                LroResponse retrievedResult = retrievedResponse.Result;
+                ts::LroResponse retrievedResult = retrievedResponse.Result;
             }
         }
     }

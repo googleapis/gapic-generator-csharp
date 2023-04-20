@@ -14,7 +14,7 @@
 
 // Generated code. DO NOT EDIT!
 
-namespace Testing.Paginated.Snippets
+namespace GoogleCSharpSnippets
 {
     // [START paginated_generated_Paginated_SignatureMethod_sync_flattened2]
     using Google.Api.Gax;

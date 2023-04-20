@@ -16,7 +16,7 @@
 
 #pragma warning disable CS8981
 
-namespace Testing.Snippets.Snippets
+namespace GoogleCSharpSnippets
 {
     // [START snippets_generated_Snippets_MethodResourceSignature_async_flattened2_resourceNames]
     using System.Threading.Tasks;
@@ -35,11 +35,11 @@ namespace Testing.Snippets.Snippets
         public async Task MethodResourceSignature2ResourceNamesAsync()
         {
             // Create client
-            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            ts::SnippetsClient snippetsClient = await ts::SnippetsClient.CreateAsync();
             // Initialize request argument(s)
-            SimpleResourceName firstName = SimpleResourceName.FromItem("[ITEM_ID]");
+            ts::SimpleResourceName firstName = ts::SimpleResourceName.FromItem("[ITEM_ID]");
             // Make the request
-            Response response = await snippetsClient.MethodResourceSignatureAsync(firstName);
+            ts::Response response = await snippetsClient.MethodResourceSignatureAsync(firstName);
         }
     }
     // [END snippets_generated_Snippets_MethodResourceSignature_async_flattened2_resourceNames]

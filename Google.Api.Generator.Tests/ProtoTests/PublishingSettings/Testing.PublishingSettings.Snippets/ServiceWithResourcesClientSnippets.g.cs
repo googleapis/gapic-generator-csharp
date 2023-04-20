@@ -14,10 +14,11 @@
 
 // Generated code. DO NOT EDIT!
 
-namespace Testing.PublishingSettings.Snippets
+namespace GoogleCSharpSnippets
 {
     using PublishingSettingsCommon.Namespace;
     using System.Threading.Tasks;
+    using Testing.PublishingSettings;
 
     /// <summary>Generated snippets.</summary>
     public sealed class AllGeneratedServiceWithResourcesClientSnippets

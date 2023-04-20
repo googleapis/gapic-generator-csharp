@@ -14,9 +14,10 @@
 
 // Generated code. DO NOT EDIT!
 
-namespace Testing.Deprecated.Snippets
+namespace GoogleCSharpSnippets
 {
     using System.Threading.Tasks;
+    using Testing.Deprecated;
 
     /// <summary>Generated snippets.</summary>
     public sealed class AllGeneratedDeprecatedClientSnippets

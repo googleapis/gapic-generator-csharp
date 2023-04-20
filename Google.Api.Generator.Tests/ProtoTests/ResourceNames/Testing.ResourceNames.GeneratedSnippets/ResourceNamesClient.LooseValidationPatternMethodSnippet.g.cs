@@ -14,7 +14,7 @@
 
 // Generated code. DO NOT EDIT!
 
-namespace Testing.ResourceNames.Snippets
+namespace GoogleCSharpSnippets
 {
     // [START unknown_generated_ResourceNames_LooseValidationPatternMethod_sync_flattened]
     using Testing.ResourceNames;

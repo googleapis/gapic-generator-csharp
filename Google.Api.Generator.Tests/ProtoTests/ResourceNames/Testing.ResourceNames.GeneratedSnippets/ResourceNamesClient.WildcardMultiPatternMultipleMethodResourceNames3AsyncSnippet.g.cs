@@ -14,7 +14,7 @@
 
 // Generated code. DO NOT EDIT!
 
-namespace Testing.ResourceNames.Snippets
+namespace GoogleCSharpSnippets
 {
     // [START unknown_generated_ResourceNames_WildcardMultiPatternMultipleMethod_async_flattened_resourceNames3]
     using Google.Api.Gax;

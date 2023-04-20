@@ -16,7 +16,7 @@
 
 #pragma warning disable CS8981
 
-namespace Testing.Snippets.Snippets
+namespace GoogleCSharpSnippets
 {
     // [START snippets_generated_Snippets_MethodMapSignature_async_flattened]
     using System.Collections.Generic;
@@ -36,11 +36,11 @@ namespace Testing.Snippets.Snippets
         public async Task MethodMapSignatureAsync()
         {
             // Create client
-            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            ts::SnippetsClient snippetsClient = await ts::SnippetsClient.CreateAsync();
             // Initialize request argument(s)
             IDictionary<int, string> mapIntString = new Dictionary<int, string> { { 0, "" }, };
             // Make the request
-            Response response = await snippetsClient.MethodMapSignatureAsync(mapIntString);
+            ts::Response response = await snippetsClient.MethodMapSignatureAsync(mapIntString);
         }
     }
     // [END snippets_generated_Snippets_MethodMapSignature_async_flattened]

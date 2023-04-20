@@ -16,7 +16,7 @@
 
 #pragma warning disable CS8981
 
-namespace Testing.Snippets.Snippets
+namespace GoogleCSharpSnippets
 {
     // [START snippets_generated_Snippets_MethodDefaultValues_async]
     using Google.Api.Gax;
@@ -37,9 +37,9 @@ namespace Testing.Snippets.Snippets
         public async Task MethodDefaultValuesRequestObjectAsync()
         {
             // Create client
-            SnippetsClient snippetsClient = await SnippetsClient.CreateAsync();
+            ts::SnippetsClient snippetsClient = await ts::SnippetsClient.CreateAsync();
             // Initialize request argument(s)
-            DefaultValuesRequest request = new DefaultValuesRequest
+            ts::DefaultValuesRequest request = new ts::DefaultValuesRequest
             {
                 SingleDouble = 0,
                 SingleFloat = 0F,
@@ -56,10 +56,10 @@ namespace Testing.Snippets.Snippets
                 SingleBool = false,
                 SingleString = "",
                 SingleBytes = ByteString.Empty,
-                SingleMessage = new AnotherMessage(),
-                SingleNestedMessage = new DefaultValuesRequest.Types.NestedMessage(),
-                SingleEnum = Enum.Default,
-                SingleNestedEnum = DefaultValuesRequest.Types.NestedEnum.DefaultValue,
+                SingleMessage = new ts::AnotherMessage(),
+                SingleNestedMessage = new ts::DefaultValuesRequest.Types.NestedMessage(),
+                SingleEnum = ts::Enum.Default,
+                SingleNestedEnum = ts::DefaultValuesRequest.Types.NestedEnum.DefaultValue,
                 RepeatedDouble = { 0, },
                 RepeatedFloat = { 0F, },
                 RepeatedInt32 = { 0, },
@@ -77,31 +77,31 @@ namespace Testing.Snippets.Snippets
                 RepeatedBytes = { ByteString.Empty, },
                 RepeatedMessage =
                 {
-                    new AnotherMessage(),
+                    new ts::AnotherMessage(),
                 },
                 RepeatedNestedMessage =
                 {
-                    new DefaultValuesRequest.Types.NestedMessage(),
+                    new ts::DefaultValuesRequest.Types.NestedMessage(),
                 },
-                RepeatedEnum = { Enum.Default, },
+                RepeatedEnum = { ts::Enum.Default, },
                 RepeatedNestedEnum =
                 {
-                    DefaultValuesRequest.Types.NestedEnum.DefaultValue,
+                    ts::DefaultValuesRequest.Types.NestedEnum.DefaultValue,
                 },
-                SingleResourceNameAsAResourceName = AResourceName.FromItemPart("[ITEM_ID]", "[PART_ID]"),
+                SingleResourceNameAsAResourceName = ts::AResourceName.FromItemPart("[ITEM_ID]", "[PART_ID]"),
                 RepeatedResourceNameAsAResourceNames =
                 {
-                    AResourceName.FromItemPart("[ITEM_ID]", "[PART_ID]"),
+                    ts::AResourceName.FromItemPart("[ITEM_ID]", "[PART_ID]"),
                 },
                 SingleWildcardResourceAsResourceName = new UnparsedResourceName("a/wildcard/resource"),
                 RepeatedWildcardResourceAsResourceNames =
                 {
                     new UnparsedResourceName("a/wildcard/resource"),
                 },
-                MultiPatternResourceNameAsMultiPatternResourceName = MultiPatternResourceName.FromRootAItem("[ROOT_A_ID]", "[ITEM_ID]"),
+                MultiPatternResourceNameAsMultiPatternResourceName = ts::MultiPatternResourceName.FromRootAItem("[ROOT_A_ID]", "[ITEM_ID]"),
                 RepeatedMultiPatternResourceNameAsMultiPatternResourceNames =
                 {
-                    MultiPatternResourceName.FromRootAItem("[ROOT_A_ID]", "[ITEM_ID]"),
+                    ts::MultiPatternResourceName.FromRootAItem("[ROOT_A_ID]", "[ITEM_ID]"),
                 },
                 MapIntString = { { 0, "" }, },
                 SingleWrappedDouble = 0,
@@ -124,7 +124,7 @@ namespace Testing.Snippets.Snippets
                 RepeatedWrappedBytes = { ByteString.Empty, },
             };
             // Make the request
-            Response response = await snippetsClient.MethodDefaultValuesAsync(request);
+            ts::Response response = await snippetsClient.MethodDefaultValuesAsync(request);
         }
     }
     // [END snippets_generated_Snippets_MethodDefaultValues_async]

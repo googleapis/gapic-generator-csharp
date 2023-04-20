@@ -14,12 +14,13 @@
 
 // Generated code. DO NOT EDIT!
 
-namespace Testing.Paginated.Snippets
+namespace GoogleCSharpSnippets
 {
     using Google.Api.Gax;
     using System;
     using System.Linq;
     using System.Threading.Tasks;
+    using Testing.Paginated;
 
     /// <summary>Generated snippets.</summary>
     public sealed class AllGeneratedPaginatedClientSnippets

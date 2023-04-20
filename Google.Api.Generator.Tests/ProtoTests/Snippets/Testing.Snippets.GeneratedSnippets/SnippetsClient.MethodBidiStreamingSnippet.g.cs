@@ -16,7 +16,7 @@
 
 #pragma warning disable CS8981
 
-namespace Testing.Snippets.Snippets
+namespace GoogleCSharpSnippets
 {
     // [START snippets_generated_Snippets_MethodBidiStreaming_sync]
     using Google.Api.Gax.Grpc;
@@ -36,9 +36,9 @@ namespace Testing.Snippets.Snippets
         public async Task MethodBidiStreaming()
         {
             // Create client
-            SnippetsClient snippetsClient = SnippetsClient.Create();
+            ts::SnippetsClient snippetsClient = ts::SnippetsClient.Create();
             // Initialize streaming call, retrieving the stream object
-            SnippetsClient.MethodBidiStreamingStream response = snippetsClient.MethodBidiStreaming();
+            ts::SnippetsClient.MethodBidiStreamingStream response = snippetsClient.MethodBidiStreaming();
 
             // Sending requests and retrieving responses can be arbitrarily interleaved
             // Exact sequence will depend on client/server behavior
@@ -47,10 +47,10 @@ namespace Testing.Snippets.Snippets
             Task responseHandlerTask = Task.Run(async () =>
             {
                 // Note that C# 8 code can use await foreach
-                AsyncResponseStream<Response> responseStream = response.GetResponseStream();
+                AsyncResponseStream<ts::Response> responseStream = response.GetResponseStream();
                 while (await responseStream.MoveNextAsync())
                 {
-                    Response responseItem = responseStream.Current;
+                    ts::Response responseItem = responseStream.Current;
                     // Do something with streamed response
                 }
                 // The response stream has completed
@@ -61,7 +61,7 @@ namespace Testing.Snippets.Snippets
             while (!done)
             {
                 // Initialize a request
-                SignatureRequest request = new SignatureRequest
+                ts::SignatureRequest request = new ts::SignatureRequest
                 {
                     AString = "",
                     AnInt = 0,
