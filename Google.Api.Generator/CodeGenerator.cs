@@ -86,11 +86,11 @@ namespace Google.Api.Generator
             new Regex(@"^System\.?.*", RegexOptions.Compiled | RegexOptions.CultureInvariant),
         };
 
-        private static readonly IReadOnlyList<string> AllowedAdditionalServices = new List<string>
+        private static readonly IReadOnlyList<ServiceDescriptor> AllowedAdditionalServices = new List<ServiceDescriptor>
         {
-            IAMPolicy.Descriptor.FullName,
-            Locations.Descriptor.FullName,
-            Operations.Descriptor.FullName,
+            IAMPolicy.Descriptor,
+            Locations.Descriptor,
+            Operations.Descriptor,
         }.AsReadOnly();
 
         public static IEnumerable<ResultFile> Generate(FileDescriptorSet descriptorSet, string package, IClock clock,
@@ -121,6 +121,7 @@ namespace Google.Api.Generator
 
             // Collect all service details here to emit one `gapic_metadata.json` file for multi-package situations (e.g. Kms with Iam)
             var allServiceDetails = new List<ServiceDetails>();
+            var resultFilesByProtoPackage = new Dictionary<string, List<ResultFile>>();
             foreach (var singlePackageFileDescs in byPackage)
             {
                 // Find the right library settings by matching the proto package we're publishing.
@@ -134,14 +135,21 @@ namespace Google.Api.Generator
                         $"Found namespaces '{string.Join(", ", namespaces)}' in package '{singlePackageFileDescs.Key}'.");
                 }
                 var catalog = new ProtoCatalog(singlePackageFileDescs.Key, descriptors, singlePackageFileDescs, commonResourcesConfigs, librarySettings);
+                var files = new List<ResultFile>();
                 foreach (var resultFile in GeneratePackage(
                     namespaces[0], singlePackageFileDescs, catalog, clock,
                     grpcServiceConfig, serviceConfig, allServiceDetails,
                     transports, requestNumericEnumJsonEncoding, librarySettings))
                 {
-                    yield return resultFile;
+                    files.Add(resultFile);
+                }
+                if (files.Count > 0)
+                {
+                    resultFilesByProtoPackage[singlePackageFileDescs.Key] = files;
                 }
             }
+
+            var resultFiles = GetResultFilesToCreate(resultFilesByProtoPackage);
 
             // We assume that the first service we've generated corresponds to the service config (if we have one),
             // and is a service from the primary library we're generating. This is used for API validation and
@@ -155,12 +163,12 @@ namespace Google.Api.Generator
             {
                 // Generate gapic_metadata.json, if there are any services.
                 var gapicMetadataJsonContent = MetadataGenerator.GenerateGapicMetadataJson(primaryLibraryServices);
-                yield return new ResultFile("gapic_metadata.json", gapicMetadataJsonContent);
+                resultFiles.Add(new ResultFile("gapic_metadata.json", gapicMetadataJsonContent));
             }
 
             var unhandledApis = (serviceConfig?.Apis.Select(api => api.Name) ?? Enumerable.Empty<string>())
                 .Except(primaryLibraryServices.Select(s => s.ServiceFullName))
-                .Except(AllowedAdditionalServices)
+                .Except(AllowedAdditionalServices.Select(s => s.FullName))
                 .ToList();
 
             if (unhandledApis.Any())
@@ -169,6 +177,29 @@ namespace Google.Api.Generator
             }
 
             ValidateTransports(transports, allServiceDetails);
+            return resultFiles;
+
+            // Returns the result files we should actually create, ignoring mix-ins unless we're actually
+            // generating the mix-in API.
+            // This is necessary because Bazel passes more files to generate than we really want.
+            // Note that this method may modify filesByProtoPackage - we're not using it after calling this method though.
+            static List<ResultFile> GetResultFilesToCreate(Dictionary<string, List<ResultFile>> filesByProtoPackage)
+            {
+                var mixinPackages = AllowedAdditionalServices.Select(svc => svc.File.Package).ToHashSet();
+
+                // Unless we're *only* generating mixins, remove all mixins.
+                if (!filesByProtoPackage.Keys.All(mixinPackages.Contains))
+                {
+                    foreach (var pkg in mixinPackages)
+                    {
+                        filesByProtoPackage.Remove(pkg);
+                    }
+                }
+
+                // We may still have multiple packages here, and that's probably not
+                // ideal, but it's not too bad - and it deals with the common situation.
+                return filesByProtoPackage.Values.SelectMany(list => list).ToList();
+            }
         }
 
         private static void ValidateTransports(ApiTransports transports, List<ServiceDetails> services)
