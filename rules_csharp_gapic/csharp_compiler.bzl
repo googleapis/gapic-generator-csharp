@@ -18,9 +18,18 @@ def _csharp_binary_impl(ctx):
     out_run_sh = ctx.actions.declare_file("run.sh")
     csproj_relative = ctx.file.csproj.path[len(ctx.attr.csproj.label.workspace_root):].strip("/")
     command = """
+set -e
+
 mkdir local_tmp
 ln -s {restore}/packages .
 cp -r {restore}/src .
+
+export DOTNET_CLI_HOME="$(pwd)/local_tmp"
+export XDG_DATA_HOME="$(pwd)/local_tmp"
+export DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
+export DOTNET_CLI_TELEMETRY_OPTOUT=1
+export DOTNET_NOLOGO=1
+export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
 
 # Running this command twice, if the first invocation fails, try once more
 # [virost, 03/2021] temporarily until I figure out what causes intermittent Kokoro failures
@@ -28,11 +37,6 @@ cmd="{csharp_compiler}/dotnet build src/{csproj_relative} \
   --framework {framework} --configuration {configuration} \
   --no-restore --nologo --verbosity=quiet --packages packages"
 
-DOTNET_CLI_HOME="$(pwd)/local_tmp" \
-DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1 \
-DOTNET_CLI_TELEMETRY_OPTOUT=1 \
-DOTNET_NOLOGO=1 \
-DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1 \
 $cmd || $cmd
 
 cp -r src/* {out}/
@@ -51,17 +55,21 @@ cp -r src/* {out}/
         command = command,
     )
     run_sh = """#!/bin/bash
+set -e
+
+export DOTNET_CLI_HOME="$(pwd)/local_tmp"
+export XDG_DATA_HOME="$(pwd)/local_tmp"
+export DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
+export DOTNET_CLI_TELEMETRY_OPTOUT=1
+export DOTNET_NOLOGO=1
+export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
+
 # Running this command twice, if the first invocation fails, try once more
 # [virost, 03/2021] temporarily until I figure out what causes intermittent Kokoro failures
 cmd="$(dirname $0)/run.sh.runfiles/$(basename $(pwd))/{csharp_compiler}/dotnet run \
   --project $(dirname $0)/run.sh.runfiles/$(basename $(pwd))/{out}/{csproj_relative} \
   --no-restore --no-build"
 
-DOTNET_CLI_HOME="$(pwd)/local_tmp" \
-DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1 \
-DOTNET_CLI_TELEMETRY_OPTOUT=1 \
-DOTNET_NOLOGO=1 \
-DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1 \
 $cmd || $cmd
     """.format(
         csharp_compiler = ctx.file.csharp_compiler.short_path,
