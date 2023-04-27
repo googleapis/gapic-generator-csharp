@@ -61,6 +61,10 @@ def _dotnet_restore_impl(ctx):
             command,
             environment = {
                 "DOTNET_CLI_HOME": str(ctx.path('.')) + "/local_tmp/",
+                # XDG_DATA_HOME appears not to be required at the moment
+                # for dotnet restore, but let's avoid breaking if it
+                # ends up being used as it is for dotnet build.
+                "XDG_DATA_HOME": str(ctx.path('.')) + "/local_tmp/",
                 "DOTNET_SKIP_FIRST_TIME_EXPERIENCE": "1",
                 "DOTNET_CLI_TELEMETRY_OPTOUT": "1",
                 "DOTNET_NOLOGO": "1",
