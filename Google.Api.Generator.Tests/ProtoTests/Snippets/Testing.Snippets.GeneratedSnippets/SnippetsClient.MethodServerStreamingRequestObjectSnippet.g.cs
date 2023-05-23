@@ -46,7 +46,7 @@ namespace GoogleCSharpSnippets
                 MapIntString = { { 0, "" }, },
             };
             // Make the request, returning a streaming response
-            ts::SnippetsClient.MethodServerStreamingStream response = snippetsClient.MethodServerStreaming(request);
+            using ts::SnippetsClient.MethodServerStreamingStream response = snippetsClient.MethodServerStreaming(request);
 
             // Read streaming responses from server until complete
             // Note that C# 8 code can use await foreach
