@@ -634,7 +634,7 @@ namespace Google.Api.Generator.Generation
                         NextPageToken.WithInitializer(SinglePage.Access(nameof(Page<int>.NextPageToken))),
                         IncludeDocMarkers ? "// End snippet" : null);
 
-            private MethodDeclarationSyntax ServerStreaming(string methodName, IEnumerable<Typ> snippetTyps, object initRequest, object makeRequest) =>
+            private MethodDeclarationSyntax ServerStreaming(string methodName, IEnumerable<Typ> snippetTyps, object initRequest, LocalDeclarationStatementSyntax makeRequest) =>
                 Method(Public | Modifier.Async, Ctx.Type<Task>(), methodName)()
                     .WithShortSnippetBody(
                         IncludeDocMarkers ? $"// Snippet: {Method.SyncMethodName}({SnippetTypes(snippetTyps)}{nameof(CallSettings)})" : null,
@@ -643,7 +643,7 @@ namespace Google.Api.Generator.Generation
                         snippetTyps.Any() ? "// Initialize request argument(s)" : null,
                         initRequest,
                         "// Make the request, returning a streaming response",
-                        makeRequest,
+                        makeRequest.WithUsingKeyword(Token(SyntaxKind.UsingKeyword).WithTrailingSpace()),
                         BlankLine,
                         "// Read streaming responses from server until complete",
                         "// Note that C# 8 code can use await foreach",
@@ -709,7 +709,7 @@ namespace Google.Api.Generator.Generation
                         "// Create client",
                         Client.WithInitializer(Ctx.Type(Svc.ClientAbstractTyp).Call("Create")()),
                         "// Initialize streaming call, retrieving the stream object",
-                        Response.WithInitializer(SyncClientMethodCall()),
+                        Response.WithInitializer(SyncClientMethodCall()).WithUsingKeyword(Token(SyntaxKind.UsingKeyword).WithTrailingSpace()),
                         BlankLine,
                         "// Sending requests and retrieving responses can be arbitrarily interleaved",
                         "// Exact sequence will depend on client/server behavior",

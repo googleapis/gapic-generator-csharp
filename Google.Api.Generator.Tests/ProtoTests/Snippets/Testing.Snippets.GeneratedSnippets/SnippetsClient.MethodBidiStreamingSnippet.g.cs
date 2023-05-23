@@ -38,7 +38,7 @@ namespace GoogleCSharpSnippets
             // Create client
             ts::SnippetsClient snippetsClient = ts::SnippetsClient.Create();
             // Initialize streaming call, retrieving the stream object
-            ts::SnippetsClient.MethodBidiStreamingStream response = snippetsClient.MethodBidiStreaming();
+            using ts::SnippetsClient.MethodBidiStreamingStream response = snippetsClient.MethodBidiStreaming();
 
             // Sending requests and retrieving responses can be arbitrarily interleaved
             // Exact sequence will depend on client/server behavior

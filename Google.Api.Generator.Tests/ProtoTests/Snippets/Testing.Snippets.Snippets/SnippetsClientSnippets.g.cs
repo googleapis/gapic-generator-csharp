@@ -1162,7 +1162,7 @@ namespace GoogleCSharpSnippets
                 MapIntString = { { 0, "" }, },
             };
             // Make the request, returning a streaming response
-            ts::SnippetsClient.MethodServerStreamingStream response = snippetsClient.MethodServerStreaming(request);
+            using ts::SnippetsClient.MethodServerStreamingStream response = snippetsClient.MethodServerStreaming(request);
 
             // Read streaming responses from server until complete
             // Note that C# 8 code can use await foreach
@@ -1186,7 +1186,7 @@ namespace GoogleCSharpSnippets
             string aString = "";
             bool aBool = false;
             // Make the request, returning a streaming response
-            ts::SnippetsClient.MethodServerStreamingStream response = snippetsClient.MethodServerStreaming(aString, aBool);
+            using ts::SnippetsClient.MethodServerStreamingStream response = snippetsClient.MethodServerStreaming(aString, aBool);
 
             // Read streaming responses from server until complete
             // Note that C# 8 code can use await foreach
@@ -1207,7 +1207,7 @@ namespace GoogleCSharpSnippets
             // Create client
             ts::SnippetsClient snippetsClient = ts::SnippetsClient.Create();
             // Make the request, returning a streaming response
-            ts::SnippetsClient.MethodServerStreamingStream response = snippetsClient.MethodServerStreaming();
+            using ts::SnippetsClient.MethodServerStreamingStream response = snippetsClient.MethodServerStreaming();
 
             // Read streaming responses from server until complete
             // Note that C# 8 code can use await foreach
@@ -1235,7 +1235,7 @@ namespace GoogleCSharpSnippets
                 ThirdNameAsSimpleResourceName = ts::SimpleResourceName.FromItem("[ITEM_ID]"),
             };
             // Make the request, returning a streaming response
-            ts::SnippetsClient.MethodServerStreamingResourcesStream response = snippetsClient.MethodServerStreamingResources(request);
+            using ts::SnippetsClient.MethodServerStreamingResourcesStream response = snippetsClient.MethodServerStreamingResources(request);
 
             // Read streaming responses from server until complete
             // Note that C# 8 code can use await foreach
@@ -1260,7 +1260,7 @@ namespace GoogleCSharpSnippets
             string secondName = "items/[ITEM_ID]";
             string thirdName = "items/[ITEM_ID]";
             // Make the request, returning a streaming response
-            ts::SnippetsClient.MethodServerStreamingResourcesStream response = snippetsClient.MethodServerStreamingResources(firstName, secondName, thirdName);
+            using ts::SnippetsClient.MethodServerStreamingResourcesStream response = snippetsClient.MethodServerStreamingResources(firstName, secondName, thirdName);
 
             // Read streaming responses from server until complete
             // Note that C# 8 code can use await foreach
@@ -1285,7 +1285,7 @@ namespace GoogleCSharpSnippets
             ts::SimpleResourceName secondName = ts::SimpleResourceName.FromItem("[ITEM_ID]");
             ts::SimpleResourceName thirdName = ts::SimpleResourceName.FromItem("[ITEM_ID]");
             // Make the request, returning a streaming response
-            ts::SnippetsClient.MethodServerStreamingResourcesStream response = snippetsClient.MethodServerStreamingResources(firstName, secondName, thirdName);
+            using ts::SnippetsClient.MethodServerStreamingResourcesStream response = snippetsClient.MethodServerStreamingResources(firstName, secondName, thirdName);
 
             // Read streaming responses from server until complete
             // Note that C# 8 code can use await foreach
@@ -1306,7 +1306,7 @@ namespace GoogleCSharpSnippets
             // Create client
             ts::SnippetsClient snippetsClient = ts::SnippetsClient.Create();
             // Initialize streaming call, retrieving the stream object
-            ts::SnippetsClient.MethodBidiStreamingStream response = snippetsClient.MethodBidiStreaming();
+            using ts::SnippetsClient.MethodBidiStreamingStream response = snippetsClient.MethodBidiStreaming();
 
             // Sending requests and retrieving responses can be arbitrarily interleaved
             // Exact sequence will depend on client/server behavior

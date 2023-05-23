@@ -42,7 +42,7 @@ namespace GoogleCSharpSnippets
             ts::SimpleResourceName secondName = ts::SimpleResourceName.FromItem("[ITEM_ID]");
             ts::SimpleResourceName thirdName = ts::SimpleResourceName.FromItem("[ITEM_ID]");
             // Make the request, returning a streaming response
-            ts::SnippetsClient.MethodServerStreamingResourcesStream response = snippetsClient.MethodServerStreamingResources(firstName, secondName, thirdName);
+            using ts::SnippetsClient.MethodServerStreamingResourcesStream response = snippetsClient.MethodServerStreamingResources(firstName, secondName, thirdName);
 
             // Read streaming responses from server until complete
             // Note that C# 8 code can use await foreach
