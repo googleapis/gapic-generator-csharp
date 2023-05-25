@@ -247,6 +247,8 @@ namespace Google.Showcase.V1Beta1 {
 
     /// <summary>Field number for the "intended_binding_uri" field.</summary>
     public const int IntendedBindingUriFieldNumber = 10;
+    private readonly static string IntendedBindingUriDefaultValue = "";
+
     private string intendedBindingUri_;
     /// <summary>
     /// The URI template this request is expected to be bound to server-side.
@@ -254,7 +256,7 @@ namespace Google.Showcase.V1Beta1 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public string IntendedBindingUri {
-      get { return intendedBindingUri_ ?? ""; }
+      get { return intendedBindingUri_ ?? IntendedBindingUriDefaultValue; }
       set {
         intendedBindingUri_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
@@ -314,11 +316,13 @@ namespace Google.Showcase.V1Beta1 {
 
     /// <summary>Field number for the "p_int32" field.</summary>
     public const int PInt32FieldNumber = 7;
+    private readonly static int PInt32DefaultValue = 0;
+
     private int pInt32_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int PInt32 {
-      get { if ((_hasBits0 & 1) != 0) { return pInt32_; } else { return 0; } }
+      get { if ((_hasBits0 & 1) != 0) { return pInt32_; } else { return PInt32DefaultValue; } }
       set {
         _hasBits0 |= 1;
         pInt32_ = value;
@@ -339,11 +343,13 @@ namespace Google.Showcase.V1Beta1 {
 
     /// <summary>Field number for the "p_int64" field.</summary>
     public const int PInt64FieldNumber = 8;
+    private readonly static long PInt64DefaultValue = 0L;
+
     private long pInt64_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public long PInt64 {
-      get { if ((_hasBits0 & 2) != 0) { return pInt64_; } else { return 0L; } }
+      get { if ((_hasBits0 & 2) != 0) { return pInt64_; } else { return PInt64DefaultValue; } }
       set {
         _hasBits0 |= 2;
         pInt64_ = value;
@@ -364,11 +370,13 @@ namespace Google.Showcase.V1Beta1 {
 
     /// <summary>Field number for the "p_double" field.</summary>
     public const int PDoubleFieldNumber = 9;
+    private readonly static double PDoubleDefaultValue = 0D;
+
     private double pDouble_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public double PDouble {
-      get { if ((_hasBits0 & 4) != 0) { return pDouble_; } else { return 0D; } }
+      get { if ((_hasBits0 & 4) != 0) { return pDouble_; } else { return PDoubleDefaultValue; } }
       set {
         _hasBits0 |= 4;
         pDouble_ = value;
@@ -1690,11 +1698,13 @@ namespace Google.Showcase.V1Beta1 {
 
     /// <summary>Field number for the "p_string" field.</summary>
     public const int PStringFieldNumber = 17;
+    private readonly static string PStringDefaultValue = "";
+
     private string pString_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public string PString {
-      get { return pString_ ?? ""; }
+      get { return pString_ ?? PStringDefaultValue; }
       set {
         pString_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
@@ -1714,11 +1724,13 @@ namespace Google.Showcase.V1Beta1 {
 
     /// <summary>Field number for the "p_int32" field.</summary>
     public const int PInt32FieldNumber = 18;
+    private readonly static int PInt32DefaultValue = 0;
+
     private int pInt32_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int PInt32 {
-      get { if ((_hasBits0 & 1) != 0) { return pInt32_; } else { return 0; } }
+      get { if ((_hasBits0 & 1) != 0) { return pInt32_; } else { return PInt32DefaultValue; } }
       set {
         _hasBits0 |= 1;
         pInt32_ = value;
@@ -1739,11 +1751,13 @@ namespace Google.Showcase.V1Beta1 {
 
     /// <summary>Field number for the "p_double" field.</summary>
     public const int PDoubleFieldNumber = 19;
+    private readonly static double PDoubleDefaultValue = 0D;
+
     private double pDouble_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public double PDouble {
-      get { if ((_hasBits0 & 2) != 0) { return pDouble_; } else { return 0D; } }
+      get { if ((_hasBits0 & 2) != 0) { return pDouble_; } else { return PDoubleDefaultValue; } }
       set {
         _hasBits0 |= 2;
         pDouble_ = value;
@@ -1764,11 +1778,13 @@ namespace Google.Showcase.V1Beta1 {
 
     /// <summary>Field number for the "p_bool" field.</summary>
     public const int PBoolFieldNumber = 20;
+    private readonly static bool PBoolDefaultValue = false;
+
     private bool pBool_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public bool PBool {
-      get { if ((_hasBits0 & 4) != 0) { return pBool_; } else { return false; } }
+      get { if ((_hasBits0 & 4) != 0) { return pBool_; } else { return PBoolDefaultValue; } }
       set {
         _hasBits0 |= 4;
         pBool_ = value;
@@ -1789,11 +1805,13 @@ namespace Google.Showcase.V1Beta1 {
 
     /// <summary>Field number for the "p_kingdom" field.</summary>
     public const int PKingdomFieldNumber = 23;
+    private readonly static global::Google.Showcase.V1Beta1.ComplianceData.Types.LifeKingdom PKingdomDefaultValue = global::Google.Showcase.V1Beta1.ComplianceData.Types.LifeKingdom.Unspecified;
+
     private global::Google.Showcase.V1Beta1.ComplianceData.Types.LifeKingdom pKingdom_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public global::Google.Showcase.V1Beta1.ComplianceData.Types.LifeKingdom PKingdom {
-      get { if ((_hasBits0 & 8) != 0) { return pKingdom_; } else { return global::Google.Showcase.V1Beta1.ComplianceData.Types.LifeKingdom.Unspecified; } }
+      get { if ((_hasBits0 & 8) != 0) { return pKingdom_; } else { return PKingdomDefaultValue; } }
       set {
         _hasBits0 |= 8;
         pKingdom_ = value;
@@ -2652,11 +2670,13 @@ namespace Google.Showcase.V1Beta1 {
 
     /// <summary>Field number for the "p_string" field.</summary>
     public const int PStringFieldNumber = 6;
+    private readonly static string PStringDefaultValue = "";
+
     private string pString_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public string PString {
-      get { return pString_ ?? ""; }
+      get { return pString_ ?? PStringDefaultValue; }
       set {
         pString_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
@@ -2676,11 +2696,13 @@ namespace Google.Showcase.V1Beta1 {
 
     /// <summary>Field number for the "p_float" field.</summary>
     public const int PFloatFieldNumber = 7;
+    private readonly static float PFloatDefaultValue = 0F;
+
     private float pFloat_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public float PFloat {
-      get { if ((_hasBits0 & 1) != 0) { return pFloat_; } else { return 0F; } }
+      get { if ((_hasBits0 & 1) != 0) { return pFloat_; } else { return PFloatDefaultValue; } }
       set {
         _hasBits0 |= 1;
         pFloat_ = value;
@@ -2701,11 +2723,13 @@ namespace Google.Showcase.V1Beta1 {
 
     /// <summary>Field number for the "p_double" field.</summary>
     public const int PDoubleFieldNumber = 8;
+    private readonly static double PDoubleDefaultValue = 0D;
+
     private double pDouble_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public double PDouble {
-      get { if ((_hasBits0 & 2) != 0) { return pDouble_; } else { return 0D; } }
+      get { if ((_hasBits0 & 2) != 0) { return pDouble_; } else { return PDoubleDefaultValue; } }
       set {
         _hasBits0 |= 2;
         pDouble_ = value;
@@ -2726,11 +2750,13 @@ namespace Google.Showcase.V1Beta1 {
 
     /// <summary>Field number for the "p_bool" field.</summary>
     public const int PBoolFieldNumber = 9;
+    private readonly static bool PBoolDefaultValue = false;
+
     private bool pBool_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public bool PBool {
-      get { if ((_hasBits0 & 4) != 0) { return pBool_; } else { return false; } }
+      get { if ((_hasBits0 & 4) != 0) { return pBool_; } else { return PBoolDefaultValue; } }
       set {
         _hasBits0 |= 4;
         pBool_ = value;
