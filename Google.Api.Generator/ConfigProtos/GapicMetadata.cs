@@ -366,7 +366,7 @@ namespace Google.Gapic.Metadata {
       if (other.LibraryPackage.Length != 0) {
         LibraryPackage = other.LibraryPackage;
       }
-      services_.Add(other.services_);
+      services_.MergeFrom(other.services_);
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -595,7 +595,7 @@ namespace Google.Gapic.Metadata {
           if (other == null) {
             return;
           }
-          clients_.Add(other.clients_);
+          clients_.MergeFrom(other.clients_);
           _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
         }
 
@@ -817,7 +817,7 @@ namespace Google.Gapic.Metadata {
           if (other.LibraryClient.Length != 0) {
             LibraryClient = other.LibraryClient;
           }
-          rpcs_.Add(other.rpcs_);
+          rpcs_.MergeFrom(other.rpcs_);
           _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
         }
 

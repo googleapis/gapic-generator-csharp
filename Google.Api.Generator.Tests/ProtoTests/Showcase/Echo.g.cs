@@ -206,10 +206,24 @@ namespace Google.Showcase.V1Beta1 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public string Content {
-      get { return responseCase_ == ResponseOneofCase.Content ? (string) response_ : ""; }
+      get { return HasContent ? (string) response_ : ""; }
       set {
         response_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
         responseCase_ = ResponseOneofCase.Content;
+      }
+    }
+    /// <summary>Gets whether the "content" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasContent {
+      get { return responseCase_ == ResponseOneofCase.Content; }
+    }
+    /// <summary> Clears the value of the oneof if it's currently set to "content" </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearContent() {
+      if (HasContent) {
+        ClearResponse();
       }
     }
 
@@ -322,7 +336,7 @@ namespace Google.Showcase.V1Beta1 {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (responseCase_ == ResponseOneofCase.Content) hash ^= Content.GetHashCode();
+      if (HasContent) hash ^= Content.GetHashCode();
       if (responseCase_ == ResponseOneofCase.Error) hash ^= Error.GetHashCode();
       if (Severity != global::Google.Showcase.V1Beta1.Severity.Unnecessary) hash ^= Severity.GetHashCode();
       if (Header.Length != 0) hash ^= Header.GetHashCode();
@@ -346,7 +360,7 @@ namespace Google.Showcase.V1Beta1 {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (responseCase_ == ResponseOneofCase.Content) {
+      if (HasContent) {
         output.WriteRawTag(10);
         output.WriteString(Content);
       }
@@ -376,7 +390,7 @@ namespace Google.Showcase.V1Beta1 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (responseCase_ == ResponseOneofCase.Content) {
+      if (HasContent) {
         output.WriteRawTag(10);
         output.WriteString(Content);
       }
@@ -406,7 +420,7 @@ namespace Google.Showcase.V1Beta1 {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (responseCase_ == ResponseOneofCase.Content) {
+      if (HasContent) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Content);
       }
       if (responseCase_ == ResponseOneofCase.Error) {
@@ -2145,7 +2159,7 @@ namespace Google.Showcase.V1Beta1 {
       if (other == null) {
         return;
       }
-      alphabetized_.Add(other.alphabetized_);
+      alphabetized_.MergeFrom(other.alphabetized_);
       if (other.NextPageToken.Length != 0) {
         NextPageToken = other.NextPageToken;
       }

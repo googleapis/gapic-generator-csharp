@@ -1976,10 +1976,24 @@ namespace Google.Showcase.V1Beta1 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public string Text {
-      get { return contentCase_ == ContentOneofCase.Text ? (string) content_ : ""; }
+      get { return HasText ? (string) content_ : ""; }
       set {
         content_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
         contentCase_ = ContentOneofCase.Text;
+      }
+    }
+    /// <summary>Gets whether the "text" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasText {
+      get { return contentCase_ == ContentOneofCase.Text; }
+    }
+    /// <summary> Clears the value of the oneof if it's currently set to "text" </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearText() {
+      if (HasText) {
+        ClearContent();
       }
     }
 
@@ -1991,10 +2005,24 @@ namespace Google.Showcase.V1Beta1 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public pb::ByteString Image {
-      get { return contentCase_ == ContentOneofCase.Image ? (pb::ByteString) content_ : pb::ByteString.Empty; }
+      get { return HasImage ? (pb::ByteString) content_ : pb::ByteString.Empty; }
       set {
         content_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
         contentCase_ = ContentOneofCase.Image;
+      }
+    }
+    /// <summary>Gets whether the "image" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasImage {
+      get { return contentCase_ == ContentOneofCase.Image; }
+    }
+    /// <summary> Clears the value of the oneof if it's currently set to "image" </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearImage() {
+      if (HasImage) {
+        ClearContent();
       }
     }
 
@@ -2038,10 +2066,24 @@ namespace Google.Showcase.V1Beta1 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public string LegacyRoomId {
-      get { return legacyIdCase_ == LegacyIdOneofCase.LegacyRoomId ? (string) legacyId_ : ""; }
+      get { return HasLegacyRoomId ? (string) legacyId_ : ""; }
       set {
         legacyId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
         legacyIdCase_ = LegacyIdOneofCase.LegacyRoomId;
+      }
+    }
+    /// <summary>Gets whether the "legacy_room_id" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasLegacyRoomId {
+      get { return legacyIdCase_ == LegacyIdOneofCase.LegacyRoomId; }
+    }
+    /// <summary> Clears the value of the oneof if it's currently set to "legacy_room_id" </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearLegacyRoomId() {
+      if (HasLegacyRoomId) {
+        ClearLegacyId();
       }
     }
 
@@ -2055,10 +2097,24 @@ namespace Google.Showcase.V1Beta1 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public string LegacyUserId {
-      get { return legacyIdCase_ == LegacyIdOneofCase.LegacyUserId ? (string) legacyId_ : ""; }
+      get { return HasLegacyUserId ? (string) legacyId_ : ""; }
       set {
         legacyId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
         legacyIdCase_ = LegacyIdOneofCase.LegacyUserId;
+      }
+    }
+    /// <summary>Gets whether the "legacy_user_id" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasLegacyUserId {
+      get { return legacyIdCase_ == LegacyIdOneofCase.LegacyUserId; }
+    }
+    /// <summary> Clears the value of the oneof if it's currently set to "legacy_user_id" </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearLegacyUserId() {
+      if (HasLegacyUserId) {
+        ClearLegacyId();
       }
     }
 
@@ -2138,12 +2194,12 @@ namespace Google.Showcase.V1Beta1 {
       int hash = 1;
       if (Name.Length != 0) hash ^= Name.GetHashCode();
       if (User.Length != 0) hash ^= User.GetHashCode();
-      if (contentCase_ == ContentOneofCase.Text) hash ^= Text.GetHashCode();
-      if (contentCase_ == ContentOneofCase.Image) hash ^= Image.GetHashCode();
+      if (HasText) hash ^= Text.GetHashCode();
+      if (HasImage) hash ^= Image.GetHashCode();
       if (createTime_ != null) hash ^= CreateTime.GetHashCode();
       if (updateTime_ != null) hash ^= UpdateTime.GetHashCode();
-      if (legacyIdCase_ == LegacyIdOneofCase.LegacyRoomId) hash ^= LegacyRoomId.GetHashCode();
-      if (legacyIdCase_ == LegacyIdOneofCase.LegacyUserId) hash ^= LegacyUserId.GetHashCode();
+      if (HasLegacyRoomId) hash ^= LegacyRoomId.GetHashCode();
+      if (HasLegacyUserId) hash ^= LegacyUserId.GetHashCode();
       hash ^= (int) contentCase_;
       hash ^= (int) legacyIdCase_;
       if (_unknownFields != null) {
@@ -2172,11 +2228,11 @@ namespace Google.Showcase.V1Beta1 {
         output.WriteRawTag(18);
         output.WriteString(User);
       }
-      if (contentCase_ == ContentOneofCase.Text) {
+      if (HasText) {
         output.WriteRawTag(26);
         output.WriteString(Text);
       }
-      if (contentCase_ == ContentOneofCase.Image) {
+      if (HasImage) {
         output.WriteRawTag(34);
         output.WriteBytes(Image);
       }
@@ -2188,11 +2244,11 @@ namespace Google.Showcase.V1Beta1 {
         output.WriteRawTag(50);
         output.WriteMessage(UpdateTime);
       }
-      if (legacyIdCase_ == LegacyIdOneofCase.LegacyRoomId) {
+      if (HasLegacyRoomId) {
         output.WriteRawTag(58);
         output.WriteString(LegacyRoomId);
       }
-      if (legacyIdCase_ == LegacyIdOneofCase.LegacyUserId) {
+      if (HasLegacyUserId) {
         output.WriteRawTag(66);
         output.WriteString(LegacyUserId);
       }
@@ -2214,11 +2270,11 @@ namespace Google.Showcase.V1Beta1 {
         output.WriteRawTag(18);
         output.WriteString(User);
       }
-      if (contentCase_ == ContentOneofCase.Text) {
+      if (HasText) {
         output.WriteRawTag(26);
         output.WriteString(Text);
       }
-      if (contentCase_ == ContentOneofCase.Image) {
+      if (HasImage) {
         output.WriteRawTag(34);
         output.WriteBytes(Image);
       }
@@ -2230,11 +2286,11 @@ namespace Google.Showcase.V1Beta1 {
         output.WriteRawTag(50);
         output.WriteMessage(UpdateTime);
       }
-      if (legacyIdCase_ == LegacyIdOneofCase.LegacyRoomId) {
+      if (HasLegacyRoomId) {
         output.WriteRawTag(58);
         output.WriteString(LegacyRoomId);
       }
-      if (legacyIdCase_ == LegacyIdOneofCase.LegacyUserId) {
+      if (HasLegacyUserId) {
         output.WriteRawTag(66);
         output.WriteString(LegacyUserId);
       }
@@ -2254,10 +2310,10 @@ namespace Google.Showcase.V1Beta1 {
       if (User.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(User);
       }
-      if (contentCase_ == ContentOneofCase.Text) {
+      if (HasText) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Text);
       }
-      if (contentCase_ == ContentOneofCase.Image) {
+      if (HasImage) {
         size += 1 + pb::CodedOutputStream.ComputeBytesSize(Image);
       }
       if (createTime_ != null) {
@@ -2266,10 +2322,10 @@ namespace Google.Showcase.V1Beta1 {
       if (updateTime_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(UpdateTime);
       }
-      if (legacyIdCase_ == LegacyIdOneofCase.LegacyRoomId) {
+      if (HasLegacyRoomId) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(LegacyRoomId);
       }
-      if (legacyIdCase_ == LegacyIdOneofCase.LegacyUserId) {
+      if (HasLegacyUserId) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(LegacyUserId);
       }
       if (_unknownFields != null) {

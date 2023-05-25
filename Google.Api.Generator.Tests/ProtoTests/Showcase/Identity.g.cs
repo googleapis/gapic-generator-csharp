@@ -220,6 +220,8 @@ namespace Google.Showcase.V1Beta1 {
 
     /// <summary>Field number for the "age" field.</summary>
     public const int AgeFieldNumber = 6;
+    private readonly static int AgeDefaultValue = 0;
+
     private int age_;
     /// <summary>
     /// The age of the user in years.
@@ -227,7 +229,7 @@ namespace Google.Showcase.V1Beta1 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int Age {
-      get { if ((_hasBits0 & 1) != 0) { return age_; } else { return 0; } }
+      get { if ((_hasBits0 & 1) != 0) { return age_; } else { return AgeDefaultValue; } }
       set {
         _hasBits0 |= 1;
         age_ = value;
@@ -248,6 +250,8 @@ namespace Google.Showcase.V1Beta1 {
 
     /// <summary>Field number for the "height_feet" field.</summary>
     public const int HeightFeetFieldNumber = 7;
+    private readonly static double HeightFeetDefaultValue = 0D;
+
     private double heightFeet_;
     /// <summary>
     /// The height of the user in feet.
@@ -255,7 +259,7 @@ namespace Google.Showcase.V1Beta1 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public double HeightFeet {
-      get { if ((_hasBits0 & 2) != 0) { return heightFeet_; } else { return 0D; } }
+      get { if ((_hasBits0 & 2) != 0) { return heightFeet_; } else { return HeightFeetDefaultValue; } }
       set {
         _hasBits0 |= 2;
         heightFeet_ = value;
@@ -276,6 +280,8 @@ namespace Google.Showcase.V1Beta1 {
 
     /// <summary>Field number for the "nickname" field.</summary>
     public const int NicknameFieldNumber = 8;
+    private readonly static string NicknameDefaultValue = "";
+
     private string nickname_;
     /// <summary>
     /// The nickname of the user.
@@ -286,7 +292,7 @@ namespace Google.Showcase.V1Beta1 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public string Nickname {
-      get { return nickname_ ?? ""; }
+      get { return nickname_ ?? NicknameDefaultValue; }
       set {
         nickname_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
@@ -306,6 +312,8 @@ namespace Google.Showcase.V1Beta1 {
 
     /// <summary>Field number for the "enable_notifications" field.</summary>
     public const int EnableNotificationsFieldNumber = 9;
+    private readonly static bool EnableNotificationsDefaultValue = false;
+
     private bool enableNotifications_;
     /// <summary>
     /// Enables the receiving of notifications. The default is true if unset.
@@ -316,7 +324,7 @@ namespace Google.Showcase.V1Beta1 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public bool EnableNotifications {
-      get { if ((_hasBits0 & 4) != 0) { return enableNotifications_; } else { return false; } }
+      get { if ((_hasBits0 & 4) != 0) { return enableNotifications_; } else { return EnableNotificationsDefaultValue; } }
       set {
         _hasBits0 |= 4;
         enableNotifications_ = value;
