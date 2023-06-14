@@ -30,6 +30,8 @@ namespace Google.Api.Generator.Rest.Tests
         /// </summary>
         public static string TestDirectory { get; }
 
+        private static string ActualGeneratedFilesDir { get; } = Path.Combine(Path.GetTempPath(), $"GeneratorTests-{DateTime.UtcNow:yyyyMMddHHmmssZ}");
+
         static TestResources()
         {
             var rootPath = Environment.CurrentDirectory;
@@ -59,6 +61,16 @@ namespace Google.Api.Generator.Rest.Tests
             };
             PackageEnumStorage enumStorage = PackageEnumStorage.FromJson("{}");
             var files = CodeGenerator.Generate(json, features, enumStorage, clock).ToList();
+
+            // Write all output files to the temporary directory before validating any.
+            // This makes it easier to see the complete set of outputs.
+            foreach (var file in files)
+            {
+                var pathToWriteTo = Path.Combine(ActualGeneratedFilesDir, file.RelativePath);
+                Directory.CreateDirectory(Path.GetDirectoryName(pathToWriteTo));
+                File.WriteAllText(pathToWriteTo, file.Content);
+            }
+
             // Check output is present.
             Assert.NotEmpty(files);
 
