@@ -61,37 +61,57 @@ namespace Google.Api.Generator.Rest.Models
             _schema = schema;
         }
 
-        public IEnumerable<PropertyDeclarationSyntax> GeneratePropertyDeclarations(SourceFileContext ctx)
+        public IEnumerable<MemberDeclarationSyntax> GeneratePropertyDeclarations(SourceFileContext ctx) =>
+            _schema.Format switch
+            {
+                "date-time" => GenerateDateTimeProperties(ctx),
+                _ => GenerateRegularProperty(ctx)
+            };
+
+        private IEnumerable<MemberDeclarationSyntax> GenerateRegularProperty(SourceFileContext ctx)
         {
             var propertyTyp = SchemaTypes.GetTypFromSchema(Parent.Package, _schema, Name, ctx.CurrentTyp, inParameter: false);
-            if (propertyTyp.FullName == "System.Nullable<System.DateTime>")
+            var property = AutoProperty(Modifier.Public | Modifier.Virtual, ctx.Type(propertyTyp), PropertyName, hasSetter: true)
+                .WithAttribute(ctx.Type<JsonPropertyAttribute>())(Name);
+            if (_schema.Description is object)
             {
-                // DateTime values generate two properties: one raw as a string, and one DateTime version.
-                var rawProperty = AutoProperty(Modifier.Public | Modifier.Virtual, ctx.Type<string>(), PropertyName + "Raw", hasSetter: true)
-                    .WithAttribute(ctx.Type<JsonPropertyAttribute>())(Name);
-                if (_schema.Description is object)
-                {
-                    rawProperty = rawProperty.WithXmlDoc(XmlDoc.Summary(_schema.Description));
-                }
-                yield return rawProperty;
+                property = property.WithXmlDoc(XmlDoc.Summary(_schema.Description));
+            }
+            return new[] { property };
+        }
 
-                var valueParameter = Parameter(ctx.Type(propertyTyp), "value");
-                yield return Property(Modifier.Public | Modifier.Virtual, ctx.Type(propertyTyp), PropertyName)
-                    .WithAttribute(ctx.Type<JsonIgnoreAttribute>())()
-                    .WithXmlDoc(XmlDoc.Summary(XmlDoc.SeeAlso(ctx.Type<DateTime>()), " representation of ", rawProperty, "."))
-                    .WithGetBody(Return(ctx.Type(typeof(Utilities)).Call(nameof(Utilities.GetDateTimeFromString))(rawProperty)))
-                    .WithSetBody(rawProperty.Assign(ctx.Type(typeof(Utilities)).Call(nameof(Utilities.GetStringFromDateTime))(valueParameter)));
-            }
-            else
+        private IEnumerable<MemberDeclarationSyntax> GenerateDateTimeProperties(SourceFileContext ctx)
+        {
+            if (_schema.Type != "string" || _schema.Required == true || _schema.Properties is object ||
+                _schema.AdditionalProperties is object || _schema.Repeated == true ||
+                _schema.Enum__ is object || _schema.Ref__ is object)
             {
-                var property = AutoProperty(Modifier.Public | Modifier.Virtual, ctx.Type(propertyTyp), PropertyName, hasSetter: true)
-                    .WithAttribute(ctx.Type<JsonPropertyAttribute>())(Name);
-                if (_schema.Description is object)
-                {
-                    property = property.WithXmlDoc(XmlDoc.Summary(_schema.Description));
-                }
-                yield return property;
+                throw new ArgumentException("Unable to handle complex date-time properties");
             }
+            // DateTime values generate two properties: one raw as a string, and one DateTime version.
+            var rawProperty = AutoProperty(Modifier.Public | Modifier.Virtual, ctx.Type<string>(), PropertyName + "Raw", hasSetter: true)
+                .WithAttribute(ctx.Type<JsonPropertyAttribute>())(Name);
+            if (_schema.Description is object)
+            {
+                rawProperty = rawProperty.WithXmlDoc(XmlDoc.Summary(_schema.Description));
+            }
+            yield return rawProperty;
+
+            var valueParameter = Parameter(ctx.Type<DateTimeOffset?>(), "value");
+
+            var dtoProperty = Property(Modifier.Public | Modifier.Virtual, ctx.Type(typeof(DateTimeOffset?)), PropertyName + "DateTimeOffset")
+                .WithAttribute(ctx.Type<JsonIgnoreAttribute>())()
+                .WithXmlDoc(XmlDoc.Summary(XmlDoc.SeeAlso(ctx.Type<DateTimeOffset>()), " representation of ", rawProperty, "."))
+                .WithGetBody(Return(ctx.Type(typeof(Utilities)).Call(nameof(Utilities.GetDateTimeOffsetFromString))(rawProperty)))
+                .WithSetBody(rawProperty.Assign(ctx.Type(typeof(Utilities)).Call(nameof(Utilities.GetStringFromDateTimeOffset))(valueParameter)));
+            yield return dtoProperty;
+
+            yield return Property(Modifier.Public | Modifier.Virtual, ctx.Type<DateTime?>(), PropertyName)
+                .WithAttribute(ctx.Type<JsonIgnoreAttribute>())()
+                .WithAttribute(ctx.Type<ObsoleteAttribute>())($"This property is obsolete and may behave unexpectedly; please use {PropertyName}DateTimeOffset instead.")
+                .WithXmlDoc(XmlDoc.Summary(XmlDoc.SeeAlso(ctx.Type<DateTime>()), " representation of ", rawProperty, "."))
+                .WithGetBody(Return(ctx.Type(typeof(Utilities)).Call(nameof(Utilities.GetDateTimeFromString))(rawProperty)))
+                .WithSetBody(rawProperty.Assign(ctx.Type(typeof(Utilities)).Call(nameof(Utilities.GetStringFromDateTime))(valueParameter)));
         }
 
         public IEnumerable<ClassDeclarationSyntax> GenerateAnonymousModels(SourceFileContext ctx)
