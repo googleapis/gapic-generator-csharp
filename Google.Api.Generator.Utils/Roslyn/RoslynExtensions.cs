@@ -344,10 +344,10 @@ namespace Google.Api.Generator.Utils.Roslyn
         }
 
         public static RoslynBuilder.ArgumentsFunc<MethodDeclarationSyntax> WithAttribute(this MethodDeclarationSyntax method, TypeSyntax attrType) =>
-            args => method.WithAttributeLists(SingletonList(AttributeList(SingletonSeparatedList(Attribute((NameSyntax)attrType, CreateAttributeArgList(args))))));
+            args => method.WithAttributeLists(method.AttributeLists.Add(AttributeList(SingletonSeparatedList(Attribute((NameSyntax)attrType, CreateAttributeArgList(args))))));
 
         public static RoslynBuilder.ArgumentsFunc<PropertyDeclarationSyntax> WithAttribute(this PropertyDeclarationSyntax property, TypeSyntax attrType) =>
-            args => property.WithAttributeLists(SingletonList(AttributeList(SingletonSeparatedList(Attribute((NameSyntax) attrType, CreateAttributeArgList(args))))));
+            args => property.WithAttributeLists(property.AttributeLists.Add(AttributeList(SingletonSeparatedList(Attribute((NameSyntax) attrType, CreateAttributeArgList(args))))));
 
         /// <summary>
         /// Returns the specified method declaration syntax, potentially (if <paramref name="condition"/> is true) adding an attribute specified
@@ -356,7 +356,7 @@ namespace Google.Api.Generator.Utils.Roslyn
         /// </summary>
         public static RoslynBuilder.ArgumentsFunc<MethodDeclarationSyntax> MaybeWithAttribute(this MethodDeclarationSyntax method, bool condition, Func<TypeSyntax> attrType) =>
             condition
-            ? args => method.WithAttributeLists(SingletonList(AttributeList(SingletonSeparatedList(Attribute((NameSyntax)attrType(), CreateAttributeArgList(args))))))
+            ? args => method.WithAttributeLists(method.AttributeLists.Add(AttributeList(SingletonSeparatedList(Attribute((NameSyntax)attrType(), CreateAttributeArgList(args))))))
             : (RoslynBuilder.ArgumentsFunc<MethodDeclarationSyntax>) (args => method);
 
         /// <summary>
@@ -366,11 +366,11 @@ namespace Google.Api.Generator.Utils.Roslyn
         /// </summary>
         public static RoslynBuilder.ArgumentsFunc<PropertyDeclarationSyntax> MaybeWithAttribute(this PropertyDeclarationSyntax property, bool condition, Func<TypeSyntax> attrType) =>
             condition
-            ? args => property.WithAttributeLists(SingletonList(AttributeList(SingletonSeparatedList(Attribute((NameSyntax)attrType(), CreateAttributeArgList(args))))))
+            ? args => property.WithAttributeLists(property.AttributeLists.Add(AttributeList(SingletonSeparatedList(Attribute((NameSyntax)attrType(), CreateAttributeArgList(args))))))
             : (RoslynBuilder.ArgumentsFunc<PropertyDeclarationSyntax>) (arg => property);
 
         public static RoslynBuilder.ArgumentsFunc<EnumMemberDeclarationSyntax> WithAttribute(this EnumMemberDeclarationSyntax enumDeclaration, TypeSyntax attrType) =>
-            args => enumDeclaration.WithAttributeLists(SingletonList(AttributeList(SingletonSeparatedList(Attribute((NameSyntax) attrType, CreateAttributeArgList(args))))));
+            args => enumDeclaration.WithAttributeLists(enumDeclaration.AttributeLists.Add(AttributeList(SingletonSeparatedList(Attribute((NameSyntax) attrType, CreateAttributeArgList(args))))));
 
         public static BinaryExpressionSyntax Is(this ExpressionSyntax expr, TypeSyntax type) => BinaryExpression(SyntaxKind.IsExpression, expr, type);
 
