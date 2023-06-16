@@ -65,6 +65,7 @@ namespace Google.Api.Generator.Rest.Models
             _schema.Format switch
             {
                 "date-time" => GenerateDateTimeProperties(ctx),
+                "google-datetime" => GenerateGoogleDateTimeProperties(ctx),
                 _ => GenerateRegularProperty(ctx)
             };
 
@@ -112,6 +113,62 @@ namespace Google.Api.Generator.Rest.Models
                 .WithXmlDoc(XmlDoc.Summary(XmlDoc.SeeAlso(ctx.Type<DateTime>()), " representation of ", rawProperty, "."))
                 .WithGetBody(Return(ctx.Type(typeof(Utilities)).Call(nameof(Utilities.GetDateTimeFromString))(rawProperty)))
                 .WithSetBody(rawProperty.Assign(ctx.Type(typeof(Utilities)).Call(nameof(Utilities.GetStringFromDateTime))(valueParameter)));
+        }
+
+        private IEnumerable<MemberDeclarationSyntax> GenerateGoogleDateTimeProperties(SourceFileContext ctx)
+        {
+            if (_schema.Type != "string" || _schema.Required == true || _schema.Properties is object ||
+                _schema.AdditionalProperties is object || _schema.Repeated == true ||
+                _schema.Enum__ is object || _schema.Ref__ is object)
+            {
+                throw new ArgumentException("Unable to handle complex google-datetime properties");
+            }
+
+            // For google-datetime properties, we generate:
+            // - Three properties: Xyz (object), XyzRaw (string), XyzDateTimeOffset (DateTimeOffset?)
+            // - Two fields, to back Xyz and XyzRaw
+            //
+            // Each property setter will set both fields.
+
+            // The type of "value" is irrelevant to our uses of this, so it's okay that in the raw property it should be a string.
+            var valueParameter = Parameter(ctx.Type<object>(), "value");
+            var rawField = Field(Modifier.Private, ctx.Type<string>(), $"_{Name}Raw");
+            var objectField = Field(Modifier.Private, ctx.Type<object>(), $"_{Name}");
+
+            var rawProperty = Property(Modifier.Public | Modifier.Virtual, ctx.Type<string>(), PropertyName + "Raw")
+                .WithAttribute(ctx.Type<JsonPropertyAttribute>())(Name)
+                .WithGetBody(Return(rawField))
+                .WithSetBody(
+                    objectField.Assign(ctx.Type(typeof(Utilities)).Call(nameof(Utilities.DeserializeForGoogleFormat))(valueParameter)),
+                    rawField.Assign(valueParameter)
+                );
+            if (_schema.Description is object)
+            {
+                rawProperty = rawProperty.WithXmlDoc(XmlDoc.Summary(_schema.Description));
+            }
+
+            var dtoProperty = Property(Modifier.Public | Modifier.Virtual, ctx.Type<DateTimeOffset?>(), PropertyName + "DateTimeOffset")
+                .WithAttribute(ctx.Type<JsonIgnoreAttribute>())()
+                .WithXmlDoc(XmlDoc.Summary(XmlDoc.SeeAlso(ctx.Type<DateTimeOffset>()), " representation of ", rawProperty, "."))
+                .WithGetBody(Return(ctx.Type(typeof(Utilities)).Call(nameof(Utilities.GetDateTimeOffsetFromString))(rawProperty)))
+                .WithSetBody(rawProperty.Assign(ctx.Type(typeof(Utilities)).Call(nameof(Utilities.GetStringFromDateTimeOffset))(valueParameter)));
+
+            var objectProperty = Property(Modifier.Public | Modifier.Virtual, ctx.Type<object>(), PropertyName)
+                .WithAttribute(ctx.Type<JsonIgnoreAttribute>())()
+                .WithAttribute(ctx.Type<ObsoleteAttribute>())($"This property is obsolete and may behave unexpectedly; please use {PropertyName}DateTimeOffset instead.")
+                .WithXmlDoc(XmlDoc.Summary(XmlDoc.SeeAlso(ctx.Type<object>()), " representation of ", rawProperty, "."))
+                .WithGetBody(Return(objectField))
+                .WithSetBody(
+                    rawField.Assign(ctx.Type(typeof(Utilities)).Call(nameof(Utilities.SerializeForGoogleFormat))(valueParameter)),
+                    objectField.Assign(valueParameter)
+                );
+
+            yield return rawField;
+            yield return objectField;
+
+            yield return rawProperty;
+            yield return objectProperty;
+            yield return dtoProperty;
         }
 
         public IEnumerable<ClassDeclarationSyntax> GenerateAnonymousModels(SourceFileContext ctx)
