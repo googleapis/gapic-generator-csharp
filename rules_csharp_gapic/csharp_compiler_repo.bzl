@@ -14,8 +14,8 @@
 
 def _csharp_compiler_impl(ctx):
     ctx.download_and_extract(
-        url="https://download.visualstudio.microsoft.com/download/pr/dd7d2255-c9c1-4c6f-b8ad-6e853d6bb574/c8e1b5f47bf17b317a84487491915178/dotnet-sdk-6.0.408-linux-x64.tar.gz",
-        sha256="1430024c646db07f97c102db12242f8eb140fa992eac5ff4480dc0228164eace",
+        url="https://download.visualstudio.microsoft.com/download/pr/ac5809b0-7930-4ae9-9005-58f2fd7912f3/4cf0cb18d22a162b33149b1f28a8e045/dotnet-sdk-6.0.410-linux-x64.tar.gz",
+        sha256="95c8afc880a448ab04e78f91aa40259c635a94337ba57097fb750dbb2ce0b6bf",
         output="dotnet_compiler",
     )
     ctx.file(
