@@ -149,14 +149,18 @@ namespace Google.Api.Generator
                 }
             }
 
-            var resultFiles = GetResultFilesToCreate(resultFilesByProtoPackage);
+            var trimmedResultFilesByProtoPackage = GetTrimmedResultFiles(resultFilesByProtoPackage);
+            var resultFiles = trimmedResultFilesByProtoPackage.Values.SelectMany(list => list).ToList();
 
-            // We assume that the first service we've generated corresponds to the service config (if we have one),
+            // We assume that the first service we're generating and writing corresponds to the service config (if we have one),
             // and is a service from the primary library we're generating. This is used for API validation and
             // gapic_metadata.json generation. This means it doesn't matter (for gapic_metadata.json)
             // if we're actually asked to generate more services than we really want. This currently
             // happens for services with IAM/location mix-ins, for example.
-            var primaryLibraryProtoPackage = allServiceDetails.FirstOrDefault()?.ProtoPackage;
+            var primaryLibraryProtoPackage = allServiceDetails
+                .Select(p => p.ProtoPackage)
+                .Intersect(trimmedResultFilesByProtoPackage.Keys)
+                .FirstOrDefault();
             var primaryLibraryServices = allServiceDetails.Where(s => s.ProtoPackage == primaryLibraryProtoPackage).ToList();
 
             if (primaryLibraryServices.Any())
@@ -182,23 +186,23 @@ namespace Google.Api.Generator
             // Returns the result files we should actually create, ignoring mix-ins unless we're actually
             // generating the mix-in API.
             // This is necessary because Bazel passes more files to generate than we really want.
-            // Note that this method may modify filesByProtoPackage - we're not using it after calling this method though.
-            static List<ResultFile> GetResultFilesToCreate(Dictionary<string, List<ResultFile>> filesByProtoPackage)
+            static Dictionary<string, List<ResultFile>> GetTrimmedResultFiles(Dictionary<string, List<ResultFile>> filesByProtoPackage)
             {
+                var clone = new Dictionary<string, List<ResultFile>>(filesByProtoPackage);
                 var mixinPackages = AllowedAdditionalServices.Select(svc => svc.File.Package).ToHashSet();
 
                 // Unless we're *only* generating mixins, remove all mixins.
-                if (!filesByProtoPackage.Keys.All(mixinPackages.Contains))
+                if (!clone.Keys.All(mixinPackages.Contains))
                 {
                     foreach (var pkg in mixinPackages)
                     {
-                        filesByProtoPackage.Remove(pkg);
+                        clone.Remove(pkg);
                     }
                 }
 
                 // We may still have multiple packages here, and that's probably not
                 // ideal, but it's not too bad - and it deals with the common situation.
-                return filesByProtoPackage.Values.SelectMany(list => list).ToList();
+                return clone;
             }
         }
 
