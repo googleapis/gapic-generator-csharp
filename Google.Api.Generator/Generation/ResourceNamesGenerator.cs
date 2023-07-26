@@ -488,7 +488,11 @@ namespace Google.Api.Generator.Generation
                 var b = Parameter(_ctx.Type(_def.ResourceNameTyp), "b");
                 return OperatorMethod(_ctx.Type<bool>(), "==")(a, b)
                     .WithBody(This.Call(nameof(object.ReferenceEquals))(a, b).Or(Parens(a.Call(EqualsIEquatable(), conditional: true)(b).NullCoalesce(false))))
-                    .WithXmlDoc(XmlDoc.InheritDoc);
+                    .WithXmlDoc(XmlDoc.Summary("Determines whether two specified resource names have the same value."),
+                        XmlDoc.Param(a, "The first resource name to compare, or null."),
+                        XmlDoc.Param(b, "The second resource name to compare, or null."),
+                        XmlDoc.Returns("true if the value of ", a, " is the same as the value of ", b, "; otherwise, false.")
+                    );
             }
 
             private OperatorDeclarationSyntax InequalityOperator()
@@ -497,7 +501,11 @@ namespace Google.Api.Generator.Generation
                 var b = Parameter(_ctx.Type(_def.ResourceNameTyp), "b");
                 return OperatorMethod(_ctx.Type<bool>(), "!=")(a, b)
                     .WithBody(Not(Parens(a.Equality(b))))
-                    .WithXmlDoc(XmlDoc.InheritDoc);
+                    .WithXmlDoc(XmlDoc.Summary("Determines whether two specified resource names have different values."),
+                        XmlDoc.Param(a, "The first resource name to compare, or null."),
+                        XmlDoc.Param(b, "The second resource name to compare, or null."),
+                        XmlDoc.Returns("true if the value of ", a, " is different from the value of ", b, "; otherwise, false.")
+                    );
             }
         }
 
