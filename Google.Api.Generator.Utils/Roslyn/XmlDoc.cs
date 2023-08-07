@@ -48,7 +48,9 @@ namespace Google.Api.Generator.Utils.Roslyn
                 case int v:
                     return C(v.ToString(CultureInfo.InvariantCulture));
                 case string v:
-                    return XmlText(v);
+                    // Comments in some discovery docs come with triple backticks 
+                    // which breaks doc generation badly.
+                    return XmlText(v.Replace("```", ""));
                 case XmlNodeSyntax v:
                     return v;
                 case ParameterSyntax v:
