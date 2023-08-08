@@ -47,6 +47,14 @@ namespace Google.Api.Generator.Rest
             foreach (var description in descriptions)
             {
                 string text = (string) (description.Value);
+                // Remove line breaks, at least for now.
+                // Currently (2023-08-08) Discovery docs are inconsistent in their use of multi-line
+                // descriptions. If Discovery docs were created with descriptions on multiple lines
+                // as per the original protos, we could use XmlDoc.SummaryPreFormatted everywhere,
+                // and assume reasonable line lengths and formatting. For now, we remove line breaks
+                // and wrap - which is far from ideal.
+                // We could potentially have a helper method which assumes preformatting when there
+                // are multiple lines, and non-preformatting otherwise.
                 description.Value = text.Replace("\n", " ");
             }
             return raw.ToString();
@@ -56,6 +64,7 @@ namespace Google.Api.Generator.Rest
         {
             var syntax = package.GenerateCompilationUnit(clock);
             string content = CodeFormatter.Format(syntax).ToFullString();
+            content = ReformatBackticksInComments(content);
             return new ResultFile($"{package.PackageName}/{package.PackageName}.cs", content);
         }
 
@@ -68,6 +77,50 @@ namespace Google.Api.Generator.Rest
             // all we need to do is replace the line with an empty line, and we have a line break.
             string text = doc.ToString().Replace("  <!--linebreak-->", "") + Environment.NewLine;
             return new ResultFile($"{package.PackageName}/{package.PackageName}.csproj", text);
+        }
+
+        /// <summary>
+        /// Split comment lines on triple-backticks, maintaining the backticks on lines on their own.
+        /// Until we get *real* multi-line support, the result will still be a mess, but it won't
+        /// cause docfx to fail.
+        /// </summary>
+        private static string ReformatBackticksInComments(string text)
+        {
+            // It doesn't matter whether the separator is \r\n or \n; we'll preserve the \r
+            // and add \r to the end of any *new* lines, based on the existing ones.
+            List<string> lines = text.Split('\n').SelectMany(MaybeSplitLine).ToList();
+            return string.Join('\n', lines);
+
+            IEnumerable<string> MaybeSplitLine(string line)
+            {
+                int commentStartIndex = line.IndexOf("/// ");
+                if (commentStartIndex == -1 || !line.Contains("```"))
+                {
+                    yield return line;
+                    yield break;
+                }
+
+                string comment = line.Substring(commentStartIndex + 4);
+                string prefix = line.Substring(0, commentStartIndex + 4);
+                string suffix = line.EndsWith('\r') ? "\r" : "";
+                string[] pieces = comment.Split("```", StringSplitOptions.TrimEntries);
+
+                bool first = true;
+                foreach (var piece in pieces)
+                {
+                    if (!first)
+                    {
+                        yield return prefix + "```" + suffix;
+                    }
+                    // We don't trim empty entries when splitting, as we still want to emit
+                    // the right number of ``` lines, but we can omit empty lines here.
+                    if (piece != "")
+                    {
+                        yield return prefix + piece + suffix;
+                    }
+                    first = false;
+                }
+            }
         }
     }
 }
