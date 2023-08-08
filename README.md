@@ -2,7 +2,7 @@
 
 A generator for protocol buffer described APIs for and in C#.
 
-[![GitHub Actions status](https://img.shields.io/github/actions/workflow/status/googleapis/gapic-generator-csharp/build.yaml?branch=main)](https://github.com/googleapis/gapic-generator-csharp/actions/workflows/build.yaml)
+[![GitHub Actions status](https://img.shields.io/github/actions/workflow/status/googleapis/gapic-generator-csharp/build.yml?branch=main)](https://github.com/googleapis/gapic-generator-csharp/actions/workflows/build.yml)
 
 This is a generator for API client libraries for APIs specified by protocol buffers, such as those inside Google.
 It takes a protocol buffer (with particular annotations) and uses it to generate a client library, as specified at [aip.dev/client-libraries](https://google.aip.dev/client-libraries).
