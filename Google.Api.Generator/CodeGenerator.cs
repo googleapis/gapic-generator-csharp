@@ -71,8 +71,6 @@ namespace Google.Api.Generator
             { typeof(Google.Protobuf.WellKnownTypes.Any).Namespace, "wkt" },
             { typeof(Google.LongRunning.Operation).Namespace, "lro" },
             { typeof(Google.Protobuf.ByteString).Namespace, "proto" },
-            { typeof(Moq.Mock).Namespace, "moq" },
-            { typeof(Xunit.Assert).Namespace, "xunit" },
         };
 
         /// <summary>
