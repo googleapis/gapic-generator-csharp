@@ -29,5 +29,8 @@ namespace Google.Api.Generator.Rest.Tests
 
         [Fact]
         public void ManufacturerCenter() => TestResources.TestOutput("Google.Apis.ManufacturerCenter.v1");
+
+        [Fact]
+        public void CloudSupport() => TestResources.TestOutput("Google.Apis.CloudSupport.v2");
     }
 }
