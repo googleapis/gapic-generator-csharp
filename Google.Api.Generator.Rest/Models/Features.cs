@@ -30,16 +30,6 @@ namespace Google.Api.Generator.Rest.Models
         public string CurrentSupportVersion { get; set; }
 
         /// <summary>
-        /// Version of PCL support library.
-        /// </summary>
-        public string PclSupportVersion { get; set; }
-
-        /// <summary>
-        /// Version of net40 support library.
-        /// </summary>
-        public string Net40SupportVersion { get; set; }
-
-        /// <summary>
         /// Map from REST library to GAPIC library to inform uses of the preferred package.
         /// </summary>
         public IReadOnlyDictionary<string, string> CloudPackageMap { get; set; } =
