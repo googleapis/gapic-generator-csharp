@@ -51,8 +51,6 @@ namespace Google.Api.Generator.Rest.Tests
             {
                 ReleaseVersion = "1.54.0",
                 CurrentSupportVersion = "1.54.0",
-                Net40SupportVersion = "1.10.0",
-                PclSupportVersion = "1.25.0",
                 CloudPackageMap = new Dictionary<string, string>
                 {
                     { "Google.Apis.Storage.v1", "Google.Cloud.Storage.V1" },
