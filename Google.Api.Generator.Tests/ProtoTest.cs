@@ -324,5 +324,13 @@ namespace Google.Api.Generator.Tests
 
         [Fact]
         public void BuildLro() => BuildTest("Lro");
+
+        [Fact]
+        public void DuplicateResourceDefinitions()
+        {
+            var exception = ProtoTestSingleFailure<InvalidOperationException>("DuplicateResourceDefinitions");
+            Assert.Contains("Multiple definitions", exception.Message);
+            Assert.Contains("TestResource", exception.Message);
+        }
     }
 }

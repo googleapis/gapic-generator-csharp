@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Google.Protobuf.Reflection;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -42,8 +43,10 @@ namespace Google.Api.Generator.ProtoUtils
             _services = allDescriptors.SelectMany(desc => desc.Services).ToDictionary(x => x.FullName);
             _resourcesByFileName = ResourceDetails.LoadResourceDefinitionsByFileName(allDescriptors, commonResourcesConfigs, librarySettings).GroupBy(x => x.FileName)
                 .ToImmutableDictionary(x => x.Key, x => (IReadOnlyList<ResourceDetails.Definition>)x.ToImmutableList());
-            var resourcesByUrt = _resourcesByFileName.Values.SelectMany(x => x).ToDictionary(x => x.UnifiedResourceTypeName);
-            var resourcesByPatternComparison = _resourcesByFileName.Values.SelectMany(x => x)
+            var allResources = _resourcesByFileName.Values.SelectMany(x => x);
+            ValidateUniqueResourceTypeNames();
+            var resourcesByUrt = allResources.ToDictionary(x => x.UnifiedResourceTypeName);
+            var resourcesByPatternComparison = allResources
                 .SelectMany(def => def.Patterns.Where(x => !x.IsWildcard).Select(x => (x.Template.ParentComparisonString, def)))
                 .GroupBy(x => x.ParentComparisonString, x => x.def)
                 .ToImmutableDictionary(x => x.Key, x => (IReadOnlyList<ResourceDetails.Definition>)x.ToImmutableList());
@@ -57,6 +60,19 @@ namespace Google.Api.Generator.ProtoUtils
                 .ToDictionary(x => x.field.FullName, x => x.res);
 
             IEnumerable<MessageDescriptor> MsgPlusNested(MessageDescriptor msgDesc) => msgDesc.NestedTypes.SelectMany(MsgPlusNested).Append(msgDesc);
+
+            void ValidateUniqueResourceTypeNames()
+            {
+                var multiDefinitions = allResources
+                    .GroupBy(x => x.UnifiedResourceTypeName)
+                    .Where(g => g.Count() > 1)
+                    .Select(g => g.Key)
+                    .ToList();
+                if (multiDefinitions.Any())
+                {
+                    throw new InvalidOperationException($"Multiple definitions found for the following resources: {string.Join(",", multiDefinitions)}");
+                }
+            }
         }
 
         private readonly string _defaultPackage;
