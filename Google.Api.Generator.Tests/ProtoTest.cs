@@ -133,6 +133,37 @@ namespace Google.Api.Generator.Tests
             }
         }
 
+        private TException ProtoTestSingleFailure<TException>(string testProtoName,
+            string grpcServiceConfigPath = null, string serviceConfigPath = null, IEnumerable<string> commonResourcesConfigPaths = null,
+            ApiTransports transports = ApiTransports.Grpc, bool requestNumericEnumJsonEncoding = false)
+            where TException : Exception =>
+            ProtoTestSingleFailure<TException>(
+                new[] { testProtoName },
+                grpcServiceConfigPath,
+                serviceConfigPath,
+                commonResourcesConfigPaths,
+                transports,
+                requestNumericEnumJsonEncoding
+            );
+
+        private TException ProtoTestSingleFailure<TException>(IEnumerable<string> testProtoNames,
+            string grpcServiceConfigPath = null, string serviceConfigPath = null, IEnumerable<string> commonResourcesConfigPaths = null,
+            ApiTransports transports = ApiTransports.Grpc, bool requestNumericEnumJsonEncoding = false)
+            where TException : Exception
+        {
+            string sourceDir = testProtoNames.First();
+            var protoPaths = testProtoNames.Select(x => Path.Combine("ProtoTests", sourceDir, $"{x}.proto"));
+            string package =  $"testing.{sourceDir.ToLowerInvariant()}";
+
+            if (serviceConfigPath is string)
+            {
+                serviceConfigPath = Path.Combine(Invoker.GeneratorTestsDir, "ProtoTests", sourceDir, serviceConfigPath);
+            }
+            var exception = Assert.Throws<TException>(() => Run(protoPaths, package,
+                grpcServiceConfigPath, serviceConfigPath, commonResourcesConfigPaths, transports, requestNumericEnumJsonEncoding));
+            return exception;
+        }
+
         private void BuildTest(string serviceName, string protoPackageVersion = null)
         {
             var (effectiveBasePathPart, effectiveTestName) = protoPackageVersion == null
