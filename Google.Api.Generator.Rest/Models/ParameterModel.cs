@@ -39,10 +39,16 @@ namespace Google.Api.Generator.Rest.Models
         public string Name { get; }
 
         /// <summary>
-        /// The name to use when declaring a parameter in a method/constructor that
+        /// The name to use when declaring a parameter in a method that
         /// corresponds with this parameter model.
         /// </summary>
-        public string CodeParameterName { get; }
+        public string MethodParameterName { get; }
+
+        /// <summary>
+        /// The name to use when declaring a parameter in a constructor that
+        /// corresponds with this parameter model.
+        /// </summary>
+        public string CtorParameterName { get; }
 
         /// <summary>
         /// The name to use in a request for a property representing the value of
@@ -75,10 +81,20 @@ namespace Google.Api.Generator.Rest.Models
         public ParameterModel(PackageModel package, string name, JsonSchema schema, Typ parentTyp)
         {
             Name = name;
-            CodeParameterName = name.ToLocalVariableName(package);
+            MethodParameterName = name.ToLocalVariableName(package);
+            CtorParameterName = MethodParameterName;
 
             // It's unclear why these properties don't get the "__" treatment, but apparently they don't.
             PropertyName = name.ToMemberName(addUnderscoresToEscape: false);
+
+            // Service is a property in our resources, and we use service as a constructor parameter
+            // for that, so we need to add underscores in just a couple of places.
+            if (name == "service")
+            {
+                PropertyName = "Service_";
+                CtorParameterName = "service_";
+            }
+
             Location = schema.Location switch
             {
                 "query" => RequestParameterType.Query,
