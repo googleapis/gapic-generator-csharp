@@ -299,7 +299,7 @@ namespace Google.Apis.ManufacturerCenter.v1
             /// </param>
             public virtual DeleteRequest Delete(string parent, string name)
             {
-                return new DeleteRequest(service, parent, name);
+                return new DeleteRequest(this.service, parent, name);
             }
 
             /// <summary>Deletes the product from a Manufacturer Center account.</summary>
@@ -379,7 +379,7 @@ namespace Google.Apis.ManufacturerCenter.v1
             /// </param>
             public virtual GetRequest Get(string parent, string name)
             {
-                return new GetRequest(service, parent, name);
+                return new GetRequest(this.service, parent, name);
             }
 
             /// <summary>
@@ -503,7 +503,7 @@ namespace Google.Apis.ManufacturerCenter.v1
             /// </param>
             public virtual ListRequest List(string parent)
             {
-                return new ListRequest(service, parent);
+                return new ListRequest(this.service, parent);
             }
 
             /// <summary>Lists all the products in a Manufacturer Center account.</summary>
@@ -645,7 +645,7 @@ namespace Google.Apis.ManufacturerCenter.v1
             /// </param>
             public virtual UpdateRequest Update(Google.Apis.ManufacturerCenter.v1.Data.Attributes body, string parent, string name)
             {
-                return new UpdateRequest(service, body, parent, name);
+                return new UpdateRequest(this.service, body, parent, name);
             }
 
             /// <summary>

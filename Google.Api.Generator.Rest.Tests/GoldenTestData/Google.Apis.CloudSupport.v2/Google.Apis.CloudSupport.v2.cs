@@ -297,7 +297,7 @@ namespace Google.Apis.CloudSupport.v2
         /// </summary>
         public virtual SearchRequest Search()
         {
-            return new SearchRequest(service);
+            return new SearchRequest(this.service);
         }
 
         /// <summary>
@@ -425,7 +425,7 @@ namespace Google.Apis.CloudSupport.v2
             /// </param>
             public virtual ListRequest List(string parent)
             {
-                return new ListRequest(service, parent);
+                return new ListRequest(this.service, parent);
             }
 
             /// <summary>
@@ -536,7 +536,7 @@ namespace Google.Apis.CloudSupport.v2
             /// <param name="parent">Required. The resource name of Case to which this comment should be added.</param>
             public virtual CreateRequest Create(Google.Apis.CloudSupport.v2.Data.Comment body, string parent)
             {
-                return new CreateRequest(service, body, parent);
+                return new CreateRequest(this.service, body, parent);
             }
 
             /// <summary>
@@ -606,7 +606,7 @@ namespace Google.Apis.CloudSupport.v2
             /// </param>
             public virtual ListRequest List(string parent)
             {
-                return new ListRequest(service, parent);
+                return new ListRequest(this.service, parent);
             }
 
             /// <summary>
@@ -693,7 +693,7 @@ namespace Google.Apis.CloudSupport.v2
         /// <param name="name">Required. The fully qualified name of the case resource to be closed.</param>
         public virtual CloseRequest Close(Google.Apis.CloudSupport.v2.Data.CloseCaseRequest body, string name)
         {
-            return new CloseRequest(service, body, name);
+            return new CloseRequest(this.service, body, name);
         }
 
         /// <summary>
@@ -768,7 +768,7 @@ namespace Google.Apis.CloudSupport.v2
         /// </param>
         public virtual CreateRequest Create(Google.Apis.CloudSupport.v2.Data.Case body, string parent)
         {
-            return new CreateRequest(service, body, parent);
+            return new CreateRequest(this.service, body, parent);
         }
 
         /// <summary>
@@ -848,7 +848,7 @@ namespace Google.Apis.CloudSupport.v2
         /// <param name="name">Required. The fully qualified name of the Case resource to be escalated.</param>
         public virtual EscalateRequest Escalate(Google.Apis.CloudSupport.v2.Data.EscalateCaseRequest body, string name)
         {
-            return new EscalateRequest(service, body, name);
+            return new EscalateRequest(this.service, body, name);
         }
 
         /// <summary>
@@ -919,7 +919,7 @@ namespace Google.Apis.CloudSupport.v2
         /// <param name="name">Required. The fully qualified name of a case to be retrieved.</param>
         public virtual GetRequest Get(string name)
         {
-            return new GetRequest(service, name);
+            return new GetRequest(this.service, name);
         }
 
         /// <summary>
@@ -980,7 +980,7 @@ namespace Google.Apis.CloudSupport.v2
         /// <param name="parent">Required. The fully qualified name of parent resource to list cases under.</param>
         public virtual ListRequest List(string parent)
         {
-            return new ListRequest(service, parent);
+            return new ListRequest(this.service, parent);
         }
 
         /// <summary>
@@ -1089,7 +1089,7 @@ namespace Google.Apis.CloudSupport.v2
         /// <param name="name">The resource name for the case.</param>
         public virtual PatchRequest Patch(Google.Apis.CloudSupport.v2.Data.Case body, string name)
         {
-            return new PatchRequest(service, body, name);
+            return new PatchRequest(this.service, body, name);
         }
 
         /// <summary>
@@ -1174,7 +1174,7 @@ namespace Google.Apis.CloudSupport.v2
         /// <param name="parent">The fully qualified name of parent resource to search cases under.</param>
         public virtual SearchRequest Search(string parent)
         {
-            return new SearchRequest(service, parent);
+            return new SearchRequest(this.service, parent);
         }
 
         /// <summary>
@@ -1305,7 +1305,7 @@ namespace Google.Apis.CloudSupport.v2
         /// <param name="name">The resource name of the attachment to be downloaded.</param>
         public virtual DownloadRequest Download(string name)
         {
-            return new DownloadRequest(service, name);
+            return new DownloadRequest(this.service, name);
         }
 
         /// <summary>
@@ -1457,7 +1457,7 @@ namespace Google.Apis.CloudSupport.v2
         /// </param>
         public virtual UploadRequest Upload(Google.Apis.CloudSupport.v2.Data.CreateAttachmentRequest body, string parent)
         {
-            return new UploadRequest(service, body, parent);
+            return new UploadRequest(this.service, body, parent);
         }
 
         /// <summary>
