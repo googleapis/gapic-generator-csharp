@@ -109,14 +109,7 @@ namespace Google.Api.Generator.Rest.Models
             }
 
             // If we've got a method parameter named "service", we need to qualify our reference to the field.
-            CSharpSyntaxNode serviceArg = This;
-            if (Resource is not null)
-            {
-                var field = Field(0, ctx.Type<IClientService>(), "service");
-                serviceArg = methodParameters.Any(p => p.MethodParameterName == "service")
-                    ? field.ThisQualified()
-                    : field;
-            }
+            CSharpSyntaxNode serviceArg = Resource is null ? This : Field(0, ctx.Type<IClientService>(), "service").ThisQualified();
             var ctorArguments = new object[] { serviceArg }
                 .Concat(parameterDeclarations)
                 .ToArray();
