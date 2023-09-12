@@ -96,7 +96,7 @@ namespace Google.Api.Generator.Rest.Models
             var parameters = CreateParameterList(RequestTyp);
             var docs = new List<DocumentationCommentTriviaSyntax>();
             var methodParameters = parameters.TakeWhile(p => p.IsRequired).ToList();
-            var parameterDeclarations = methodParameters.Select(p => Parameter(ctx.Type(p.Typ), p.CodeParameterName)).ToList();
+            var parameterDeclarations = methodParameters.Select(p => Parameter(ctx.Type(p.Typ), p.MethodParameterName)).ToList();
             if (_restMethod.Description is object)
             {
                 docs.Add(XmlDoc.Summary(_restMethod.Description));
@@ -108,7 +108,15 @@ namespace Google.Api.Generator.Rest.Models
                 docs.Insert(1, XmlDoc.Param(parameterDeclarations[0], "The body of the request."));
             }
 
-            var serviceArg = Resource is null ? (CSharpSyntaxNode) This: Field(0, ctx.Type<IClientService>(), "service");
+            // If we've got a method parameter named "service", we need to qualify our reference to the field.
+            CSharpSyntaxNode serviceArg = This;
+            if (Resource is not null)
+            {
+                var field = Field(0, ctx.Type<IClientService>(), "service");
+                serviceArg = methodParameters.Any(p => p.MethodParameterName == "service")
+                    ? field.ThisQualified()
+                    : field;
+            }
             var ctorArguments = new object[] { serviceArg }
                 .Concat(parameterDeclarations)
                 .ToArray();
@@ -155,7 +163,7 @@ namespace Google.Api.Generator.Rest.Models
                 var parameters = CreateParameterList(RequestTyp);
                 var requiredParameters = parameters
                     .TakeWhile(p => p.IsRequired)
-                    .Select(p => (param: p, decl: Parameter(ctx.Type(p.Typ), p.CodeParameterName)))
+                    .Select(p => (param: p, decl: Parameter(ctx.Type(p.Typ), p.CtorParameterName)))
                     .ToList();
 
                 var assignments = requiredParameters
@@ -293,7 +301,7 @@ namespace Google.Api.Generator.Rest.Models
             var parameters = CreateParameterList(uploadTyp);
             var requiredParameters = parameters
                 .TakeWhile(p => p.IsRequired)
-                .Select(p => (param: p, decl: Parameter(ctx.Type(p.Typ), p.CodeParameterName)))
+                .Select(p => (param: p, decl: Parameter(ctx.Type(p.Typ), p.MethodParameterName)))
                 .ToList();
 
             var insertMethodParameters = new List<ParameterSyntax>();
