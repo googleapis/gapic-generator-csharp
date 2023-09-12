@@ -259,7 +259,7 @@ namespace Google.Apis.Storage.v1
         /// </param>
         public virtual DeleteRequest Delete(string bucket, string entity)
         {
-            return new DeleteRequest(service, bucket, entity);
+            return new DeleteRequest(this.service, bucket, entity);
         }
 
         /// <summary>Permanently deletes the ACL entry for the specified entity on the specified bucket.</summary>
@@ -350,7 +350,7 @@ namespace Google.Apis.Storage.v1
         /// </param>
         public virtual GetRequest Get(string bucket, string entity)
         {
-            return new GetRequest(service, bucket, entity);
+            return new GetRequest(this.service, bucket, entity);
         }
 
         /// <summary>Returns the ACL entry for the specified entity on the specified bucket.</summary>
@@ -438,7 +438,7 @@ namespace Google.Apis.Storage.v1
         /// <param name="bucket">Name of a bucket.</param>
         public virtual InsertRequest Insert(Google.Apis.Storage.v1.Data.BucketAccessControl body, string bucket)
         {
-            return new InsertRequest(service, body, bucket);
+            return new InsertRequest(this.service, body, bucket);
         }
 
         /// <summary>Creates a new ACL entry on the specified bucket.</summary>
@@ -516,7 +516,7 @@ namespace Google.Apis.Storage.v1
         /// <param name="bucket">Name of a bucket.</param>
         public virtual ListRequest List(string bucket)
         {
-            return new ListRequest(service, bucket);
+            return new ListRequest(this.service, bucket);
         }
 
         /// <summary>Retrieves ACL entries on the specified bucket.</summary>
@@ -592,7 +592,7 @@ namespace Google.Apis.Storage.v1
         /// </param>
         public virtual PatchRequest Patch(Google.Apis.Storage.v1.Data.BucketAccessControl body, string bucket, string entity)
         {
-            return new PatchRequest(service, body, bucket, entity);
+            return new PatchRequest(this.service, body, bucket, entity);
         }
 
         /// <summary>Patches an ACL entry on the specified bucket.</summary>
@@ -691,7 +691,7 @@ namespace Google.Apis.Storage.v1
         /// </param>
         public virtual UpdateRequest Update(Google.Apis.Storage.v1.Data.BucketAccessControl body, string bucket, string entity)
         {
-            return new UpdateRequest(service, body, bucket, entity);
+            return new UpdateRequest(this.service, body, bucket, entity);
         }
 
         /// <summary>Updates an ACL entry on the specified bucket.</summary>
@@ -800,7 +800,7 @@ namespace Google.Apis.Storage.v1
         /// <param name="bucket">Name of a bucket.</param>
         public virtual DeleteRequest Delete(string bucket)
         {
-            return new DeleteRequest(service, bucket);
+            return new DeleteRequest(this.service, bucket);
         }
 
         /// <summary>Permanently deletes an empty bucket.</summary>
@@ -895,7 +895,7 @@ namespace Google.Apis.Storage.v1
         /// <param name="bucket">Name of a bucket.</param>
         public virtual GetRequest Get(string bucket)
         {
-            return new GetRequest(service, bucket);
+            return new GetRequest(this.service, bucket);
         }
 
         /// <summary>Returns metadata for the specified bucket.</summary>
@@ -1020,7 +1020,7 @@ namespace Google.Apis.Storage.v1
         /// <param name="bucket">Name of a bucket.</param>
         public virtual GetIamPolicyRequest GetIamPolicy(string bucket)
         {
-            return new GetIamPolicyRequest(service, bucket);
+            return new GetIamPolicyRequest(this.service, bucket);
         }
 
         /// <summary>Returns an IAM policy for the specified bucket.</summary>
@@ -1107,7 +1107,7 @@ namespace Google.Apis.Storage.v1
         /// <param name="project">A valid API project identifier.</param>
         public virtual InsertRequest Insert(Google.Apis.Storage.v1.Data.Bucket body, string project)
         {
-            return new InsertRequest(service, body, project);
+            return new InsertRequest(this.service, body, project);
         }
 
         /// <summary>Creates a new bucket.</summary>
@@ -1295,7 +1295,7 @@ namespace Google.Apis.Storage.v1
         /// <param name="project">A valid API project identifier.</param>
         public virtual ListRequest List(string project)
         {
-            return new ListRequest(service, project);
+            return new ListRequest(this.service, project);
         }
 
         /// <summary>Retrieves a list of buckets for a given project.</summary>
@@ -1434,7 +1434,7 @@ namespace Google.Apis.Storage.v1
         /// </param>
         public virtual LockRetentionPolicyRequest LockRetentionPolicy(string bucket, long ifMetagenerationMatch)
         {
-            return new LockRetentionPolicyRequest(service, bucket, ifMetagenerationMatch);
+            return new LockRetentionPolicyRequest(this.service, bucket, ifMetagenerationMatch);
         }
 
         /// <summary>Locks retention policy on a bucket.</summary>
@@ -1524,7 +1524,7 @@ namespace Google.Apis.Storage.v1
         /// <param name="bucket">Name of a bucket.</param>
         public virtual PatchRequest Patch(Google.Apis.Storage.v1.Data.Bucket body, string bucket)
         {
-            return new PatchRequest(service, body, bucket);
+            return new PatchRequest(this.service, body, bucket);
         }
 
         /// <summary>
@@ -1740,7 +1740,7 @@ namespace Google.Apis.Storage.v1
         /// <param name="bucket">Name of a bucket.</param>
         public virtual SetIamPolicyRequest SetIamPolicy(Google.Apis.Storage.v1.Data.Policy body, string bucket)
         {
-            return new SetIamPolicyRequest(service, body, bucket);
+            return new SetIamPolicyRequest(this.service, body, bucket);
         }
 
         /// <summary>Updates an IAM policy for the specified bucket.</summary>
@@ -1821,7 +1821,7 @@ namespace Google.Apis.Storage.v1
         /// <param name="permissions">Permissions to test.</param>
         public virtual TestIamPermissionsRequest TestIamPermissions(string bucket, Google.Apis.Util.Repeatable<string> permissions)
         {
-            return new TestIamPermissionsRequest(service, bucket, permissions);
+            return new TestIamPermissionsRequest(this.service, bucket, permissions);
         }
 
         /// <summary>
@@ -1911,7 +1911,7 @@ namespace Google.Apis.Storage.v1
         /// <param name="bucket">Name of a bucket.</param>
         public virtual UpdateRequest Update(Google.Apis.Storage.v1.Data.Bucket body, string bucket)
         {
-            return new UpdateRequest(service, body, bucket);
+            return new UpdateRequest(this.service, body, bucket);
         }
 
         /// <summary>
@@ -2141,7 +2141,7 @@ namespace Google.Apis.Storage.v1
         /// <param name="body">The body of the request.</param>
         public virtual StopRequest Stop(Google.Apis.Storage.v1.Data.Channel body)
         {
-            return new StopRequest(service, body);
+            return new StopRequest(this.service, body);
         }
 
         /// <summary>Stop watching resources through this channel</summary>
@@ -2201,7 +2201,7 @@ namespace Google.Apis.Storage.v1
         /// </param>
         public virtual DeleteRequest Delete(string bucket, string entity)
         {
-            return new DeleteRequest(service, bucket, entity);
+            return new DeleteRequest(this.service, bucket, entity);
         }
 
         /// <summary>
@@ -2294,7 +2294,7 @@ namespace Google.Apis.Storage.v1
         /// </param>
         public virtual GetRequest Get(string bucket, string entity)
         {
-            return new GetRequest(service, bucket, entity);
+            return new GetRequest(this.service, bucket, entity);
         }
 
         /// <summary>Returns the default object ACL entry for the specified entity on the specified bucket.</summary>
@@ -2382,7 +2382,7 @@ namespace Google.Apis.Storage.v1
         /// <param name="bucket">Name of a bucket.</param>
         public virtual InsertRequest Insert(Google.Apis.Storage.v1.Data.ObjectAccessControl body, string bucket)
         {
-            return new InsertRequest(service, body, bucket);
+            return new InsertRequest(this.service, body, bucket);
         }
 
         /// <summary>Creates a new default object ACL entry on the specified bucket.</summary>
@@ -2460,7 +2460,7 @@ namespace Google.Apis.Storage.v1
         /// <param name="bucket">Name of a bucket.</param>
         public virtual ListRequest List(string bucket)
         {
-            return new ListRequest(service, bucket);
+            return new ListRequest(this.service, bucket);
         }
 
         /// <summary>Retrieves default object ACL entries on the specified bucket.</summary>
@@ -2565,7 +2565,7 @@ namespace Google.Apis.Storage.v1
         /// </param>
         public virtual PatchRequest Patch(Google.Apis.Storage.v1.Data.ObjectAccessControl body, string bucket, string entity)
         {
-            return new PatchRequest(service, body, bucket, entity);
+            return new PatchRequest(this.service, body, bucket, entity);
         }
 
         /// <summary>Patches a default object ACL entry on the specified bucket.</summary>
@@ -2664,7 +2664,7 @@ namespace Google.Apis.Storage.v1
         /// </param>
         public virtual UpdateRequest Update(Google.Apis.Storage.v1.Data.ObjectAccessControl body, string bucket, string entity)
         {
-            return new UpdateRequest(service, body, bucket, entity);
+            return new UpdateRequest(this.service, body, bucket, entity);
         }
 
         /// <summary>Updates a default object ACL entry on the specified bucket.</summary>
@@ -2774,7 +2774,7 @@ namespace Google.Apis.Storage.v1
         /// <param name="notification">ID of the notification to delete.</param>
         public virtual DeleteRequest Delete(string bucket, string notification)
         {
-            return new DeleteRequest(service, bucket, notification);
+            return new DeleteRequest(this.service, bucket, notification);
         }
 
         /// <summary>Permanently deletes a notification subscription.</summary>
@@ -2859,7 +2859,7 @@ namespace Google.Apis.Storage.v1
         /// <param name="notification">Notification ID</param>
         public virtual GetRequest Get(string bucket, string notification)
         {
-            return new GetRequest(service, bucket, notification);
+            return new GetRequest(this.service, bucket, notification);
         }
 
         /// <summary>View a notification configuration.</summary>
@@ -2944,7 +2944,7 @@ namespace Google.Apis.Storage.v1
         /// <param name="bucket">The parent bucket of the notification.</param>
         public virtual InsertRequest Insert(Google.Apis.Storage.v1.Data.Notification body, string bucket)
         {
-            return new InsertRequest(service, body, bucket);
+            return new InsertRequest(this.service, body, bucket);
         }
 
         /// <summary>Creates a notification subscription for a given bucket.</summary>
@@ -3022,7 +3022,7 @@ namespace Google.Apis.Storage.v1
         /// <param name="bucket">Name of a Google Cloud Storage bucket.</param>
         public virtual ListRequest List(string bucket)
         {
-            return new ListRequest(service, bucket);
+            return new ListRequest(this.service, bucket);
         }
 
         /// <summary>Retrieves a list of notification subscriptions for a given bucket.</summary>
@@ -3116,7 +3116,7 @@ namespace Google.Apis.Storage.v1
         /// </param>
         public virtual DeleteRequest Delete(string bucket, string storageObject, string entity)
         {
-            return new DeleteRequest(service, bucket, storageObject, entity);
+            return new DeleteRequest(this.service, bucket, storageObject, entity);
         }
 
         /// <summary>Permanently deletes the ACL entry for the specified entity on the specified object.</summary>
@@ -3241,7 +3241,7 @@ namespace Google.Apis.Storage.v1
         /// </param>
         public virtual GetRequest Get(string bucket, string storageObject, string entity)
         {
-            return new GetRequest(service, bucket, storageObject, entity);
+            return new GetRequest(this.service, bucket, storageObject, entity);
         }
 
         /// <summary>Returns the ACL entry for the specified entity on the specified object.</summary>
@@ -3363,7 +3363,7 @@ namespace Google.Apis.Storage.v1
         /// </param>
         public virtual InsertRequest Insert(Google.Apis.Storage.v1.Data.ObjectAccessControl body, string bucket, string storageObject)
         {
-            return new InsertRequest(service, body, bucket, storageObject);
+            return new InsertRequest(this.service, body, bucket, storageObject);
         }
 
         /// <summary>Creates a new ACL entry on the specified object.</summary>
@@ -3475,7 +3475,7 @@ namespace Google.Apis.Storage.v1
         /// </param>
         public virtual ListRequest List(string bucket, string storageObject)
         {
-            return new ListRequest(service, bucket, storageObject);
+            return new ListRequest(this.service, bucket, storageObject);
         }
 
         /// <summary>Retrieves ACL entries on the specified object.</summary>
@@ -3585,7 +3585,7 @@ namespace Google.Apis.Storage.v1
         /// </param>
         public virtual PatchRequest Patch(Google.Apis.Storage.v1.Data.ObjectAccessControl body, string bucket, string storageObject, string entity)
         {
-            return new PatchRequest(service, body, bucket, storageObject, entity);
+            return new PatchRequest(this.service, body, bucket, storageObject, entity);
         }
 
         /// <summary>Patches an ACL entry on the specified object.</summary>
@@ -3718,7 +3718,7 @@ namespace Google.Apis.Storage.v1
         /// </param>
         public virtual UpdateRequest Update(Google.Apis.Storage.v1.Data.ObjectAccessControl body, string bucket, string storageObject, string entity)
         {
-            return new UpdateRequest(service, body, bucket, storageObject, entity);
+            return new UpdateRequest(this.service, body, bucket, storageObject, entity);
         }
 
         /// <summary>Updates an ACL entry on the specified object.</summary>
@@ -3864,7 +3864,7 @@ namespace Google.Apis.Storage.v1
         /// </param>
         public virtual ComposeRequest Compose(Google.Apis.Storage.v1.Data.ComposeRequest body, string destinationBucket, string destinationObject)
         {
-            return new ComposeRequest(service, body, destinationBucket, destinationObject);
+            return new ComposeRequest(this.service, body, destinationBucket, destinationObject);
         }
 
         /// <summary>Concatenates a list of existing objects into a new object in the same bucket.</summary>
@@ -4060,7 +4060,7 @@ namespace Google.Apis.Storage.v1
         /// </param>
         public virtual CopyRequest Copy(Google.Apis.Storage.v1.Data.Object body, string sourceBucket, string sourceObject, string destinationBucket, string destinationObject)
         {
-            return new CopyRequest(service, body, sourceBucket, sourceObject, destinationBucket, destinationObject);
+            return new CopyRequest(this.service, body, sourceBucket, sourceObject, destinationBucket, destinationObject);
         }
 
         /// <summary>Copies a source object to a destination object. Optionally overrides metadata.</summary>
@@ -4418,7 +4418,7 @@ namespace Google.Apis.Storage.v1
         /// </param>
         public virtual DeleteRequest Delete(string bucket, string storageObject)
         {
-            return new DeleteRequest(service, bucket, storageObject);
+            return new DeleteRequest(this.service, bucket, storageObject);
         }
 
         /// <summary>
@@ -4587,7 +4587,7 @@ namespace Google.Apis.Storage.v1
         /// </param>
         public virtual GetRequest Get(string bucket, string storageObject)
         {
-            return new GetRequest(service, bucket, storageObject);
+            return new GetRequest(this.service, bucket, storageObject);
         }
 
         /// <summary>Retrieves an object or its metadata.</summary>
@@ -4862,7 +4862,7 @@ namespace Google.Apis.Storage.v1
         /// </param>
         public virtual GetIamPolicyRequest GetIamPolicy(string bucket, string storageObject)
         {
-            return new GetIamPolicyRequest(service, bucket, storageObject);
+            return new GetIamPolicyRequest(this.service, bucket, storageObject);
         }
 
         /// <summary>Returns an IAM policy for the specified object.</summary>
@@ -4967,7 +4967,7 @@ namespace Google.Apis.Storage.v1
         /// </param>
         public virtual InsertRequest Insert(Google.Apis.Storage.v1.Data.Object body, string bucket)
         {
-            return new InsertRequest(service, body, bucket);
+            return new InsertRequest(this.service, body, bucket);
         }
 
         /// <summary>Stores a new object and metadata.</summary>
@@ -5454,7 +5454,7 @@ namespace Google.Apis.Storage.v1
         /// <param name="bucket">Name of the bucket in which to look for objects.</param>
         public virtual ListRequest List(string bucket)
         {
-            return new ListRequest(service, bucket);
+            return new ListRequest(this.service, bucket);
         }
 
         /// <summary>Retrieves a list of objects matching the criteria.</summary>
@@ -5673,7 +5673,7 @@ namespace Google.Apis.Storage.v1
         /// </param>
         public virtual PatchRequest Patch(Google.Apis.Storage.v1.Data.Object body, string bucket, string storageObject)
         {
-            return new PatchRequest(service, body, bucket, storageObject);
+            return new PatchRequest(this.service, body, bucket, storageObject);
         }
 
         /// <summary>Patches an object's metadata.</summary>
@@ -5921,7 +5921,7 @@ namespace Google.Apis.Storage.v1
         /// </param>
         public virtual RewriteRequest Rewrite(Google.Apis.Storage.v1.Data.Object body, string sourceBucket, string sourceObject, string destinationBucket, string destinationObject)
         {
-            return new RewriteRequest(service, body, sourceBucket, sourceObject, destinationBucket, destinationObject);
+            return new RewriteRequest(this.service, body, sourceBucket, sourceObject, destinationBucket, destinationObject);
         }
 
         /// <summary>Rewrites a source object to a destination object. Optionally overrides metadata.</summary>
@@ -6312,7 +6312,7 @@ namespace Google.Apis.Storage.v1
         /// </param>
         public virtual SetIamPolicyRequest SetIamPolicy(Google.Apis.Storage.v1.Data.Policy body, string bucket, string storageObject)
         {
-            return new SetIamPolicyRequest(service, body, bucket, storageObject);
+            return new SetIamPolicyRequest(this.service, body, bucket, storageObject);
         }
 
         /// <summary>Updates an IAM policy for the specified object.</summary>
@@ -6427,7 +6427,7 @@ namespace Google.Apis.Storage.v1
         /// <param name="permissions">Permissions to test.</param>
         public virtual TestIamPermissionsRequest TestIamPermissions(string bucket, string storageObject, Google.Apis.Util.Repeatable<string> permissions)
         {
-            return new TestIamPermissionsRequest(service, bucket, storageObject, permissions);
+            return new TestIamPermissionsRequest(this.service, bucket, storageObject, permissions);
         }
 
         /// <summary>
@@ -6548,7 +6548,7 @@ namespace Google.Apis.Storage.v1
         /// </param>
         public virtual UpdateRequest Update(Google.Apis.Storage.v1.Data.Object body, string bucket, string storageObject)
         {
-            return new UpdateRequest(service, body, bucket, storageObject);
+            return new UpdateRequest(this.service, body, bucket, storageObject);
         }
 
         /// <summary>Updates an object's metadata.</summary>
@@ -6783,7 +6783,7 @@ namespace Google.Apis.Storage.v1
         /// <param name="bucket">Name of the bucket in which to look for objects.</param>
         public virtual WatchAllRequest WatchAll(Google.Apis.Storage.v1.Data.Channel body, string bucket)
         {
-            return new WatchAllRequest(service, body, bucket);
+            return new WatchAllRequest(this.service, body, bucket);
         }
 
         /// <summary>Watch for changes on all objects in a bucket.</summary>
@@ -7039,7 +7039,7 @@ namespace Google.Apis.Storage.v1
             /// <param name="serviceAccountEmail">Email address of the service account.</param>
             public virtual CreateRequest Create(string projectId, string serviceAccountEmail)
             {
-                return new CreateRequest(service, projectId, serviceAccountEmail);
+                return new CreateRequest(this.service, projectId, serviceAccountEmail);
             }
 
             /// <summary>Creates a new HMAC key for the specified service account.</summary>
@@ -7110,7 +7110,7 @@ namespace Google.Apis.Storage.v1
             /// <param name="accessId">Name of the HMAC key to be deleted.</param>
             public virtual DeleteRequest Delete(string projectId, string accessId)
             {
-                return new DeleteRequest(service, projectId, accessId);
+                return new DeleteRequest(this.service, projectId, accessId);
             }
 
             /// <summary>Deletes an HMAC key.</summary>
@@ -7181,7 +7181,7 @@ namespace Google.Apis.Storage.v1
             /// <param name="accessId">Name of the HMAC key.</param>
             public virtual GetRequest Get(string projectId, string accessId)
             {
-                return new GetRequest(service, projectId, accessId);
+                return new GetRequest(this.service, projectId, accessId);
             }
 
             /// <summary>Retrieves an HMAC key's metadata</summary>
@@ -7251,7 +7251,7 @@ namespace Google.Apis.Storage.v1
             /// <param name="projectId">Name of the project in which to look for HMAC keys.</param>
             public virtual ListRequest List(string projectId)
             {
-                return new ListRequest(service, projectId);
+                return new ListRequest(this.service, projectId);
             }
 
             /// <summary>Retrieves a list of HMAC keys matching the criteria.</summary>
@@ -7367,7 +7367,7 @@ namespace Google.Apis.Storage.v1
             /// <param name="accessId">Name of the HMAC key being updated.</param>
             public virtual UpdateRequest Update(Google.Apis.Storage.v1.Data.HmacKeyMetadata body, string projectId, string accessId)
             {
-                return new UpdateRequest(service, body, projectId, accessId);
+                return new UpdateRequest(this.service, body, projectId, accessId);
             }
 
             /// <summary>
@@ -7464,7 +7464,7 @@ namespace Google.Apis.Storage.v1
             /// <param name="projectId">Project ID</param>
             public virtual GetRequest Get(string projectId)
             {
-                return new GetRequest(service, projectId);
+                return new GetRequest(this.service, projectId);
             }
 
             /// <summary>Get the email address of this project's Google Cloud Storage service account.</summary>

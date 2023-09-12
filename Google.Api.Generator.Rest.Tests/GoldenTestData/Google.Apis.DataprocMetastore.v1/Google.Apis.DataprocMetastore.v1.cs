@@ -320,7 +320,7 @@ namespace Google.Apis.DataprocMetastore.v1
                 /// </param>
                 public virtual CreateRequest Create(Google.Apis.DataprocMetastore.v1.Data.Federation body, string parent)
                 {
-                    return new CreateRequest(service, body, parent);
+                    return new CreateRequest(this.service, body, parent);
                 }
 
                 /// <summary>Creates a metastore federation in a project and location.</summary>
@@ -415,7 +415,7 @@ namespace Google.Apis.DataprocMetastore.v1
                 /// </param>
                 public virtual DeleteRequest Delete(string name)
                 {
-                    return new DeleteRequest(service, name);
+                    return new DeleteRequest(this.service, name);
                 }
 
                 /// <summary>Deletes a single federation.</summary>
@@ -486,7 +486,7 @@ namespace Google.Apis.DataprocMetastore.v1
                 /// </param>
                 public virtual GetRequest Get(string name)
                 {
-                    return new GetRequest(service, name);
+                    return new GetRequest(this.service, name);
                 }
 
                 /// <summary>Gets the details of a single federation.</summary>
@@ -540,7 +540,7 @@ namespace Google.Apis.DataprocMetastore.v1
                 /// </param>
                 public virtual GetIamPolicyRequest GetIamPolicy(string resource)
                 {
-                    return new GetIamPolicyRequest(service, resource);
+                    return new GetIamPolicyRequest(this.service, resource);
                 }
 
                 /// <summary>
@@ -615,7 +615,7 @@ namespace Google.Apis.DataprocMetastore.v1
                 /// </param>
                 public virtual ListRequest List(string parent)
                 {
-                    return new ListRequest(service, parent);
+                    return new ListRequest(this.service, parent);
                 }
 
                 /// <summary>Lists federations in a project and location.</summary>
@@ -728,7 +728,7 @@ namespace Google.Apis.DataprocMetastore.v1
                 /// </param>
                 public virtual PatchRequest Patch(Google.Apis.DataprocMetastore.v1.Data.Federation body, string name)
                 {
-                    return new PatchRequest(service, body, name);
+                    return new PatchRequest(this.service, body, name);
                 }
 
                 /// <summary>Updates the fields of a federation.</summary>
@@ -826,7 +826,7 @@ namespace Google.Apis.DataprocMetastore.v1
                 /// </param>
                 public virtual SetIamPolicyRequest SetIamPolicy(Google.Apis.DataprocMetastore.v1.Data.SetIamPolicyRequest body, string resource)
                 {
-                    return new SetIamPolicyRequest(service, body, resource);
+                    return new SetIamPolicyRequest(this.service, body, resource);
                 }
 
                 /// <summary>
@@ -893,7 +893,7 @@ namespace Google.Apis.DataprocMetastore.v1
                 /// </param>
                 public virtual TestIamPermissionsRequest TestIamPermissions(Google.Apis.DataprocMetastore.v1.Data.TestIamPermissionsRequest body, string resource)
                 {
-                    return new TestIamPermissionsRequest(service, body, resource);
+                    return new TestIamPermissionsRequest(this.service, body, resource);
                 }
 
                 /// <summary>
@@ -979,7 +979,7 @@ namespace Google.Apis.DataprocMetastore.v1
                 /// <param name="name">The name of the operation resource to be cancelled.</param>
                 public virtual CancelRequest Cancel(Google.Apis.DataprocMetastore.v1.Data.CancelOperationRequest body, string name)
                 {
-                    return new CancelRequest(service, body, name);
+                    return new CancelRequest(this.service, body, name);
                 }
 
                 /// <summary>
@@ -1042,7 +1042,7 @@ namespace Google.Apis.DataprocMetastore.v1
                 /// <param name="name">The name of the operation resource to be deleted.</param>
                 public virtual DeleteRequest Delete(string name)
                 {
-                    return new DeleteRequest(service, name);
+                    return new DeleteRequest(this.service, name);
                 }
 
                 /// <summary>
@@ -1094,7 +1094,7 @@ namespace Google.Apis.DataprocMetastore.v1
                 /// <param name="name">The name of the operation resource.</param>
                 public virtual GetRequest Get(string name)
                 {
-                    return new GetRequest(service, name);
+                    return new GetRequest(this.service, name);
                 }
 
                 /// <summary>
@@ -1145,7 +1145,7 @@ namespace Google.Apis.DataprocMetastore.v1
                 /// <param name="name">The name of the operation's parent resource.</param>
                 public virtual ListRequest List(string name)
                 {
-                    return new ListRequest(service, name);
+                    return new ListRequest(this.service, name);
                 }
 
                 /// <summary>
@@ -1270,7 +1270,7 @@ namespace Google.Apis.DataprocMetastore.v1
                     /// </param>
                     public virtual CreateRequest Create(Google.Apis.DataprocMetastore.v1.Data.Backup body, string parent)
                     {
-                        return new CreateRequest(service, body, parent);
+                        return new CreateRequest(this.service, body, parent);
                     }
 
                     /// <summary>Creates a new backup in a given project and location.</summary>
@@ -1364,7 +1364,7 @@ namespace Google.Apis.DataprocMetastore.v1
                     /// </param>
                     public virtual DeleteRequest Delete(string name)
                     {
-                        return new DeleteRequest(service, name);
+                        return new DeleteRequest(this.service, name);
                     }
 
                     /// <summary>Deletes a single backup.</summary>
@@ -1435,7 +1435,7 @@ namespace Google.Apis.DataprocMetastore.v1
                     /// </param>
                     public virtual GetRequest Get(string name)
                     {
-                        return new GetRequest(service, name);
+                        return new GetRequest(this.service, name);
                     }
 
                     /// <summary>Gets details of a single backup.</summary>
@@ -1489,7 +1489,7 @@ namespace Google.Apis.DataprocMetastore.v1
                     /// </param>
                     public virtual GetIamPolicyRequest GetIamPolicy(string resource)
                     {
-                        return new GetIamPolicyRequest(service, resource);
+                        return new GetIamPolicyRequest(this.service, resource);
                     }
 
                     /// <summary>
@@ -1565,7 +1565,7 @@ namespace Google.Apis.DataprocMetastore.v1
                     /// </param>
                     public virtual ListRequest List(string parent)
                     {
-                        return new ListRequest(service, parent);
+                        return new ListRequest(this.service, parent);
                     }
 
                     /// <summary>Lists backups in a service.</summary>
@@ -1681,7 +1681,7 @@ namespace Google.Apis.DataprocMetastore.v1
                     /// </param>
                     public virtual SetIamPolicyRequest SetIamPolicy(Google.Apis.DataprocMetastore.v1.Data.SetIamPolicyRequest body, string resource)
                     {
-                        return new SetIamPolicyRequest(service, body, resource);
+                        return new SetIamPolicyRequest(this.service, body, resource);
                     }
 
                     /// <summary>
@@ -1762,7 +1762,7 @@ namespace Google.Apis.DataprocMetastore.v1
                     /// </param>
                     public virtual CreateRequest Create(Google.Apis.DataprocMetastore.v1.Data.MetadataImport body, string parent)
                     {
-                        return new CreateRequest(service, body, parent);
+                        return new CreateRequest(this.service, body, parent);
                     }
 
                     /// <summary>Creates a new MetadataImport in a given project and location.</summary>
@@ -1858,7 +1858,7 @@ namespace Google.Apis.DataprocMetastore.v1
                     /// </param>
                     public virtual GetRequest Get(string name)
                     {
-                        return new GetRequest(service, name);
+                        return new GetRequest(this.service, name);
                     }
 
                     /// <summary>Gets details of a single import.</summary>
@@ -1910,7 +1910,7 @@ namespace Google.Apis.DataprocMetastore.v1
                     /// </param>
                     public virtual ListRequest List(string parent)
                     {
-                        return new ListRequest(service, parent);
+                        return new ListRequest(this.service, parent);
                     }
 
                     /// <summary>Lists imports in a service.</summary>
@@ -2027,7 +2027,7 @@ namespace Google.Apis.DataprocMetastore.v1
                     /// </param>
                     public virtual PatchRequest Patch(Google.Apis.DataprocMetastore.v1.Data.MetadataImport body, string name)
                     {
-                        return new PatchRequest(service, body, name);
+                        return new PatchRequest(this.service, body, name);
                     }
 
                     /// <summary>
@@ -2193,7 +2193,7 @@ namespace Google.Apis.DataprocMetastore.v1
                 /// </param>
                 public virtual CreateRequest Create(Google.Apis.DataprocMetastore.v1.Data.Service body, string parent)
                 {
-                    return new CreateRequest(service, body, parent);
+                    return new CreateRequest(this.service, body, parent);
                 }
 
                 /// <summary>Creates a metastore service in a project and location.</summary>
@@ -2287,7 +2287,7 @@ namespace Google.Apis.DataprocMetastore.v1
                 /// </param>
                 public virtual DeleteRequest Delete(string name)
                 {
-                    return new DeleteRequest(service, name);
+                    return new DeleteRequest(this.service, name);
                 }
 
                 /// <summary>Deletes a single service.</summary>
@@ -2417,7 +2417,7 @@ namespace Google.Apis.DataprocMetastore.v1
                 /// </param>
                 public virtual GetRequest Get(string name)
                 {
-                    return new GetRequest(service, name);
+                    return new GetRequest(this.service, name);
                 }
 
                 /// <summary>Gets the details of a single service.</summary>
@@ -2471,7 +2471,7 @@ namespace Google.Apis.DataprocMetastore.v1
                 /// </param>
                 public virtual GetIamPolicyRequest GetIamPolicy(string resource)
                 {
-                    return new GetIamPolicyRequest(service, resource);
+                    return new GetIamPolicyRequest(this.service, resource);
                 }
 
                 /// <summary>
@@ -2546,7 +2546,7 @@ namespace Google.Apis.DataprocMetastore.v1
                 /// </param>
                 public virtual ListRequest List(string parent)
                 {
-                    return new ListRequest(service, parent);
+                    return new ListRequest(this.service, parent);
                 }
 
                 /// <summary>Lists services in a project and location.</summary>
@@ -2718,7 +2718,7 @@ namespace Google.Apis.DataprocMetastore.v1
                 /// </param>
                 public virtual PatchRequest Patch(Google.Apis.DataprocMetastore.v1.Data.Service body, string name)
                 {
-                    return new PatchRequest(service, body, name);
+                    return new PatchRequest(this.service, body, name);
                 }
 
                 /// <summary>Updates the parameters of a single service.</summary>
@@ -2934,7 +2934,7 @@ namespace Google.Apis.DataprocMetastore.v1
                 /// </param>
                 public virtual SetIamPolicyRequest SetIamPolicy(Google.Apis.DataprocMetastore.v1.Data.SetIamPolicyRequest body, string resource)
                 {
-                    return new SetIamPolicyRequest(service, body, resource);
+                    return new SetIamPolicyRequest(this.service, body, resource);
                 }
 
                 /// <summary>
@@ -3001,7 +3001,7 @@ namespace Google.Apis.DataprocMetastore.v1
                 /// </param>
                 public virtual TestIamPermissionsRequest TestIamPermissions(Google.Apis.DataprocMetastore.v1.Data.TestIamPermissionsRequest body, string resource)
                 {
-                    return new TestIamPermissionsRequest(service, body, resource);
+                    return new TestIamPermissionsRequest(this.service, body, resource);
                 }
 
                 /// <summary>
@@ -3062,7 +3062,7 @@ namespace Google.Apis.DataprocMetastore.v1
             /// <param name="name">Resource name for the location.</param>
             public virtual GetRequest Get(string name)
             {
-                return new GetRequest(service, name);
+                return new GetRequest(this.service, name);
             }
 
             /// <summary>Gets information about a location.</summary>
@@ -3107,7 +3107,7 @@ namespace Google.Apis.DataprocMetastore.v1
             /// <param name="name">The resource that owns the locations collection, if applicable.</param>
             public virtual ListRequest List(string name)
             {
-                return new ListRequest(service, name);
+                return new ListRequest(this.service, name);
             }
 
             /// <summary>Lists information about the supported locations for this service.</summary>
