@@ -58,6 +58,15 @@ namespace Google.Api.Generator.Rest.Models
             {
                 PropertyName += "Value";
             }
+            // Avoid collisions with our own ETag property in data models.
+            // Note that the standard etag field is named with all lowercase.
+            // Other etag fields named with different casing do not represent the
+            // resource version, instead they are properties of the resource itself,
+            // for instance, if the resource represents a request or response.
+            if (name != "etag" && name.Equals("etag", StringComparison.OrdinalIgnoreCase))
+            {
+                PropertyName = "ETag__";
+            }
             _schema = schema;
         }
 
