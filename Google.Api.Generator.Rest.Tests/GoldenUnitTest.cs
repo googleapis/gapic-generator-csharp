@@ -32,5 +32,8 @@ namespace Google.Api.Generator.Rest.Tests
 
         [Fact]
         public void CloudSupport() => TestResources.TestOutput("Google.Apis.CloudSupport.v2");
+
+        [Fact]
+        public void Metastore() => TestResources.TestOutput("Google.Apis.DataprocMetastore.v1");
     }
 }
