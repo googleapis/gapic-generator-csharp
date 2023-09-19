@@ -12,11 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Google.Api.Gax;
 using Google.Api.Generator.ProtoUtils;
 using Google.Api.Generator.Utils;
 using Google.Cloud;
-using Google.Cloud.Location;
 using Google.Cloud.Iam.V1;
+using Google.Cloud.Location;
 using Google.Protobuf.Reflection;
 using Grpc.ServiceConfig;
 using System;
@@ -24,8 +25,6 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Google.Api.Gax;
-using Grpc.Core;
 
 namespace Google.Api.Generator.Generation
 {
@@ -34,7 +33,7 @@ namespace Google.Api.Generator.Generation
     /// </summary>
     internal class ServiceDetails
     {
-        private static readonly Regex ApiVersionPattern = new Regex("^[vV][0-9]+.*");
+        private static readonly Regex PackageVersionPattern = new Regex("^[vV][0-9]+.*");
 
         private static readonly Dictionary<string, MixinDetails> AvailableMixins = new[]
         {
@@ -49,7 +48,12 @@ namespace Google.Api.Generator.Generation
             Catalog = catalog;
             Namespace = ns;
             ProtoPackage = desc.File.Package;
-            PackageVersion = ProtoPackage.Split('.').FirstOrDefault(part => ApiVersionPattern.IsMatch(part));
+            ApiVersion = desc.GetExtension(ClientExtensions.ApiVersion);
+            if (ApiVersion == "")
+            {
+                ApiVersion = null;
+            }
+            PackageVersion = ProtoPackage.Split('.').FirstOrDefault(PackageVersionPattern.IsMatch);
             DocLines = desc.Declaration.DocLines().ToList();
             // For snippets, we use a namespace unrelated to the library as that's likely to be similar to
             // user code. Imports are cleaner, with less type name clashes, etc. which in turn means less
@@ -126,6 +130,12 @@ namespace Google.Api.Generator.Generation
         /// May be null.
         /// </summary>
         public string PackageVersion { get; }
+
+        /// <summary>
+        /// The API version (as declared in the api_version service extension), or null
+        /// if there's no such version.
+        /// </summary>
+        public string ApiVersion { get; }
 
         /// <summary>The name of this service to be used in documentation.</summary>
         public string DocumentationName { get; }

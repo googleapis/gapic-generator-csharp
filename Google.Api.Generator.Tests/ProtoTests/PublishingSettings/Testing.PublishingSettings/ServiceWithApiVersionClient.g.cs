@@ -250,6 +250,7 @@ namespace Testing.PublishingSettings
             {
                 Settings = effectiveSettings,
                 Logger = logger,
+                ApiVersion = "v1_20240313",
             });
             _callAMethod = clientHelper.BuildApiCall<Request, Response>("AMethod", grpcClient.AMethodAsync, grpcClient.AMethod, effectiveSettings.AMethodSettings);
             Modify_ApiCall(ref _callAMethod);

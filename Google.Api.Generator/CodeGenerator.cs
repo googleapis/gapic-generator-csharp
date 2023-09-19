@@ -43,6 +43,7 @@ namespace Google.Api.Generator
             ClientExtensions.DefaultHost,
             ClientExtensions.MethodSignature,
             ClientExtensions.OauthScopes,
+            ClientExtensions.ApiVersion,
             OperationsExtensions.OperationInfo,
             FieldInfoExtensions.FieldInfo,
             FieldBehaviorExtensions.FieldBehavior,
