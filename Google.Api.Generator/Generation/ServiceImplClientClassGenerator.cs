@@ -131,6 +131,10 @@ namespace Google.Api.Generator.Generation
                     new(nameof(ClientHelper.Options.Settings), effectiveSettings),
                     new(nameof(ClientHelper.Options.Logger), logger)
                 };
+                if (_svc.ApiVersion is string apiVersion)
+                {
+                    assignments.Add(new ObjectInitExpr(nameof(ClientHelper.Options.ApiVersion), apiVersion));
+                }
                 return New(_ctx.Type<ClientHelper>())(New(_ctx.Type<ClientHelper.Options>())().WithInitializer(assignments.ToArray()));
             }
 
