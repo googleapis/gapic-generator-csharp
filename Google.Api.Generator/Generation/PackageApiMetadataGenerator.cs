@@ -16,7 +16,6 @@ using Google.Api.Gax.Grpc;
 using Google.Api.Generator.ProtoUtils;
 using Google.Api.Generator.Utils;
 using Google.Api.Generator.Utils.Roslyn;
-using Google.Cloud.Iam.V1;
 using Google.Cloud.Location;
 using Google.LongRunning;
 using Google.Protobuf;
@@ -27,6 +26,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using iam = Google.Cloud.Iam.V1;
 using static Google.Api.Generator.Utils.Roslyn.Modifier;
 using static Google.Api.Generator.Utils.Roslyn.RoslynBuilder;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
@@ -42,7 +42,7 @@ namespace Google.Api.Generator.Generation
         private static readonly Dictionary<string, FileDescriptor[]> MixinToFileDescriptors = new Dictionary<string, FileDescriptor[]>
         {
             { Operations.Descriptor.FullName, new[] { OperationsReflection.Descriptor } },
-            { IAMPolicy.Descriptor.FullName, new[] { PolicyReflection.Descriptor, IamPolicyReflection.Descriptor, OptionsReflection.Descriptor } },
+            { iam::IAMPolicy.Descriptor.FullName, new[] { iam::PolicyReflection.Descriptor, iam::IamPolicyReflection.Descriptor, iam::OptionsReflection.Descriptor } },
             { Locations.Descriptor.FullName, new[] { LocationsReflection.Descriptor } }
         };
 
