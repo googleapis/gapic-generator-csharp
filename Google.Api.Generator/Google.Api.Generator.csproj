@@ -13,7 +13,7 @@
     <PackageReference Include="Google.Cloud.Iam.V1" Version="3.0.0" />
     <PackageReference Include="Google.Cloud.Location" Version="2.0.0" />
     <PackageReference Include="Google.LongRunning" Version="3.0.0" />
-    <PackageReference Include="Google.Protobuf" Version="3.23.0" />
+    <PackageReference Include="Google.Protobuf" Version="3.25.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.5.0" />
     <PackageReference Include="System.Collections.Immutable" Version="6.0.0" />
     <PackageReference Include="System.Linq.Async" Version="6.0.1" />
