@@ -38,5 +38,8 @@ namespace Google.Api.Generator.Rest.Tests
 
         [Fact]
         public void Contentwarehouse() => TestResources.TestOutput("Google.Apis.Contentwarehouse.v1");
+
+        [Fact]
+        public void Calendar() => TestResources.TestOutput("Google.Apis.Calendar.v3");
     }
 }
