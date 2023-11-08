@@ -51,8 +51,8 @@ internal static class Properties
         var dtoProperty = Property(Modifier.Public | Modifier.Virtual, ctx.Type(typeof(DateTimeOffset?)), propertyName + "DateTimeOffset")
             .WithAttribute(ctx.Type<JsonIgnoreAttribute>())()
             .WithXmlDoc(XmlDoc.Summary(XmlDoc.SeeAlso(ctx.Type<DateTimeOffset>()), " representation of ", rawProperty, "."))
-            .WithGetBody(Return(ctx.Type(typeof(Utilities)).Call(nameof(Utilities.GetDateTimeOffsetFromString))(rawProperty)))
-            .WithSetBody(rawProperty.Assign(ctx.Type(typeof(Utilities)).Call(nameof(Utilities.GetStringFromDateTimeOffset))(valueParameter)));
+            .WithGetBody(Return(ctx.Type(typeof(DiscoveryFormat)).Call(nameof(DiscoveryFormat.ParseDateTimeToDateTimeOffset))(rawProperty)))
+            .WithSetBody(rawProperty.Assign(ctx.Type(typeof(DiscoveryFormat)).Call(nameof(DiscoveryFormat.FormatDateTimeOffsetToDateTime))(valueParameter)));
         yield return dtoProperty;
 
         yield return Property(Modifier.Public | Modifier.Virtual, ctx.Type<DateTime?>(), propertyName)
@@ -98,8 +98,8 @@ internal static class Properties
         var dtoProperty = Property(Modifier.Public | Modifier.Virtual, ctx.Type<DateTimeOffset?>(), propertyName + "DateTimeOffset")
             .WithAttribute(ctx.Type<JsonIgnoreAttribute>())()
             .WithXmlDoc(XmlDoc.Summary(XmlDoc.SeeAlso(ctx.Type<DateTimeOffset>()), " representation of ", rawProperty, "."))
-            .WithGetBody(Return(ctx.Type(typeof(Utilities)).Call(nameof(Utilities.GetDateTimeOffsetFromString))(rawProperty)))
-            .WithSetBody(rawProperty.Assign(ctx.Type(typeof(Utilities)).Call(nameof(Utilities.GetStringFromDateTimeOffset))(valueParameter)));
+            .WithGetBody(Return(ctx.Type(typeof(DiscoveryFormat)).Call(nameof(DiscoveryFormat.ParseGoogleDateTimeToDateTimeOffset))(rawProperty)))
+            .WithSetBody(rawProperty.Assign(ctx.Type(typeof(DiscoveryFormat)).Call(nameof(DiscoveryFormat.FormatDateTimeOffsetToGoogleDateTime))(valueParameter)));
 
         var objectProperty = Property(Modifier.Public | Modifier.Virtual, ctx.Type<object>(), propertyName)
             .WithAttribute(ctx.Type<JsonIgnoreAttribute>())()

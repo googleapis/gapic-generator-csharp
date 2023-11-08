@@ -7667,8 +7667,8 @@ namespace Google.Apis.Storage.v1.Data
         [Newtonsoft.Json.JsonIgnoreAttribute]
         public virtual System.DateTimeOffset? TimeCreatedDateTimeOffset
         {
-            get => Google.Apis.Util.Utilities.GetDateTimeOffsetFromString(TimeCreatedRaw);
-            set => TimeCreatedRaw = Google.Apis.Util.Utilities.GetStringFromDateTimeOffset(value);
+            get => Google.Apis.Util.DiscoveryFormat.ParseDateTimeToDateTimeOffset(TimeCreatedRaw);
+            set => TimeCreatedRaw = Google.Apis.Util.DiscoveryFormat.FormatDateTimeOffsetToDateTime(value);
         }
 
         /// <summary><seealso cref="System.DateTime"/> representation of <see cref="TimeCreatedRaw"/>.</summary>
@@ -7688,8 +7688,8 @@ namespace Google.Apis.Storage.v1.Data
         [Newtonsoft.Json.JsonIgnoreAttribute]
         public virtual System.DateTimeOffset? UpdatedDateTimeOffset
         {
-            get => Google.Apis.Util.Utilities.GetDateTimeOffsetFromString(UpdatedRaw);
-            set => UpdatedRaw = Google.Apis.Util.Utilities.GetStringFromDateTimeOffset(value);
+            get => Google.Apis.Util.DiscoveryFormat.ParseDateTimeToDateTimeOffset(UpdatedRaw);
+            set => UpdatedRaw = Google.Apis.Util.DiscoveryFormat.FormatDateTimeOffsetToDateTime(value);
         }
 
         /// <summary><seealso cref="System.DateTime"/> representation of <see cref="UpdatedRaw"/>.</summary>
@@ -7819,8 +7819,8 @@ namespace Google.Apis.Storage.v1.Data
                 [Newtonsoft.Json.JsonIgnoreAttribute]
                 public virtual System.DateTimeOffset? LockedTimeDateTimeOffset
                 {
-                    get => Google.Apis.Util.Utilities.GetDateTimeOffsetFromString(LockedTimeRaw);
-                    set => LockedTimeRaw = Google.Apis.Util.Utilities.GetStringFromDateTimeOffset(value);
+                    get => Google.Apis.Util.DiscoveryFormat.ParseDateTimeToDateTimeOffset(LockedTimeRaw);
+                    set => LockedTimeRaw = Google.Apis.Util.DiscoveryFormat.FormatDateTimeOffsetToDateTime(value);
                 }
 
                 /// <summary><seealso cref="System.DateTime"/> representation of <see cref="LockedTimeRaw"/>.</summary>
@@ -7854,8 +7854,8 @@ namespace Google.Apis.Storage.v1.Data
                 [Newtonsoft.Json.JsonIgnoreAttribute]
                 public virtual System.DateTimeOffset? LockedTimeDateTimeOffset
                 {
-                    get => Google.Apis.Util.Utilities.GetDateTimeOffsetFromString(LockedTimeRaw);
-                    set => LockedTimeRaw = Google.Apis.Util.Utilities.GetStringFromDateTimeOffset(value);
+                    get => Google.Apis.Util.DiscoveryFormat.ParseDateTimeToDateTimeOffset(LockedTimeRaw);
+                    set => LockedTimeRaw = Google.Apis.Util.DiscoveryFormat.FormatDateTimeOffsetToDateTime(value);
                 }
 
                 /// <summary><seealso cref="System.DateTime"/> representation of <see cref="LockedTimeRaw"/>.</summary>
@@ -8038,8 +8038,8 @@ namespace Google.Apis.Storage.v1.Data
             [Newtonsoft.Json.JsonIgnoreAttribute]
             public virtual System.DateTimeOffset? EffectiveTimeDateTimeOffset
             {
-                get => Google.Apis.Util.Utilities.GetDateTimeOffsetFromString(EffectiveTimeRaw);
-                set => EffectiveTimeRaw = Google.Apis.Util.Utilities.GetStringFromDateTimeOffset(value);
+                get => Google.Apis.Util.DiscoveryFormat.ParseDateTimeToDateTimeOffset(EffectiveTimeRaw);
+                set => EffectiveTimeRaw = Google.Apis.Util.DiscoveryFormat.FormatDateTimeOffsetToDateTime(value);
             }
 
             /// <summary><seealso cref="System.DateTime"/> representation of <see cref="EffectiveTimeRaw"/>.</summary>
@@ -8407,8 +8407,8 @@ namespace Google.Apis.Storage.v1.Data
         [Newtonsoft.Json.JsonIgnoreAttribute]
         public virtual System.DateTimeOffset? TimeCreatedDateTimeOffset
         {
-            get => Google.Apis.Util.Utilities.GetDateTimeOffsetFromString(TimeCreatedRaw);
-            set => TimeCreatedRaw = Google.Apis.Util.Utilities.GetStringFromDateTimeOffset(value);
+            get => Google.Apis.Util.DiscoveryFormat.ParseDateTimeToDateTimeOffset(TimeCreatedRaw);
+            set => TimeCreatedRaw = Google.Apis.Util.DiscoveryFormat.FormatDateTimeOffsetToDateTime(value);
         }
 
         /// <summary><seealso cref="System.DateTime"/> representation of <see cref="TimeCreatedRaw"/>.</summary>
@@ -8428,8 +8428,8 @@ namespace Google.Apis.Storage.v1.Data
         [Newtonsoft.Json.JsonIgnoreAttribute]
         public virtual System.DateTimeOffset? UpdatedDateTimeOffset
         {
-            get => Google.Apis.Util.Utilities.GetDateTimeOffsetFromString(UpdatedRaw);
-            set => UpdatedRaw = Google.Apis.Util.Utilities.GetStringFromDateTimeOffset(value);
+            get => Google.Apis.Util.DiscoveryFormat.ParseDateTimeToDateTimeOffset(UpdatedRaw);
+            set => UpdatedRaw = Google.Apis.Util.DiscoveryFormat.FormatDateTimeOffsetToDateTime(value);
         }
 
         /// <summary><seealso cref="System.DateTime"/> representation of <see cref="UpdatedRaw"/>.</summary>
@@ -8590,8 +8590,8 @@ namespace Google.Apis.Storage.v1.Data
         [Newtonsoft.Json.JsonIgnoreAttribute]
         public virtual System.DateTimeOffset? CustomTimeDateTimeOffset
         {
-            get => Google.Apis.Util.Utilities.GetDateTimeOffsetFromString(CustomTimeRaw);
-            set => CustomTimeRaw = Google.Apis.Util.Utilities.GetStringFromDateTimeOffset(value);
+            get => Google.Apis.Util.DiscoveryFormat.ParseDateTimeToDateTimeOffset(CustomTimeRaw);
+            set => CustomTimeRaw = Google.Apis.Util.DiscoveryFormat.FormatDateTimeOffsetToDateTime(value);
         }
 
         /// <summary><seealso cref="System.DateTime"/> representation of <see cref="CustomTimeRaw"/>.</summary>
@@ -8690,8 +8690,8 @@ namespace Google.Apis.Storage.v1.Data
         [Newtonsoft.Json.JsonIgnoreAttribute]
         public virtual System.DateTimeOffset? RetentionExpirationTimeDateTimeOffset
         {
-            get => Google.Apis.Util.Utilities.GetDateTimeOffsetFromString(RetentionExpirationTimeRaw);
-            set => RetentionExpirationTimeRaw = Google.Apis.Util.Utilities.GetStringFromDateTimeOffset(value);
+            get => Google.Apis.Util.DiscoveryFormat.ParseDateTimeToDateTimeOffset(RetentionExpirationTimeRaw);
+            set => RetentionExpirationTimeRaw = Google.Apis.Util.DiscoveryFormat.FormatDateTimeOffsetToDateTime(value);
         }
 
         /// <summary>
@@ -8734,8 +8734,8 @@ namespace Google.Apis.Storage.v1.Data
         [Newtonsoft.Json.JsonIgnoreAttribute]
         public virtual System.DateTimeOffset? TimeCreatedDateTimeOffset
         {
-            get => Google.Apis.Util.Utilities.GetDateTimeOffsetFromString(TimeCreatedRaw);
-            set => TimeCreatedRaw = Google.Apis.Util.Utilities.GetStringFromDateTimeOffset(value);
+            get => Google.Apis.Util.DiscoveryFormat.ParseDateTimeToDateTimeOffset(TimeCreatedRaw);
+            set => TimeCreatedRaw = Google.Apis.Util.DiscoveryFormat.FormatDateTimeOffsetToDateTime(value);
         }
 
         /// <summary><seealso cref="System.DateTime"/> representation of <see cref="TimeCreatedRaw"/>.</summary>
@@ -8758,8 +8758,8 @@ namespace Google.Apis.Storage.v1.Data
         [Newtonsoft.Json.JsonIgnoreAttribute]
         public virtual System.DateTimeOffset? TimeDeletedDateTimeOffset
         {
-            get => Google.Apis.Util.Utilities.GetDateTimeOffsetFromString(TimeDeletedRaw);
-            set => TimeDeletedRaw = Google.Apis.Util.Utilities.GetStringFromDateTimeOffset(value);
+            get => Google.Apis.Util.DiscoveryFormat.ParseDateTimeToDateTimeOffset(TimeDeletedRaw);
+            set => TimeDeletedRaw = Google.Apis.Util.DiscoveryFormat.FormatDateTimeOffsetToDateTime(value);
         }
 
         /// <summary><seealso cref="System.DateTime"/> representation of <see cref="TimeDeletedRaw"/>.</summary>
@@ -8784,8 +8784,8 @@ namespace Google.Apis.Storage.v1.Data
         [Newtonsoft.Json.JsonIgnoreAttribute]
         public virtual System.DateTimeOffset? TimeStorageClassUpdatedDateTimeOffset
         {
-            get => Google.Apis.Util.Utilities.GetDateTimeOffsetFromString(TimeStorageClassUpdatedRaw);
-            set => TimeStorageClassUpdatedRaw = Google.Apis.Util.Utilities.GetStringFromDateTimeOffset(value);
+            get => Google.Apis.Util.DiscoveryFormat.ParseDateTimeToDateTimeOffset(TimeStorageClassUpdatedRaw);
+            set => TimeStorageClassUpdatedRaw = Google.Apis.Util.DiscoveryFormat.FormatDateTimeOffsetToDateTime(value);
         }
 
         /// <summary>
@@ -8807,8 +8807,8 @@ namespace Google.Apis.Storage.v1.Data
         [Newtonsoft.Json.JsonIgnoreAttribute]
         public virtual System.DateTimeOffset? UpdatedDateTimeOffset
         {
-            get => Google.Apis.Util.Utilities.GetDateTimeOffsetFromString(UpdatedRaw);
-            set => UpdatedRaw = Google.Apis.Util.Utilities.GetStringFromDateTimeOffset(value);
+            get => Google.Apis.Util.DiscoveryFormat.ParseDateTimeToDateTimeOffset(UpdatedRaw);
+            set => UpdatedRaw = Google.Apis.Util.DiscoveryFormat.FormatDateTimeOffsetToDateTime(value);
         }
 
         /// <summary><seealso cref="System.DateTime"/> representation of <see cref="UpdatedRaw"/>.</summary>
