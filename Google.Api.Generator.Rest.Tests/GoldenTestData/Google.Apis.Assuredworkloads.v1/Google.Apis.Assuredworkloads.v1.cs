@@ -644,13 +644,88 @@ namespace Google.Apis.Assuredworkloads.v1
                         [Google.Apis.Util.RequestParameterAttribute("filter", Google.Apis.Util.RequestParameterType.Query)]
                         public virtual string Filter { get; set; }
 
+                        private string _intervalEndTimeRaw;
+
+                        private object _intervalEndTime;
+
                         /// <summary>The end of the time window.</summary>
                         [Google.Apis.Util.RequestParameterAttribute("interval.endTime", Google.Apis.Util.RequestParameterType.Query)]
-                        public virtual object IntervalEndTime { get; set; }
+                        public virtual string IntervalEndTimeRaw
+                        {
+                            get => _intervalEndTimeRaw;
+                            set
+                            {
+                                _intervalEndTime = Google.Apis.Util.Utilities.DeserializeForGoogleFormat(value);
+                                _intervalEndTimeRaw = value;
+                            }
+                        }
+
+                        /// <summary>
+                        /// <seealso cref="object"/> representation of <see cref="IntervalEndTimeRaw"/>.
+                        /// </summary>
+                        [Newtonsoft.Json.JsonIgnoreAttribute]
+                        [System.ObsoleteAttribute("This property is obsolete and may behave unexpectedly; please use IntervalEndTimeDateTimeOffset instead.")]
+                        public virtual object IntervalEndTime
+                        {
+                            get => _intervalEndTime;
+                            set
+                            {
+                                _intervalEndTimeRaw = Google.Apis.Util.Utilities.SerializeForGoogleFormat(value);
+                                _intervalEndTime = value;
+                            }
+                        }
+
+                        /// <summary>
+                        /// <seealso cref="System.DateTimeOffset"/> representation of <see cref="IntervalEndTimeRaw"/>.
+                        /// </summary>
+                        [Newtonsoft.Json.JsonIgnoreAttribute]
+                        public virtual System.DateTimeOffset? IntervalEndTimeDateTimeOffset
+                        {
+                            get => Google.Apis.Util.Utilities.GetDateTimeOffsetFromString(IntervalEndTimeRaw);
+                            set => IntervalEndTimeRaw = Google.Apis.Util.Utilities.GetStringFromDateTimeOffset(value);
+                        }
+
+                        private string _intervalStartTimeRaw;
+
+                        private object _intervalStartTime;
 
                         /// <summary>The start of the time window.</summary>
                         [Google.Apis.Util.RequestParameterAttribute("interval.startTime", Google.Apis.Util.RequestParameterType.Query)]
-                        public virtual object IntervalStartTime { get; set; }
+                        public virtual string IntervalStartTimeRaw
+                        {
+                            get => _intervalStartTimeRaw;
+                            set
+                            {
+                                _intervalStartTime = Google.Apis.Util.Utilities.DeserializeForGoogleFormat(value);
+                                _intervalStartTimeRaw = value;
+                            }
+                        }
+
+                        /// <summary>
+                        /// <seealso cref="object"/> representation of <see cref="IntervalStartTimeRaw"/>.
+                        /// </summary>
+                        [Newtonsoft.Json.JsonIgnoreAttribute]
+                        [System.ObsoleteAttribute("This property is obsolete and may behave unexpectedly; please use IntervalStartTimeDateTimeOffset instead.")]
+                        public virtual object IntervalStartTime
+                        {
+                            get => _intervalStartTime;
+                            set
+                            {
+                                _intervalStartTimeRaw = Google.Apis.Util.Utilities.SerializeForGoogleFormat(value);
+                                _intervalStartTime = value;
+                            }
+                        }
+
+                        /// <summary>
+                        /// <seealso cref="System.DateTimeOffset"/> representation of <see cref="IntervalStartTimeRaw"/>
+                        /// .
+                        /// </summary>
+                        [Newtonsoft.Json.JsonIgnoreAttribute]
+                        public virtual System.DateTimeOffset? IntervalStartTimeDateTimeOffset
+                        {
+                            get => Google.Apis.Util.Utilities.GetDateTimeOffsetFromString(IntervalStartTimeRaw);
+                            set => IntervalStartTimeRaw = Google.Apis.Util.Utilities.GetStringFromDateTimeOffset(value);
+                        }
 
                         /// <summary>Optional. Page size.</summary>
                         [Google.Apis.Util.RequestParameterAttribute("pageSize", Google.Apis.Util.RequestParameterType.Query)]

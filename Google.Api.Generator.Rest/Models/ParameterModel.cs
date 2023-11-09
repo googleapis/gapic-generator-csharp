@@ -40,7 +40,8 @@ namespace Google.Api.Generator.Rest.Models
 
         /// <summary>
         /// The name to use when declaring a parameter in a method that
-        /// corresponds with this parameter model.
+        /// corresponds with this parameter model. This is also used
+        /// for underlying fields in non-auto properties.
         /// </summary>
         public string MethodParameterName { get; }
 
@@ -120,12 +121,11 @@ namespace Google.Api.Generator.Rest.Models
             }
         }
 
-        private PropertyDeclarationSyntax GenerateProperty(SourceFileContext ctx)
+        private PropertyDeclarationSyntax GenerateProperty(SourceFileContext ctx, AttributeSyntax requestParameterAttr)
         {
             var propertyType = ctx.Type(Typ);
-            var locationExpression = ctx.Type<RequestParameterType>().Access(Location.ToString());
             var property = AutoProperty(Modifier.Public | Modifier.Virtual, propertyType, PropertyName, hasSetter: true, setterIsPrivate: IsRequired)
-                .WithAttribute(ctx.Type<RequestParameterAttribute>())(Name, locationExpression);
+                .WithAttribute(requestParameterAttr);
             if (_schema.Description is string description)
             {
                 var summary = XmlDoc.Summary(description);
@@ -137,12 +137,11 @@ namespace Google.Api.Generator.Rest.Models
             return property;
         }
 
-        private PropertyDeclarationSyntax GenerateRepeatedOptionalEnumProperty(SourceFileContext ctx)
+        private PropertyDeclarationSyntax GenerateRepeatedOptionalEnumProperty(SourceFileContext ctx, AttributeSyntax requestParameterAttr)
         {
             var propertyType = ctx.Type(Typ.Generic(Typ.Of(typeof(Repeatable<>)), Typ.GenericArgTyps.Single()));
-            var locationExpression = ctx.Type<RequestParameterType>().Access(Location.ToString());
             var property = AutoProperty(Modifier.Public | Modifier.Virtual, propertyType, PropertyName + "List", hasSetter: true)
-                .WithAttribute(ctx.Type<RequestParameterAttribute>())(Name, locationExpression);
+                .WithAttribute(requestParameterAttr);
             if (_schema.Description is string description)
             {
                 property = property.WithXmlDoc(
@@ -154,10 +153,29 @@ namespace Google.Api.Generator.Rest.Models
 
         public IEnumerable<MemberDeclarationSyntax> GenerateDeclarations(SourceFileContext ctx)
         {
-            yield return GenerateProperty(ctx);
+            var locationExpression = ctx.Type<RequestParameterType>().Access(Location.ToString());
+            var requestParameterAttr = AttributeWithArgs(ctx.Type<RequestParameterAttribute>(), Name, locationExpression);
+            switch (_schema.Format)
+            {
+                case "date-time":
+                    foreach (var prop in Properties.GenerateDateTimeProperties(ctx, _schema, MethodParameterName, PropertyName, requestParameterAttr))
+                    {
+                        yield return prop;
+                    }
+                    break;
+                case "google-datetime":
+                    foreach (var prop in Properties.GenerateGoogleDateTimeProperties(ctx, _schema, MethodParameterName, PropertyName, requestParameterAttr))
+                    {
+                        yield return prop;
+                    }
+                    break;
+                default:
+                    yield return GenerateProperty(ctx, requestParameterAttr);
+                    break;
+            }
             if (IsRepeatedOptionalEnum)
             {
-                yield return GenerateRepeatedOptionalEnumProperty(ctx);
+                yield return GenerateRepeatedOptionalEnumProperty(ctx, requestParameterAttr);
             }
             if (EnumModel is object)
             {
