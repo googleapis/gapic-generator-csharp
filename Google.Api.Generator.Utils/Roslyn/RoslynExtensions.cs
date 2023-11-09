@@ -343,11 +343,23 @@ namespace Google.Api.Generator.Utils.Roslyn
             }
         }
 
+        public static MethodDeclarationSyntax WithAttribute(this MethodDeclarationSyntax method, AttributeSyntax attr) =>
+            method.WithAttributeLists(method.AttributeLists.Add(AttributeList(SingletonSeparatedList(attr))));
+
+        public static PropertyDeclarationSyntax WithAttribute(this PropertyDeclarationSyntax property, AttributeSyntax attr) =>
+            property.WithAttributeLists(property.AttributeLists.Add(AttributeList(SingletonSeparatedList(attr))));
+
+        public static EnumMemberDeclarationSyntax WithAttribute(this EnumMemberDeclarationSyntax enumDeclaration, AttributeSyntax attr) =>
+            enumDeclaration.WithAttributeLists(enumDeclaration.AttributeLists.Add(AttributeList(SingletonSeparatedList(attr))));
+
         public static RoslynBuilder.ArgumentsFunc<MethodDeclarationSyntax> WithAttribute(this MethodDeclarationSyntax method, TypeSyntax attrType) =>
-            args => method.WithAttributeLists(method.AttributeLists.Add(AttributeList(SingletonSeparatedList(Attribute((NameSyntax)attrType, CreateAttributeArgList(args))))));
+            args => method.WithAttribute(RoslynBuilder.AttributeWithArgs(attrType, args));
 
         public static RoslynBuilder.ArgumentsFunc<PropertyDeclarationSyntax> WithAttribute(this PropertyDeclarationSyntax property, TypeSyntax attrType) =>
-            args => property.WithAttributeLists(property.AttributeLists.Add(AttributeList(SingletonSeparatedList(Attribute((NameSyntax) attrType, CreateAttributeArgList(args))))));
+            args => property.WithAttribute(RoslynBuilder.AttributeWithArgs(attrType, args));
+
+        public static RoslynBuilder.ArgumentsFunc<EnumMemberDeclarationSyntax> WithAttribute(this EnumMemberDeclarationSyntax enumDeclaration, TypeSyntax attrType) =>
+            args => enumDeclaration.WithAttribute(RoslynBuilder.AttributeWithArgs(attrType, args));
 
         /// <summary>
         /// Returns the specified method declaration syntax, potentially (if <paramref name="condition"/> is true) adding an attribute specified
@@ -356,8 +368,8 @@ namespace Google.Api.Generator.Utils.Roslyn
         /// </summary>
         public static RoslynBuilder.ArgumentsFunc<MethodDeclarationSyntax> MaybeWithAttribute(this MethodDeclarationSyntax method, bool condition, Func<TypeSyntax> attrType) =>
             condition
-            ? args => method.WithAttributeLists(method.AttributeLists.Add(AttributeList(SingletonSeparatedList(Attribute((NameSyntax)attrType(), CreateAttributeArgList(args))))))
-            : (RoslynBuilder.ArgumentsFunc<MethodDeclarationSyntax>) (args => method);
+            ? args => method.WithAttribute(RoslynBuilder.AttributeWithArgs(attrType(), args))
+            : args => method;
 
         /// <summary>
         /// Returns the specified property declaration syntax, potentially (if <paramref name="condition"/> is true) adding an attribute specified
@@ -366,11 +378,8 @@ namespace Google.Api.Generator.Utils.Roslyn
         /// </summary>
         public static RoslynBuilder.ArgumentsFunc<PropertyDeclarationSyntax> MaybeWithAttribute(this PropertyDeclarationSyntax property, bool condition, Func<TypeSyntax> attrType) =>
             condition
-            ? args => property.WithAttributeLists(property.AttributeLists.Add(AttributeList(SingletonSeparatedList(Attribute((NameSyntax)attrType(), CreateAttributeArgList(args))))))
-            : (RoslynBuilder.ArgumentsFunc<PropertyDeclarationSyntax>) (arg => property);
-
-        public static RoslynBuilder.ArgumentsFunc<EnumMemberDeclarationSyntax> WithAttribute(this EnumMemberDeclarationSyntax enumDeclaration, TypeSyntax attrType) =>
-            args => enumDeclaration.WithAttributeLists(enumDeclaration.AttributeLists.Add(AttributeList(SingletonSeparatedList(Attribute((NameSyntax) attrType, CreateAttributeArgList(args))))));
+            ? args => property.WithAttribute(RoslynBuilder.AttributeWithArgs(attrType(), args))
+            : args => property;
 
         public static BinaryExpressionSyntax Is(this ExpressionSyntax expr, TypeSyntax type) => BinaryExpression(SyntaxKind.IsExpression, expr, type);
 
