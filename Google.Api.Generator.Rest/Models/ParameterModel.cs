@@ -105,6 +105,15 @@ namespace Google.Api.Generator.Rest.Models
             _schema = schema;
             Typ = SchemaTypes.GetTypFromSchema(package, schema, name, currentTyp: parentTyp, inParameter: true);
 
+            // Some validation for things that are theoretically feasible, but not currently supported.
+            if (IsRequired)                
+            {
+                if (schema.Format is string format && (format.StartsWith("google-", StringComparison.Ordinal) || format == "date-time"))
+                {
+                    throw new InvalidOperationException($"Generation of required parameters for schema format '{format}' is currently not supported. Parameter '{name}' in '{parentTyp.FullName}'");
+                }
+            }
+
             if (schema.Repeated == true && Location == RequestParameterType.Path)
             {
                 throw new InvalidOperationException($"Path parameters cannot be repeated. Parameter '{name}' in '{parentTyp.FullName}'");
