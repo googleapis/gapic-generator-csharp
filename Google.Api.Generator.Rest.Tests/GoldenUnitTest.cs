@@ -41,5 +41,8 @@ namespace Google.Api.Generator.Rest.Tests
 
         [Fact]
         public void Calendar() => TestResources.TestOutput("Google.Apis.Calendar.v3");
+
+        [Fact]
+        public void Assuredworkloads() => TestResources.TestOutput("Google.Apis.Assuredworkloads.v1");
     }
 }
