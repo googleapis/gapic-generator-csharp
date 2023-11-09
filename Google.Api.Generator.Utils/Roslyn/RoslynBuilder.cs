@@ -341,5 +341,8 @@ namespace Google.Api.Generator.Utils.Roslyn
 
         public static SyntaxTrivia DisableWarningPragma(string warningId) =>
             Trivia(PragmaWarningDirectiveTrivia(Token(SyntaxKind.DisableKeyword), SingletonSeparatedList<ExpressionSyntax>(IdentifierName(warningId)), true));
+
+        public static AttributeSyntax AttributeWithArgs(TypeSyntax attrType, params object[] args) =>
+            Attribute((NameSyntax) attrType, CreateAttributeArgList(args));
     }
 }
