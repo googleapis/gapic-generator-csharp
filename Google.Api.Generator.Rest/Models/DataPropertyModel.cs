@@ -98,7 +98,7 @@ namespace Google.Api.Generator.Rest.Models
             {
                 throw new ArgumentException("Unable to handle complex date-time properties");
             }
-            // DateTime values generate two properties: one raw as a string, and one DateTime version.
+            // DateTime values generate three properties: one raw as a string, one DateTimeOffset version, and one (obsolete) DateTime version.
             var rawProperty = AutoProperty(Modifier.Public | Modifier.Virtual, ctx.Type<string>(), PropertyName + "Raw", hasSetter: true)
                 .WithAttribute(ctx.Type<JsonPropertyAttribute>())(Name);
             if (_schema.Description is object)

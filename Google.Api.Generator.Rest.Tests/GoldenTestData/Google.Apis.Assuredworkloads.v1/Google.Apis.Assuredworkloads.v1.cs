@@ -644,13 +644,71 @@ namespace Google.Apis.Assuredworkloads.v1
                         [Google.Apis.Util.RequestParameterAttribute("filter", Google.Apis.Util.RequestParameterType.Query)]
                         public virtual string Filter { get; set; }
 
-                        /// <summary>The end of the time window.</summary>
-                        [Google.Apis.Util.RequestParameterAttribute("interval.endTime", Google.Apis.Util.RequestParameterType.Query)]
-                        public virtual object IntervalEndTime { get; set; }
+                        private object _intervalEndTime;
 
-                        /// <summary>The start of the time window.</summary>
+                        /// <summary>
+                        /// String representation of <see cref="IntervalEndTimeDateTimeOffset"/>, formatted for
+                        /// inclusion in the HTTP request.
+                        /// </summary>
+                        [Google.Apis.Util.RequestParameterAttribute("interval.endTime", Google.Apis.Util.RequestParameterType.Query)]
+                        public virtual string IntervalEndTimeRaw { get; private set; }
+
+                        /// <summary>
+                        /// <seealso cref="object"/> representation of <see cref="IntervalEndTimeRaw"/>.
+                        /// </summary>
+                        [System.ObsoleteAttribute("This property is obsolete and may behave unexpectedly; please use IntervalEndTimeDateTimeOffset instead.")]
+                        public virtual object IntervalEndTime
+                        {
+                            get => _intervalEndTime;
+                            set
+                            {
+                                IntervalEndTimeRaw = Google.Apis.Util.Utilities.ConvertToString(value);
+                                _intervalEndTime = value;
+                            }
+                        }
+
+                        public virtual System.DateTimeOffset? IntervalEndTimeDateTimeOffset
+                        {
+                            get => Google.Apis.Util.DiscoveryFormat.ParseGoogleDateTimeToDateTimeOffset(IntervalEndTimeRaw);
+                            set
+                            {
+                                IntervalEndTimeRaw = Google.Apis.Util.DiscoveryFormat.FormatDateTimeOffsetToGoogleDateTime(value);
+                                _intervalEndTime = value;
+                            }
+                        }
+
+                        private object _intervalStartTime;
+
+                        /// <summary>
+                        /// String representation of <see cref="IntervalStartTimeDateTimeOffset"/>, formatted for
+                        /// inclusion in the HTTP request.
+                        /// </summary>
                         [Google.Apis.Util.RequestParameterAttribute("interval.startTime", Google.Apis.Util.RequestParameterType.Query)]
-                        public virtual object IntervalStartTime { get; set; }
+                        public virtual string IntervalStartTimeRaw { get; private set; }
+
+                        /// <summary>
+                        /// <seealso cref="object"/> representation of <see cref="IntervalStartTimeRaw"/>.
+                        /// </summary>
+                        [System.ObsoleteAttribute("This property is obsolete and may behave unexpectedly; please use IntervalStartTimeDateTimeOffset instead.")]
+                        public virtual object IntervalStartTime
+                        {
+                            get => _intervalStartTime;
+                            set
+                            {
+                                IntervalStartTimeRaw = Google.Apis.Util.Utilities.ConvertToString(value);
+                                _intervalStartTime = value;
+                            }
+                        }
+
+                        public virtual System.DateTimeOffset? IntervalStartTimeDateTimeOffset
+                        {
+                            get => Google.Apis.Util.DiscoveryFormat.ParseGoogleDateTimeToDateTimeOffset(IntervalStartTimeRaw);
+                            set
+                            {
+                                IntervalStartTimeRaw = Google.Apis.Util.DiscoveryFormat.FormatDateTimeOffsetToGoogleDateTime(value);
+                                _intervalStartTime = value;
+                            }
+                        }
 
                         /// <summary>Optional. Page size.</summary>
                         [Google.Apis.Util.RequestParameterAttribute("pageSize", Google.Apis.Util.RequestParameterType.Query)]

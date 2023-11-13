@@ -40,7 +40,8 @@ namespace Google.Api.Generator.Rest.Models
 
         /// <summary>
         /// The name to use when declaring a parameter in a method that
-        /// corresponds with this parameter model.
+        /// corresponds with this parameter model. This is also used
+        /// for underlying fields in non-auto properties.
         /// </summary>
         public string MethodParameterName { get; }
 
@@ -120,7 +121,7 @@ namespace Google.Api.Generator.Rest.Models
             }
         }
 
-        private PropertyDeclarationSyntax GenerateProperty(SourceFileContext ctx)
+        private IEnumerable<MemberDeclarationSyntax> GenerateRegularProperties(SourceFileContext ctx)
         {
             var propertyType = ctx.Type(Typ);
             var locationExpression = ctx.Type<RequestParameterType>().Access(Location.ToString());
@@ -134,36 +135,131 @@ namespace Google.Api.Generator.Rest.Models
                     : new[] { summary };
                 property = property.WithXmlDoc(docs);
             }
-            return property;
-        }
+            yield return property;
 
-        private PropertyDeclarationSyntax GenerateRepeatedOptionalEnumProperty(SourceFileContext ctx)
-        {
-            var propertyType = ctx.Type(Typ.Generic(Typ.Of(typeof(Repeatable<>)), Typ.GenericArgTyps.Single()));
-            var locationExpression = ctx.Type<RequestParameterType>().Access(Location.ToString());
-            var property = AutoProperty(Modifier.Public | Modifier.Virtual, propertyType, PropertyName + "List", hasSetter: true)
-                .WithAttribute(ctx.Type<RequestParameterAttribute>())(Name, locationExpression);
-            if (_schema.Description is string description)
-            {
-                property = property.WithXmlDoc(
-                    XmlDoc.Summary(description),
-                    XmlDoc.Remarks($"Use this property to set one or more values for the parameter. Do not set both this property and ", IdentifierName(PropertyName), "."));
-            }
-            return property;
-        }
-
-        public IEnumerable<MemberDeclarationSyntax> GenerateDeclarations(SourceFileContext ctx)
-        {
-            yield return GenerateProperty(ctx);
             if (IsRepeatedOptionalEnum)
             {
-                yield return GenerateRepeatedOptionalEnumProperty(ctx);
+                var repeatedPropertyType = ctx.Type(Typ.Generic(Typ.Of(typeof(Repeatable<>)), Typ.GenericArgTyps.Single()));
+                var repeatedProperty = AutoProperty(Modifier.Public | Modifier.Virtual, repeatedPropertyType, PropertyName + "List", hasSetter: true)
+                    .WithAttribute(ctx.Type<RequestParameterAttribute>())(Name, locationExpression);
+                if (_schema.Description is string description2)
+                {
+                    repeatedProperty = repeatedProperty.WithXmlDoc(
+                        XmlDoc.Summary(description2),
+                        XmlDoc.Remarks($"Use this property to set one or more values for the parameter. Do not set both this property and ", IdentifierName(PropertyName), "."));
+                }
+                yield return repeatedProperty;
             }
             if (EnumModel is object)
             {
                 yield return EnumModel.GenerateDeclaration(ctx);
             }
         }
+
+        private IEnumerable<MemberDeclarationSyntax> GenerateDateTimeProperties(SourceFileContext ctx)
+        {
+            if (_schema.Type != "string" || _schema.Required == true || _schema.Properties is object ||
+                _schema.AdditionalProperties is object || _schema.Repeated == true ||
+                _schema.Enum__ is object || _schema.Ref__ is object)
+            {
+                throw new ArgumentException("Unable to handle complex date-time properties");
+            }
+
+            var propertyType = ctx.Type(Typ);
+            var locationExpression = ctx.Type<RequestParameterType>().Access(Location.ToString());
+            var valueParameter = Parameter(ctx.Type<DateTimeOffset?>(), "value");
+
+            // DateTime values generate two properties: one raw as a string, one DateTimeOffset version, and one (obsolete) DateTime version.
+            // The DateTimeOffset and string properties are slightly awkward, as we need to reference the raw property from the getters and setters of the DTO,
+            // but we refer to the DTO property from the raw property's XML doc.
+            var rawProperty = AutoProperty(Modifier.Public | Modifier.Virtual, ctx.Type<string>(), PropertyName + "Raw", hasSetter: true, setterIsPrivate: true)
+                .WithAttribute(ctx.Type<RequestParameterAttribute>())(Name, locationExpression);
+            if (_schema.Description is object)
+            {
+                rawProperty = rawProperty.WithXmlDoc(XmlDoc.Summary(_schema.Description));
+            }
+
+            var dtoProperty = Property(Modifier.Public | Modifier.Virtual, ctx.Type(typeof(DateTimeOffset?)), PropertyName + "DateTimeOffset")
+                .WithGetBody(Return(ctx.Type(typeof(DiscoveryFormat)).Call(nameof(DiscoveryFormat.ParseDateTimeToDateTimeOffset))(rawProperty)))
+                .WithSetBody(rawProperty.Assign(ctx.Type(typeof(DiscoveryFormat)).Call(nameof(DiscoveryFormat.FormatDateTimeOffsetToDateTime))(valueParameter)));
+            if (_schema.Description is object)
+            {
+                dtoProperty = dtoProperty.WithXmlDoc(XmlDoc.Summary(_schema.Description));
+            }
+            rawProperty = rawProperty.WithXmlDoc(XmlDoc.Summary("String representation of ", dtoProperty, ", formatted for inclusion in the HTTP request."));
+
+            yield return dtoProperty;
+            yield return rawProperty;
+
+            yield return Property(Modifier.Public | Modifier.Virtual, ctx.Type<DateTime?>(), PropertyName)
+                .WithAttribute(ctx.Type<ObsoleteAttribute>())($"This property is obsolete and may behave unexpectedly; please use {PropertyName}DateTimeOffset instead.")
+                .WithXmlDoc(XmlDoc.Summary(XmlDoc.SeeAlso(ctx.Type<DateTime>()), " representation of ", dtoProperty, "."))
+                .WithGetBody(Return(ctx.Type(typeof(Utilities)).Call(nameof(Utilities.GetDateTimeFromString))(rawProperty)))
+                .WithSetBody(rawProperty.Assign(ctx.Type(typeof(Utilities)).Call(nameof(Utilities.GetStringFromDateTime))(valueParameter)));
+        }
+
+        private IEnumerable<MemberDeclarationSyntax> GenerateGoogleDateTimeProperties(SourceFileContext ctx)
+        {
+            if (_schema.Type != "string" || _schema.Required == true || _schema.Properties is object ||
+                _schema.AdditionalProperties is object || _schema.Repeated == true ||
+                _schema.Enum__ is object || _schema.Ref__ is object)
+            {
+                throw new ArgumentException("Unable to handle complex google-datetime properties");
+            }
+
+            var propertyType = ctx.Type(Typ);
+            var locationExpression = ctx.Type<RequestParameterType>().Access(Location.ToString());
+            // The type of "value" is irrelevant to our uses of this, so it's okay that in the raw property it should be a string.
+            var valueParameter = Parameter(ctx.Type<object>(), "value");
+
+            // For google-datetime properties, we generate:
+            // - Three properties: Xyz (object), XyzRaw (string, auto-property), XyzDateTimeOffset (DateTimeOffset?)
+            // - A field to back Xyz.
+            //
+            // Each property setter will set the field for Xyz and XyzRaw.
+            var objectField = Field(Modifier.Private, ctx.Type<object>(), $"_{MethodParameterName}");
+
+            var rawProperty = AutoProperty(Modifier.Public | Modifier.Virtual, ctx.Type<string>(), PropertyName + "Raw", hasSetter: true, setterIsPrivate: true)
+                .WithAttribute(ctx.Type<RequestParameterAttribute>())(Name, locationExpression);
+
+            var dtoProperty = Property(Modifier.Public | Modifier.Virtual, ctx.Type<DateTimeOffset?>(), PropertyName + "DateTimeOffset")
+                // Note: we could just cast objectField and return the result, but:
+                // - This is consistent with data model properties
+                // - Our we end up with a stray semi-colon at the end of the overall property declaration for non-obvious reasons
+                .WithGetBody(Return(ctx.Type(typeof(DiscoveryFormat)).Call(nameof(DiscoveryFormat.ParseGoogleDateTimeToDateTimeOffset))(rawProperty)))
+                .WithSetBody(
+                    rawProperty.Assign(ctx.Type(typeof(DiscoveryFormat)).Call(nameof(DiscoveryFormat.FormatDateTimeOffsetToGoogleDateTime))(valueParameter)),
+                    objectField.Assign(valueParameter)
+                );
+            if (_schema.Description is object)
+            {
+                //dtoProperty = dtoProperty.WithXmlDoc(XmlDoc.Summary(_schema.Description));
+            }
+            rawProperty = rawProperty.WithXmlDoc(XmlDoc.Summary("String representation of ", dtoProperty, ", formatted for inclusion in the HTTP request."));
+
+            var objectProperty = Property(Modifier.Public | Modifier.Virtual, ctx.Type<object>(), PropertyName)
+                .WithAttribute(ctx.Type<ObsoleteAttribute>())($"This property is obsolete and may behave unexpectedly; please use {PropertyName}DateTimeOffset instead.")
+                .WithXmlDoc(XmlDoc.Summary(XmlDoc.SeeAlso(ctx.Type<object>()), " representation of ", rawProperty, "."))
+                .WithGetBody(Return(objectField))
+                .WithSetBody(
+                    rawProperty.Assign(ctx.Type(typeof(Utilities)).Call(nameof(Utilities.ConvertToString))(valueParameter)),
+                    objectField.Assign(valueParameter)
+                );
+
+            yield return objectField;
+
+            yield return rawProperty;
+            yield return objectProperty;
+            yield return dtoProperty;
+        }
+
+        public IEnumerable<MemberDeclarationSyntax> GenerateDeclarations(SourceFileContext ctx) =>
+            _schema.Format switch
+            {
+                "date-time" => GenerateDateTimeProperties(ctx),
+                "google-datetime" => GenerateGoogleDateTimeProperties(ctx),
+                _ => GenerateRegularProperties(ctx)
+            };
 
         internal object GenerateInitializer(SourceFileContext ctx)
         {

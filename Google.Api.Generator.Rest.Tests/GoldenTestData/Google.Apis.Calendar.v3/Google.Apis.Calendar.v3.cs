@@ -2489,15 +2489,55 @@ namespace Google.Apis.Calendar.v3
             /// Upper bound (exclusive) for an event's start time to filter by. Optional. The default is not to filter
             /// by start time. Must be an RFC3339 timestamp with mandatory time zone offset.
             /// </summary>
+            public virtual System.DateTimeOffset? TimeMaxDateTimeOffset
+            {
+                get => Google.Apis.Util.DiscoveryFormat.ParseDateTimeToDateTimeOffset(TimeMaxRaw);
+                set => TimeMaxRaw = Google.Apis.Util.DiscoveryFormat.FormatDateTimeOffsetToDateTime(value);
+            }
+
+            /// <summary>
+            /// String representation of <see cref="TimeMaxDateTimeOffset"/>, formatted for inclusion in the HTTP
+            /// request.
+            /// </summary>
             [Google.Apis.Util.RequestParameterAttribute("timeMax", Google.Apis.Util.RequestParameterType.Query)]
-            public virtual System.Nullable<System.DateTime> TimeMax { get; set; }
+            public virtual string TimeMaxRaw { get; private set; }
+
+            /// <summary>
+            /// <seealso cref="System.DateTime"/> representation of <see cref="TimeMaxDateTimeOffset"/>.
+            /// </summary>
+            [System.ObsoleteAttribute("This property is obsolete and may behave unexpectedly; please use TimeMaxDateTimeOffset instead.")]
+            public virtual System.DateTime? TimeMax
+            {
+                get => Google.Apis.Util.Utilities.GetDateTimeFromString(TimeMaxRaw);
+                set => TimeMaxRaw = Google.Apis.Util.Utilities.GetStringFromDateTime(value);
+            }
 
             /// <summary>
             /// Lower bound (inclusive) for an event's end time to filter by. Optional. The default is not to filter by
             /// end time. Must be an RFC3339 timestamp with mandatory time zone offset.
             /// </summary>
+            public virtual System.DateTimeOffset? TimeMinDateTimeOffset
+            {
+                get => Google.Apis.Util.DiscoveryFormat.ParseDateTimeToDateTimeOffset(TimeMinRaw);
+                set => TimeMinRaw = Google.Apis.Util.DiscoveryFormat.FormatDateTimeOffsetToDateTime(value);
+            }
+
+            /// <summary>
+            /// String representation of <see cref="TimeMinDateTimeOffset"/>, formatted for inclusion in the HTTP
+            /// request.
+            /// </summary>
             [Google.Apis.Util.RequestParameterAttribute("timeMin", Google.Apis.Util.RequestParameterType.Query)]
-            public virtual System.Nullable<System.DateTime> TimeMin { get; set; }
+            public virtual string TimeMinRaw { get; private set; }
+
+            /// <summary>
+            /// <seealso cref="System.DateTime"/> representation of <see cref="TimeMinDateTimeOffset"/>.
+            /// </summary>
+            [System.ObsoleteAttribute("This property is obsolete and may behave unexpectedly; please use TimeMinDateTimeOffset instead.")]
+            public virtual System.DateTime? TimeMin
+            {
+                get => Google.Apis.Util.Utilities.GetDateTimeFromString(TimeMinRaw);
+                set => TimeMinRaw = Google.Apis.Util.Utilities.GetStringFromDateTime(value);
+            }
 
             /// <summary>
             /// Time zone used in the response. Optional. The default is the time zone of the calendar.
@@ -2767,8 +2807,28 @@ namespace Google.Apis.Calendar.v3
             /// 2011-06-03T10:00:00-07:00, 2011-06-03T10:00:00Z. Milliseconds may be provided but are ignored. If
             /// timeMin is set, timeMax must be greater than timeMin.
             /// </summary>
+            public virtual System.DateTimeOffset? TimeMaxDateTimeOffset
+            {
+                get => Google.Apis.Util.DiscoveryFormat.ParseDateTimeToDateTimeOffset(TimeMaxRaw);
+                set => TimeMaxRaw = Google.Apis.Util.DiscoveryFormat.FormatDateTimeOffsetToDateTime(value);
+            }
+
+            /// <summary>
+            /// String representation of <see cref="TimeMaxDateTimeOffset"/>, formatted for inclusion in the HTTP
+            /// request.
+            /// </summary>
             [Google.Apis.Util.RequestParameterAttribute("timeMax", Google.Apis.Util.RequestParameterType.Query)]
-            public virtual System.Nullable<System.DateTime> TimeMax { get; set; }
+            public virtual string TimeMaxRaw { get; private set; }
+
+            /// <summary>
+            /// <seealso cref="System.DateTime"/> representation of <see cref="TimeMaxDateTimeOffset"/>.
+            /// </summary>
+            [System.ObsoleteAttribute("This property is obsolete and may behave unexpectedly; please use TimeMaxDateTimeOffset instead.")]
+            public virtual System.DateTime? TimeMax
+            {
+                get => Google.Apis.Util.Utilities.GetDateTimeFromString(TimeMaxRaw);
+                set => TimeMaxRaw = Google.Apis.Util.Utilities.GetStringFromDateTime(value);
+            }
 
             /// <summary>
             /// Lower bound (exclusive) for an event's end time to filter by. Optional. The default is not to filter by
@@ -2776,8 +2836,28 @@ namespace Google.Apis.Calendar.v3
             /// 2011-06-03T10:00:00-07:00, 2011-06-03T10:00:00Z. Milliseconds may be provided but are ignored. If
             /// timeMax is set, timeMin must be smaller than timeMax.
             /// </summary>
+            public virtual System.DateTimeOffset? TimeMinDateTimeOffset
+            {
+                get => Google.Apis.Util.DiscoveryFormat.ParseDateTimeToDateTimeOffset(TimeMinRaw);
+                set => TimeMinRaw = Google.Apis.Util.DiscoveryFormat.FormatDateTimeOffsetToDateTime(value);
+            }
+
+            /// <summary>
+            /// String representation of <see cref="TimeMinDateTimeOffset"/>, formatted for inclusion in the HTTP
+            /// request.
+            /// </summary>
             [Google.Apis.Util.RequestParameterAttribute("timeMin", Google.Apis.Util.RequestParameterType.Query)]
-            public virtual System.Nullable<System.DateTime> TimeMin { get; set; }
+            public virtual string TimeMinRaw { get; private set; }
+
+            /// <summary>
+            /// <seealso cref="System.DateTime"/> representation of <see cref="TimeMinDateTimeOffset"/>.
+            /// </summary>
+            [System.ObsoleteAttribute("This property is obsolete and may behave unexpectedly; please use TimeMinDateTimeOffset instead.")]
+            public virtual System.DateTime? TimeMin
+            {
+                get => Google.Apis.Util.Utilities.GetDateTimeFromString(TimeMinRaw);
+                set => TimeMinRaw = Google.Apis.Util.Utilities.GetStringFromDateTime(value);
+            }
 
             /// <summary>
             /// Time zone used in the response. Optional. The default is the time zone of the calendar.
@@ -2790,8 +2870,28 @@ namespace Google.Apis.Calendar.v3
             /// entries deleted since this time will always be included regardless of showDeleted. Optional. The default
             /// is not to filter by last modification time.
             /// </summary>
+            public virtual System.DateTimeOffset? UpdatedMinDateTimeOffset
+            {
+                get => Google.Apis.Util.DiscoveryFormat.ParseDateTimeToDateTimeOffset(UpdatedMinRaw);
+                set => UpdatedMinRaw = Google.Apis.Util.DiscoveryFormat.FormatDateTimeOffsetToDateTime(value);
+            }
+
+            /// <summary>
+            /// String representation of <see cref="UpdatedMinDateTimeOffset"/>, formatted for inclusion in the HTTP
+            /// request.
+            /// </summary>
             [Google.Apis.Util.RequestParameterAttribute("updatedMin", Google.Apis.Util.RequestParameterType.Query)]
-            public virtual System.Nullable<System.DateTime> UpdatedMin { get; set; }
+            public virtual string UpdatedMinRaw { get; private set; }
+
+            /// <summary>
+            /// <seealso cref="System.DateTime"/> representation of <see cref="UpdatedMinDateTimeOffset"/>.
+            /// </summary>
+            [System.ObsoleteAttribute("This property is obsolete and may behave unexpectedly; please use UpdatedMinDateTimeOffset instead.")]
+            public virtual System.DateTime? UpdatedMin
+            {
+                get => Google.Apis.Util.Utilities.GetDateTimeFromString(UpdatedMinRaw);
+                set => UpdatedMinRaw = Google.Apis.Util.Utilities.GetStringFromDateTime(value);
+            }
 
             /// <summary>Gets the method name.</summary>
             public override string MethodName => "list";
@@ -3727,8 +3827,28 @@ namespace Google.Apis.Calendar.v3
             /// 2011-06-03T10:00:00-07:00, 2011-06-03T10:00:00Z. Milliseconds may be provided but are ignored. If
             /// timeMin is set, timeMax must be greater than timeMin.
             /// </summary>
+            public virtual System.DateTimeOffset? TimeMaxDateTimeOffset
+            {
+                get => Google.Apis.Util.DiscoveryFormat.ParseDateTimeToDateTimeOffset(TimeMaxRaw);
+                set => TimeMaxRaw = Google.Apis.Util.DiscoveryFormat.FormatDateTimeOffsetToDateTime(value);
+            }
+
+            /// <summary>
+            /// String representation of <see cref="TimeMaxDateTimeOffset"/>, formatted for inclusion in the HTTP
+            /// request.
+            /// </summary>
             [Google.Apis.Util.RequestParameterAttribute("timeMax", Google.Apis.Util.RequestParameterType.Query)]
-            public virtual System.Nullable<System.DateTime> TimeMax { get; set; }
+            public virtual string TimeMaxRaw { get; private set; }
+
+            /// <summary>
+            /// <seealso cref="System.DateTime"/> representation of <see cref="TimeMaxDateTimeOffset"/>.
+            /// </summary>
+            [System.ObsoleteAttribute("This property is obsolete and may behave unexpectedly; please use TimeMaxDateTimeOffset instead.")]
+            public virtual System.DateTime? TimeMax
+            {
+                get => Google.Apis.Util.Utilities.GetDateTimeFromString(TimeMaxRaw);
+                set => TimeMaxRaw = Google.Apis.Util.Utilities.GetStringFromDateTime(value);
+            }
 
             /// <summary>
             /// Lower bound (exclusive) for an event's end time to filter by. Optional. The default is not to filter by
@@ -3736,8 +3856,28 @@ namespace Google.Apis.Calendar.v3
             /// 2011-06-03T10:00:00-07:00, 2011-06-03T10:00:00Z. Milliseconds may be provided but are ignored. If
             /// timeMax is set, timeMin must be smaller than timeMax.
             /// </summary>
+            public virtual System.DateTimeOffset? TimeMinDateTimeOffset
+            {
+                get => Google.Apis.Util.DiscoveryFormat.ParseDateTimeToDateTimeOffset(TimeMinRaw);
+                set => TimeMinRaw = Google.Apis.Util.DiscoveryFormat.FormatDateTimeOffsetToDateTime(value);
+            }
+
+            /// <summary>
+            /// String representation of <see cref="TimeMinDateTimeOffset"/>, formatted for inclusion in the HTTP
+            /// request.
+            /// </summary>
             [Google.Apis.Util.RequestParameterAttribute("timeMin", Google.Apis.Util.RequestParameterType.Query)]
-            public virtual System.Nullable<System.DateTime> TimeMin { get; set; }
+            public virtual string TimeMinRaw { get; private set; }
+
+            /// <summary>
+            /// <seealso cref="System.DateTime"/> representation of <see cref="TimeMinDateTimeOffset"/>.
+            /// </summary>
+            [System.ObsoleteAttribute("This property is obsolete and may behave unexpectedly; please use TimeMinDateTimeOffset instead.")]
+            public virtual System.DateTime? TimeMin
+            {
+                get => Google.Apis.Util.Utilities.GetDateTimeFromString(TimeMinRaw);
+                set => TimeMinRaw = Google.Apis.Util.Utilities.GetStringFromDateTime(value);
+            }
 
             /// <summary>
             /// Time zone used in the response. Optional. The default is the time zone of the calendar.
@@ -3750,8 +3890,28 @@ namespace Google.Apis.Calendar.v3
             /// entries deleted since this time will always be included regardless of showDeleted. Optional. The default
             /// is not to filter by last modification time.
             /// </summary>
+            public virtual System.DateTimeOffset? UpdatedMinDateTimeOffset
+            {
+                get => Google.Apis.Util.DiscoveryFormat.ParseDateTimeToDateTimeOffset(UpdatedMinRaw);
+                set => UpdatedMinRaw = Google.Apis.Util.DiscoveryFormat.FormatDateTimeOffsetToDateTime(value);
+            }
+
+            /// <summary>
+            /// String representation of <see cref="UpdatedMinDateTimeOffset"/>, formatted for inclusion in the HTTP
+            /// request.
+            /// </summary>
             [Google.Apis.Util.RequestParameterAttribute("updatedMin", Google.Apis.Util.RequestParameterType.Query)]
-            public virtual System.Nullable<System.DateTime> UpdatedMin { get; set; }
+            public virtual string UpdatedMinRaw { get; private set; }
+
+            /// <summary>
+            /// <seealso cref="System.DateTime"/> representation of <see cref="UpdatedMinDateTimeOffset"/>.
+            /// </summary>
+            [System.ObsoleteAttribute("This property is obsolete and may behave unexpectedly; please use UpdatedMinDateTimeOffset instead.")]
+            public virtual System.DateTime? UpdatedMin
+            {
+                get => Google.Apis.Util.Utilities.GetDateTimeFromString(UpdatedMinRaw);
+                set => UpdatedMinRaw = Google.Apis.Util.Utilities.GetStringFromDateTime(value);
+            }
 
             /// <summary>Gets or sets the body of this request.</summary>
             Google.Apis.Calendar.v3.Data.Channel Body { get; set; }
