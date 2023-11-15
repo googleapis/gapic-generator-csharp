@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="Google.Apis.Discovery.v1" Version="1.63.0" />
-    <PackageReference Include="Google.Apis" Version="1.64.0-alpha01" />
+    <PackageReference Include="Google.Apis" Version="1.64.0" />
     <ProjectReference Include="..\Google.Api.Generator.Utils\Google.Api.Generator.Utils.csproj" />
   </ItemGroup>
 
