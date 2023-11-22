@@ -358,7 +358,7 @@ namespace Google.Api.Generator.Utils.Formatting
                 {
                     var preTrivia = s.GetLeadingTrivia().SelectMany(FormatInCodeComment).Append(_indentTrivia);
                     var postTrivia = s.GetTrailingTrivia().SelectMany(FormatInCodeComment).Prepend(NewLine);
-                    return Visit(s).WithLeadingTrivia(preTrivia).WithTrailingTrivia(postTrivia);
+                    return (StatementSyntax) Visit(s).WithLeadingTrivia(preTrivia).WithTrailingTrivia(postTrivia);
                 })));
             }
             node = node.WithOpenBraceToken(node.OpenBraceToken.WithLeadingTrivia(NewLine, _indentTrivia).WithTrailingNewLine());
@@ -492,7 +492,7 @@ namespace Google.Api.Generator.Utils.Formatting
             if (node.Span.Length < 20)
             {
                 // Crude <20 to only make short initializer expressions stay on a single line.
-                node = node.WithExpressions(SeparatedList<SyntaxNode>(nodeExprs
+                node = node.WithExpressions(SeparatedList<ExpressionSyntax>(nodeExprs
                     .SelectMany(x => new SyntaxNodeOrToken[] { x.WithLeadingSpace(), Token(SyntaxKind.CommaToken) }).SkipLast(isComplex ? 1 : 0)));
                 node = node.WithOpenBraceToken(node.OpenBraceToken.WithLeadingSpace());
                 node = node.WithCloseBraceToken(node.CloseBraceToken.WithLeadingSpace());
@@ -513,7 +513,7 @@ namespace Google.Api.Generator.Utils.Formatting
                         items = items.SkipLast(2).Concat(items
                             .TakeLast(2).Take(1).Select(x => x.WithTrailingTrivia(NewLine))).ToList();
                     }
-                    node = node.WithExpressions(SeparatedList<SyntaxNode>(items));
+                    node = node.WithExpressions(SeparatedList<ExpressionSyntax>(items));
                 }
                 node = node.WithOpenBraceToken(node.OpenBraceToken.WithLeadingTrivia(NewLine, _indentTrivia).WithTrailingNewLine());
                 node = node.WithCloseBraceToken(node.CloseBraceToken.WithLeadingTrivia(_indentTrivia));
