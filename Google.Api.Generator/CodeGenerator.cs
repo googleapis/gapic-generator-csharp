@@ -102,6 +102,9 @@ namespace Google.Api.Generator
         public static IEnumerable<ResultFile> Generate(IReadOnlyList<FileDescriptorProto> descriptorProtos, IEnumerable<string> filesToGenerate, IClock clock,
             string grpcServiceConfigPath, string serviceConfigPath, IEnumerable<string> commonResourcesConfigPaths, ApiTransports transports, bool requestNumericEnumJsonEncoding)
         {
+            Logging.LogTrace("Starting generation");
+
+            Logging.LogTrace("Loading descriptors");
             var descriptors = FileDescriptor.BuildFromByteStrings(descriptorProtos.Select(proto => proto.ToByteString()), Registry);
             // Load side-loaded configurations; both optional.
             var grpcServiceConfig = grpcServiceConfigPath is object ? ServiceConfig.Parser.ParseJson(File.ReadAllText(grpcServiceConfigPath)) : null;
@@ -122,6 +125,7 @@ namespace Google.Api.Generator
             var resultFilesByProtoPackage = new Dictionary<string, List<ResultFile>>();
             foreach (var singlePackageFileDescs in byPackage)
             {
+                Logging.LogTrace("Processing package '{package}'", singlePackageFileDescs.Key);
                 // Find the right library settings by matching the proto package we're publishing.
                 var librarySettings = serviceConfig?.Publishing?.LibrarySettings?.FirstOrDefault(ls => ls.Version == singlePackageFileDescs.Key);
 
@@ -132,6 +136,7 @@ namespace Google.Api.Generator
                         "All files in the same package must have the same C# namespace. " +
                         $"Found namespaces '{string.Join(", ", namespaces)}' in package '{singlePackageFileDescs.Key}'.");
                 }
+                Logging.LogTrace("Preparing the ProtoCatalog");
                 var catalog = new ProtoCatalog(singlePackageFileDescs.Key, descriptors, singlePackageFileDescs, commonResourcesConfigs, librarySettings);
                 var files = new List<ResultFile>();
                 foreach (var resultFile in GeneratePackage(
@@ -179,6 +184,8 @@ namespace Google.Api.Generator
             }
 
             ValidateTransports(transports, allServiceDetails);
+
+            Logging.LogTrace("Generation complete with {count} files", resultFiles.Count);
             return resultFiles;
 
             // Returns the result files we should actually create, ignoring mix-ins unless we're actually
@@ -259,6 +266,7 @@ namespace Google.Api.Generator
             ServiceConfig grpcServiceConfig, Service serviceConfig, List<ServiceDetails> allServiceDetails,
             ApiTransports transports, bool requestNumericEnumJsonEncoding, ClientLibrarySettings librarySettings)
         {
+            Logging.LogInformation("Generating code for namespace '{namespace}'", ns);
             var clientPathPrefix = $"{ns}{Path.DirectorySeparatorChar}";
             var serviceSnippetsPathPrefix = $"{ns}.Snippets{Path.DirectorySeparatorChar}";
             var snippetsPathPrefix = $"{ns}.GeneratedSnippets{Path.DirectorySeparatorChar}";
@@ -286,8 +294,10 @@ namespace Google.Api.Generator
             var seenPaginatedResponseTyps = new HashSet<Typ>();
             foreach (var fileDesc in packageFileDescriptors)
             {
+                Logging.LogTrace("Generating code for namespace '{namespace}'", ns);
                 foreach (var service in fileDesc.Services)
                 {
+                    Logging.LogTrace("Generating code for service '{service}'", service.Name);
                     // Generate settings and client code for requested package.
                     var serviceDetails = new ServiceDetails(catalog, ns, service, grpcServiceConfig, serviceConfig, transports, librarySettings);
                     packageServiceDetails.Add(serviceDetails);
@@ -368,6 +378,7 @@ namespace Google.Api.Generator
             // When processing a (proto) package without any services there will be no generated content.
             if (hasContent)
             {
+                Logging.LogTrace("Generating project files and metadata");
                 // Generate client csproj.
                 var csprojContent = CsProjGenerator.GenerateClient(dependencyProtoPackages);
                 var csprojFilename = $"{clientPathPrefix}{ns}.csproj";
@@ -375,6 +386,7 @@ namespace Google.Api.Generator
                 // If we only generated resources, we don't need to generate all of these.
                 if (packageServiceDetails.Count > 0)
                 {
+                    Logging.LogTrace("Generating metadata");
                     allServiceDetails.AddRange(packageServiceDetails);
 
                     // Generate the package-wide API metadata
@@ -405,6 +417,7 @@ namespace Google.Api.Generator
                     var snippetsCsProjFilename = $"{snippetsPathPrefix}{ns}.GeneratedSnippets.csproj";
                     yield return new ResultFile(snippetsCsProjFilename, snippetsCsprojContent);
                 }
+                Logging.LogTrace("Project/metadata generation complete");
             }
         }
     }
