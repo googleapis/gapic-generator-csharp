@@ -337,7 +337,7 @@ namespace Google.Api.Generator.Rest.Models
             );
 
             var buildProperties = new XElement("PropertyGroup",
-                new XElement("TargetFrameworks", "netstandard2.0;netstandard1.3;net45"),
+                new XElement("TargetFrameworks", "netstandard2.0;net462;net6.0"),
                 new XElement("SignAssembly", "true"),
                 new XElement("AssemblyOriginatorKeyFile", @"..\..\..\google.apis.snk"),
                 new XElement("DebugType", "portable"),
@@ -392,14 +392,15 @@ namespace Google.Api.Generator.Rest.Models
                 string suffix = @$"
 
       Supported Platforms:
-      - .NET Framework 4.5+
-      - .NET Standard 1.3 and .NET Standard 2.0; providing .NET Core support.
+      - .NET Framework 4.6.2+
+      - .NET Standard 2.0
+      - .NET 6.0+
 
       Incompatible platforms:
-      - .NET Framework < 4.5
+      - .NET Framework < 4.6.2
       - Silverlight
       - UWP (will build, but is known not to work at runtime)
-      - Xamarin
+      - Xamarin/MAUI
       - Windows 8 Apps
       - Windows Phone 8.1
       - Windows Phone Silverlight 8.0
