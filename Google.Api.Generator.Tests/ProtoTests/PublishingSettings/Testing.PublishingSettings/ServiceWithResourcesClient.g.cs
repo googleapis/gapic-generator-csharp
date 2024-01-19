@@ -105,14 +105,14 @@ namespace Testing.PublishingSettings
         {
             Validate();
             grpccore::CallInvoker callInvoker = CreateCallInvoker();
-            return ServiceWithResourcesClient.Create(callInvoker, Settings, Logger);
+            return ServiceWithResourcesClient.Create(callInvoker, GetEffectiveSettings(Settings?.Clone()), Logger);
         }
 
         private async stt::Task<ServiceWithResourcesClient> BuildAsyncImpl(st::CancellationToken cancellationToken)
         {
             Validate();
             grpccore::CallInvoker callInvoker = await CreateCallInvokerAsync(cancellationToken).ConfigureAwait(false);
-            return ServiceWithResourcesClient.Create(callInvoker, Settings, Logger);
+            return ServiceWithResourcesClient.Create(callInvoker, GetEffectiveSettings(Settings?.Clone()), Logger);
         }
 
         /// <summary>Returns the channel pool to use when no other options are specified.</summary>
