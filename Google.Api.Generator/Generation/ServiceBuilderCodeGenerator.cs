@@ -103,11 +103,13 @@ namespace Google.Api.Generator.Generation
         {
             var callInvoker = Local(_ctx.Type<CallInvoker>(), "callInvoker");
             var logger = Property(Public, _ctx.Type<ILogger>(), nameof(ClientBuilderBase<string>.Logger));
+            var settingsClone = IdentifierName("Settings").Call("Clone", conditional: true)();
+            var effectiveSettings = This.Call("GetEffectiveSettings")(settingsClone);
             return Method(Private, _ctx.Type(_svc.ClientAbstractTyp), "BuildImpl")()
                 .WithBody(
                     This.Call("Validate")(),
                     callInvoker.WithInitializer(This.Call("CreateCallInvoker")()),
-                    Return(_ctx.Type(_svc.ClientAbstractTyp).Call("Create")(callInvoker, Settings(), logger)));
+                    Return(_ctx.Type(_svc.ClientAbstractTyp).Call("Create")(callInvoker, effectiveSettings, logger)));
         }
 
         private MethodDeclarationSyntax BuildAsyncImpl()
@@ -115,11 +117,13 @@ namespace Google.Api.Generator.Generation
             var cancellationToken = Parameter(_ctx.Type<CancellationToken>(), "cancellationToken");
             var callInvoker = Local(_ctx.Type<CallInvoker>(), "callInvoker");
             var logger = Property(Public, _ctx.Type<ILogger>(), nameof(ClientBuilderBase<string>.Logger));
+            var settingsClone = IdentifierName("Settings").Call("Clone", conditional: true)();
+            var effectiveSettings = This.Call("GetEffectiveSettings")(settingsClone);
             return Method(Private | Async, _ctx.Type(Typ.Generic(typeof(Task<>), _svc.ClientAbstractTyp)), "BuildAsyncImpl")(cancellationToken)
                 .WithBody(
                     This.Call("Validate")(),
                     callInvoker.WithInitializer(Await(This.Call("CreateCallInvokerAsync")(cancellationToken).ConfigureAwait())),
-                    Return(_ctx.Type(_svc.ClientAbstractTyp).Call("Create")(callInvoker, Settings(), logger)));
+                    Return(_ctx.Type(_svc.ClientAbstractTyp).Call("Create")(callInvoker, effectiveSettings, logger)));
         }
 
         private MethodDeclarationSyntax GetChannelPool() =>
