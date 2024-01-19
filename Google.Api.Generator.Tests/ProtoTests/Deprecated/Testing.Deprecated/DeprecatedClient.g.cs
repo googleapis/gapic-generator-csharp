@@ -143,14 +143,14 @@ namespace Testing.Deprecated
         {
             Validate();
             grpccore::CallInvoker callInvoker = CreateCallInvoker();
-            return DeprecatedClient.Create(callInvoker, Settings, Logger);
+            return DeprecatedClient.Create(callInvoker, GetEffectiveSettings(Settings?.Clone()), Logger);
         }
 
         private async stt::Task<DeprecatedClient> BuildAsyncImpl(st::CancellationToken cancellationToken)
         {
             Validate();
             grpccore::CallInvoker callInvoker = await CreateCallInvokerAsync(cancellationToken).ConfigureAwait(false);
-            return DeprecatedClient.Create(callInvoker, Settings, Logger);
+            return DeprecatedClient.Create(callInvoker, GetEffectiveSettings(Settings?.Clone()), Logger);
         }
 
         /// <summary>Returns the channel pool to use when no other options are specified.</summary>
