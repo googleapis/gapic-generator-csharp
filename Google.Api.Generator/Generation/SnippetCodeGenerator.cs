@@ -67,6 +67,7 @@ namespace Google.Api.Generator.Generation
             using (ctx.InNamespace(ns))
             {
                 var cls = Class(Public | Sealed, svc.ServiceSnippetsTyp)
+                    .MaybeWithAttribute(svc.IsDeprecated, () => ctx.Type<ObsoleteAttribute>())()
                     .WithXmlDoc(XmlDoc.Summary("Generated snippets."));
                 using (ctx.InClass(cls))
                 {
@@ -237,12 +238,15 @@ namespace Google.Api.Generator.Generation
                 var ns = Namespace(TargetMethod.Svc.SnippetsNamespace);
                 using (ctx.InNamespace(ns))
                 {
+                    // We can't apply the Obsolete attribute multiple times on a class, so instead
+                    // we apply it to each snippet.
                     var cls = Class(Public | Sealed | Partial, TargetMethod.Svc.SnippetsTyp);
                     using (ctx.InClass(cls))
                     {
                         cls = cls.AddMembers(
                             // Do not include doc markers. Full snippets use region tags and metadata.
                             MethodGenerator(ctx, false)
+                                .MaybeWithAttribute(TargetMethod.Svc.IsDeprecated, () => ctx.Type<ObsoleteAttribute>())()
                                 .WithXmlDoc(
                                     XmlDoc.Summary($"Snippet for {TargetMethodName}"),
                                     XmlDoc.RemarksPreFormatted(GeneratedNotice)));

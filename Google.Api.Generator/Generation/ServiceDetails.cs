@@ -101,6 +101,7 @@ namespace Google.Api.Generator.Generation
                 .Where(mixin => mixin.GapicClientType.Namespace != ns)
                 .ToList() ?? Enumerable.Empty<MixinDetails>();
             Transports = transports;
+            IsDeprecated = desc.GetOptions()?.Deprecated == true;
         }
 
         /// <summary>The lines of service documentation from the proto.</summary>
@@ -203,6 +204,11 @@ namespace Google.Api.Generator.Generation
         /// The client library settings used when generating this service.
         /// </summary>
         public ClientLibrarySettings LibrarySettings { get; }
+
+        /// <summary>
+        /// Whether the service itself is deprecated.
+        /// </summary>
+        public bool IsDeprecated { get; }
 
         /// <summary>
         /// The details of a service responsible for LRO polling for a non-standard LRO implementation.

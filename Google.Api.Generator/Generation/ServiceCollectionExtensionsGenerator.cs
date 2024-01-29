@@ -71,6 +71,7 @@ namespace Google.Api.Generator.Generation
                 );
 
             return Method(Public | Static, serviceCollection, name)(services, action)
+                .MaybeWithAttribute(service.IsDeprecated, () => ctx.Type<ObsoleteAttribute>())()
                 .WithBody(services.Call("AddSingleton")(lambda))
                 .WithXmlDoc(
                     XmlDoc.Summary("Adds a singleton ", ctx.Type(service.ClientAbstractTyp), " to ", services, "."),
