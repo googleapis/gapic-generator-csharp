@@ -16,10 +16,12 @@
 
 namespace GoogleCSharpSnippets
 {
+    using System;
     using System.Threading.Tasks;
     using Testing.Deprecated;
 
     /// <summary>Generated snippets.</summary>
+    [ObsoleteAttribute]
     public sealed class AllGeneratedDeprecatedServiceClientSnippets
     {
         /// <summary>Snippet for NonDeprecatedMethod</summary>

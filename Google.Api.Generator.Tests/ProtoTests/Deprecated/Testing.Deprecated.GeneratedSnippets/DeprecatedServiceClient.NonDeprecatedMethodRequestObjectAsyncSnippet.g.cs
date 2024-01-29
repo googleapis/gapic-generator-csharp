@@ -17,6 +17,7 @@
 namespace GoogleCSharpSnippets
 {
     // [START deprecated_generated_DeprecatedService_NonDeprecatedMethod_async]
+    using System;
     using System.Threading.Tasks;
     using Testing.Deprecated;
 
@@ -30,6 +31,7 @@ namespace GoogleCSharpSnippets
         /// - It may require specifying regional endpoints when creating the service client as shown in
         ///   https://cloud.google.com/dotnet/docs/reference/help/client-configuration#endpoint.
         /// </remarks>
+        [ObsoleteAttribute]
         public async Task NonDeprecatedMethodRequestObjectAsync()
         {
             // Create client

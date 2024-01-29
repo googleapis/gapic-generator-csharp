@@ -30,6 +30,7 @@ using stt = System.Threading.Tasks;
 namespace Testing.Deprecated
 {
     /// <summary>Settings for <see cref="DeprecatedServiceClient"/> instances.</summary>
+    [sys::ObsoleteAttribute]
     public sealed partial class DeprecatedServiceSettings : gaxgrpc::ServiceSettingsBase
     {
         /// <summary>Get a new instance of the default <see cref="DeprecatedServiceSettings"/>.</summary>
@@ -85,6 +86,7 @@ namespace Testing.Deprecated
     /// Builder class for <see cref="DeprecatedServiceClient"/> to provide simple configuration of credentials, endpoint
     /// etc.
     /// </summary>
+    [sys::ObsoleteAttribute]
     public sealed partial class DeprecatedServiceClientBuilder : gaxgrpc::ClientBuilderBase<DeprecatedServiceClient>
     {
         /// <summary>The settings to use for RPCs, or <c>null</c> for the default settings.</summary>
@@ -138,6 +140,7 @@ namespace Testing.Deprecated
     /// A whole service that's deprecated this time. One RPC which is explicitly
     /// deprecated, and another that isn't.
     /// </remarks>
+    [sys::ObsoleteAttribute]
     public abstract partial class DeprecatedServiceClient
     {
         /// <summary>
@@ -267,6 +270,7 @@ namespace Testing.Deprecated
     /// A whole service that's deprecated this time. One RPC which is explicitly
     /// deprecated, and another that isn't.
     /// </remarks>
+    [sys::ObsoleteAttribute]
     public sealed partial class DeprecatedServiceClientImpl : DeprecatedServiceClient
     {
         private readonly gaxgrpc::ApiCall<Request, Response> _callNonDeprecatedMethod;
