@@ -16,13 +16,13 @@
 
 namespace GoogleCSharpSnippets
 {
-    // [START deprecated_generated_Deprecated_DeprecatedFieldMethod_async]
+    // [START deprecated_generated_DeprecatedService_DeprecatedMethod_async]
     using System.Threading.Tasks;
     using Testing.Deprecated;
 
-    public sealed partial class GeneratedDeprecatedClientSnippets
+    public sealed partial class GeneratedDeprecatedServiceClientSnippets
     {
-        /// <summary>Snippet for DeprecatedFieldMethodAsync</summary>
+        /// <summary>Snippet for DeprecatedMethodAsync</summary>
         /// <remarks>
         /// This snippet has been automatically generated and should be regarded as a code template only.
         /// It will require modifications to work:
@@ -30,15 +30,17 @@ namespace GoogleCSharpSnippets
         /// - It may require specifying regional endpoints when creating the service client as shown in
         ///   https://cloud.google.com/dotnet/docs/reference/help/client-configuration#endpoint.
         /// </remarks>
-        public async Task DeprecatedFieldMethodRequestObjectAsync()
+        public async Task DeprecatedMethodRequestObjectAsync()
         {
             // Create client
-            DeprecatedClient deprecatedClient = await DeprecatedClient.CreateAsync();
+            DeprecatedServiceClient deprecatedServiceClient = await DeprecatedServiceClient.CreateAsync();
             // Initialize request argument(s)
-            DeprecatedFieldRequest request = new DeprecatedFieldRequest { };
+            Request request = new Request { };
             // Make the request
-            Response response = await deprecatedClient.DeprecatedFieldMethodAsync(request);
+#pragma warning disable CS0612
+            Response response = await deprecatedServiceClient.DeprecatedMethodAsync(request);
+#pragma warning restore CS0612
         }
     }
-    // [END deprecated_generated_Deprecated_DeprecatedFieldMethod_async]
+    // [END deprecated_generated_DeprecatedService_DeprecatedMethod_async]
 }

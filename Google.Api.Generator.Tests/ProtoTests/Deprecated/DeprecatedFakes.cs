@@ -40,6 +40,21 @@ namespace Testing.Deprecated
         }
     }
 
+    public class DeprecatedService
+    {
+        public static ServiceDescriptor Descriptor => null;
+
+        public class DeprecatedServiceClient
+        {
+            public DeprecatedServiceClient() { } // Required for unit-tests.
+            public DeprecatedServiceClient(CallInvoker callInvoker) { }
+            public virtual Response DeprecatedMethod(Request request, CallOptions callOptions) => throw new NotImplementedException();
+            public virtual AsyncUnaryCall<Response> DeprecatedMethodAsync(Request request, CallOptions callOptions) => throw new NotImplementedException();
+            public virtual Response NonDeprecatedMethod(Request request, CallOptions callOptions) => throw new NotImplementedException();
+            public virtual AsyncUnaryCall<Response> NonDeprecatedMethodAsync(Request request, CallOptions callOptions) => throw new NotImplementedException();
+        }
+    }
+
     public class DeprecatedFieldRequest : ProtoMsgFake<DeprecatedFieldRequest>
     {
         [Obsolete]
