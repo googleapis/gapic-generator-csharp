@@ -352,6 +352,9 @@ namespace Google.Api.Generator.Utils.Roslyn
         public static EnumMemberDeclarationSyntax WithAttribute(this EnumMemberDeclarationSyntax enumDeclaration, AttributeSyntax attr) =>
             enumDeclaration.WithAttributeLists(enumDeclaration.AttributeLists.Add(AttributeList(SingletonSeparatedList(attr))));
 
+        public static ClassDeclarationSyntax WithAttribute(this ClassDeclarationSyntax classDeclaration, AttributeSyntax attr) =>
+            classDeclaration.WithAttributeLists(classDeclaration.AttributeLists.Add(AttributeList(SingletonSeparatedList(attr))));
+
         public static RoslynBuilder.ArgumentsFunc<MethodDeclarationSyntax> WithAttribute(this MethodDeclarationSyntax method, TypeSyntax attrType) =>
             args => method.WithAttribute(RoslynBuilder.AttributeWithArgs(attrType, args));
 
@@ -360,6 +363,9 @@ namespace Google.Api.Generator.Utils.Roslyn
 
         public static RoslynBuilder.ArgumentsFunc<EnumMemberDeclarationSyntax> WithAttribute(this EnumMemberDeclarationSyntax enumDeclaration, TypeSyntax attrType) =>
             args => enumDeclaration.WithAttribute(RoslynBuilder.AttributeWithArgs(attrType, args));
+
+        public static RoslynBuilder.ArgumentsFunc<ClassDeclarationSyntax> WithAttribute(this ClassDeclarationSyntax classDeclaration, TypeSyntax attrType) =>
+            args => classDeclaration.WithAttribute(RoslynBuilder.AttributeWithArgs(attrType, args));
 
         /// <summary>
         /// Returns the specified method declaration syntax, potentially (if <paramref name="condition"/> is true) adding an attribute specified
@@ -380,6 +386,16 @@ namespace Google.Api.Generator.Utils.Roslyn
             condition
             ? args => property.WithAttribute(RoslynBuilder.AttributeWithArgs(attrType(), args))
             : args => property;
+
+        /// <summary>
+        /// Returns the specified property declaration syntax, potentially (if <paramref name="condition"/> is true) adding an attribute specified
+        /// by <paramref name="attrType"/>. This is a function so that if obtaining the attribute type has side-effects,
+        /// those side effects will not have an impact unless the attribute is added.
+        /// </summary>
+        public static RoslynBuilder.ArgumentsFunc<ClassDeclarationSyntax> MaybeWithAttribute(this ClassDeclarationSyntax clazz, bool condition, Func<TypeSyntax> attrType) =>
+            condition
+            ? args => clazz.WithAttribute(RoslynBuilder.AttributeWithArgs(attrType(), args))
+            : args => clazz;
 
         public static BinaryExpressionSyntax Is(this ExpressionSyntax expr, TypeSyntax type) => BinaryExpression(SyntaxKind.IsExpression, expr, type);
 

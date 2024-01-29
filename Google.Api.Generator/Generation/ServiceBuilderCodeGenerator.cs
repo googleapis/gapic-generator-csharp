@@ -18,7 +18,7 @@ using Google.Api.Generator.Utils.Roslyn;
 using Grpc.Core;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using static Google.Api.Generator.Utils.Roslyn.Modifier;
@@ -45,6 +45,7 @@ namespace Google.Api.Generator.Generation
         {
             var baseTyp = Typ.Generic(typeof(ClientBuilderBase<>), _svc.ClientAbstractTyp);
             var cls = Class(Public | Sealed | Partial, _svc.BuilderTyp, baseTypes: _ctx.Type(baseTyp))
+                .MaybeWithAttribute(_svc.IsDeprecated, () => _ctx.Type<ObsoleteAttribute>())()
                 .WithXmlDoc(XmlDoc.Summary("Builder class for ", _ctx.Type(_svc.ClientAbstractTyp), " to provide simple configuration of credentials, endpoint etc."));
             using (_ctx.InClass(cls))
             {

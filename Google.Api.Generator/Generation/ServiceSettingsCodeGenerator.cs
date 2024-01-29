@@ -53,6 +53,7 @@ namespace Google.Api.Generator.Generation
         private ClassDeclarationSyntax Generate()
         {
             var cls = Class(Public | Sealed | Partial, _svc.SettingsTyp, baseTypes: _ctx.Type<ServiceSettingsBase>())
+                .MaybeWithAttribute(_svc.IsDeprecated, () => _ctx.Type<ObsoleteAttribute>())()
                 .WithXmlDoc(XmlDoc.Summary("Settings for ", _ctx.Type(_svc.ClientAbstractTyp), " instances."));
             using (_ctx.InClass(cls))
             {
