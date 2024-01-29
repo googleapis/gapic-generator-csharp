@@ -20,6 +20,20 @@ service Deprecated {
   rpc DeprecatedResponseMethod(Request) returns(DeprecatedMessageResponse);
 }
 
+// A whole service that's deprecated this time. One RPC which is explicitly
+// deprecated, and another that isn't.
+service DeprecatedService {
+  option deprecated = true;
+  option (google.api.default_host) = "deprecated.example.com";
+
+  rpc NonDeprecatedMethod(Request) returns(Response) {
+  };
+
+  rpc DeprecatedMethod(Request) returns(Response) {
+    option deprecated = true;
+  };
+}
+
 message DeprecatedFieldRequest {
   string deprecated_field_1 = 1 [deprecated = true];
   string deprecated_field_2 = 2 [deprecated = true]; // Test consecutive deprecated fields; requires consecutive pragmas.

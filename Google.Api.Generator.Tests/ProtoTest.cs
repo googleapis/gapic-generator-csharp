@@ -288,7 +288,7 @@ namespace Google.Api.Generator.Tests
         public void Keywords() => ProtoTestSingle("Keywords", ignoreCsProj: true);
 
         [Fact]
-        public void Deprecated() => ProtoTestSingle("Deprecated", ignoreCsProj: true);
+        public void Deprecated() => ProtoTestSingle("Deprecated", ignoreCsProj: true, ignoreServiceExtensionsFile: false);
 
         [Fact]
         public void OptionalFields() => ProtoTestSingle("OptionalFields", ignoreCsProj: true, ignoreSnippets: true);
