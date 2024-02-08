@@ -13,6 +13,8 @@
 // limitations under the License.
 
 using Google.Api.Gax.Grpc;
+using Google.LongRunning;
+using Google.Protobuf.Collections;
 using Google.Protobuf.Reflection;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
@@ -85,13 +87,49 @@ public partial class ServiceWithHandwrittenSignaturesClient
     public Task<Response> AMethodAsync(string string1, CancellationToken cancellationToken) => throw new NotImplementedException();
 }
 
-public class Request : ProtoMsgFake<Request>
+public partial class ServiceWithMethodSettings
+{
+    public static ServiceDescriptor Descriptor => null;
+
+    // Fake gRPC client
+    public partial class ServiceWithMethodSettingsClient
+    {
+        private CallInvoker CallInvoker => throw new NotImplementedException();
+        public ServiceWithMethodSettingsClient() { }
+        public ServiceWithMethodSettingsClient(CallInvoker callInvoker) { }
+        public virtual AsyncUnaryCall<Response> UnaryAutoPopulatedAsync(Request request, CallOptions options) => throw new NotImplementedException();
+        public virtual Response UnaryAutoPopulated(Request request, CallOptions options) => throw new NotImplementedException();
+        public virtual AsyncServerStreamingCall<Response> ServerStreamingAutoPopulated(Request request, CallOptions options) => throw new NotImplementedException();
+        public virtual AsyncClientStreamingCall<Request,Response> ClientStreamingAutoPopulated(CallOptions options) => throw new NotImplementedException();
+        public virtual AsyncDuplexStreamingCall<Request, Response> BidiStreamingAutoPopulated(CallOptions options) => throw new NotImplementedException();
+        public virtual AsyncUnaryCall<Operation> LroAutoPopulatedAsync(Request request, CallOptions options) => throw new NotImplementedException();
+        public virtual Operation LroAutoPopulated(Request request, CallOptions options) => throw new NotImplementedException();
+        public virtual AsyncUnaryCall<PaginatedResponse> PaginatedAutoPopulatedAsync(PaginatedRequest request, CallOptions options) => throw new NotImplementedException();
+        public virtual PaginatedResponse PaginatedAutoPopulated(PaginatedRequest request, CallOptions options) => throw new NotImplementedException();
+    }
+}
+
+public partial class Request : ProtoMsgFake<Request>
 {
     public string String1 { get; set; }
     public string String2 { get; set; }
+    public string RequestId { get; set; }
 }
 
-public class Response : ProtoMsgFake<Response> { }
+public partial class Response : ProtoMsgFake<Response> { }
+
+public partial class PaginatedRequest : ProtoMsgFake<PaginatedRequest>
+{
+    public string RequestId { get; set; }
+    public int PageSize { get; set; }
+    public string PageToken { get; set; }
+}
+
+public partial class PaginatedResponse : ProtoMsgFake<PaginatedResponse>
+{
+    public string NextPageToken { get; set; }
+    public RepeatedField<Response> Responses{ get; }
+}
 
 public partial class ResourceRequest : ProtoMsgFake<ResourceRequest>
 {

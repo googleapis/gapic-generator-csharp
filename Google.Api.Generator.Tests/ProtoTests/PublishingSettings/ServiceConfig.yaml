@@ -9,6 +9,10 @@ apis:
 - name: testing.publishingsettings.ServiceWithResources
 
 publishing:
+  method_settings:
+  - selector: testing.publishingsettings.ServiceWithMethodSettings.AMethodWithAutoPopulatedFields
+    auto_populated_fields:
+    - request_id
   librarySettings:
   - version: testing.publishingsettings.wrong1
   - version: testing.publishingsettings
