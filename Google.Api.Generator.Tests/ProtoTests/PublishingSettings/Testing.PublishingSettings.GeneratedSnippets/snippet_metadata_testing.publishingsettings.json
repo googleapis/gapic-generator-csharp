@@ -47,12 +47,12 @@
       "segments": [
         {
           "start": 20,
-          "end": 45,
+          "end": 46,
           "type": "FULL"
         },
         {
           "start": 34,
-          "end": 43,
+          "end": 44,
           "type": "SHORT"
         }
       ]
@@ -96,12 +96,12 @@
       "segments": [
         {
           "start": 20,
-          "end": 46,
+          "end": 47,
           "type": "FULL"
         },
         {
           "start": 35,
-          "end": 44,
+          "end": 45,
           "type": "SHORT"
         }
       ]
@@ -144,12 +144,12 @@
       "segments": [
         {
           "start": 20,
-          "end": 45,
+          "end": 46,
           "type": "FULL"
         },
         {
           "start": 34,
-          "end": 43,
+          "end": 44,
           "type": "SHORT"
         }
       ]
@@ -193,12 +193,12 @@
       "segments": [
         {
           "start": 20,
-          "end": 46,
+          "end": 47,
           "type": "FULL"
         },
         {
           "start": 35,
-          "end": 44,
+          "end": 45,
           "type": "SHORT"
         }
       ]
@@ -397,6 +397,393 @@
         {
           "start": 35,
           "end": 41,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "unknown_generated_ServiceWithMethodSettings_UnaryAutoPopulated_sync",
+      "title": "UnaryAutoPopulatedRequestObject",
+      "description": "Snippet for UnaryAutoPopulated",
+      "file": "ServiceWithMethodSettingsClient.UnaryAutoPopulatedRequestObjectSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "UnaryAutoPopulated",
+        "fullName": "Testing.PublishingSettings.ServiceWithMethodSettingsClient.UnaryAutoPopulated",
+        "parameters": [
+          {
+            "type": "Testing.PublishingSettings.Request",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
+        "resultType": "Testing.PublishingSettings.Response",
+        "client": {
+          "shortName": "ServiceWithMethodSettingsClient",
+          "fullName": "Testing.PublishingSettings.ServiceWithMethodSettingsClient"
+        },
+        "method": {
+          "shortName": "UnaryAutoPopulated",
+          "fullName": "testing.publishingsettings.ServiceWithMethodSettings.UnaryAutoPopulated",
+          "service": {
+            "shortName": "ServiceWithMethodSettings",
+            "fullName": "testing.publishingsettings.ServiceWithMethodSettings"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 46,
+          "type": "FULL"
+        },
+        {
+          "start": 34,
+          "end": 44,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "unknown_generated_ServiceWithMethodSettings_UnaryAutoPopulated_async",
+      "title": "UnaryAutoPopulatedRequestObjectAsync",
+      "description": "Snippet for UnaryAutoPopulatedAsync",
+      "file": "ServiceWithMethodSettingsClient.UnaryAutoPopulatedRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "UnaryAutoPopulatedAsync",
+        "fullName": "Testing.PublishingSettings.ServiceWithMethodSettingsClient.UnaryAutoPopulatedAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.PublishingSettings.Request",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.PublishingSettings.Response>",
+        "client": {
+          "shortName": "ServiceWithMethodSettingsClient",
+          "fullName": "Testing.PublishingSettings.ServiceWithMethodSettingsClient"
+        },
+        "method": {
+          "shortName": "UnaryAutoPopulated",
+          "fullName": "testing.publishingsettings.ServiceWithMethodSettings.UnaryAutoPopulated",
+          "service": {
+            "shortName": "ServiceWithMethodSettings",
+            "fullName": "testing.publishingsettings.ServiceWithMethodSettings"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 47,
+          "type": "FULL"
+        },
+        {
+          "start": 35,
+          "end": 45,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "unknown_generated_ServiceWithMethodSettings_ServerStreamingAutoPopulated_sync",
+      "title": "ServerStreamingAutoPopulatedRequestObject",
+      "description": "Snippet for ServerStreamingAutoPopulated",
+      "file": "ServiceWithMethodSettingsClient.ServerStreamingAutoPopulatedRequestObjectSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "ServerStreamingAutoPopulated",
+        "fullName": "Testing.PublishingSettings.ServiceWithMethodSettingsClient.ServerStreamingAutoPopulated",
+        "parameters": [
+          {
+            "type": "Testing.PublishingSettings.Request",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
+        "resultType": "Testing.PublishingSettings.ServiceWithMethodSettingsClient+ServerStreamingAutoPopulatedStream",
+        "client": {
+          "shortName": "ServiceWithMethodSettingsClient",
+          "fullName": "Testing.PublishingSettings.ServiceWithMethodSettingsClient"
+        },
+        "method": {
+          "shortName": "ServerStreamingAutoPopulated",
+          "fullName": "testing.publishingsettings.ServiceWithMethodSettings.ServerStreamingAutoPopulated",
+          "service": {
+            "shortName": "ServiceWithMethodSettings",
+            "fullName": "testing.publishingsettings.ServiceWithMethodSettings"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 58,
+          "type": "FULL"
+        },
+        {
+          "start": 36,
+          "end": 56,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "unknown_generated_ServiceWithMethodSettings_BidiStreamingAutoPopulated_sync",
+      "title": "BidiStreamingAutoPopulated",
+      "description": "Snippet for BidiStreamingAutoPopulated",
+      "file": "ServiceWithMethodSettingsClient.BidiStreamingAutoPopulatedSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "BidiStreamingAutoPopulated",
+        "fullName": "Testing.PublishingSettings.ServiceWithMethodSettingsClient.BidiStreamingAutoPopulated",
+        "parameters": [
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.BidirectionalStreamingSettings",
+            "name": "streamingSettings"
+          }
+        ],
+        "resultType": "Testing.PublishingSettings.ServiceWithMethodSettingsClient+BidiStreamingAutoPopulatedStream",
+        "client": {
+          "shortName": "ServiceWithMethodSettingsClient",
+          "fullName": "Testing.PublishingSettings.ServiceWithMethodSettingsClient"
+        },
+        "method": {
+          "shortName": "BidiStreamingAutoPopulated",
+          "fullName": "testing.publishingsettings.ServiceWithMethodSettings.BidiStreamingAutoPopulated",
+          "service": {
+            "shortName": "ServiceWithMethodSettings",
+            "fullName": "testing.publishingsettings.ServiceWithMethodSettings"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 79,
+          "type": "FULL"
+        },
+        {
+          "start": 36,
+          "end": 77,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "unknown_generated_ServiceWithMethodSettings_LroAutoPopulated_sync",
+      "title": "LroAutoPopulatedRequestObject",
+      "description": "Snippet for LroAutoPopulated",
+      "file": "ServiceWithMethodSettingsClient.LroAutoPopulatedRequestObjectSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "LroAutoPopulated",
+        "fullName": "Testing.PublishingSettings.ServiceWithMethodSettingsClient.LroAutoPopulated",
+        "parameters": [
+          {
+            "type": "Testing.PublishingSettings.Request",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
+        "resultType": "Google.LongRunning.Operation<Testing.PublishingSettings.Response, Testing.PublishingSettings.Response>",
+        "client": {
+          "shortName": "ServiceWithMethodSettingsClient",
+          "fullName": "Testing.PublishingSettings.ServiceWithMethodSettingsClient"
+        },
+        "method": {
+          "shortName": "LroAutoPopulated",
+          "fullName": "testing.publishingsettings.ServiceWithMethodSettings.LroAutoPopulated",
+          "service": {
+            "shortName": "ServiceWithMethodSettings",
+            "fullName": "testing.publishingsettings.ServiceWithMethodSettings"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 63,
+          "type": "FULL"
+        },
+        {
+          "start": 35,
+          "end": 61,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "unknown_generated_ServiceWithMethodSettings_LroAutoPopulated_async",
+      "title": "LroAutoPopulatedRequestObjectAsync",
+      "description": "Snippet for LroAutoPopulatedAsync",
+      "file": "ServiceWithMethodSettingsClient.LroAutoPopulatedRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "LroAutoPopulatedAsync",
+        "fullName": "Testing.PublishingSettings.ServiceWithMethodSettingsClient.LroAutoPopulatedAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.PublishingSettings.Request",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Google.LongRunning.Operation<Testing.PublishingSettings.Response, Testing.PublishingSettings.Response>>",
+        "client": {
+          "shortName": "ServiceWithMethodSettingsClient",
+          "fullName": "Testing.PublishingSettings.ServiceWithMethodSettingsClient"
+        },
+        "method": {
+          "shortName": "LroAutoPopulated",
+          "fullName": "testing.publishingsettings.ServiceWithMethodSettings.LroAutoPopulated",
+          "service": {
+            "shortName": "ServiceWithMethodSettings",
+            "fullName": "testing.publishingsettings.ServiceWithMethodSettings"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 64,
+          "type": "FULL"
+        },
+        {
+          "start": 36,
+          "end": 62,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "unknown_generated_ServiceWithMethodSettings_PaginatedAutoPopulated_sync",
+      "title": "PaginatedAutoPopulatedRequestObject",
+      "description": "Snippet for PaginatedAutoPopulated",
+      "file": "ServiceWithMethodSettingsClient.PaginatedAutoPopulatedRequestObjectSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "PaginatedAutoPopulated",
+        "fullName": "Testing.PublishingSettings.ServiceWithMethodSettingsClient.PaginatedAutoPopulated",
+        "parameters": [
+          {
+            "type": "Testing.PublishingSettings.PaginatedRequest",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
+        "resultType": "Google.Api.Gax.PagedEnumerable<Testing.PublishingSettings.PaginatedResponse, Testing.PublishingSettings.Response>",
+        "client": {
+          "shortName": "ServiceWithMethodSettingsClient",
+          "fullName": "Testing.PublishingSettings.ServiceWithMethodSettingsClient"
+        },
+        "method": {
+          "shortName": "PaginatedAutoPopulated",
+          "fullName": "testing.publishingsettings.ServiceWithMethodSettings.PaginatedAutoPopulated",
+          "service": {
+            "shortName": "ServiceWithMethodSettings",
+            "fullName": "testing.publishingsettings.ServiceWithMethodSettings"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 75,
+          "type": "FULL"
+        },
+        {
+          "start": 36,
+          "end": 73,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "unknown_generated_ServiceWithMethodSettings_PaginatedAutoPopulated_async",
+      "title": "PaginatedAutoPopulatedRequestObjectAsync",
+      "description": "Snippet for PaginatedAutoPopulatedAsync",
+      "file": "ServiceWithMethodSettingsClient.PaginatedAutoPopulatedRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "PaginatedAutoPopulatedAsync",
+        "fullName": "Testing.PublishingSettings.ServiceWithMethodSettingsClient.PaginatedAutoPopulatedAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.PublishingSettings.PaginatedRequest",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
+        "resultType": "Google.Api.Gax.PagedAsyncEnumerable<Testing.PublishingSettings.PaginatedResponse, Testing.PublishingSettings.Response>",
+        "client": {
+          "shortName": "ServiceWithMethodSettingsClient",
+          "fullName": "Testing.PublishingSettings.ServiceWithMethodSettingsClient"
+        },
+        "method": {
+          "shortName": "PaginatedAutoPopulated",
+          "fullName": "testing.publishingsettings.ServiceWithMethodSettings.PaginatedAutoPopulated",
+          "service": {
+            "shortName": "ServiceWithMethodSettings",
+            "fullName": "testing.publishingsettings.ServiceWithMethodSettings"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 77,
+          "type": "FULL"
+        },
+        {
+          "start": 38,
+          "end": 75,
           "type": "SHORT"
         }
       ]

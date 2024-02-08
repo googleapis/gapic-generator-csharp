@@ -16,6 +16,7 @@
 
 #pragma warning disable CS8981
 using gaxgrpc = Google.Api.Gax.Grpc;
+using lro = Google.LongRunning;
 using gpr = Google.Protobuf.Reflection;
 using scg = System.Collections.Generic;
 
@@ -29,6 +30,7 @@ namespace Testing.PublishingSettings
 
         private static scg::IEnumerable<gpr::FileDescriptor> GetFileDescriptors()
         {
+            yield return lro::OperationsReflection.Descriptor;
             yield return PublishingSettingsReflection.Descriptor;
         }
     }

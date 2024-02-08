@@ -10,7 +10,22 @@ apis:
 
 publishing:
   method_settings:
-  - selector: testing.publishingsettings.ServiceWithMethodSettings.AMethodWithAutoPopulatedFields
+  - selector: testing.publishingsettings.ServiceWithMethodSettings.UnaryAutoPopulated
+    auto_populated_fields:
+    - request_id
+  - selector: testing.publishingsettings.ServiceWithMethodSettings.ServerStreamingAutoPopulated
+    auto_populated_fields:
+    - request_id
+  - selector: testing.publishingsettings.ServiceWithMethodSettings.ClientStreamingAutoPopulated
+    auto_populated_fields:
+    - request_id
+  - selector: testing.publishingsettings.ServiceWithMethodSettings.BidiStreamingAutoPopulated
+    auto_populated_fields:
+    - request_id
+  - selector: testing.publishingsettings.ServiceWithMethodSettings.LroAutoPopulated
+    auto_populated_fields:
+    - request_id
+  - selector: testing.publishingsettings.ServiceWithMethodSettings.PaginatedAutoPopulated
     auto_populated_fields:
     - request_id
   librarySettings:

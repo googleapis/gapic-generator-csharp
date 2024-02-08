@@ -16,13 +16,14 @@
 
 namespace GoogleCSharpSnippets
 {
-    // [START unknown_generated_ServiceWithHandwrittenSignatures_AMethod_async]
+    // [START unknown_generated_ServiceWithMethodSettings_ServerStreamingAutoPopulated_sync]
+    using Google.Api.Gax.Grpc;
     using System.Threading.Tasks;
     using Testing.PublishingSettings;
 
-    public sealed partial class GeneratedServiceWithHandwrittenSignaturesClientSnippets
+    public sealed partial class GeneratedServiceWithMethodSettingsClientSnippets
     {
-        /// <summary>Snippet for AMethodAsync</summary>
+        /// <summary>Snippet for ServerStreamingAutoPopulated</summary>
         /// <remarks>
         /// This snippet has been automatically generated and should be regarded as a code template only.
         /// It will require modifications to work:
@@ -30,10 +31,10 @@ namespace GoogleCSharpSnippets
         /// - It may require specifying regional endpoints when creating the service client as shown in
         ///   https://cloud.google.com/dotnet/docs/reference/help/client-configuration#endpoint.
         /// </remarks>
-        public async Task AMethodRequestObjectAsync()
+        public async Task ServerStreamingAutoPopulatedRequestObject()
         {
             // Create client
-            ServiceWithHandwrittenSignaturesClient serviceWithHandwrittenSignaturesClient = await ServiceWithHandwrittenSignaturesClient.CreateAsync();
+            ServiceWithMethodSettingsClient serviceWithMethodSettingsClient = ServiceWithMethodSettingsClient.Create();
             // Initialize request argument(s)
             Request request = new Request
             {
@@ -41,9 +42,19 @@ namespace GoogleCSharpSnippets
                 String2 = "",
                 RequestId = "",
             };
-            // Make the request
-            Response response = await serviceWithHandwrittenSignaturesClient.AMethodAsync(request);
+            // Make the request, returning a streaming response
+            using ServiceWithMethodSettingsClient.ServerStreamingAutoPopulatedStream response = serviceWithMethodSettingsClient.ServerStreamingAutoPopulated(request);
+
+            // Read streaming responses from server until complete
+            // Note that C# 8 code can use await foreach
+            AsyncResponseStream<Response> responseStream = response.GetResponseStream();
+            while (await responseStream.MoveNextAsync())
+            {
+                Response responseItem = responseStream.Current;
+                // Do something with streamed response
+            }
+            // The response stream has completed
         }
     }
-    // [END unknown_generated_ServiceWithHandwrittenSignatures_AMethod_async]
+    // [END unknown_generated_ServiceWithMethodSettings_ServerStreamingAutoPopulated_sync]
 }
