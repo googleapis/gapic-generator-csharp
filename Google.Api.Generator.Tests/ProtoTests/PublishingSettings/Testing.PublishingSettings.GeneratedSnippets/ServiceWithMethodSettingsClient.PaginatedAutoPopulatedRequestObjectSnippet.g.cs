@@ -36,7 +36,7 @@ namespace GoogleCSharpSnippets
             // Create client
             ServiceWithMethodSettingsClient serviceWithMethodSettingsClient = ServiceWithMethodSettingsClient.Create();
             // Initialize request argument(s)
-            PaginatedRequest request = new PaginatedRequest { RequestId = "", };
+            PaginatedRequest request = new PaginatedRequest { };
             // Make the request
             PagedEnumerable<PaginatedResponse, Response> response = serviceWithMethodSettingsClient.PaginatedAutoPopulated(request);
 

@@ -63,7 +63,6 @@ namespace GoogleCSharpSnippets
                 {
                     String1 = "",
                     String2 = "",
-                    RequestId = "",
                 };
                 // Stream a request to the server
                 await response.WriteAsync(request);

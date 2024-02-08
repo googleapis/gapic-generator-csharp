@@ -39,7 +39,6 @@ namespace GoogleCSharpSnippets
             {
                 String1 = "",
                 String2 = "",
-                RequestId = "",
             };
             // Make the request
             Response response = await serviceWithMethodSettingsClient.UnaryAutoPopulatedAsync(request);

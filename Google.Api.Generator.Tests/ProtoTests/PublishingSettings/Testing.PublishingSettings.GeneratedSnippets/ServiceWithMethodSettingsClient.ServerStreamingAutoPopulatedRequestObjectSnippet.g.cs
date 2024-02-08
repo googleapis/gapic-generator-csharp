@@ -40,7 +40,6 @@ namespace GoogleCSharpSnippets
             {
                 String1 = "",
                 String2 = "",
-                RequestId = "",
             };
             // Make the request, returning a streaming response
             using ServiceWithMethodSettingsClient.ServerStreamingAutoPopulatedStream response = serviceWithMethodSettingsClient.ServerStreamingAutoPopulated(request);
