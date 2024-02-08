@@ -493,6 +493,8 @@ namespace Google.Api.Generator.Generation
             // The method is considered deprecated if the RPC, request or response messages are deprecated.
             // In reality, it would be very odd to deprecate the messages without deprecating the RPC, but this makes it consistent.
             IsDeprecated = desc.IsDeprecated() || RequestMessageDesc.IsDeprecated() || ResponseMessageDesc.IsDeprecated();
+            ServiceConfigMethodSettings = svc.ServiceConfig?.Publishing?.MethodSettings?.FirstOrDefault(m => m.Selector == desc.FullName)
+                ?? new MethodSettings();
         }
 
         private (RetrySettings, IEnumerable<StatusCode>, Expiration) LoadTiming(ServiceDetails svc, MethodDescriptor desc)
@@ -736,5 +738,11 @@ namespace Google.Api.Generator.Generation
 
         /// <summary>Whether the RPC is deprecated.</summary>
         public bool IsDeprecated { get; }
+
+        /// <summary>
+        /// The settings from the YAML service config (under Publishing).
+        /// This is never null.
+        /// </summary>
+        public MethodSettings ServiceConfigMethodSettings { get; }
     }
 }

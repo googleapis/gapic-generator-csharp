@@ -44,6 +44,7 @@ namespace Google.Api.Generator
             ClientExtensions.MethodSignature,
             ClientExtensions.OauthScopes,
             OperationsExtensions.OperationInfo,
+            FieldInfoExtensions.FieldInfo,
             FieldBehaviorExtensions.FieldBehavior,
             AnnotationsExtensions.Http,
             ResourceExtensions.Resource,

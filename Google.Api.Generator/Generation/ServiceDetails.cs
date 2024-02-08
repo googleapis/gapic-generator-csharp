@@ -44,6 +44,7 @@ namespace Google.Api.Generator.Generation
 
         public ServiceDetails(ProtoCatalog catalog, string ns, ServiceDescriptor desc, ServiceConfig grpcServiceConfig, Service serviceConfig, ApiTransports transports, ClientLibrarySettings librarySettings)
         {
+            ServiceConfig = serviceConfig;
             LibrarySettings = librarySettings;
             Catalog = catalog;
             Namespace = ns;
@@ -209,6 +210,11 @@ namespace Google.Api.Generator.Generation
         /// Whether the service itself is deprecated.
         /// </summary>
         public bool IsDeprecated { get; }
+
+        /// <summary>
+        /// The service config (google.api.Service, typically loaded from a YAML file).
+        /// </summary>
+        public Service ServiceConfig { get; }
 
         /// <summary>
         /// The details of a service responsible for LRO polling for a non-standard LRO implementation.

@@ -275,6 +275,9 @@ namespace Google.Api.Generator.Utils.Roslyn
         public static ExpressionSyntax NotEqualTo(this PropertyDeclarationSyntax lhs, object rhs) =>
             BinaryExpression(SyntaxKind.NotEqualsExpression, ToExpression(lhs), ToExpression(rhs));
 
+        public static ExpressionSyntax EqualTo(this ExpressionSyntax lhs, object rhs) =>
+            BinaryExpression(SyntaxKind.EqualsExpression, lhs, ToExpression(rhs));
+
         public static IfStatementSyntax Then(this IfStatementSyntax @if, params object[] code) =>
             WithBody(code, fnExpr: null, fnBlock: @if.WithStatement);
 
