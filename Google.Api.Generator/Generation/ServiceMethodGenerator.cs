@@ -27,6 +27,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using static Google.Api.Generator.Utils.Roslyn.Modifier;
 using static Google.Api.Generator.Utils.Roslyn.RoslynBuilder;
+using System.Collections;
+using Google.Protobuf.Reflection;
 
 namespace Google.Api.Generator.Generation
 {
@@ -238,6 +240,7 @@ namespace Google.Api.Generator.Generation
                 Method(Public | Override, Ctx.Type(MethodDetails.SyncReturnTyp), MethodDetails.SyncMethodName)(RequestParam, CallSettingsParam)
                         .MaybeWithAttribute(MethodDetails.IsDeprecated, () => Ctx.Type<ObsoleteAttribute>())()
                         .WithBody(
+                            AutoPopulateFields(RequestParam),
                             This.Call(ModifyRequestMethod)(Ref(RequestParam), Ref(CallSettingsParam)),
                             MethodDetails.SyncReturnTyp is Typ.VoidTyp ?
                                 (object) ApiCallField.Call(ApiCallSyncName)(RequestParam, CallSettingsParam) :
@@ -248,6 +251,7 @@ namespace Google.Api.Generator.Generation
                 Method(Public | Override, Ctx.Type(MethodDetails.AsyncReturnTyp), MethodDetails.AsyncMethodName)(RequestParam, CallSettingsParam)
                         .MaybeWithAttribute(MethodDetails.IsDeprecated, () => Ctx.Type<ObsoleteAttribute>())()
                         .WithBody(
+                            AutoPopulateFields(RequestParam),
                             This.Call(ModifyRequestMethod)(Ref(RequestParam), Ref(CallSettingsParam)),
                             Return(ApiCallField.Call(ApiCallAsyncName)(RequestParam, CallSettingsParam)))
                         .WithXmlDoc(SummaryXmlDoc, RequestXmlDoc, CallSettingsXmlDoc, ReturnsAsyncXmlDoc);
@@ -258,6 +262,7 @@ namespace Google.Api.Generator.Generation
                 Method(Public | Override, Ctx.Type(MethodDetails.SyncReturnTyp), MethodDetails.SyncMethodName)(RequestParam, CallSettingsParam)
                     .MaybeWithAttribute(MethodDetails.IsDeprecated, () => Ctx.Type<ObsoleteAttribute>())()
                     .WithBody(
+                        AutoPopulateFields(RequestParam),
                         This.Call(ModifyRequestMethod)(Ref(RequestParam), Ref(CallSettingsParam)),
                         Return(New(Ctx.Type(MethodDetailsPaginated.SyncGrpcType))(ApiCallField, RequestParam, CallSettingsParam)))
                     .WithXmlDoc(SummaryXmlDoc, RequestXmlDoc, CallSettingsXmlDoc, ReturnsSyncPaginatedXmlDoc);
@@ -266,6 +271,7 @@ namespace Google.Api.Generator.Generation
                 Method(Public | Override, Ctx.Type(MethodDetails.AsyncReturnTyp), MethodDetails.AsyncMethodName)(RequestParam, CallSettingsParam)
                     .MaybeWithAttribute(MethodDetails.IsDeprecated, () => Ctx.Type<ObsoleteAttribute>())()
                     .WithBody(
+                        AutoPopulateFields(RequestParam),
                         This.Call(ModifyRequestMethod)(Ref(RequestParam), Ref(CallSettingsParam)),
                         Return(New(Ctx.Type(MethodDetailsPaginated.AsyncGrpcType))(ApiCallField, RequestParam, CallSettingsParam)))
                     .WithXmlDoc(SummaryXmlDoc, RequestXmlDoc, CallSettingsXmlDoc, ReturnsAsyncPaginatedXmlDoc);
@@ -311,6 +317,7 @@ namespace Google.Api.Generator.Generation
                 Method(Public | Override, Ctx.Type(MethodDetails.SyncReturnTyp), MethodDetails.SyncMethodName)(RequestParam, CallSettingsParam)
                         .MaybeWithAttribute(MethodDetails.IsDeprecated, () => Ctx.Type<ObsoleteAttribute>())()
                         .WithBody(
+                            AutoPopulateFields(RequestParam),
                             This.Call(ModifyRequestMethod)(Ref(RequestParam), Ref(CallSettingsParam)),
                             Return(New(Ctx.Type(MethodDetailsLro.OperationTyp))(ApiCallField.Call(ApiCallSyncName)(RequestParam, CallSettingsParam), ImplLroOperationsClientProperty))
                         )
@@ -320,6 +327,7 @@ namespace Google.Api.Generator.Generation
                 Method(Public | Override | Async, Ctx.Type(MethodDetails.AsyncReturnTyp), MethodDetails.AsyncMethodName)(RequestParam, CallSettingsParam)
                         .MaybeWithAttribute(MethodDetails.IsDeprecated, () => Ctx.Type<ObsoleteAttribute>())()
                         .WithBody(
+                            AutoPopulateFields(RequestParam),
                             This.Call(ModifyRequestMethod)(Ref(RequestParam), Ref(CallSettingsParam)),
                             Return(New(Ctx.Type(MethodDetailsLro.OperationTyp))(Await(ApiCallField.Call(ApiCallAsyncName)(RequestParam, CallSettingsParam).ConfigureAwait()), ImplLroOperationsClientProperty))
                         )
@@ -336,6 +344,7 @@ namespace Google.Api.Generator.Generation
                     return Method(Public | Override, Ctx.Type(MethodDetails.SyncReturnTyp), MethodDetails.SyncMethodName)(RequestParam, CallSettingsParam)
                             .MaybeWithAttribute(MethodDetails.IsDeprecated, () => Ctx.Type<ObsoleteAttribute>())()
                             .WithBody(
+                                AutoPopulateFields(RequestParam),
                                 This.Call(ModifyRequestMethod)(Ref(RequestParam), Ref(CallSettingsParam)),
                                 response.WithInitializer(ApiCallField.Call(ApiCallSyncName)(RequestParam, CallSettingsParam)),
                                 pollRequest.WithInitializer(Ctx.Type(lro.OperationServiceDetails.PollingRequestTyp).Call("FromInitialResponse")(response)),
@@ -356,6 +365,7 @@ namespace Google.Api.Generator.Generation
                     return Method(Public | Override | Async, Ctx.Type(MethodDetails.AsyncReturnTyp), MethodDetails.AsyncMethodName)(RequestParam, CallSettingsParam)
                             .MaybeWithAttribute(MethodDetails.IsDeprecated, () => Ctx.Type<ObsoleteAttribute>())()
                             .WithBody(
+                                AutoPopulateFields(RequestParam),
                                 This.Call(ModifyRequestMethod)(Ref(RequestParam), Ref(CallSettingsParam)),
                                 response.WithInitializer(Await(ApiCallField.Call(ApiCallAsyncName)(RequestParam, CallSettingsParam).ConfigureAwait())),
                                 pollRequest.WithInitializer(Ctx.Type(lro.OperationServiceDetails.PollingRequestTyp).Call("FromInitialResponse")(response)),
@@ -429,6 +439,7 @@ namespace Google.Api.Generator.Generation
                     var requestParam = Parameter(Ctx.Type(MethodDetails.RequestTyp), "request");
                     return Method(Private, Ctx.Type(MethodDetails.RequestTyp), "ModifyRequest")(requestParam)
                         .WithBody(
+                            AutoPopulateFields(requestParam),
                             serviceField.Call(MethodDetailsBidiStream.ModifyStreamingRequestMethodName)(Ref(requestParam)),
                             Return(requestParam)
                         );
@@ -522,6 +533,7 @@ namespace Google.Api.Generator.Generation
                 Method(Public | Override, Ctx.Type(MethodDetailsServerStream.AbstractStreamTyp), MethodDetails.SyncMethodName)(RequestParam, CallSettingsParam)
                     .MaybeWithAttribute(MethodDetails.IsDeprecated, () => Ctx.Type<ObsoleteAttribute>())()
                     .WithBody(
+                        AutoPopulateFields(RequestParam),
                         This.Call(ModifyRequestMethod)(Ref(RequestParam), Ref(CallSettingsParam)),
                         Return(New(Ctx.Type(MethodDetailsServerStream.ImplStreamTyp))(ApiCallField.Call(nameof(ApiServerStreamingCall<ProtoMsg, ProtoMsg>.Call))(RequestParam, CallSettingsParam))))
                     .WithXmlDoc(SummaryXmlDoc, RequestXmlDoc, CallSettingsXmlDoc, ReturnsServerStreamingXmlDoc);
@@ -534,6 +546,41 @@ namespace Google.Api.Generator.Generation
                     .MaybeWithAttribute(MethodDetails.IsDeprecated, () => Ctx.Type<ObsoleteAttribute>())()
                     .WithBody(Throw(New(Ctx.Type<NotImplementedException>())()))
                     .WithXmlDoc(SummaryXmlDoc, CallSettingsXmlDoc, ClientStreamingSettingsXmlDoc, ReturnsClientStreamingXmlDoc);
+
+            // Common helper methods
+            IEnumerable AutoPopulateFields(ParameterSyntax requestParameter)
+            {
+                var requestDescriptor = MethodDetails.RequestMessageDesc;
+                foreach (var fieldName in MethodDetails.ServiceConfigMethodSettings.AutoPopulatedFields)
+                {
+                    var field = requestDescriptor.FindFieldByName(fieldName);
+                    if (field is null)
+                    {
+                        throw new ArgumentException($"Invalid method settings: field '{fieldName}' not found in '{requestDescriptor.FullName}'");
+                    }
+                    if (field.FieldType != FieldType.String)
+                    {
+                        throw new ArgumentException($"Invalid method settings: field '{fieldName}' in '{requestDescriptor.FullName}' is not a string");
+                    }
+                    if (field.IsMap || field.IsRepeated)
+                    {
+                        throw new ArgumentException($"Invalid method settings: field '{fieldName}' in '{requestDescriptor.FullName}' is not singular");
+                    }
+                    if (field.GetExtension(FieldInfoExtensions.FieldInfo) is not FieldInfo fieldInfo)
+                    {
+                        throw new ArgumentException($"Invalid method settings: field '{fieldName}' in '{requestDescriptor.FullName}' has no FieldInfo annotation");
+                    }
+                    if (fieldInfo.Format != FieldInfo.Types.Format.Uuid4)
+                    {
+                        throw new ArgumentException($"Invalid method settings: field '{fieldName}' in '{requestDescriptor.FullName}' has unsupported format {fieldInfo.Format}");
+                    }
+
+                    yield return If(requestParameter.Access(field.CSharpPropertyName()).EqualTo(""))
+                        .Then(
+                            requestParameter.Assign(requestParameter.Call("Clone")()),
+                            requestParameter.Access(field.CSharpPropertyName()).Assign(Ctx.Type(typeof(FieldFormats)).Call(nameof(FieldFormats.GenerateUuid4))()));                        
+                }
+            }
 
             public ClassDeclarationSyntax ImplClientStreamClass()
             {
@@ -589,6 +636,7 @@ namespace Google.Api.Generator.Generation
                     var requestParam = Parameter(Ctx.Type(MethodDetails.RequestTyp), "request");
                     return Method(Private, Ctx.Type(MethodDetails.RequestTyp), "ModifyRequest")(requestParam)
                         .WithBody(
+                            AutoPopulateFields(requestParam),
                             serviceField.Call(MethodDetailsClientStream.ModifyStreamingRequestMethodName)(Ref(requestParam)),
                             Return(requestParam)
                         );
