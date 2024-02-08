@@ -7,6 +7,8 @@ option csharp_namespace = "Testing.PublishingSettings";
 import "google/api/client.proto";
 import "google/api/resource.proto";
 import "google/api/field_behavior.proto";
+import "google/api/field_info.proto";
+import "google/longrunning/operations.proto";
 import "google/protobuf/wrappers.proto";
 
 // This is a resource definition we'll rename.
@@ -42,12 +44,43 @@ service ServiceWithResources {
   rpc AMethod(ResourceRequest) returns (Resource);
 }
 
+// This is a service with method settings in the service config.
+service ServiceWithMethodSettings {
+  rpc UnaryAutoPopulated(Request) returns (Response);
+  rpc ServerStreamingAutoPopulated(Request) returns (stream Response);
+  rpc ClientStreamingAutoPopulated(stream Request) returns (Response);
+  rpc BidiStreamingAutoPopulated(stream Request) returns (stream Response);
+  rpc LroAutoPopulated(Request) returns (google.longrunning.Operation) {
+    option (google.longrunning.operation_info) = {
+        response_type: "Response"
+        metadata_type: "Response"
+    };
+  }
+  rpc PaginatedAutoPopulated(PaginatedRequest) returns (PaginatedResponse);
+}
+
 message Request {
   string string_1 = 1;
   string string_2 = 2;
+  string request_id = 3 [
+    (google.api.field_info).format = UUID4
+  ];
 }
 
 message Response {
+}
+
+message PaginatedRequest {
+  string request_id = 1 [
+    (google.api.field_info).format = UUID4
+  ];
+  int32 page_size = 2;
+  string page_token = 3;
+}
+
+message PaginatedResponse {
+  string next_page_token = 1;
+  repeated Response responses = 2;
 }
 
 message ResourceRequest {
