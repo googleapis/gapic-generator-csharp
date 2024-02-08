@@ -16,6 +16,7 @@
 
 #pragma warning disable CS8981
 using gaxgrpc = Google.Api.Gax.Grpc;
+using lro = Google.LongRunning;
 using gpr = Google.Protobuf.Reflection;
 using sys = System;
 using scg = System.Collections.Generic;
@@ -58,6 +59,24 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSingleton(provider =>
             {
                 tp::ServiceWithHandwrittenSignaturesClientBuilder builder = new tp::ServiceWithHandwrittenSignaturesClientBuilder();
+                action?.Invoke(builder);
+                return builder.Build(provider);
+            });
+
+        /// <summary>
+        /// Adds a singleton <see cref="tp::ServiceWithMethodSettingsClient"/> to <paramref name="services"/>.
+        /// </summary>
+        /// <param name="services">
+        /// The service collection to add the client to. The services are used to configure the client when requested.
+        /// </param>
+        /// <param name="action">
+        /// An optional action to invoke on the client builder. This is invoked before services from
+        /// <paramref name="services"/> are used.
+        /// </param>
+        public static IServiceCollection AddServiceWithMethodSettingsClient(this IServiceCollection services, sys::Action<tp::ServiceWithMethodSettingsClientBuilder> action = null) =>
+            services.AddSingleton(provider =>
+            {
+                tp::ServiceWithMethodSettingsClientBuilder builder = new tp::ServiceWithMethodSettingsClientBuilder();
                 action?.Invoke(builder);
                 return builder.Build(provider);
             });
