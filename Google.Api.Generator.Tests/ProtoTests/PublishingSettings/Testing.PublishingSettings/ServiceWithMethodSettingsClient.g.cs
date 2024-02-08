@@ -541,6 +541,11 @@ namespace Testing.PublishingSettings
         /// <returns>The RPC response.</returns>
         public override Response UnaryAutoPopulated(Request request, gaxgrpc::CallSettings callSettings = null)
         {
+            if (request.RequestId == "")
+            {
+                request = request.Clone();
+                request.RequestId = gax::FieldFormats.GenerateUuid4();
+            }
             Modify_Request(ref request, ref callSettings);
             return _callUnaryAutoPopulated.Sync(request, callSettings);
         }
@@ -552,6 +557,11 @@ namespace Testing.PublishingSettings
         /// <returns>A Task containing the RPC response.</returns>
         public override stt::Task<Response> UnaryAutoPopulatedAsync(Request request, gaxgrpc::CallSettings callSettings = null)
         {
+            if (request.RequestId == "")
+            {
+                request = request.Clone();
+                request.RequestId = gax::FieldFormats.GenerateUuid4();
+            }
             Modify_Request(ref request, ref callSettings);
             return _callUnaryAutoPopulated.Async(request, callSettings);
         }
@@ -572,6 +582,11 @@ namespace Testing.PublishingSettings
         /// <returns>The server stream.</returns>
         public override ServiceWithMethodSettingsClient.ServerStreamingAutoPopulatedStream ServerStreamingAutoPopulated(Request request, gaxgrpc::CallSettings callSettings = null)
         {
+            if (request.RequestId == "")
+            {
+                request = request.Clone();
+                request.RequestId = gax::FieldFormats.GenerateUuid4();
+            }
             Modify_Request(ref request, ref callSettings);
             return new ServerStreamingAutoPopulatedStreamImpl(_callServerStreamingAutoPopulated.Call(request, callSettings));
         }
@@ -600,6 +615,11 @@ namespace Testing.PublishingSettings
 
             private Request ModifyRequest(Request request)
             {
+                if (request.RequestId == "")
+                {
+                    request = request.Clone();
+                    request.RequestId = gax::FieldFormats.GenerateUuid4();
+                }
                 _service.Modify_RequestRequest(ref request);
                 return request;
             }
@@ -657,6 +677,11 @@ namespace Testing.PublishingSettings
 
             private Request ModifyRequest(Request request)
             {
+                if (request.RequestId == "")
+                {
+                    request = request.Clone();
+                    request.RequestId = gax::FieldFormats.GenerateUuid4();
+                }
                 _service.Modify_RequestRequest(ref request);
                 return request;
             }
@@ -700,6 +725,11 @@ namespace Testing.PublishingSettings
         /// <returns>The RPC response.</returns>
         public override lro::Operation<Response, Response> LroAutoPopulated(Request request, gaxgrpc::CallSettings callSettings = null)
         {
+            if (request.RequestId == "")
+            {
+                request = request.Clone();
+                request.RequestId = gax::FieldFormats.GenerateUuid4();
+            }
             Modify_Request(ref request, ref callSettings);
             return new lro::Operation<Response, Response>(_callLroAutoPopulated.Sync(request, callSettings), LroAutoPopulatedOperationsClient);
         }
@@ -711,6 +741,11 @@ namespace Testing.PublishingSettings
         /// <returns>A Task containing the RPC response.</returns>
         public override async stt::Task<lro::Operation<Response, Response>> LroAutoPopulatedAsync(Request request, gaxgrpc::CallSettings callSettings = null)
         {
+            if (request.RequestId == "")
+            {
+                request = request.Clone();
+                request.RequestId = gax::FieldFormats.GenerateUuid4();
+            }
             Modify_Request(ref request, ref callSettings);
             return new lro::Operation<Response, Response>(await _callLroAutoPopulated.Async(request, callSettings).ConfigureAwait(false), LroAutoPopulatedOperationsClient);
         }
@@ -722,6 +757,11 @@ namespace Testing.PublishingSettings
         /// <returns>A pageable sequence of <see cref="Response"/> resources.</returns>
         public override gax::PagedEnumerable<PaginatedResponse, Response> PaginatedAutoPopulated(PaginatedRequest request, gaxgrpc::CallSettings callSettings = null)
         {
+            if (request.RequestId == "")
+            {
+                request = request.Clone();
+                request.RequestId = gax::FieldFormats.GenerateUuid4();
+            }
             Modify_PaginatedRequest(ref request, ref callSettings);
             return new gaxgrpc::GrpcPagedEnumerable<PaginatedRequest, PaginatedResponse, Response>(_callPaginatedAutoPopulated, request, callSettings);
         }
@@ -733,6 +773,11 @@ namespace Testing.PublishingSettings
         /// <returns>A pageable asynchronous sequence of <see cref="Response"/> resources.</returns>
         public override gax::PagedAsyncEnumerable<PaginatedResponse, Response> PaginatedAutoPopulatedAsync(PaginatedRequest request, gaxgrpc::CallSettings callSettings = null)
         {
+            if (request.RequestId == "")
+            {
+                request = request.Clone();
+                request.RequestId = gax::FieldFormats.GenerateUuid4();
+            }
             Modify_PaginatedRequest(ref request, ref callSettings);
             return new gaxgrpc::GrpcPagedAsyncEnumerable<PaginatedRequest, PaginatedResponse, Response>(_callPaginatedAutoPopulated, request, callSettings);
         }

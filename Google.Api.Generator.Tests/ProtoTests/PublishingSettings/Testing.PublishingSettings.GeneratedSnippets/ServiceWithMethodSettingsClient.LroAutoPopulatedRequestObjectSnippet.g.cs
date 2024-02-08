@@ -39,7 +39,6 @@ namespace GoogleCSharpSnippets
             {
                 String1 = "",
                 String2 = "",
-                RequestId = "",
             };
             // Make the request
             Operation<Response, Response> response = serviceWithMethodSettingsClient.LroAutoPopulated(request);

@@ -38,7 +38,7 @@ namespace GoogleCSharpSnippets
             // Create client
             ServiceWithMethodSettingsClient serviceWithMethodSettingsClient = await ServiceWithMethodSettingsClient.CreateAsync();
             // Initialize request argument(s)
-            PaginatedRequest request = new PaginatedRequest { RequestId = "", };
+            PaginatedRequest request = new PaginatedRequest { };
             // Make the request
             PagedAsyncEnumerable<PaginatedResponse, Response> response = serviceWithMethodSettingsClient.PaginatedAutoPopulatedAsync(request);
 

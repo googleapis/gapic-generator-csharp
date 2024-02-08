@@ -38,7 +38,6 @@ namespace GoogleCSharpSnippets
             {
                 String1 = "",
                 String2 = "",
-                RequestId = "",
             };
             // Make the request
             Response response = serviceWithMethodSettingsClient.UnaryAutoPopulated(request);
@@ -57,7 +56,6 @@ namespace GoogleCSharpSnippets
             {
                 String1 = "",
                 String2 = "",
-                RequestId = "",
             };
             // Make the request
             Response response = await serviceWithMethodSettingsClient.UnaryAutoPopulatedAsync(request);
@@ -75,7 +73,6 @@ namespace GoogleCSharpSnippets
             {
                 String1 = "",
                 String2 = "",
-                RequestId = "",
             };
             // Make the request, returning a streaming response
             using ServiceWithMethodSettingsClient.ServerStreamingAutoPopulatedStream response = serviceWithMethodSettingsClient.ServerStreamingAutoPopulated(request);
@@ -126,7 +123,6 @@ namespace GoogleCSharpSnippets
                 {
                     String1 = "",
                     String2 = "",
-                    RequestId = "",
                 };
                 // Stream a request to the server
                 await response.WriteAsync(request);
@@ -152,7 +148,6 @@ namespace GoogleCSharpSnippets
             {
                 String1 = "",
                 String2 = "",
-                RequestId = "",
             };
             // Make the request
             Operation<Response, Response> response = serviceWithMethodSettingsClient.LroAutoPopulated(request);
@@ -187,7 +182,6 @@ namespace GoogleCSharpSnippets
             {
                 String1 = "",
                 String2 = "",
-                RequestId = "",
             };
             // Make the request
             Operation<Response, Response> response = await serviceWithMethodSettingsClient.LroAutoPopulatedAsync(request);
@@ -217,7 +211,7 @@ namespace GoogleCSharpSnippets
             // Create client
             ServiceWithMethodSettingsClient serviceWithMethodSettingsClient = ServiceWithMethodSettingsClient.Create();
             // Initialize request argument(s)
-            PaginatedRequest request = new PaginatedRequest { RequestId = "", };
+            PaginatedRequest request = new PaginatedRequest { };
             // Make the request
             PagedEnumerable<PaginatedResponse, Response> response = serviceWithMethodSettingsClient.PaginatedAutoPopulated(request);
 
@@ -262,7 +256,7 @@ namespace GoogleCSharpSnippets
             // Create client
             ServiceWithMethodSettingsClient serviceWithMethodSettingsClient = await ServiceWithMethodSettingsClient.CreateAsync();
             // Initialize request argument(s)
-            PaginatedRequest request = new PaginatedRequest { RequestId = "", };
+            PaginatedRequest request = new PaginatedRequest { };
             // Make the request
             PagedAsyncEnumerable<PaginatedResponse, Response> response = serviceWithMethodSettingsClient.PaginatedAutoPopulatedAsync(request);
 
