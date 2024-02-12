@@ -114,6 +114,8 @@ public partial class Request : ProtoMsgFake<Request>
     public string String1 { get; set; }
     public string String2 { get; set; }
     public string RequestId { get; set; }
+    public string RequestIdWithPresence { get; set; }
+    public bool HasRequestIdWithPresence => false;
 }
 
 public partial class Response : ProtoMsgFake<Response> { }
