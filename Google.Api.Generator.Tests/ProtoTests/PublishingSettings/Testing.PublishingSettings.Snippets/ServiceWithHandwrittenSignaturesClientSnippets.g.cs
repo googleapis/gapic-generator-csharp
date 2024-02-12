@@ -34,6 +34,7 @@ namespace GoogleCSharpSnippets
                 String1 = "",
                 String2 = "",
                 RequestId = "",
+                RequestIdWithPresence = "",
             };
             // Make the request
             Response response = serviceWithHandwrittenSignaturesClient.AMethod(request);
@@ -53,6 +54,7 @@ namespace GoogleCSharpSnippets
                 String1 = "",
                 String2 = "",
                 RequestId = "",
+                RequestIdWithPresence = "",
             };
             // Make the request
             Response response = await serviceWithHandwrittenSignaturesClient.AMethodAsync(request);

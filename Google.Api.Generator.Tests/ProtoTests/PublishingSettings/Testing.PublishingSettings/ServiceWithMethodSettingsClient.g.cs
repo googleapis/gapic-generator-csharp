@@ -546,6 +546,11 @@ namespace Testing.PublishingSettings
                 request = request.Clone();
                 request.RequestId = gax::FieldFormats.GenerateUuid4();
             }
+            if (request.RequestIdWithPresence == "")
+            {
+                request = request.Clone();
+                request.RequestIdWithPresence = gax::FieldFormats.GenerateUuid4();
+            }
             Modify_Request(ref request, ref callSettings);
             return _callUnaryAutoPopulated.Sync(request, callSettings);
         }
@@ -561,6 +566,11 @@ namespace Testing.PublishingSettings
             {
                 request = request.Clone();
                 request.RequestId = gax::FieldFormats.GenerateUuid4();
+            }
+            if (request.RequestIdWithPresence == "")
+            {
+                request = request.Clone();
+                request.RequestIdWithPresence = gax::FieldFormats.GenerateUuid4();
             }
             Modify_Request(ref request, ref callSettings);
             return _callUnaryAutoPopulated.Async(request, callSettings);
@@ -586,6 +596,11 @@ namespace Testing.PublishingSettings
             {
                 request = request.Clone();
                 request.RequestId = gax::FieldFormats.GenerateUuid4();
+            }
+            if (request.RequestIdWithPresence == "")
+            {
+                request = request.Clone();
+                request.RequestIdWithPresence = gax::FieldFormats.GenerateUuid4();
             }
             Modify_Request(ref request, ref callSettings);
             return new ServerStreamingAutoPopulatedStreamImpl(_callServerStreamingAutoPopulated.Call(request, callSettings));
@@ -619,6 +634,11 @@ namespace Testing.PublishingSettings
                 {
                     request = request.Clone();
                     request.RequestId = gax::FieldFormats.GenerateUuid4();
+                }
+                if (request.RequestIdWithPresence == "")
+                {
+                    request = request.Clone();
+                    request.RequestIdWithPresence = gax::FieldFormats.GenerateUuid4();
                 }
                 _service.Modify_RequestRequest(ref request);
                 return request;
@@ -682,6 +702,11 @@ namespace Testing.PublishingSettings
                     request = request.Clone();
                     request.RequestId = gax::FieldFormats.GenerateUuid4();
                 }
+                if (request.RequestIdWithPresence == "")
+                {
+                    request = request.Clone();
+                    request.RequestIdWithPresence = gax::FieldFormats.GenerateUuid4();
+                }
                 _service.Modify_RequestRequest(ref request);
                 return request;
             }
@@ -730,6 +755,11 @@ namespace Testing.PublishingSettings
                 request = request.Clone();
                 request.RequestId = gax::FieldFormats.GenerateUuid4();
             }
+            if (request.RequestIdWithPresence == "")
+            {
+                request = request.Clone();
+                request.RequestIdWithPresence = gax::FieldFormats.GenerateUuid4();
+            }
             Modify_Request(ref request, ref callSettings);
             return new lro::Operation<Response, Response>(_callLroAutoPopulated.Sync(request, callSettings), LroAutoPopulatedOperationsClient);
         }
@@ -745,6 +775,11 @@ namespace Testing.PublishingSettings
             {
                 request = request.Clone();
                 request.RequestId = gax::FieldFormats.GenerateUuid4();
+            }
+            if (request.RequestIdWithPresence == "")
+            {
+                request = request.Clone();
+                request.RequestIdWithPresence = gax::FieldFormats.GenerateUuid4();
             }
             Modify_Request(ref request, ref callSettings);
             return new lro::Operation<Response, Response>(await _callLroAutoPopulated.Async(request, callSettings).ConfigureAwait(false), LroAutoPopulatedOperationsClient);
