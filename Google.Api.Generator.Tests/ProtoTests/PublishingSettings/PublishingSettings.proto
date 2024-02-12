@@ -65,6 +65,9 @@ message Request {
   string request_id = 3 [
     (google.api.field_info).format = UUID4
   ];
+  optional string request_id_with_presence = 4 [
+    (google.api.field_info).format = UUID4
+  ];
 }
 
 message Response {
