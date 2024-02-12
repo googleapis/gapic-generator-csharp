@@ -575,7 +575,11 @@ namespace Google.Api.Generator.Generation
                         throw new ArgumentException($"Invalid method settings: field '{fieldName}' in '{requestDescriptor.FullName}' has unsupported format {fieldInfo.Format}");
                     }
 
-                    yield return If(requestParameter.Access(field.CSharpPropertyName()).EqualTo(""))
+                    var populateCheck = field.HasPresence
+                        ? Not(requestParameter.Access($"Has{field.CSharpPropertyName()}"))
+                        : requestParameter.Access(field.CSharpPropertyName()).EqualTo("");
+
+                    yield return If(populateCheck)
                         .Then(
                             requestParameter.Assign(requestParameter.Call("Clone")()),
                             requestParameter.Access(field.CSharpPropertyName()).Assign(Ctx.Type(typeof(FieldFormats)).Call(nameof(FieldFormats.GenerateUuid4))()));                        
