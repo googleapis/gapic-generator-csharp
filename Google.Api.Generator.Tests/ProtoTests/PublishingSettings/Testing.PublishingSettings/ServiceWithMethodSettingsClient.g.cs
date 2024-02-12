@@ -546,7 +546,7 @@ namespace Testing.PublishingSettings
                 request = request.Clone();
                 request.RequestId = gax::FieldFormats.GenerateUuid4();
             }
-            if (request.RequestIdWithPresence == "")
+            if (!request.HasRequestIdWithPresence)
             {
                 request = request.Clone();
                 request.RequestIdWithPresence = gax::FieldFormats.GenerateUuid4();
@@ -567,7 +567,7 @@ namespace Testing.PublishingSettings
                 request = request.Clone();
                 request.RequestId = gax::FieldFormats.GenerateUuid4();
             }
-            if (request.RequestIdWithPresence == "")
+            if (!request.HasRequestIdWithPresence)
             {
                 request = request.Clone();
                 request.RequestIdWithPresence = gax::FieldFormats.GenerateUuid4();
@@ -597,7 +597,7 @@ namespace Testing.PublishingSettings
                 request = request.Clone();
                 request.RequestId = gax::FieldFormats.GenerateUuid4();
             }
-            if (request.RequestIdWithPresence == "")
+            if (!request.HasRequestIdWithPresence)
             {
                 request = request.Clone();
                 request.RequestIdWithPresence = gax::FieldFormats.GenerateUuid4();
@@ -635,7 +635,7 @@ namespace Testing.PublishingSettings
                     request = request.Clone();
                     request.RequestId = gax::FieldFormats.GenerateUuid4();
                 }
-                if (request.RequestIdWithPresence == "")
+                if (!request.HasRequestIdWithPresence)
                 {
                     request = request.Clone();
                     request.RequestIdWithPresence = gax::FieldFormats.GenerateUuid4();
@@ -702,7 +702,7 @@ namespace Testing.PublishingSettings
                     request = request.Clone();
                     request.RequestId = gax::FieldFormats.GenerateUuid4();
                 }
-                if (request.RequestIdWithPresence == "")
+                if (!request.HasRequestIdWithPresence)
                 {
                     request = request.Clone();
                     request.RequestIdWithPresence = gax::FieldFormats.GenerateUuid4();
@@ -755,7 +755,7 @@ namespace Testing.PublishingSettings
                 request = request.Clone();
                 request.RequestId = gax::FieldFormats.GenerateUuid4();
             }
-            if (request.RequestIdWithPresence == "")
+            if (!request.HasRequestIdWithPresence)
             {
                 request = request.Clone();
                 request.RequestIdWithPresence = gax::FieldFormats.GenerateUuid4();
@@ -776,7 +776,7 @@ namespace Testing.PublishingSettings
                 request = request.Clone();
                 request.RequestId = gax::FieldFormats.GenerateUuid4();
             }
-            if (request.RequestIdWithPresence == "")
+            if (!request.HasRequestIdWithPresence)
             {
                 request = request.Clone();
                 request.RequestIdWithPresence = gax::FieldFormats.GenerateUuid4();
