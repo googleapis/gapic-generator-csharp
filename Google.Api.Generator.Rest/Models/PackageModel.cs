@@ -200,16 +200,14 @@ namespace Google.Api.Generator.Rest.Models
                 var batchUriValue = _discoveryDoc.RootUrl + _discoveryDoc.BatchPath;
                 var batchPathValue = _discoveryDoc.BatchPath;
 
-                var baseUriProperty = Property(Modifier.Public | Modifier.Override, ctx.Type<string>(), "BaseUri")
-                    .WithGetBody(IdentifierName("BaseUriOverride").NullCoalesce(baseUriValue))
+                var baseUriProperty = AutoProperty(Modifier.Public | Modifier.Override, ctx.Type<string>(), "BaseUri", hasSetter: false)
                     .WithXmlDoc(XmlDoc.Summary("Gets the service base URI."));
 
                 var basePathProperty = Property(Modifier.Public | Modifier.Override, ctx.Type<string>(), "BasePath")
                     .WithGetBody(basePathValue)
                     .WithXmlDoc(XmlDoc.Summary("Gets the service base path."));
 
-                var batchUriProperty = Property(Modifier.Public | Modifier.Override, ctx.Type<string>(), "BatchUri")
-                    .WithGetBody(batchUriValue)
+                var batchUriProperty = AutoProperty(Modifier.Public | Modifier.Override, ctx.Type<string>(), "BatchUri", hasSetter: false)
                     .WithXmlDoc(XmlDoc.Summary("Gets the batch base URI; ", XmlDoc.C("null"), " if unspecified."));
                 var batchPathProperty = Property(Modifier.Public | Modifier.Override, ctx.Type<string>(), "BatchPath")
                     .WithGetBody(batchPathValue)
@@ -218,7 +216,11 @@ namespace Google.Api.Generator.Rest.Models
                 var resourceProperties = Resources.Select(resource => resource.GenerateProperty(ctx)).ToArray();
 
                 var parameterizedCtor = Ctor(Modifier.Public, cls, BaseInitializer(initializerParam))(initializerParam)
-                    .WithBlockBody(resourceProperties.Zip(Resources).Select(pair => pair.First.Assign(New(ctx.Type(pair.Second.Typ))(This))).ToArray())
+                    .WithBlockBody(
+                        resourceProperties.Zip(Resources).Select(pair => pair.First.Assign(New(ctx.Type(pair.Second.Typ))(This)))
+                          .Append(baseUriProperty.Assign(Call("GetEffectiveUri")(IdentifierName("BaseUriOverride"), baseUriValue)))
+                          .Append(batchUriProperty.Assign(Call("GetEffectiveUri")(Null, batchUriValue)))
+                          .ToArray())
                     .WithXmlDoc(
                         XmlDoc.Summary("Constructs a new service."),
                         XmlDoc.Param(initializerParam, "The service initializer."));
