@@ -295,7 +295,7 @@ namespace Google.Api.Generator
             var seenPaginatedResponseTyps = new HashSet<Typ>();
             foreach (var fileDesc in packageFileDescriptors)
             {
-                Logging.LogTrace("Generating code for namespace '{namespace}'", ns);
+                Logging.LogTrace("Generating code for file '{file}'", fileDesc.Name);
                 foreach (var service in fileDesc.Services)
                 {
                     Logging.LogTrace("Generating code for service '{service}'", service.Name);
