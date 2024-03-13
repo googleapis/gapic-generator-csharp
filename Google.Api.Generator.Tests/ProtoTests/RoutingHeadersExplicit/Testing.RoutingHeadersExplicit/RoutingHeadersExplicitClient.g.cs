@@ -66,7 +66,11 @@ namespace Testing.RoutingHeadersExplicit
             // TEST_START
             GrpcClient = grpcClient;
             RoutingHeadersExplicitSettings effectiveSettings = settings ?? RoutingHeadersExplicitSettings.GetDefault();
-            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings, logger);
+            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(new gaxgrpc::ClientHelper.Options
+            {
+                Settings = effectiveSettings,
+                Logger = logger,
+            });
             _callNoRouting = clientHelper.BuildApiCall<SimpleRequest, Response>("NoRouting", grpcClient.NoRoutingAsync, grpcClient.NoRouting, effectiveSettings.NoRoutingSettings);
             Modify_ApiCall(ref _callNoRouting);
             Modify_NoRoutingApiCall(ref _callNoRouting);

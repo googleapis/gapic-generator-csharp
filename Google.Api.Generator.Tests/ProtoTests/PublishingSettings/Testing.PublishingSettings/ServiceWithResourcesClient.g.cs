@@ -244,7 +244,11 @@ namespace Testing.PublishingSettings
         {
             GrpcClient = grpcClient;
             ServiceWithResourcesSettings effectiveSettings = settings ?? ServiceWithResourcesSettings.GetDefault();
-            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings, logger);
+            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(new gaxgrpc::ClientHelper.Options
+            {
+                Settings = effectiveSettings,
+                Logger = logger,
+            });
             _callAMethod = clientHelper.BuildApiCall<ResourceRequest, Resource>("AMethod", grpcClient.AMethodAsync, grpcClient.AMethod, effectiveSettings.AMethodSettings);
             Modify_ApiCall(ref _callAMethod);
             Modify_AMethodApiCall(ref _callAMethod);

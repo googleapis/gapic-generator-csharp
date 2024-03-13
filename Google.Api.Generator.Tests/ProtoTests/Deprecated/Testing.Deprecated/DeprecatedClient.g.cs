@@ -421,7 +421,11 @@ namespace Testing.Deprecated
         {
             GrpcClient = grpcClient;
             DeprecatedSettings effectiveSettings = settings ?? DeprecatedSettings.GetDefault();
-            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings, logger);
+            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(new gaxgrpc::ClientHelper.Options
+            {
+                Settings = effectiveSettings,
+                Logger = logger,
+            });
             _callDeprecatedFieldMethod = clientHelper.BuildApiCall<DeprecatedFieldRequest, Response>("DeprecatedFieldMethod", grpcClient.DeprecatedFieldMethodAsync, grpcClient.DeprecatedFieldMethod, effectiveSettings.DeprecatedFieldMethodSettings);
             Modify_ApiCall(ref _callDeprecatedFieldMethod);
             Modify_DeprecatedFieldMethodApiCall(ref _callDeprecatedFieldMethod);

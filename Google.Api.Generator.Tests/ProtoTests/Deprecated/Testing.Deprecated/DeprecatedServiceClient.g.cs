@@ -287,7 +287,11 @@ namespace Testing.Deprecated
         {
             GrpcClient = grpcClient;
             DeprecatedServiceSettings effectiveSettings = settings ?? DeprecatedServiceSettings.GetDefault();
-            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings, logger);
+            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(new gaxgrpc::ClientHelper.Options
+            {
+                Settings = effectiveSettings,
+                Logger = logger,
+            });
             _callNonDeprecatedMethod = clientHelper.BuildApiCall<Request, Response>("NonDeprecatedMethod", grpcClient.NonDeprecatedMethodAsync, grpcClient.NonDeprecatedMethod, effectiveSettings.NonDeprecatedMethodSettings);
             Modify_ApiCall(ref _callNonDeprecatedMethod);
             Modify_NonDeprecatedMethodApiCall(ref _callNonDeprecatedMethod);

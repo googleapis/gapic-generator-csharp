@@ -295,7 +295,11 @@ namespace Testing.PublishingSettings
         {
             GrpcClient = grpcClient;
             ServiceWithHandwrittenSignaturesSettings effectiveSettings = settings ?? ServiceWithHandwrittenSignaturesSettings.GetDefault();
-            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings, logger);
+            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(new gaxgrpc::ClientHelper.Options
+            {
+                Settings = effectiveSettings,
+                Logger = logger,
+            });
             _callAMethod = clientHelper.BuildApiCall<Request, Response>("AMethod", grpcClient.AMethodAsync, grpcClient.AMethod, effectiveSettings.AMethodSettings);
             Modify_ApiCall(ref _callAMethod);
             Modify_AMethodApiCall(ref _callAMethod);

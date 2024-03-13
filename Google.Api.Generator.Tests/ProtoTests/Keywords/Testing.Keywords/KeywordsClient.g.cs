@@ -483,7 +483,11 @@ namespace Testing.Keywords
         {
             GrpcClient = grpcClient;
             KeywordsSettings effectiveSettings = settings ?? KeywordsSettings.GetDefault();
-            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings, logger);
+            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(new gaxgrpc::ClientHelper.Options
+            {
+                Settings = effectiveSettings,
+                Logger = logger,
+            });
             _callMethod1 = clientHelper.BuildApiCall<Request, Response>("Method1", grpcClient.Method1Async, grpcClient.Method1, effectiveSettings.Method1Settings);
             Modify_ApiCall(ref _callMethod1);
             Modify_Method1ApiCall(ref _callMethod1);
