@@ -107,6 +107,103 @@
       ]
     },
     {
+      "regionTag": "unknown_generated_ServiceWithApiVersion_AMethod_sync",
+      "title": "AMethodRequestObject",
+      "description": "Snippet for AMethod",
+      "file": "ServiceWithApiVersionClient.AMethodRequestObjectSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "AMethod",
+        "fullName": "Testing.PublishingSettings.ServiceWithApiVersionClient.AMethod",
+        "parameters": [
+          {
+            "type": "Testing.PublishingSettings.Request",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
+        "resultType": "Testing.PublishingSettings.Response",
+        "client": {
+          "shortName": "ServiceWithApiVersionClient",
+          "fullName": "Testing.PublishingSettings.ServiceWithApiVersionClient"
+        },
+        "method": {
+          "shortName": "AMethod",
+          "fullName": "testing.publishingsettings.ServiceWithApiVersion.AMethod",
+          "service": {
+            "shortName": "ServiceWithApiVersion",
+            "fullName": "testing.publishingsettings.ServiceWithApiVersion"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 47,
+          "type": "FULL"
+        },
+        {
+          "start": 34,
+          "end": 45,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "unknown_generated_ServiceWithApiVersion_AMethod_async",
+      "title": "AMethodRequestObjectAsync",
+      "description": "Snippet for AMethodAsync",
+      "file": "ServiceWithApiVersionClient.AMethodRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "AMethodAsync",
+        "fullName": "Testing.PublishingSettings.ServiceWithApiVersionClient.AMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.PublishingSettings.Request",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
+        "resultType": "System.Threading.Tasks.Task<Testing.PublishingSettings.Response>",
+        "client": {
+          "shortName": "ServiceWithApiVersionClient",
+          "fullName": "Testing.PublishingSettings.ServiceWithApiVersionClient"
+        },
+        "method": {
+          "shortName": "AMethod",
+          "fullName": "testing.publishingsettings.ServiceWithApiVersion.AMethod",
+          "service": {
+            "shortName": "ServiceWithApiVersion",
+            "fullName": "testing.publishingsettings.ServiceWithApiVersion"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 48,
+          "type": "FULL"
+        },
+        {
+          "start": 35,
+          "end": 46,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
       "regionTag": "unknown_generated_ServiceWithHandwrittenSignatures_AMethod_sync",
       "title": "AMethodRequestObject",
       "description": "Snippet for AMethod",
