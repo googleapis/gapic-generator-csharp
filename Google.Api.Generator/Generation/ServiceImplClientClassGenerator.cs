@@ -110,7 +110,7 @@ namespace Google.Api.Generator.Generation
                 .WithBody(
                     grpcClientProperty.Assign(grpcClient),
                     effectiveSettings.WithInitializer(settings.NullCoalesce(_ctx.Type(_svc.SettingsTyp).Call("GetDefault")())),
-                    clientHelper.WithInitializer(New(_ctx.Type<ClientHelper>())(effectiveSettings, logger)),
+                    clientHelper.WithInitializer(ClientHelperInitializer()),
                     _svc.Methods.OfType<MethodDetails.StandardLro>().Select(m => StandardLroClient(m, logger)),
                     _svc.Methods.OfType<MethodDetails.NonStandardLro>().Select(m => NonStandardLroClient(m, logger)),
                     _svc.Mixins.Select(m => MixinClient(m, logger)),
@@ -123,6 +123,16 @@ namespace Google.Api.Generator.Generation
                     XmlDoc.Param(settings, "The base ", settings.Type, " used within this client."),
                     XmlDoc.Param(logger, "Optional ", logger.Type, " to use within this client.")
                 );
+
+            object ClientHelperInitializer()
+            {
+                var assignments = new List<ObjectInitExpr>
+                {
+                    new(nameof(ClientHelper.Options.Settings), effectiveSettings),
+                    new(nameof(ClientHelper.Options.Logger), logger)
+                };
+                return New(_ctx.Type<ClientHelper>())(New(_ctx.Type<ClientHelper.Options>())().WithInitializer(assignments.ToArray()));
+            }
 
             SyntaxNode StandardLroClient(MethodDetails.StandardLro lro, ParameterSyntax logger)
             {
