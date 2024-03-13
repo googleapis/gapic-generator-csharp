@@ -478,7 +478,11 @@ namespace Testing.PublishingSettings
         {
             GrpcClient = grpcClient;
             ServiceWithMethodSettingsSettings effectiveSettings = settings ?? ServiceWithMethodSettingsSettings.GetDefault();
-            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings, logger);
+            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(new gaxgrpc::ClientHelper.Options
+            {
+                Settings = effectiveSettings,
+                Logger = logger,
+            });
             LroAutoPopulatedOperationsClient = new lro::OperationsClientImpl(grpcClient.CreateOperationsClient(), effectiveSettings.LroAutoPopulatedOperationsSettings, logger);
             _callUnaryAutoPopulated = clientHelper.BuildApiCall<Request, Response>("UnaryAutoPopulated", grpcClient.UnaryAutoPopulatedAsync, grpcClient.UnaryAutoPopulated, effectiveSettings.UnaryAutoPopulatedSettings);
             Modify_ApiCall(ref _callUnaryAutoPopulated);

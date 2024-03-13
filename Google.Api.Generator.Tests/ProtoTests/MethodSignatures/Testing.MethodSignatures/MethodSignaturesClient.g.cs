@@ -1371,7 +1371,11 @@ namespace Testing.MethodSignatures
         {
             GrpcClient = grpcClient;
             MethodSignaturesSettings effectiveSettings = settings ?? MethodSignaturesSettings.GetDefault();
-            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings, logger);
+            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(new gaxgrpc::ClientHelper.Options
+            {
+                Settings = effectiveSettings,
+                Logger = logger,
+            });
             _callSimpleMethod = clientHelper.BuildApiCall<SimpleRequest, Response>("SimpleMethod", grpcClient.SimpleMethodAsync, grpcClient.SimpleMethod, effectiveSettings.SimpleMethodSettings);
             Modify_ApiCall(ref _callSimpleMethod);
             Modify_SimpleMethodApiCall(ref _callSimpleMethod);

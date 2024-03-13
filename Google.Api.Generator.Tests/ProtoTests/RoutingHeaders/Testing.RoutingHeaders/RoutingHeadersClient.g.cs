@@ -59,7 +59,11 @@ namespace Testing.RoutingHeaders
         {
             GrpcClient = grpcClient;
             RoutingHeadersSettings effectiveSettings = settings ?? RoutingHeadersSettings.GetDefault();
-            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings, logger);
+            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(new gaxgrpc::ClientHelper.Options
+            {
+                Settings = effectiveSettings,
+                Logger = logger,
+            });
             _callNoUrlMethod = clientHelper.BuildApiCall<SimpleRequest, Response>("NoUrlMethod", grpcClient.NoUrlMethodAsync, grpcClient.NoUrlMethod, effectiveSettings.NoUrlMethodSettings);
             Modify_ApiCall(ref _callNoUrlMethod);
             Modify_NoUrlMethodApiCall(ref _callNoUrlMethod);

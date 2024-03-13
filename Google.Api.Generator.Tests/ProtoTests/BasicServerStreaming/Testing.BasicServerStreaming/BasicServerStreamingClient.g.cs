@@ -56,7 +56,11 @@ namespace Testing.BasicServerStreaming
         public BasicServerStreamingClientImpl(BasicServerStreaming.BasicServerStreamingClient grpcClient, mel::ILogger logger)
         {
             BasicServerStreamingSettings effectiveSettings = null;
-            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings, logger);
+            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(new gaxgrpc::ClientHelper.Options
+            {
+                Settings = effectiveSettings,
+                Logger = logger,
+            });
             // TEST_START
             _callMethodServer = clientHelper.BuildApiCall<Request, Response>("MethodServer", grpcClient.MethodServer, effectiveSettings.MethodServerSettings);
             // TEST_END

@@ -517,7 +517,11 @@ namespace Google.Showcase.V1Beta1
         {
             GrpcClient = grpcClient;
             SequenceServiceSettings effectiveSettings = settings ?? SequenceServiceSettings.GetDefault();
-            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings, logger);
+            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(new gaxgrpc::ClientHelper.Options
+            {
+                Settings = effectiveSettings,
+                Logger = logger,
+            });
             LocationsClient = new gcl::LocationsClientImpl(grpcClient.CreateLocationsClient(), effectiveSettings.LocationsSettings, logger);
             IAMPolicyClient = new gciv::IAMPolicyClientImpl(grpcClient.CreateIAMPolicyClient(), effectiveSettings.IAMPolicySettings, logger);
             _callCreateSequence = clientHelper.BuildApiCall<CreateSequenceRequest, Sequence>("CreateSequence", grpcClient.CreateSequenceAsync, grpcClient.CreateSequence, effectiveSettings.CreateSequenceSettings);

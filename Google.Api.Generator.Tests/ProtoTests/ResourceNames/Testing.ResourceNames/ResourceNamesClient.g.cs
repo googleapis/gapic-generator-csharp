@@ -1600,7 +1600,11 @@ namespace Testing.ResourceNames
         {
             GrpcClient = grpcClient;
             ResourceNamesSettings effectiveSettings = settings ?? ResourceNamesSettings.GetDefault();
-            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(effectiveSettings, logger);
+            gaxgrpc::ClientHelper clientHelper = new gaxgrpc::ClientHelper(new gaxgrpc::ClientHelper.Options
+            {
+                Settings = effectiveSettings,
+                Logger = logger,
+            });
             _callSinglePatternMethod = clientHelper.BuildApiCall<SinglePattern, Response>("SinglePatternMethod", grpcClient.SinglePatternMethodAsync, grpcClient.SinglePatternMethod, effectiveSettings.SinglePatternMethodSettings);
             Modify_ApiCall(ref _callSinglePatternMethod);
             Modify_SinglePatternMethodApiCall(ref _callSinglePatternMethod);
