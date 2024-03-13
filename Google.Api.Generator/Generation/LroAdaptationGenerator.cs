@@ -157,8 +157,8 @@ namespace Google.Api.Generator.Generation
                                     {
                                         return null;
                                     }
-                                // Note: not using indexer on MessageDescriptor, as the code below provides more helpful diagnostics.
-                                var operationField = lroDetails.OperationDescriptor.Fields.InDeclarationOrder().FirstOrDefault(f => f.Name == operationFieldName);
+                                    // Note: not using indexer on MessageDescriptor, as the code below provides more helpful diagnostics.
+                                    var operationField = lroDetails.OperationDescriptor.Fields.InDeclarationOrder().FirstOrDefault(f => f.Name == operationFieldName);
                                     if (operationField is null)
                                     {
                                         throw new InvalidOperationException($"No field '{operationFieldName}' in message {lroDetails.OperationDescriptor.FullName}");
