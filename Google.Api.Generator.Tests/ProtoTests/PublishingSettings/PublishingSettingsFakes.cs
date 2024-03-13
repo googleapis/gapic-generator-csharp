@@ -109,6 +109,22 @@ public partial class ServiceWithMethodSettings
     }
 }
 
+public class ServiceWithApiVersion
+{
+    public static ServiceDescriptor Descriptor => null;
+
+    // Fake gRPC client
+    public class ServiceWithApiVersionClient
+    {
+        public ServiceWithApiVersionClient() { }
+        public ServiceWithApiVersionClient(CallInvoker callInvoker) { }
+        public virtual AsyncUnaryCall<Response> AMethodAsync(Request request, CallOptions options) => throw new NotImplementedException();
+        public virtual Response AMethod(Request request, CallOptions options) => throw new NotImplementedException();
+        public virtual AsyncUnaryCall<Empty> VoidMethodAsync(Request request, CallOptions options) => throw new NotImplementedException();
+        public virtual Empty VoidMethod(Request request, CallOptions options) => throw new NotImplementedException();
+    }
+}
+
 public partial class Request : ProtoMsgFake<Request>
 {
     public string String1 { get; set; }

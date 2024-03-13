@@ -59,6 +59,13 @@ service ServiceWithMethodSettings {
   rpc PaginatedAutoPopulated(PaginatedRequest) returns (PaginatedResponse);
 }
 
+// This is a service using the api_version extension.
+service ServiceWithApiVersion {
+  option (google.api.api_version) = "v1_20240313";
+  // Test summary text for AMethod
+  rpc AMethod(Request) returns(Response);
+}
+
 message Request {
   string string_1 = 1;
   string string_2 = 2;
