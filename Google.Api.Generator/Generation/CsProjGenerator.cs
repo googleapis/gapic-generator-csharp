@@ -23,11 +23,11 @@ namespace Google.Api.Generator.Generation
 {
     internal static class CsProjGenerator
     {
-        private const string GaxGrpcVersion = "[4.6.0, 5.0.0)";
+        private const string GaxGrpcVersion = "[4.7.0, 5.0.0)";
         private const string GrpcCoreVersion = "[2.46.6, 3.0.0)";
-        private const string LroVersion = "[3.0.0, 4.0.0)";
-        private const string IamVersion = "[3.0.0, 4.0.0)";
-        private const string LocationVersion = "[2.0.0, 3.0.0)";
+        private const string LroVersion = "[3.1.0, 4.0.0)";
+        private const string IamVersion = "[3.1.0, 4.0.0)";
+        private const string LocationVersion = "[2.1.0, 3.0.0)";
         private const string ReferenceAssembliesVersion = "1.0.3";
         private const string SystemLinqAsyncVersion = "6.0.1";
         private static readonly Dictionary<string, (string, string)> ProtoPackageToNuGetPackageAndVersion = new Dictionary<string, (string, string)>
