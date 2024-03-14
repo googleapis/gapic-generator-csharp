@@ -24,6 +24,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -58,14 +59,17 @@ namespace Google.Api.Generator.Generation
                 var defaultScopes = DefaultScopes();
                 var serviceMetadata = ServiceMetadata(defaultEndpoint, defaultScopes);
                 var channelPool = ChannelPool(serviceMetadata);
+                var activitySource = DefaultActivitySource();
+                var activitySourceName = DefaultActivitySourceName(activitySource);
                 var createAsync = CreateAsync();
                 var create = Create();
                 var createFromCallInvoker = CreateFromCallInvoker();
                 var shutdown = ShutdownDefaultChannelsAsync(channelPool, create, createAsync);
                 var grpcClient = GrpcClient();
                 cls = cls.AddMembers(
-                    defaultEndpoint, defaultScopes, serviceMetadata, channelPool, 
-                    createAsync, create, createFromCallInvoker, shutdown, grpcClient);
+                    defaultEndpoint, defaultScopes, serviceMetadata, channelPool,
+                    activitySource, activitySourceName, createAsync, create, 
+                    createFromCallInvoker, shutdown, grpcClient);
                 cls = cls.AddMembers(Mixins().ToArray());
                 var methods = ServiceMethodGenerator.Generate(_ctx, _svc, inAbstract: true);
                 cls = cls.AddMembers(methods.ToArray());
@@ -86,6 +90,16 @@ namespace Google.Api.Generator.Generation
                 .WithXmlDoc(
                     XmlDoc.Summary($"The default {_svc.DocumentationName} scopes."),
                     XmlDoc.Remarks($"The default {_svc.DocumentationName} scopes are:", XmlDoc.UL(_svc.DefaultScopes)));
+
+        private PropertyDeclarationSyntax DefaultActivitySource() =>
+           AutoProperty(Internal | Static, _ctx.Type<ActivitySource>(), "ClientActivitySource")
+               .WithInitializer(_ctx.Type(typeof(ActivitySourceHelper)).Call(nameof(ActivitySourceHelper.FromClientType), _ctx.Type(_svc.ClientAbstractTyp))());
+
+        private PropertyDeclarationSyntax DefaultActivitySourceName(PropertyDeclarationSyntax activitySource) =>
+           AutoProperty(Public | Static, _ctx.Type<string>(), "ActivitySourceName")
+               .WithInitializer(activitySource.Access(nameof(ActivitySource.Name)))
+               .WithXmlDoc(XmlDoc.Summary(
+                   "The name of ActivitySource associated with the ", _ctx.CurrentType, "."));
 
         private PropertyDeclarationSyntax ServiceMetadata(PropertyDeclarationSyntax defaultEndpoint, PropertyDeclarationSyntax defaultScopes)
         {

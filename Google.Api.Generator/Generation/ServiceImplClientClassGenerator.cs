@@ -14,22 +14,21 @@
 
 using Google.Api.Gax.Grpc;
 using Google.Api.Generator.ProtoUtils;
-using Google.Api.Generator.Utils.Roslyn;
 using Google.Api.Generator.Utils;
+using Google.Api.Generator.Utils.Roslyn;
 using Google.LongRunning;
 using Google.Protobuf;
+using Google.Protobuf.Reflection;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Net;
 using static Google.Api.Generator.Utils.Roslyn.Modifier;
 using static Google.Api.Generator.Utils.Roslyn.RoslynBuilder;
-using Microsoft.CodeAnalysis.CSharp;
-using Google.Protobuf.Reflection;
-using Microsoft.Extensions.Logging;
-using Google.Api.Gax;
 
 namespace Google.Api.Generator.Generation
 {
@@ -105,12 +104,14 @@ namespace Google.Api.Generator.Generation
             var settings = Parameter(_ctx.Type(_svc.SettingsTyp), "settings");
             var logger = Parameter(_ctx.Type<ILogger>(), "logger");
             var effectiveSettings = Local(_ctx.Type(_svc.SettingsTyp), "effectiveSettings");
+            var activitySource = Local(_ctx.Type<ActivitySource>(), "activitySource");
             var clientHelper = Local(_ctx.Type<ClientHelper>(), "clientHelper");
             return Ctor(Public, _ctx.CurrentTyp)(grpcClient, settings, logger)
                 .WithBody(
                     grpcClientProperty.Assign(grpcClient),
                     effectiveSettings.WithInitializer(settings.NullCoalesce(_ctx.Type(_svc.SettingsTyp).Call("GetDefault")())),
-                    clientHelper.WithInitializer(New(_ctx.Type<ClientHelper>())(effectiveSettings, logger)),
+                    activitySource.WithInitializer(_ctx.Type(_svc.ClientAbstractTyp).Access("ClientActivitySource")),
+                    clientHelper.WithInitializer(New(_ctx.Type<ClientHelper>())(effectiveSettings, logger, activitySource)),
                     _svc.Methods.OfType<MethodDetails.StandardLro>().Select(m => StandardLroClient(m, logger)),
                     _svc.Methods.OfType<MethodDetails.NonStandardLro>().Select(m => NonStandardLroClient(m, logger)),
                     _svc.Mixins.Select(m => MixinClient(m, logger)),
