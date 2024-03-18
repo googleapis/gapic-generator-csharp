@@ -441,6 +441,18 @@ namespace Google.Api.Generator.Generation
                 return new Paginated(svc, desc, repeatedCandidatesByDeclOrder.Single(), pageSizeCandidate.FieldNumber, pageTokenCandidate.FieldNumber);
             }
 
+            // Additional DiREGapic case where a return message has exactly two repeated fields,
+            // which are consistent in number and declaration order,
+            // where the first is a message field and the second is a string field: we use the message field.
+            if (!mapCandidates.Any() &&
+                repeatedCandidatesByDeclOrder.Count == 2 &&
+                repeatedCandidatesByDeclOrder[0] == repeatedCandidatesByNumOrder[0] &&
+                repeatedCandidatesByDeclOrder[0].FieldType == FieldType.Message &&
+                repeatedCandidatesByDeclOrder[1].FieldType == FieldType.String)
+            {
+                return new Paginated(svc, desc, repeatedCandidatesByDeclOrder.First(), pageSizeCandidate.FieldNumber, pageTokenCandidate.FieldNumber);
+            }
+
             var errMsg = $"The method {desc.FullName} is selected as a pagination candidate " +
                          $"but the configuration of the item response field candidates " +
                          $"does not match any of the configurations we can generate.";
