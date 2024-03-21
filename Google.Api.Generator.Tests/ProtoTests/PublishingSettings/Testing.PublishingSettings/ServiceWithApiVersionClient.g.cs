@@ -121,7 +121,9 @@ namespace Testing.PublishingSettings
         protected override gaxgrpc::ChannelPool GetChannelPool() => ServiceWithApiVersionClient.ChannelPool;
     }
 
-    /// <summary>ServiceWithApiVersion client wrapper, for convenient use.</summary>
+    /// <summary>
+    /// ServiceWithApiVersion client wrapper, for convenient use. This client implements API version v1_20240313.
+    /// </summary>
     /// <remarks>
     /// This is a service using the api_version extension.
     /// </remarks>

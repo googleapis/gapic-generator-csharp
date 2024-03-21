@@ -46,10 +46,14 @@ namespace Google.Api.Generator.Generation
 
         private ClassDeclarationSyntax Generate()
         {
+            string summaryPrefix = $"{_svc.DocumentationName} client wrapper, for convenient use.";
+            string summaryDoc = _svc.ApiVersion is null
+                ? summaryPrefix
+                : $"{summaryPrefix} This client implements API version {_svc.ApiVersion}.";
             var cls = Class(Public | Abstract | Partial, _svc.ClientAbstractTyp)
                 .MaybeWithAttribute(_svc.IsDeprecated, () => _ctx.Type<ObsoleteAttribute>())()
                 .WithXmlDoc(
-                    XmlDoc.Summary($"{_svc.DocumentationName} client wrapper, for convenient use."),
+                    XmlDoc.Summary(summaryDoc),
                     XmlDoc.RemarksPreFormatted(_svc.DocLines));
             using (_ctx.InClass(cls))
             {
