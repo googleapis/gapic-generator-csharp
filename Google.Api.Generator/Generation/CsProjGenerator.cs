@@ -23,11 +23,11 @@ namespace Google.Api.Generator.Generation
 {
     internal static class CsProjGenerator
     {
-        private const string GaxGrpcVersion = "[4.7.0, 5.0.0)";
+        private const string GaxGrpcVersion = "[4.8.0, 5.0.0)";
         private const string GrpcCoreVersion = "[2.46.6, 3.0.0)";
-        private const string LroVersion = "[3.1.0, 4.0.0)";
-        private const string IamVersion = "[3.1.0, 4.0.0)";
-        private const string LocationVersion = "[2.1.0, 3.0.0)";
+        private const string LroVersion = "[3.2.0, 4.0.0)";
+        private const string IamVersion = "[3.2.0, 4.0.0)";
+        private const string LocationVersion = "[2.2.0, 3.0.0)";
         private const string ReferenceAssembliesVersion = "1.0.3";
         private const string SystemLinqAsyncVersion = "6.0.1";
         private static readonly Dictionary<string, (string, string)> ProtoPackageToNuGetPackageAndVersion = new Dictionary<string, (string, string)>
@@ -74,7 +74,7 @@ namespace Google.Api.Generator.Generation
     -->
 
     <!-- These items should not require editing -->
-    <TargetFrameworks>netstandard2.1;net462</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net462</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Deterministic>true</Deterministic>
@@ -114,7 +114,7 @@ namespace Google.Api.Generator.Generation
 <Project Sdk=""Microsoft.NET.Sdk"">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;net462</TargetFrameworks>
+    <TargetFrameworks>net6.0;net462</TargetFrameworks>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
