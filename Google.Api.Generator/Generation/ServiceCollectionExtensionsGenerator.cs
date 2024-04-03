@@ -43,12 +43,18 @@ namespace Google.Api.Generator.Generation
 
                 var extensionMethods = packageServiceDetails
                     .OrderBy(p => p.ServiceFullName, StringComparer.Ordinal)
-                    .Select(m => GenerateMethod(ctx, m))
+                    .SelectMany(m => GenerateMethods(ctx, m))
                     .ToArray();
                 cls = cls.AddMembers(extensionMethods);
                 namespaceDeclaration = namespaceDeclaration.AddMembers(cls);
             }
             return ctx.CreateCompilationUnit(namespaceDeclaration);
+        }
+
+        private static IEnumerable<MethodDeclarationSyntax> GenerateMethods(SourceFileContext ctx, ServiceDetails service)
+        {
+            yield return GenerateMethod(ctx, service);
+            yield return GenerateMethodWithAdditionalDependencyInjection(ctx, service);
         }
 
         private static MethodDeclarationSyntax GenerateMethod(SourceFileContext ctx, ServiceDetails service)
@@ -69,6 +75,35 @@ namespace Google.Api.Generator.Generation
                     action.Call("Invoke", true)(builder),
                     Return(builder.Call("Build")(provider))
                 );
+
+            return Method(Public | Static, serviceCollection, name)(services, action)
+                .MaybeWithAttribute(service.IsDeprecated, () => ctx.Type<ObsoleteAttribute>())()
+                .WithBody(services.Call("AddSingleton")(lambda))
+                .WithXmlDoc(
+                    XmlDoc.Summary("Adds a singleton ", ctx.Type(service.ClientAbstractTyp), " to ", services, "."),
+                    XmlDoc.Param(services, "The service collection to add the client to. The services are used to configure the client when requested."),
+                    XmlDoc.Param(action, "An optional action to invoke on the client builder. This is invoked before services from ", services, " are used.")
+                );
+        }
+
+        private static MethodDeclarationSyntax GenerateMethodWithAdditionalDependencyInjection(SourceFileContext ctx, ServiceDetails service)
+        {
+            var name = $"Add{service.ClientAbstractTyp.Name}";
+            var serviceCollection = ctx.Type<IServiceCollection>();
+            var services = Parameter(serviceCollection, "services")
+                .WithModifiers(SyntaxTokenList.Create(Token(SyntaxKind.ThisKeyword).WithTrailingSpace()));
+            var actionType = ctx.Type(Typ.Generic(typeof(Action<>), Typ.Of<IServiceProvider>(), service.BuilderTyp));
+            var action = Parameter(actionType, "action", @default: Null);
+
+            var builderType = ctx.Type(service.BuilderTyp);
+            var builder = Local(builderType, "builder");
+
+            var provider = Parameter(ctx.Type<IServiceProvider>(), "provider");
+            var lambda = Lambda(provider)(
+                builder.WithInitializer(New(builderType)()),
+                action.Call("Invoke", true)(provider, builder),
+                Return(builder.Call("Build")(provider))
+            );
 
             return Method(Public | Static, serviceCollection, name)(services, action)
                 .MaybeWithAttribute(service.IsDeprecated, () => ctx.Type<ObsoleteAttribute>())()
