@@ -12,14 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Google.Api.Gax.Testing;
-using Google.Api.Generator.Rest.Models;
-using Google.Api.Generator.Testing;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Google.Api.Gax.Testing;
+using Google.Api.Generator.Rest.Models;
+using Google.Api.Generator.Testing;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Google.Api.Generator.Rest.Tests
 {
@@ -42,7 +43,7 @@ namespace Google.Api.Generator.Rest.Tests
             TestDirectory = rootPath;
         }
 
-        internal static void TestOutput(string directory, bool ignoreCsProj = false)
+        internal static void TestOutput(string directory, ITestOutputHelper outputHelper, bool ignoreCsProj = false)
         {
             var clock = new FakeClock(new DateTime(2022, 1, 1));
             var resourceDirectory = Path.Combine(TestDirectory, "GoldenTestData", directory);
@@ -80,7 +81,7 @@ namespace Google.Api.Generator.Rest.Tests
                 }
                 var expectedFilePath = Path.Combine(TestDirectory, "GoldenTestData", file.RelativePath);
 
-                TextComparer.CompareText(expectedFilePath, file);
+                TextComparer.CompareText(expectedFilePath, file, outputHelper);
             }
 
             // TODO: Validate enum storage

@@ -12,12 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Google.Api.Generator.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Google.Api.Generator.Utils;
 using Xunit;
+using Xunit.Abstractions;
 using Xunit.Sdk;
 
 namespace Google.Api.Generator.Testing
@@ -27,7 +28,7 @@ namespace Google.Api.Generator.Testing
     /// </summary>
     public static class TextComparer
     {
-        public static void CompareText(string expectedFilePath, ResultFile actualFile)
+        public static void CompareText(string expectedFilePath, ResultFile actualFile, ITestOutputHelper outputHelper)
         {
             Assert.True(File.Exists(expectedFilePath), $"Expected file does not exist: '{expectedFilePath}'");
 
@@ -71,7 +72,7 @@ namespace Google.Api.Generator.Testing
                 }
                 if (missing.line != null)
                 {
-                    Console.WriteLine(string.Join(Environment.NewLine, actualLines));
+                    outputHelper.WriteLine(string.Join(Environment.NewLine, actualLines));
                     throw new XunitException($"Failed to find expected line {missing.lineNumber + 1} in '{Path.GetFileName(actualFile.RelativePath)}'\n" +
                         $"  Expected line:  '{missing.line}'\n" +
                         $"  Generated line: '{missingActualLine}'");
