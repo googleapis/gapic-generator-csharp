@@ -20,6 +20,7 @@ using Google.Api.Generator.Utils;
 using Google.Protobuf.Reflection;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using Xunit;
@@ -306,6 +307,32 @@ namespace Google.Api.Generator.Tests
             requestNumericEnumJsonEncoding: true,
             ignoreSnippets: true,
             ignoreApiMetadataFile: false);
+
+        [Fact]
+        public void ShowcaseInFrenchCulture()
+        {
+            var oldCulture = CultureInfo.CurrentCulture;
+            var oldUiCulture = CultureInfo.CurrentUICulture;
+            CultureInfo.CurrentCulture = new CultureInfo("fr-FR");
+            CultureInfo.CurrentUICulture = new CultureInfo("fr-FR");
+            try
+            {
+                ProtoTestSingle(testProtoNames: new[] { "compliance", "echo", "identity", "messaging", "sequence", "testing" },
+                    sourceDir: "Showcase/google/showcase/v1beta1",
+                    outputDir: "Showcase",
+                    package: "google.showcase.v1beta1",
+                    serviceConfigPath: "showcase_v1beta1.yaml",
+                    transports: ApiTransports.Grpc | ApiTransports.Rest,
+                    requestNumericEnumJsonEncoding: true,
+                    ignoreSnippets: true,
+                    ignoreApiMetadataFile: false);
+            }
+            finally
+            {
+                CultureInfo.CurrentCulture = oldCulture;
+                CultureInfo.CurrentUICulture = oldUiCulture;
+            }
+        }
 
         [Fact]
         public void PublishingSettings() => ProtoTestSingle(

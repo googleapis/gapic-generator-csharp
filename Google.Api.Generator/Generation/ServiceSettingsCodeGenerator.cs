@@ -25,6 +25,7 @@ using System.Collections.Generic;
 using System.Linq;
 using static Google.Api.Generator.Utils.Roslyn.Modifier;
 using static Google.Api.Generator.Utils.Roslyn.RoslynBuilder;
+using static System.FormattableString;
 
 namespace Google.Api.Generator.Generation
 {
@@ -149,10 +150,10 @@ namespace Google.Api.Generator.Generation
                             _ctx.Type(typeof(CallSettingsExtensions)).Call(nameof(CallSettingsExtensions.WithRetry))(initializer, retryExpression);
                         xmlRemarks = XmlDoc.Remarks(
                             XmlDoc.UL(
-                                $"Initial retry delay: {(int)retry.InitialBackoff.TotalMilliseconds} milliseconds.",
-                                $"Retry delay multiplier: {retry.BackoffMultiplier}",
-                                $"Retry maximum delay: {(int)retry.MaxBackoff.TotalMilliseconds} milliseconds.",
-                                $"Maximum attempts: {(retry.MaxAttempts == int.MaxValue ? "Unlimited" : retry.MaxAttempts.ToString())}",
+                                Invariant($"Initial retry delay: {(int)retry.InitialBackoff.TotalMilliseconds} milliseconds."),
+                                Invariant($"Retry delay multiplier: {retry.BackoffMultiplier}"),
+                                Invariant($"Retry maximum delay: {(int)retry.MaxBackoff.TotalMilliseconds} milliseconds."),
+                                Invariant($"Maximum attempts: {(retry.MaxAttempts == int.MaxValue ? "Unlimited" : retry.MaxAttempts.ToString())}"),
                                 GetRetriableErrorCodeDocs().ToArray(),
                                 timeoutRemark));
 
@@ -228,10 +229,10 @@ namespace Google.Api.Generator.Generation
                         XmlDoc.C($"{_svc.ClientAbstractTyp.Name}.{method.SyncMethodName}"), " and ",
                         XmlDoc.C($"{_svc.ClientAbstractTyp.Name}.{method.AsyncMethodName}"), "."),
                     XmlDoc.Remarks("Uses default ", _ctx.Type<PollSettings>(), " of:", XmlDoc.UL(
-                        $"Initial delay: {(int)s_lroDefaultPollSettings.Delay.TotalSeconds} seconds.",
-                        $"Delay multiplier: {s_lroDefaultPollSettings.DelayMultiplier}",
-                        $"Maximum delay: {(int)s_lroDefaultPollSettings.MaxDelay.TotalSeconds} seconds.",
-                        $"Total timeout: {(int)s_lroDefaultPollSettings.Expiration.Timeout.Value.TotalHours} hours.")))
+                        Invariant($"Initial delay: {(int)s_lroDefaultPollSettings.Delay.TotalSeconds} seconds."),
+                        Invariant($"Delay multiplier: {s_lroDefaultPollSettings.DelayMultiplier}"),
+                        Invariant($"Maximum delay: {(int)s_lroDefaultPollSettings.MaxDelay.TotalSeconds} seconds."),
+                        Invariant($"Total timeout: {(int)s_lroDefaultPollSettings.Expiration.Timeout.Value.TotalHours} hours."))))
                 .WithAdditionalAnnotations(s_cloneSetting);
 
         private PropertyDeclarationSyntax BidiSettingsProperty(MethodDetails.BidiStreaming method) =>
