@@ -49,6 +49,8 @@ namespace Testing.Lro
             SignatureMethodOperationsSettings = existing.SignatureMethodOperationsSettings.Clone();
             ResourcedMethodSettings = existing.ResourcedMethodSettings;
             ResourcedMethodOperationsSettings = existing.ResourcedMethodOperationsSettings.Clone();
+            CustomDefaultPollingMethodSettings = existing.CustomDefaultPollingMethodSettings;
+            CustomDefaultPollingMethodOperationsSettings = existing.CustomDefaultPollingMethodOperationsSettings.Clone();
             OnCopy(existing);
         }
 
@@ -110,6 +112,36 @@ namespace Testing.Lro
         /// </list>
         /// </remarks>
         public lro::OperationsSettings ResourcedMethodOperationsSettings { get; set; } = new lro::OperationsSettings
+        {
+            DefaultPollSettings = new gax::PollSettings(gax::Expiration.FromTimeout(sys::TimeSpan.FromHours(24)), sys::TimeSpan.FromSeconds(20), 1.5, sys::TimeSpan.FromSeconds(45)),
+        };
+
+        /// <summary>
+        /// <see cref="gaxgrpc::CallSettings"/> for synchronous and asynchronous calls to
+        /// <c>LroClient.CustomDefaultPollingMethod</c> and <c>LroClient.CustomDefaultPollingMethodAsync</c>.
+        /// </summary>
+        /// <remarks>
+        /// <list type="bullet">
+        /// <item><description>This call will not be retried.</description></item>
+        /// <item><description>No timeout is applied.</description></item>
+        /// </list>
+        /// </remarks>
+        public gaxgrpc::CallSettings CustomDefaultPollingMethodSettings { get; set; } = gaxgrpc::CallSettings.FromExpiration(gax::Expiration.None);
+
+        /// <summary>
+        /// Long Running Operation settings for calls to <c>LroClient.CustomDefaultPollingMethod</c> and
+        /// <c>LroClient.CustomDefaultPollingMethodAsync</c>.
+        /// </summary>
+        /// <remarks>
+        /// Uses default <see cref="gax::PollSettings"/> of:
+        /// <list type="bullet">
+        /// <item><description>Initial delay: 20 seconds.</description></item>
+        /// <item><description>Delay multiplier: 1.5</description></item>
+        /// <item><description>Maximum delay: 45 seconds.</description></item>
+        /// <item><description>Total timeout: 24 hours.</description></item>
+        /// </list>
+        /// </remarks>
+        public lro::OperationsSettings CustomDefaultPollingMethodOperationsSettings { get; set; } = new lro::OperationsSettings
         {
             DefaultPollSettings = new gax::PollSettings(gax::Expiration.FromTimeout(sys::TimeSpan.FromHours(24)), sys::TimeSpan.FromSeconds(20), 1.5, sys::TimeSpan.FromSeconds(45)),
         };
@@ -440,6 +472,90 @@ namespace Testing.Lro
         /// <returns>A Task containing the RPC response.</returns>
         public virtual stt::Task<lro::Operation<LroResponse.Types.Nested, LroMetadata.Types.Nested>> ResourcedMethodAsync(ResourceName name, st::CancellationToken cancellationToken) =>
             ResourcedMethodAsync(name, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+
+        /// <summary>
+        /// Test an LRO RPC with customized default polling settings.
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>The RPC response.</returns>
+        public virtual lro::Operation<LroResponse, LroMetadata> CustomDefaultPollingMethod(Request request, gaxgrpc::CallSettings callSettings = null) =>
+            throw new sys::NotImplementedException();
+
+        /// <summary>
+        /// Test an LRO RPC with customized default polling settings.
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<lro::Operation<LroResponse, LroMetadata>> CustomDefaultPollingMethodAsync(Request request, gaxgrpc::CallSettings callSettings = null) =>
+            throw new sys::NotImplementedException();
+
+        /// <summary>
+        /// Test an LRO RPC with customized default polling settings.
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<lro::Operation<LroResponse, LroMetadata>> CustomDefaultPollingMethodAsync(Request request, st::CancellationToken cancellationToken) =>
+            CustomDefaultPollingMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+
+        /// <summary>The long-running operations client for <c>CustomDefaultPollingMethod</c>.</summary>
+        public virtual lro::OperationsClient CustomDefaultPollingMethodOperationsClient => throw new sys::NotImplementedException();
+
+        /// <summary>
+        /// Poll an operation once, using an <c>operationName</c> from a previous invocation of
+        /// <c>CustomDefaultPollingMethod</c>.
+        /// </summary>
+        /// <param name="operationName">
+        /// The name of a previously invoked operation. Must not be <c>null</c> or empty.
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>The result of polling the operation.</returns>
+        public virtual lro::Operation<LroResponse, LroMetadata> PollOnceCustomDefaultPollingMethod(string operationName, gaxgrpc::CallSettings callSettings = null) =>
+            lro::Operation<LroResponse, LroMetadata>.PollOnceFromName(gax::GaxPreconditions.CheckNotNullOrEmpty(operationName, nameof(operationName)), CustomDefaultPollingMethodOperationsClient, callSettings);
+
+        /// <summary>
+        /// Asynchronously poll an operation once, using an <c>operationName</c> from a previous invocation of
+        /// <c>CustomDefaultPollingMethod</c>.
+        /// </summary>
+        /// <param name="operationName">
+        /// The name of a previously invoked operation. Must not be <c>null</c> or empty.
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A task representing the result of polling the operation.</returns>
+        public virtual stt::Task<lro::Operation<LroResponse, LroMetadata>> PollOnceCustomDefaultPollingMethodAsync(string operationName, gaxgrpc::CallSettings callSettings = null) =>
+            lro::Operation<LroResponse, LroMetadata>.PollOnceFromNameAsync(gax::GaxPreconditions.CheckNotNullOrEmpty(operationName, nameof(operationName)), CustomDefaultPollingMethodOperationsClient, callSettings);
+
+        /// <summary>
+        /// Test an LRO RPC with customized default polling settings.
+        /// </summary>
+        /// <param name="name">
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>The RPC response.</returns>
+        public virtual lro::Operation<LroResponse, LroMetadata> CustomDefaultPollingMethod(string name, gaxgrpc::CallSettings callSettings = null) =>
+            CustomDefaultPollingMethod(new Request { Name = name ?? "", }, callSettings);
+
+        /// <summary>
+        /// Test an LRO RPC with customized default polling settings.
+        /// </summary>
+        /// <param name="name">
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<lro::Operation<LroResponse, LroMetadata>> CustomDefaultPollingMethodAsync(string name, gaxgrpc::CallSettings callSettings = null) =>
+            CustomDefaultPollingMethodAsync(new Request { Name = name ?? "", }, callSettings);
+
+        /// <summary>
+        /// Test an LRO RPC with customized default polling settings.
+        /// </summary>
+        /// <param name="name">
+        /// </param>
+        /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<lro::Operation<LroResponse, LroMetadata>> CustomDefaultPollingMethodAsync(string name, st::CancellationToken cancellationToken) =>
+            CustomDefaultPollingMethodAsync(name, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
     }
 
     /// <summary>Lro client wrapper implementation, for convenient use.</summary>
@@ -451,6 +567,8 @@ namespace Testing.Lro
         private readonly gaxgrpc::ApiCall<Request, lro::Operation> _callSignatureMethod;
 
         private readonly gaxgrpc::ApiCall<ResourceRequest, lro::Operation> _callResourcedMethod;
+
+        private readonly gaxgrpc::ApiCall<Request, lro::Operation> _callCustomDefaultPollingMethod;
 
         /// <summary>
         /// Constructs a client wrapper for the Lro service, with the specified gRPC client and settings.
@@ -469,12 +587,16 @@ namespace Testing.Lro
             });
             SignatureMethodOperationsClient = new lro::OperationsClientImpl(grpcClient.CreateOperationsClient(), effectiveSettings.SignatureMethodOperationsSettings, logger);
             ResourcedMethodOperationsClient = new lro::OperationsClientImpl(grpcClient.CreateOperationsClient(), effectiveSettings.ResourcedMethodOperationsSettings, logger);
+            CustomDefaultPollingMethodOperationsClient = new lro::OperationsClientImpl(grpcClient.CreateOperationsClient(), effectiveSettings.CustomDefaultPollingMethodOperationsSettings, logger);
             _callSignatureMethod = clientHelper.BuildApiCall<Request, lro::Operation>("SignatureMethod", grpcClient.SignatureMethodAsync, grpcClient.SignatureMethod, effectiveSettings.SignatureMethodSettings);
             Modify_ApiCall(ref _callSignatureMethod);
             Modify_SignatureMethodApiCall(ref _callSignatureMethod);
             _callResourcedMethod = clientHelper.BuildApiCall<ResourceRequest, lro::Operation>("ResourcedMethod", grpcClient.ResourcedMethodAsync, grpcClient.ResourcedMethod, effectiveSettings.ResourcedMethodSettings);
             Modify_ApiCall(ref _callResourcedMethod);
             Modify_ResourcedMethodApiCall(ref _callResourcedMethod);
+            _callCustomDefaultPollingMethod = clientHelper.BuildApiCall<Request, lro::Operation>("CustomDefaultPollingMethod", grpcClient.CustomDefaultPollingMethodAsync, grpcClient.CustomDefaultPollingMethod, effectiveSettings.CustomDefaultPollingMethodSettings);
+            Modify_ApiCall(ref _callCustomDefaultPollingMethod);
+            Modify_CustomDefaultPollingMethodApiCall(ref _callCustomDefaultPollingMethod);
             OnConstruction(grpcClient, effectiveSettings, clientHelper);
         }
 
@@ -483,6 +605,8 @@ namespace Testing.Lro
         partial void Modify_SignatureMethodApiCall(ref gaxgrpc::ApiCall<Request, lro::Operation> call);
 
         partial void Modify_ResourcedMethodApiCall(ref gaxgrpc::ApiCall<ResourceRequest, lro::Operation> call);
+
+        partial void Modify_CustomDefaultPollingMethodApiCall(ref gaxgrpc::ApiCall<Request, lro::Operation> call);
 
         partial void OnConstruction(Lro.LroClient grpcClient, LroSettings effectiveSettings, gaxgrpc::ClientHelper clientHelper);
 
@@ -545,6 +669,33 @@ namespace Testing.Lro
         {
             Modify_ResourceRequest(ref request, ref callSettings);
             return new lro::Operation<LroResponse.Types.Nested, LroMetadata.Types.Nested>(await _callResourcedMethod.Async(request, callSettings).ConfigureAwait(false), ResourcedMethodOperationsClient);
+        }
+
+        /// <summary>The long-running operations client for <c>CustomDefaultPollingMethod</c>.</summary>
+        public override lro::OperationsClient CustomDefaultPollingMethodOperationsClient { get; }
+
+        /// <summary>
+        /// Test an LRO RPC with customized default polling settings.
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>The RPC response.</returns>
+        public override lro::Operation<LroResponse, LroMetadata> CustomDefaultPollingMethod(Request request, gaxgrpc::CallSettings callSettings = null)
+        {
+            Modify_Request(ref request, ref callSettings);
+            return new lro::Operation<LroResponse, LroMetadata>(_callCustomDefaultPollingMethod.Sync(request, callSettings), CustomDefaultPollingMethodOperationsClient);
+        }
+
+        /// <summary>
+        /// Test an LRO RPC with customized default polling settings.
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public override async stt::Task<lro::Operation<LroResponse, LroMetadata>> CustomDefaultPollingMethodAsync(Request request, gaxgrpc::CallSettings callSettings = null)
+        {
+            Modify_Request(ref request, ref callSettings);
+            return new lro::Operation<LroResponse, LroMetadata>(await _callCustomDefaultPollingMethod.Async(request, callSettings).ConfigureAwait(false), CustomDefaultPollingMethodOperationsClient);
         }
     }
 
