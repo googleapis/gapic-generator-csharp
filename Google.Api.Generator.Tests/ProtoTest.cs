@@ -224,7 +224,7 @@ namespace Google.Api.Generator.Tests
 
         // `0` suffix so it's easier to run this test by itself!
         [Fact]
-        public void Basic0() => ProtoTestSingle("Basic.v1", ignoreGapicMetadataFile: false, ignoreApiMetadataFile: false);
+        public void Basic0() => ProtoTestSingle("Basic.v1", ignoreGapicMetadataFile: false, ignoreApiMetadataFile: false, ignoreServiceExtensionsFile: false);
 
         [Fact]
         public void BasicLro() => ProtoTestSingle("BasicLro", ignoreCsProj: true);
@@ -318,7 +318,8 @@ namespace Google.Api.Generator.Tests
             transports: ApiTransports.Grpc | ApiTransports.Rest,
             requestNumericEnumJsonEncoding: true,
             ignoreSnippets: true,
-            ignoreApiMetadataFile: false);
+            ignoreApiMetadataFile: false,
+            ignoreServiceExtensionsFile: false);
 
         [Fact]
         public void ShowcaseInFrenchCulture()
@@ -337,7 +338,8 @@ namespace Google.Api.Generator.Tests
                     transports: ApiTransports.Grpc | ApiTransports.Rest,
                     requestNumericEnumJsonEncoding: true,
                     ignoreSnippets: true,
-                    ignoreApiMetadataFile: false);
+                    ignoreApiMetadataFile: false,
+                    ignoreServiceExtensionsFile: false);
             }
             finally
             {

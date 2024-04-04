@@ -17,7 +17,7 @@ using gpr = Google.Protobuf.Reflection;
 using scg = System.Collections.Generic;
 
 // This is a "fallback" API descriptor class, effectively: all the proto tests (other than Showcase)
-// use a namespace under "Testing." so this is always valid; if a "real" GaxApiDescriptor is present
+// use a namespace under "Testing." so this is always valid; if a "real" PackageApiMetadata is present
 // for testing, that will take priority as its namespace will match exactly.
 
 namespace Testing
