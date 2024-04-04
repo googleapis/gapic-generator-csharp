@@ -16,8 +16,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using System;
 using System.IO;
-using System.Net.Http.Headers;
-using System.Reflection.Metadata;
+using static System.FormattableString;
 
 namespace Google.Api.Generator;
 
@@ -60,7 +59,7 @@ internal static class Logging
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
         {
             string message = formatter(state, exception);
-            string line = $"{DateTime.UtcNow:yyyy-MM-dd'T'HH:mm:ss.fff} {logLevel} - {message}";
+            string line = Invariant($"{DateTime.UtcNow:yyyy-MM-dd'T'HH:mm:ss.fff} {logLevel} - {message}");
             _writer.WriteLine(line);
         }
     }
