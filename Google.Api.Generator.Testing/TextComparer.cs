@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using Google.Api.Generator.Utils;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -71,7 +70,6 @@ namespace Google.Api.Generator.Testing
                 }
                 if (missing.line != null)
                 {
-                    Console.WriteLine(string.Join(Environment.NewLine, actualLines));
                     throw new XunitException($"Failed to find expected line {missing.lineNumber + 1} in '{Path.GetFileName(actualFile.RelativePath)}'\n" +
                         $"  Expected line:  '{missing.line}'\n" +
                         $"  Generated line: '{missingActualLine}'");
