@@ -120,7 +120,13 @@ namespace Google.Api.Generator.Generation
                 LroClientName = $"{desc.Name}OperationsClient";
                 SyncPollMethodName = $"PollOnce{SyncMethodName}";
                 AsyncPollMethodName = $"PollOnce{AsyncMethodName}";
-                PollSettings = s_lroDefaultPollSettings;
+                PollSettings = ServiceConfigMethodSettings?.LongRunning is MethodSettings.Types.LongRunning lro
+                    ? new PollSettings(
+                        expiration: Expiration.FromTimeout(lro.TotalPollTimeout.ToTimeSpan()),
+                        delay: lro.InitialPollDelay.ToTimeSpan(),
+                        delayMultiplier: lro.PollDelayMultiplier,
+                        maxDelay: lro.MaxPollDelay.ToTimeSpan())
+                    : s_lroDefaultPollSettings;
             }
 
             public PollSettings PollSettings { get; }

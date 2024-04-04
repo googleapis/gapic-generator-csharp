@@ -135,15 +135,15 @@ namespace Testing.Lro
         /// <remarks>
         /// Uses default <see cref="gax::PollSettings"/> of:
         /// <list type="bullet">
-        /// <item><description>Initial delay: 20 seconds.</description></item>
-        /// <item><description>Delay multiplier: 1.5</description></item>
-        /// <item><description>Maximum delay: 45 seconds.</description></item>
-        /// <item><description>Total timeout: 24 hours.</description></item>
+        /// <item><description>Initial delay: 60 seconds.</description></item>
+        /// <item><description>Delay multiplier: 2</description></item>
+        /// <item><description>Maximum delay: 360 seconds.</description></item>
+        /// <item><description>Total timeout: 15 hours.</description></item>
         /// </list>
         /// </remarks>
         public lro::OperationsSettings CustomDefaultPollingMethodOperationsSettings { get; set; } = new lro::OperationsSettings
         {
-            DefaultPollSettings = new gax::PollSettings(gax::Expiration.FromTimeout(sys::TimeSpan.FromHours(24)), sys::TimeSpan.FromSeconds(20), 1.5, sys::TimeSpan.FromSeconds(45)),
+            DefaultPollSettings = new gax::PollSettings(gax::Expiration.FromTimeout(sys::TimeSpan.FromHours(15)), sys::TimeSpan.FromSeconds(60), 2, sys::TimeSpan.FromSeconds(360)),
         };
 
         /// <summary>Creates a deep clone of this object, with all the same property values.</summary>
