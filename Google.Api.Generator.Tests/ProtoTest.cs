@@ -120,17 +120,29 @@ namespace Google.Api.Generator.Tests
             // Verify each output file.
             foreach (var file in files)
             {
-                if ((ignoreCsProj && file.RelativePath.EndsWith(".csproj")) ||
-                    (ignoreSnippets && file.RelativePath.Contains($".Snippets{Path.DirectorySeparatorChar}")) ||
-                    (ignoreSnippets && file.RelativePath.Contains($".GeneratedSnippets{Path.DirectorySeparatorChar}")) ||
-                    (ignoreGapicMetadataFile && file.RelativePath.EndsWith("gapic_metadata.json")) ||
-                    (ignoreApiMetadataFile && file.RelativePath.EndsWith(PackageApiMetadataGenerator.FileName)) ||
-                    (ignoreServiceExtensionsFile && file.RelativePath.EndsWith(ServiceCollectionExtensionsGenerator.FileName)))
+                var expectedFilePath = Path.Combine(Invoker.GeneratorTestsDir, "ProtoTests", outputDir, file.RelativePath);
+                if (MaybeIgnore(ignoreCsProj, file.RelativePath.EndsWith(".csproj")) ||
+                    MaybeIgnore(ignoreSnippets, file.RelativePath.Contains($".Snippets{Path.DirectorySeparatorChar}")) ||
+                    MaybeIgnore(ignoreSnippets, file.RelativePath.Contains($".GeneratedSnippets{Path.DirectorySeparatorChar}")) ||
+                    MaybeIgnore(ignoreGapicMetadataFile, file.RelativePath.EndsWith("gapic_metadata.json")) ||
+                    MaybeIgnore(ignoreApiMetadataFile, file.RelativePath.EndsWith(PackageApiMetadataGenerator.FileName)) ||
+                    MaybeIgnore(ignoreServiceExtensionsFile, file.RelativePath.EndsWith(ServiceCollectionExtensionsGenerator.FileName)))
                 {
                     continue;
                 }
-                var expectedFilePath = Path.Combine(Invoker.GeneratorTestsDir, "ProtoTests", outputDir, file.RelativePath);
                 TextComparer.CompareText(expectedFilePath, file);
+
+                bool MaybeIgnore(bool flag, bool condition)
+                {
+                    // If we've been told to ignore a file, then we should ignore it - but also check that the "expected" file is not present,
+                    // to avoid *thinking* we're testing something we're not.
+                    if (flag && condition)
+                    {
+                        Assert.False(File.Exists(expectedFilePath), $"File '{expectedFilePath}' is ignored in tests, and should not be present");
+                        return true;
+                    }
+                    return false;
+                }
             }
         }
 
