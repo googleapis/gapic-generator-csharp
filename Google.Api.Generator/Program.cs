@@ -27,6 +27,9 @@ using System.Threading.Tasks;
 
 namespace Google.Api.Generator
 {
+    // This using directive has to be within the namespace declaration to avoid conflicts with Google.Api.Logging.
+    using Logging = Utils.Logging;
+
     public static class Program
     {
         private const string nameGrpcServiceConfig = "grpc-service-config";

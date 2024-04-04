@@ -33,6 +33,9 @@ using YamlDotNet.Serialization;
 
 namespace Google.Api.Generator
 {
+    // This using directive has to be within the namespace declaration to avoid conflicts with Google.Api.Logging.
+    using Logging = Utils.Logging;
+
     internal static class CodeGenerator
     {
         /// <summary>

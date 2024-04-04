@@ -14,9 +14,11 @@
 
 using Google.Api.Gax;
 using Google.Api.Generator.Rest.Models;
+using Google.Api.Generator.Utils;
 using Newtonsoft.Json;
 using System;
 using System.IO;
+using static System.FormattableString;
 
 namespace Google.Api.Generator.Rest
 {
@@ -29,6 +31,11 @@ namespace Google.Api.Generator.Rest
                 Console.WriteLine("Expected arguments: <JSON file> <output directory> <features file> <enum storage file>");
                 return 1;
             }
+            // TODO: Potentially add a command line argument for this instead.
+            Logging.ConfigureForFile(Path.Combine(Path.GetTempPath(),
+                Invariant($"rest-generator-log-{Path.GetFileNameWithoutExtension(args[0])}-{DateTime.UtcNow:yyyy-MM-dd'T'HHmmss}Z.txt")));
+            Logging.LogInformation("Generation starting");
+
             string json = File.ReadAllText(args[0]);
             string outputDirectory = args[1];
             string featuresJson = File.ReadAllText(args[2]);
@@ -47,6 +54,7 @@ namespace Google.Api.Generator.Rest
             }
 
             File.WriteAllText(enumStorageFile, enumStorage.ToJson());
+            Logging.LogInformation("Generation complete");
             return 0;
         }
     }

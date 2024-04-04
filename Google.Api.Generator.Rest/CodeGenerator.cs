@@ -29,12 +29,15 @@ namespace Google.Api.Generator.Rest
     {
         public static IEnumerable<ResultFile> Generate(string discoveryJson, Features features, PackageEnumStorage enumStorage, IClock clock)
         {
+            Logging.LogInformation("Loading Discovery doc");
             discoveryJson = NormalizeDescriptions(discoveryJson);
 
             var discoveryDescription = NewtonsoftJsonSerializer.Instance.Deserialize<RestDescription>(discoveryJson);
 
             var package = new PackageModel(discoveryDescription, features, enumStorage);
+            Logging.LogInformation("Generating C# code");
             yield return GenerateCSharpCode(package, clock);
+            Logging.LogInformation("Generating package file");
             yield return GenerateProjectFile(package, clock);
         }
 
