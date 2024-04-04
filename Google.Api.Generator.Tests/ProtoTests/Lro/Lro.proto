@@ -27,6 +27,15 @@ service Lro {
     };
     option (google.api.method_signature) = "name";
   }
+
+  // Test an LRO RPC with customized default polling settings.
+  rpc CustomDefaultPollingMethod(Request) returns(google.longrunning.Operation) {
+    option (google.longrunning.operation_info) = {
+      response_type: "LroResponse"
+      metadata_type: "LroMetadata"
+    };
+    option (google.api.method_signature) = "name";
+  }
 }
 
 message Request {
