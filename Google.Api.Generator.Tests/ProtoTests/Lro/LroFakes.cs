@@ -36,6 +36,8 @@ public static partial class Lro
         public virtual Operation SignatureMethod(Request request, CallOptions options) => throw new NotImplementedException();
         public virtual AsyncUnaryCall<Operation> ResourcedMethodAsync(ResourceRequest request, CallOptions options) => throw new NotImplementedException();
         public virtual Operation ResourcedMethod(ResourceRequest request, CallOptions options) => throw new NotImplementedException();
+        public virtual AsyncUnaryCall<Operation> CustomDefaultPollingMethodAsync(Request request, CallOptions options) => throw new NotImplementedException();
+        public virtual Operation CustomDefaultPollingMethod(Request request, CallOptions options) => throw new NotImplementedException();
     }
 }
 
