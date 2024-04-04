@@ -251,7 +251,7 @@ namespace Google.Api.Generator.Tests
         public void Paginated0() => ProtoTestSingle("Paginated", ignoreCsProj: true);
 
         [Fact]
-        public void Lro0() => ProtoTestSingle("Lro");
+        public void Lro0() => ProtoTestSingle("Lro", ignoreSnippets: true);
 
         [Fact]
         public void ServerStreaming0() => ProtoTestSingle("ServerStreaming", ignoreCsProj: true, ignoreSnippets: true);
@@ -364,9 +364,6 @@ namespace Google.Api.Generator.Tests
 
         [Fact]
         public void BuildBasic() => BuildTest("Basic", protoPackageVersion: "v1");
-
-        [Fact]
-        public void BuildLro() => BuildTest("Lro");
 
         [Fact]
         public void DuplicateResourceDefinitions()

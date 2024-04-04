@@ -6,6 +6,7 @@ import "google/api/resource.proto";
 
 package testing.lro;
 
+// LRO service to test.
 service Lro {
   option (google.api.default_host) = "lro.example.com";
 
