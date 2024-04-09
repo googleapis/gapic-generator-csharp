@@ -384,14 +384,34 @@ namespace Google.Api.Generator.Rest.Models
 
             string GetApiDescription()
             {
+                // Unhelpful documentation links found by browsing Discovery docs.
+                string[] nonProductDocLinks =
+                {
+                    "https://cloud.google.com/",
+                    "https://cloud.google.com/learnmoreurl",
+                    "https://cloud.google.com/support/docs/apis",
+                    "https://www.google.com"
+                };
+
                 string upperCamelApiName = ApiName.ToUpperCamelCase(upperAfterDigit: false);
                 var prefix = _features.CloudPackageMap.TryGetValue(PackageName, out var cloudPackage)
                     ? $@"
       This is not the recommended package for working with {upperCamelApiName}, please use the {cloudPackage} package.
       This Google APIs Client Library for working with {upperCamelApiName} {ApiVersion} uses older code generation, and is harder to use."
                     : $"\n      Google APIs Client Library for working with {upperCamelApiName} {ApiVersion}.";
+                // Some packages have useful product documentation, but not all.
+                string productDocSection = _discoveryDoc.DocumentationLink is string productLink && !nonProductDocLinks.Contains(productLink) ? $@"
+
+      Product documentation is available at:
+      {productLink}" : "";
                 // The part of the package description that's the same for all packages - but can't be a constant due to the ApiName/ApiVersion part of the link.
                 string suffix = @$"
+
+      API reference documentation for this package is available at:
+      https://googleapis.dev/dotnet/{PackageName}/latest/api/{PackageName}.html
+
+      The source code for this package is available at:
+      https://github.com/google/google-api-dotnet-client/tree/master/Src/Generated/{PackageName}
 
       Supported Platforms:
       - .NET Framework 4.6.2+
@@ -406,15 +426,9 @@ namespace Google.Api.Generator.Rest.Models
       - Windows 8 Apps
       - Windows Phone 8.1
       - Windows Phone Silverlight 8.0
-
-      More documentation on the API is available at:
-      https://developers.google.com/api-client-library/dotnet/apis/{ApiName}/{ApiVersion}
-
-      The package source code is available at:
-      https://github.com/google/google-api-dotnet-client/tree/master/Src/Generated
     ";
 
-                return prefix + suffix;
+                return prefix + productDocSection + suffix;
             }
 
             XElement PackageReference(string name, string version, params XAttribute[] extraAttributes) =>
