@@ -50,7 +50,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// An optional action to invoke on the client builder. This is invoked before services from
         /// <paramref name="services"/> are used.
         /// </param>
-        public static IServiceCollection AddDeprecatedClient(this IServiceCollection services, sys::Action<sys::IServiceProvider, td::DeprecatedClientBuilder> action = null) =>
+        public static IServiceCollection AddDeprecatedClient(this IServiceCollection services, sys::Action<sys::IServiceProvider, td::DeprecatedClientBuilder> action) =>
             services.AddSingleton(provider =>
             {
                 td::DeprecatedClientBuilder builder = new td::DeprecatedClientBuilder();
@@ -88,7 +88,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <paramref name="services"/> are used.
         /// </param>
         [sys::ObsoleteAttribute]
-        public static IServiceCollection AddDeprecatedServiceClient(this IServiceCollection services, sys::Action<sys::IServiceProvider, td::DeprecatedServiceClientBuilder> action = null) =>
+        public static IServiceCollection AddDeprecatedServiceClient(this IServiceCollection services, sys::Action<sys::IServiceProvider, td::DeprecatedServiceClientBuilder> action) =>
             services.AddSingleton(provider =>
             {
                 td::DeprecatedServiceClientBuilder builder = new td::DeprecatedServiceClientBuilder();

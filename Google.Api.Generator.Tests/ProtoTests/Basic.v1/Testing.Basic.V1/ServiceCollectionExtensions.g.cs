@@ -50,7 +50,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// An optional action to invoke on the client builder. This is invoked before services from
         /// <paramref name="services"/> are used.
         /// </param>
-        public static IServiceCollection AddBasicClient(this IServiceCollection services, sys::Action<sys::IServiceProvider, tbv::BasicClientBuilder> action = null) =>
+        public static IServiceCollection AddBasicClient(this IServiceCollection services, sys::Action<sys::IServiceProvider, tbv::BasicClientBuilder> action) =>
             services.AddSingleton(provider =>
             {
                 tbv::BasicClientBuilder builder = new tbv::BasicClientBuilder();
