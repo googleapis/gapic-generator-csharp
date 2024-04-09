@@ -54,7 +54,7 @@ public static class Logging
 
         internal FileLogger(string file)
         {
-            _writer = new StreamWriter(file, append: false, Encoding.UTF8, bufferSize: 0) { AutoFlush = true };
+            _writer = new StreamWriter(file, append: false, Encoding.UTF8) { AutoFlush = true };
         }
 
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
