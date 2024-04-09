@@ -352,6 +352,8 @@ namespace Google.Api.Generator.Tests
         public void PublishingSettings() => ProtoTestSingle(
             new[] { "PublishingSettings", "CommonResourceDef" },
             ignoreCsProj: true, serviceConfigPath: "ServiceConfig.yaml",
+            ignoreApiMetadataFile: false,
+            ignoreServiceExtensionsFile: false,
             commonResourcesConfigPaths: new[]
             {
                 Path.Combine(Invoker.GeneratorTestsDir, "ProtoTests", "PublishingSettings", "CommonResourceConfig.json")
