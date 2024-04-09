@@ -46,6 +46,22 @@ namespace Microsoft.Extensions.DependencyInjection
                 return builder.Build(provider);
             });
 
+        /// <summary>Adds a singleton <see cref="gsv::ComplianceClient"/> to <paramref name="services"/>.</summary>
+        /// <param name="services">
+        /// The service collection to add the client to. The services are used to configure the client when requested.
+        /// </param>
+        /// <param name="action">
+        /// An optional action to invoke on the client builder. This is invoked before services from
+        /// <paramref name="services"/> are used.
+        /// </param>
+        public static IServiceCollection AddComplianceClient(this IServiceCollection services, sys::Action<sys::IServiceProvider, gsv::ComplianceClientBuilder> action) =>
+            services.AddSingleton(provider =>
+            {
+                gsv::ComplianceClientBuilder builder = new gsv::ComplianceClientBuilder();
+                action?.Invoke(provider, builder);
+                return builder.Build(provider);
+            });
+
         /// <summary>Adds a singleton <see cref="gsv::EchoClient"/> to <paramref name="services"/>.</summary>
         /// <param name="services">
         /// The service collection to add the client to. The services are used to configure the client when requested.
@@ -59,6 +75,22 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 gsv::EchoClientBuilder builder = new gsv::EchoClientBuilder();
                 action?.Invoke(builder);
+                return builder.Build(provider);
+            });
+
+        /// <summary>Adds a singleton <see cref="gsv::EchoClient"/> to <paramref name="services"/>.</summary>
+        /// <param name="services">
+        /// The service collection to add the client to. The services are used to configure the client when requested.
+        /// </param>
+        /// <param name="action">
+        /// An optional action to invoke on the client builder. This is invoked before services from
+        /// <paramref name="services"/> are used.
+        /// </param>
+        public static IServiceCollection AddEchoClient(this IServiceCollection services, sys::Action<sys::IServiceProvider, gsv::EchoClientBuilder> action) =>
+            services.AddSingleton(provider =>
+            {
+                gsv::EchoClientBuilder builder = new gsv::EchoClientBuilder();
+                action?.Invoke(provider, builder);
                 return builder.Build(provider);
             });
 
@@ -78,6 +110,22 @@ namespace Microsoft.Extensions.DependencyInjection
                 return builder.Build(provider);
             });
 
+        /// <summary>Adds a singleton <see cref="gsv::IdentityClient"/> to <paramref name="services"/>.</summary>
+        /// <param name="services">
+        /// The service collection to add the client to. The services are used to configure the client when requested.
+        /// </param>
+        /// <param name="action">
+        /// An optional action to invoke on the client builder. This is invoked before services from
+        /// <paramref name="services"/> are used.
+        /// </param>
+        public static IServiceCollection AddIdentityClient(this IServiceCollection services, sys::Action<sys::IServiceProvider, gsv::IdentityClientBuilder> action) =>
+            services.AddSingleton(provider =>
+            {
+                gsv::IdentityClientBuilder builder = new gsv::IdentityClientBuilder();
+                action?.Invoke(provider, builder);
+                return builder.Build(provider);
+            });
+
         /// <summary>Adds a singleton <see cref="gsv::MessagingClient"/> to <paramref name="services"/>.</summary>
         /// <param name="services">
         /// The service collection to add the client to. The services are used to configure the client when requested.
@@ -91,6 +139,22 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 gsv::MessagingClientBuilder builder = new gsv::MessagingClientBuilder();
                 action?.Invoke(builder);
+                return builder.Build(provider);
+            });
+
+        /// <summary>Adds a singleton <see cref="gsv::MessagingClient"/> to <paramref name="services"/>.</summary>
+        /// <param name="services">
+        /// The service collection to add the client to. The services are used to configure the client when requested.
+        /// </param>
+        /// <param name="action">
+        /// An optional action to invoke on the client builder. This is invoked before services from
+        /// <paramref name="services"/> are used.
+        /// </param>
+        public static IServiceCollection AddMessagingClient(this IServiceCollection services, sys::Action<sys::IServiceProvider, gsv::MessagingClientBuilder> action) =>
+            services.AddSingleton(provider =>
+            {
+                gsv::MessagingClientBuilder builder = new gsv::MessagingClientBuilder();
+                action?.Invoke(provider, builder);
                 return builder.Build(provider);
             });
 
@@ -110,6 +174,22 @@ namespace Microsoft.Extensions.DependencyInjection
                 return builder.Build(provider);
             });
 
+        /// <summary>Adds a singleton <see cref="gsv::SequenceServiceClient"/> to <paramref name="services"/>.</summary>
+        /// <param name="services">
+        /// The service collection to add the client to. The services are used to configure the client when requested.
+        /// </param>
+        /// <param name="action">
+        /// An optional action to invoke on the client builder. This is invoked before services from
+        /// <paramref name="services"/> are used.
+        /// </param>
+        public static IServiceCollection AddSequenceServiceClient(this IServiceCollection services, sys::Action<sys::IServiceProvider, gsv::SequenceServiceClientBuilder> action) =>
+            services.AddSingleton(provider =>
+            {
+                gsv::SequenceServiceClientBuilder builder = new gsv::SequenceServiceClientBuilder();
+                action?.Invoke(provider, builder);
+                return builder.Build(provider);
+            });
+
         /// <summary>Adds a singleton <see cref="gsv::TestingClient"/> to <paramref name="services"/>.</summary>
         /// <param name="services">
         /// The service collection to add the client to. The services are used to configure the client when requested.
@@ -123,6 +203,22 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 gsv::TestingClientBuilder builder = new gsv::TestingClientBuilder();
                 action?.Invoke(builder);
+                return builder.Build(provider);
+            });
+
+        /// <summary>Adds a singleton <see cref="gsv::TestingClient"/> to <paramref name="services"/>.</summary>
+        /// <param name="services">
+        /// The service collection to add the client to. The services are used to configure the client when requested.
+        /// </param>
+        /// <param name="action">
+        /// An optional action to invoke on the client builder. This is invoked before services from
+        /// <paramref name="services"/> are used.
+        /// </param>
+        public static IServiceCollection AddTestingClient(this IServiceCollection services, sys::Action<sys::IServiceProvider, gsv::TestingClientBuilder> action) =>
+            services.AddSingleton(provider =>
+            {
+                gsv::TestingClientBuilder builder = new gsv::TestingClientBuilder();
+                action?.Invoke(provider, builder);
                 return builder.Build(provider);
             });
     }
