@@ -17,6 +17,15 @@
       This is not the recommended package for working with Translate, please use the Google.Cloud.Translation.V2 package.
       This Google APIs Client Library for working with Translate v2 uses older code generation, and is harder to use.
 
+      Product documentation is available at:
+      https://code.google.com/apis/language/translate/v2/getting_started.html
+
+      API reference documentation for this package is available at:
+      https://googleapis.dev/dotnet/Google.Apis.Translate.v2/latest/api/Google.Apis.Translate.v2.html
+
+      The source code for this package is available at:
+      https://github.com/google/google-api-dotnet-client/tree/master/Src/Generated/Google.Apis.Translate.v2
+
       Supported Platforms:
       - .NET Framework 4.6.2+
       - .NET Standard 2.0
@@ -30,12 +39,6 @@
       - Windows 8 Apps
       - Windows Phone 8.1
       - Windows Phone Silverlight 8.0
-
-      More documentation on the API is available at:
-      https://developers.google.com/api-client-library/dotnet/apis/translate/v2
-
-      The package source code is available at:
-      https://github.com/google/google-api-dotnet-client/tree/master/Src/Generated
     </Description>
   </PropertyGroup>
 

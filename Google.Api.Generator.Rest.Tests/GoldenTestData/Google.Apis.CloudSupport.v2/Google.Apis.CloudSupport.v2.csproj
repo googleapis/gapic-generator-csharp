@@ -16,6 +16,12 @@
     <Description>
       Google APIs Client Library for working with Cloudsupport v2.
 
+      API reference documentation for this package is available at:
+      https://googleapis.dev/dotnet/Google.Apis.CloudSupport.v2/latest/api/Google.Apis.CloudSupport.v2.html
+
+      The source code for this package is available at:
+      https://github.com/google/google-api-dotnet-client/tree/master/Src/Generated/Google.Apis.CloudSupport.v2
+
       Supported Platforms:
       - .NET Framework 4.6.2+
       - .NET Standard 2.0
@@ -29,12 +35,6 @@
       - Windows 8 Apps
       - Windows Phone 8.1
       - Windows Phone Silverlight 8.0
-
-      More documentation on the API is available at:
-      https://developers.google.com/api-client-library/dotnet/apis/cloudsupport/v2
-
-      The package source code is available at:
-      https://github.com/google/google-api-dotnet-client/tree/master/Src/Generated
     </Description>
   </PropertyGroup>
 
