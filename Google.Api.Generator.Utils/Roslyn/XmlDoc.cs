@@ -73,6 +73,7 @@ namespace Google.Api.Generator.Utils.Roslyn
         private static DocumentationCommentTriviaSyntax XmlDocElement<T>(IEnumerable<object> parts, Func<XmlNodeSyntax[], T> fn) where T : XmlNodeSyntax =>
             DocumentationCommentTrivia(SyntaxKind.SingleLineDocumentationCommentTrivia, SingletonList<XmlNodeSyntax>(fn(parts.Select(ToNode).ToArray())));
 
+        public static DocumentationCommentTriviaSyntax MaybeSummary(object part) => part is null ? null : Summary(part);
         public static DocumentationCommentTriviaSyntax Summary(params object[] parts) => XmlDocElement(parts, XmlSummaryElement);
         public static DocumentationCommentTriviaSyntax SummaryPreFormatted(IEnumerable<string> lines) => Summary(lines.ToArray()).WithAdditionalAnnotations(Annotations.Preformatted);
         public static DocumentationCommentTriviaSyntax Remarks(params object[] parts) => XmlDocElement(parts, XmlRemarksElement);

@@ -82,11 +82,8 @@ namespace Google.Api.Generator.Rest.Models
         {
             var propertyTyp = SchemaTypes.GetTypFromSchema(Parent.Package, _schema, Name, ctx.CurrentTyp, inParameter: false);
             var property = AutoProperty(Modifier.Public | Modifier.Virtual, ctx.Type(propertyTyp), PropertyName, hasSetter: true)
-                .WithAttribute(ctx.Type<JsonPropertyAttribute>())(Name);
-            if (_schema.Description is object)
-            {
-                property = property.WithXmlDoc(XmlDoc.Summary(_schema.Description));
-            }
+                .WithAttribute(ctx.Type<JsonPropertyAttribute>())(Name)
+                .MaybeWithXmlDoc(XmlDoc.MaybeSummary(_schema.Description));
             return new[] { property };
         }
 
@@ -100,11 +97,8 @@ namespace Google.Api.Generator.Rest.Models
             }
             // DateTime values generate three properties: one raw as a string, one DateTimeOffset version, and one (obsolete) DateTime version.
             var rawProperty = AutoProperty(Modifier.Public | Modifier.Virtual, ctx.Type<string>(), PropertyName + "Raw", hasSetter: true)
-                .WithAttribute(ctx.Type<JsonPropertyAttribute>())(Name);
-            if (_schema.Description is object)
-            {
-                rawProperty = rawProperty.WithXmlDoc(XmlDoc.Summary(_schema.Description));
-            }
+                .WithAttribute(ctx.Type<JsonPropertyAttribute>())(Name)
+                .MaybeWithXmlDoc(XmlDoc.MaybeSummary(_schema.Description));
             yield return rawProperty;
 
             var valueParameter = Parameter(ctx.Type<DateTimeOffset?>(), "value");
@@ -150,11 +144,8 @@ namespace Google.Api.Generator.Rest.Models
                 .WithSetBody(
                     objectField.Assign(ctx.Type(typeof(Utilities)).Call(nameof(Utilities.DeserializeForGoogleFormat))(valueParameter)),
                     rawField.Assign(valueParameter)
-                );
-            if (_schema.Description is object)
-            {
-                rawProperty = rawProperty.WithXmlDoc(XmlDoc.Summary(_schema.Description));
-            }
+                )
+                .MaybeWithXmlDoc(XmlDoc.MaybeSummary(_schema.Description));
 
             var dtoProperty = Property(Modifier.Public | Modifier.Virtual, ctx.Type<DateTimeOffset?>(), PropertyName + "DateTimeOffset")
                 .WithAttribute(ctx.Type<JsonIgnoreAttribute>())()
