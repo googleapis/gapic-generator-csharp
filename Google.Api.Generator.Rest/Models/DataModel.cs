@@ -109,11 +109,9 @@ namespace Google.Api.Generator.Rest.Models
             var cls = Class(Modifier.Public, Typ, Parent is null ? new[] { ctx.Type<IDirectResponseSchema>() } : Array.Empty<TypeSyntax>());
             using (ctx.InClass(Typ))
             {
-                if (_schema.Description is string description)
-                {
-                    cls = cls.WithXmlDoc(XmlDoc.Summary(description));
-                }
-                cls = cls.AddMembers(Properties.SelectMany(p => p.GeneratePropertyDeclarations(ctx)).ToArray());
+                cls = cls
+                    .MaybeWithXmlDoc(XmlDoc.MaybeSummary(_schema.Description))
+                    .AddMembers(Properties.SelectMany(p => p.GeneratePropertyDeclarations(ctx)).ToArray());
 
                 // Top-level data models automatically have an etag property if one isn't otherwise generated.
                 if (Parent is null && !Properties.Any(p => p.Name == "etag"))

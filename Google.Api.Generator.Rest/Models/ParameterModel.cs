@@ -173,11 +173,8 @@ namespace Google.Api.Generator.Rest.Models
             // The DateTimeOffset and string properties are slightly awkward, as we need to reference the raw property from the getters and setters of the DTO,
             // but we refer to the DTO property from the raw property's XML doc.
             var rawProperty = AutoProperty(Modifier.Public | Modifier.Virtual, ctx.Type<string>(), PropertyName + "Raw", hasSetter: true, setterIsPrivate: true)
-                .WithAttribute(ctx.Type<RequestParameterAttribute>())(Name, locationExpression);
-            if (_schema.Description is object)
-            {
-                rawProperty = rawProperty.WithXmlDoc(XmlDoc.Summary(_schema.Description));
-            }
+                .WithAttribute(ctx.Type<RequestParameterAttribute>())(Name, locationExpression)
+                .MaybeWithXmlDoc(XmlDoc.MaybeSummary(_schema.Description));
 
             var dtoProperty = Property(Modifier.Public | Modifier.Virtual, ctx.Type(typeof(DateTimeOffset?)), PropertyName + "DateTimeOffset")
                 .WithGetBody(Return(ctx.Type(typeof(DiscoveryFormat)).Call(nameof(DiscoveryFormat.ParseDateTimeToDateTimeOffset))(rawProperty)))
@@ -231,10 +228,6 @@ namespace Google.Api.Generator.Rest.Models
                     rawProperty.Assign(ctx.Type(typeof(DiscoveryFormat)).Call(nameof(DiscoveryFormat.FormatDateTimeOffsetToGoogleDateTime))(valueParameter)),
                     objectField.Assign(valueParameter)
                 );
-            if (_schema.Description is object)
-            {
-                //dtoProperty = dtoProperty.WithXmlDoc(XmlDoc.Summary(_schema.Description));
-            }
             rawProperty = rawProperty.WithXmlDoc(XmlDoc.Summary("String representation of ", dtoProperty, ", formatted for inclusion in the HTTP request."));
 
             var objectProperty = Property(Modifier.Public | Modifier.Virtual, ctx.Type<object>(), PropertyName)

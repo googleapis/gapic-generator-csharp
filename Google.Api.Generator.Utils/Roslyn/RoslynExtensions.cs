@@ -44,6 +44,9 @@ namespace Google.Api.Generator.Utils.Roslyn
             ? token.WithTrailingTrivia(triv.Concat(token.TrailingTrivia))
             : token.WithTrailingTrivia(triv);
 
+        public static T MaybeWithXmlDoc<T>(this T node, DocumentationCommentTriviaSyntax xmlDoc) where T : SyntaxNode =>
+            xmlDoc is null ? node : node.WithLeadingTrivia(Trivia(xmlDoc));
+
         public static T WithXmlDoc<T>(this T node, params DocumentationCommentTriviaSyntax[] xmlDoc) where T : SyntaxNode =>
             node.WithLeadingTrivia(xmlDoc.Select(Trivia));
 

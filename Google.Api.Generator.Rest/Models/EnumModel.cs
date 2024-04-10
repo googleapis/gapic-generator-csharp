@@ -56,16 +56,9 @@ namespace Google.Api.Generator.Rest.Models
                 .ToReadOnlyList(pair => new EnumMemberModel(pair.text, pair.description, package.PackageEnumStorage.GetOrAddEnumValue(enumStorageKey, pair.text)));
         }
 
-        public EnumDeclarationSyntax GenerateDeclaration(SourceFileContext ctx)
-        {
-            var declaration = Enum(Modifier.Public, Typ.Nested(ctx.CurrentTyp, TypeName, isEnum: true))
-                (Members.Select(m => m.GenerateDeclaration(ctx)).ToArray());
-
-            if (Description is string description)
-            {
-                declaration = declaration.WithXmlDoc(XmlDoc.Summary(description));
-            }
-            return declaration;
-        }
+        public EnumDeclarationSyntax GenerateDeclaration(SourceFileContext ctx) =>
+            Enum(Modifier.Public, Typ.Nested(ctx.CurrentTyp, TypeName, isEnum: true))
+                (Members.Select(m => m.GenerateDeclaration(ctx)).ToArray())
+                .MaybeWithXmlDoc(XmlDoc.MaybeSummary(Description));
     }
 }

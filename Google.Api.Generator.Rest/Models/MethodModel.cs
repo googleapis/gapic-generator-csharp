@@ -122,11 +122,8 @@ namespace Google.Api.Generator.Rest.Models
         private ClassDeclarationSyntax GenerateRequestType(SourceFileContext ctx)
         {
             var baseType = ctx.Type(Typ.Generic(Package.GenericBaseRequestTypDef, ResponseTyp));
-            var cls = Class(Modifier.Public, RequestTyp, baseType);
-            if (_restMethod.Description is object)
-            {
-                cls = cls.WithXmlDoc(XmlDoc.Summary(_restMethod.Description));
-            }
+            var cls = Class(Modifier.Public, RequestTyp, baseType)
+                .MaybeWithXmlDoc(XmlDoc.MaybeSummary(_restMethod.Description));
 
             using (ctx.InClass(RequestTyp))
             {

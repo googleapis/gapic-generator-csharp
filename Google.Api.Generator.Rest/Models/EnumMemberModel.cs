@@ -53,15 +53,9 @@ namespace Google.Api.Generator.Rest.Models
             NumericValue = numericValue;
         }
 
-        public EnumMemberDeclarationSyntax GenerateDeclaration(SourceFileContext ctx)
-        {
-            var declaration = EnumMember(MemberName, NumericValue)
-                .WithAttribute(ctx.Type<StringValueAttribute>())(OriginalValue);
-            if (Description is object)
-            {
-                declaration = declaration.WithXmlDoc(XmlDoc.Summary(Description));
-            }
-            return declaration;
-        }
+        public EnumMemberDeclarationSyntax GenerateDeclaration(SourceFileContext ctx) =>
+            EnumMember(MemberName, NumericValue)
+                .WithAttribute(ctx.Type<StringValueAttribute>())(OriginalValue)
+                .MaybeWithXmlDoc(XmlDoc.MaybeSummary(Description));
     }
 }
