@@ -53,6 +53,8 @@ namespace Google.Api.Generator.Rest.Models
         private bool SupportsMediaDownload => _restMethod.SupportsMediaDownload ?? false;
         private bool SupportsMediaUpload => _restMethod.SupportsMediaUpload ?? false;
 
+        public string ApiVersion => _restMethod.ApiVersion;
+
         public MethodModel(PackageModel package, ResourceModel resource, string name, RestMethod restMethod)
         {
             Package = GaxPreconditions.CheckNotNull(package, nameof(package));
@@ -194,12 +196,18 @@ namespace Google.Api.Generator.Rest.Models
                         parameters.Select(p => p.GenerateInitializer(ctx)).ToArray())
                     .WithXmlDoc(XmlDoc.Summary($"Initializes {PascalCasedName} parameter list."));
 
-                // TODO: Media downloader members
-
                 cls = cls.AddMembers(ctor);
                 cls = cls.AddMembers(parameters.SelectMany(p => p.GenerateDeclarations(ctx)).ToArray());
                 cls = cls.AddMembers(bodyDeclarations);
                 cls = cls.AddMembers(methodName, httpMethod, restPath, initParameters);
+
+                if (ApiVersion is string apiVersion)
+                {
+                    var apiVersionProperty = Property(Modifier.Public | Modifier.Override, ctx.Type<string>(), "ApiVersion")
+                        .WithGetBody(ApiVersion)
+                        .WithXmlDoc(XmlDoc.InheritDoc);
+                    cls = cls.AddMembers(apiVersionProperty);
+                }
 
                 if (SupportsMediaDownload)
                 {

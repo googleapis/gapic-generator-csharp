@@ -123,6 +123,7 @@
   "detections": {
    "methods": {
     "detect": {
+     "apiVersion": "testversion",
      "description": "Detects the language of text within a request.",
      "httpMethod": "POST",
      "id": "language.detections.detect",
