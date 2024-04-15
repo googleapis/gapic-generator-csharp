@@ -345,6 +345,9 @@ namespace Google.Apis.Translate.v2
             {
                 base.InitParameters();
             }
+
+            /// <inheritdoc/>
+            public override string ApiVersion => "testversion";
         }
 
         /// <summary>Detects the language of text within a request.</summary>
