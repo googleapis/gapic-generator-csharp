@@ -189,6 +189,7 @@ namespace Google.Api.Generator
             }
 
             ValidateTransports(transports, allServiceDetails);
+            ValidateComments(descriptors.Where(x => filesToGenerateSet.Contains(x.Name)));
 
             Logging.LogTrace("Generation complete with {count} files", resultFiles.Count);
             return resultFiles;
@@ -232,6 +233,106 @@ namespace Google.Api.Generator
                 if (methodDescriptors.All(method => method.GetOptions()?.GetExtension(AnnotationsExtensions.Http) is null))
                 {
                     throw new InvalidOperationException("REST transport was requested, but no method in any service has an HTTP annotation");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Validate that all proto elements have comments (except the file descriptor).
+        /// We only log warnings for most missing elements; for services and methods, we log warnings
+        /// and then a log a single combined error at the end, as the generated code won't compile.
+        /// In the future, we will ideally throw an error instead of just logging, to encourage API producers
+        /// to fix the protos early.
+        ///
+        /// This will still allow through uncommented fields used in method signatures: it would be fiddly to detect
+        /// those.
+        /// </summary>
+        private static void ValidateComments(IEnumerable<FileDescriptor> descriptorProtos)
+        {
+            var errors = new List<string>();
+            foreach (var proto in descriptorProtos)
+            {
+                ValidateFile(proto);
+            }
+            if (errors.Any())
+            {
+                Logging.LogError("One or more proto elements has no comment. Violations: {errors}", string.Join(", ", errors));
+                // At some point it would be good to actually throw. More work is required to find out how many existing APIs that would break
+                // though.
+                // throw new InvalidOperationException($"One or more proto elements has no comment. Violations: {string.Join(", ", errors)}");
+            }
+
+            void ValidateFile(FileDescriptor proto)
+            {
+                foreach (var message in proto.MessageTypes)
+                {
+                    ValidateMessage(message);
+                }
+                foreach (var enumType in proto.EnumTypes)
+                {
+                    ValidateEnum(enumType);
+                }
+                foreach (var service in proto.Services)
+                {
+                    ValidateDeclaration(service, true);
+                    ValidateDeclarations(service.Methods, true);
+                }
+            }
+
+            void ValidateMessage(MessageDescriptor message)
+            {
+                // Ignore map types. It would be nice if there were a better way of detecting this.
+                // TODO: Use the new property when b/336474134 is resolved and released.
+                if (message.GetOptions()?.MapEntry == true)
+                {
+                    return;
+                }
+                ValidateDeclaration(message, false);
+                foreach (var nestedMessage in message.NestedTypes)
+                {
+                    ValidateMessage(nestedMessage);
+                }
+                foreach (var enumType in message.EnumTypes)
+                {
+                    ValidateEnum(enumType);
+                }
+                ValidateDeclarations(message.Fields.InDeclarationOrder(), false);
+
+                // TODO: Uncomment when b/336474755 has been resolved and released.
+                // ValidateDeclarations(message.Oneofs.Where(o => !o.IsSynthetic));
+            }
+
+            void ValidateEnum(EnumDescriptor enumType)
+            {
+                ValidateDeclaration(enumType, false);
+                ValidateDeclarations(enumType.Values, false);
+            }
+
+            void ValidateDeclarations(IEnumerable<DescriptorBase> descriptors, bool required)
+            {
+                foreach (var descriptor in descriptors)
+                {
+                    ValidateDeclaration(descriptor, required);
+                }
+            }
+
+            void ValidateDeclaration(DescriptorBase descriptor, bool required)
+            {
+                if (descriptor.Declaration is not DescriptorDeclaration declaration)
+                {
+                    Logging.LogWarning($"Missing protobuf declaration for {descriptor.FullName}");
+                    return;
+                }
+                // The GAPIC generator only uses leading comments, but protoc uses trailing comments.
+                // It's *possible* we'd have a service or method with only trailing comments, but that
+                // seems highly unlikely.
+                if (declaration.LeadingComments == "" && declaration.TrailingComments == "")
+                {
+                    if (required)
+                    {
+                        errors.Add(declaration.Descriptor.FullName);
+                    }
+                    Logging.LogWarning($"Missing protobuf comment on {descriptor.FullName} ({descriptor.GetType().Name})");
                 }
             }
         }
