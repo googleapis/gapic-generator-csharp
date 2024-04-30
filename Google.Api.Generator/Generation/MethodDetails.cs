@@ -60,6 +60,15 @@ namespace Google.Api.Generator.Generation
             public Paginated(ServiceDetails svc, MethodDescriptor desc,
                 FieldDescriptor responseResourceField, int pageSizeFieldNumber, int pageTokenFieldNumber) : base(svc, desc)
             {
+                // Possibly-temporary validation: the resource field should always be the lowest-numbered
+                // repeated field in the response message. This check can be removed if/when we receive
+                // pagination configuration via an annotation.
+                var lowestNumberedRepeatedField = responseResourceField.ContainingType.Fields.InFieldNumberOrder().FirstOrDefault(f => f.IsRepeated);
+                if (responseResourceField != lowestNumberedRepeatedField)
+                {
+                    throw new InvalidOperationException($"Error: field {responseResourceField.FullName} is not the lowest-numbered repeated field ({lowestNumberedRepeatedField?.FullName ?? "(None)"})");
+                }
+
                 ResourceTyp = ProtoTyp.Of(responseResourceField, forceRepeated: false);
                 // For map fields, ResourceTyp is a constructed KeyValuePair<,> type: we need the open type in a cref.
                 ResourceTypForCref = responseResourceField.IsMap
@@ -74,6 +83,7 @@ namespace Google.Api.Generator.Generation
                 PageSizeFieldNumber = pageSizeFieldNumber;
                 PageTokenFieldNumber = pageTokenFieldNumber;
             }
+
             public override Typ ApiCallTyp { get; }
             public override Typ SyncReturnTyp { get; }
             public override Typ AsyncReturnTyp { get; }
