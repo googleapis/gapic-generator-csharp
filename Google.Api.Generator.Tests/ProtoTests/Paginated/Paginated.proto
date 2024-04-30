@@ -39,8 +39,10 @@ message Request {
 message Response {
   message NestedResult { }
   string next_page_token = 1;
-  repeated int32 not_results = 2; // primitive fields are not valid resource candidates.
-  repeated NestedResult results = 3; // First non-primitive (msg|string) field by order and number.
+  // Note: previously results came after not_results, but that failed newer validation.
+  // (We want to fail if we get odd input like that.)
+  repeated NestedResult results = 2; // First non-primitive (msg|string) field by order and number.
+  repeated int32 not_results = 3; // Primitive fields are not valid resource candidates.
   repeated string also_not_results = 4; // Non-first field not the resource.
 }
 
