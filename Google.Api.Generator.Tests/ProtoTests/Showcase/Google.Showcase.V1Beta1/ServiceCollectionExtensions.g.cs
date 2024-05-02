@@ -18,12 +18,12 @@
 using gaxgrpc = Google.Api.Gax.Grpc;
 using gciv = Google.Cloud.Iam.V1;
 using gcl = Google.Cloud.Location;
-using lro = Google.LongRunning;
-using proto = Google.Protobuf;
 using gpr = Google.Protobuf.Reflection;
 using gsv = Google.Showcase.V1Beta1;
-using sys = System;
+using lro = Google.LongRunning;
+using proto = Google.Protobuf;
 using scg = System.Collections.Generic;
+using sys = System;
 
 namespace Microsoft.Extensions.DependencyInjection
 {

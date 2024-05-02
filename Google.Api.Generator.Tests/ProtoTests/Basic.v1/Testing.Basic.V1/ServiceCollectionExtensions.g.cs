@@ -17,8 +17,8 @@
 #pragma warning disable CS8981
 using gaxgrpc = Google.Api.Gax.Grpc;
 using gpr = Google.Protobuf.Reflection;
-using sys = System;
 using scg = System.Collections.Generic;
+using sys = System;
 using tbv = Testing.Basic.V1;
 
 namespace Microsoft.Extensions.DependencyInjection
