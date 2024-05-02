@@ -14,8 +14,8 @@
 
 using Google.Api.Gax;
 using Google.Api.Generator.ProtoUtils;
-using Google.Api.Generator.Utils.Roslyn;
 using Google.Api.Generator.Utils;
+using Google.Api.Generator.Utils.Roslyn;
 using Google.Protobuf.Reflection;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
@@ -207,7 +207,7 @@ namespace Google.Api.Generator.Generation
                     var xmlDocReturns = XmlDoc.Returns("A new instance of ", _ctx.Type(_def.ResourceNameTyp), " constructed from the provided ids.");
                     yield return Method(Public | Static, _ctx.Type(_def.ResourceNameTyp), $"From{pattern.UpperName}")(pattern.PathElements.Select(x => x.Parameter).ToArray())
                         .WithBody(Return(New(_ctx.Type(_def.ResourceNameTyp))(
-                            pattern.PathElements.Select(x => (object)(x.Parameter.Identifier.ValueText, _ctx.Type(typeof(GaxPreconditions))
+                            pattern.PathElements.Select(x => (object) (x.Parameter.Identifier.ValueText, _ctx.Type(typeof(GaxPreconditions))
                                 .Call(nameof(GaxPreconditions.CheckNotNullOrEmpty))(x.Parameter, Nameof(x.Parameter))))
                                 .Prepend(_ctx.Type(ResourceNameTypeTyp).Access(pattern.UpperName)).ToArray())))
                         .WithXmlDoc(pattern.PathElements.Select(x => x.ParameterXmlDoc).Prepend(xmlDocSummary).Append(xmlDocReturns).ToArray());
@@ -230,7 +230,7 @@ namespace Google.Api.Generator.Generation
                         {
                             var dollarItems = x.Elements.Zip(x.Segment.Separators.Select(x => x.ToString()).Append(""), (element, sep) => (FormattableString)
                                 $"{Parens(_ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNullOrEmpty))(element.Parameter, Nameof(element.Parameter)))}{sep:raw}");
-                            return (object)Dollar(dollarItems.ToArray());
+                            return (object) Dollar(dollarItems.ToArray());
                         }
                         else
                         {
@@ -304,11 +304,11 @@ namespace Google.Api.Generator.Generation
                                             result.Assign(Null),
                                             Return(false));
                                         var args = Enumerable.Range(0, seg.Segment.ParameterCount).Select(i => splitResult.ElementAccess(i));
-                                        return ((object)new object[] { splitResult, splitIf }, args);
+                                        return ((object) new object[] { splitResult, splitIf }, args);
                                     }
                                     else
                                     {
-                                        return ((object)null, new[] { resourceName.ElementAccess(segmentIndex) });
+                                        return ((object) null, new[] { resourceName.ElementAccess(segmentIndex) });
                                     }
                                 });
                             var elements = codeAndArgs.SelectMany(x => x.args);
@@ -397,7 +397,7 @@ namespace Google.Api.Generator.Generation
                 if (!_def.Patterns[0].IsWildcard)
                 {
                     // Ctor for pattern[0]; only generate if first pattern is not a wildcard.
-                    var initParams = PatternDetails[0].PathElements.Select(x => (object)(x.Parameter.Identifier.ValueText,
+                    var initParams = PatternDetails[0].PathElements.Select(x => (object) (x.Parameter.Identifier.ValueText,
                         _ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNullOrEmpty))(x.Parameter, Nameof(x.Parameter))))
                         .Prepend(_ctx.Type(ResourceNameTypeTyp).Access(ResourceTypeEnum().Members[1]));
                     var xmlDocSummary = XmlDoc.Summary("Constructs a new instance of a ", _ctx.Type(_def.ResourceNameTyp),
@@ -429,8 +429,8 @@ namespace Google.Api.Generator.Generation
             private new MethodDeclarationSyntax ToString()
             {
                 var switchCases = PatternDetails.Select(pattern =>
-                    ((object)_ctx.Type(ResourceNameTypeTyp).Access(pattern.UpperName),
-                        (object)Return(pattern.PathTemplateField.Call(nameof(PathTemplate.Expand))(ExpandArgs(pattern)))))
+                    ((object) _ctx.Type(ResourceNameTypeTyp).Access(pattern.UpperName),
+                        (object) Return(pattern.PathTemplateField.Call(nameof(PathTemplate.Expand))(ExpandArgs(pattern)))))
                     .Prepend((_ctx.Type(ResourceNameTypeTyp).Access("Unparsed"), Return(UnparsedResourceNameProperty().Call(nameof(object.ToString))())));
                 return Method(Public | Override, _ctx.Type<string>(), nameof(object.ToString))()
                     .WithBody(
@@ -447,9 +447,9 @@ namespace Google.Api.Generator.Generation
                     {
                         if (x.Segment.IsComplex)
                         {
-                            var dollarItems = x.Elements.Zip(x.Segment.Separators, (element, sep) => (FormattableString)$"{element.Property}{sep:raw}")
-                                .Append((FormattableString)$"{x.Elements[^1].Property}");
-                            return (object)Dollar(dollarItems.ToArray());
+                            var dollarItems = x.Elements.Zip(x.Segment.Separators, (element, sep) => (FormattableString) $"{element.Property}{sep:raw}")
+                                .Append((FormattableString) $"{x.Elements[^1].Property}");
+                            return (object) Dollar(dollarItems.ToArray());
                         }
                         else
                         {
@@ -546,7 +546,7 @@ namespace Google.Api.Generator.Generation
                             var underlyingProperty = Property(DontCare, _ctx.TypeDontCare, field.UnderlyingPropertyName);
                             var xmlDocSummary = XmlDoc.Summary(_ctx.Type(def.ResourceNameTyp), "-typed view over the ", underlyingProperty, " resource name property.");
                             Func<object, object> getBodyFn = field.InnerDefs is object ?
-                                (Func<object, object>)(p => field.InnerDefs.Select(innerDef =>
+                                (Func<object, object>) (p => field.InnerDefs.Select(innerDef =>
                                 {
                                     var result = Local(_ctx.Type(innerDef.ResourceNameTyp), innerDef.FieldName);
                                     return If(_ctx.Type(innerDef.ResourceNameTyp).Call("TryParse")(p, OutVar(result)))
@@ -555,7 +555,7 @@ namespace Google.Api.Generator.Generation
                                     .Prepend(If(_ctx.Type<string>().Call(nameof(string.IsNullOrEmpty))(p)).Then(Return(Null)))
                                     .Append(Return(_ctx.Type<UnparsedResourceName>().Call(nameof(UnparsedResourceName.Parse))(p)))) :
                                 p => Return(_ctx.Type<string>().Call(nameof(string.IsNullOrEmpty))(p).ConditionalOperator(
-                                    Null, _ctx.Type(def.ResourceParserTyp).Call("Parse")(p, def.IsUnparsed ? null : (object)("allowUnparsed", true))));
+                                    Null, _ctx.Type(def.ResourceParserTyp).Call("Parse")(p, def.IsUnparsed ? null : (object) ("allowUnparsed", true))));
                             if (field.IsRepeated)
                             {
                                 var s = Parameter(null, "s");

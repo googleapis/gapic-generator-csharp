@@ -15,20 +15,20 @@
 using Google.Api.Gax;
 using Google.Api.Gax.Grpc;
 using Google.Api.Generator.ProtoUtils;
-using Google.Api.Generator.Utils.Roslyn;
 using Google.Api.Generator.Utils;
+using Google.Api.Generator.Utils.Roslyn;
 using Google.LongRunning;
+using Google.Protobuf.Reflection;
 using Grpc.Core;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using static Google.Api.Generator.Utils.Roslyn.Modifier;
 using static Google.Api.Generator.Utils.Roslyn.RoslynBuilder;
-using System.Collections;
-using Google.Protobuf.Reflection;
 
 namespace Google.Api.Generator.Generation
 {
@@ -539,7 +539,7 @@ namespace Google.Api.Generator.Generation
                     .WithXmlDoc(SummaryXmlDoc, RequestXmlDoc, CallSettingsXmlDoc, ReturnsServerStreamingXmlDoc);
 
             public ClassDeclarationSyntax AbstractClientStreamClass =>
-                Class(Public | Abstract | Partial, MethodDetailsClientStream.AbstractStreamTyp, baseTypes: Ctx.Type(Typ.Generic(typeof(ClientStreamingBase<,>),MethodDetails.RequestTyp, MethodDetails.ResponseTyp)))
+                Class(Public | Abstract | Partial, MethodDetailsClientStream.AbstractStreamTyp, baseTypes: Ctx.Type(Typ.Generic(typeof(ClientStreamingBase<,>), MethodDetails.RequestTyp, MethodDetails.ResponseTyp)))
                     .WithXmlDoc(XmlDoc.Summary("Client streaming methods for ", AbstractClientStreamSyncRequestMethod, "."));
             public MethodDeclarationSyntax AbstractClientStreamSyncRequestMethod =>
                 Method(Public | Virtual, Ctx.Type(MethodDetailsClientStream.AbstractStreamTyp), MethodDetails.SyncMethodName)(CallSettingsParam, ClientStreamingSettingsParam)
@@ -582,7 +582,7 @@ namespace Google.Api.Generator.Generation
                     yield return If(populateCheck)
                         .Then(
                             requestParameter.Assign(requestParameter.Call("Clone")()),
-                            requestParameter.Access(field.CSharpPropertyName()).Assign(Ctx.Type(typeof(FieldFormats)).Call(nameof(FieldFormats.GenerateUuid4))()));                        
+                            requestParameter.Access(field.CSharpPropertyName()).Assign(Ctx.Type(typeof(FieldFormats)).Call(nameof(FieldFormats.GenerateUuid4))()));
                 }
             }
 
@@ -634,7 +634,7 @@ namespace Google.Api.Generator.Generation
                             XmlDoc.Param(writeBufferParam, "The ", writeBufferType, " instance associated with this streaming call.")
                         );
                 }
-                
+
                 MethodDeclarationSyntax ModifyRequest()
                 {
                     var requestParam = Parameter(Ctx.Type(MethodDetails.RequestTyp), "request");
@@ -646,16 +646,16 @@ namespace Google.Api.Generator.Generation
                         );
                 }
 
-                MethodDeclarationSyntax TryWriteAsync() => 
-                Method(Public | Override, Ctx.Type<Task>(), nameof (ClientStreamingBase<ProtoMsg, ProtoMsg>.TryWriteAsync))(messageParam)
+                MethodDeclarationSyntax TryWriteAsync() =>
+                Method(Public | Override, Ctx.Type<Task>(), nameof(ClientStreamingBase<ProtoMsg, ProtoMsg>.TryWriteAsync))(messageParam)
                     .WithBody(writeBufferField.Call(nameof(BufferedClientStreamWriter<ProtoMsg>.TryWriteAsync))(This.Call(modifyRequestMethod)(messageParam)));
 
                 MethodDeclarationSyntax WriteAsync() =>
                     Method(Public | Override, Ctx.Type<Task>(), nameof(ClientStreamingBase<ProtoMsg, ProtoMsg>.WriteAsync))(messageParam)
                         .WithBody(writeBufferField.Call(nameof(BufferedClientStreamWriter<ProtoMsg>.WriteAsync))(This.Call(modifyRequestMethod)(messageParam)));
-                
-                MethodDeclarationSyntax TryWriteAsyncWithOptions() => 
-                    Method(Public | Override, Ctx.Type<Task>(), nameof (ClientStreamingBase<ProtoMsg, ProtoMsg>.TryWriteAsync))(messageParam, optionsParam)
+
+                MethodDeclarationSyntax TryWriteAsyncWithOptions() =>
+                    Method(Public | Override, Ctx.Type<Task>(), nameof(ClientStreamingBase<ProtoMsg, ProtoMsg>.TryWriteAsync))(messageParam, optionsParam)
                         .WithBody(writeBufferField.Call(nameof(BufferedClientStreamWriter<ProtoMsg>.TryWriteAsync))(This.Call(modifyRequestMethod)(messageParam), optionsParam));
 
                 MethodDeclarationSyntax WriteAsyncWithOptions() =>

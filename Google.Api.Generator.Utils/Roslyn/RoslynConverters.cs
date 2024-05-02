@@ -47,7 +47,7 @@ namespace Google.Api.Generator.Utils.Roslyn
             long value => new[] { LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(value)) },
             uint value => new[] { LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(value)) },
             ulong value => new[] { LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(value)) },
-            char value => new[] {LiteralExpression(SyntaxKind.CharacterLiteralExpression, Literal(value)) },
+            char value => new[] { LiteralExpression(SyntaxKind.CharacterLiteralExpression, Literal(value)) },
             _ => throw new NotSupportedException($"Cannot handle ToExpressions({o.GetType()})"),
         };
 
@@ -174,7 +174,7 @@ namespace Google.Api.Generator.Utils.Roslyn
             name = name.WithoutTrivia();
             return genericArgs.Any() ?
                 GenericName(name, TypeArgumentList(SeparatedList(genericArgs))) :
-                (SimpleNameSyntax)IdentifierName(name);
+                (SimpleNameSyntax) IdentifierName(name);
         }
 
     }

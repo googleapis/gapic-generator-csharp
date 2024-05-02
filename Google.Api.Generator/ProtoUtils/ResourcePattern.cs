@@ -156,7 +156,7 @@ namespace Google.Api.Generator.ProtoUtils
             public override IReadOnlyList<string> ParameterNames { get; }
             private IReadOnlyList<string> ParameterNamesWithSuffix { get; }
             public override string PathTemplateString => $"{{{(ParameterCount == 1 ? ParameterNamesWithSuffix[0] : string.Join('_', ParameterNames))}}}";
-            public override string RegexString => 
+            public override string RegexString =>
                 throw new NotImplementedException("Forming a regex string of a multivariate resource id segment is not implemented.");
             public override string Expand(IEnumerable<string> parameters) =>
                 parameters.First() + string.Join("", Separators.Zip(parameters.Skip(1), (s, p) => $"{s}{p}"));
@@ -170,16 +170,16 @@ namespace Google.Api.Generator.ProtoUtils
             {
                 Check(segment.First() == '{', $"'{{' expected at the beginning of the segment `{segment}`.");
                 Check(segment.IndexOf('}') != -1, $"missing '}}' in the segment `{segment}`.");
-                Check( segment.IndexOf('}') == segment.LastIndexOf('}'), $"extra '}}' in the segment `{segment}`.");
+                Check(segment.IndexOf('}') == segment.LastIndexOf('}'), $"extra '}}' in the segment `{segment}`.");
                 Check(segment.Last() == '}', $"'}}' expected to be at the end of the segment `{segment}`.");
                 PathTemplateString = segment;
 
                 var indexOfEquals = segment.IndexOf('=');
-                Check(indexOfEquals == segment.LastIndexOf('='), $"extra `=` in the segment `{segment}`." );
-                
-                string paramName = indexOfEquals == -1 
-                    ? segment.Substring(1, segment.Length-2)
-                    : segment.Substring(1, indexOfEquals-1);
+                Check(indexOfEquals == segment.LastIndexOf('='), $"extra `=` in the segment `{segment}`.");
+
+                string paramName = indexOfEquals == -1
+                    ? segment.Substring(1, segment.Length - 2)
+                    : segment.Substring(1, indexOfEquals - 1);
 
                 bool valid = Regex.IsMatch(paramName, "^[a-zA-Z][a-zA-Z0-9_.]*$");
                 Check(valid, $"parameter name '{paramName}' contains invalid characters.");
@@ -195,7 +195,7 @@ namespace Google.Api.Generator.ProtoUtils
                     : _givenPattern;
 
                 _effectivePattern = new ResourcePattern(effectiveParamPatternStr);
-                
+
                 void Check(bool cond, string msg)
                 {
                     if (!cond)
@@ -267,11 +267,11 @@ namespace Google.Api.Generator.ProtoUtils
         //
         // This pattern is used for `*` segments.
         public const string SingleWildcardRegexStr = "[^/]+";
-        
+
         public ResourcePattern(string pattern)
         {
             string remainder = Regex.Replace(pattern, "^/", string.Empty);
-            
+
             if (string.IsNullOrWhiteSpace(remainder))
             {
                 throw new ArgumentException($"Pattern '{pattern}' contains only leading slash and/or whitespace.");
@@ -363,8 +363,8 @@ namespace Google.Api.Generator.ProtoUtils
                 return Segments.Skip(1)
                     .Aggregate(first, (current, segment) => segment switch
                     {
-                       WildcardSegment { Pattern: "**" } => $"{current}{DoubleWildcardInPatternRegexStr}",
-                       _ => $"{current}/{segment.RegexString}"
+                        WildcardSegment { Pattern: "**" } => $"{current}{DoubleWildcardInPatternRegexStr}",
+                        _ => $"{current}/{segment.RegexString}"
                     });
             }
         }
@@ -374,7 +374,7 @@ namespace Google.Api.Generator.ProtoUtils
         /// </summary>
         public bool IsDoubleWildcardPattern => Segments.Count == 1 && Segments.Single() switch
         {
-            WildcardSegment  { Pattern: "**" } wcdId => true,
+            WildcardSegment { Pattern: "**" } wcdId => true,
             ResourceIdSegment { Pattern: "**" } resId => true,
             _ => false
         };

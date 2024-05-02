@@ -100,7 +100,7 @@ public partial class ServiceWithMethodSettings
         public virtual AsyncUnaryCall<Response> UnaryAutoPopulatedAsync(Request request, CallOptions options) => throw new NotImplementedException();
         public virtual Response UnaryAutoPopulated(Request request, CallOptions options) => throw new NotImplementedException();
         public virtual AsyncServerStreamingCall<Response> ServerStreamingAutoPopulated(Request request, CallOptions options) => throw new NotImplementedException();
-        public virtual AsyncClientStreamingCall<Request,Response> ClientStreamingAutoPopulated(CallOptions options) => throw new NotImplementedException();
+        public virtual AsyncClientStreamingCall<Request, Response> ClientStreamingAutoPopulated(CallOptions options) => throw new NotImplementedException();
         public virtual AsyncDuplexStreamingCall<Request, Response> BidiStreamingAutoPopulated(CallOptions options) => throw new NotImplementedException();
         public virtual AsyncUnaryCall<Operation> LroAutoPopulatedAsync(Request request, CallOptions options) => throw new NotImplementedException();
         public virtual Operation LroAutoPopulated(Request request, CallOptions options) => throw new NotImplementedException();
@@ -146,7 +146,7 @@ public partial class PaginatedRequest : ProtoMsgFake<PaginatedRequest>
 public partial class PaginatedResponse : ProtoMsgFake<PaginatedResponse>
 {
     public string NextPageToken { get; set; }
-    public RepeatedField<Response> Responses{ get; }
+    public RepeatedField<Response> Responses { get; }
 }
 
 public partial class ResourceRequest : ProtoMsgFake<ResourceRequest>

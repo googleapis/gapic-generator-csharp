@@ -23,10 +23,10 @@ namespace Google.Api.Generator.Utils
             toUpper is bool upper ? upper ? char.ToUpperInvariant(c) : char.ToLowerInvariant(c) : c;
 
         private static string Camelizer(string s, bool firstUpper, bool forceAllChars, bool? upperAfterDigit) =>
-            s.Aggregate((upper: (bool?)firstUpper, prev: '\0', sb: new StringBuilder()), (acc, c) =>
+            s.Aggregate((upper: (bool?) firstUpper, prev: '\0', sb: new StringBuilder()), (acc, c) =>
                 !char.IsLetterOrDigit(c) ?
                     (acc.sb.Length > 0 ? true : firstUpper, c, acc.sb) :
-                    (char.IsDigit(c) ? upperAfterDigit : forceAllChars ? (bool?)false : null, c,
+                    (char.IsDigit(c) ? upperAfterDigit : forceAllChars ? (bool?) false : null, c,
                         acc.sb.Append(MaybeForceCase(c, char.IsLower(acc.prev) && char.IsUpper(c) ? true : acc.upper))),
                 acc => acc.sb.ToString());
 

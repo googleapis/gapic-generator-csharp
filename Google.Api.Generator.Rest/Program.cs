@@ -39,7 +39,7 @@ namespace Google.Api.Generator.Rest
             string json = File.ReadAllText(args[0]);
             string outputDirectory = args[1];
             string featuresJson = File.ReadAllText(args[2]);
-            
+
             string enumStorageFile = args[3];
             string enumStorageJson = File.Exists(enumStorageFile) ? File.ReadAllText(enumStorageFile) : "{}";
             var enumStorage = PackageEnumStorage.FromJson(enumStorageJson);

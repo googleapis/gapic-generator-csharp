@@ -51,13 +51,13 @@ namespace Google.Api.Generator.Generation
         private static ServiceForTransport ServiceForTransportMetadata(ServiceDetails serviceDetails) =>
             new ServiceForTransport
             {
-                Clients = 
-                { 
+                Clients =
+                {
 
                     [TransportKeyGrpc] = new ServiceAsClient
                         {
                             LibraryClient = serviceDetails.ClientAbstractTyp.Name,
-                            Rpcs = 
+                            Rpcs =
                             {
                                 new SortedDictionary<string, MethodList>(
                                     serviceDetails.Methods.ToDictionary(

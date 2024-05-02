@@ -14,7 +14,6 @@
 
 #pragma warning disable CS8981
 using Google.Protobuf.Reflection;
-using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using System;
 
@@ -46,7 +45,7 @@ namespace Testing.Mixins
             public MixinServiceClient(CallInvoker callInvoker) { }
             private CallInvoker CallInvoker => throw new NotImplementedException();
             public virtual AsyncUnaryCall<Response> MethodAsync(Request request, CallOptions options) => throw new NotImplementedException();
-            public virtual Response Method(Request request, CallOptions options) => throw new NotImplementedException();            
+            public virtual Response Method(Request request, CallOptions options) => throw new NotImplementedException();
         }
     }
 

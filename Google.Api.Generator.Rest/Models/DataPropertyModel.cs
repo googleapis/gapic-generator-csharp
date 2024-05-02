@@ -40,7 +40,7 @@ namespace Google.Api.Generator.Rest.Models
         /// The name in the discovery doc
         /// </summary>
         public string Name { get; }
-        
+
         /// <summary>
         /// The name in the C# code.
         /// </summary>

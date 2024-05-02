@@ -15,8 +15,8 @@
 using Google.Api.Gax;
 using Google.Api.Gax.Grpc;
 using Google.Api.Generator.ProtoUtils;
-using Google.Api.Generator.Utils.Roslyn;
 using Google.Api.Generator.Utils;
+using Google.Api.Generator.Utils.Roslyn;
 using Google.Protobuf;
 using Google.Protobuf.Reflection;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -97,7 +97,7 @@ namespace Google.Api.Generator.Generation
                         {
                             return field.IsRequired ?
                                 Ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(param, Nameof(param)) :
-                                (object)param;
+                                (object) param;
                         }
                         else if (field.Typ.IsPrimitive || field.Typ.IsEnum)
                         {
@@ -109,25 +109,25 @@ namespace Google.Api.Generator.Generation
                                 Ctx.Type(typeof(GaxPreconditions)).Call(
                                     field.IsWrapperType ? nameof(GaxPreconditions.CheckNotNull) : nameof(GaxPreconditions.CheckNotNullOrEmpty))(
                                     param, Nameof(param)) :
-                                field.IsWrapperType ? param : (object)param.NullCoalesce("");
+                                field.IsWrapperType ? param : (object) param.NullCoalesce("");
                         }
                         else if (field.Typ.FullName == typeof(ByteString).FullName)
                         {
                             return field.IsRequired ?
                                 Ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(param, Nameof(param)) :
-                                field.IsWrapperType ? param : (object)param.NullCoalesce(Ctx.Type<ByteString>().Access(nameof(ByteString.Empty)));
+                                field.IsWrapperType ? param : (object) param.NullCoalesce(Ctx.Type<ByteString>().Access(nameof(ByteString.Empty)));
                         }
                         else if (field.IsWrapperType)
                         {
                             return field.IsRequired ?
                                 param.NullCoalesce(Throw(New(Ctx.Type<ArgumentNullException>())(Nameof(param)))) :
-                                (object)param;
+                                (object) param;
                         }
                         else
                         {
                             return field.IsRequired ?
                                 Ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(param, Nameof(param)) :
-                                (object)param;
+                                (object) param;
                         }
                     }
                 }
@@ -201,7 +201,7 @@ namespace Google.Api.Generator.Generation
                     {
                         return Method(Public | Virtual, Ctx.Type(returnTyp), methodName)(parameters.Select(x => x.Parameter).Append(finalParam).ToArray())
                                 .MaybeWithAttribute(MethodDetails.IsDeprecated || _sig.HasDeprecatedField, () => Ctx.Type<ObsoleteAttribute>())()
-                                .WithBody(This.Call(methodName)(parameters.Select(x => (object)x.Parameter).Append(
+                                .WithBody(This.Call(methodName)(parameters.Select(x => (object) x.Parameter).Append(
                                     Ctx.Type<CallSettings>().Call(nameof(CallSettings.FromCancellationToken))(finalParam))))
                                     .WithXmlDoc(parameters.Select(x => x.XmlDoc).Prepend(_def.SummaryXmlDoc).Append(finalParamXmlDoc).Append(returnsXmlDoc).ToArray());
                     }

@@ -67,7 +67,7 @@ namespace Google.Api.Generator.Generation
                 .WithXmlDoc(XmlDoc.Summary("The settings to use for RPCs, or ", null, " for the default settings."));
 
         private ConstructorDeclarationSyntax ParameterlessConstructor() =>
-            Ctor(Public, _svc.BuilderTyp, BaseInitializer(_ctx.Type(_svc.ClientAbstractTyp).Access("ServiceMetadata")))()                
+            Ctor(Public, _svc.BuilderTyp, BaseInitializer(_ctx.Type(_svc.ClientAbstractTyp).Access("ServiceMetadata")))()
                 .WithXmlDoc(XmlDoc.Summary("Creates a new builder with default settings."))
                 .WithBlockBody();
 

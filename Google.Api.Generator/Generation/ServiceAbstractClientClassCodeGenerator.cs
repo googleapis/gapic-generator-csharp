@@ -68,7 +68,7 @@ namespace Google.Api.Generator.Generation
                 var shutdown = ShutdownDefaultChannelsAsync(channelPool, create, createAsync);
                 var grpcClient = GrpcClient();
                 cls = cls.AddMembers(
-                    defaultEndpoint, defaultScopes, serviceMetadata, channelPool, 
+                    defaultEndpoint, defaultScopes, serviceMetadata, channelPool,
                     createAsync, create, createFromCallInvoker, shutdown, grpcClient);
                 cls = cls.AddMembers(Mixins().ToArray());
                 var methods = ServiceMethodGenerator.Generate(_ctx, _svc, inAbstract: true);
@@ -81,7 +81,7 @@ namespace Google.Api.Generator.Generation
             AutoProperty(Public | Static, _ctx.Type<string>(), "DefaultEndpoint")
                 .WithInitializer($"{_svc.DefaultHost}:{_svc.DefaultPort}")
                 .WithXmlDoc(XmlDoc.Summary(
-                    $"The default endpoint for the {_svc.DocumentationName} service, " + 
+                    $"The default endpoint for the {_svc.DocumentationName} service, " +
                     $"which is a host of \"{_svc.DefaultHost}\" and a port of {_svc.DefaultPort}."));
 
         private PropertyDeclarationSyntax DefaultScopes() =>
@@ -105,7 +105,7 @@ namespace Google.Api.Generator.Generation
                 ApiTransports.Rest | ApiTransports.Grpc => BinaryExpression(SyntaxKind.BitwiseOrExpression, _ctx.Type<ApiTransports>().Access(nameof(ApiTransports.Grpc)), _ctx.Type<ApiTransports>().Access(nameof(ApiTransports.Rest))),
                 _ => throw new ArgumentException($"Unable to create service metadata for transports '{_svc.Transports}'")
             };
-            
+
             var apiMetadata = _ctx.Type(Typ.Manual(_svc.Namespace, PackageApiMetadataGenerator.ClassName)).Access(PackageApiMetadataGenerator.PropertyName);
             return AutoProperty(Public | Static, _ctx.Type<ServiceMetadata>(), "ServiceMetadata")
                 .WithInitializer(New(_ctx.Type<ServiceMetadata>())(serviceDescriptor, defaultEndpoint, defaultScopes, supportsScopedJwts, apiTransports, apiMetadata))
