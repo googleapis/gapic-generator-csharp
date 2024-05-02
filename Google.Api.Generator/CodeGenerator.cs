@@ -343,7 +343,7 @@ namespace Google.Api.Generator
             {
                 return null;
             }
-            
+
             // Parsing straight from YAML to the proto representation of a service config is
             // difficult. Instead, we convert the YAML to JSON, and parse that.
             var deserializer = new Deserializer();
@@ -362,7 +362,7 @@ namespace Google.Api.Generator
             // an escaped double-quote. (The YAML/JSON conversion always generates spaces before values.)
             // This is undoubtedly hacky, but should be sufficient for now.
             json = json.Replace(" \"true\"", " true").Replace(" \"false\"", " false");
-            
+
             var parser = new JsonParser(JsonParser.Settings.Default.WithIgnoreUnknownFields(true));
             return parser.Parse<Service>(json);
         }

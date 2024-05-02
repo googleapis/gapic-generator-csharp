@@ -92,7 +92,7 @@ namespace Google.Api.Generator.Tests
                 process.OutputDataReceived += handler;
                 process.BeginErrorReadLine();
                 process.BeginOutputReadLine();
-                var exited = process.WaitForExit((int)timeout.TotalMilliseconds);
+                var exited = process.WaitForExit((int) timeout.TotalMilliseconds);
 
                 // Avoid any extra data being added to our output while we're processing assertions.
                 process.ErrorDataReceived -= handler;

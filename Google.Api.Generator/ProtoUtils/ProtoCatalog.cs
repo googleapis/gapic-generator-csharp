@@ -42,19 +42,19 @@ namespace Google.Api.Generator.ProtoUtils
             _msgs = allDescriptors.SelectMany(desc => desc.MessageTypes).SelectMany(MsgPlusNested).ToDictionary(x => x.FullName);
             _services = allDescriptors.SelectMany(desc => desc.Services).ToDictionary(x => x.FullName);
             _resourcesByFileName = ResourceDetails.LoadResourceDefinitionsByFileName(allDescriptors, commonResourcesConfigs, librarySettings).GroupBy(x => x.FileName)
-                .ToImmutableDictionary(x => x.Key, x => (IReadOnlyList<ResourceDetails.Definition>)x.ToImmutableList());
+                .ToImmutableDictionary(x => x.Key, x => (IReadOnlyList<ResourceDetails.Definition>) x.ToImmutableList());
             var allResources = _resourcesByFileName.Values.SelectMany(x => x);
             ValidateUniqueResourceTypeNames();
             var resourcesByUrt = allResources.ToDictionary(x => x.UnifiedResourceTypeName);
             var resourcesByPatternComparison = allResources
                 .SelectMany(def => def.Patterns.Where(x => !x.IsWildcard).Select(x => (x.Template.ParentComparisonString, def)))
                 .GroupBy(x => x.ParentComparisonString, x => x.def)
-                .ToImmutableDictionary(x => x.Key, x => (IReadOnlyList<ResourceDetails.Definition>)x.ToImmutableList());
+                .ToImmutableDictionary(x => x.Key, x => (IReadOnlyList<ResourceDetails.Definition>) x.ToImmutableList());
             _resourcesByFieldName = allDescriptors
                 .SelectMany(desc => desc.MessageTypes)
                 .SelectMany(MsgPlusNested)
                 .SelectMany(msg => msg.Fields.InFieldNumberOrder().Select(field =>
-                    (field, res: (IReadOnlyList<ResourceDetails.Field>)ResourceDetails.LoadResourceReference(
+                    (field, res: (IReadOnlyList<ResourceDetails.Field>) ResourceDetails.LoadResourceReference(
                         msg, field, resourcesByUrt, resourcesByPatternComparison, requiredFileDescriptors.Contains(msg.File)).ToList()))
                     .Where(x => x.res.Any()))
                 .ToDictionary(x => x.field.FullName, x => x.res);

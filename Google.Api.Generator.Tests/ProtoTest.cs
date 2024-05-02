@@ -166,7 +166,7 @@ namespace Google.Api.Generator.Tests
         {
             string sourceDir = testProtoNames.First();
             var protoPaths = testProtoNames.Select(x => Path.Combine("ProtoTests", sourceDir, $"{x}.proto"));
-            string package =  $"testing.{sourceDir.ToLowerInvariant()}";
+            string package = $"testing.{sourceDir.ToLowerInvariant()}";
 
             if (serviceConfigPath is string)
             {

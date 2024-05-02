@@ -99,7 +99,7 @@ namespace Google.Api.Generator.Generation
             object CopySetting(PropertyDeclarationSyntax property)
             {
                 var assign = property.Assign(existing.Access(property));
-                return property.HasAnnotation(s_cloneSetting) ? assign.Call("Clone")() : (object)assign;
+                return property.HasAnnotation(s_cloneSetting) ? assign.Call("Clone")() : (object) assign;
             }
         }
 
@@ -138,8 +138,8 @@ namespace Google.Api.Generator.Generation
                         var retry = method.MethodRetry;
                         var retryExpression = _ctx.Type<RetrySettings>().Call(nameof(RetrySettings.FromExponentialBackoff))(
                             ("maxAttempts", retry.MaxAttempts),
-                            ("initialBackoff", _ctx.Type<TimeSpan>().Call(nameof(TimeSpan.FromMilliseconds))((int)retry.InitialBackoff.TotalMilliseconds)),
-                            ("maxBackoff", _ctx.Type<TimeSpan>().Call(nameof(TimeSpan.FromMilliseconds))((int)retry.MaxBackoff.TotalMilliseconds)),
+                            ("initialBackoff", _ctx.Type<TimeSpan>().Call(nameof(TimeSpan.FromMilliseconds))((int) retry.InitialBackoff.TotalMilliseconds)),
+                            ("maxBackoff", _ctx.Type<TimeSpan>().Call(nameof(TimeSpan.FromMilliseconds))((int) retry.MaxBackoff.TotalMilliseconds)),
                             ("backoffMultiplier", retry.BackoffMultiplier),
                             ("retryFilter", _ctx.Type<RetrySettings>().Call(nameof(RetrySettings.FilterForStatusCodes))(
                                             method.MethodRetryStatusCodes.Select(x => _ctx.Type<StatusCode>().Access(x))))
@@ -150,9 +150,9 @@ namespace Google.Api.Generator.Generation
                             _ctx.Type(typeof(CallSettingsExtensions)).Call(nameof(CallSettingsExtensions.WithRetry))(initializer, retryExpression);
                         xmlRemarks = XmlDoc.Remarks(
                             XmlDoc.UL(
-                                Invariant($"Initial retry delay: {(int)retry.InitialBackoff.TotalMilliseconds} milliseconds."),
+                                Invariant($"Initial retry delay: {(int) retry.InitialBackoff.TotalMilliseconds} milliseconds."),
                                 Invariant($"Retry delay multiplier: {retry.BackoffMultiplier}"),
-                                Invariant($"Retry maximum delay: {(int)retry.MaxBackoff.TotalMilliseconds} milliseconds."),
+                                Invariant($"Retry maximum delay: {(int) retry.MaxBackoff.TotalMilliseconds} milliseconds."),
                                 Invariant($"Maximum attempts: {(retry.MaxAttempts == int.MaxValue ? "Unlimited" : retry.MaxAttempts.ToString())}"),
                                 GetRetriableErrorCodeDocs().ToArray(),
                                 timeoutRemark));
@@ -220,19 +220,19 @@ namespace Google.Api.Generator.Generation
             AutoProperty(Public, _ctx.Type<OperationsSettings>(), method.LroSettingsName, hasSetter: true)
                 .WithInitializer(New(_ctx.Type<OperationsSettings>())().WithInitializer(
                     new ObjectInitExpr(nameof(OperationsSettings.DefaultPollSettings), New(_ctx.Type<PollSettings>())(
-                        _ctx.Type<Expiration>().Call(nameof(Expiration.FromTimeout))(_ctx.Type<TimeSpan>().Call(nameof(TimeSpan.FromHours))((int)s_lroDefaultPollSettings.Expiration.Timeout.Value.TotalHours)),
-                        _ctx.Type<TimeSpan>().Call(nameof(TimeSpan.FromSeconds))((int)s_lroDefaultPollSettings.Delay.TotalSeconds),
+                        _ctx.Type<Expiration>().Call(nameof(Expiration.FromTimeout))(_ctx.Type<TimeSpan>().Call(nameof(TimeSpan.FromHours))((int) s_lroDefaultPollSettings.Expiration.Timeout.Value.TotalHours)),
+                        _ctx.Type<TimeSpan>().Call(nameof(TimeSpan.FromSeconds))((int) s_lroDefaultPollSettings.Delay.TotalSeconds),
                         s_lroDefaultPollSettings.DelayMultiplier,
-                        _ctx.Type<TimeSpan>().Call(nameof(TimeSpan.FromSeconds))((int)s_lroDefaultPollSettings.MaxDelay.TotalSeconds)))))
+                        _ctx.Type<TimeSpan>().Call(nameof(TimeSpan.FromSeconds))((int) s_lroDefaultPollSettings.MaxDelay.TotalSeconds)))))
                 .WithXmlDoc(
                     XmlDoc.Summary("Long Running Operation settings for calls to ",
                         XmlDoc.C($"{_svc.ClientAbstractTyp.Name}.{method.SyncMethodName}"), " and ",
                         XmlDoc.C($"{_svc.ClientAbstractTyp.Name}.{method.AsyncMethodName}"), "."),
                     XmlDoc.Remarks("Uses default ", _ctx.Type<PollSettings>(), " of:", XmlDoc.UL(
-                        Invariant($"Initial delay: {(int)s_lroDefaultPollSettings.Delay.TotalSeconds} seconds."),
+                        Invariant($"Initial delay: {(int) s_lroDefaultPollSettings.Delay.TotalSeconds} seconds."),
                         Invariant($"Delay multiplier: {s_lroDefaultPollSettings.DelayMultiplier}"),
-                        Invariant($"Maximum delay: {(int)s_lroDefaultPollSettings.MaxDelay.TotalSeconds} seconds."),
-                        Invariant($"Total timeout: {(int)s_lroDefaultPollSettings.Expiration.Timeout.Value.TotalHours} hours."))))
+                        Invariant($"Maximum delay: {(int) s_lroDefaultPollSettings.MaxDelay.TotalSeconds} seconds."),
+                        Invariant($"Total timeout: {(int) s_lroDefaultPollSettings.Expiration.Timeout.Value.TotalHours} hours."))))
                 .WithAdditionalAnnotations(s_cloneSetting);
 
         private PropertyDeclarationSyntax BidiSettingsProperty(MethodDetails.BidiStreaming method) =>

@@ -26,10 +26,10 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using iam = Google.Cloud.Iam.V1;
 using static Google.Api.Generator.Utils.Roslyn.Modifier;
 using static Google.Api.Generator.Utils.Roslyn.RoslynBuilder;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
+using iam = Google.Cloud.Iam.V1;
 
 namespace Google.Api.Generator.Generation
 {
@@ -103,7 +103,7 @@ namespace Google.Api.Generator.Generation
             if (httpOverrides.Any())
             {
                 var dictionaryInitializers = httpOverrides
-                    .Select(pair => new object[] { pair.Key, GetKeyValuePairValue(pair.Value)})
+                    .Select(pair => new object[] { pair.Key, GetKeyValuePairValue(pair.Value) })
                     .ToArray<object>();
                 var invocation = initializer.Call(nameof(ApiMetadata.WithHttpRuleOverrides))(New(ctx.Type<Dictionary<string, ByteString>>())().WithCollectionInitializer(dictionaryInitializers));
                 initializer = invocation.WithExpression(invocation.Expression.WithAdditionalAnnotations(Annotations.LineBreakAnnotation));

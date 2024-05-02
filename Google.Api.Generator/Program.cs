@@ -194,7 +194,7 @@ namespace Google.Api.Generator
                 var commonResourcesConfigPaths = extraParams.GetValueOrDefault(nameCommonResourcesConfig);
                 var transports = ParseTransports(extraParams.GetValueOrDefault(nameTransport)?.SingleOrDefault());
                 var requestNumericEnumJsonEncoding = string.Equals(extraParams.GetValueOrDefault(nameRequestNumericEnumJsonEncoding)?.SingleOrDefault(), "true", StringComparison.OrdinalIgnoreCase);
-                
+
                 var logFile = extraParams.GetValueOrDefault(nameLogFile)?.SingleOrDefault();
                 Logging.ConfigureForFile(logFile);
 
@@ -204,7 +204,7 @@ namespace Google.Api.Generator
 
                 codeGenResponse = new CodeGeneratorResponse
                 {
-                    SupportedFeatures = (int)CodeGeneratorResponse.Types.Feature.Proto3Optional,
+                    SupportedFeatures = (int) CodeGeneratorResponse.Types.Feature.Proto3Optional,
                     File =
                     {
                         results.Select(x => new CodeGeneratorResponse.Types.File
@@ -251,7 +251,7 @@ namespace Google.Api.Generator
                         return parts;
                     })
                     .GroupBy(x => x[0])
-                    .ToDictionary(x => x.Key, x => (IReadOnlyList<string>)x.Select(y => y[1]).ToList());
+                    .ToDictionary(x => x.Key, x => (IReadOnlyList<string>) x.Select(y => y[1]).ToList());
             }
         }
 

@@ -14,22 +14,20 @@
 
 using Google.Api.Gax.Grpc;
 using Google.Api.Generator.ProtoUtils;
-using Google.Api.Generator.Utils.Roslyn;
 using Google.Api.Generator.Utils;
+using Google.Api.Generator.Utils.Roslyn;
 using Google.LongRunning;
 using Google.Protobuf;
+using Google.Protobuf.Reflection;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using static Google.Api.Generator.Utils.Roslyn.Modifier;
 using static Google.Api.Generator.Utils.Roslyn.RoslynBuilder;
-using Microsoft.CodeAnalysis.CSharp;
-using Google.Protobuf.Reflection;
-using Microsoft.Extensions.Logging;
-using Google.Api.Gax;
 
 namespace Google.Api.Generator.Generation
 {
@@ -249,11 +247,11 @@ namespace Google.Api.Generator.Generation
                         // so we don't need to distinguish between them here.
                         fieldInitializer = fieldInitializer.Call(nameof(ApiCall<ProtoMsg, ProtoMsg>.WithExtractedGoogleRequestParam))(extractorSyntax);
                     }
-                    
+
                     return fieldInitializer;
-                    
+
                     ExpressionSyntax FullFieldAccess(IEnumerable<FieldDescriptor> extractionFields)
-                    {  
+                    {
                         var access = request.Access(FieldAccess(extractionFields.First()));
                         foreach (var field in extractionFields.Skip(1))
                         {

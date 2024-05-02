@@ -322,7 +322,7 @@ namespace Google.Api.Generator.Generation
             /// True e.g. for all implicit headers, and for the explicit headers where the field pattern is `**`.
             /// </summary>
             public bool FullFieldNoRegex => Extractions.Count == 1 && Extractions.Single().NoRegexMatchingNeeded;
-            
+
             /// <summary>
             /// A way to match-and-extract the value from a request's field.
             /// </summary>
@@ -340,7 +340,7 @@ namespace Google.Api.Generator.Generation
                     Type = HeaderType.Implicit,
                     Extractions = new List<FieldExtraction> { new FieldExtraction() { Fields = fields, NoRegexMatchingNeeded = true } }
                 };
-            
+
             public enum HeaderType
             {
                 Implicit = 0,
@@ -367,7 +367,7 @@ namespace Google.Api.Generator.Generation
             // Any LRO-returning methods within the LRO package itself should be treated normally. Anywhere else, they get special treatment.
             desc.OutputType.FullName == "google.longrunning.Operation" && desc.File.Package != "google.longrunning" ? new StandardLro(svc, desc) :
             !string.IsNullOrEmpty(desc.GetExtension(ExtendedOperationsExtensions.OperationService)) ? new NonStandardLro(svc, desc) :
-            (MethodDetails)new Normal(svc, desc));
+            (MethodDetails) new Normal(svc, desc));
 
         private static MethodDetails DetectPagination(ServiceDetails svc, MethodDescriptor desc)
         {
@@ -431,7 +431,7 @@ namespace Google.Api.Generator.Generation
             // - The repeated candidate should be the first in both orders
             // - There should be 0 or more than 1 map candidates, to disambiguate with DiREGapic single-map case
             //   OR The repeated candidate should have a field number of 1 
-            if (pageSizeCandidate.Name == "page_size" && repeatedCandidatesByNumOrder.Any() && repeatedCandidatesByDeclOrder[0] == repeatedCandidatesByNumOrder[0] && 
+            if (pageSizeCandidate.Name == "page_size" && repeatedCandidatesByNumOrder.Any() && repeatedCandidatesByDeclOrder[0] == repeatedCandidatesByNumOrder[0] &&
                 (repeatedCandidatesByNumOrder[0].FieldNumber == 1 || mapCandidates.Count != 1))
             {
                 return new Paginated(svc, desc, repeatedCandidatesByDeclOrder[0], pageSizeCandidate.FieldNumber, pageTokenCandidate.FieldNumber);
@@ -466,7 +466,7 @@ namespace Google.Api.Generator.Generation
             var errMsg = $"The method {desc.FullName} is selected as a pagination candidate " +
                          $"but the configuration of the item response field candidates " +
                          $"does not match any of the configurations we can generate.";
-                              
+
             throw new InvalidOperationException(errMsg);
 
             bool IsRepeatedCandidate(FieldDescriptor field) =>
@@ -536,11 +536,11 @@ namespace Google.Api.Generator.Generation
                 // float -> double conversion via string to avoid unpleasent results from unrepresentable floats (e.g. 1.3 -> 1.2999999523162842)
                 var multiplier = double.Parse(rp.BackoffMultiplier.ToString());
                 // gRPC uses maxAttempts = 0 to mean unlimited; GAX wants a positive number. int.MaxValue is fine.
-                int maxAttempts = rp.MaxAttempts == 0 ? int.MaxValue : (int)rp.MaxAttempts;
+                int maxAttempts = rp.MaxAttempts == 0 ? int.MaxValue : (int) rp.MaxAttempts;
                 // The retry filter here is irrelevant. We'll generate code with the right status codes later.
                 retry = RetrySettings.FromExponentialBackoff(maxAttempts, rp.InitialBackoff.ToTimeSpan(), rp.MaxBackoff.ToTimeSpan(), multiplier, error => false);
                 // `Google.Rpc.Code` and `Grpc.Core.StatusCode` enums are identically defined.
-                statusCodes = rp.RetryableStatusCodes.Select(x => (StatusCode)x).ToList();
+                statusCodes = rp.RetryableStatusCodes.Select(x => (StatusCode) x).ToList();
             }
             else
             {
@@ -557,7 +557,7 @@ namespace Google.Api.Generator.Generation
             if (routingRule != null)
             {
                 var precursors = routingRule.RoutingParameters.Select(ExtractHeaderPrecursor);
-                foreach (var headerGroup in  precursors.GroupBy(p => p.HeaderName))
+                foreach (var headerGroup in precursors.GroupBy(p => p.HeaderName))
                 {
                     yield return new RoutingHeader
                     {
@@ -600,7 +600,7 @@ namespace Google.Api.Generator.Generation
                         FieldPath = param.Field,
                         RegexString = $"^{ResourcePattern.DoubleWildcardResourceIdRegexStr}$",
                         HeaderName = param.Field,
-                        NoRegexMatchingNeeded = true 
+                        NoRegexMatchingNeeded = true
                     };
                 }
 
@@ -619,7 +619,7 @@ namespace Google.Api.Generator.Generation
                 return new ExplicitRoutingHeaderPrecursor
                 {
                     FieldPath = param.Field,
-                    RegexString =  patternRegex,
+                    RegexString = patternRegex,
                     HeaderName = parameterName,
                     NoRegexMatchingNeeded = pattern.IsDoubleWildcardPattern
                 };

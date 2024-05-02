@@ -107,7 +107,7 @@ namespace Google.Api.Generator.Rest.Models
             Typ = SchemaTypes.GetTypFromSchema(package, schema, name, currentTyp: parentTyp, inParameter: true);
 
             // Some validation for things that are theoretically feasible, but not currently supported.
-            if (IsRequired)                
+            if (IsRequired)
             {
                 if (schema.Format is string format && (format.StartsWith("google-", StringComparison.Ordinal) || format == "date-time"))
                 {

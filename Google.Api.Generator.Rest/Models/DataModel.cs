@@ -96,7 +96,7 @@ namespace Google.Api.Generator.Rest.Models
             }
             if (_schema.AdditionalProperties is object)
             {
-                ret = SchemaTypes.GetTypFromAdditionalProperties(Package, _schema.AdditionalProperties, Name, ret, inParameter: false);                
+                ret = SchemaTypes.GetTypFromAdditionalProperties(Package, _schema.AdditionalProperties, Name, ret, inParameter: false);
             }
             return ret;
         }

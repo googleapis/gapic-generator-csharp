@@ -246,7 +246,7 @@ namespace Google.Api.Generator.Utils.Formatting
 
         public override SyntaxNode VisitMethodDeclaration(MethodDeclarationSyntax node)
         {
-            node = (MethodDeclarationSyntax)base.VisitMethodDeclaration(node);
+            node = (MethodDeclarationSyntax) base.VisitMethodDeclaration(node);
             node = node.WithLeadingTrivia(FormatXmlDoc(node.GetLeadingTrivia()).Append(_indentTrivia));
             node = node.WithModifiers(TokenList(node.Modifiers.Select(m => m.WithTrailingSpace())));
             node = node.WithReturnType(node.ReturnType.WithTrailingSpace());
@@ -267,7 +267,7 @@ namespace Google.Api.Generator.Utils.Formatting
                 ? _previousIndentTrivia
                 : _indentTrivia;
 
-            node = (AttributeListSyntax)base.VisitAttributeList(node);
+            node = (AttributeListSyntax) base.VisitAttributeList(node);
             if (lineBreak)
             {
                 node = node.WithCloseBracketToken(node.CloseBracketToken.WithTrailingTrivia(NewLine, indentTrivia));
@@ -277,7 +277,7 @@ namespace Google.Api.Generator.Utils.Formatting
 
         public override SyntaxNode VisitOperatorDeclaration(OperatorDeclarationSyntax node)
         {
-            node = (OperatorDeclarationSyntax)base.VisitOperatorDeclaration(node);
+            node = (OperatorDeclarationSyntax) base.VisitOperatorDeclaration(node);
             node = node.WithLeadingTrivia(FormatXmlDoc(node.GetLeadingTrivia()).Append(_indentTrivia));
             node = node.WithModifiers(TokenList(node.Modifiers.Select(m => m.WithTrailingSpace())));
             node = node.WithReturnType(node.ReturnType.WithTrailingSpace());
@@ -287,7 +287,7 @@ namespace Google.Api.Generator.Utils.Formatting
 
         public override SyntaxNode VisitArgumentList(ArgumentListSyntax node)
         {
-            node = (ArgumentListSyntax)base.VisitArgumentList(node);
+            node = (ArgumentListSyntax) base.VisitArgumentList(node);
             node = node.WithArguments(SeparatedList(node.Arguments, CommaSpaces(node.Arguments.Count - 1)));
             return node;
         }
@@ -301,7 +301,7 @@ namespace Google.Api.Generator.Utils.Formatting
 
         public override SyntaxNode VisitArgument(ArgumentSyntax node)
         {
-            node = (ArgumentSyntax)base.VisitArgument(node);
+            node = (ArgumentSyntax) base.VisitArgument(node);
             if (node.RefKindKeyword != null)
             {
                 node = node.WithRefKindKeyword(node.RefKindKeyword.WithTrailingSpace());
@@ -311,14 +311,14 @@ namespace Google.Api.Generator.Utils.Formatting
 
         public override SyntaxNode VisitNameColon(NameColonSyntax node)
         {
-            node = (NameColonSyntax)base.VisitNameColon(node);
+            node = (NameColonSyntax) base.VisitNameColon(node);
             node = node.WithColonToken(node.ColonToken.WithTrailingSpace());
             return node;
         }
 
         public override SyntaxNode VisitParameter(ParameterSyntax node)
         {
-            node = (ParameterSyntax)base.VisitParameter(node);
+            node = (ParameterSyntax) base.VisitParameter(node);
             if (node.Type != null)
             {
                 node = node.WithType(node.Type.WithTrailingSpace());
@@ -329,7 +329,7 @@ namespace Google.Api.Generator.Utils.Formatting
 
         public override SyntaxNode VisitParameterList(ParameterListSyntax node)
         {
-            node = (ParameterListSyntax)base.VisitParameterList(node);
+            node = (ParameterListSyntax) base.VisitParameterList(node);
             var separators = node.HasAnnotation(Annotations.LineBreakAnnotation)
                 ? CommaLineBreakIndents(node.Parameters.Count - 1)
                 : CommaSpaces(node.Parameters.Count - 1);
@@ -343,7 +343,7 @@ namespace Google.Api.Generator.Utils.Formatting
             var postTrivia = lineSplit ? TriviaList(NewLine, _indentTrivia, s_singleIndentTrivia) : TriviaList(Space);
             using (WithIndent(lineSplit))
             {
-                node = (ArrowExpressionClauseSyntax)base.VisitArrowExpressionClause(node);
+                node = (ArrowExpressionClauseSyntax) base.VisitArrowExpressionClause(node);
             }
             node = node.WithArrowToken(node.ArrowToken.WithLeadingSpace().WithTrailingTrivia(postTrivia));
             return node;
@@ -375,7 +375,7 @@ namespace Google.Api.Generator.Utils.Formatting
 
         public override SyntaxNode VisitAssignmentExpression(AssignmentExpressionSyntax node)
         {
-            node = (AssignmentExpressionSyntax)base.VisitAssignmentExpression(node);
+            node = (AssignmentExpressionSyntax) base.VisitAssignmentExpression(node);
             var noSpace = node.Right is InitializerExpressionSyntax initExpr && initExpr.Kind() == SyntaxKind.CollectionInitializerExpression;
             var operatorToken1 = noSpace ? node.OperatorToken.WithLeadingSpace() : node.OperatorToken.WithLeadingSpace().WithTrailingSpace();
             node = node.WithOperatorToken(operatorToken1);
@@ -384,14 +384,14 @@ namespace Google.Api.Generator.Utils.Formatting
 
         public override SyntaxNode VisitBinaryExpression(BinaryExpressionSyntax node)
         {
-            node = (BinaryExpressionSyntax)base.VisitBinaryExpression(node);
+            node = (BinaryExpressionSyntax) base.VisitBinaryExpression(node);
             node = node.WithOperatorToken(node.OperatorToken.WithLeadingSpace().WithTrailingSpace());
             return node;
         }
 
         public override SyntaxNode VisitFieldDeclaration(FieldDeclarationSyntax node)
         {
-            node = (FieldDeclarationSyntax)base.VisitFieldDeclaration(node);
+            node = (FieldDeclarationSyntax) base.VisitFieldDeclaration(node);
             node = node.WithLeadingTrivia(FormatXmlDoc(node.GetLeadingTrivia()).Append(_indentTrivia));
             node = node.WithModifiers(TokenList(node.Modifiers.Select(m => m.WithTrailingSpace())));
             return node;
@@ -399,21 +399,21 @@ namespace Google.Api.Generator.Utils.Formatting
 
         public override SyntaxNode VisitVariableDeclaration(VariableDeclarationSyntax node)
         {
-            node = (VariableDeclarationSyntax)base.VisitVariableDeclaration(node);
+            node = (VariableDeclarationSyntax) base.VisitVariableDeclaration(node);
             node = node.WithType(node.Type.WithTrailingSpace());
             return node;
         }
 
         public override SyntaxNode VisitEqualsValueClause(EqualsValueClauseSyntax node)
         {
-            node = (EqualsValueClauseSyntax)base.VisitEqualsValueClause(node);
+            node = (EqualsValueClauseSyntax) base.VisitEqualsValueClause(node);
             node = node.WithEqualsToken(node.EqualsToken.WithLeadingSpace().WithTrailingSpace());
             return node;
         }
 
         public override SyntaxNode VisitPropertyDeclaration(PropertyDeclarationSyntax node)
         {
-            node = (PropertyDeclarationSyntax)base.VisitPropertyDeclaration(node);
+            node = (PropertyDeclarationSyntax) base.VisitPropertyDeclaration(node);
             node = node.WithLeadingTrivia(FormatXmlDoc(node.GetLeadingTrivia()).Append(_indentTrivia));
             node = node.WithModifiers(TokenList(node.Modifiers.Select(m => m.WithTrailingSpace())));
             node = node.WithType(node.Type.WithTrailingSpace());
@@ -438,14 +438,14 @@ namespace Google.Api.Generator.Utils.Formatting
             {
                 using (WithIndent())
                 {
-                    node = (AccessorListSyntax)base.VisitAccessorList(node);
+                    node = (AccessorListSyntax) base.VisitAccessorList(node);
                 }
                 node = node.WithOpenBraceToken(node.OpenBraceToken.WithLeadingTrivia(NewLine, _indentTrivia).WithTrailingNewLine());
                 node = node.WithCloseBraceToken(node.CloseBraceToken.WithLeadingTrivia(_indentTrivia));
             }
             else
             {
-                node = (AccessorListSyntax)base.VisitAccessorList(node);
+                node = (AccessorListSyntax) base.VisitAccessorList(node);
                 node = node.WithOpenBraceToken(node.OpenBraceToken.WithLeadingSpace().WithTrailingSpace());
             }
             return node;
@@ -453,7 +453,7 @@ namespace Google.Api.Generator.Utils.Formatting
 
         public override SyntaxNode VisitAccessorDeclaration(AccessorDeclarationSyntax node)
         {
-            node = (AccessorDeclarationSyntax)base.VisitAccessorDeclaration(node);
+            node = (AccessorDeclarationSyntax) base.VisitAccessorDeclaration(node);
             if (node.Body != null)
             {
                 node = node.WithKeyword(node.Keyword.WithLeadingTrivia(_indentTrivia));
@@ -472,14 +472,14 @@ namespace Google.Api.Generator.Utils.Formatting
 
         public override SyntaxNode VisitObjectCreationExpression(ObjectCreationExpressionSyntax node)
         {
-            node = (ObjectCreationExpressionSyntax)base.VisitObjectCreationExpression(node);
+            node = (ObjectCreationExpressionSyntax) base.VisitObjectCreationExpression(node);
             node = node.WithNewKeyword(node.NewKeyword.WithTrailingSpace());
             return node;
         }
 
         public override SyntaxNode VisitArrayCreationExpression(ArrayCreationExpressionSyntax node)
         {
-            node = (ArrayCreationExpressionSyntax)base.VisitArrayCreationExpression(node);
+            node = (ArrayCreationExpressionSyntax) base.VisitArrayCreationExpression(node);
             node = node.WithNewKeyword(node.NewKeyword.WithTrailingSpace());
             return node;
         }
@@ -544,7 +544,7 @@ namespace Google.Api.Generator.Utils.Formatting
 
         public override SyntaxNode VisitReturnStatement(ReturnStatementSyntax node)
         {
-            node = (ReturnStatementSyntax)base.VisitReturnStatement(node);
+            node = (ReturnStatementSyntax) base.VisitReturnStatement(node);
             if (node.Expression != null)
             {
                 node = node.WithReturnKeyword(node.ReturnKeyword.WithTrailingSpace());
@@ -554,49 +554,49 @@ namespace Google.Api.Generator.Utils.Formatting
 
         public override SyntaxNode VisitAwaitExpression(AwaitExpressionSyntax node)
         {
-            node = (AwaitExpressionSyntax)base.VisitAwaitExpression(node);
+            node = (AwaitExpressionSyntax) base.VisitAwaitExpression(node);
             node = node.WithAwaitKeyword(node.AwaitKeyword.WithTrailingSpace());
             return node;
         }
 
         public override SyntaxNode VisitIfStatement(IfStatementSyntax node)
         {
-            node = (IfStatementSyntax)base.VisitIfStatement(node);
+            node = (IfStatementSyntax) base.VisitIfStatement(node);
             node = node.WithIfKeyword(node.IfKeyword.WithTrailingSpace());
             return node;
         }
 
         public override SyntaxNode VisitElseClause(ElseClauseSyntax node)
         {
-            node = (ElseClauseSyntax)base.VisitElseClause(node);
+            node = (ElseClauseSyntax) base.VisitElseClause(node);
             node = node.WithElseKeyword(node.ElseKeyword.WithLeadingTrivia(_indentTrivia));
             return node;
         }
 
         public override SyntaxNode VisitThrowStatement(ThrowStatementSyntax node)
         {
-            node = (ThrowStatementSyntax)base.VisitThrowStatement(node);
+            node = (ThrowStatementSyntax) base.VisitThrowStatement(node);
             node = node.WithThrowKeyword(node.ThrowKeyword.WithTrailingSpace());
             return node;
         }
 
         public override SyntaxNode VisitThrowExpression(ThrowExpressionSyntax node)
         {
-            node = (ThrowExpressionSyntax)base.VisitThrowExpression(node);
+            node = (ThrowExpressionSyntax) base.VisitThrowExpression(node);
             node = node.WithThrowKeyword(node.ThrowKeyword.WithTrailingSpace());
             return node;
         }
 
         public override SyntaxNode VisitTypeParameterList(TypeParameterListSyntax node)
         {
-            node = (TypeParameterListSyntax)base.VisitTypeParameterList(node);
+            node = (TypeParameterListSyntax) base.VisitTypeParameterList(node);
             node = node.WithParameters(SeparatedList(node.Parameters, CommaSpaces(node.Parameters.Count - 1)));
             return node;
         }
 
         public override SyntaxNode VisitTypeParameterConstraintClause(TypeParameterConstraintClauseSyntax node)
         {
-            node = (TypeParameterConstraintClauseSyntax)base.VisitTypeParameterConstraintClause(node);
+            node = (TypeParameterConstraintClauseSyntax) base.VisitTypeParameterConstraintClause(node);
             node = node.WithWhereKeyword(node.WhereKeyword.WithLeadingSpace().WithTrailingSpace());
             node = node.WithColonToken(node.ColonToken.WithLeadingSpace().WithTrailingSpace());
             node = node.WithConstraints(SeparatedList(node.Constraints, CommaSpaces(node.Constraints.Count - 1)));
@@ -605,14 +605,14 @@ namespace Google.Api.Generator.Utils.Formatting
 
         public override SyntaxNode VisitGenericName(GenericNameSyntax node)
         {
-            node = (GenericNameSyntax)base.VisitGenericName(node);
+            node = (GenericNameSyntax) base.VisitGenericName(node);
             node = node.WithTypeArgumentList(TypeArgumentList(SeparatedList(node.TypeArgumentList.Arguments, CommaSpaces(node.TypeArgumentList.Arguments.Count - 1))));
             return node;
         }
 
         public override SyntaxNode VisitConditionalExpression(ConditionalExpressionSyntax node)
         {
-            node = (ConditionalExpressionSyntax)base.VisitConditionalExpression(node);
+            node = (ConditionalExpressionSyntax) base.VisitConditionalExpression(node);
             node = node.WithQuestionToken(node.QuestionToken.WithLeadingSpace().WithTrailingSpace());
             node = node.WithColonToken(node.ColonToken.WithLeadingSpace().WithTrailingSpace());
             return node;
@@ -620,14 +620,14 @@ namespace Google.Api.Generator.Utils.Formatting
 
         public override SyntaxNode VisitDeclarationExpression(DeclarationExpressionSyntax node)
         {
-            node = (DeclarationExpressionSyntax)base.VisitDeclarationExpression(node);
+            node = (DeclarationExpressionSyntax) base.VisitDeclarationExpression(node);
             node = node.WithType(node.Type.WithTrailingSpace());
             return node;
         }
 
         public override SyntaxNode VisitSimpleLambdaExpression(SimpleLambdaExpressionSyntax node)
         {
-            node = (SimpleLambdaExpressionSyntax)base.VisitSimpleLambdaExpression(node);
+            node = (SimpleLambdaExpressionSyntax) base.VisitSimpleLambdaExpression(node);
             if (node.AsyncKeyword != null)
             {
                 node = node.WithAsyncKeyword(node.AsyncKeyword.WithTrailingSpace());
@@ -645,7 +645,7 @@ namespace Google.Api.Generator.Utils.Formatting
 
         public override SyntaxNode VisitParenthesizedLambdaExpression(ParenthesizedLambdaExpressionSyntax node)
         {
-            node = (ParenthesizedLambdaExpressionSyntax)base.VisitParenthesizedLambdaExpression(node);
+            node = (ParenthesizedLambdaExpressionSyntax) base.VisitParenthesizedLambdaExpression(node);
             if (node.AsyncKeyword != null)
             {
                 node = node.WithAsyncKeyword(node.AsyncKeyword.WithTrailingSpace());
@@ -663,7 +663,7 @@ namespace Google.Api.Generator.Utils.Formatting
 
         public override SyntaxNode VisitForEachStatement(ForEachStatementSyntax node)
         {
-            node = (ForEachStatementSyntax)base.VisitForEachStatement(node);
+            node = (ForEachStatementSyntax) base.VisitForEachStatement(node);
             node = node.WithForEachKeyword(node.ForEachKeyword.WithTrailingSpace());
             node = node.WithType(node.Type.WithTrailingSpace());
             node = node.WithInKeyword(node.InKeyword.WithLeadingSpace().WithTrailingSpace());
@@ -672,7 +672,7 @@ namespace Google.Api.Generator.Utils.Formatting
 
         public override SyntaxNode VisitForStatement(ForStatementSyntax node)
         {
-            node = (ForStatementSyntax)base.VisitForStatement(node);
+            node = (ForStatementSyntax) base.VisitForStatement(node);
             node = node.WithForKeyword(node.ForKeyword.WithTrailingSpace());
             node = node.WithFirstSemicolonToken(node.FirstSemicolonToken.WithTrailingSpace());
             node = node.WithSecondSemicolonToken(node.SecondSemicolonToken.WithTrailingSpace());
@@ -681,7 +681,7 @@ namespace Google.Api.Generator.Utils.Formatting
 
         public override SyntaxNode VisitWhileStatement(WhileStatementSyntax node)
         {
-            node = (WhileStatementSyntax)base.VisitWhileStatement(node);
+            node = (WhileStatementSyntax) base.VisitWhileStatement(node);
             node = node.WithWhileKeyword(node.WhileKeyword.WithTrailingSpace());
             return node;
         }
@@ -690,7 +690,7 @@ namespace Google.Api.Generator.Utils.Formatting
         {
             using (WithIndent())
             {
-                node = (EnumDeclarationSyntax)base.VisitEnumDeclaration(node);
+                node = (EnumDeclarationSyntax) base.VisitEnumDeclaration(node);
             }
             node = node.WithLeadingTrivia(FormatXmlDoc(node.GetLeadingTrivia()).Append(_indentTrivia));
             node = node.WithModifiers(TokenList(node.Modifiers.Select(m => m.WithTrailingSpace())));
@@ -710,7 +710,7 @@ namespace Google.Api.Generator.Utils.Formatting
 
         public override SyntaxNode VisitEnumMemberDeclaration(EnumMemberDeclarationSyntax node)
         {
-            node = (EnumMemberDeclarationSyntax)base.VisitEnumMemberDeclaration(node);
+            node = (EnumMemberDeclarationSyntax) base.VisitEnumMemberDeclaration(node);
             node = node.WithLeadingTrivia(FormatXmlDoc(node.GetLeadingTrivia()).Append(_indentTrivia));
             return node;
         }
@@ -719,7 +719,7 @@ namespace Google.Api.Generator.Utils.Formatting
         {
             using (WithIndent())
             {
-                node = (SwitchStatementSyntax)base.VisitSwitchStatement(node);
+                node = (SwitchStatementSyntax) base.VisitSwitchStatement(node);
             }
             node = node.WithSwitchKeyword(node.SwitchKeyword.WithTrailingSpace());
             node = node.WithCloseParenToken(node.CloseParenToken.WithTrailingNewLine());
@@ -730,7 +730,7 @@ namespace Google.Api.Generator.Utils.Formatting
 
         public override SyntaxNode VisitSwitchSection(SwitchSectionSyntax node)
         {
-            node = (SwitchSectionSyntax)base.VisitSwitchSection(node);
+            node = (SwitchSectionSyntax) base.VisitSwitchSection(node);
             var label = node.Labels.Single();
             var keywordTrailingTriv = label is DefaultSwitchLabelSyntax ? new SyntaxTrivia[] { } : new[] { Space };
             if (node.Statements.Count == 1)

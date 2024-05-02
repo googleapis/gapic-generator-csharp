@@ -53,7 +53,7 @@ namespace Google.Api.Generator.Utils.Roslyn
         public static StatementSyntax ToStatement(this ExpressionSyntax expr) => ExpressionStatement(expr);
 
         public static MethodDeclarationSyntax WithExplicitInterfaceSpecifier(this MethodDeclarationSyntax method, TypeSyntax interfaceType) =>
-            method.WithExplicitInterfaceSpecifier(ExplicitInterfaceSpecifier((NameSyntax)interfaceType));
+            method.WithExplicitInterfaceSpecifier(ExplicitInterfaceSpecifier((NameSyntax) interfaceType));
 
         private static T WithBody<T>(IEnumerable<object> code, Func<ArrowExpressionClauseSyntax, T> fnExpr, Func<BlockSyntax, T> fnBlock)
         {
@@ -172,7 +172,7 @@ namespace Google.Api.Generator.Utils.Roslyn
             this LocalDeclarationStatementSyntax var, string method, bool obsolete, params TypeSyntax[] genericArgs) => args =>
                 InvocationExpression(MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression,
                     IdentifierName(var.Declaration.Variables.Single().Identifier), ToSimpleName(method, genericArgs).MaybeWithPragmaDisableObsoleteWarning(obsolete)), CreateArgList(args));
-        
+
         public static RoslynBuilder.ArgumentsFunc<InvocationExpressionSyntax> Call(
             this LocalDeclarationStatementSyntax var, object method, params TypeSyntax[] genericArgs) => args =>
                 InvocationExpression(MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression,
@@ -183,24 +183,24 @@ namespace Google.Api.Generator.Utils.Roslyn
                 expr is ThisExpressionSyntax ?
                     InvocationExpression(ToSimpleName(method, genericArgs), CreateArgList(args)) :
                     conditional ?
-                        (ExpressionSyntax)ConditionalAccessExpression(expr,
+                        (ExpressionSyntax) ConditionalAccessExpression(expr,
                              InvocationExpression(MemberBindingExpression(ToSimpleName(method, genericArgs)), CreateArgList(args))) :
                         InvocationExpression(MemberAccessExpression(
                             SyntaxKind.SimpleMemberAccessExpression, expr, ToSimpleName(method, genericArgs)), CreateArgList(args));
 
         public static RoslynBuilder.ArgumentsFunc<InvocationExpressionSyntax> Call(
-            this ExpressionSyntax expr, object method, params TypeSyntax[] genericArgs) => args => (InvocationExpressionSyntax)Call(expr, method, false, genericArgs)(args);
+            this ExpressionSyntax expr, object method, params TypeSyntax[] genericArgs) => args => (InvocationExpressionSyntax) Call(expr, method, false, genericArgs)(args);
 
         public static RoslynBuilder.ArgumentsFunc<ExpressionSyntax> Call(
             this ParameterSyntax param, object method, bool conditional, params TypeSyntax[] genericArgs) => args =>
                 conditional ?
-                    (ExpressionSyntax)ConditionalAccessExpression(IdentifierName(param.Identifier),
+                    (ExpressionSyntax) ConditionalAccessExpression(IdentifierName(param.Identifier),
                         InvocationExpression(MemberBindingExpression(ToSimpleName(method, genericArgs)), CreateArgList(args))) :
                     InvocationExpression(MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression,
                         IdentifierName(param.Identifier), ToSimpleName(method, genericArgs)), CreateArgList(args));
 
         public static RoslynBuilder.ArgumentsFunc<InvocationExpressionSyntax> Call(
-            this ParameterSyntax param, object method, params TypeSyntax[] genericArgs) => args => (InvocationExpressionSyntax)Call(param, method, false, genericArgs)(args);
+            this ParameterSyntax param, object method, params TypeSyntax[] genericArgs) => args => (InvocationExpressionSyntax) Call(param, method, false, genericArgs)(args);
 
         public static RoslynBuilder.ArgumentsFunc<InvocationExpressionSyntax> Call(this PropertyDeclarationSyntax property, object method, params TypeSyntax[] genericArgs) => args =>
             InvocationExpression(MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression,
@@ -235,7 +235,7 @@ namespace Google.Api.Generator.Utils.Roslyn
             MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, type, ToSimpleName(member));
 
         public static ExpressionSyntax Access(this ParameterSyntax obj, object member, bool conditional = false) => conditional ?
-            (ExpressionSyntax)ConditionalAccessExpression(IdentifierName(obj.Identifier), MemberBindingExpression(ToSimpleName(member))) :
+            (ExpressionSyntax) ConditionalAccessExpression(IdentifierName(obj.Identifier), MemberBindingExpression(ToSimpleName(member))) :
             MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, IdentifierName(obj.Identifier), ToSimpleName(member));
 
         public static MemberAccessExpressionSyntax Access(this LocalDeclarationStatementSyntax var, object member) =>
@@ -248,7 +248,7 @@ namespace Google.Api.Generator.Utils.Roslyn
             MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, IdentifierName(field.Declaration.Variables.Single().Identifier), ToSimpleName(member));
 
         public static ExpressionSyntax Access(this ExpressionSyntax expr, object member, bool conditional = false) => conditional ?
-            (ExpressionSyntax) ConditionalAccessExpression(expr, MemberBindingExpression(ToSimpleName(member)))  :
+            (ExpressionSyntax) ConditionalAccessExpression(expr, MemberBindingExpression(ToSimpleName(member))) :
             MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, expr, ToSimpleName(member));
 
         public static ExpressionSyntax ElementAccess(this LocalDeclarationStatementSyntax var, object element) =>
@@ -256,7 +256,7 @@ namespace Google.Api.Generator.Utils.Roslyn
                 BracketedArgumentList(SeparatedList(ToExpressions(element).Select(Argument))));
 
         public static ExpressionSyntax ElementAccess(this DeclarationExpressionSyntax decl, object element) =>
-            ElementAccessExpression(IdentifierName(((SingleVariableDesignationSyntax)decl.Designation).Identifier),
+            ElementAccessExpression(IdentifierName(((SingleVariableDesignationSyntax) decl.Designation).Identifier),
                 BracketedArgumentList(SeparatedList(ToExpressions(element).Select(Argument))));
 
         public static ExpressionSyntax ElementAccess(this ParameterSyntax var, object element) =>

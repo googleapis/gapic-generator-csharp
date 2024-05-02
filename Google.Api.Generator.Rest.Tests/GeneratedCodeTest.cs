@@ -54,7 +54,7 @@ public class GeneratedCodeTest
         bucket.TimeCreatedDateTimeOffset = new DateTimeOffset(2023, 6, 14, 12, 34, 45, 123, TimeSpan.Zero);
         AssertStorageBucketCreatedTimeProperties(bucket);
         Assert.Equal("2023-06-14T12:34:45.123Z", bucket.TimeCreatedRaw);
-        Assert.Equal(new DateTime(2023, 6, 14, 12, 34, 45, 123, DateTimeKind.Utc).ToLocalTime(), bucket.TimeCreated);        
+        Assert.Equal(new DateTime(2023, 6, 14, 12, 34, 45, 123, DateTimeKind.Utc).ToLocalTime(), bucket.TimeCreated);
     }
 
     [Fact]

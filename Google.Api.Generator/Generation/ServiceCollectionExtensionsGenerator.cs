@@ -12,15 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Google.Api.Generator.Utils;
 using Google.Api.Generator.Utils.Roslyn;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using static Google.Api.Generator.Utils.Roslyn.Modifier;
 using static Google.Api.Generator.Utils.Roslyn.RoslynBuilder;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;

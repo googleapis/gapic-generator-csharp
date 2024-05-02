@@ -13,20 +13,19 @@
 // limitations under the License.
 
 using Google.Api.Gax.Grpc;
-using Google.Api.Generator.Utils.Roslyn;
+using Google.Api.Generator.ProtoUtils;
 using Google.Api.Generator.Utils;
+using Google.Api.Generator.Utils.Roslyn;
 using Google.LongRunning;
-using Grpc.ServiceConfig;
+using Google.Protobuf.Reflection;
+using Grpc.Core;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Google.Api.Generator.ProtoUtils;
-using Google.Protobuf.Reflection;
 using static Google.Api.Generator.Utils.Roslyn.Modifier;
 using static Google.Api.Generator.Utils.Roslyn.RoslynBuilder;
-using Grpc.Core;
 
 namespace Google.Api.Generator.Generation
 {
@@ -101,11 +100,11 @@ namespace Google.Api.Generator.Generation
                 {
                     var underlyingProperty = Property(DontCare, ctx.TypeDontCare, "MaxResults");
 
-                    var getBody = ProtoTyp.Of(maxResMessage) == Typ.Of<int>() 
+                    var getBody = ProtoTyp.Of(maxResMessage) == Typ.Of<int>()
                         ? Return(underlyingProperty)
                         : Return(CheckedCast(ctx.Type<int>(), underlyingProperty));
 
-                    var assignFrom = ProtoTyp.Of(maxResMessage) == Typ.Of<int>() 
+                    var assignFrom = ProtoTyp.Of(maxResMessage) == Typ.Of<int>()
                         ? Value
                         : CheckedCast(ctx.Type(ProtoTyp.Of(maxResMessage)), Value);
                     var setBody = underlyingProperty.Assign(assignFrom);

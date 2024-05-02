@@ -57,7 +57,7 @@ namespace Google.Api.Generator.IntegrationTests
                 var client = CreateClient();
                 var stream = client.Expand(new ExpandRequest { Content = content });
                 var items = await stream.GetResponseStream().Select(resp => resp.Content).ToListAsync();
-                Assert.Equal(content, string.Join(" ", items));                
+                Assert.Equal(content, string.Join(" ", items));
             }
         }
     }

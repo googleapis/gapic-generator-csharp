@@ -333,7 +333,7 @@ namespace Google.Api.Generator.Utils.Roslyn
 
         public static CheckedExpressionSyntax CheckedCast(TypeSyntax type, ExpressionSyntax expr) => CheckedExpression(SyntaxKind.CheckedExpression, CastExpression(type, expr));
 
-        public static CheckedExpressionSyntax CheckedCast(TypeSyntax type, PropertyDeclarationSyntax expr) =>  CheckedCast(type, IdentifierName(expr.Identifier));
+        public static CheckedExpressionSyntax CheckedCast(TypeSyntax type, PropertyDeclarationSyntax expr) => CheckedCast(type, IdentifierName(expr.Identifier));
 
         public static ArgumentsFunc<InvocationExpressionSyntax> Call(object method, params TypeSyntax[] genericArgs) => args =>
                 InvocationExpression(ToSimpleName(method, genericArgs), CreateArgList(args));

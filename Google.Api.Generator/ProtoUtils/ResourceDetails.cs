@@ -16,7 +16,6 @@ using Google.Api.Gax;
 using Google.Api.Generator.Utils;
 using Google.Protobuf.Reflection;
 using Google.Protobuf.WellKnownTypes;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -179,13 +178,13 @@ namespace Google.Api.Generator.ProtoUtils
             var msgsFromProtoMsgs = descs
                 .SelectMany(fileDesc => fileDesc.MessageTypes
                     .SelectMany(GetMessagesAndSelf)
-                    .Select(msgDesc =>(fileDesc, msgDesc, resDesc: msgDesc.GetExtension(ResourceExtensions.Resource))))
+                    .Select(msgDesc => (fileDesc, msgDesc, resDesc: msgDesc.GetExtension(ResourceExtensions.Resource))))
                 .Where(x => x.resDesc != null)
                 .Select(x => (x.fileDesc, x.msgDesc, x.resDesc, shortName: GetShortName(x.resDesc)));
             var msgsFromFileAnnotation = descs
                 .SelectMany(fileDesc =>
                     fileDesc.GetExtension(ResourceExtensions.ResourceDefinition)
-                        .Select(resDesc => (fileDesc, msgDesc: (MessageDescriptor)null, resDesc, shortName: GetShortName(resDesc))));
+                        .Select(resDesc => (fileDesc, msgDesc: (MessageDescriptor) null, resDesc, shortName: GetShortName(resDesc))));
             var msgs = msgsFromProtoMsgs.Concat(msgsFromFileAnnotation).ToImmutableList();
             var ignoredTypes = (librarySettings?.DotnetSettings?.IgnoredResources ?? Enumerable.Empty<string>()).ToHashSet();
             return msgs

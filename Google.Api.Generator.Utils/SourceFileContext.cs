@@ -22,8 +22,8 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Text.RegularExpressions;
-using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using static Google.Api.Generator.Utils.Roslyn.RoslynBuilder;
+using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace Google.Api.Generator.Utils
 {
@@ -352,7 +352,7 @@ namespace Google.Api.Generator.Utils
 
                     void RemoveNamespaceFromColliding(string ns)
                     {
-                        foreach(var tNs in collidingTypes.Where(ctNs => ctNs.Value.Contains(ns)).ToList())
+                        foreach (var tNs in collidingTypes.Where(ctNs => ctNs.Value.Contains(ns)).ToList())
                         {
                             RemoveTypeFromColliding(tNs.Key, ns);
                         }
@@ -363,7 +363,7 @@ namespace Google.Api.Generator.Utils
                         if (collidingTypes.TryGetValue(t, out var collidingTypeNamespaces) && collidingTypeNamespaces.Contains(ns))
                         {
                             if (collidingTypeNamespaces.Count == 2 || // If we remove one of the remaining two collisions...
-                                // or if after removal the remaining collisions are between unseen imported types...
+                                                                      // or if after removal the remaining collisions are between unseen imported types...
                                 !collidingTypeNamespaces.Any(ctNs => ctNs != ns && seenTypes.Any(typ => typ.Name == t && typ.Namespace == ctNs)))
                             {
                                 // ... then this type is not colliding anymore
@@ -386,7 +386,7 @@ namespace Google.Api.Generator.Utils
                     HashSet<string> unaliasedNamespaces,
                     Dictionary<string, HashSet<string>> collidingAliasedTypes,
                     Dictionary<string, HashSet<string>> nonCollidingAliasedTypes) =>
-                    (_aliasedNamespaces, _unaliasedNamespaces, _collidingAliasedTypes, _nonCollidingAliasedTypes) = 
+                    (_aliasedNamespaces, _unaliasedNamespaces, _collidingAliasedTypes, _nonCollidingAliasedTypes) =
                     (aliasedNamespaces, unaliasedNamespaces, collidingAliasedTypes, nonCollidingAliasedTypes);
 
                 public override SyntaxNode VisitIdentifierName(IdentifierNameSyntax node) =>

@@ -17,7 +17,6 @@ using Google.Protobuf.Collections;
 using Google.Protobuf.Reflection;
 using Grpc.Core;
 using System;
-using System.Collections.Generic;
 
 namespace Testing.MethodSignatures
 {

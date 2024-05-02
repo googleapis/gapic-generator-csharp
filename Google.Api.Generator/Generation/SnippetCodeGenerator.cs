@@ -297,9 +297,9 @@ namespace Google.Api.Generator.Generation
             private SourceFileContext Ctx { get; }
             private ServiceDetails Svc { get; }
             private MethodDetails Method { get; }
-            private MethodDetails.Lro MethodLro => (MethodDetails.Lro)Method;
-            private MethodDetails.Paginated MethodPaginated => (MethodDetails.Paginated)Method;
-            private MethodDetails.IStreaming MethodStreaming => (MethodDetails.IStreaming)Method;
+            private MethodDetails.Lro MethodLro => (MethodDetails.Lro) Method;
+            private MethodDetails.Paginated MethodPaginated => (MethodDetails.Paginated) Method;
+            private MethodDetails.IStreaming MethodStreaming => (MethodDetails.IStreaming) Method;
             private bool IncludeDocMarkers { get; }
 
             // Common properties for "Call the client method, suppressing obsolete warnings if necessary".
@@ -382,7 +382,7 @@ namespace Google.Api.Generator.Generation
                     else
                     {
                         @default = pattern is null ?
-                            (object)New(Ctx.Type<UnparsedResourceName>())("a/wildcard/resource") :
+                            (object) New(Ctx.Type<UnparsedResourceName>())("a/wildcard/resource") :
                             Ctx.Type(resourceTyp).Call(FactoryMethodName(pattern))
                                 (pattern.Template.ParameterNames.Select(x => $"[{x.ToUpperInvariant()}]"));
                     }
@@ -444,7 +444,7 @@ namespace Google.Api.Generator.Generation
 
                 object Collection(object value, Typ typ) => topLevel ?
                     NewArray(Ctx.ArrayType(Typ.ArrayOf(typ ?? ProtoTyp.Of(fieldDesc).GenericArgTyps.First())))(value) :
-                    (object)CollectionInitializer(value);
+                    (object) CollectionInitializer(value);
 
                 string FactoryMethodName(ResourceDetails.Definition.Pattern pattern)
                 {
@@ -664,7 +664,7 @@ namespace Google.Api.Generator.Generation
 
             private MethodDeclarationSyntax SyncRequestMethod => Sync(Method.SyncSnippetMethodName, new[] { Method.RequestTyp },
                 InitRequestObject, Method.SyncReturnTyp is Typ.VoidTyp ?
-                    (object)SyncClientMethodCall(Request) :
+                    (object) SyncClientMethodCall(Request) :
                     Response.WithInitializer(SyncClientMethodCall(Request)));
 
             public SnippetDef SyncRequestSnippet => new SnippetDef(Method, true, Method.SyncSnippetMethodName, RequestClientMethodParameters, null,
@@ -672,7 +672,7 @@ namespace Google.Api.Generator.Generation
 
             private MethodDeclarationSyntax AsyncRequestMethod => Async(Method.AsyncSnippetMethodName, new[] { Method.RequestTyp },
                 InitRequestObject, Method.SyncReturnTyp is Typ.VoidTyp ?
-                    (object)Await(AsyncClientMethodCall(Request)) :
+                    (object) Await(AsyncClientMethodCall(Request)) :
                     Response.WithInitializer(Await(AsyncClientMethodCall(Request))));
 
             public SnippetDef AsyncRequestSnippet => new SnippetDef(Method, false, Method.AsyncSnippetMethodName, RequestClientMethodParameters, null,
@@ -803,15 +803,15 @@ namespace Google.Api.Generator.Generation
 
                 private MethodDeclarationSyntax SyncMethod => _def.Sync(SyncMethodName, _sig.Fields.Select(f => f.Typ),
                     InitRequestArgsNormal, Method.SyncReturnTyp is Typ.VoidTyp ?
-                        (object)SyncClientMethodCall(InitRequestArgsNormal.ToArray()) :
+                        (object) SyncClientMethodCall(InitRequestArgsNormal.ToArray()) :
                         _def.Response.WithInitializer(SyncClientMethodCall(InitRequestArgsNormal.ToArray())));
 
-                public SnippetDef SyncSnippet => new SnippetDef(Method, true, SyncMethodName, NormalClientMethodParameters, RegionTagOverloadDisambiguation, 
+                public SnippetDef SyncSnippet => new SnippetDef(Method, true, SyncMethodName, NormalClientMethodParameters, RegionTagOverloadDisambiguation,
                     (ctx, includeDocMarkers) => WithSourceFileContext(ctx).WithIncludeDocMarkers(includeDocMarkers).SyncMethod);
 
                 private MethodDeclarationSyntax AsyncMethod => _def.Async(AsyncMethodName, _sig.Fields.Select(f => f.Typ),
                     InitRequestArgsNormal, Method.SyncReturnTyp is Typ.VoidTyp ?
-                        (object)Await(AsyncClientMethodCall(InitRequestArgsNormal.ToArray())) :
+                        (object) Await(AsyncClientMethodCall(InitRequestArgsNormal.ToArray())) :
                         _def.Response.WithInitializer(Await(AsyncClientMethodCall(InitRequestArgsNormal.ToArray()))));
 
                 public SnippetDef AsyncSnippet => new SnippetDef(Method, false, AsyncMethodName, NormalClientMethodParameters, RegionTagOverloadDisambiguation,
@@ -871,7 +871,7 @@ namespace Google.Api.Generator.Generation
                                 : f.FieldResources.Where(resDetails => resDetails.ContainsWildcard != false).Select(x => (x.ResourceDefinition.ResourceNameTyp, f.ParameterName));
                             return overloads.SelectMany(overload => parameters.Select(parameter => overload.Add(parameter))).ToImmutableList();
                         }).ToList();
-                        return allOverloads.Select((parameters, index) => new ResourceName(sig, parameters, allOverloads.Count > 1 ? (int?)(index + 1) : null));
+                        return allOverloads.Select((parameters, index) => new ResourceName(sig, parameters, allOverloads.Count > 1 ? (int?) (index + 1) : null));
                     }
 
                     public ResourceName WithSourceFileContext(SourceFileContext ctx) =>
@@ -912,14 +912,14 @@ namespace Google.Api.Generator.Generation
                         _sig._sig.Fields.Zip(Typs, (f, typ) => f.IsRepeated && f.FieldResources is object ? Typ.Generic(typeof(IEnumerable<>), typ) : typ);
 
                     private MethodDeclarationSyntax SyncMethod => _sig._def.Sync(SyncMethodName, SnippetTyps, InitRequestArgs, Method.SyncReturnTyp is Typ.VoidTyp ?
-                        (object)_sig.SyncClientMethodCall(InitRequestArgs.ToArray()) :
+                        (object) _sig.SyncClientMethodCall(InitRequestArgs.ToArray()) :
                         _sig._def.Response.WithInitializer(_sig.SyncClientMethodCall(InitRequestArgs.ToArray())));
 
                     public SnippetDef SyncSnippet => new SnippetDef(Method, true, SyncMethodName, NormalClientMethodParameters, RegionTagOverloadDisambiguation,
                         (ctx, includeDocMarkers) => WithSourceFileContext(ctx).WithIncludeDocMarkers(includeDocMarkers).SyncMethod);
 
                     private MethodDeclarationSyntax AsyncMethod => _sig._def.Async(AsyncMethodName, SnippetTyps, InitRequestArgs, Method.SyncReturnTyp is Typ.VoidTyp ?
-                        (object)Await(_sig.AsyncClientMethodCall(InitRequestArgs.ToArray())) :
+                        (object) Await(_sig.AsyncClientMethodCall(InitRequestArgs.ToArray())) :
                         _sig._def.Response.WithInitializer(Await(_sig.AsyncClientMethodCall(InitRequestArgs.ToArray()))));
 
                     public SnippetDef AsyncSnippet => new SnippetDef(Method, false, AsyncMethodName, NormalClientMethodParameters, RegionTagOverloadDisambiguation,
@@ -967,7 +967,7 @@ namespace Google.Api.Generator.Generation
                 return Method.Signatures.Any(s => s.Fields.Select(x => x.Typ).Append(stringTyp).SequenceEqual(sigTyps));
             }
 
-            public IEnumerable<Signature> Signatures => Method.Signatures.Select((sig, i) => new Signature(this, sig, Method.Signatures.Count > 1 ? i : (int?)null));
+            public IEnumerable<Signature> Signatures => Method.Signatures.Select((sig, i) => new Signature(this, sig, Method.Signatures.Count > 1 ? i : (int?) null));
         }
     }
 

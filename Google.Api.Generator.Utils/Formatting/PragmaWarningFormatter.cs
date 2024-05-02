@@ -31,7 +31,7 @@ namespace Google.Api.Generator.Utils.Formatting
 
             public override SyntaxNode VisitPragmaWarningDirectiveTrivia(PragmaWarningDirectiveTriviaSyntax node)
             {
-                node = (PragmaWarningDirectiveTriviaSyntax)base.VisitPragmaWarningDirectiveTrivia(node);
+                node = (PragmaWarningDirectiveTriviaSyntax) base.VisitPragmaWarningDirectiveTrivia(node);
                 node = node.WithPragmaKeyword(node.PragmaKeyword.WithTrailingTrivia(Space));
                 node = node.WithWarningKeyword(node.WarningKeyword.WithTrailingTrivia(Space));
                 node = node.WithDisableOrRestoreKeyword(node.DisableOrRestoreKeyword.WithTrailingTrivia(Space));
@@ -126,7 +126,7 @@ namespace Google.Api.Generator.Utils.Formatting
             }
             modifyPrevEol();
             code = code.ReplaceTokens(modifications.Keys, (orgtoken, _) => modifications[orgtoken]);
-            code = (CompilationUnitSyntax)new PragmaVisitor().Visit(code);
+            code = (CompilationUnitSyntax) new PragmaVisitor().Visit(code);
             return code;
         }
     }

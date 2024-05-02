@@ -348,7 +348,7 @@ namespace Google.Api.Generator.Utils.Formatting.Tests
         {
             var utilTestDir = Path.Combine(PathUtils.GetRepoRoot(), "Google.Api.Generator.Utils.Tests");
             return Path.Combine(utilTestDir, "Formatting", Path.GetFileName(filePath));
-        }            
+        }
 
         [Fact]
         public void ThisSourceFile()
@@ -359,7 +359,7 @@ namespace Google.Api.Generator.Utils.Formatting.Tests
             {
                 var ignoring =
                     line.Trim() == "// TEST_SOURCE_END" ? true :
-                    line.Trim() == "// TEST_SOURCE_START" ? false : (bool?)null;
+                    line.Trim() == "// TEST_SOURCE_START" ? false : (bool?) null;
                 if (!acc.ignoring && ignoring != true && !line.Trim().StartsWith("//"))
                 {
                     acc.lines.Add(line);

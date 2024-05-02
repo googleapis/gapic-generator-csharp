@@ -21,7 +21,7 @@ namespace Google.Api.Generator.Utils.Formatting
         public static CompilationUnitSyntax Format(CompilationUnitSyntax code)
         {
             var whitespace = new WhitespaceFormatter(maxLineLength: 120);
-            code = (CompilationUnitSyntax)whitespace.Visit(code);
+            code = (CompilationUnitSyntax) whitespace.Visit(code);
             code = PragmaWarningFormatter.Visit(code);
             // TODO: Line length formatting
             return code;
