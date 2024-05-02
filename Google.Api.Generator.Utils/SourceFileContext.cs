@@ -99,7 +99,7 @@ namespace Google.Api.Generator.Utils
             public override CompilationUnitSyntax CreateCompilationUnit(NamespaceDeclarationSyntax ns)
             {
                 var usings = _namespaceAliases
-                    .OrderBy(x => x.Key)
+                    .OrderBy(x => x.Value)
                     .Select(x => UsingDirective(NameEquals(x.Value), IdentifierName(x.Key)));
                 var unit = CompilationUnit()
                     .AddUsings(usings.ToArray())
