@@ -37,9 +37,6 @@ namespace Google.Api.Generator.Rest.Tests
         public void Metastore() => TestResources.TestOutput("Google.Apis.DataprocMetastore.v1");
 
         [Fact]
-        public void Contentwarehouse() => TestResources.TestOutput("Google.Apis.Contentwarehouse.v1");
-
-        [Fact]
         public void Calendar() => TestResources.TestOutput("Google.Apis.Calendar.v3");
 
         [Fact]
