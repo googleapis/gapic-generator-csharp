@@ -364,7 +364,7 @@ namespace Google.Api.Generator.Generation
                 }
             }
 
-            private object DefaultValue(FieldDescriptor fieldDesc, Typ resourceTyp = null, bool topLevel = false)
+            private object DefaultValue(FieldDescriptor fieldDesc, HashSet<MessageDescriptor> seenMessages, Typ resourceTyp = null, bool topLevel = false)
             {
                 var resources = Svc.Catalog.GetResourceDetailsByField(fieldDesc);
                 if (resources is object)
@@ -394,8 +394,8 @@ namespace Google.Api.Generator.Generation
                     {
                         // A map is modelled as a repeated message containing key/value fields.
                         var parts = fieldDesc.MessageType.Fields.InFieldNumberOrder();
-                        var keyValue = DefaultValue(parts[0]);
-                        var valueValue = DefaultValue(parts[1]);
+                        var keyValue = DefaultValue(parts[0], seenMessages);
+                        var valueValue = DefaultValue(parts[1], seenMessages);
                         var collectionInitializer = CollectionInitializer(ComplexElementInitializer(keyValue, valueValue));
                         return topLevel
                             ? New(Ctx.Type(Typ.Generic(typeof(Dictionary<,>), ProtoTyp.Of(fieldDesc).GenericArgTyps.ToArray())))()
@@ -434,7 +434,7 @@ namespace Google.Api.Generator.Generation
                             "google.protobuf.BoolValue" => default(bool),
                             "google.protobuf.StringValue" => "",
                             "google.protobuf.BytesValue" => Ctx.Type<ByteString>().Access(nameof(ByteString.Empty)),
-                            _ => New(Ctx.Type(ProtoTyp.Of(fieldDesc.MessageType)))()
+                            _ => New(Ctx.Type(ProtoTyp.Of(fieldDesc.MessageType)))().WithInitializer(InitMessage(fieldDesc.MessageType).ToArray())
                         },
                         FieldType.Enum => Ctx.Type(ProtoTyp.Of(fieldDesc.EnumType)).Access(fieldDesc.EnumType.Values.First().CSharpName()),
                         _ => throw new InvalidOperationException($"Cannot generate default for proto type: {fieldDesc.FieldType}"),
@@ -456,29 +456,34 @@ namespace Google.Api.Generator.Generation
                     }
                     return $"From{suffix}";
                 }
+
+                IEnumerable<ObjectInitExpr> InitMessage(MessageDescriptor descriptor)
+                {
+                    if (!seenMessages.Contains(descriptor))
+                    {
+                        var seenMessagesAndMe = new HashSet<MessageDescriptor>(seenMessages.Append(descriptor));
+
+                        foreach (var fieldDesc in descriptor.Fields.InFieldNumberOrder().Where(x => !x.IsDeprecated()))
+                        {
+                            var resourceField = Svc.Catalog.GetResourceDetailsByField(fieldDesc)?[0];
+                            yield return new ObjectInitExpr(resourceField?.ResourcePropertyName ?? fieldDesc.CSharpPropertyName(),
+                                DefaultValue(fieldDesc, seenMessagesAndMe, resourceField?.ResourceDefinition.ResourceNameTyp));
+                        }
+                    }
+                }
             }
 
             private IEnumerable<ObjectInitExpr> InitRequest()
             {
+                var seenMessages = new HashSet<MessageDescriptor>
+                {
+                    Method.RequestMessageDesc
+                };
                 foreach (var fieldDesc in Method.RequestMessageDesc.Fields.InFieldNumberOrder().Where(x => !x.IsDeprecated()))
                 {
-                    // Do not emit pagination page_size, page_token or auto-populated fields;
-                    // and only emit the first field of a (real) oneof.
-                    // (Although synthetic oneofs should only ever contain a single field)
-                    if (!IsPaginationField() && !IsNonFirstOneOfField() && !IsAutoPopulatedField())
-                    {
-                        var resourceField = Svc.Catalog.GetResourceDetailsByField(fieldDesc)?[0];
-                        yield return new ObjectInitExpr(resourceField?.ResourcePropertyName ?? fieldDesc.CSharpPropertyName(),
-                            DefaultValue(fieldDesc, resourceField?.ResourceDefinition.ResourceNameTyp));
-                    }
-
-                    bool IsPaginationField() => Method is MethodDetails.Paginated paged &&
-                        (fieldDesc.FieldNumber == paged.PageSizeFieldNumber || fieldDesc.FieldNumber == paged.PageTokenFieldNumber);
-
-                    bool IsNonFirstOneOfField() => fieldDesc.RealContainingOneof != null &&
-                        fieldDesc.Index != fieldDesc.RealContainingOneof.Fields[0].Index;
-
-                    bool IsAutoPopulatedField() => Method.ServiceConfigMethodSettings.AutoPopulatedFields.Contains(fieldDesc.Name);
+                    var resourceField = Svc.Catalog.GetResourceDetailsByField(fieldDesc)?[0];
+                    yield return new ObjectInitExpr(resourceField?.ResourcePropertyName ?? fieldDesc.CSharpPropertyName(),
+                        DefaultValue(fieldDesc, seenMessages, resourceField?.ResourceDefinition.ResourceNameTyp));
                 }
             }
 
@@ -798,7 +803,7 @@ namespace Google.Api.Generator.Generation
                     _sig.Fields.Select(f =>
                         Local(Ctx.Type(resourceNameAsString ? f.Typ : MaybeEnumerable(f.IsRepeated, f.FieldResources?[0].ResourceDefinition.ResourceNameTyp) ?? f.Typ),
                             f.Descs.Last().CSharpFieldName())
-                        .WithInitializer(_def.DefaultValue(f.Descs.Last(), null, topLevel: true)));
+                        .WithInitializer(_def.DefaultValue(f.Descs.Last(), new HashSet<MessageDescriptor>(), null, topLevel: true)));
                 private IEnumerable<LocalDeclarationStatementSyntax> InitRequestArgsNormal => InitRequestArgs(resourceNameAsString: true);
 
                 private MethodDeclarationSyntax SyncMethod => _def.Sync(SyncMethodName, _sig.Fields.Select(f => f.Typ),
@@ -906,7 +911,7 @@ namespace Google.Api.Generator.Generation
                     private IEnumerable<LocalDeclarationStatementSyntax> InitRequestArgs =>
                         _sig._sig.Fields.Zip(Typs, (f, typ) =>
                             Local(Ctx.Type(f.IsRepeated && f.FieldResources is object ? Typ.Generic(typeof(IEnumerable<>), typ) : typ),
-                                f.Descs.Last().CSharpFieldName()).WithInitializer(_sig._def.DefaultValue(f.Descs.Last(), typ, topLevel: true)));
+                                f.Descs.Last().CSharpFieldName()).WithInitializer(_sig._def.DefaultValue(f.Descs.Last(), new HashSet<MessageDescriptor> (), typ, topLevel: true)));
 
                     private IEnumerable<Typ> SnippetTyps =>
                         _sig._sig.Fields.Zip(Typs, (f, typ) => f.IsRepeated && f.FieldResources is object ? Typ.Generic(typeof(IEnumerable<>), typ) : typ);
