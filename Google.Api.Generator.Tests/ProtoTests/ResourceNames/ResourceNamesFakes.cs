@@ -87,4 +87,34 @@ namespace Testing.ResourceNames
     }
 
     public partial class Response : ProtoMsgFake<Response> { }
+
+    public partial class TopLevelAndNestedResourceReferences
+    {
+        public string TopRef { get; set; }
+
+        public partial class Types
+        {
+            public partial class Nested
+            {
+                public string NestedRef { get; set; }
+            }
+        }
+    }
+
+    public partial class DeeplyNestedResourceReference
+    {
+        public partial class Types
+        {
+            public partial class Nested
+            {
+                public partial class Types
+                {
+                    public partial class DeeplyNested
+                    {
+                        public string Ref { get; set; }
+                    }
+                }
+            }
+        }
+    }
 }
