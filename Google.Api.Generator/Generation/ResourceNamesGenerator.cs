@@ -524,23 +524,41 @@ namespace Google.Api.Generator.Generation
         {
             // Note: Whether a field is required or optional is purposefully ignored in this partial class.
             // The optionalness of a field is only relevant within a method signature (flattening).
-            foreach (var msg in _fileDesc.MessageTypes)
+            foreach (var topLevelMessage in _fileDesc.MessageTypes)
             {
-                var resources = msg.Fields.InFieldNumberOrder()
-                    .Select(fieldDesc => (fieldDesc, resDetails: _catalog.GetResourceDetailsByField(fieldDesc)))
-                    .Where(x => x.resDetails != null)
+                // First find all resource-referencing fields for all messages recursively.
+                // We then pick only the relevant ones to generate on a per-message basis.
+                var allResources = topLevelMessage.SelfAndNestedMessagesRecursively()
+                    .SelectMany(m => m.Fields.InFieldNumberOrder())
+                    .Select(_catalog.GetResourceDetailsByField)
+                    .Where(x => x is not null)
+                    .SelectMany(r => r)
                     .ToList();
-                if (resources.Any())
+
+                var messagesContainingResources = allResources
+                    .Select(r => r.Descriptor.ContainingType)
+                    .SelectMany(m => m.SelfAndAncestors())
+                    .ToHashSet();
+
+                if (allResources.Any())
                 {
-                    var cls = Class(Public | Partial, ProtoTyp.Of(msg));
+                    yield return GenerateClassWithResourceReferences(topLevelMessage);
+                }
+
+                ClassDeclarationSyntax GenerateClassWithResourceReferences(MessageDescriptor msg)
+                {
+                    var messageOnlyResources = allResources.Where(r => r.Descriptor.ContainingType == msg).ToList();
+                    var msgTyp = ProtoTyp.Of(msg);
+                    var cls = Class(Public | Partial, msgTyp);
                     using (_ctx.InClass(cls))
                     {
-                        _ctx.RegisterClassMemberNames(resources
-                            .SelectMany(res => res.resDetails.Select(x => x.ResourcePropertyName))
-                            .Concat(msg.Fields.InDeclarationOrder().Select(f => f.CSharpPropertyName()))
-                            .Append(msg.NestedTypes.Any() ? "Types" : null)
-                            .Where(x => x != null));
-                        var properties = resources.SelectMany(res => res.resDetails).Select(field =>
+                        _ctx.RegisterClassMemberNames(
+                            messageOnlyResources.Select(x => x.ResourcePropertyName)
+                                .Concat(msg.Fields.InDeclarationOrder().Select(f => f.CSharpPropertyName()))
+                                .Append(msg.NestedTypes.Any() ? "Types" : null)
+                                .Where(x => x != null));
+                        // First generate the properties of this message.
+                        var properties = messageOnlyResources.Select(field =>
                         {
                             var def = field.ResourceDefinition;
                             var underlyingProperty = Property(DontCare, _ctx.TypeDontCare, field.UnderlyingPropertyName);
@@ -556,27 +574,40 @@ namespace Google.Api.Generator.Generation
                                     .Append(Return(_ctx.Type<UnparsedResourceName>().Call(nameof(UnparsedResourceName.Parse))(p)))) :
                                 p => Return(_ctx.Type<string>().Call(nameof(string.IsNullOrEmpty))(p).ConditionalOperator(
                                     Null, _ctx.Type(def.ResourceParserTyp).Call("Parse")(p, def.IsUnparsed ? null : (object) ("allowUnparsed", true))));
-                            if (field.IsRepeated)
+                            if (field.Descriptor.IsRepeated)
                             {
                                 var s = Parameter(null, "s");
                                 var repeatedTyp = Typ.Generic(typeof(ResourceNameList<>), def.ResourceNameTyp);
                                 return Property(Public, _ctx.Type(repeatedTyp), field.ResourcePropertyName)
-                                        .MaybeWithAttribute(field.IsDeprecated, () => _ctx.Type<ObsoleteAttribute>())()
+                                        .MaybeWithAttribute(field.Descriptor.IsDeprecated(), () => _ctx.Type<ObsoleteAttribute>())()
                                         .WithGetBody(Return(New(_ctx.Type(repeatedTyp))(underlyingProperty, Lambda(s)(getBodyFn(s)))))
                                         .WithXmlDoc(xmlDocSummary);
                             }
                             else
                             {
                                 return Property(Public, _ctx.Type(def.ResourceNameTyp), field.ResourcePropertyName)
-                                    .MaybeWithAttribute(field.IsDeprecated, () => _ctx.Type<ObsoleteAttribute>())()
+                                    .MaybeWithAttribute(field.Descriptor.IsDeprecated(), () => _ctx.Type<ObsoleteAttribute>())()
                                     .WithGetBody(getBodyFn(underlyingProperty))
                                     .WithSetBody(underlyingProperty.Assign(Value.Call(nameof(object.ToString), conditional: true)().NullCoalesce("")))
                                     .WithXmlDoc(xmlDocSummary);
                             }
                         });
                         cls = cls.AddMembers(properties.ToArray());
+
+                        // Now recursively generate any nested types with messages which need properties.
+                        var nestedMessagesWithResources = msg.NestedTypes.Where(messagesContainingResources.Contains).ToList();
+                        if (nestedMessagesWithResources.Any())
+                        {
+                            var types = Class(Public | Partial, Typ.Nested(msgTyp, "Types"));
+                            using var _ = _ctx.InClass(types);
+                            foreach (var nestedMessage in nestedMessagesWithResources)
+                            {
+                                types = types.AddMembers(GenerateClassWithResourceReferences(nestedMessage));
+                            }
+                            cls = cls.AddMembers(types);
+                        }
                     }
-                    yield return cls;
+                    return cls;
                 }
             }
         }

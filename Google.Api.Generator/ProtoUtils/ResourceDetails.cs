@@ -137,9 +137,7 @@ namespace Google.Api.Generator.ProtoUtils
             public Field(FieldDescriptor fieldDesc, Definition resourceDef, IReadOnlyList<Definition> innerDefs = null, bool? containsWildcard = null)
             {
                 // innerFields only non-null for the IResourceName property of child_type refs.
-                IsRepeated = fieldDesc.IsRepeated;
-                IsDeprecated = fieldDesc.IsDeprecated();
-                UnderlyingPropertyName = fieldDesc.CSharpPropertyName();
+                Descriptor = fieldDesc;
                 ResourceDefinition = resourceDef;
                 var requireIdentifier = !((fieldDesc.IsRepeated && fieldDesc.Name.ToLowerInvariant() == "names") ||
                     (!fieldDesc.IsRepeated && fieldDesc.Name.ToLowerInvariant() == "name"));
@@ -149,12 +147,13 @@ namespace Google.Api.Generator.ProtoUtils
                 ContainsWildcard = containsWildcard;
             }
 
-            public bool IsRepeated { get; }
-
-            public bool IsDeprecated { get; }
+            /// <summary>
+            /// The descriptor for the field which refers to the resource.
+            /// </summary>
+            public FieldDescriptor Descriptor { get; }
 
             /// <summary>The C# name of the string-typed property underlying this resource.</summary>
-            public string UnderlyingPropertyName { get; }
+            public string UnderlyingPropertyName => Descriptor.CSharpPropertyName();
 
             /// <summary>The C# name of the resource property.</summary>
             public string ResourcePropertyName { get; }

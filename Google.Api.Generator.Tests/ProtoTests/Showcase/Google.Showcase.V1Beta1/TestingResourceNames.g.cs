@@ -741,6 +741,21 @@ namespace Google.Showcase.V1Beta1
             get => string.IsNullOrEmpty(Name) ? null : gsv::TestName.Parse(Name, allowUnparsed: true);
             set => Name = value?.ToString() ?? "";
         }
+
+        public partial class Types
+        {
+            public partial class Blueprint
+            {
+                /// <summary>
+                /// <see cref="gsv::BlueprintName"/>-typed view over the <see cref="Name"/> resource name property.
+                /// </summary>
+                public gsv::BlueprintName BlueprintName
+                {
+                    get => string.IsNullOrEmpty(Name) ? null : gsv::BlueprintName.Parse(Name, allowUnparsed: true);
+                    set => Name = value?.ToString() ?? "";
+                }
+            }
+        }
     }
 
     public partial class ListTestsRequest

@@ -78,6 +78,32 @@ namespace Google.Api.Generator.ProtoUtils
             return valueName;
         }
 
+        /// <summary>
+        /// Returns a sequence of messages covering <paramref name="descriptor"/> and all nested messages within it,
+        /// recursively.
+        /// </summary>
+        internal static IEnumerable<MessageDescriptor> SelfAndNestedMessagesRecursively(this MessageDescriptor descriptor)
+        {
+            yield return descriptor;
+            foreach (var nestedType in descriptor.NestedTypes.SelectMany(SelfAndNestedMessagesRecursively))
+            {
+                yield return nestedType;
+            }
+        }
+
+        /// <summary>
+        /// Returns a sequence of messages covering <paramref name="descriptor"/> and all its ancestor message descriptors
+        /// (in terms of containing types).
+        /// </summary>
+        internal static IEnumerable<MessageDescriptor> SelfAndAncestors(this MessageDescriptor descriptor)
+        {
+            do
+            {
+                yield return descriptor;
+                descriptor = descriptor.ContainingType;
+            } while (descriptor is not null);
+        }
+
         public static string CSharpName(this EnumValueDescriptor desc) => RemoveEnumPrefix(desc.EnumDescriptor.Name, desc.Name);
 
         // Convenience methods for accessing extensions, where repeated extensions
