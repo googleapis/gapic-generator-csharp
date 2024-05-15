@@ -559,4 +559,22 @@ namespace Google.Showcase.V1Beta1
             set => Name = value?.ToString() ?? "";
         }
     }
+
+    public partial class ConnectRequest
+    {
+        public partial class Types
+        {
+            public partial class ConnectConfig
+            {
+                /// <summary>
+                /// <see cref="RoomName"/>-typed view over the <see cref="Parent"/> resource name property.
+                /// </summary>
+                public RoomName ParentAsRoomName
+                {
+                    get => string.IsNullOrEmpty(Parent) ? null : RoomName.Parse(Parent, allowUnparsed: true);
+                    set => Parent = value?.ToString() ?? "";
+                }
+            }
+        }
+    }
 }

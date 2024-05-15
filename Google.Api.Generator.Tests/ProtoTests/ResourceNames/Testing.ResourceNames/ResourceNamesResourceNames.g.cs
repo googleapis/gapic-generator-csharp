@@ -1568,5 +1568,45 @@ namespace Testing.ResourceNames
             get => string.IsNullOrEmpty(TopRef) ? null : SinglePatternName.Parse(TopRef, allowUnparsed: true);
             set => TopRef = value?.ToString() ?? "";
         }
+
+        public partial class Types
+        {
+            public partial class Nested
+            {
+                /// <summary>
+                /// <see cref="SinglePatternName"/>-typed view over the <see cref="NestedRef"/> resource name property.
+                /// </summary>
+                public SinglePatternName NestedRefAsSinglePatternName
+                {
+                    get => string.IsNullOrEmpty(NestedRef) ? null : SinglePatternName.Parse(NestedRef, allowUnparsed: true);
+                    set => NestedRef = value?.ToString() ?? "";
+                }
+            }
+        }
+    }
+
+    public partial class DeeplyNestedResourceReference
+    {
+        public partial class Types
+        {
+            public partial class Nested
+            {
+                public partial class Types
+                {
+                    public partial class DeeplyNested
+                    {
+                        /// <summary>
+                        /// <see cref="SinglePatternName"/>-typed view over the <see cref="Ref"/> resource name
+                        /// property.
+                        /// </summary>
+                        public SinglePatternName RefAsSinglePatternName
+                        {
+                            get => string.IsNullOrEmpty(Ref) ? null : SinglePatternName.Parse(Ref, allowUnparsed: true);
+                            set => Ref = value?.ToString() ?? "";
+                        }
+                    }
+                }
+            }
+        }
     }
 }
