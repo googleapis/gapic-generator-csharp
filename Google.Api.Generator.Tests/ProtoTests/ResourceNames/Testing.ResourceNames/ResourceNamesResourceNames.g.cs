@@ -1557,4 +1557,16 @@ namespace Testing.ResourceNames
             set => Name = value?.ToString() ?? "";
         }
     }
+
+    public partial class TopLevelAndNestedResourceReferences
+    {
+        /// <summary>
+        /// <see cref="SinglePatternName"/>-typed view over the <see cref="TopRef"/> resource name property.
+        /// </summary>
+        public SinglePatternName TopRefAsSinglePatternName
+        {
+            get => string.IsNullOrEmpty(TopRef) ? null : SinglePatternName.Parse(TopRef, allowUnparsed: true);
+            set => TopRef = value?.ToString() ?? "";
+        }
+    }
 }

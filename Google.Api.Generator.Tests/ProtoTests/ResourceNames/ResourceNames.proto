@@ -104,3 +104,24 @@ message LooseValidationPattern {
 }
 
 message Response { }
+
+message TopLevelAndNestedResourceReferences
+{
+    string topRef = 1 [(google.api.resource_reference).type = "resourcenames.example.com/SinglePattern"];
+
+    message Nested
+    {
+        string nestedRef = 1 [(google.api.resource_reference).type = "resourcenames.example.com/SinglePattern"];
+    }
+}
+
+message DeeplyNestedResourceReference
+{
+    message Nested
+    {
+        message DeeplyNested
+        {
+            string ref = 1 [(google.api.resource_reference).type = "resourcenames.example.com/SinglePattern"];
+        }
+    }
+}
