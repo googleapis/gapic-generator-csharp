@@ -8,7 +8,7 @@ apis:
 
 publishing:
   method_settings:
-  - selector: testing.lro.Lro.CustomDefaultPollingMethod
+  - selector: testing.lro.Lro.ServiceConfigPollingMethod
     long_running:
       initial_poll_delay: 60s
       poll_delay_multiplier: 2
