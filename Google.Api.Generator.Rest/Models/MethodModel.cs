@@ -17,6 +17,7 @@ using Google.Api.Generator.Utils;
 using Google.Api.Generator.Utils.Roslyn;
 using Google.Apis.Discovery.v1.Data;
 using Google.Apis.Download;
+using Google.Apis.Requests;
 using Google.Apis.Services;
 using Google.Apis.Upload;
 using Microsoft.CodeAnalysis;
@@ -35,6 +36,8 @@ namespace Google.Api.Generator.Rest.Models
 {
     public class MethodModel
     {
+        internal const string ApiVersionPropertyName = nameof(ClientServiceRequest<string>.ApiVersion);
+
         private RestMethod _restMethod;
 
         private PackageModel Package { get; }
@@ -54,6 +57,15 @@ namespace Google.Api.Generator.Rest.Models
         private bool SupportsMediaUpload => _restMethod.SupportsMediaUpload ?? false;
 
         public string ApiVersion => _restMethod.ApiVersion;
+
+        /// <summary>
+        /// Indicates if ApiVersion disambiguation is required - i.e. whether this method needs
+        /// to use an additional constructor in the service-wide base request type to specify the API version,
+        /// as it needs to specify an x-goog-api-version header *and* declare a new ApiVersion property.
+        /// </summary>
+        public bool NeedsApiVersionDisambiguation => ApiVersion is not null &&
+            _restMethod.Parameters is not null &&
+            _restMethod.Parameters.Any(pair => pair.Key.ToMemberName(addUnderscoresToEscape: false) == ApiVersionPropertyName);
 
         public MethodModel(PackageModel package, ResourceModel resource, string name, RestMethod restMethod)
         {
@@ -174,7 +186,10 @@ namespace Google.Api.Generator.Rest.Models
 
                 var allCtorParameters = extraParameters.Concat(requiredParameters.Select(p => p.decl)).ToArray();
 
-                var ctor = Ctor(Modifier.Public, cls, BaseInitializer(serviceParam))(allCtorParameters)
+                var baseInitializer = NeedsApiVersionDisambiguation
+                    ? BaseInitializer(serviceParam, ApiVersion)
+                    : BaseInitializer(serviceParam);
+                var ctor = Ctor(Modifier.Public, cls, baseInitializer)(allCtorParameters)
                     .WithXmlDoc(XmlDoc.Summary($"Constructs a new {PascalCasedName} request."))
                     .WithBlockBody(assignments.Concat<object>(new[] { Call("InitParameters")() }).ToArray());
 
@@ -201,9 +216,9 @@ namespace Google.Api.Generator.Rest.Models
                 cls = cls.AddMembers(bodyDeclarations);
                 cls = cls.AddMembers(methodName, httpMethod, restPath, initParameters);
 
-                if (ApiVersion is string apiVersion)
+                if (ApiVersion is string apiVersion && !NeedsApiVersionDisambiguation)
                 {
-                    var apiVersionProperty = Property(Modifier.Public | Modifier.Override, ctx.Type<string>(), "ApiVersion")
+                    var apiVersionProperty = Property(Modifier.Public | Modifier.Override, ctx.Type<string>(), ApiVersionPropertyName)
                         .WithGetBody(ApiVersion)
                         .WithXmlDoc(XmlDoc.InheritDoc);
                     cls = cls.AddMembers(apiVersionProperty);

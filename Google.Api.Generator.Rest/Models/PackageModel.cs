@@ -299,6 +299,20 @@ namespace Google.Api.Generator.Rest.Models
                     .WithXmlDoc(XmlDoc.Summary($"Initializes {ClassName} parameter list."));
 
                 cls = cls.AddMembers(initParameters);
+
+                // We generate an extra constructor and ApiVersion property override if any method has an API version
+                // to specify as a header *and* an ApiVersion request property.
+                // Generating this at the bottom instead of in an idiomatic order is a little annoying, but it should happen
+                // very rarely - and keeping them together will make the diff simpler to understand.
+                if (Methods.Concat(Resources.SelectMany(r => r.GetAllMethodsRecursively())).Any(m => m.NeedsApiVersionDisambiguation))
+                {
+                    var overrideProperty = AutoProperty(Modifier.Public | Modifier.Override, ctx.Type<string>(), MethodModel.ApiVersionPropertyName);
+                    var ctorParam = Parameter(ctx.Type<string>(), "apiVersion");
+                    var ctorWithApiVersion = Ctor(Modifier.Protected, cls, BaseInitializer(serviceParam))(serviceParam, ctorParam)
+                        .WithBody(overrideProperty.Assign(ctorParam))
+                        .WithXmlDoc(XmlDoc.Summary($"Constructs a new {ClassName}BaseServiceRequest instance with a specified API version."));
+                    cls = cls.AddMembers(ctorWithApiVersion, overrideProperty);
+                }
             }
             return cls;
         }

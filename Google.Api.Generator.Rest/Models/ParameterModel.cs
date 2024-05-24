@@ -138,7 +138,7 @@ namespace Google.Api.Generator.Rest.Models
 
             // If we're declaring a new property called "ApiVersion", we need to add the "new" keyword
             // to avoid warning CS0114 due to the virtual property of the same name in a base class.
-            if (PropertyName == "ApiVersion")
+            if (PropertyName == MethodModel.ApiVersionPropertyName)
             {
                 property = property.WithModifiers(property.Modifiers.Add(Token(SyntaxKind.NewKeyword)));
             }

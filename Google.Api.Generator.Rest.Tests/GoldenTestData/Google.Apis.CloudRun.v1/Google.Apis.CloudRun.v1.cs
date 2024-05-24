@@ -264,6 +264,11 @@ namespace Google.Apis.CloudRun.v1
                 Pattern = null,
             });
         }
+
+        /// <summary>Constructs a new CloudRunBaseServiceRequest instance with a specified API version.</summary>
+        protected CloudRunBaseServiceRequest(Google.Apis.Services.IClientService service, string apiVersion) : base(service) => ApiVersion = apiVersion;
+
+        public override string ApiVersion { get; }
     }
 
     /// <summary>The "namespaces" collection of methods.</summary>
@@ -1854,7 +1859,7 @@ namespace Google.Apis.CloudRun.v1
             public class DeleteRequest : CloudRunBaseServiceRequest<Google.Apis.CloudRun.v1.Data.Status>
             {
                 /// <summary>Constructs a new Delete request.</summary>
-                public DeleteRequest(Google.Apis.Services.IClientService service, string name) : base(service)
+                public DeleteRequest(Google.Apis.Services.IClientService service, string name) : base(service, "testversion")
                 {
                     Name = name;
                     InitParameters();
@@ -1994,6 +1999,9 @@ namespace Google.Apis.CloudRun.v1
                         Pattern = @"^namespaces/[^/]+/revisions/[^/]+$",
                     });
                 }
+
+                /// <inheritdoc/>
+                public override string ApiVersion => "testversion";
             }
 
             /// <summary>List revisions.</summary>

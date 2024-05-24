@@ -60,6 +60,9 @@ namespace Google.Api.Generator.Rest.Models
             Methods = discoveryResource.Methods.ToReadOnlyList(pair => new MethodModel(package, this, pair.Key, pair.Value));
         }
 
+        internal IEnumerable<MethodModel> GetAllMethodsRecursively() =>
+            Methods.Concat(Subresources.SelectMany(sr => sr.GetAllMethodsRecursively()));
+
         public PropertyDeclarationSyntax GenerateProperty(SourceFileContext ctx) =>
             AutoProperty(Modifier.Public | Modifier.Virtual, ctx.Type(Typ), PropertyName)
                 .WithXmlDoc(XmlDoc.Summary($"Gets the {PropertyName} resource."));
