@@ -983,6 +983,7 @@
      "methods": {
       "delete": {
        "description": "Delete a revision.",
+       "apiVersion": "testversion",
        "flatPath": "apis/serving.knative.dev/v1/namespaces/{namespacesId}/revisions/{revisionsId}",
        "httpMethod": "DELETE",
        "id": "run.namespaces.revisions.delete",
@@ -1028,6 +1029,7 @@
       },
       "get": {
        "description": "Get information about a revision.",
+       "apiVersion": "testversion",
        "flatPath": "apis/serving.knative.dev/v1/namespaces/{namespacesId}/revisions/{revisionsId}",
        "httpMethod": "GET",
        "id": "run.namespaces.revisions.get",
