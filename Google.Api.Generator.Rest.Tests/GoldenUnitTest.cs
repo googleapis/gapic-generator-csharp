@@ -41,5 +41,8 @@ namespace Google.Api.Generator.Rest.Tests
 
         [Fact]
         public void Assuredworkloads() => TestResources.TestOutput("Google.Apis.Assuredworkloads.v1");
+
+        [Fact]
+        public void CloudRun() => TestResources.TestOutput("Google.Apis.CloudRun.v1");
     }
 }
