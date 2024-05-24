@@ -135,6 +135,14 @@ namespace Google.Api.Generator.Rest.Models
                     : new[] { summary };
                 property = property.WithXmlDoc(docs);
             }
+
+            // If we're declaring a new property called "ApiVersion", we need to add the "new" keyword
+            // to avoid warning CS0114 due to the virtual property of the same name in a base class.
+            if (PropertyName == "ApiVersion")
+            {
+                property = property.WithModifiers(property.Modifiers.Add(Token(SyntaxKind.NewKeyword)));
+            }
+
             yield return property;
 
             if (IsRepeatedOptionalEnum)
