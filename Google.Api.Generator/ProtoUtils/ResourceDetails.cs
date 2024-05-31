@@ -139,10 +139,11 @@ namespace Google.Api.Generator.ProtoUtils
                 // innerFields only non-null for the IResourceName property of child_type refs.
                 Descriptor = fieldDesc;
                 ResourceDefinition = resourceDef;
+                var unqualifiedName = (resourceDef.IsWildcardOnly ? "ResourceName" : resourceDef.ResourceNameTyp.Name) + (fieldDesc.IsRepeated ? "s" : "");
                 var requireIdentifier = !((fieldDesc.IsRepeated && fieldDesc.Name.ToLowerInvariant() == "names") ||
-                    (!fieldDesc.IsRepeated && fieldDesc.Name.ToLowerInvariant() == "name"));
-                ResourcePropertyName = (requireIdentifier ? $"{UnderlyingPropertyName}As" : "") +
-                    (resourceDef.IsWildcardOnly ? "ResourceName" : resourceDef.ResourceNameTyp.Name) + (fieldDesc.IsRepeated ? "s" : "");
+                    (!fieldDesc.IsRepeated && fieldDesc.Name.ToLowerInvariant() == "name")) ||
+                    fieldDesc.ContainingType.Fields.InDeclarationOrder().Any(f => f.CSharpPropertyName() == unqualifiedName);
+                ResourcePropertyName = (requireIdentifier ? $"{UnderlyingPropertyName}As" : "") + unqualifiedName;
                 InnerDefs = innerDefs;
                 ContainsWildcard = containsWildcard;
             }
