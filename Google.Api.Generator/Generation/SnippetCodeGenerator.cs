@@ -463,7 +463,7 @@ namespace Google.Api.Generator.Generation
                     {
                         var seenMessagesAndMe = new HashSet<MessageDescriptor>(seenMessages.Append(descriptor));
 
-                        foreach (var fieldDesc in descriptor.Fields.InFieldNumberOrder().Where(x => !x.IsDeprecated()))
+                        foreach (var fieldDesc in descriptor.Fields.InFieldNumberOrder().Where(x => ShouldIncludeField(x, false)))
                         {
                             var resourceField = Svc.Catalog.GetResourceDetailsByField(fieldDesc)?[0];
                             yield return new ObjectInitExpr(resourceField?.ResourcePropertyName ?? fieldDesc.CSharpPropertyName(),
@@ -479,13 +479,28 @@ namespace Google.Api.Generator.Generation
                 {
                     Method.RequestMessageDesc
                 };
-                foreach (var fieldDesc in Method.RequestMessageDesc.Fields.InFieldNumberOrder().Where(x => !x.IsDeprecated()))
+                foreach (var fieldDesc in Method.RequestMessageDesc.Fields.InFieldNumberOrder().Where(x => ShouldIncludeField(x, true)))
                 {
                     var resourceField = Svc.Catalog.GetResourceDetailsByField(fieldDesc)?[0];
                     yield return new ObjectInitExpr(resourceField?.ResourcePropertyName ?? fieldDesc.CSharpPropertyName(),
                         DefaultValue(fieldDesc, seenMessages, resourceField?.ResourceDefinition.ResourceNameTyp));
                 }
             }
+            // fieldDesc.RealContainingOneof != null &&
+            // fieldDesc.Index != fieldDesc.RealContainingOneof.Fields[0].Index;
+            
+            private bool ShouldIncludeField(FieldDescriptor x, bool isRequestField)
+            {
+                return !IsAutopopulated() && !IsDeprecated() && !IsPaginationField() && (isRequestField || IsRequired() || IsFirstOneOf());
+
+                bool IsAutopopulated() => Method.ServiceConfigMethodSettings.AutoPopulatedFields.Contains(x.Name);
+                bool IsDeprecated() => x.IsDeprecated();
+                bool IsPaginationField() => Method is MethodDetails.Paginated paged &&
+                        (x.FieldNumber == paged.PageSizeFieldNumber || x.FieldNumber == paged.PageTokenFieldNumber);
+                bool IsRequired() => x.IsRequired || x.GetExtension(FieldBehaviorExtensions.FieldBehavior)?.Contains(FieldBehavior.Required) == true;
+                bool IsFirstOneOf() => x.RealContainingOneof is not null && x.Index == x.RealContainingOneof.Fields[0].Index;
+            }
+
 
             private string SnippetTypes(IEnumerable<Typ> typs) => string.Join("", typs.Select(t => $"{Ctx.Type(t)}, "));
 
