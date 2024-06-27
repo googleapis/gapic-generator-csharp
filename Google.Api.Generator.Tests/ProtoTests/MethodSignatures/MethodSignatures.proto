@@ -8,9 +8,11 @@ import "google/api/client.proto";
 import "google/api/field_behavior.proto";
 import "google/protobuf/wrappers.proto";
 
+// Test service
 service MethodSignatures {
   option (google.api.default_host) = "methodsignatures.example.com";
 
+  // Test method
   rpc SimpleMethod(SimpleRequest) returns(Response) {
     option (google.api.method_signature) = ""; // Test zero-parameter signature. This would be unusual, but valid.
     option (google.api.method_signature) = "a_number";
@@ -19,34 +21,42 @@ service MethodSignatures {
     option (google.api.method_signature) = "a_string,a_number";
   }
 
+  // Test method
   rpc PrimitiveArgs(PrimitiveRequest) returns(Response) {
     option (google.api.method_signature) = "optional,required,repeated_optional,repeated_required";
   }
 
+  // Test method
   rpc StringArgs(StringRequest) returns(Response) {
     option (google.api.method_signature) = "optional,required,repeated_optional,repeated_required";
   }
 
+  // Test method
   rpc BytesArgs(BytesRequest) returns(Response) {
     option (google.api.method_signature) = "optional,required,repeated_optional,repeated_required";
   }
 
+  // Test method
   rpc MessageArgs(MessageRequest) returns(Response) {
     option (google.api.method_signature) = "optional,required,repeated_optional,repeated_required";
   }
 
+  // Test method
   rpc MapArgs(MapRequest) returns(Response) {
      option (google.api.method_signature) = "optional, required";
   }
 
+  // Test method
   rpc EnumArgs(EnumRequest) returns(Response) {
     option (google.api.method_signature) = "optional,required,repeated_optional,repeated_required,top_level_optional,top_level_required,repeated_top_level_optional,repeated_top_level_required";
   }
 
+  // Test method
   rpc NestedArgs(NestedRequest) returns(Response) {
     option (google.api.method_signature) = "nest1.a_string,nest1.nest2.a_number,nest1.nest2.another_number,nest1.nest_outer.a_bool,top_level_string";
   }
 
+  // Test method
   rpc WktArgs(WktRequest) returns (Response) {
     option (google.api.method_signature) = "optional_int32,required_int32,repeated_optional_int32,repeated_required_int32,optional_string,required_string,repeated_optional_string,repeated_required_string";
   }

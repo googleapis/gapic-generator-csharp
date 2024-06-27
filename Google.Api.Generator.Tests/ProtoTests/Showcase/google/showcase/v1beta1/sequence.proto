@@ -30,6 +30,7 @@ option java_package = "com.google.showcase.v1beta1";
 option java_multiple_files = true;
 option ruby_package = "Google::Showcase::V1beta1";
 
+// Sequence service
 service SequenceService {
   // This service is meant to only run locally on the port 7469 (keypad digits
   // for "show").

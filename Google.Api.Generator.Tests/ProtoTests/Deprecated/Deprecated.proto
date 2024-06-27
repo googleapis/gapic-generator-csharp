@@ -4,19 +4,24 @@ package testing.deprecated;
 
 import "google/api/client.proto";
 
+// Test service
 service Deprecated {
   option (google.api.default_host) = "deprecated.example.com";
 
+  // Test method
   rpc DeprecatedFieldMethod(DeprecatedFieldRequest) returns(Response) {
     option (google.api.method_signature) = "deprecated_field_1, deprecated_field_2";
   };
 
+  // Test method
   rpc DeprecatedMessageMethod(DeprecatedMessageRequest) returns(Response);
 
+  // Test method
   rpc DeprecatedMethod(Request) returns(Response) {
     option deprecated = true;
   };
 
+  // Test method
   rpc DeprecatedResponseMethod(Request) returns(DeprecatedMessageResponse);
 }
 
@@ -26,9 +31,11 @@ service DeprecatedService {
   option deprecated = true;
   option (google.api.default_host) = "deprecated.example.com";
 
+  // Test method
   rpc NonDeprecatedMethod(Request) returns(Response) {
   };
 
+  // Test method
   rpc DeprecatedMethod(Request) returns(Response) {
     option deprecated = true;
   };

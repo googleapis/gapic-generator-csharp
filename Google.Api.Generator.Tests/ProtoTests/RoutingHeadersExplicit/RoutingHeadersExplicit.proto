@@ -8,11 +8,14 @@ import "google/api/routing.proto";
 
 option csharp_namespace = "Testing.RoutingHeadersExplicit";
 
+// Test service
 service RoutingHeadersExplicit {
   option (google.api.default_host) = "routingheaders.example.com";
 
+  // Test method
   rpc NoRouting(SimpleRequest) returns (Response);
 
+  // Test method
   rpc PlainNoTemplate(SimpleRequest) returns (Response) {
     option (google.api.http) = {
       get: "/v2/{name=projects/*/instances/*/tables/*}:sampleRowKeys"
@@ -22,6 +25,7 @@ service RoutingHeadersExplicit {
     };
   }
 
+  // Test method
   rpc PlainNoExtraction(SimpleRequest) returns (Response) {
     option (google.api.http) = {
       get: "/v2/{name=projects/*/instances/*/tables/*}:sampleRowKeys"
@@ -31,6 +35,7 @@ service RoutingHeadersExplicit {
     };
   }
 
+  // Test method
   rpc PlainFullField(SimpleRequest) returns (Response) {
     option (google.api.http) = {
       get: "/v2/{name=projects/*/instances/*/tables/*}:sampleRowKeys"
@@ -43,6 +48,7 @@ service RoutingHeadersExplicit {
     };
   }
 
+  // Test method
   rpc PlainExtract(SimpleRequest) returns (Response) {
     option (google.api.http) = {
       get: "/v2/{name=projects/*/instances/*/tables/*}:sampleRowKeys"
@@ -55,6 +61,7 @@ service RoutingHeadersExplicit {
     };
   }
 
+  // Test method
   rpc Nested(NestedRequest) returns (Response) {
     option (google.api.http) = {
       get: "/v2/{nest1.nest2.name=projects/*/instances/*/tables/*}:withSubMessage"
@@ -68,6 +75,7 @@ service RoutingHeadersExplicit {
     };
   }
 
+  // Test method
   rpc Complex(NestedRequest) returns (Response) {
     option (google.api.http) = {
       get: "/v2/{name=projects/*/instances/*/tables/*}:sampleRowKeys"

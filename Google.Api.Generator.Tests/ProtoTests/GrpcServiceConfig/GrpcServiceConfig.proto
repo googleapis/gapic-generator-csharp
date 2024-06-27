@@ -6,22 +6,30 @@ option csharp_namespace = "Testing.GrpcServiceConfig";
 
 import "google/api/client.proto";
 
+// Test service
 service GrpcServiceConfigNoRetry {
   option (google.api.default_host) = "grpcserviceconfig.example.com";
 
+  // Test method
   rpc NoRetryMethod(Request) returns(Response);
 }
 
+// Test service
 service GrpcServiceConfig {
   option (google.api.default_host) = "grpcserviceconfig.example.com";
 
+  // Test method
   rpc ServiceLevelRetryMethod(Request) returns(Response);
 
+  // Test method
   rpc MethodLevelRetryMethod(Request) returns(Response);
 
+  // Test method
   rpc MethodWithServerRetry(Request) returns(stream Response);
+  // Test method
   rpc MethodWithBidiRetry(stream Request) returns(stream Response);
 
+  // Test method
   rpc MethodTimeoutOnly(Request) returns(Response);
 }
 

@@ -7,37 +7,45 @@ import "google/longrunning/operations.proto";
 import "google/api/resource.proto";
 import "google/protobuf/wrappers.proto";
 
+// Test service
 service Snippets {
   option (google.api.default_host) = "snippets.example.com";
 
+  // Test method
   rpc MethodDefaultValues(DefaultValuesRequest) returns(Response) {
     // Test snippet generation of signature that includes repeated fields.
     option (google.api.method_signature) = "repeated_double,repeated_nested_message,repeated_resource_name";
   }
 
+  // Test method
   rpc MethodOneSignature(SignatureRequest) returns(Response) {
     option (google.api.method_signature) = "a_string,an_int,a_bool";
   }
 
+  // Test method
   rpc MethodThreeSignatures(SignatureRequest) returns(Response) {
     option (google.api.method_signature) = "a_string,an_int,a_bool";
     option (google.api.method_signature) = "a_string,a_bool";
     option (google.api.method_signature) = "";
   }
 
+  // Test method
   rpc MethodMapSignature(SignatureRequest) returns(Response) {
     option (google.api.method_signature) = "map_int_string";
   }
 
+  // Test method
   rpc MethodResourceSignature(ResourceSignatureRequest) returns(Response) {
     option (google.api.method_signature) = "first_name,second_name,third_name";
     option (google.api.method_signature) = "first_name";
   }
 
+  // Test method
   rpc MethodRepeatedResourceSignature(RepeatedResourceSignatureRequest) returns(Response) {
     option (google.api.method_signature) = "names";
   }
 
+  // Test method
   rpc MethodLroSignatures(SignatureRequest) returns(google.longrunning.Operation) {
     option (google.api.method_signature) = "a_string,an_int,a_bool";
     option (google.longrunning.operation_info) = {
@@ -46,6 +54,7 @@ service Snippets {
     };
   }
 
+  // Test method
   rpc MethodLroResourceSignature(ResourceSignatureRequest) returns(google.longrunning.Operation) {
     option (google.api.method_signature) = "first_name,second_name,third_name";
     option (google.longrunning.operation_info) = {
@@ -54,20 +63,24 @@ service Snippets {
     };
   }
 
+  // Test method
   rpc MethodServerStreaming(SignatureRequest) returns(stream Response) {
     option (google.api.method_signature) = "a_string,a_bool";
     option (google.api.method_signature) = "";
   }
 
+  // Test method
   rpc MethodServerStreamingResources(ResourceSignatureRequest) returns(stream Response) {
     option (google.api.method_signature) = "first_name,second_name,third_name";
   }
 
+  // Test method
   rpc MethodBidiStreaming(stream SignatureRequest) returns (stream Response);
 
   // Test name collision handling in snippets.
   rpc TaskMethod(Task) returns (Task);
 
+  // Test method
   rpc OneOfMethod(OneOfRequest) returns (Response);
 }
 

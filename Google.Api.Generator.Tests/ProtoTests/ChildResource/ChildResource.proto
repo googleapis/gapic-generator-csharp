@@ -8,23 +8,29 @@ import "google/api/client.proto";
 import "google/api/resource.proto";
 import "google/api/field_behavior.proto";
 
+// Test service
 service ChildResource {
+  // Test method
   rpc SingleParentMethod(SingleParent) returns(Response) {
     option (google.api.method_signature) = "ref, repeated_ref";
   }
 
+  // Test method
   rpc WildcardParentMethod(WildcardParent) returns(Response) {
     option (google.api.method_signature) = "ref, repeated_ref, ref_sugar, repeated_ref_sugar";
   }
 
+  // Test method
   rpc TripleParentMethod(TripleParent) returns(Response) {
     option (google.api.method_signature) = "ref, repeated_ref";
   }
 
+  // Test method
   rpc TripleWildcardParentMethod(TripleWildcardParent) returns(Response) {
     option (google.api.method_signature) = "ref, repeated_ref";
   }
 
+  // Test method
   rpc OverlapParentMethod(OverlapParent) returns(Response) {
     option (google.api.method_signature) = "ref"; // "ref" and "repeated_ref" would generate too many overloads.
     option (google.api.method_signature) = "repeated_ref";
