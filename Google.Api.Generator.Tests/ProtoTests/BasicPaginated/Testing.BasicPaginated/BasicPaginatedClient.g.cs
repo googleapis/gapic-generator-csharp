@@ -27,6 +27,7 @@ namespace Testing.BasicPaginated
     {
         // TEST_START
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -35,6 +36,7 @@ namespace Testing.BasicPaginated
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -52,6 +54,7 @@ namespace Testing.BasicPaginated
 
         // TEST_START
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -63,6 +66,7 @@ namespace Testing.BasicPaginated
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>

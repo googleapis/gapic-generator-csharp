@@ -192,6 +192,7 @@ namespace Testing.ResourceNames
 
     /// <summary>ResourceNames client wrapper, for convenient use.</summary>
     /// <remarks>
+    /// Test service
     /// </remarks>
     public abstract partial class ResourceNamesClient
     {
@@ -265,6 +266,7 @@ namespace Testing.ResourceNames
         public virtual ResourceNames.ResourceNamesClient GrpcClient => throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -273,6 +275,7 @@ namespace Testing.ResourceNames
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -281,6 +284,7 @@ namespace Testing.ResourceNames
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
@@ -289,6 +293,7 @@ namespace Testing.ResourceNames
             SinglePatternMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="realName">
         /// </param>
@@ -319,6 +324,7 @@ namespace Testing.ResourceNames
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="realName">
         /// </param>
@@ -349,6 +355,7 @@ namespace Testing.ResourceNames
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="realName">
         /// </param>
@@ -366,6 +373,7 @@ namespace Testing.ResourceNames
             SinglePatternMethodAsync(realName, @ref, repeatedRef, valueRef, repeatedValueRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="realName">
         /// </param>
@@ -396,6 +404,7 @@ namespace Testing.ResourceNames
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="realName">
         /// </param>
@@ -426,6 +435,7 @@ namespace Testing.ResourceNames
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="realName">
         /// </param>
@@ -443,6 +453,7 @@ namespace Testing.ResourceNames
             SinglePatternMethodAsync(realName, @ref, repeatedRef, valueRef, repeatedValueRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -451,6 +462,7 @@ namespace Testing.ResourceNames
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -459,6 +471,7 @@ namespace Testing.ResourceNames
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
@@ -467,6 +480,7 @@ namespace Testing.ResourceNames
             DeprecatedPatternMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -477,6 +491,7 @@ namespace Testing.ResourceNames
             DeprecatedPatternMethod(new DeprecatedPattern { Name = name ?? "", }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -487,6 +502,7 @@ namespace Testing.ResourceNames
             DeprecatedPatternMethodAsync(new DeprecatedPattern { Name = name ?? "", }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -497,6 +513,7 @@ namespace Testing.ResourceNames
             DeprecatedPatternMethodAsync(name, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -510,6 +527,7 @@ namespace Testing.ResourceNames
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -523,6 +541,7 @@ namespace Testing.ResourceNames
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -533,6 +552,7 @@ namespace Testing.ResourceNames
             DeprecatedPatternMethodAsync(name, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -541,6 +561,7 @@ namespace Testing.ResourceNames
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -549,6 +570,7 @@ namespace Testing.ResourceNames
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
@@ -557,6 +579,7 @@ namespace Testing.ResourceNames
             WildcardOnlyPatternMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -587,6 +610,7 @@ namespace Testing.ResourceNames
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -617,6 +641,7 @@ namespace Testing.ResourceNames
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -634,6 +659,7 @@ namespace Testing.ResourceNames
             WildcardOnlyPatternMethodAsync(name, @ref, repeatedRef, refSugar, repeatedRefSugar, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -664,6 +690,7 @@ namespace Testing.ResourceNames
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -694,6 +721,7 @@ namespace Testing.ResourceNames
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -711,6 +739,7 @@ namespace Testing.ResourceNames
             WildcardOnlyPatternMethodAsync(name, @ref, repeatedRef, refSugar, repeatedRefSugar, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -719,6 +748,7 @@ namespace Testing.ResourceNames
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -727,6 +757,7 @@ namespace Testing.ResourceNames
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
@@ -735,6 +766,7 @@ namespace Testing.ResourceNames
             WildcardMultiPatternMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -756,6 +788,7 @@ namespace Testing.ResourceNames
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -777,6 +810,7 @@ namespace Testing.ResourceNames
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -790,6 +824,7 @@ namespace Testing.ResourceNames
             WildcardMultiPatternMethodAsync(name, @ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -811,6 +846,7 @@ namespace Testing.ResourceNames
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -832,6 +868,7 @@ namespace Testing.ResourceNames
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -845,6 +882,7 @@ namespace Testing.ResourceNames
             WildcardMultiPatternMethodAsync(name, @ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -866,6 +904,7 @@ namespace Testing.ResourceNames
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -887,6 +926,7 @@ namespace Testing.ResourceNames
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -900,6 +940,7 @@ namespace Testing.ResourceNames
             WildcardMultiPatternMethodAsync(name, @ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -921,6 +962,7 @@ namespace Testing.ResourceNames
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -942,6 +984,7 @@ namespace Testing.ResourceNames
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -955,6 +998,7 @@ namespace Testing.ResourceNames
             WildcardMultiPatternMethodAsync(name, @ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -976,6 +1020,7 @@ namespace Testing.ResourceNames
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -997,6 +1042,7 @@ namespace Testing.ResourceNames
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -1010,6 +1056,7 @@ namespace Testing.ResourceNames
             WildcardMultiPatternMethodAsync(name, @ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -1031,6 +1078,7 @@ namespace Testing.ResourceNames
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -1052,6 +1100,7 @@ namespace Testing.ResourceNames
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -1065,6 +1114,7 @@ namespace Testing.ResourceNames
             WildcardMultiPatternMethodAsync(name, @ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -1086,6 +1136,7 @@ namespace Testing.ResourceNames
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -1107,6 +1158,7 @@ namespace Testing.ResourceNames
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -1120,6 +1172,7 @@ namespace Testing.ResourceNames
             WildcardMultiPatternMethodAsync(name, @ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -1141,6 +1194,7 @@ namespace Testing.ResourceNames
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -1162,6 +1216,7 @@ namespace Testing.ResourceNames
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -1175,6 +1230,7 @@ namespace Testing.ResourceNames
             WildcardMultiPatternMethodAsync(name, @ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -1196,6 +1252,7 @@ namespace Testing.ResourceNames
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -1217,6 +1274,7 @@ namespace Testing.ResourceNames
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -1230,6 +1288,7 @@ namespace Testing.ResourceNames
             WildcardMultiPatternMethodAsync(name, @ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -1238,6 +1297,7 @@ namespace Testing.ResourceNames
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -1246,6 +1306,7 @@ namespace Testing.ResourceNames
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
@@ -1254,6 +1315,7 @@ namespace Testing.ResourceNames
             WildcardMultiPatternMultipleMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1272,6 +1334,7 @@ namespace Testing.ResourceNames
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1290,6 +1353,7 @@ namespace Testing.ResourceNames
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1301,6 +1365,7 @@ namespace Testing.ResourceNames
             WildcardMultiPatternMultipleMethodAsync(@ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1319,6 +1384,7 @@ namespace Testing.ResourceNames
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1337,6 +1403,7 @@ namespace Testing.ResourceNames
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1348,6 +1415,7 @@ namespace Testing.ResourceNames
             WildcardMultiPatternMultipleMethodAsync(@ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1366,6 +1434,7 @@ namespace Testing.ResourceNames
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1384,6 +1453,7 @@ namespace Testing.ResourceNames
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1395,6 +1465,7 @@ namespace Testing.ResourceNames
             WildcardMultiPatternMultipleMethodAsync(@ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1413,6 +1484,7 @@ namespace Testing.ResourceNames
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1431,6 +1503,7 @@ namespace Testing.ResourceNames
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1442,6 +1515,7 @@ namespace Testing.ResourceNames
             WildcardMultiPatternMultipleMethodAsync(@ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1460,6 +1534,7 @@ namespace Testing.ResourceNames
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1478,6 +1553,7 @@ namespace Testing.ResourceNames
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1489,6 +1565,7 @@ namespace Testing.ResourceNames
             WildcardMultiPatternMultipleMethodAsync(@ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -1497,6 +1574,7 @@ namespace Testing.ResourceNames
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -1505,6 +1583,7 @@ namespace Testing.ResourceNames
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
@@ -1513,6 +1592,7 @@ namespace Testing.ResourceNames
             LooseValidationPatternMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -1522,6 +1602,7 @@ namespace Testing.ResourceNames
             LooseValidationPatternMethod(new LooseValidationPattern { Name = name ?? "", }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -1531,6 +1612,7 @@ namespace Testing.ResourceNames
             LooseValidationPatternMethodAsync(new LooseValidationPattern { Name = name ?? "", }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -1540,6 +1622,7 @@ namespace Testing.ResourceNames
             LooseValidationPatternMethodAsync(name, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -1552,6 +1635,7 @@ namespace Testing.ResourceNames
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -1564,6 +1648,7 @@ namespace Testing.ResourceNames
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -1575,6 +1660,7 @@ namespace Testing.ResourceNames
 
     /// <summary>ResourceNames client wrapper implementation, for convenient use.</summary>
     /// <remarks>
+    /// Test service
     /// </remarks>
     public sealed partial class ResourceNamesClientImpl : ResourceNamesClient
     {
@@ -1658,6 +1744,7 @@ namespace Testing.ResourceNames
         partial void Modify_LooseValidationPattern(ref LooseValidationPattern request, ref gaxgrpc::CallSettings settings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -1669,6 +1756,7 @@ namespace Testing.ResourceNames
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -1680,6 +1768,7 @@ namespace Testing.ResourceNames
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -1691,6 +1780,7 @@ namespace Testing.ResourceNames
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -1702,6 +1792,7 @@ namespace Testing.ResourceNames
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -1713,6 +1804,7 @@ namespace Testing.ResourceNames
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -1724,6 +1816,7 @@ namespace Testing.ResourceNames
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -1735,6 +1828,7 @@ namespace Testing.ResourceNames
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -1746,6 +1840,7 @@ namespace Testing.ResourceNames
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -1757,6 +1852,7 @@ namespace Testing.ResourceNames
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -1768,6 +1864,7 @@ namespace Testing.ResourceNames
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -1779,6 +1876,7 @@ namespace Testing.ResourceNames
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>

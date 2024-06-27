@@ -51,6 +51,7 @@ namespace Testing.BasicClientStreaming
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <param name="streamingSettings">If not null, applies streaming overrides to this RPC call.</param>
@@ -128,6 +129,7 @@ namespace Testing.BasicClientStreaming
 
         // TEST_START
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <param name="streamingSettings">If not null, applies streaming overrides to this RPC call.</param>

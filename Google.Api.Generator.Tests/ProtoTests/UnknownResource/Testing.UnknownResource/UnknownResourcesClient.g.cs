@@ -30,6 +30,7 @@ namespace Testing.UnknownResource
 
         // TEST_START
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="resource">
         /// </param>
@@ -42,6 +43,7 @@ namespace Testing.UnknownResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="resource">
         /// </param>
@@ -54,6 +56,7 @@ namespace Testing.UnknownResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="resource">
         /// </param>

@@ -226,6 +226,7 @@ namespace Testing.MethodSignatures
 
     /// <summary>MethodSignatures client wrapper, for convenient use.</summary>
     /// <remarks>
+    /// Test service
     /// </remarks>
     public abstract partial class MethodSignaturesClient
     {
@@ -300,6 +301,7 @@ namespace Testing.MethodSignatures
         public virtual MethodSignatures.MethodSignaturesClient GrpcClient => throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -308,6 +310,7 @@ namespace Testing.MethodSignatures
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -316,6 +319,7 @@ namespace Testing.MethodSignatures
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
@@ -324,6 +328,7 @@ namespace Testing.MethodSignatures
             SimpleMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>The RPC response.</returns>
@@ -331,6 +336,7 @@ namespace Testing.MethodSignatures
             SimpleMethod(new SimpleRequest { }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A Task containing the RPC response.</returns>
@@ -338,6 +344,7 @@ namespace Testing.MethodSignatures
             SimpleMethodAsync(new SimpleRequest { }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
         /// <returns>A Task containing the RPC response.</returns>
@@ -345,6 +352,7 @@ namespace Testing.MethodSignatures
             SimpleMethodAsync(gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="aNumber">
         /// A number with some test (preformatted) documentation.
@@ -355,6 +363,7 @@ namespace Testing.MethodSignatures
             SimpleMethod(new SimpleRequest { ANumber = aNumber, }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="aNumber">
         /// A number with some test (preformatted) documentation.
@@ -365,6 +374,7 @@ namespace Testing.MethodSignatures
             SimpleMethodAsync(new SimpleRequest { ANumber = aNumber, }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="aNumber">
         /// A number with some test (preformatted) documentation.
@@ -375,6 +385,7 @@ namespace Testing.MethodSignatures
             SimpleMethodAsync(aNumber, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="aString">
         /// Another number with some test (preformatted) documetation
@@ -389,6 +400,7 @@ namespace Testing.MethodSignatures
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="aString">
         /// Another number with some test (preformatted) documetation
@@ -403,6 +415,7 @@ namespace Testing.MethodSignatures
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="aString">
         /// Another number with some test (preformatted) documetation
@@ -414,6 +427,7 @@ namespace Testing.MethodSignatures
             SimpleMethodAsync(aString, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="aNumber">
         /// A number with some test (preformatted) documentation.
@@ -432,6 +446,7 @@ namespace Testing.MethodSignatures
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="aNumber">
         /// A number with some test (preformatted) documentation.
@@ -450,6 +465,7 @@ namespace Testing.MethodSignatures
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="aNumber">
         /// A number with some test (preformatted) documentation.
@@ -464,6 +480,7 @@ namespace Testing.MethodSignatures
             SimpleMethodAsync(aNumber, aString, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="aString">
         /// Another number with some test (preformatted) documetation
@@ -482,6 +499,7 @@ namespace Testing.MethodSignatures
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="aString">
         /// Another number with some test (preformatted) documetation
@@ -500,6 +518,7 @@ namespace Testing.MethodSignatures
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="aString">
         /// Another number with some test (preformatted) documetation
@@ -514,6 +533,7 @@ namespace Testing.MethodSignatures
             SimpleMethodAsync(aString, aNumber, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -522,6 +542,7 @@ namespace Testing.MethodSignatures
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -530,6 +551,7 @@ namespace Testing.MethodSignatures
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
@@ -538,6 +560,7 @@ namespace Testing.MethodSignatures
             PrimitiveArgsAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="optional">
         /// </param>
@@ -565,6 +588,7 @@ namespace Testing.MethodSignatures
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="optional">
         /// </param>
@@ -592,6 +616,7 @@ namespace Testing.MethodSignatures
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="optional">
         /// </param>
@@ -607,6 +632,7 @@ namespace Testing.MethodSignatures
             PrimitiveArgsAsync(optional, required, repeatedOptional, repeatedRequired, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -615,6 +641,7 @@ namespace Testing.MethodSignatures
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -623,6 +650,7 @@ namespace Testing.MethodSignatures
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
@@ -631,6 +659,7 @@ namespace Testing.MethodSignatures
             StringArgsAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="optional">
         /// </param>
@@ -658,6 +687,7 @@ namespace Testing.MethodSignatures
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="optional">
         /// </param>
@@ -685,6 +715,7 @@ namespace Testing.MethodSignatures
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="optional">
         /// </param>
@@ -700,6 +731,7 @@ namespace Testing.MethodSignatures
             StringArgsAsync(optional, required, repeatedOptional, repeatedRequired, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -708,6 +740,7 @@ namespace Testing.MethodSignatures
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -716,6 +749,7 @@ namespace Testing.MethodSignatures
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
@@ -724,6 +758,7 @@ namespace Testing.MethodSignatures
             BytesArgsAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="optional">
         /// </param>
@@ -751,6 +786,7 @@ namespace Testing.MethodSignatures
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="optional">
         /// </param>
@@ -778,6 +814,7 @@ namespace Testing.MethodSignatures
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="optional">
         /// </param>
@@ -793,6 +830,7 @@ namespace Testing.MethodSignatures
             BytesArgsAsync(optional, required, repeatedOptional, repeatedRequired, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -801,6 +839,7 @@ namespace Testing.MethodSignatures
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -809,6 +848,7 @@ namespace Testing.MethodSignatures
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
@@ -817,6 +857,7 @@ namespace Testing.MethodSignatures
             MessageArgsAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="optional">
         /// </param>
@@ -844,6 +885,7 @@ namespace Testing.MethodSignatures
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="optional">
         /// </param>
@@ -871,6 +913,7 @@ namespace Testing.MethodSignatures
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="optional">
         /// </param>
@@ -886,6 +929,7 @@ namespace Testing.MethodSignatures
             MessageArgsAsync(optional, required, repeatedOptional, repeatedRequired, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -894,6 +938,7 @@ namespace Testing.MethodSignatures
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -902,6 +947,7 @@ namespace Testing.MethodSignatures
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
@@ -910,6 +956,7 @@ namespace Testing.MethodSignatures
             MapArgsAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="optional">
         /// </param>
@@ -931,6 +978,7 @@ namespace Testing.MethodSignatures
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="optional">
         /// </param>
@@ -952,6 +1000,7 @@ namespace Testing.MethodSignatures
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="optional">
         /// </param>
@@ -963,6 +1012,7 @@ namespace Testing.MethodSignatures
             MapArgsAsync(optional, required, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -971,6 +1021,7 @@ namespace Testing.MethodSignatures
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -979,6 +1030,7 @@ namespace Testing.MethodSignatures
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
@@ -987,6 +1039,7 @@ namespace Testing.MethodSignatures
             EnumArgsAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="optional">
         /// </param>
@@ -1032,6 +1085,7 @@ namespace Testing.MethodSignatures
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="optional">
         /// </param>
@@ -1077,6 +1131,7 @@ namespace Testing.MethodSignatures
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="optional">
         /// </param>
@@ -1100,6 +1155,7 @@ namespace Testing.MethodSignatures
             EnumArgsAsync(optional, required, repeatedOptional, repeatedRequired, topLevelOptional, topLevelRequired, repeatedTopLevelOptional, repeatedTopLevelRequired, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -1108,6 +1164,7 @@ namespace Testing.MethodSignatures
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -1116,6 +1173,7 @@ namespace Testing.MethodSignatures
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
@@ -1124,6 +1182,7 @@ namespace Testing.MethodSignatures
             NestedArgsAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="aString">
         /// </param>
@@ -1154,6 +1213,7 @@ namespace Testing.MethodSignatures
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="aString">
         /// </param>
@@ -1184,6 +1244,7 @@ namespace Testing.MethodSignatures
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="aString">
         /// </param>
@@ -1201,6 +1262,7 @@ namespace Testing.MethodSignatures
             NestedArgsAsync(aString, aNumber, anotherNumber, aBool, topLevelString, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -1209,6 +1271,7 @@ namespace Testing.MethodSignatures
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -1217,6 +1280,7 @@ namespace Testing.MethodSignatures
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
@@ -1225,6 +1289,7 @@ namespace Testing.MethodSignatures
             WktArgsAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="optionalInt32">
         /// </param>
@@ -1270,6 +1335,7 @@ namespace Testing.MethodSignatures
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="optionalInt32">
         /// </param>
@@ -1315,6 +1381,7 @@ namespace Testing.MethodSignatures
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="optionalInt32">
         /// </param>
@@ -1340,6 +1407,7 @@ namespace Testing.MethodSignatures
 
     /// <summary>MethodSignatures client wrapper implementation, for convenient use.</summary>
     /// <remarks>
+    /// Test service
     /// </remarks>
     public sealed partial class MethodSignaturesClientImpl : MethodSignaturesClient
     {
@@ -1450,6 +1518,7 @@ namespace Testing.MethodSignatures
         partial void Modify_WktRequest(ref WktRequest request, ref gaxgrpc::CallSettings settings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -1461,6 +1530,7 @@ namespace Testing.MethodSignatures
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -1472,6 +1542,7 @@ namespace Testing.MethodSignatures
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -1483,6 +1554,7 @@ namespace Testing.MethodSignatures
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -1494,6 +1566,7 @@ namespace Testing.MethodSignatures
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -1505,6 +1578,7 @@ namespace Testing.MethodSignatures
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -1516,6 +1590,7 @@ namespace Testing.MethodSignatures
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -1527,6 +1602,7 @@ namespace Testing.MethodSignatures
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -1538,6 +1614,7 @@ namespace Testing.MethodSignatures
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -1549,6 +1626,7 @@ namespace Testing.MethodSignatures
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -1560,6 +1638,7 @@ namespace Testing.MethodSignatures
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -1571,6 +1650,7 @@ namespace Testing.MethodSignatures
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -1582,6 +1662,7 @@ namespace Testing.MethodSignatures
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -1593,6 +1674,7 @@ namespace Testing.MethodSignatures
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -1604,6 +1686,7 @@ namespace Testing.MethodSignatures
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -1615,6 +1698,7 @@ namespace Testing.MethodSignatures
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -1626,6 +1710,7 @@ namespace Testing.MethodSignatures
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -1637,6 +1722,7 @@ namespace Testing.MethodSignatures
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>

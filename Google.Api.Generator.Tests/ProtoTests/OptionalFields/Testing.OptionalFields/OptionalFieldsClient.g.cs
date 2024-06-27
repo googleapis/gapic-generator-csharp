@@ -26,6 +26,7 @@ namespace Testing.OptionalFields
     {
         // TEST_START
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -34,6 +35,7 @@ namespace Testing.OptionalFields
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -42,6 +44,7 @@ namespace Testing.OptionalFields
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
@@ -50,6 +53,7 @@ namespace Testing.OptionalFields
             Method1Async(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -65,6 +69,7 @@ namespace Testing.OptionalFields
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -80,6 +85,7 @@ namespace Testing.OptionalFields
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -91,6 +97,7 @@ namespace Testing.OptionalFields
             Method1Async(name, number, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -106,6 +113,7 @@ namespace Testing.OptionalFields
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>
@@ -121,6 +129,7 @@ namespace Testing.OptionalFields
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="name">
         /// </param>

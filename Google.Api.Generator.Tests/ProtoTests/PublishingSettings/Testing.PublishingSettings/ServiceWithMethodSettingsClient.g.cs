@@ -310,6 +310,7 @@ namespace Testing.PublishingSettings
         public virtual ServiceWithMethodSettings.ServiceWithMethodSettingsClient GrpcClient => throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -318,6 +319,7 @@ namespace Testing.PublishingSettings
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -326,6 +328,7 @@ namespace Testing.PublishingSettings
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
@@ -341,6 +344,7 @@ namespace Testing.PublishingSettings
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -357,6 +361,7 @@ namespace Testing.PublishingSettings
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <param name="streamingSettings">If not null, applies streaming overrides to this RPC call.</param>
@@ -373,6 +378,7 @@ namespace Testing.PublishingSettings
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <param name="streamingSettings">If not null, applies streaming overrides to this RPC call.</param>
@@ -381,6 +387,7 @@ namespace Testing.PublishingSettings
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -389,6 +396,7 @@ namespace Testing.PublishingSettings
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -397,6 +405,7 @@ namespace Testing.PublishingSettings
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
@@ -431,6 +440,7 @@ namespace Testing.PublishingSettings
             lro::Operation<Response, Response>.PollOnceFromNameAsync(gax::GaxPreconditions.CheckNotNullOrEmpty(operationName, nameof(operationName)), LroAutoPopulatedOperationsClient, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -439,6 +449,7 @@ namespace Testing.PublishingSettings
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -539,6 +550,7 @@ namespace Testing.PublishingSettings
         partial void Modify_PaginatedRequest(ref PaginatedRequest request, ref gaxgrpc::CallSettings settings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -560,6 +572,7 @@ namespace Testing.PublishingSettings
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -590,6 +603,7 @@ namespace Testing.PublishingSettings
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -664,6 +678,7 @@ namespace Testing.PublishingSettings
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <param name="streamingSettings">If not null, applies streaming overrides to this RPC call.</param>
@@ -731,6 +746,7 @@ namespace Testing.PublishingSettings
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <param name="streamingSettings">If not null, applies streaming overrides to this RPC call.</param>
@@ -748,6 +764,7 @@ namespace Testing.PublishingSettings
         public override lro::OperationsClient LroAutoPopulatedOperationsClient { get; }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -769,6 +786,7 @@ namespace Testing.PublishingSettings
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -790,6 +808,7 @@ namespace Testing.PublishingSettings
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -806,6 +825,7 @@ namespace Testing.PublishingSettings
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>

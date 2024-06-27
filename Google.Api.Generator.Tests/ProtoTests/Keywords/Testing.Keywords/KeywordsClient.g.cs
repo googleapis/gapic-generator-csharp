@@ -133,6 +133,7 @@ namespace Testing.Keywords
 
     /// <summary>Keywords client wrapper, for convenient use.</summary>
     /// <remarks>
+    /// Test service
     /// </remarks>
     public abstract partial class KeywordsClient
     {
@@ -204,6 +205,7 @@ namespace Testing.Keywords
         public virtual Keywords.KeywordsClient GrpcClient => throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -212,6 +214,7 @@ namespace Testing.Keywords
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -220,6 +223,7 @@ namespace Testing.Keywords
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
@@ -228,6 +232,7 @@ namespace Testing.Keywords
             Method1Async(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="event">
         /// </param>
@@ -252,6 +257,7 @@ namespace Testing.Keywords
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="event">
         /// </param>
@@ -276,6 +282,7 @@ namespace Testing.Keywords
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="event">
         /// </param>
@@ -293,6 +300,7 @@ namespace Testing.Keywords
             Method1Async(@event, @switch, @void, request, types, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="event">
         /// </param>
@@ -317,6 +325,7 @@ namespace Testing.Keywords
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="event">
         /// </param>
@@ -341,6 +350,7 @@ namespace Testing.Keywords
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="event">
         /// </param>
@@ -358,6 +368,7 @@ namespace Testing.Keywords
             Method1Async(@event, @switch, @void, request, types, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -366,6 +377,7 @@ namespace Testing.Keywords
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -374,6 +386,7 @@ namespace Testing.Keywords
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
@@ -382,6 +395,7 @@ namespace Testing.Keywords
             Method2Async(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="while">
         /// </param>
@@ -397,6 +411,7 @@ namespace Testing.Keywords
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="while">
         /// </param>
@@ -412,6 +427,7 @@ namespace Testing.Keywords
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="while">
         /// </param>
@@ -423,6 +439,7 @@ namespace Testing.Keywords
             Method2Async(@while, @enum, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="while">
         /// </param>
@@ -438,6 +455,7 @@ namespace Testing.Keywords
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="while">
         /// </param>
@@ -453,6 +471,7 @@ namespace Testing.Keywords
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="while">
         /// </param>
@@ -466,6 +485,7 @@ namespace Testing.Keywords
 
     /// <summary>Keywords client wrapper implementation, for convenient use.</summary>
     /// <remarks>
+    /// Test service
     /// </remarks>
     public sealed partial class KeywordsClientImpl : KeywordsClient
     {
@@ -513,6 +533,7 @@ namespace Testing.Keywords
         partial void Modify_Resource(ref Resource request, ref gaxgrpc::CallSettings settings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -524,6 +545,7 @@ namespace Testing.Keywords
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -535,6 +557,7 @@ namespace Testing.Keywords
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -546,6 +569,7 @@ namespace Testing.Keywords
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
