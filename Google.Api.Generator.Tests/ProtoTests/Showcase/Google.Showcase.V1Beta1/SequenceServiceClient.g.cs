@@ -162,6 +162,7 @@ namespace Google.Showcase.V1Beta1
 
     /// <summary>SequenceService client wrapper, for convenient use.</summary>
     /// <remarks>
+    /// Sequence service
     /// </remarks>
     public abstract partial class SequenceServiceClient
     {
@@ -498,6 +499,7 @@ namespace Google.Showcase.V1Beta1
 
     /// <summary>SequenceService client wrapper implementation, for convenient use.</summary>
     /// <remarks>
+    /// Sequence service
     /// </remarks>
     public sealed partial class SequenceServiceClientImpl : SequenceServiceClient
     {

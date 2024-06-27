@@ -159,6 +159,7 @@ namespace Testing.Deprecated
 
     /// <summary>Deprecated client wrapper, for convenient use.</summary>
     /// <remarks>
+    /// Test service
     /// </remarks>
     public abstract partial class DeprecatedClient
     {
@@ -233,6 +234,7 @@ namespace Testing.Deprecated
         public virtual Deprecated.DeprecatedClient GrpcClient => throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -241,6 +243,7 @@ namespace Testing.Deprecated
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -249,6 +252,7 @@ namespace Testing.Deprecated
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
@@ -257,6 +261,7 @@ namespace Testing.Deprecated
             DeprecatedFieldMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="deprecatedField1">
         /// </param>
@@ -273,6 +278,7 @@ namespace Testing.Deprecated
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="deprecatedField1">
         /// </param>
@@ -289,6 +295,7 @@ namespace Testing.Deprecated
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="deprecatedField1">
         /// </param>
@@ -301,6 +308,7 @@ namespace Testing.Deprecated
             DeprecatedFieldMethodAsync(deprecatedField1, deprecatedField2, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -312,6 +320,7 @@ namespace Testing.Deprecated
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -323,6 +332,7 @@ namespace Testing.Deprecated
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
@@ -334,6 +344,7 @@ namespace Testing.Deprecated
             DeprecatedMessageMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -343,6 +354,7 @@ namespace Testing.Deprecated
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -352,6 +364,7 @@ namespace Testing.Deprecated
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
@@ -361,6 +374,7 @@ namespace Testing.Deprecated
             DeprecatedMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -372,6 +386,7 @@ namespace Testing.Deprecated
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -383,6 +398,7 @@ namespace Testing.Deprecated
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
@@ -396,6 +412,7 @@ namespace Testing.Deprecated
 
     /// <summary>Deprecated client wrapper implementation, for convenient use.</summary>
     /// <remarks>
+    /// Test service
     /// </remarks>
     public sealed partial class DeprecatedClientImpl : DeprecatedClient
     {
@@ -475,6 +492,7 @@ namespace Testing.Deprecated
         partial void Modify_Request(ref Request request, ref gaxgrpc::CallSettings settings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -486,6 +504,7 @@ namespace Testing.Deprecated
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -497,6 +516,7 @@ namespace Testing.Deprecated
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -511,6 +531,7 @@ namespace Testing.Deprecated
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -525,6 +546,7 @@ namespace Testing.Deprecated
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -537,6 +559,7 @@ namespace Testing.Deprecated
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -549,6 +572,7 @@ namespace Testing.Deprecated
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -563,6 +587,7 @@ namespace Testing.Deprecated
         }
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>

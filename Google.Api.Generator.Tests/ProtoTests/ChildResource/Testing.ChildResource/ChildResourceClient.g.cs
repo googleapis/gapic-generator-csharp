@@ -29,6 +29,7 @@ namespace Testing.ChildResource
     {
         // TEST_START
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -37,6 +38,7 @@ namespace Testing.ChildResource
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -45,6 +47,7 @@ namespace Testing.ChildResource
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
@@ -53,6 +56,7 @@ namespace Testing.ChildResource
             SingleParentMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -71,6 +75,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -89,6 +94,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -100,6 +106,7 @@ namespace Testing.ChildResource
             SingleParentMethodAsync(@ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -118,6 +125,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -136,6 +144,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -147,6 +156,7 @@ namespace Testing.ChildResource
             SingleParentMethodAsync(@ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -155,6 +165,7 @@ namespace Testing.ChildResource
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -163,6 +174,7 @@ namespace Testing.ChildResource
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
@@ -171,6 +183,7 @@ namespace Testing.ChildResource
             WildcardParentMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -198,6 +211,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -225,6 +239,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -240,6 +255,7 @@ namespace Testing.ChildResource
             WildcardParentMethodAsync(@ref, repeatedRef, refSugar, repeatedRefSugar, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -267,6 +283,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -294,6 +311,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -309,6 +327,7 @@ namespace Testing.ChildResource
             WildcardParentMethodAsync(@ref, repeatedRef, refSugar, repeatedRefSugar, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -317,6 +336,7 @@ namespace Testing.ChildResource
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -325,6 +345,7 @@ namespace Testing.ChildResource
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
@@ -333,6 +354,7 @@ namespace Testing.ChildResource
             TripleParentMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -351,6 +373,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -369,6 +392,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -380,6 +404,7 @@ namespace Testing.ChildResource
             TripleParentMethodAsync(@ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -398,6 +423,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -416,6 +442,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -427,6 +454,7 @@ namespace Testing.ChildResource
             TripleParentMethodAsync(@ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -445,6 +473,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -463,6 +492,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -474,6 +504,7 @@ namespace Testing.ChildResource
             TripleParentMethodAsync(@ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -492,6 +523,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -510,6 +542,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -521,6 +554,7 @@ namespace Testing.ChildResource
             TripleParentMethodAsync(@ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -539,6 +573,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -557,6 +592,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -568,6 +604,7 @@ namespace Testing.ChildResource
             TripleParentMethodAsync(@ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -586,6 +623,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -604,6 +642,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -615,6 +654,7 @@ namespace Testing.ChildResource
             TripleParentMethodAsync(@ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -633,6 +673,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -651,6 +692,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -662,6 +704,7 @@ namespace Testing.ChildResource
             TripleParentMethodAsync(@ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -680,6 +723,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -698,6 +742,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -709,6 +754,7 @@ namespace Testing.ChildResource
             TripleParentMethodAsync(@ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -727,6 +773,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -745,6 +792,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -756,6 +804,7 @@ namespace Testing.ChildResource
             TripleParentMethodAsync(@ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -774,6 +823,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -792,6 +842,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -803,6 +854,7 @@ namespace Testing.ChildResource
             TripleParentMethodAsync(@ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -811,6 +863,7 @@ namespace Testing.ChildResource
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -819,6 +872,7 @@ namespace Testing.ChildResource
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
@@ -827,6 +881,7 @@ namespace Testing.ChildResource
             TripleWildcardParentMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -845,6 +900,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -863,6 +919,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -874,6 +931,7 @@ namespace Testing.ChildResource
             TripleWildcardParentMethodAsync(@ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -892,6 +950,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -910,6 +969,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -921,6 +981,7 @@ namespace Testing.ChildResource
             TripleWildcardParentMethodAsync(@ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -939,6 +1000,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -957,6 +1019,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -968,6 +1031,7 @@ namespace Testing.ChildResource
             TripleWildcardParentMethodAsync(@ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -986,6 +1050,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1004,6 +1069,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1015,6 +1081,7 @@ namespace Testing.ChildResource
             TripleWildcardParentMethodAsync(@ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1033,6 +1100,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1051,6 +1119,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1062,6 +1131,7 @@ namespace Testing.ChildResource
             TripleWildcardParentMethodAsync(@ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1080,6 +1150,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1098,6 +1169,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1109,6 +1181,7 @@ namespace Testing.ChildResource
             TripleWildcardParentMethodAsync(@ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1127,6 +1200,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1145,6 +1219,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1156,6 +1231,7 @@ namespace Testing.ChildResource
             TripleWildcardParentMethodAsync(@ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1174,6 +1250,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1192,6 +1269,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1203,6 +1281,7 @@ namespace Testing.ChildResource
             TripleWildcardParentMethodAsync(@ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1221,6 +1300,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1239,6 +1319,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1250,6 +1331,7 @@ namespace Testing.ChildResource
             TripleWildcardParentMethodAsync(@ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1268,6 +1350,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1286,6 +1369,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1297,6 +1381,7 @@ namespace Testing.ChildResource
             TripleWildcardParentMethodAsync(@ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1315,6 +1400,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1333,6 +1419,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1344,6 +1431,7 @@ namespace Testing.ChildResource
             TripleWildcardParentMethodAsync(@ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1362,6 +1450,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1380,6 +1469,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1391,6 +1481,7 @@ namespace Testing.ChildResource
             TripleWildcardParentMethodAsync(@ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1409,6 +1500,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1427,6 +1519,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1438,6 +1531,7 @@ namespace Testing.ChildResource
             TripleWildcardParentMethodAsync(@ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1456,6 +1550,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1474,6 +1569,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1485,6 +1581,7 @@ namespace Testing.ChildResource
             TripleWildcardParentMethodAsync(@ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1503,6 +1600,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1521,6 +1619,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1532,6 +1631,7 @@ namespace Testing.ChildResource
             TripleWildcardParentMethodAsync(@ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1550,6 +1650,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1568,6 +1669,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1579,6 +1681,7 @@ namespace Testing.ChildResource
             TripleWildcardParentMethodAsync(@ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1597,6 +1700,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1615,6 +1719,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1626,6 +1731,7 @@ namespace Testing.ChildResource
             TripleWildcardParentMethodAsync(@ref, repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -1634,6 +1740,7 @@ namespace Testing.ChildResource
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
@@ -1642,6 +1749,7 @@ namespace Testing.ChildResource
             throw new sys::NotImplementedException();
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="request">The request object containing all of the parameters for the API call.</param>
         /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
@@ -1650,6 +1758,7 @@ namespace Testing.ChildResource
             OverlapParentMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1659,6 +1768,7 @@ namespace Testing.ChildResource
             OverlapParentMethod(new OverlapParent { Ref = @ref ?? "", }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1668,6 +1778,7 @@ namespace Testing.ChildResource
             OverlapParentMethodAsync(new OverlapParent { Ref = @ref ?? "", }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1677,6 +1788,7 @@ namespace Testing.ChildResource
             OverlapParentMethodAsync(@ref, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1689,6 +1801,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1701,6 +1814,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1710,6 +1824,7 @@ namespace Testing.ChildResource
             OverlapParentMethodAsync(@ref, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1719,6 +1834,7 @@ namespace Testing.ChildResource
             OverlapParentMethod(new OverlapParent { RefAsOrgName = @ref, }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1728,6 +1844,7 @@ namespace Testing.ChildResource
             OverlapParentMethodAsync(new OverlapParent { RefAsOrgName = @ref, }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1737,6 +1854,7 @@ namespace Testing.ChildResource
             OverlapParentMethodAsync(@ref, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1749,6 +1867,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1761,6 +1880,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1770,6 +1890,7 @@ namespace Testing.ChildResource
             OverlapParentMethodAsync(@ref, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1782,6 +1903,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1794,6 +1916,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1803,6 +1926,7 @@ namespace Testing.ChildResource
             OverlapParentMethodAsync(@ref, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1815,6 +1939,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1827,6 +1952,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1836,6 +1962,7 @@ namespace Testing.ChildResource
             OverlapParentMethodAsync(@ref, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1848,6 +1975,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1860,6 +1988,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="ref">
         /// </param>
@@ -1869,6 +1998,7 @@ namespace Testing.ChildResource
             OverlapParentMethodAsync(@ref, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="repeatedRef">
         /// </param>
@@ -1884,6 +2014,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="repeatedRef">
         /// </param>
@@ -1899,6 +2030,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="repeatedRef">
         /// </param>
@@ -1908,6 +2040,7 @@ namespace Testing.ChildResource
             OverlapParentMethodAsync(repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="repeatedRef">
         /// </param>
@@ -1923,6 +2056,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="repeatedRef">
         /// </param>
@@ -1938,6 +2072,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="repeatedRef">
         /// </param>
@@ -1947,6 +2082,7 @@ namespace Testing.ChildResource
             OverlapParentMethodAsync(repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="repeatedRef">
         /// </param>
@@ -1962,6 +2098,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="repeatedRef">
         /// </param>
@@ -1977,6 +2114,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="repeatedRef">
         /// </param>
@@ -1986,6 +2124,7 @@ namespace Testing.ChildResource
             OverlapParentMethodAsync(repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="repeatedRef">
         /// </param>
@@ -2001,6 +2140,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="repeatedRef">
         /// </param>
@@ -2016,6 +2156,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="repeatedRef">
         /// </param>
@@ -2025,6 +2166,7 @@ namespace Testing.ChildResource
             OverlapParentMethodAsync(repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="repeatedRef">
         /// </param>
@@ -2040,6 +2182,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="repeatedRef">
         /// </param>
@@ -2055,6 +2198,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="repeatedRef">
         /// </param>
@@ -2064,6 +2208,7 @@ namespace Testing.ChildResource
             OverlapParentMethodAsync(repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="repeatedRef">
         /// </param>
@@ -2079,6 +2224,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="repeatedRef">
         /// </param>
@@ -2094,6 +2240,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="repeatedRef">
         /// </param>
@@ -2103,6 +2250,7 @@ namespace Testing.ChildResource
             OverlapParentMethodAsync(repeatedRef, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="repeatedRef">
         /// </param>
@@ -2118,6 +2266,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="repeatedRef">
         /// </param>
@@ -2133,6 +2282,7 @@ namespace Testing.ChildResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="repeatedRef">
         /// </param>

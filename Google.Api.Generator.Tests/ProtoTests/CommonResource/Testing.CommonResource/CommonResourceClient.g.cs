@@ -30,6 +30,7 @@ namespace Testing.CommonResource
 
         // TEST_START
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="projectName">
         /// </param>
@@ -42,6 +43,7 @@ namespace Testing.CommonResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="projectName">
         /// </param>
@@ -54,6 +56,7 @@ namespace Testing.CommonResource
             }, callSettings);
 
         /// <summary>
+        /// Test method
         /// </summary>
         /// <param name="projectName">
         /// </param>
