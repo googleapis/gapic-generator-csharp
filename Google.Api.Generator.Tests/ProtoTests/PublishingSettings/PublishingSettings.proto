@@ -46,16 +46,22 @@ service ServiceWithResources {
 
 // This is a service with method settings in the service config.
 service ServiceWithMethodSettings {
+  // Test method
   rpc UnaryAutoPopulated(Request) returns (Response);
+  // Test method
   rpc ServerStreamingAutoPopulated(Request) returns (stream Response);
+  // Test method
   rpc ClientStreamingAutoPopulated(stream Request) returns (Response);
+  // Test method
   rpc BidiStreamingAutoPopulated(stream Request) returns (stream Response);
+  // Test method
   rpc LroAutoPopulated(Request) returns (google.longrunning.Operation) {
     option (google.longrunning.operation_info) = {
         response_type: "Response"
         metadata_type: "Response"
     };
   }
+  // Test method
   rpc PaginatedAutoPopulated(PaginatedRequest) returns (PaginatedResponse);
 }
 

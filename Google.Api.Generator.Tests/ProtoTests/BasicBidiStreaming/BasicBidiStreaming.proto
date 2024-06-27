@@ -6,10 +6,12 @@ option csharp_namespace = "Testing.BasicBidiStreaming";
 
 import "google/api/client.proto";
 
+// Test service
 service BasicBidiStreaming {
   option (google.api.default_host) = "bidi.example.com";
   option (google.api.oauth_scopes) = "scope1,scope2";
 
+  // Test method
   rpc MethodBidi(stream Request) returns(stream Response);
 }
 

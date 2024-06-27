@@ -5,6 +5,7 @@ package testing.paginated;
 import "google/api/client.proto";
 import "google/api/resource.proto";
 
+// Test service
 service Paginated {
   option (google.api.default_host) = "paginated.example.com";
 

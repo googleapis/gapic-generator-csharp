@@ -7,9 +7,11 @@ option csharp_namespace = "Testing.CommonResource";
 import "google/api/client.proto";
 import "google/api/resource.proto";
 
+// Test serviceS
 service CommonResource {
   option (google.api.default_host) = "commonresource.example.com";
 
+  // Test method
   rpc MethodWithCommonResource(Request) returns(Response) {
   	option (google.api.method_signature) = "project_name";
   }

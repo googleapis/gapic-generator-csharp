@@ -9,27 +9,34 @@ import "google/api/resource.proto";
 import "google/api/field_behavior.proto";
 import "google/protobuf/wrappers.proto";
 
+// Test service
 service ResourceNames {
+  // Test method
   rpc SinglePatternMethod(SinglePattern) returns(Response) {
     option (google.api.method_signature) = "real_name, ref, repeated_ref, value_ref, repeated_value_ref";
   }
 
+  // Test method
   rpc DeprecatedPatternMethod(DeprecatedPattern) returns(Response) {
     option (google.api.method_signature) = "name";
   }
 
+  // Test method
   rpc WildcardOnlyPatternMethod(WildcardOnlyPattern) returns(Response) {
     option (google.api.method_signature) = "name, ref, repeated_ref, ref_sugar, repeated_ref_sugar";
   }
 
+  // Test method
   rpc WildcardMultiPatternMethod(WildcardMultiPattern) returns(Response) {
     option (google.api.method_signature) = "name, ref, repeated_ref";
   }
 
+  // Test method
   rpc WildcardMultiPatternMultipleMethod(WildcardMultiPatternMultiple) returns(Response) {
     option (google.api.method_signature) = "ref, repeated_ref"; // `name` parameter delibrately missing.
   }
 
+  // Test method
   rpc LooseValidationPatternMethod(LooseValidationPattern) returns(Response) {
     option (google.api.method_signature) = "name";
   }

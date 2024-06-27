@@ -6,10 +6,12 @@ option csharp_namespace = "Testing.Mixins";
 
 import "google/api/client.proto";
 
+// Test service
 service MixinService {
   option (google.api.default_host) = "mixins.example.com";
   option (google.api.oauth_scopes) = "scope1,scope2";
 
+  // Test method
   rpc Method(Request) returns(Response);
 }
 

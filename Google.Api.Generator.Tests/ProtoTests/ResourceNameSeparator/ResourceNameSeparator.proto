@@ -9,7 +9,9 @@ import "google/api/resource.proto";
 import "google/api/field_behavior.proto";
 import "google/protobuf/wrappers.proto";
 
+// Test service
 service ResourceNameSeparator {
+  // Test method
   rpc Method1(Request) returns(Response) {
     option (google.api.method_signature) = "name, ref";
   }

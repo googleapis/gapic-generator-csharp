@@ -7,6 +7,7 @@ option csharp_namespace = "Testing.ServerStreaming";
 import "google/api/client.proto";
 import "google/api/resource.proto";
 
+// Test service
 service ServerStreaming {
   option (google.api.default_host) = "serverstreaming.example.com";
 

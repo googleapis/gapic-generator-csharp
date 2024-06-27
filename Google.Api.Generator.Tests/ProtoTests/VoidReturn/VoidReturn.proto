@@ -12,6 +12,7 @@ import "google/protobuf/empty.proto";
 // It is used to test generation failure in the case where REST is requested
 // without any annotated methods being present.
 
+// Test service
 service VoidReturn {
   // Test returning `void`, with request methods and a method signature (flattening).
   rpc VoidMethod(Request) returns(google.protobuf.Empty) {

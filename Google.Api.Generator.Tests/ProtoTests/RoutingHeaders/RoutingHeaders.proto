@@ -7,21 +7,31 @@ option csharp_namespace = "Testing.RoutingHeaders";
 import "google/api/annotations.proto";
 import "google/api/client.proto";
 
+// Test service
 service RoutingHeaders {
   option (google.api.default_host) = "routingheaders.example.com";
 
+  // Test method
   rpc NoUrlMethod(SimpleRequest) returns(Response);
+  // Test method
   rpc GetMethod(SimpleRequest) returns(Response) { option (google.api.http).get = "{name=items/*}/child"; };
+  // Test method
   rpc PostMethod(SimpleRequest) returns(Response) { option (google.api.http).post = "{name=items/*}/child"; };
+  // Test method
   rpc PutMethod(SimpleRequest) returns(Response) { option (google.api.http).put = "{name=items/*}/child"; };
+  // Test method
   rpc PatchMethod(SimpleRequest) returns(Response) { option (google.api.http).patch = "{name=items/*}/child"; };
+  // Test method
   rpc DeleteMethod(SimpleRequest) returns(Response) { option (google.api.http).delete = "{name=items/*}/child"; };
+  // Test method
   rpc GetNoTemplateMethod(SimpleRequest) returns(Response) { option (google.api.http).get = "{name}/child"; };
 
+  // Test method
   rpc NestedMultiMethod(NestedRequest) returns(Response) {
     option (google.api.http).get = "{nest1.nest2.name=items/*}/child1/{name=items/*}/child2";
   };
 
+  // Test method
   rpc ServerStreamingMethod(SimpleRequest) returns (stream Response) { option (google.api.http).post = "{name=items/*}/child"; };
 }
 

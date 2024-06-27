@@ -6,10 +6,12 @@ option csharp_namespace = "Testing.BasicServerStreaming";
 
 import "google/api/client.proto";
 
+// Test service
 service BasicServerStreaming {
   option (google.api.default_host) = "serverstreaming.example.com";
   option (google.api.oauth_scopes) = "scope1,scope2";
 
+  // Test method
   rpc MethodServer(Request) returns(stream Response);
 }
 
