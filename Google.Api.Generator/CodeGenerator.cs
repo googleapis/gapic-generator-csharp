@@ -240,9 +240,7 @@ namespace Google.Api.Generator
         /// <summary>
         /// Validate that all proto elements have comments (except the file descriptor).
         /// We only log warnings for most missing elements; for services and methods, we log warnings
-        /// and then a log a single combined error at the end, as the generated code won't compile.
-        /// In the future, we will ideally throw an error instead of just logging, to encourage API producers
-        /// to fix the protos early.
+        /// and then throw a single combined error at the end, as the generated code won't compile.
         ///
         /// This will still allow through uncommented fields used in method signatures: it would be fiddly to detect
         /// those.
@@ -256,10 +254,7 @@ namespace Google.Api.Generator
             }
             if (errors.Any())
             {
-                Logging.LogError("One or more proto elements has no comment. Violations: {errors}", string.Join(", ", errors));
-                // At some point it would be good to actually throw. More work is required to find out how many existing APIs that would break
-                // though.
-                // throw new InvalidOperationException($"One or more proto elements has no comment. Violations: {string.Join(", ", errors)}");
+                throw new InvalidOperationException($"One or more proto elements has no comment. Violations: {string.Join(", ", errors)}");
             }
 
             void ValidateFile(FileDescriptor proto)
