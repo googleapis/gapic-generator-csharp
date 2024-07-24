@@ -272,6 +272,9 @@ namespace Google.Api.Generator.Utils.Roslyn
         public static ExpressionSyntax NullCoalesce(this LocalDeclarationStatementSyntax lhs, object rhs) =>
             BinaryExpression(SyntaxKind.CoalesceExpression, ToExpression(lhs), ToExpression(rhs));
 
+        public static ExpressionSyntax NotEqualTo(this ParameterSyntax lhs, object rhs) =>
+            BinaryExpression(SyntaxKind.NotEqualsExpression, ToExpression(lhs), ToExpression(rhs));
+
         public static ExpressionSyntax NotEqualTo(this LocalDeclarationStatementSyntax lhs, object rhs) =>
             BinaryExpression(SyntaxKind.NotEqualsExpression, ToExpression(lhs), ToExpression(rhs));
 
