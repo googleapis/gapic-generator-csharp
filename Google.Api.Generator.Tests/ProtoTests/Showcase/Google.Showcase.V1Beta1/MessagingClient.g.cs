@@ -1372,13 +1372,22 @@ namespace Google.Showcase.V1Beta1
         /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A pageable sequence of <see cref="Blurb"/> resources.</returns>
-        public virtual gax::PagedEnumerable<ListBlurbsResponse, Blurb> ListBlurbs(string parent, string pageToken = null, int? pageSize = null, gaxgrpc::CallSettings callSettings = null) =>
-            ListBlurbs(new ListBlurbsRequest
+        public virtual gax::PagedEnumerable<ListBlurbsResponse, Blurb> ListBlurbs(string parent, string pageToken = null, int? pageSize = null, gaxgrpc::CallSettings callSettings = null)
+        {
+            ListBlurbsRequest request = new ListBlurbsRequest
             {
                 Parent = gax::GaxPreconditions.CheckNotNullOrEmpty(parent, nameof(parent)),
-                PageToken = pageToken ?? "",
-                PageSize = pageSize ?? 0,
-            }, callSettings);
+            };
+            if (pageToken != null)
+            {
+                request.PageToken = pageToken;
+            }
+            if (pageSize != null)
+            {
+                request.PageSize = pageSize.Value;
+            }
+            return ListBlurbs(request);
+        }
 
         /// <summary>
         /// Lists blurbs for a specific chat room or user profile depending on the
@@ -1397,13 +1406,22 @@ namespace Google.Showcase.V1Beta1
         /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A pageable asynchronous sequence of <see cref="Blurb"/> resources.</returns>
-        public virtual gax::PagedAsyncEnumerable<ListBlurbsResponse, Blurb> ListBlurbsAsync(string parent, string pageToken = null, int? pageSize = null, gaxgrpc::CallSettings callSettings = null) =>
-            ListBlurbsAsync(new ListBlurbsRequest
+        public virtual gax::PagedAsyncEnumerable<ListBlurbsResponse, Blurb> ListBlurbsAsync(string parent, string pageToken = null, int? pageSize = null, gaxgrpc::CallSettings callSettings = null)
+        {
+            ListBlurbsRequest request = new ListBlurbsRequest
             {
                 Parent = gax::GaxPreconditions.CheckNotNullOrEmpty(parent, nameof(parent)),
-                PageToken = pageToken ?? "",
-                PageSize = pageSize ?? 0,
-            }, callSettings);
+            };
+            if (pageToken != null)
+            {
+                request.PageToken = pageToken;
+            }
+            if (pageSize != null)
+            {
+                request.PageSize = pageSize.Value;
+            }
+            return ListBlurbsAsync(request);
+        }
 
         /// <summary>
         /// Lists blurbs for a specific chat room or user profile depending on the
@@ -1422,13 +1440,22 @@ namespace Google.Showcase.V1Beta1
         /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A pageable sequence of <see cref="Blurb"/> resources.</returns>
-        public virtual gax::PagedEnumerable<ListBlurbsResponse, Blurb> ListBlurbs(RoomName parent, string pageToken = null, int? pageSize = null, gaxgrpc::CallSettings callSettings = null) =>
-            ListBlurbs(new ListBlurbsRequest
+        public virtual gax::PagedEnumerable<ListBlurbsResponse, Blurb> ListBlurbs(RoomName parent, string pageToken = null, int? pageSize = null, gaxgrpc::CallSettings callSettings = null)
+        {
+            ListBlurbsRequest request = new ListBlurbsRequest
             {
                 ParentAsRoomName = gax::GaxPreconditions.CheckNotNull(parent, nameof(parent)),
-                PageToken = pageToken ?? "",
-                PageSize = pageSize ?? 0,
-            }, callSettings);
+            };
+            if (pageToken != null)
+            {
+                request.PageToken = pageToken;
+            }
+            if (pageSize != null)
+            {
+                request.PageSize = pageSize.Value;
+            }
+            return ListBlurbs(request);
+        }
 
         /// <summary>
         /// Lists blurbs for a specific chat room or user profile depending on the
@@ -1447,13 +1474,22 @@ namespace Google.Showcase.V1Beta1
         /// </param>
         /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
         /// <returns>A pageable asynchronous sequence of <see cref="Blurb"/> resources.</returns>
-        public virtual gax::PagedAsyncEnumerable<ListBlurbsResponse, Blurb> ListBlurbsAsync(RoomName parent, string pageToken = null, int? pageSize = null, gaxgrpc::CallSettings callSettings = null) =>
-            ListBlurbsAsync(new ListBlurbsRequest
+        public virtual gax::PagedAsyncEnumerable<ListBlurbsResponse, Blurb> ListBlurbsAsync(RoomName parent, string pageToken = null, int? pageSize = null, gaxgrpc::CallSettings callSettings = null)
+        {
+            ListBlurbsRequest request = new ListBlurbsRequest
             {
                 ParentAsRoomName = gax::GaxPreconditions.CheckNotNull(parent, nameof(parent)),
-                PageToken = pageToken ?? "",
-                PageSize = pageSize ?? 0,
-            }, callSettings);
+            };
+            if (pageToken != null)
+            {
+                request.PageToken = pageToken;
+            }
+            if (pageSize != null)
+            {
+                request.PageSize = pageSize.Value;
+            }
+            return ListBlurbsAsync(request);
+        }
 
         /// <summary>
         /// This method searches through all blurbs across all rooms and profiles
