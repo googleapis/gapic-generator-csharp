@@ -183,7 +183,7 @@ namespace Google.Api.Generator.Generation
                             var type = Ctx.Type(MethodDetails.RequestTyp);
                             var request = Local(Ctx.Type(MethodDetails.RequestTyp), "request").WithInitializer(newRequest);
                             var statements = requestBlock(request);
-                            block = new[] { request }.Concat(statements).Append(Return(This.Call(methodName)(request))).ToArray();
+                            block = new[] { request }.Concat(statements).Append(Return(This.Call(methodName)(request, finalParam))).ToArray();
                         }
                         var method = Method(Public | Virtual, Ctx.Type(returnTyp), methodName)(parameters.Select(x => x.Parameter).Append(finalParam).ToArray())
                                 .MaybeWithAttribute(MethodDetails.IsDeprecated || _sig.HasDeprecatedField, () => Ctx.Type<ObsoleteAttribute>())()

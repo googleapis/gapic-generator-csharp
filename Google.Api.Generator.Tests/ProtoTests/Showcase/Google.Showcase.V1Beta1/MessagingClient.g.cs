@@ -1386,7 +1386,7 @@ namespace Google.Showcase.V1Beta1
             {
                 request.PageSize = pageSize.Value;
             }
-            return ListBlurbs(request);
+            return ListBlurbs(request, callSettings);
         }
 
         /// <summary>
@@ -1420,7 +1420,7 @@ namespace Google.Showcase.V1Beta1
             {
                 request.PageSize = pageSize.Value;
             }
-            return ListBlurbsAsync(request);
+            return ListBlurbsAsync(request, callSettings);
         }
 
         /// <summary>
@@ -1454,7 +1454,7 @@ namespace Google.Showcase.V1Beta1
             {
                 request.PageSize = pageSize.Value;
             }
-            return ListBlurbs(request);
+            return ListBlurbs(request, callSettings);
         }
 
         /// <summary>
@@ -1488,7 +1488,7 @@ namespace Google.Showcase.V1Beta1
             {
                 request.PageSize = pageSize.Value;
             }
-            return ListBlurbsAsync(request);
+            return ListBlurbsAsync(request, callSettings);
         }
 
         /// <summary>

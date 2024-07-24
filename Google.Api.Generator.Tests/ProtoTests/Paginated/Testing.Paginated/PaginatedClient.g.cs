@@ -80,7 +80,7 @@ namespace Testing.Paginated
             {
                 request.PageSize = pageSize.Value;
             }
-            return SignatureMethod(request);
+            return SignatureMethod(request, callSettings);
         }
 
         /// <summary>
@@ -115,7 +115,7 @@ namespace Testing.Paginated
             {
                 request.PageSize = pageSize.Value;
             }
-            return SignatureMethodAsync(request);
+            return SignatureMethodAsync(request, callSettings);
         }
 
         /// <summary>
@@ -147,7 +147,7 @@ namespace Testing.Paginated
             {
                 request.PageSize = pageSize.Value;
             }
-            return SignatureMethod(request);
+            return SignatureMethod(request, callSettings);
         }
 
         /// <summary>
@@ -179,7 +179,7 @@ namespace Testing.Paginated
             {
                 request.PageSize = pageSize.Value;
             }
-            return SignatureMethodAsync(request);
+            return SignatureMethodAsync(request, callSettings);
         }
 
         /// <summary>
@@ -206,7 +206,7 @@ namespace Testing.Paginated
             {
                 request.PageSize = pageSize.Value;
             }
-            return SignatureMethod(request);
+            return SignatureMethod(request, callSettings);
         }
 
         /// <summary>
@@ -233,7 +233,7 @@ namespace Testing.Paginated
             {
                 request.PageSize = pageSize.Value;
             }
-            return SignatureMethodAsync(request);
+            return SignatureMethodAsync(request, callSettings);
         }
 
         /// <summary>
@@ -301,7 +301,7 @@ namespace Testing.Paginated
             {
                 request.PageSize = pageSize.Value;
             }
-            return ResourcedMethod(request);
+            return ResourcedMethod(request, callSettings);
         }
 
         /// <summary>
@@ -331,7 +331,7 @@ namespace Testing.Paginated
             {
                 request.PageSize = pageSize.Value;
             }
-            return ResourcedMethodAsync(request);
+            return ResourcedMethodAsync(request, callSettings);
         }
 
         /// <summary>
@@ -361,7 +361,7 @@ namespace Testing.Paginated
             {
                 request.PageSize = pageSize.Value;
             }
-            return ResourcedMethod(request);
+            return ResourcedMethod(request, callSettings);
         }
 
         /// <summary>
@@ -391,7 +391,7 @@ namespace Testing.Paginated
             {
                 request.PageSize = pageSize.Value;
             }
-            return ResourcedMethodAsync(request);
+            return ResourcedMethodAsync(request, callSettings);
         }
 
         /// <summary>
@@ -427,7 +427,7 @@ namespace Testing.Paginated
             {
                 request.PageSize = pageSize.Value;
             }
-            return ResourcedMethod(request);
+            return ResourcedMethod(request, callSettings);
         }
 
         /// <summary>
@@ -463,7 +463,7 @@ namespace Testing.Paginated
             {
                 request.PageSize = pageSize.Value;
             }
-            return ResourcedMethodAsync(request);
+            return ResourcedMethodAsync(request, callSettings);
         }
 
         /// <summary>
@@ -499,7 +499,7 @@ namespace Testing.Paginated
             {
                 request.PageSize = pageSize.Value;
             }
-            return ResourcedMethod(request);
+            return ResourcedMethod(request, callSettings);
         }
 
         /// <summary>
@@ -535,7 +535,7 @@ namespace Testing.Paginated
             {
                 request.PageSize = pageSize.Value;
             }
-            return ResourcedMethodAsync(request);
+            return ResourcedMethodAsync(request, callSettings);
         }
         // TEST_END
     }
