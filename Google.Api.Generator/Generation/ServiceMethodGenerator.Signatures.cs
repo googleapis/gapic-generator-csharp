@@ -140,22 +140,32 @@ namespace Google.Api.Generator.Generation
                     return new ParameterInfo(field.Descs, parameter, initExpr, null, xmlDoc);
                 });
 
+                private IEnumerable<object> ApplyPagination(LocalDeclarationStatementSyntax request)
+                {
+                    var pageTokenParameter = Parameter(Ctx.Type<string>(), "pageToken");
+                    var pageSizeParameter = Parameter(Ctx.Type<int?>(), "pageSize");
+                    yield return If(pageTokenParameter.NotEqualTo(Null)).Then(
+                        request.Access("PageToken").Assign(pageTokenParameter)
+                    );
+                    yield return If(pageSizeParameter.NotEqualTo(Null)).Then(
+                        request.Access("PageSize").Assign(pageSizeParameter.Access("Value"))
+                    );
+                }
+
                 private IEnumerable<ParameterInfo> PaginatedParameters(IEnumerable<ParameterInfo> coreParameters)
                 {
                     var pageTokenParameter = Parameter(Ctx.Type<string>(), "pageToken", @default: Null);
-                    var pageTokenInit = new ObjectInitExpr("PageToken", pageTokenParameter.NullCoalesce(""));
                     var pageTokenXmlDoc = XmlDoc.Param(pageTokenParameter,
                         "The token returned from the previous request. A value of ", null, " or an empty string retrieves the first page.");
                     var pageSizeParameter = Parameter(Ctx.Type<int?>(), "pageSize", @default: Null);
-                    var pageSizeInit = new ObjectInitExpr("PageSize", pageSizeParameter.NullCoalesce(0));
                     var pageSizeXmlDoc = XmlDoc.Param(pageSizeParameter,
                         "The size of page to request. The response will not be larger than this, but may be smaller. A value of ", null, " or ", 0, " uses a server-defined page size.");
                     return coreParameters
-                        .Append(new ParameterInfo(null, pageTokenParameter, pageTokenInit, null, pageTokenXmlDoc))
-                        .Append(new ParameterInfo(null, pageSizeParameter, pageSizeInit, null, pageSizeXmlDoc));
+                        .Append(new ParameterInfo(null, pageTokenParameter, null, null, pageTokenXmlDoc))
+                        .Append(new ParameterInfo(null, pageSizeParameter, null, null, pageSizeXmlDoc));
                 }
 
-                private MethodDeclarationSyntax AbstractRequestMethod(bool sync, bool callSettings, IEnumerable<ParameterInfo> parameters, DocumentationCommentTriviaSyntax returnsXmlDoc = null)
+                private MethodDeclarationSyntax AbstractRequestMethod(bool sync, bool callSettings, IEnumerable<ParameterInfo> parameters, DocumentationCommentTriviaSyntax returnsXmlDoc = null, Func<LocalDeclarationStatementSyntax, IEnumerable<object>> requestBlock = null)
                 {
                     var returnTyp = sync ? MethodDetails.SyncReturnTyp : MethodDetails.AsyncReturnTyp;
                     var methodName = sync ? MethodDetails.SyncMethodName : MethodDetails.AsyncMethodName;
@@ -166,11 +176,21 @@ namespace Google.Api.Generator.Generation
                         MethodDetails is MethodDetails.Paginated ? _def.ReturnsAsyncPaginatedXmlDoc : _def.ReturnsAsyncXmlDoc);
                     if (callSettings)
                     {
-                        return Method(Public | Virtual, Ctx.Type(returnTyp), methodName)(parameters.Select(x => x.Parameter).Append(finalParam).ToArray())
+                        ExpressionSyntax newRequest = New(Ctx.Type(MethodDetails.RequestTyp))().WithInitializer(NestInit(parameters, 0).ToArray());
+                        object[] block = null;
+                        if (requestBlock is not null)
+                        {
+                            var type = Ctx.Type(MethodDetails.RequestTyp);
+                            var request = Local(Ctx.Type(MethodDetails.RequestTyp), "request").WithInitializer(newRequest);
+                            var statements = requestBlock(request);
+                            block = new[] { request }.Concat(statements).Append(Return(This.Call(methodName)(request))).ToArray();
+                        }
+                        var method = Method(Public | Virtual, Ctx.Type(returnTyp), methodName)(parameters.Select(x => x.Parameter).Append(finalParam).ToArray())
                                 .MaybeWithAttribute(MethodDetails.IsDeprecated || _sig.HasDeprecatedField, () => Ctx.Type<ObsoleteAttribute>())()
-                                .WithBody(This.Call(methodName)(New(Ctx.Type(MethodDetails.RequestTyp))()
-                                    .WithInitializer(NestInit(parameters, 0).ToArray()), finalParam))
                                 .WithXmlDoc(parameters.Select(x => x.XmlDoc).Prepend(_def.SummaryXmlDoc).Append(finalParamXmlDoc).Append(returnsXmlDoc).ToArray());
+                        return block is null
+                            ? method.WithBody(This.Call(methodName)(newRequest, finalParam))
+                            : method.WithBlockBody(block);
                         IEnumerable<ObjectInitExpr> NestInit(IEnumerable<ParameterInfo> ps, int ofs)
                         {
                             var byField = ps.GroupBy(x => (x.FieldDescs ?? Enumerable.Empty<FieldDescriptor>()).Skip(ofs).SkipLast(1).FirstOrDefault())
@@ -180,7 +200,7 @@ namespace Google.Api.Generator.Generation
                                 if (f.Key == null)
                                 {
                                     // No more nesting, these are the actual fields that need filling.
-                                    foreach (var param in f.OrderBy(x => x.FieldDescs?.Last().Index ?? int.MaxValue))
+                                    foreach (var param in f.OrderBy(x => x.FieldDescs?.Last().Index ?? int.MaxValue).Where(p => p.InitExpr is not null))
                                     {
                                         // Note: even if the signature includes a deprecated field, we don't indicate that in the
                                         // ObjectInitExpr, as we don't want or need the pragma when the method we're generating is obsolete.
@@ -212,8 +232,8 @@ namespace Google.Api.Generator.Generation
                 public MethodDeclarationSyntax AbstractAsyncCallSettingsRequestMethod => AbstractRequestMethod(false, true, Parameters);
                 public MethodDeclarationSyntax AbstractAsyncCancellationTokenRequestMethod => AbstractRequestMethod(false, false, Parameters);
 
-                public MethodDeclarationSyntax AbstractSyncPaginatedRequestMethod => AbstractRequestMethod(true, true, PaginatedParameters(Parameters));
-                public MethodDeclarationSyntax AbstractAsyncPaginatedCallSettingsRequestMethod => AbstractRequestMethod(false, true, PaginatedParameters(Parameters));
+                public MethodDeclarationSyntax AbstractSyncPaginatedRequestMethod => AbstractRequestMethod(true, true, PaginatedParameters(Parameters), requestBlock: ApplyPagination);
+                public MethodDeclarationSyntax AbstractAsyncPaginatedCallSettingsRequestMethod => AbstractRequestMethod(false, true, PaginatedParameters(Parameters), requestBlock: ApplyPagination);
 
                 public MethodDeclarationSyntax AbstractServerStreamSyncRequestMethod => AbstractRequestMethod(true, true, Parameters, _def.ReturnsServerStreamingXmlDoc);
 
@@ -268,8 +288,8 @@ namespace Google.Api.Generator.Generation
                     public MethodDeclarationSyntax AbstractAsyncCallSettingsRequestMethod => _signature.AbstractRequestMethod(false, true, _parameters);
                     public MethodDeclarationSyntax AbstractAsyncCancellationTokenRequestMethod => _signature.AbstractRequestMethod(false, false, _parameters);
 
-                    public MethodDeclarationSyntax AbstractSyncPaginatedRequestMethod => _signature.AbstractRequestMethod(true, true, _signature.PaginatedParameters(_parameters));
-                    public MethodDeclarationSyntax AbstractAsyncPaginatedCallSettingsRequestMethod => _signature.AbstractRequestMethod(false, true, _signature.PaginatedParameters(_parameters));
+                    public MethodDeclarationSyntax AbstractSyncPaginatedRequestMethod => _signature.AbstractRequestMethod(true, true, _signature.PaginatedParameters(_parameters), requestBlock: _signature.ApplyPagination);
+                    public MethodDeclarationSyntax AbstractAsyncPaginatedCallSettingsRequestMethod => _signature.AbstractRequestMethod(false, true, _signature.PaginatedParameters(_parameters), requestBlock: _signature.ApplyPagination);
 
                     public MethodDeclarationSyntax AbstractServerStreamSyncRequestMethod => _signature.AbstractRequestMethod(true, true, _parameters, _signature._def.ReturnsServerStreamingXmlDoc);
                 }
