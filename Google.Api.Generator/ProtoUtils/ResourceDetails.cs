@@ -82,10 +82,17 @@ namespace Google.Api.Generator.ProtoUtils
                 FieldName = ShortName.ToLowerCamelCase();
                 NameField = string.IsNullOrEmpty(nameField) ? "name" : nameField;
                 DocName = ShortName;
-                Patterns = patterns.Select(x => new Pattern(x)).ToList();
+                try
+                {
+                    Patterns = patterns.Select(x => new Pattern(x)).ToList();
+                }
+                catch (ArgumentException e)
+                {
+                    throw new ArgumentException($"Invalid resource definition for '{type}'. At least one pattern could not be parsed.", e);
+                }
                 if (patterns.Distinct().Count() != Patterns.Count)
                 {
-                    throw new InvalidOperationException("All patterns must be unique within a resource-name.");
+                    throw new InvalidOperationException($"Invalid resource definition for '{type}'. All patterns must be unique within a resource-name.");
                 }
                 IsCommon = common != null;
                 ResourceNameTyp = IsCommon ?
