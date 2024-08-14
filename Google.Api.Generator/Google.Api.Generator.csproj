@@ -1,9 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+  <Import Project="../DotnetToolProperties.xml" />
+
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
     <LangVersion>latest</LangVersion>
+
+    <Version>1.5.0</Version>
+    <Description>Tool used by Google .NET client library maintainers to generate GAPIC libraries. While there is nothing "secret" in this package, it is unlikely to be useful to other developers. It is only published as a matter of convenience for other Google .NET repositories.</Description>
+    <ToolCommandName>google-gapic-generator</ToolCommandName>
+    
     <!-- Invariant mode reduces docker image size, and allows docker image to not have ICU support. -->
     <InvariantGlobalization>true</InvariantGlobalization>
   </PropertyGroup>
