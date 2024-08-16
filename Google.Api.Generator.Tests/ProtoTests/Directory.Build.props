@@ -1,0 +1,6 @@
+<Project>
+  <!-- 
+    - This file is present to avoid using the generator's
+    - Directory.Build.props when building the generated test projects.
+    -->
+</Project>

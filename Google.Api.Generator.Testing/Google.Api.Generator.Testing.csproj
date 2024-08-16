@@ -1,11 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
-  </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="xunit" Version="2.9.0" />
+    <PackageReference Include="xunit" />
     <ProjectReference Include="..\Google.Api.Generator.Utils\Google.Api.Generator.Utils.csproj" />
   </ItemGroup>
 

@@ -4,8 +4,6 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
-    <LangVersion>latest</LangVersion>
 
     <Version>1.5.0</Version>
     <Description>Tool used by Google .NET client library maintainers to generate GAPIC libraries. While there is nothing "secret" in this package, it is unlikely to be useful to other developers. It is only published as a matter of convenience for other Google .NET repositories.</Description>
@@ -16,14 +14,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CommandLineParser" Version="2.9.1" />
-    <PackageReference Include="Google.Api.Gax.Grpc" Version="4.8.0" />
-    <PackageReference Include="Google.Cloud.Iam.V1" Version="3.3.0" />
-    <PackageReference Include="Google.Cloud.Location" Version="2.3.0" />
-    <PackageReference Include="Google.LongRunning" Version="3.3.0" />
-    <PackageReference Include="System.Collections.Immutable" Version="8.0.0" />
-    <PackageReference Include="System.Linq.Async" Version="6.0.1" />
-    <PackageReference Include="YamlDotNet" Version="16.1.0" />
+    <PackageReference Include="CommandLineParser" />
+    <PackageReference Include="Google.Api.Gax.Grpc" />
+    <PackageReference Include="Google.Cloud.Iam.V1" />
+    <PackageReference Include="Google.Cloud.Location" />
+    <PackageReference Include="Google.LongRunning" />
+    <PackageReference Include="System.Collections.Immutable" />
+    <PackageReference Include="System.Linq.Async" />
+    <PackageReference Include="YamlDotNet" />
   </ItemGroup>
 
   <ItemGroup>
