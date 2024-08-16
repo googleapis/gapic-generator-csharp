@@ -299,15 +299,8 @@ namespace Google.Api.Generator.Utils.Formatting
             return node;
         }
 
-        public override SyntaxNode VisitArgument(ArgumentSyntax node)
-        {
-            node = (ArgumentSyntax) base.VisitArgument(node);
-            if (node.RefKindKeyword != null)
-            {
-                node = node.WithRefKindKeyword(node.RefKindKeyword.WithTrailingSpace());
-            }
-            return node;
-        }
+        public override SyntaxNode VisitArgument(ArgumentSyntax node) =>
+            ((ArgumentSyntax) base.VisitArgument(node)).WithRefKindKeyword(node.RefKindKeyword.WithTrailingSpace());
 
         public override SyntaxNode VisitNameColon(NameColonSyntax node)
         {
@@ -628,10 +621,7 @@ namespace Google.Api.Generator.Utils.Formatting
         public override SyntaxNode VisitSimpleLambdaExpression(SimpleLambdaExpressionSyntax node)
         {
             node = (SimpleLambdaExpressionSyntax) base.VisitSimpleLambdaExpression(node);
-            if (node.AsyncKeyword != null)
-            {
-                node = node.WithAsyncKeyword(node.AsyncKeyword.WithTrailingSpace());
-            }
+            node = node.WithAsyncKeyword(node.AsyncKeyword.WithTrailingSpace());
             if (node.Body is BlockSyntax)
             {
                 node = node.WithArrowToken(node.ArrowToken.WithLeadingSpace());
@@ -646,10 +636,7 @@ namespace Google.Api.Generator.Utils.Formatting
         public override SyntaxNode VisitParenthesizedLambdaExpression(ParenthesizedLambdaExpressionSyntax node)
         {
             node = (ParenthesizedLambdaExpressionSyntax) base.VisitParenthesizedLambdaExpression(node);
-            if (node.AsyncKeyword != null)
-            {
-                node = node.WithAsyncKeyword(node.AsyncKeyword.WithTrailingSpace());
-            }
+            node = node.WithAsyncKeyword(node.AsyncKeyword.WithTrailingSpace());
             if (node.Body is BlockSyntax)
             {
                 node = node.WithArrowToken(node.ArrowToken.WithLeadingSpace());
