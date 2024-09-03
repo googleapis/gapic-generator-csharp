@@ -276,9 +276,8 @@ namespace Google.Api.Generator
 
             void ValidateMessage(MessageDescriptor message)
             {
-                // Ignore map types. It would be nice if there were a better way of detecting this.
-                // TODO: Use the new property when b/336474134 is resolved and released.
-                if (message.GetOptions()?.MapEntry == true)
+                // Ignore map types.
+                if (message.IsMapEntry)
                 {
                     return;
                 }
@@ -292,9 +291,7 @@ namespace Google.Api.Generator
                     ValidateEnum(enumType);
                 }
                 ValidateDeclarations(message.Fields.InDeclarationOrder(), false);
-
-                // TODO: Uncomment when b/336474755 has been resolved and released.
-                // ValidateDeclarations(message.Oneofs.Where(o => !o.IsSynthetic));
+                ValidateDeclarations(message.Oneofs.Where(o => !o.IsSynthetic), false);
             }
 
             void ValidateEnum(EnumDescriptor enumType)

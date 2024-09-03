@@ -19,6 +19,7 @@
     <PackageReference Include="Google.Cloud.Iam.V1" />
     <PackageReference Include="Google.Cloud.Location" />
     <PackageReference Include="Google.LongRunning" />
+    <PackageReference Include="Google.Protobuf" />
     <PackageReference Include="System.Collections.Immutable" />
     <PackageReference Include="System.Linq.Async" />
     <PackageReference Include="YamlDotNet" />
