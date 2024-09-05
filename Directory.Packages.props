@@ -32,7 +32,7 @@
     <PackageVersion Include="YamlDotNet" Version="16.1.0" />
     
     <!-- Build-oriented packages -->
-    <PackageVersion Include="ConfigureAwaitChecker.Analyzer" Version="5.0.0" />
+    <PackageVersion Include="ConfigureAwaitChecker.Analyzer" Version="5.0.0.1" />
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
   </ItemGroup>
 </Project>
