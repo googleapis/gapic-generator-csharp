@@ -30,7 +30,7 @@
     <!-- Other third party packages -->
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageVersion Include="CommandLineParser" Version="2.9.1" />
-    <PackageVersion Include="YamlDotNet" Version="16.1.0" />
+    <PackageVersion Include="YamlDotNet" Version="16.1.2" />
     
     <!-- Build-oriented packages -->
     <PackageVersion Include="ConfigureAwaitChecker.Analyzer" Version="5.0.0" />
