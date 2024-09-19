@@ -18,7 +18,7 @@
     <PackageVersion Include="Google.Cloud.Iam.V1" Version="3.3.0" />
     <PackageVersion Include="Google.Cloud.Location" Version="2.3.0" />
     <PackageVersion Include="Google.LongRunning" Version="3.3.0" />
-    <PackageVersion Include="Google.Protobuf" Version="3.28.1" />
+    <PackageVersion Include="Google.Protobuf" Version="3.28.2" />
 
     <!-- Microsoft/System packages -->
     <PackageVersion Include="Microsoft.Bcl.AsyncInterfaces" Version="6.0.0" />
