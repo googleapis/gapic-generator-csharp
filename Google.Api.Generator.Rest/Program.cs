@@ -26,9 +26,13 @@ namespace Google.Api.Generator.Rest
     {
         static int Main(string[] args)
         {
-            if (args.Length != 4)
+            if (args.Length != 2
+                && args.Length !=4 )
             {
-                Console.WriteLine("Expected arguments: <JSON file> <output directory> <features file> <enum storage file>");
+                Console.WriteLine("Expected arguments:");
+                Console.WriteLine("<JSON file> <output directory>");
+                Console.WriteLine("OR");
+                Console.WriteLine("<JSON file> <output directory> <features file> <enum storage file>");                
                 return 1;
             }
             // TODO: Potentially add a command line argument for this instead.
@@ -38,22 +42,36 @@ namespace Google.Api.Generator.Rest
 
             string json = File.ReadAllText(args[0]);
             string outputDirectory = args[1];
-            string featuresJson = File.ReadAllText(args[2]);
 
-            string enumStorageFile = args[3];
-            string enumStorageJson = File.Exists(enumStorageFile) ? File.ReadAllText(enumStorageFile) : "{}";
-            var enumStorage = PackageEnumStorage.FromJson(enumStorageJson);
-
-            var features = JsonConvert.DeserializeObject<Features>(featuresJson);
-            var files = CodeGenerator.Generate(json, features, enumStorage, SystemClock.Instance);
-            foreach (var file in files)
+            if(args.Length == 2)
             {
-                var path = Path.Combine(outputDirectory, file.RelativePath);
-                Directory.CreateDirectory(Path.GetDirectoryName(path));
-                File.WriteAllText(path, file.Content);
+                var files = CodeGenerator.Generate(json, SystemClock.Instance);
+                foreach (var file in files)
+                {
+                    var path = Path.Combine(outputDirectory, file.RelativePath);
+                    Directory.CreateDirectory(Path.GetDirectoryName(path));
+                    File.WriteAllText(path, file.Content);
+                }
             }
+            else
+            {
+                string featuresJson = File.ReadAllText(args[2]);
 
-            File.WriteAllText(enumStorageFile, enumStorage.ToJson());
+                string enumStorageFile = args[3];
+                string enumStorageJson = File.Exists(enumStorageFile) ? File.ReadAllText(enumStorageFile) : "{}";
+                var enumStorage = PackageEnumStorage.FromJson(enumStorageJson);
+
+                var features = JsonConvert.DeserializeObject<Features>(featuresJson);
+                var files = CodeGenerator.Generate(json, features, enumStorage, SystemClock.Instance);
+                foreach (var file in files)
+                {
+                    var path = Path.Combine(outputDirectory, file.RelativePath);
+                    Directory.CreateDirectory(Path.GetDirectoryName(path));
+                    File.WriteAllText(path, file.Content);
+                }
+
+                File.WriteAllText(enumStorageFile, enumStorage.ToJson());
+            }
             Logging.LogInformation("Generation complete");
             return 0;
         }

@@ -16,8 +16,10 @@ using Google.Api.Gax;
 using Google.Api.Generator.Rest.Models;
 using Google.Api.Generator.Utils;
 using Google.Api.Generator.Utils.Formatting;
+using Google.Api.Generator.Utils.Roslyn;
 using Google.Apis.Discovery.v1.Data;
 using Google.Apis.Json;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -27,6 +29,20 @@ namespace Google.Api.Generator.Rest
 {
     internal class CodeGenerator
     {
+        public static IEnumerable<ResultFile> Generate(string discoveryJson, IClock clock)
+        {
+            Logging.LogInformation("Loading Discovery doc");
+            discoveryJson = NormalizeDescriptions(discoveryJson);
+
+            var discoveryDescription = NewtonsoftJsonSerializer.Instance.Deserialize<RestDescription>(discoveryJson);
+
+            var package = new PackageModel(discoveryDescription);
+            Logging.LogInformation("Generating C# code");
+            return GenerateCSharpDataModels(package, clock);
+            //Logging.LogInformation("Generating package file");
+            //yield return GenerateProjectFile(package, clock);
+        }
+
         public static IEnumerable<ResultFile> Generate(string discoveryJson, Features features, PackageEnumStorage enumStorage, IClock clock)
         {
             Logging.LogInformation("Loading Discovery doc");
@@ -61,6 +77,24 @@ namespace Google.Api.Generator.Rest
                 description.Value = text.Replace("\n", " ");
             }
             return raw.ToString();
+        }
+
+        private static IEnumerable<ResultFile> GenerateCSharpDataModels(PackageModel package, IClock clock)
+        {
+            foreach (var model in package.GetDataModels())
+            {
+                var ctx = SourceFileContext.CreateFullyQualified(clock);
+                var ns = RoslynBuilder.Namespace(package.PackageName);
+                using (ctx.InNamespace(ns))
+                {
+                    ns = ns.AddMembers(model.GenerateClass(ctx));
+                    
+                }
+               var syntax= ctx.CreateCompilationUnit(ns);
+                string content = CodeFormatter.Format(syntax).ToFullString();
+                content = ReformatBackticksInComments(content);
+                yield return (new ResultFile($"{package.PackageName}/{model.Id}.cs", content));
+            }
         }
 
         private static ResultFile GenerateCSharpCode(PackageModel package, IClock clock)

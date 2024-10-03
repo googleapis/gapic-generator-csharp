@@ -98,9 +98,9 @@ namespace Google.Api.Generator.Rest.Models
         /// </summary>
         internal PackageEnumStorage PackageEnumStorage { get; }
 
-        public PackageModel(RestDescription discoveryDoc, Features features, PackageEnumStorage enumStorage)
+        public IReadOnlyList<DataModel> GetDataModels() => DataModels;
+        public PackageModel(RestDescription discoveryDoc)
         {
-            _features = features;
             _discoveryDoc = discoveryDoc;
             ApiName = discoveryDoc.Name;
 
@@ -113,7 +113,7 @@ namespace Google.Api.Generator.Rest.Models
             var camelizedPackagePath = discoveryDoc.PackagePath is null
                 ? ""
                 : string.Join('.', discoveryDoc.PackagePath.Split('/').Select(part => part.ToUpperCamelCase())) + ".";
-            PackageName = $"Google.Apis.{camelizedPackagePath}{ClassName}.{versionNoDots}";
+            PackageName = $"Google.Apis.{camelizedPackagePath}{ClassName}";
             DataModels = discoveryDoc.Schemas.ToReadOnlyList(pair => new DataModel(this, parent: null, name: pair.Key, schema: pair.Value));
 
             // Populate the data model dictionary early, as methods and resources refer to the data model types.
@@ -127,6 +127,10 @@ namespace Google.Api.Generator.Rest.Models
             ServiceTyp = Typ.Manual(PackageName, $"{ClassName}Service");
             GenericBaseRequestTypDef = Typ.Manual(PackageName, $"{ClassName}BaseServiceRequest");
             Methods = discoveryDoc.Methods.ToReadOnlyList(pair => new MethodModel(this, null, pair.Key, pair.Value));
+        }
+        public PackageModel(RestDescription discoveryDoc, Features features, PackageEnumStorage enumStorage):this(discoveryDoc)
+        {
+            _features = features;
             PackageEnumStorage = enumStorage;
         }
 
@@ -146,7 +150,7 @@ namespace Google.Api.Generator.Rest.Models
                     ns = ns.AddMembers(resourceClass);
                 }
             }
-            var dataNs = Namespace(PackageName + ".Data");
+            var dataNs = Namespace(PackageName + ".Models");
             using (ctx.InNamespace(dataNs))
             {
                 var dataModels = DataModels
@@ -157,7 +161,7 @@ namespace Google.Api.Generator.Rest.Models
                     dataNs = dataNs.AddMembers(dataModel.GenerateClass(ctx));
                 }
             }
-            return ctx.CreateCompilationUnit(ns).AddMembers(dataNs);
+            return ctx.CreateCompilationUnit(dataNs).AddMembers(ns);
         }
 
         public IReadOnlyList<ParameterModel> CreateParameterList(Typ baseTyp) =>
@@ -389,7 +393,7 @@ namespace Google.Api.Generator.Rest.Models
                 // unless the revision is before 2015, in which case it's 0.
                 if (DateTime.TryParseExact(discoveryRevision, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeUniversal, out var date))
                 {
-                    return date.Year < 2015 ? 0 : (int) (date - new DateTime(2015, 1, 1)).TotalDays;
+                    return date.Year < 2015 ? 0 : (int)(date - new DateTime(2015, 1, 1)).TotalDays;
                 }
                 return int.Parse(discoveryRevision);
             }

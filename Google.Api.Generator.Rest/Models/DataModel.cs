@@ -77,7 +77,7 @@ namespace Google.Api.Generator.Rest.Models
             {
                 className += "Schema";
             }
-            Typ = parent is null ? Typ.Manual(Package.PackageName + ".Data", className) : Typ.Nested(parent.Typ, className);
+            Typ = parent is null ? Typ.Manual(Package.PackageName, className) : Typ.Nested(parent.Typ, className);
 
             // We may get a JsonSchema for an array as a nested model. Just use the properties from schema.Items for simplicity.
             Properties = GetProperties(schema).ToReadOnlyList(pair => new DataPropertyModel(this, pair.Key, pair.Value));
@@ -106,7 +106,8 @@ namespace Google.Api.Generator.Rest.Models
 
         public ClassDeclarationSyntax GenerateClass(SourceFileContext ctx)
         {
-            var cls = Class(Modifier.Public, Typ, Parent is null ? new[] { ctx.Type<IDirectResponseSchema>() } : Array.Empty<TypeSyntax>());
+            //var cls = Class(Modifier.Public, Typ, Parent is null ? new[] { ctx.Type<IDirectResponseSchema>() } : Array.Empty<TypeSyntax>());
+            var cls = Class(Modifier.Public, Typ,  Array.Empty<TypeSyntax>());
             using (ctx.InClass(Typ))
             {
                 cls = cls
