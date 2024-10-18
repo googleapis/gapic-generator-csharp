@@ -1,0 +1,30 @@
+﻿edition = "2023";
+
+package testing.editions;
+
+option csharp_namespace = "Testing.Editions";
+
+import "google/api/client.proto";
+import "google/api/resource.proto";
+
+// Test service
+service Edition2023 {
+  // Test method
+  rpc Method1(Edition2023Request) returns(Edition2023Response) {
+    option (google.api.method_signature) = "name,number";
+  }
+}
+
+message Edition2023Request {
+  option (google.api.resource) = {
+    type: "editions.example.com/Edition2023Resource"
+    pattern: "items/{item_id}"
+  };
+  // Equivalent to proto3 optional
+  string name = 1;
+  // Equivalent to proto3 default
+  int32 number = 2 [features.field_presence = IMPLICIT];
+}
+
+message Edition2023Response {
+}

@@ -310,6 +310,9 @@ namespace Google.Api.Generator.Tests
         public void Mixins() => ProtoTestSingle("Mixins", ignoreGapicMetadataFile: false, ignoreSnippets: true, serviceConfigPath: "Mixins.yaml");
 
         [Fact]
+        public void Editions() => ProtoTestSingle(testProtoNames: new[] { "Edition2023" }, sourceDir: "Editions", ignoreCsProj: true, ignoreSnippets: true);
+
+        [Fact]
         public void Showcase() => ProtoTestSingle(testProtoNames: new[] { "compliance", "echo", "identity", "messaging", "sequence", "testing" },
             sourceDir: "Showcase/google/showcase/v1beta1",
             outputDir: "Showcase",
