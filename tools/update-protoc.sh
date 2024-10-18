@@ -23,6 +23,7 @@ unzip -q tmp.zip
 
 mv tools/windows_x64/protoc.exe ..
 mv tools/linux_x64/protoc ..
+cp tools/google/protobuf/* ../protos/google/protobuf
 
 cd ..
 rm -rf tmp
