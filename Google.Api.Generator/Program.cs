@@ -204,7 +204,9 @@ namespace Google.Api.Generator
 
                 codeGenResponse = new CodeGeneratorResponse
                 {
-                    SupportedFeatures = (int) CodeGeneratorResponse.Types.Feature.Proto3Optional,
+                    SupportedFeatures = (int) CodeGeneratorResponse.Types.Feature.Proto3Optional | (int) CodeGeneratorResponse.Types.Feature.SupportsEditions,
+                    MinimumEdition = (int) Edition.Proto2,
+                    MaximumEdition = (int) Edition._2023,
                     File =
                     {
                         results.Select(x => new CodeGeneratorResponse.Types.File
