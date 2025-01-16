@@ -24,6 +24,7 @@ using Google.LongRunning;
 using Google.Protobuf;
 using Google.Protobuf.Reflection;
 using Grpc.ServiceConfig;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -467,6 +468,13 @@ namespace Google.Api.Generator
                     hasContent = true;
                 }
             }
+            if (EnumStringGenerator.MaybeGenerate(SourceFileContext.CreateFullyAliased(clock, WellknownNamespaceAliases), ns, packageFileDescriptors) is CompilationUnitSyntax enumConstantsClass)
+            {
+                // TODO: Policy or config for filename.
+                yield return new ResultFile($"{clientPathPrefix}{EnumStringGenerator.RootClassName}.g.cs", enumConstantsClass);
+                hasContent = true;
+            }
+
             // Now we've processed all the files, check for duplicate resource names.
             if (duplicateResourceNameClasses.Count > 0)
             {
