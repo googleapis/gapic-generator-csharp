@@ -11,10 +11,10 @@
     <PackageVersion Include="NSubstitute" Version="5.3.0" />
     
     <!-- Google/gRPC packages -->
-    <PackageVersion Include="Google.Api.Gax" Version="4.9.0" />
-    <PackageVersion Include="Google.Api.Gax.Grpc" Version="4.9.0" />
-    <PackageVersion Include="Google.Api.Gax.Testing" Version="4.9.0" />
-    <PackageVersion Include="Google.Apis" Version="1.68.0" />
+    <PackageVersion Include="Google.Api.Gax" Version="4.10.0" />
+    <PackageVersion Include="Google.Api.Gax.Grpc" Version="4.10.0" />
+    <PackageVersion Include="Google.Api.Gax.Testing" Version="4.10.0" />
+    <PackageVersion Include="Google.Apis" Version="1.69.0" />
     <PackageVersion Include="Google.Cloud.Iam.V1" Version="3.4.0" />
     <PackageVersion Include="Google.Cloud.Location" Version="2.3.0" />
     <PackageVersion Include="Google.LongRunning" Version="3.3.0" />
