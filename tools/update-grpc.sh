@@ -23,6 +23,7 @@ unzip -q tmp.zip
 
 mv tools/windows_x64/grpc_csharp_plugin.exe ..
 mv tools/linux_x64/grpc_csharp_plugin ..
+mv tools/macosx_x64/grpc_csharp_plugin ../grpc_csharp_plugin_macosx_x64
 
 cd ..
 rm -rf tmp

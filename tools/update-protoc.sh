@@ -23,6 +23,7 @@ unzip -q tmp.zip
 
 mv tools/windows_x64/protoc.exe ..
 mv tools/linux_x64/protoc ..
+mv tools/macosx_x64/protoc ../protoc_macosx_x64
 cp tools/google/protobuf/* ../protos/google/protobuf
 
 cd ..
