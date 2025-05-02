@@ -51,6 +51,8 @@ namespace Google.Showcase.V1Beta1
         {
             gax::GaxPreconditions.CheckNotNull(existing, nameof(existing));
             EchoSettings_ = existing.EchoSettings_;
+            EchoErrorDetailsSettings = existing.EchoErrorDetailsSettings;
+            FailEchoWithDetailsSettings = existing.FailEchoWithDetailsSettings;
             ExpandSettings = existing.ExpandSettings;
             CollectSettings = existing.CollectSettings;
             CollectStreamingSettings = existing.CollectStreamingSettings;
@@ -80,6 +82,30 @@ namespace Google.Showcase.V1Beta1
         /// </list>
         /// </remarks>
         public gaxgrpc::CallSettings EchoSettings_ { get; set; } = gaxgrpc::CallSettings.FromExpiration(gax::Expiration.None);
+
+        /// <summary>
+        /// <see cref="gaxgrpc::CallSettings"/> for synchronous and asynchronous calls to <c>EchoClient.EchoErrorDetails</c>
+        ///  and <c>EchoClient.EchoErrorDetailsAsync</c>.
+        /// </summary>
+        /// <remarks>
+        /// <list type="bullet">
+        /// <item><description>This call will not be retried.</description></item>
+        /// <item><description>No timeout is applied.</description></item>
+        /// </list>
+        /// </remarks>
+        public gaxgrpc::CallSettings EchoErrorDetailsSettings { get; set; } = gaxgrpc::CallSettings.FromExpiration(gax::Expiration.None);
+
+        /// <summary>
+        /// <see cref="gaxgrpc::CallSettings"/> for synchronous and asynchronous calls to
+        /// <c>EchoClient.FailEchoWithDetails</c> and <c>EchoClient.FailEchoWithDetailsAsync</c>.
+        /// </summary>
+        /// <remarks>
+        /// <list type="bullet">
+        /// <item><description>This call will not be retried.</description></item>
+        /// <item><description>No timeout is applied.</description></item>
+        /// </list>
+        /// </remarks>
+        public gaxgrpc::CallSettings FailEchoWithDetailsSettings { get; set; } = gaxgrpc::CallSettings.FromExpiration(gax::Expiration.None);
 
         /// <summary>
         /// <see cref="gaxgrpc::CallSettings"/> for synchronous and asynchronous calls to <c>EchoClient.Expand</c> and
@@ -274,7 +300,7 @@ namespace Google.Showcase.V1Beta1
         protected override gaxgrpc::ChannelPool GetChannelPool() => EchoClient.ChannelPool;
     }
 
-    /// <summary>Echo client wrapper, for convenient use.</summary>
+    /// <summary>Echo client wrapper, for convenient use. This client implements API version v1_20240408.</summary>
     /// <remarks>
     /// This service is used showcase the four main types of rpcs - unary, server
     /// side streaming, client side streaming, and bidirectional streaming. This
@@ -387,6 +413,93 @@ namespace Google.Showcase.V1Beta1
         /// <returns>A Task containing the RPC response.</returns>
         public virtual stt::Task<EchoResponse> EchoAsync(EchoRequest request, st::CancellationToken cancellationToken) =>
             EchoAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+
+        /// <summary>
+        /// This method returns error details in a repeated "google.protobuf.Any"
+        /// field. This method showcases handling errors thus encoded, particularly
+        /// over REST transport. Note that GAPICs only allow the type
+        /// "google.protobuf.Any" for field paths ending in "error.details", and, at
+        /// run-time, the actual types for these fields must be one of the types in
+        /// google/rpc/error_details.proto.
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>The RPC response.</returns>
+        public virtual EchoErrorDetailsResponse EchoErrorDetails(EchoErrorDetailsRequest request, gaxgrpc::CallSettings callSettings = null) =>
+            throw new sys::NotImplementedException();
+
+        /// <summary>
+        /// This method returns error details in a repeated "google.protobuf.Any"
+        /// field. This method showcases handling errors thus encoded, particularly
+        /// over REST transport. Note that GAPICs only allow the type
+        /// "google.protobuf.Any" for field paths ending in "error.details", and, at
+        /// run-time, the actual types for these fields must be one of the types in
+        /// google/rpc/error_details.proto.
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<EchoErrorDetailsResponse> EchoErrorDetailsAsync(EchoErrorDetailsRequest request, gaxgrpc::CallSettings callSettings = null) =>
+            throw new sys::NotImplementedException();
+
+        /// <summary>
+        /// This method returns error details in a repeated "google.protobuf.Any"
+        /// field. This method showcases handling errors thus encoded, particularly
+        /// over REST transport. Note that GAPICs only allow the type
+        /// "google.protobuf.Any" for field paths ending in "error.details", and, at
+        /// run-time, the actual types for these fields must be one of the types in
+        /// google/rpc/error_details.proto.
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<EchoErrorDetailsResponse> EchoErrorDetailsAsync(EchoErrorDetailsRequest request, st::CancellationToken cancellationToken) =>
+            EchoErrorDetailsAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+
+        /// <summary>
+        /// This method always fails with a gRPC "Aborted" error status that contains
+        /// multiple error details.  These include one instance of each of the standard
+        /// ones in error_details.proto
+        /// (https://github.com/googleapis/googleapis/blob/master/google/rpc/error_details.proto)
+        /// plus a custom, Showcase-defined PoetryError. The intent of this RPC is to
+        /// verify that GAPICs can process these various error details and surface them
+        /// to the user in an idiomatic form.
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>The RPC response.</returns>
+        public virtual FailEchoWithDetailsResponse FailEchoWithDetails(FailEchoWithDetailsRequest request, gaxgrpc::CallSettings callSettings = null) =>
+            throw new sys::NotImplementedException();
+
+        /// <summary>
+        /// This method always fails with a gRPC "Aborted" error status that contains
+        /// multiple error details.  These include one instance of each of the standard
+        /// ones in error_details.proto
+        /// (https://github.com/googleapis/googleapis/blob/master/google/rpc/error_details.proto)
+        /// plus a custom, Showcase-defined PoetryError. The intent of this RPC is to
+        /// verify that GAPICs can process these various error details and surface them
+        /// to the user in an idiomatic form.
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<FailEchoWithDetailsResponse> FailEchoWithDetailsAsync(FailEchoWithDetailsRequest request, gaxgrpc::CallSettings callSettings = null) =>
+            throw new sys::NotImplementedException();
+
+        /// <summary>
+        /// This method always fails with a gRPC "Aborted" error status that contains
+        /// multiple error details.  These include one instance of each of the standard
+        /// ones in error_details.proto
+        /// (https://github.com/googleapis/googleapis/blob/master/google/rpc/error_details.proto)
+        /// plus a custom, Showcase-defined PoetryError. The intent of this RPC is to
+        /// verify that GAPICs can process these various error details and surface them
+        /// to the user in an idiomatic form.
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="cancellationToken">A <see cref="st::CancellationToken"/> to use for this RPC.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public virtual stt::Task<FailEchoWithDetailsResponse> FailEchoWithDetailsAsync(FailEchoWithDetailsRequest request, st::CancellationToken cancellationToken) =>
+            FailEchoWithDetailsAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
 
         /// <summary>Server streaming methods for <see cref="Expand(ExpandRequest,gaxgrpc::CallSettings)"/>.</summary>
         public abstract partial class ExpandStream : gaxgrpc::ServerStreamingBase<EchoResponse>
@@ -633,6 +746,10 @@ namespace Google.Showcase.V1Beta1
     {
         private readonly gaxgrpc::ApiCall<EchoRequest, EchoResponse> _callEcho;
 
+        private readonly gaxgrpc::ApiCall<EchoErrorDetailsRequest, EchoErrorDetailsResponse> _callEchoErrorDetails;
+
+        private readonly gaxgrpc::ApiCall<FailEchoWithDetailsRequest, FailEchoWithDetailsResponse> _callFailEchoWithDetails;
+
         private readonly gaxgrpc::ApiServerStreamingCall<ExpandRequest, EchoResponse> _callExpand;
 
         private readonly gaxgrpc::ApiClientStreamingCall<EchoRequest, EchoResponse> _callCollect;
@@ -663,6 +780,7 @@ namespace Google.Showcase.V1Beta1
             {
                 Settings = effectiveSettings,
                 Logger = logger,
+                ApiVersion = "v1_20240408",
             });
             WaitOperationsClient = new lro::OperationsClientImpl(grpcClient.CreateOperationsClient(), effectiveSettings.WaitOperationsSettings, logger);
             LocationsClient = new gcl::LocationsClientImpl(grpcClient.CreateLocationsClient(), effectiveSettings.LocationsSettings, logger);
@@ -670,6 +788,12 @@ namespace Google.Showcase.V1Beta1
             _callEcho = clientHelper.BuildApiCall<EchoRequest, EchoResponse>("Echo", grpcClient.EchoAsync, grpcClient.Echo, effectiveSettings.EchoSettings_).WithExtractedGoogleRequestParam(new gaxgrpc::RoutingHeaderExtractor<EchoRequest>().WithExtractedParameter("header", "^(.+)$", request => request.Header).WithExtractedParameter("routing_id", "^(.+)$", request => request.Header).WithExtractedParameter("table_name", "^(regions/[^/]+/zones/[^/]+(?:/.*)?)$", request => request.Header).WithExtractedParameter("table_name", "^(projects/[^/]+/instances/[^/]+(?:/.*)?)$", request => request.Header).WithExtractedParameter("super_id", "^(projects/[^/]+)(?:/.*)?$", request => request.Header).WithExtractedParameter("instance_id", "^projects/[^/]+/(instances/[^/]+)(?:/.*)?$", request => request.Header).WithExtractedParameter("baz", "^(.+)$", request => request.OtherHeader).WithExtractedParameter("qux", "^(projects/[^/]+)(?:/.*)?$", request => request.OtherHeader));
             Modify_ApiCall(ref _callEcho);
             Modify_EchoApiCall(ref _callEcho);
+            _callEchoErrorDetails = clientHelper.BuildApiCall<EchoErrorDetailsRequest, EchoErrorDetailsResponse>("EchoErrorDetails", grpcClient.EchoErrorDetailsAsync, grpcClient.EchoErrorDetails, effectiveSettings.EchoErrorDetailsSettings);
+            Modify_ApiCall(ref _callEchoErrorDetails);
+            Modify_EchoErrorDetailsApiCall(ref _callEchoErrorDetails);
+            _callFailEchoWithDetails = clientHelper.BuildApiCall<FailEchoWithDetailsRequest, FailEchoWithDetailsResponse>("FailEchoWithDetails", grpcClient.FailEchoWithDetailsAsync, grpcClient.FailEchoWithDetails, effectiveSettings.FailEchoWithDetailsSettings);
+            Modify_ApiCall(ref _callFailEchoWithDetails);
+            Modify_FailEchoWithDetailsApiCall(ref _callFailEchoWithDetails);
             _callExpand = clientHelper.BuildApiCall<ExpandRequest, EchoResponse>("Expand", grpcClient.Expand, effectiveSettings.ExpandSettings);
             Modify_ApiCall(ref _callExpand);
             Modify_ExpandApiCall(ref _callExpand);
@@ -707,6 +831,10 @@ namespace Google.Showcase.V1Beta1
 
         partial void Modify_EchoApiCall(ref gaxgrpc::ApiCall<EchoRequest, EchoResponse> call);
 
+        partial void Modify_EchoErrorDetailsApiCall(ref gaxgrpc::ApiCall<EchoErrorDetailsRequest, EchoErrorDetailsResponse> call);
+
+        partial void Modify_FailEchoWithDetailsApiCall(ref gaxgrpc::ApiCall<FailEchoWithDetailsRequest, FailEchoWithDetailsResponse> call);
+
         partial void Modify_ExpandApiCall(ref gaxgrpc::ApiServerStreamingCall<ExpandRequest, EchoResponse> call);
 
         partial void Modify_CollectApiCall(ref gaxgrpc::ApiClientStreamingCall<EchoRequest, EchoResponse> call);
@@ -735,6 +863,10 @@ namespace Google.Showcase.V1Beta1
         public override gciv::IAMPolicyClient IAMPolicyClient { get; }
 
         partial void Modify_EchoRequest(ref EchoRequest request, ref gaxgrpc::CallSettings settings);
+
+        partial void Modify_EchoErrorDetailsRequest(ref EchoErrorDetailsRequest request, ref gaxgrpc::CallSettings settings);
+
+        partial void Modify_FailEchoWithDetailsRequest(ref FailEchoWithDetailsRequest request, ref gaxgrpc::CallSettings settings);
 
         partial void Modify_ExpandRequest(ref ExpandRequest request, ref gaxgrpc::CallSettings settings);
 
@@ -772,6 +904,76 @@ namespace Google.Showcase.V1Beta1
         {
             Modify_EchoRequest(ref request, ref callSettings);
             return _callEcho.Async(request, callSettings);
+        }
+
+        /// <summary>
+        /// This method returns error details in a repeated "google.protobuf.Any"
+        /// field. This method showcases handling errors thus encoded, particularly
+        /// over REST transport. Note that GAPICs only allow the type
+        /// "google.protobuf.Any" for field paths ending in "error.details", and, at
+        /// run-time, the actual types for these fields must be one of the types in
+        /// google/rpc/error_details.proto.
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>The RPC response.</returns>
+        public override EchoErrorDetailsResponse EchoErrorDetails(EchoErrorDetailsRequest request, gaxgrpc::CallSettings callSettings = null)
+        {
+            Modify_EchoErrorDetailsRequest(ref request, ref callSettings);
+            return _callEchoErrorDetails.Sync(request, callSettings);
+        }
+
+        /// <summary>
+        /// This method returns error details in a repeated "google.protobuf.Any"
+        /// field. This method showcases handling errors thus encoded, particularly
+        /// over REST transport. Note that GAPICs only allow the type
+        /// "google.protobuf.Any" for field paths ending in "error.details", and, at
+        /// run-time, the actual types for these fields must be one of the types in
+        /// google/rpc/error_details.proto.
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public override stt::Task<EchoErrorDetailsResponse> EchoErrorDetailsAsync(EchoErrorDetailsRequest request, gaxgrpc::CallSettings callSettings = null)
+        {
+            Modify_EchoErrorDetailsRequest(ref request, ref callSettings);
+            return _callEchoErrorDetails.Async(request, callSettings);
+        }
+
+        /// <summary>
+        /// This method always fails with a gRPC "Aborted" error status that contains
+        /// multiple error details.  These include one instance of each of the standard
+        /// ones in error_details.proto
+        /// (https://github.com/googleapis/googleapis/blob/master/google/rpc/error_details.proto)
+        /// plus a custom, Showcase-defined PoetryError. The intent of this RPC is to
+        /// verify that GAPICs can process these various error details and surface them
+        /// to the user in an idiomatic form.
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>The RPC response.</returns>
+        public override FailEchoWithDetailsResponse FailEchoWithDetails(FailEchoWithDetailsRequest request, gaxgrpc::CallSettings callSettings = null)
+        {
+            Modify_FailEchoWithDetailsRequest(ref request, ref callSettings);
+            return _callFailEchoWithDetails.Sync(request, callSettings);
+        }
+
+        /// <summary>
+        /// This method always fails with a gRPC "Aborted" error status that contains
+        /// multiple error details.  These include one instance of each of the standard
+        /// ones in error_details.proto
+        /// (https://github.com/googleapis/googleapis/blob/master/google/rpc/error_details.proto)
+        /// plus a custom, Showcase-defined PoetryError. The intent of this RPC is to
+        /// verify that GAPICs can process these various error details and surface them
+        /// to the user in an idiomatic form.
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A Task containing the RPC response.</returns>
+        public override stt::Task<FailEchoWithDetailsResponse> FailEchoWithDetailsAsync(FailEchoWithDetailsRequest request, gaxgrpc::CallSettings callSettings = null)
+        {
+            Modify_FailEchoWithDetailsRequest(ref request, ref callSettings);
+            return _callFailEchoWithDetails.Async(request, callSettings);
         }
 
         internal sealed partial class ExpandStreamImpl : ExpandStream

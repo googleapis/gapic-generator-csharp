@@ -17,7 +17,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#pragma warning disable 0414, 1591, 8981
+#pragma warning disable 0414, 1591, 8981, 0612
 #region Designer generated code
 
 using grpc = global::Grpc.Core;
@@ -28,7 +28,7 @@ namespace Google.Showcase.V1Beta1 {
   /// side streaming, client side streaming, and bidirectional streaming. This
   /// service also exposes methods that explicitly implement server delay, and
   /// paginated calls. Set the 'showcase-trailer' metadata key on any method
-  /// to have the values echoed in the response trailers. Set the 
+  /// to have the values echoed in the response trailers. Set the
   /// 'x-goog-request-params' metadata key on any method to have the values
   /// echoed in the response headers.
   /// </summary>
@@ -74,6 +74,14 @@ namespace Google.Showcase.V1Beta1 {
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::Google.Showcase.V1Beta1.EchoResponse> __Marshaller_google_showcase_v1beta1_EchoResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Google.Showcase.V1Beta1.EchoResponse.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::Google.Showcase.V1Beta1.EchoErrorDetailsRequest> __Marshaller_google_showcase_v1beta1_EchoErrorDetailsRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Google.Showcase.V1Beta1.EchoErrorDetailsRequest.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::Google.Showcase.V1Beta1.EchoErrorDetailsResponse> __Marshaller_google_showcase_v1beta1_EchoErrorDetailsResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Google.Showcase.V1Beta1.EchoErrorDetailsResponse.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::Google.Showcase.V1Beta1.FailEchoWithDetailsRequest> __Marshaller_google_showcase_v1beta1_FailEchoWithDetailsRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Google.Showcase.V1Beta1.FailEchoWithDetailsRequest.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::Google.Showcase.V1Beta1.FailEchoWithDetailsResponse> __Marshaller_google_showcase_v1beta1_FailEchoWithDetailsResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Google.Showcase.V1Beta1.FailEchoWithDetailsResponse.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::Google.Showcase.V1Beta1.ExpandRequest> __Marshaller_google_showcase_v1beta1_ExpandRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Google.Showcase.V1Beta1.ExpandRequest.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::Google.Showcase.V1Beta1.PagedExpandRequest> __Marshaller_google_showcase_v1beta1_PagedExpandRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Google.Showcase.V1Beta1.PagedExpandRequest.Parser));
@@ -99,6 +107,22 @@ namespace Google.Showcase.V1Beta1 {
         "Echo",
         __Marshaller_google_showcase_v1beta1_EchoRequest,
         __Marshaller_google_showcase_v1beta1_EchoResponse);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::Google.Showcase.V1Beta1.EchoErrorDetailsRequest, global::Google.Showcase.V1Beta1.EchoErrorDetailsResponse> __Method_EchoErrorDetails = new grpc::Method<global::Google.Showcase.V1Beta1.EchoErrorDetailsRequest, global::Google.Showcase.V1Beta1.EchoErrorDetailsResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "EchoErrorDetails",
+        __Marshaller_google_showcase_v1beta1_EchoErrorDetailsRequest,
+        __Marshaller_google_showcase_v1beta1_EchoErrorDetailsResponse);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::Google.Showcase.V1Beta1.FailEchoWithDetailsRequest, global::Google.Showcase.V1Beta1.FailEchoWithDetailsResponse> __Method_FailEchoWithDetails = new grpc::Method<global::Google.Showcase.V1Beta1.FailEchoWithDetailsRequest, global::Google.Showcase.V1Beta1.FailEchoWithDetailsResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "FailEchoWithDetails",
+        __Marshaller_google_showcase_v1beta1_FailEchoWithDetailsRequest,
+        __Marshaller_google_showcase_v1beta1_FailEchoWithDetailsResponse);
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Method<global::Google.Showcase.V1Beta1.ExpandRequest, global::Google.Showcase.V1Beta1.EchoResponse> __Method_Expand = new grpc::Method<global::Google.Showcase.V1Beta1.ExpandRequest, global::Google.Showcase.V1Beta1.EchoResponse>(
@@ -182,6 +206,41 @@ namespace Google.Showcase.V1Beta1 {
       /// <returns>The response to send back to the client (wrapped by a task).</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       public virtual global::System.Threading.Tasks.Task<global::Google.Showcase.V1Beta1.EchoResponse> Echo(global::Google.Showcase.V1Beta1.EchoRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      /// <summary>
+      /// This method returns error details in a repeated "google.protobuf.Any"
+      /// field. This method showcases handling errors thus encoded, particularly
+      /// over REST transport. Note that GAPICs only allow the type
+      /// "google.protobuf.Any" for field paths ending in "error.details", and, at
+      /// run-time, the actual types for these fields must be one of the types in
+      /// google/rpc/error_details.proto.
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::Google.Showcase.V1Beta1.EchoErrorDetailsResponse> EchoErrorDetails(global::Google.Showcase.V1Beta1.EchoErrorDetailsRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      /// <summary>
+      /// This method always fails with a gRPC "Aborted" error status that contains
+      /// multiple error details.  These include one instance of each of the standard
+      /// ones in error_details.proto
+      /// (https://github.com/googleapis/googleapis/blob/master/google/rpc/error_details.proto)
+      /// plus a custom, Showcase-defined PoetryError. The intent of this RPC is to
+      /// verify that GAPICs can process these various error details and surface them
+      /// to the user in an idiomatic form.
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::Google.Showcase.V1Beta1.FailEchoWithDetailsResponse> FailEchoWithDetails(global::Google.Showcase.V1Beta1.FailEchoWithDetailsRequest request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -375,6 +434,146 @@ namespace Google.Showcase.V1Beta1 {
       public virtual grpc::AsyncUnaryCall<global::Google.Showcase.V1Beta1.EchoResponse> EchoAsync(global::Google.Showcase.V1Beta1.EchoRequest request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_Echo, null, options, request);
+      }
+      /// <summary>
+      /// This method returns error details in a repeated "google.protobuf.Any"
+      /// field. This method showcases handling errors thus encoded, particularly
+      /// over REST transport. Note that GAPICs only allow the type
+      /// "google.protobuf.Any" for field paths ending in "error.details", and, at
+      /// run-time, the actual types for these fields must be one of the types in
+      /// google/rpc/error_details.proto.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Google.Showcase.V1Beta1.EchoErrorDetailsResponse EchoErrorDetails(global::Google.Showcase.V1Beta1.EchoErrorDetailsRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return EchoErrorDetails(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// This method returns error details in a repeated "google.protobuf.Any"
+      /// field. This method showcases handling errors thus encoded, particularly
+      /// over REST transport. Note that GAPICs only allow the type
+      /// "google.protobuf.Any" for field paths ending in "error.details", and, at
+      /// run-time, the actual types for these fields must be one of the types in
+      /// google/rpc/error_details.proto.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Google.Showcase.V1Beta1.EchoErrorDetailsResponse EchoErrorDetails(global::Google.Showcase.V1Beta1.EchoErrorDetailsRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_EchoErrorDetails, null, options, request);
+      }
+      /// <summary>
+      /// This method returns error details in a repeated "google.protobuf.Any"
+      /// field. This method showcases handling errors thus encoded, particularly
+      /// over REST transport. Note that GAPICs only allow the type
+      /// "google.protobuf.Any" for field paths ending in "error.details", and, at
+      /// run-time, the actual types for these fields must be one of the types in
+      /// google/rpc/error_details.proto.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Google.Showcase.V1Beta1.EchoErrorDetailsResponse> EchoErrorDetailsAsync(global::Google.Showcase.V1Beta1.EchoErrorDetailsRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return EchoErrorDetailsAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// This method returns error details in a repeated "google.protobuf.Any"
+      /// field. This method showcases handling errors thus encoded, particularly
+      /// over REST transport. Note that GAPICs only allow the type
+      /// "google.protobuf.Any" for field paths ending in "error.details", and, at
+      /// run-time, the actual types for these fields must be one of the types in
+      /// google/rpc/error_details.proto.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Google.Showcase.V1Beta1.EchoErrorDetailsResponse> EchoErrorDetailsAsync(global::Google.Showcase.V1Beta1.EchoErrorDetailsRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_EchoErrorDetails, null, options, request);
+      }
+      /// <summary>
+      /// This method always fails with a gRPC "Aborted" error status that contains
+      /// multiple error details.  These include one instance of each of the standard
+      /// ones in error_details.proto
+      /// (https://github.com/googleapis/googleapis/blob/master/google/rpc/error_details.proto)
+      /// plus a custom, Showcase-defined PoetryError. The intent of this RPC is to
+      /// verify that GAPICs can process these various error details and surface them
+      /// to the user in an idiomatic form.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Google.Showcase.V1Beta1.FailEchoWithDetailsResponse FailEchoWithDetails(global::Google.Showcase.V1Beta1.FailEchoWithDetailsRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return FailEchoWithDetails(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// This method always fails with a gRPC "Aborted" error status that contains
+      /// multiple error details.  These include one instance of each of the standard
+      /// ones in error_details.proto
+      /// (https://github.com/googleapis/googleapis/blob/master/google/rpc/error_details.proto)
+      /// plus a custom, Showcase-defined PoetryError. The intent of this RPC is to
+      /// verify that GAPICs can process these various error details and surface them
+      /// to the user in an idiomatic form.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::Google.Showcase.V1Beta1.FailEchoWithDetailsResponse FailEchoWithDetails(global::Google.Showcase.V1Beta1.FailEchoWithDetailsRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_FailEchoWithDetails, null, options, request);
+      }
+      /// <summary>
+      /// This method always fails with a gRPC "Aborted" error status that contains
+      /// multiple error details.  These include one instance of each of the standard
+      /// ones in error_details.proto
+      /// (https://github.com/googleapis/googleapis/blob/master/google/rpc/error_details.proto)
+      /// plus a custom, Showcase-defined PoetryError. The intent of this RPC is to
+      /// verify that GAPICs can process these various error details and surface them
+      /// to the user in an idiomatic form.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Google.Showcase.V1Beta1.FailEchoWithDetailsResponse> FailEchoWithDetailsAsync(global::Google.Showcase.V1Beta1.FailEchoWithDetailsRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return FailEchoWithDetailsAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// This method always fails with a gRPC "Aborted" error status that contains
+      /// multiple error details.  These include one instance of each of the standard
+      /// ones in error_details.proto
+      /// (https://github.com/googleapis/googleapis/blob/master/google/rpc/error_details.proto)
+      /// plus a custom, Showcase-defined PoetryError. The intent of this RPC is to
+      /// verify that GAPICs can process these various error details and surface them
+      /// to the user in an idiomatic form.
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::Google.Showcase.V1Beta1.FailEchoWithDetailsResponse> FailEchoWithDetailsAsync(global::Google.Showcase.V1Beta1.FailEchoWithDetailsRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_FailEchoWithDetails, null, options, request);
       }
       /// <summary>
       /// This method splits the given content into words and will pass each word back
@@ -749,6 +948,8 @@ namespace Google.Showcase.V1Beta1 {
     {
       return grpc::ServerServiceDefinition.CreateBuilder()
           .AddMethod(__Method_Echo, serviceImpl.Echo)
+          .AddMethod(__Method_EchoErrorDetails, serviceImpl.EchoErrorDetails)
+          .AddMethod(__Method_FailEchoWithDetails, serviceImpl.FailEchoWithDetails)
           .AddMethod(__Method_Expand, serviceImpl.Expand)
           .AddMethod(__Method_Collect, serviceImpl.Collect)
           .AddMethod(__Method_Chat, serviceImpl.Chat)
@@ -767,6 +968,8 @@ namespace Google.Showcase.V1Beta1 {
     public static void BindService(grpc::ServiceBinderBase serviceBinder, EchoBase serviceImpl)
     {
       serviceBinder.AddMethod(__Method_Echo, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Google.Showcase.V1Beta1.EchoRequest, global::Google.Showcase.V1Beta1.EchoResponse>(serviceImpl.Echo));
+      serviceBinder.AddMethod(__Method_EchoErrorDetails, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Google.Showcase.V1Beta1.EchoErrorDetailsRequest, global::Google.Showcase.V1Beta1.EchoErrorDetailsResponse>(serviceImpl.EchoErrorDetails));
+      serviceBinder.AddMethod(__Method_FailEchoWithDetails, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Google.Showcase.V1Beta1.FailEchoWithDetailsRequest, global::Google.Showcase.V1Beta1.FailEchoWithDetailsResponse>(serviceImpl.FailEchoWithDetails));
       serviceBinder.AddMethod(__Method_Expand, serviceImpl == null ? null : new grpc::ServerStreamingServerMethod<global::Google.Showcase.V1Beta1.ExpandRequest, global::Google.Showcase.V1Beta1.EchoResponse>(serviceImpl.Expand));
       serviceBinder.AddMethod(__Method_Collect, serviceImpl == null ? null : new grpc::ClientStreamingServerMethod<global::Google.Showcase.V1Beta1.EchoRequest, global::Google.Showcase.V1Beta1.EchoResponse>(serviceImpl.Collect));
       serviceBinder.AddMethod(__Method_Chat, serviceImpl == null ? null : new grpc::DuplexStreamingServerMethod<global::Google.Showcase.V1Beta1.EchoRequest, global::Google.Showcase.V1Beta1.EchoResponse>(serviceImpl.Chat));
