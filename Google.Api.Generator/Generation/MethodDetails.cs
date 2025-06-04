@@ -444,28 +444,21 @@ namespace Google.Api.Generator.Generation
                     pageTokenCandidate.FieldNumber);
             }
 
-            // DiREGapic case where a return message has exactly one repeated field
+            // DiREGapic case where a return message has no map fields, and one or more repeated fields,
+            // where the first repeated field is consistent in declaration and numeric order.
             // (pageSizeCandidate's name can be either "page_size" or "max_results")
-            if (repeatedCandidatesByDeclOrder.Count == 1 && !mapCandidates.Any())
-            {
-                return new Paginated(svc, desc, repeatedCandidatesByDeclOrder.Single(), pageSizeCandidate.FieldNumber, pageTokenCandidate.FieldNumber);
-            }
-
-            // Additional DiREGapic case where a return message has exactly two repeated fields,
-            // which are consistent in number and declaration order,
-            // where the first is a message field and the second is a string field: we use the message field.
-            if (!mapCandidates.Any() &&
-                repeatedCandidatesByDeclOrder.Count == 2 &&
-                repeatedCandidatesByDeclOrder[0] == repeatedCandidatesByNumOrder[0] &&
-                repeatedCandidatesByDeclOrder[0].FieldType == FieldType.Message &&
-                repeatedCandidatesByDeclOrder[1].FieldType == FieldType.String)
+            if (repeatedCandidatesByDeclOrder.Any() && !mapCandidates.Any() &&
+                repeatedCandidatesByDeclOrder[0] == repeatedCandidatesByNumOrder[0])
             {
                 return new Paginated(svc, desc, repeatedCandidatesByDeclOrder.First(), pageSizeCandidate.FieldNumber, pageTokenCandidate.FieldNumber);
             }
 
-            var errMsg = $"The method {desc.FullName} is selected as a pagination candidate " +
+            var errMsg = $"The method {desc.FullName} with response {output.Name} is selected as a pagination candidate " +
                          $"but the configuration of the item response field candidates " +
-                         $"does not match any of the configurations we can generate.";
+                         $"does not match any of the configurations we can generate. " +
+                         $"Repeated candidates: [{string.Join(", ", repeatedCandidatesByDeclOrder.Select(f => f.Name))}]; " +
+                         $"Map candidates: [{string.Join(", ", mapCandidates.Select(f => f.Name))}].";
+
 
             throw new InvalidOperationException(errMsg);
 
