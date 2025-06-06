@@ -1,0 +1,34 @@
+{
+    "imageTag": "latest",
+    "libraries": [
+      {
+        "id": "Google.Api.Generator",
+        "generationAutomationLevel": "AUTOMATION_LEVEL_BLOCKED",
+        "releaseAutomationLevel": "AUTOMATION_LEVEL_AUTOMATIC",
+        "sourcePaths": [
+		  "Generator.sln",
+          "Google.Api.Generator",
+          "Google.Api.Generator.IntegrationTests",
+          "Google.Api.Generator.Tests",
+          "Google.Api.Generator.Utils",
+          "Google.Api.Generator.Utils.Tests"
+        ]
+      },
+      {
+        "id": "Google.Api.Generator.Rest",
+        "generationAutomationLevel": "AUTOMATION_LEVEL_BLOCKED",
+        "releaseAutomationLevel": "AUTOMATION_LEVEL_AUTOMATIC",
+        "sourcePaths": [
+		  "Generator.sln",
+          "Google.Api.Generator.Rest",
+          "Google.Api.Generator.Rest.Tests",
+          "Google.Api.Generator.Utils",
+          "Google.Api.Generator.Utils.Tests"
+        ]
+      }
+    ],
+    "commonLibrarySourcePaths": [
+      "Directory.Packages.props",
+      "Directory.Build.props"
+    ]
+}

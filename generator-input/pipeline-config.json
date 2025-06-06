@@ -1,0 +1,40 @@
+{
+  "commands": {
+    "build-library": {
+      "environmentVariables": [
+        {
+          "name": "SOURCELINK_REPO",
+          "defaultValue": "https://github.com/googleapis/gapic-generator-csharp"
+        }
+      ]
+    },
+    "integration-test-library": {
+      "environmentVariables": [
+        {
+          "name": "SOURCELINK_REPO",
+          "defaultValue": "https://github.com/googleapis/gapic-generator-csharp"
+        }
+      ]
+    },
+    "package-library": {
+      "environmentVariables": [
+        {
+          "name": "NUGET_PACKAGE_OWNER",
+          "defaultValue": "google-cloud"
+        },
+        {
+          "name": "SOURCELINK_REPO",
+          "defaultValue": "https://github.com/googleapis/gapic-generator-csharp"
+        }
+      ]
+    },
+    "publish-library": {
+      "environmentVariables": [
+        {
+          "name": "NUGET_API_KEY_GOOGLE_CLOUD",
+          "secretName": "dotnet-nuget-google-cloud"
+        }
+      ]
+    }
+  }
+}
