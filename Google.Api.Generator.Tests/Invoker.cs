@@ -38,11 +38,12 @@ namespace Google.Api.Generator.Tests
             RootDir = PathUtils.GetRepoRoot();
             GeneratorDir = Path.Combine(RootDir, "Google.Api.Generator");
             GeneratorTestsDir = Path.Combine(RootDir, "Google.Api.Generator.Tests");
-            var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-            ProtocFile = Path.Combine(RootDir, "tools", isWindows ? "protoc.exe" : "protoc");
-            Runtime = isWindows ? "win-x64" : "linux-x64";
-            PluginFile = Path.Combine(GeneratorDir, "bin", "Debug", "net8.0", Runtime, "publish",
-                isWindows ? "Google.Api.Generator.exe" : "Google.Api.Generator");
+
+            // Fetch OS dependent executable paths and other configs
+            (string protocFileName, Runtime, string pluginFileName) = GetOSSpecificConfigs(RootDir);
+            ProtocFile = Path.Combine(RootDir, "tools", protocFileName);
+            PluginFile = Path.Combine(GeneratorDir, "bin", "Debug", "net8.0", Runtime, "publish", pluginFileName);
+
             CommonProtosDir = Path.Combine(RootDir, "googleapis");
             ProtobufDir = Path.Combine(RootDir, "tools", "protos");
             var now = DateTime.UtcNow;
@@ -92,7 +93,7 @@ namespace Google.Api.Generator.Tests
                 process.OutputDataReceived += handler;
                 process.BeginErrorReadLine();
                 process.BeginOutputReadLine();
-                var exited = process.WaitForExit((int) timeout.TotalMilliseconds);
+                var exited = process.WaitForExit((int)timeout.TotalMilliseconds);
 
                 // Avoid any extra data being added to our output while we're processing assertions.
                 process.ErrorDataReceived -= handler;
@@ -128,5 +129,10 @@ namespace Google.Api.Generator.Tests
             Directory.CreateDirectory(dirPath);
             return new WithPath(() => Directory.Delete(dirPath, recursive: true), dirPath);
         }
+
+        private static (string protocFile, string runtime, string pluginFileName) GetOSSpecificConfigs(string rootDir) =>
+            RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ? ("protoc", "linux-x64", "Google.Api.Generator")
+            : RuntimeInformation.IsOSPlatform(OSPlatform.OSX) ? ("protoc_macosx_x64", "osx-x64", "Google.Api.Generator")
+            : ("protoc.exe", "win-x64", "Google.Api.Generator.exe");
     }
 }
