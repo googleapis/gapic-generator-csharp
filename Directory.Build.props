@@ -2,10 +2,10 @@
 
   <PropertyGroup>
     <!-- 
-      - Target net6.0 for everything, even if netstandard2.1 would
+      - Target net8.0 for everything, even if netstandard2.1 would
       - be fine for library projects.
       -->
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
 
     <!-- Common build properties -->
     <LangVersion>latest</LangVersion>
