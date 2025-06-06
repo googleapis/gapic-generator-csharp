@@ -29,7 +29,7 @@ using System.Linq;
 using static Google.Api.Generator.Utils.Roslyn.Modifier;
 using static Google.Api.Generator.Utils.Roslyn.RoslynBuilder;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
-using iam = Google.Cloud.Iam.V1;
+using IAM = Google.Cloud.Iam.V1;
 
 namespace Google.Api.Generator.Generation
 {
@@ -42,7 +42,7 @@ namespace Google.Api.Generator.Generation
         private static readonly Dictionary<string, FileDescriptor[]> MixinToFileDescriptors = new Dictionary<string, FileDescriptor[]>
         {
             { Operations.Descriptor.FullName, new[] { OperationsReflection.Descriptor } },
-            { iam::IAMPolicy.Descriptor.FullName, new[] { iam::PolicyReflection.Descriptor, iam::IamPolicyReflection.Descriptor, iam::OptionsReflection.Descriptor } },
+            { IAM::IAMPolicy.Descriptor.FullName, new[] { IAM::PolicyReflection.Descriptor, IAM::IamPolicyReflection.Descriptor, IAM::OptionsReflection.Descriptor } },
             { Locations.Descriptor.FullName, new[] { LocationsReflection.Descriptor } }
         };
 

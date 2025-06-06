@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using gaxgrpc = Google.Api.Gax.Grpc;
-using gpr = Google.Protobuf.Reflection;
-using scg = System.Collections.Generic;
+using GAXGPRC = Google.Api.Gax.Grpc;
+using GPR = Google.Protobuf.Reflection;
+using SCG = System.Collections.Generic;
 
 // This is a "fallback" API descriptor class, effectively: all the proto tests (other than Showcase)
 // use a namespace under "Testing." so this is always valid; if a "real" PackageApiMetadata is present
@@ -25,10 +25,10 @@ namespace Testing
     /// <summary>Static class to provide common access to package-wide API metadata.</summary>
     internal static class PackageApiMetadata
     {
-        /// <summary>The <see cref="gaxgrpc::ApiMetadata"/> for services in this package.</summary>
-        internal static gaxgrpc::ApiMetadata ApiMetadata { get; } = new gaxgrpc::ApiMetadata("Testing (fallback)", GetFileDescriptors);
+        /// <summary>The <see cref="GAXGPRC::ApiMetadata"/> for services in this package.</summary>
+        internal static GAXGPRC::ApiMetadata ApiMetadata { get; } = new GAXGPRC::ApiMetadata("Testing (fallback)", GetFileDescriptors);
 
-        private static scg::IEnumerable<gpr::FileDescriptor> GetFileDescriptors()
+        private static SCG::IEnumerable<GPR::FileDescriptor> GetFileDescriptors()
         {
             yield break;
         }
