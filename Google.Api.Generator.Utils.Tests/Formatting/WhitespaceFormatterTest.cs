@@ -37,7 +37,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Xunit;
-using sys = System;
+using SYS = System;
 
 namespace Google.Api.Generator.Utils.Formatting.Tests
 {
@@ -46,7 +46,7 @@ namespace Google.Api.Generator.Utils.Formatting.Tests
     {
         // Test nested class; base-list with multiple items.
         // Test aliased type.
-        private class Inner : List<sys::String>, IEnumerable<string>, IList<string>
+        private class Inner : List<SYS::String>, IEnumerable<string>, IList<string>
         {
             // Test ctor with no parameters.
             // Test ctor calling another ctor with multiple parameters.
@@ -292,9 +292,9 @@ namespace Google.Api.Generator.Utils.Formatting.Tests
             }
 
             // Test aliasing of parameter and local
-            public void AliasedLocal(sys::Exception e)
+            public void AliasedLocal(SYS::Exception e)
             {
-                sys::Exception e2 = e;
+                SYS::Exception e2 = e;
                 throw e2;
             }
         }
