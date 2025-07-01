@@ -4,7 +4,7 @@
   
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <Version>1.4.33</Version>
+    <Version>1.4.34</Version>
     <Description>Tool used by Google .NET client library maintainers to generate Discovery-based (REST) libraries. While there is nothing "secret" in this package, it is unlikely to be useful to other developers. It is only published as a matter of convenience for other Google .NET repositories.</Description>
     <ToolCommandName>google-rest-generator</ToolCommandName>
   </PropertyGroup>
