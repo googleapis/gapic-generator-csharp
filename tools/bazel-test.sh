@@ -39,10 +39,19 @@ jq ".csharp.commit = \"${GAPIC_GENERATOR_COMMIT}\" | .csharp.version = null | .c
 mv generator-versions2.json generator-versions.json
 cat generator-versions.json
 
+# determine where bazel will output files
+BAZEL_BIN=$(bazelisk info bazel-bin)
+
 # try generating the google/example/library/v1 csharp gapic library
 bazelisk build //google/example/library/v1:google-cloud-example-library-v1-csharp
 
+# ensure we created the tarball we expect
+ls -al "${BAZEL_BIN}/google/example/library/v1/google-cloud-example-library-v1-csharp.tar.gz"
+
 # try generating the google/ads/googleads/v20 csharp gapic library
 bazelisk build //google/ads/googleads/v20:googleads-csharp
+
+# ensure we created the tarball we expect
+ls -al "${BAZEL_BIN}/google/ads/googleads/v20/googleads-csharp.tar.gz"
 
 popd
