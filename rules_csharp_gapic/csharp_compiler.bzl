@@ -63,6 +63,7 @@ export DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export DOTNET_NOLOGO=1
 export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
+export DOTNET_SKIP_WORKLOAD_INTEGRITY_CHECK=1
 
 # Running this command twice, if the first invocation fails, try once more
 # [virost, 03/2021] temporarily until I figure out what causes intermittent Kokoro failures
