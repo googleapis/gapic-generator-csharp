@@ -64,6 +64,13 @@ export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export DOTNET_NOLOGO=1
 export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
 
+# Hacky workaround for https://github.com/dotnet/sdk/issues/35128
+# We run "dotnet workload update" and ignore the output entirely,
+# so that when we later run "dotnet run" we don't get
+#   An issue was encountered verifying workloads. For more information, run "dotnet workload update".
+# at the start of the output.
+$(dirname $0)/run.sh.runfiles/$(basename $(pwd))/{csharp_compiler}/dotnet workload update > /dev/null 2> /dev/null || true
+
 # Running this command twice, if the first invocation fails, try once more
 # [virost, 03/2021] temporarily until I figure out what causes intermittent Kokoro failures
 cmd="$(dirname $0)/run.sh.runfiles/$(basename $(pwd))/{csharp_compiler}/dotnet run \
