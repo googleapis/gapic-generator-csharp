@@ -29,7 +29,7 @@ namespace Google.Api.Generator.Generation
         private const string IamVersion = "[3.4.0, 4.0.0)";
         private const string LocationVersion = "[2.3.0, 3.0.0)";
         private const string ReferenceAssembliesVersion = "1.0.3";
-        private const string SystemLinqAsyncVersion = "6.0.1";
+        private const string SystemLinqAsyncVersion = "6.0.3";
         private static readonly Dictionary<string, (string, string)> ProtoPackageToNuGetPackageAndVersion = new Dictionary<string, (string, string)>
         {
             { IamPolicyReflection.Descriptor.Package, (typeof(IAMPolicyClient).Namespace, IamVersion) },
