@@ -12,7 +12,7 @@
     
     <!-- Google/gRPC packages -->
     <PackageVersion Include="Google.Api.Gax" Version="4.12.0" />
-    <PackageVersion Include="Google.Api.Gax.Grpc" Version="4.12.0" />
+    <PackageVersion Include="Google.Api.Gax.Grpc" Version="4.12.1" />
     <PackageVersion Include="Google.Api.Gax.Testing" Version="4.12.0" />
     <PackageVersion Include="Google.Apis" Version="1.72.0" />
     <PackageVersion Include="Google.Cloud.Iam.V1" Version="3.4.0" />
