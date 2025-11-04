@@ -25,9 +25,9 @@ namespace Google.Api.Generator.Generation
     {
         private const string GaxGrpcVersion = "[4.12.1, 5.0.0)";
         private const string GrpcCoreVersion = "[2.46.6, 3.0.0)";
-        private const string LroVersion = "[3.4.0, 4.0.0)";
-        private const string IamVersion = "[3.4.0, 4.0.0)";
-        private const string LocationVersion = "[2.3.0, 3.0.0)";
+        private const string LroVersion = "[3.5.0, 4.0.0)";
+        private const string IamVersion = "[3.5.0, 4.0.0)";
+        private const string LocationVersion = "[2.4.0, 3.0.0)";
         private const string ReferenceAssembliesVersion = "1.0.3";
         private const string SystemLinqAsyncVersion = "6.0.3";
         private static readonly Dictionary<string, (string, string)> ProtoPackageToNuGetPackageAndVersion = new Dictionary<string, (string, string)>
