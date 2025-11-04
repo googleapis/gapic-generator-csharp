@@ -321,6 +321,7 @@ namespace Google.Api.Generator.Tests
             transports: ApiTransports.Grpc | ApiTransports.Rest,
             requestNumericEnumJsonEncoding: true,
             ignoreSnippets: true,
+            ignoreGapicMetadataFile: false,
             ignoreApiMetadataFile: false,
             ignoreServiceExtensionsFile: false);
 
@@ -342,6 +343,7 @@ namespace Google.Api.Generator.Tests
                     requestNumericEnumJsonEncoding: true,
                     ignoreSnippets: true,
                     ignoreApiMetadataFile: false,
+                    ignoreGapicMetadataFile: false,
                     ignoreServiceExtensionsFile: false);
             }
             finally

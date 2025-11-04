@@ -51,9 +51,9 @@ namespace Google.Api.Generator.Generation
         private static ServiceForTransport ServiceForTransportMetadata(ServiceDetails serviceDetails) =>
             new ServiceForTransport
             {
+                ApiVersion = serviceDetails.ApiVersion ?? "",
                 Clients =
                 {
-
                     [TransportKeyGrpc] = new ServiceAsClient
                         {
                             LibraryClient = serviceDetails.ClientAbstractTyp.Name,
