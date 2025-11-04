@@ -25,32 +25,32 @@ namespace Google.Gapic.Metadata {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChRnYXBpY19tZXRhZGF0YS5wcm90bxIVZ29vZ2xlLmdhcGljLm1ldGFkYXRh",
-            "IvAFCg1HYXBpY01ldGFkYXRhEg4KBnNjaGVtYRgBIAEoCRIPCgdjb21tZW50",
+            "IoUGCg1HYXBpY01ldGFkYXRhEg4KBnNjaGVtYRgBIAEoCRIPCgdjb21tZW50",
             "GAIgASgJEhAKCGxhbmd1YWdlGAMgASgJEhUKDXByb3RvX3BhY2thZ2UYBCAB",
             "KAkSFwoPbGlicmFyeV9wYWNrYWdlGAUgASgJEkQKCHNlcnZpY2VzGAYgAygL",
             "MjIuZ29vZ2xlLmdhcGljLm1ldGFkYXRhLkdhcGljTWV0YWRhdGEuU2Vydmlj",
             "ZXNFbnRyeRppCg1TZXJ2aWNlc0VudHJ5EgsKA2tleRgBIAEoCRJHCgV2YWx1",
             "ZRgCIAEoCzI4Lmdvb2dsZS5nYXBpYy5tZXRhZGF0YS5HYXBpY01ldGFkYXRh",
-            "LlNlcnZpY2VGb3JUcmFuc3BvcnQ6AjgBGtMBChNTZXJ2aWNlRm9yVHJhbnNw",
+            "LlNlcnZpY2VGb3JUcmFuc3BvcnQ6AjgBGugBChNTZXJ2aWNlRm9yVHJhbnNw",
             "b3J0ElYKB2NsaWVudHMYASADKAsyRS5nb29nbGUuZ2FwaWMubWV0YWRhdGEu",
             "R2FwaWNNZXRhZGF0YS5TZXJ2aWNlRm9yVHJhbnNwb3J0LkNsaWVudHNFbnRy",
-            "eRpkCgxDbGllbnRzRW50cnkSCwoDa2V5GAEgASgJEkMKBXZhbHVlGAIgASgL",
-            "MjQuZ29vZ2xlLmdhcGljLm1ldGFkYXRhLkdhcGljTWV0YWRhdGEuU2Vydmlj",
-            "ZUFzQ2xpZW50OgI4ARrVAQoPU2VydmljZUFzQ2xpZW50EhYKDmxpYnJhcnlf",
-            "Y2xpZW50GAEgASgJEkwKBHJwY3MYAiADKAsyPi5nb29nbGUuZ2FwaWMubWV0",
-            "YWRhdGEuR2FwaWNNZXRhZGF0YS5TZXJ2aWNlQXNDbGllbnQuUnBjc0VudHJ5",
-            "GlwKCVJwY3NFbnRyeRILCgNrZXkYASABKAkSPgoFdmFsdWUYAiABKAsyLy5n",
-            "b29nbGUuZ2FwaWMubWV0YWRhdGEuR2FwaWNNZXRhZGF0YS5NZXRob2RMaXN0",
-            "OgI4ARodCgpNZXRob2RMaXN0Eg8KB21ldGhvZHMYASADKAlCugEKGWNvbS5n",
-            "b29nbGUuZ2FwaWMubWV0YWRhdGFCEkdhcGljTWV0YWRhdGFQcm90b1ABWj1n",
-            "b29nbGUuZ29sYW5nLm9yZy9nZW5wcm90by9nb29nbGVhcGlzL2dhcGljL21l",
-            "dGFkYXRhO21ldGFkYXRhqgIVR29vZ2xlLkdhcGljLk1ldGFkYXRhygIVR29v",
-            "Z2xlXEdhcGljXE1ldGFkYXRh6gIXR29vZ2xlOjpHYXBpYzo6TWV0YWRhdGFi",
-            "BnByb3RvMw=="));
+            "eRITCgthcGlfdmVyc2lvbhgCIAEoCRpkCgxDbGllbnRzRW50cnkSCwoDa2V5",
+            "GAEgASgJEkMKBXZhbHVlGAIgASgLMjQuZ29vZ2xlLmdhcGljLm1ldGFkYXRh",
+            "LkdhcGljTWV0YWRhdGEuU2VydmljZUFzQ2xpZW50OgI4ARrVAQoPU2Vydmlj",
+            "ZUFzQ2xpZW50EhYKDmxpYnJhcnlfY2xpZW50GAEgASgJEkwKBHJwY3MYAiAD",
+            "KAsyPi5nb29nbGUuZ2FwaWMubWV0YWRhdGEuR2FwaWNNZXRhZGF0YS5TZXJ2",
+            "aWNlQXNDbGllbnQuUnBjc0VudHJ5GlwKCVJwY3NFbnRyeRILCgNrZXkYASAB",
+            "KAkSPgoFdmFsdWUYAiABKAsyLy5nb29nbGUuZ2FwaWMubWV0YWRhdGEuR2Fw",
+            "aWNNZXRhZGF0YS5NZXRob2RMaXN0OgI4ARodCgpNZXRob2RMaXN0Eg8KB21l",
+            "dGhvZHMYASADKAlCugEKGWNvbS5nb29nbGUuZ2FwaWMubWV0YWRhdGFCEkdh",
+            "cGljTWV0YWRhdGFQcm90b1ABWj1nb29nbGUuZ29sYW5nLm9yZy9nZW5wcm90",
+            "by9nb29nbGVhcGlzL2dhcGljL21ldGFkYXRhO21ldGFkYXRhqgIVR29vZ2xl",
+            "LkdhcGljLk1ldGFkYXRhygIVR29vZ2xlXEdhcGljXE1ldGFkYXRh6gIXR29v",
+            "Z2xlOjpHYXBpYzo6TWV0YWRhdGFiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Gapic.Metadata.GapicMetadata), global::Google.Gapic.Metadata.GapicMetadata.Parser, new[]{ "Schema", "Comment", "Language", "ProtoPackage", "LibraryPackage", "Services" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { null, new pbr::GeneratedClrTypeInfo(typeof(global::Google.Gapic.Metadata.GapicMetadata.Types.ServiceForTransport), global::Google.Gapic.Metadata.GapicMetadata.Types.ServiceForTransport.Parser, new[]{ "Clients" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { null, }),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Gapic.Metadata.GapicMetadata), global::Google.Gapic.Metadata.GapicMetadata.Parser, new[]{ "Schema", "Comment", "Language", "ProtoPackage", "LibraryPackage", "Services" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { null, new pbr::GeneratedClrTypeInfo(typeof(global::Google.Gapic.Metadata.GapicMetadata.Types.ServiceForTransport), global::Google.Gapic.Metadata.GapicMetadata.Types.ServiceForTransport.Parser, new[]{ "Clients", "ApiVersion" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { null, }),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Gapic.Metadata.GapicMetadata.Types.ServiceAsClient), global::Google.Gapic.Metadata.GapicMetadata.Types.ServiceAsClient.Parser, new[]{ "LibraryClient", "Rpcs" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { null, }),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Gapic.Metadata.GapicMetadata.Types.MethodList), global::Google.Gapic.Metadata.GapicMetadata.Types.MethodList.Parser, new[]{ "Methods" }, null, null, null, null)})
           }));
@@ -60,9 +60,10 @@ namespace Google.Gapic.Metadata {
   }
   #region Messages
   /// <summary>
-  /// Metadata about a GAPIC library for a specific combination of API, version, and
-  /// computer language.
+  /// Metadata about a GAPIC library service for a specific combination of API,
+  /// version, and computer language.
   /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class GapicMetadata : pb::IMessage<GapicMetadata>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -378,7 +379,11 @@ namespace Google.Gapic.Metadata {
     #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
@@ -417,7 +422,11 @@ namespace Google.Gapic.Metadata {
     void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
@@ -459,10 +468,8 @@ namespace Google.Gapic.Metadata {
       /// A map from a transport name to ServiceAsClient, which allows
       /// listing information about the client objects that implement the
       /// parent RPC service for the specified transport.
-      ///
-      /// The key name is the transport, lower-cased with no separators
-      /// (e.g. "grpc", "rest").
       /// </summary>
+      [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
       public sealed partial class ServiceForTransport : pb::IMessage<ServiceForTransport>
       #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
           , pb::IBufferMessage
@@ -498,6 +505,7 @@ namespace Google.Gapic.Metadata {
         [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public ServiceForTransport(ServiceForTransport other) : this() {
           clients_ = other.clients_.Clone();
+          apiVersion_ = other.apiVersion_;
           _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
         }
 
@@ -512,10 +520,34 @@ namespace Google.Gapic.Metadata {
         private static readonly pbc::MapField<string, global::Google.Gapic.Metadata.GapicMetadata.Types.ServiceAsClient>.Codec _map_clients_codec
             = new pbc::MapField<string, global::Google.Gapic.Metadata.GapicMetadata.Types.ServiceAsClient>.Codec(pb::FieldCodec.ForString(10, ""), pb::FieldCodec.ForMessage(18, global::Google.Gapic.Metadata.GapicMetadata.Types.ServiceAsClient.Parser), 10);
         private readonly pbc::MapField<string, global::Google.Gapic.Metadata.GapicMetadata.Types.ServiceAsClient> clients_ = new pbc::MapField<string, global::Google.Gapic.Metadata.GapicMetadata.Types.ServiceAsClient>();
+        /// <summary>
+        /// Map of transport name to ServiceAsClient. The key name is the transport,
+        /// lower-cased with no separators (e.g. "grpc", "rest").
+        /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public pbc::MapField<string, global::Google.Gapic.Metadata.GapicMetadata.Types.ServiceAsClient> Clients {
           get { return clients_; }
+        }
+
+        /// <summary>Field number for the "api_version" field.</summary>
+        public const int ApiVersionFieldNumber = 2;
+        private string apiVersion_ = "";
+        /// <summary>
+        /// The API version for the interface definition found in the
+        /// `google.api.api_version` annotation of this proto-defined service during
+        /// code generation.
+        /// This is the value populated by the client in the API version request
+        /// parameter as per
+        /// [AIP-4236](https://google.aip.dev/client-libraries/4236).
+        /// </summary>
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+        public string ApiVersion {
+          get { return apiVersion_; }
+          set {
+            apiVersion_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+          }
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -534,6 +566,7 @@ namespace Google.Gapic.Metadata {
             return true;
           }
           if (!Clients.Equals(other.Clients)) return false;
+          if (ApiVersion != other.ApiVersion) return false;
           return Equals(_unknownFields, other._unknownFields);
         }
 
@@ -542,6 +575,7 @@ namespace Google.Gapic.Metadata {
         public override int GetHashCode() {
           int hash = 1;
           hash ^= Clients.GetHashCode();
+          if (ApiVersion.Length != 0) hash ^= ApiVersion.GetHashCode();
           if (_unknownFields != null) {
             hash ^= _unknownFields.GetHashCode();
           }
@@ -561,6 +595,10 @@ namespace Google.Gapic.Metadata {
           output.WriteRawMessage(this);
         #else
           clients_.WriteTo(output, _map_clients_codec);
+          if (ApiVersion.Length != 0) {
+            output.WriteRawTag(18);
+            output.WriteString(ApiVersion);
+          }
           if (_unknownFields != null) {
             _unknownFields.WriteTo(output);
           }
@@ -572,6 +610,10 @@ namespace Google.Gapic.Metadata {
         [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
           clients_.WriteTo(ref output, _map_clients_codec);
+          if (ApiVersion.Length != 0) {
+            output.WriteRawTag(18);
+            output.WriteString(ApiVersion);
+          }
           if (_unknownFields != null) {
             _unknownFields.WriteTo(ref output);
           }
@@ -583,6 +625,9 @@ namespace Google.Gapic.Metadata {
         public int CalculateSize() {
           int size = 0;
           size += clients_.CalculateSize(_map_clients_codec);
+          if (ApiVersion.Length != 0) {
+            size += 1 + pb::CodedOutputStream.ComputeStringSize(ApiVersion);
+          }
           if (_unknownFields != null) {
             size += _unknownFields.CalculateSize();
           }
@@ -596,6 +641,9 @@ namespace Google.Gapic.Metadata {
             return;
           }
           clients_.MergeFrom(other.clients_);
+          if (other.ApiVersion.Length != 0) {
+            ApiVersion = other.ApiVersion;
+          }
           _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
         }
 
@@ -607,12 +655,20 @@ namespace Google.Gapic.Metadata {
         #else
           uint tag;
           while ((tag = input.ReadTag()) != 0) {
-            switch(tag) {
+          if ((tag & 7) == 4) {
+            // Abort on any end group tag.
+            return;
+          }
+          switch(tag) {
               default:
                 _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
                 break;
               case 10: {
                 clients_.AddEntriesFrom(input, _map_clients_codec);
+                break;
+              }
+              case 18: {
+                ApiVersion = input.ReadString();
                 break;
               }
             }
@@ -626,12 +682,20 @@ namespace Google.Gapic.Metadata {
         void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
           uint tag;
           while ((tag = input.ReadTag()) != 0) {
-            switch(tag) {
+          if ((tag & 7) == 4) {
+            // Abort on any end group tag.
+            return;
+          }
+          switch(tag) {
               default:
                 _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
                 break;
               case 10: {
                 clients_.AddEntriesFrom(ref input, _map_clients_codec);
+                break;
+              }
+              case 18: {
+                ApiVersion = input.ReadString();
                 break;
               }
             }
@@ -644,6 +708,7 @@ namespace Google.Gapic.Metadata {
       /// <summary>
       /// Information about a specific client implementing a proto-defined service.
       /// </summary>
+      [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
       public sealed partial class ServiceAsClient : pb::IMessage<ServiceAsClient>
       #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
           , pb::IBufferMessage
@@ -715,7 +780,7 @@ namespace Google.Gapic.Metadata {
         /// than one library_client method for each RPC. RPCs with no
         /// library_client methods need not be included.
         ///
-        /// The key name is the name of the RPC as defined and formated in
+        /// The key name is the name of the RPC as defined and formatted in
         /// the proto file.
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -829,7 +894,11 @@ namespace Google.Gapic.Metadata {
         #else
           uint tag;
           while ((tag = input.ReadTag()) != 0) {
-            switch(tag) {
+          if ((tag & 7) == 4) {
+            // Abort on any end group tag.
+            return;
+          }
+          switch(tag) {
               default:
                 _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
                 break;
@@ -852,7 +921,11 @@ namespace Google.Gapic.Metadata {
         void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
           uint tag;
           while ((tag = input.ReadTag()) != 0) {
-            switch(tag) {
+          if ((tag & 7) == 4) {
+            // Abort on any end group tag.
+            return;
+          }
+          switch(tag) {
               default:
                 _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
                 break;
@@ -876,6 +949,7 @@ namespace Google.Gapic.Metadata {
       /// for the transport and service specified in the containing
       /// structures.
       /// </summary>
+      [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
       public sealed partial class MethodList : pb::IMessage<MethodList>
       #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
           , pb::IBufferMessage
@@ -1025,7 +1099,11 @@ namespace Google.Gapic.Metadata {
         #else
           uint tag;
           while ((tag = input.ReadTag()) != 0) {
-            switch(tag) {
+          if ((tag & 7) == 4) {
+            // Abort on any end group tag.
+            return;
+          }
+          switch(tag) {
               default:
                 _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
                 break;
@@ -1044,7 +1122,11 @@ namespace Google.Gapic.Metadata {
         void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
           uint tag;
           while ((tag = input.ReadTag()) != 0) {
-            switch(tag) {
+          if ((tag & 7) == 4) {
+            // Abort on any end group tag.
+            return;
+          }
+          switch(tag) {
               default:
                 _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
                 break;
