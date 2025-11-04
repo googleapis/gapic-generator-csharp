@@ -54,6 +54,7 @@ namespace Google.Api.Generator.Generation
                 ApiVersion = serviceDetails.ApiVersion ?? "",
                 Clients =
                 {
+
                     [TransportKeyGrpc] = new ServiceAsClient
                         {
                             LibraryClient = serviceDetails.ClientAbstractTyp.Name,
