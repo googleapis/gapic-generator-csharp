@@ -240,6 +240,9 @@ namespace Google.Api.Generator.Utils.Roslyn
         public static ArrayCreationExpressionSyntax NewArray(ArrayTypeSyntax arrayType, ExpressionSyntax rank) =>
             ArrayCreationExpression(arrayType.WithRankSpecifiers(SingletonList(ArrayRankSpecifier(SingletonSeparatedList(rank)))));
 
+        public static CodeFunc<ForEachStatementSyntax> AwaitForEach(TypeSyntax type, SyntaxToken varName, object expr) => code =>
+            ForEachStatement(type, varName, ToExpression(expr), Block(ToStatements(code))).WithLeadingSpace().WithAwaitKeyword(Token(SyntaxKind.AwaitKeyword));
+
         public static CodeFunc<ForEachStatementSyntax> ForEach(TypeSyntax type, SyntaxToken varName, object expr) => code =>
             ForEachStatement(type, varName, ToExpression(expr), Block(ToStatements(code)));
 

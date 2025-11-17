@@ -29,7 +29,6 @@ namespace Google.Api.Generator.Generation
         private const string IamVersion = "[3.5.0, 4.0.0)";
         private const string LocationVersion = "[2.4.0, 3.0.0)";
         private const string ReferenceAssembliesVersion = "1.0.3";
-        private const string SystemLinqAsyncVersion = "6.0.3";
         private static readonly Dictionary<string, (string, string)> ProtoPackageToNuGetPackageAndVersion = new Dictionary<string, (string, string)>
         {
             { IamPolicyReflection.Descriptor.Package, (typeof(IAMPolicyClient).Namespace, IamVersion) },
@@ -120,7 +119,6 @@ namespace Google.Api.Generator.Generation
 
   <ItemGroup>
     <ProjectReference Include=""../{clientNamespace}/{clientNamespace}.csproj"" />
-    <PackageReference Include=""System.Linq.Async"" Version=""{SystemLinqAsyncVersion}"" />
     <PackageReference Include=""Microsoft.NETFramework.ReferenceAssemblies"" Version=""{ReferenceAssembliesVersion}"" PrivateAssets=""All"" />
   </ItemGroup>
 
