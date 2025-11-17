@@ -20,7 +20,6 @@
     <PackageReference Include="Google.Cloud.Location" />
     <PackageReference Include="Google.LongRunning" />
     <PackageReference Include="System.Collections.Immutable" />
-    <PackageReference Include="System.Linq.Async" />
     <PackageReference Include="YamlDotNet" />
   </ItemGroup>
 

@@ -615,18 +615,18 @@ namespace Google.Api.Generator.Generation
                         makeRequest,
                         BlankLine,
                         "// Iterate over all response items, lazily performing RPCs as required",
-                        Await(AsyncResponse.Call(Ctx.Import(typeof(AsyncEnumerable), nameof(AsyncEnumerable.ForEachAsync)))(LambdaTyped(PaginatedItem)(
+                        AwaitForEach(Ctx.Type(MethodPaginated.ResourceTyp), PaginatedItem.Identifier, AsyncResponse)(
                             "// Do something with each item",
-                            Ctx.Type(typeof(Console)).Call(nameof(Console.WriteLine))(PaginatedItem)))),
+                            Ctx.Type(typeof(Console)).Call(nameof(Console.WriteLine))(PaginatedItem)),
                         BlankLine,
                         "// Or iterate over pages (of server-defined size), performing one RPC per page",
-                        Await(AsyncResponse.Call(nameof(PagedEnumerable<ProtoMsg, int>.AsRawResponses))().Call(nameof(AsyncEnumerable.ForEachAsync))(LambdaTyped(PaginatedPage)(
+                        AwaitForEach(Ctx.Type(Method.ResponseTyp), PaginatedPage.Identifier, AsyncResponse.Call(nameof(PagedEnumerable<ProtoMsg, int>.AsRawResponses))())(
                             "// Do something with each page of items",
                             Ctx.Type(typeof(Console)).Call(nameof(Console.WriteLine))("A page of results:"),
                             ForEach(Ctx.Type(MethodPaginated.ResourceTyp), PaginatedItem.Identifier, PaginatedPage)(
                                 "// Do something with each item",
                                 Ctx.Type(typeof(Console)).Call(nameof(Console.WriteLine))(PaginatedItem))
-                            ))),
+                            ),
                         BlankLine,
                         "// Or retrieve a single page of known size (unless it's the final page), performing as many RPCs as required",
                         PageSize.WithInitializer(10),
