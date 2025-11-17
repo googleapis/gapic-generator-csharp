@@ -1,4 +1,4 @@
-﻿{
+{
   "clientLibrary": {
     "name": "Testing.Paginated",
     "language": "C_SHARP",
@@ -96,12 +96,12 @@
       "segments": [
         {
           "start": 20,
-          "end": 81,
+          "end": 80,
           "type": "FULL"
         },
         {
-          "start": 38,
-          "end": 79,
+          "start": 37,
+          "end": 78,
           "type": "SHORT"
         }
       ]
@@ -215,12 +215,12 @@
       "segments": [
         {
           "start": 20,
-          "end": 78,
+          "end": 77,
           "type": "FULL"
         },
         {
-          "start": 38,
-          "end": 76,
+          "start": 37,
+          "end": 75,
           "type": "SHORT"
         }
       ]
@@ -326,12 +326,12 @@
       "segments": [
         {
           "start": 20,
-          "end": 77,
+          "end": 76,
           "type": "FULL"
         },
         {
-          "start": 38,
-          "end": 75,
+          "start": 37,
+          "end": 74,
           "type": "SHORT"
         }
       ]
@@ -429,12 +429,12 @@
       "segments": [
         {
           "start": 20,
-          "end": 75,
+          "end": 74,
           "type": "FULL"
         },
         {
-          "start": 38,
-          "end": 73,
+          "start": 37,
+          "end": 72,
           "type": "SHORT"
         }
       ]
@@ -526,12 +526,12 @@
       "segments": [
         {
           "start": 20,
-          "end": 81,
+          "end": 80,
           "type": "FULL"
         },
         {
-          "start": 38,
-          "end": 79,
+          "start": 37,
+          "end": 78,
           "type": "SHORT"
         }
       ]
@@ -623,12 +623,12 @@
       "segments": [
         {
           "start": 20,
-          "end": 81,
+          "end": 80,
           "type": "FULL"
         },
         {
-          "start": 38,
-          "end": 79,
+          "start": 37,
+          "end": 78,
           "type": "SHORT"
         }
       ]
@@ -734,12 +734,12 @@
       "segments": [
         {
           "start": 20,
-          "end": 77,
+          "end": 76,
           "type": "FULL"
         },
         {
-          "start": 38,
-          "end": 75,
+          "start": 37,
+          "end": 74,
           "type": "SHORT"
         }
       ]
@@ -845,12 +845,12 @@
       "segments": [
         {
           "start": 20,
-          "end": 77,
+          "end": 76,
           "type": "FULL"
         },
         {
-          "start": 38,
-          "end": 75,
+          "start": 37,
+          "end": 74,
           "type": "SHORT"
         }
       ]
@@ -964,12 +964,12 @@
       "segments": [
         {
           "start": 20,
-          "end": 78,
+          "end": 77,
           "type": "FULL"
         },
         {
-          "start": 38,
-          "end": 76,
+          "start": 37,
+          "end": 75,
           "type": "SHORT"
         }
       ]
@@ -1083,12 +1083,12 @@
       "segments": [
         {
           "start": 20,
-          "end": 78,
+          "end": 77,
           "type": "FULL"
         },
         {
-          "start": 38,
-          "end": 76,
+          "start": 37,
+          "end": 75,
           "type": "SHORT"
         }
       ]
