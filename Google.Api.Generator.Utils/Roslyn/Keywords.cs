@@ -100,8 +100,14 @@ namespace Google.Api.Generator.Utils.Roslyn
             "while"
             );
 
+        private static readonly IImmutableSet<string> s_reservedName = ImmutableHashSet.Create(
+            "Google" // reserved for the root namespace
+            );
+
         public static string PrependAtIfKeyword(string word) => IsKeyword(word) ? $"@{word}" : word;
 
         public static bool IsKeyword(string word) => s_keywords.Contains(word);
+
+        public static bool IsReservedName(string word) => s_reservedName.Contains(word);
     }
 }
