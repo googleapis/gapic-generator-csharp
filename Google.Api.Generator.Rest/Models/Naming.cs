@@ -37,7 +37,7 @@ namespace Google.Api.Generator.Rest.Models
 
             // We don't really need to escape keywords given that we've upper-cased it,
             // but this is what the Python code does.
-            if (addUnderscoresToEscape && Keywords.IsKeyword(upper.ToLowerInvariant()))
+            if (addUnderscoresToEscape && (Keywords.IsKeyword(upper.ToLowerInvariant()) || Keywords.IsReservedName(upper)))
             {
                 upper += "__";
             }
