@@ -251,7 +251,7 @@ namespace Google.Api.Generator.Tests
         public void Paginated0() => ProtoTestSingle("Paginated", ignoreCsProj: true);
 
         [Fact]
-        public void Lro0() => ProtoTestSingle("Lro", ignoreSnippets: true);
+        public void Lro0() => ProtoTestSingle("Lro", ignoreSnippets: true, serviceConfigPath: "ServiceConfig.yaml");
 
         [Fact]
         public void ServerStreaming0() => ProtoTestSingle("ServerStreaming", ignoreCsProj: true, ignoreSnippets: true);
