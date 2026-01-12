@@ -26,6 +26,7 @@ namespace Google.Api.Generator.Rest.Models
             new Dictionary<(string, string), Type>()
             {
                 { ("any", null), typeof(object) },
+                { ("any", "google.protobuf.Value"), typeof(object) },
                 { ("boolean", null), typeof(bool) },
                 { ("integer", null), typeof(int) },
                 { ("number", null), typeof(double) },
