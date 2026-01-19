@@ -34,12 +34,6 @@ namespace Google.Api.Generator.Generation
     /// </summary>
     internal class ServiceSettingsCodeGenerator
     {
-        private static readonly PollSettings s_lroDefaultPollSettings = new PollSettings(
-            expiration: Expiration.FromTimeout(TimeSpan.FromHours(24)),
-            delay: TimeSpan.FromSeconds(20),
-            delayMultiplier: 1.5,
-            maxDelay: TimeSpan.FromSeconds(45));
-
         private static readonly SyntaxAnnotation s_cloneSetting = new SyntaxAnnotation("cloneSetting");
 
         public static ClassDeclarationSyntax Generate(SourceFileContext ctx, ServiceDetails svc) =>
@@ -216,24 +210,27 @@ namespace Google.Api.Generator.Generation
             }
         }
 
-        private PropertyDeclarationSyntax LroSettingsProperty(MethodDetails.Lro method) =>
-            AutoProperty(Public, _ctx.Type<OperationsSettings>(), method.LroSettingsName, hasSetter: true)
+        private PropertyDeclarationSyntax LroSettingsProperty(MethodDetails.Lro method)
+        {
+            var pollSettings = method.PollSettings;
+            return AutoProperty(Public, _ctx.Type<OperationsSettings>(), method.LroSettingsName, hasSetter: true)
                 .WithInitializer(New(_ctx.Type<OperationsSettings>())().WithInitializer(
                     new ObjectInitExpr(nameof(OperationsSettings.DefaultPollSettings), New(_ctx.Type<PollSettings>())(
-                        _ctx.Type<Expiration>().Call(nameof(Expiration.FromTimeout))(_ctx.Type<TimeSpan>().Call(nameof(TimeSpan.FromHours))((int) s_lroDefaultPollSettings.Expiration.Timeout.Value.TotalHours)),
-                        _ctx.Type<TimeSpan>().Call(nameof(TimeSpan.FromSeconds))((int) s_lroDefaultPollSettings.Delay.TotalSeconds),
-                        s_lroDefaultPollSettings.DelayMultiplier,
-                        _ctx.Type<TimeSpan>().Call(nameof(TimeSpan.FromSeconds))((int) s_lroDefaultPollSettings.MaxDelay.TotalSeconds)))))
+                        _ctx.Type<Expiration>().Call(nameof(Expiration.FromTimeout))(_ctx.Type<TimeSpan>().Call(nameof(TimeSpan.FromHours))((int) pollSettings.Expiration.Timeout.Value.TotalHours)),
+                        _ctx.Type<TimeSpan>().Call(nameof(TimeSpan.FromSeconds))((int) pollSettings.Delay.TotalSeconds),
+                        pollSettings.DelayMultiplier,
+                        _ctx.Type<TimeSpan>().Call(nameof(TimeSpan.FromSeconds))((int) pollSettings.MaxDelay.TotalSeconds)))))
                 .WithXmlDoc(
                     XmlDoc.Summary("Long Running Operation settings for calls to ",
                         XmlDoc.C($"{_svc.ClientAbstractTyp.Name}.{method.SyncMethodName}"), " and ",
                         XmlDoc.C($"{_svc.ClientAbstractTyp.Name}.{method.AsyncMethodName}"), "."),
                     XmlDoc.Remarks("Uses default ", _ctx.Type<PollSettings>(), " of:", XmlDoc.UL(
-                        Invariant($"Initial delay: {(int) s_lroDefaultPollSettings.Delay.TotalSeconds} seconds."),
-                        Invariant($"Delay multiplier: {s_lroDefaultPollSettings.DelayMultiplier}"),
-                        Invariant($"Maximum delay: {(int) s_lroDefaultPollSettings.MaxDelay.TotalSeconds} seconds."),
-                        Invariant($"Total timeout: {(int) s_lroDefaultPollSettings.Expiration.Timeout.Value.TotalHours} hours."))))
+                        Invariant($"Initial delay: {(int) pollSettings.Delay.TotalSeconds} seconds."),
+                        Invariant($"Delay multiplier: {pollSettings.DelayMultiplier}"),
+                        Invariant($"Maximum delay: {(int) pollSettings.MaxDelay.TotalSeconds} seconds."),
+                        Invariant($"Total timeout: {(int) pollSettings.Expiration.Timeout.Value.TotalHours} hours."))))
                 .WithAdditionalAnnotations(s_cloneSetting);
+        }
 
         private PropertyDeclarationSyntax BidiSettingsProperty(MethodDetails.BidiStreaming method) =>
             AutoProperty(Public, _ctx.Type<BidirectionalStreamingSettings>(), method.StreamingSettingsName, hasSetter: true)
