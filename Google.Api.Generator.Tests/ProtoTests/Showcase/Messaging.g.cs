@@ -38,17 +38,17 @@ namespace Google.Showcase.V1Beta1 {
             "Z29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcEID4EEDOi/qQSwKHHNob3djYXNl",
             "Lmdvb2dsZWFwaXMuY29tL1Jvb20SDHJvb21zL3tyb29tfSJAChFDcmVhdGVS",
             "b29tUmVxdWVzdBIrCgRyb29tGAEgASgLMh0uZ29vZ2xlLnNob3djYXNlLnYx",
-            "YmV0YTEuUm9vbSJECg5HZXRSb29tUmVxdWVzdBIyCgRuYW1lGAEgASgJQiT6",
-            "QR4KHHNob3djYXNlLmdvb2dsZWFwaXMuY29tL1Jvb23gQQIicQoRVXBkYXRl",
+            "YmV0YTEuUm9vbSJECg5HZXRSb29tUmVxdWVzdBIyCgRuYW1lGAEgASgJQiTg",
+            "QQL6QR4KHHNob3djYXNlLmdvb2dsZWFwaXMuY29tL1Jvb20icQoRVXBkYXRl",
             "Um9vbVJlcXVlc3QSKwoEcm9vbRgBIAEoCzIdLmdvb2dsZS5zaG93Y2FzZS52",
             "MWJldGExLlJvb20SLwoLdXBkYXRlX21hc2sYAiABKAsyGi5nb29nbGUucHJv",
             "dG9idWYuRmllbGRNYXNrIkcKEURlbGV0ZVJvb21SZXF1ZXN0EjIKBG5hbWUY",
-            "ASABKAlCJPpBHgocc2hvd2Nhc2UuZ29vZ2xlYXBpcy5jb20vUm9vbeBBAiI5",
+            "ASABKAlCJOBBAvpBHgocc2hvd2Nhc2UuZ29vZ2xlYXBpcy5jb20vUm9vbSI5",
             "ChBMaXN0Um9vbXNSZXF1ZXN0EhEKCXBhZ2Vfc2l6ZRgBIAEoBRISCgpwYWdl",
             "X3Rva2VuGAIgASgJIloKEUxpc3RSb29tc1Jlc3BvbnNlEiwKBXJvb21zGAEg",
             "AygLMh0uZ29vZ2xlLnNob3djYXNlLnYxYmV0YTEuUm9vbRIXCg9uZXh0X3Bh",
             "Z2VfdG9rZW4YAiABKAki4wIKBUJsdXJiEgwKBG5hbWUYASABKAkSMgoEdXNl",
-            "chgCIAEoCUIk+kEeChxzaG93Y2FzZS5nb29nbGVhcGlzLmNvbS9Vc2Vy4EEC",
+            "chgCIAEoCUIk4EEC+kEeChxzaG93Y2FzZS5nb29nbGVhcGlzLmNvbS9Vc2Vy",
             "Eg4KBHRleHQYAyABKAlIABIPCgVpbWFnZRgEIAEoDEgAEjQKC2NyZWF0ZV90",
             "aW1lGAUgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcEID4EEDEjQK",
             "C3VwZGF0ZV90aW1lGAYgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFt",
@@ -56,16 +56,16 @@ namespace Google.Showcase.V1Beta1 {
             "ZXJfaWQYCCABKAlIATo/6kE8Ch1zaG93Y2FzZS5nb29nbGVhcGlzLmNvbS9C",
             "bHVyYhIbcm9vbXMve3Jvb219L2JsdXJicy97Ymx1cmJ9QgkKB2NvbnRlbnRC",
             "CwoJbGVnYWN5X2lkInoKEkNyZWF0ZUJsdXJiUmVxdWVzdBI1CgZwYXJlbnQY",
-            "ASABKAlCJfpBHxIdc2hvd2Nhc2UuZ29vZ2xlYXBpcy5jb20vQmx1cmLgQQIS",
+            "ASABKAlCJeBBAvpBHxIdc2hvd2Nhc2UuZ29vZ2xlYXBpcy5jb20vQmx1cmIS",
             "LQoFYmx1cmIYAiABKAsyHi5nb29nbGUuc2hvd2Nhc2UudjFiZXRhMS5CbHVy",
-            "YiJGCg9HZXRCbHVyYlJlcXVlc3QSMwoEbmFtZRgBIAEoCUIl+kEfCh1zaG93",
-            "Y2FzZS5nb29nbGVhcGlzLmNvbS9CbHVyYuBBAiJ0ChJVcGRhdGVCbHVyYlJl",
+            "YiJGCg9HZXRCbHVyYlJlcXVlc3QSMwoEbmFtZRgBIAEoCUIl4EEC+kEfCh1z",
+            "aG93Y2FzZS5nb29nbGVhcGlzLmNvbS9CbHVyYiJ0ChJVcGRhdGVCbHVyYlJl",
             "cXVlc3QSLQoFYmx1cmIYASABKAsyHi5nb29nbGUuc2hvd2Nhc2UudjFiZXRh",
             "MS5CbHVyYhIvCgt1cGRhdGVfbWFzaxgCIAEoCzIaLmdvb2dsZS5wcm90b2J1",
             "Zi5GaWVsZE1hc2siSQoSRGVsZXRlQmx1cmJSZXF1ZXN0EjMKBG5hbWUYASAB",
-            "KAlCJfpBHwodc2hvd2Nhc2UuZ29vZ2xlYXBpcy5jb20vQmx1cmLgQQIicQoR",
-            "TGlzdEJsdXJic1JlcXVlc3QSNQoGcGFyZW50GAEgASgJQiX6QR8SHXNob3dj",
-            "YXNlLmdvb2dsZWFwaXMuY29tL0JsdXJi4EECEhEKCXBhZ2Vfc2l6ZRgCIAEo",
+            "KAlCJeBBAvpBHwodc2hvd2Nhc2UuZ29vZ2xlYXBpcy5jb20vQmx1cmIicQoR",
+            "TGlzdEJsdXJic1JlcXVlc3QSNQoGcGFyZW50GAEgASgJQiXgQQL6QR8SHXNo",
+            "b3djYXNlLmdvb2dsZWFwaXMuY29tL0JsdXJiEhEKCXBhZ2Vfc2l6ZRgCIAEo",
             "BRISCgpwYWdlX3Rva2VuGAMgASgJIl0KEkxpc3RCbHVyYnNSZXNwb25zZRIu",
             "CgZibHVyYnMYASADKAsyHi5nb29nbGUuc2hvd2Nhc2UudjFiZXRhMS5CbHVy",
             "YhIXCg9uZXh0X3BhZ2VfdG9rZW4YAiABKAkihAEKE1NlYXJjaEJsdXJic1Jl",
@@ -76,7 +76,7 @@ namespace Google.Showcase.V1Beta1 {
             "bmZvIl8KFFNlYXJjaEJsdXJic1Jlc3BvbnNlEi4KBmJsdXJicxgBIAMoCzIe",
             "Lmdvb2dsZS5zaG93Y2FzZS52MWJldGExLkJsdXJiEhcKD25leHRfcGFnZV90",
             "b2tlbhgCIAEoCSKAAQoTU3RyZWFtQmx1cmJzUmVxdWVzdBIzCgRuYW1lGAEg",
-            "ASgJQiX6QR8SHXNob3djYXNlLmdvb2dsZWFwaXMuY29tL0JsdXJi4EECEjQK",
+            "ASgJQiXgQQL6QR8SHXNob3djYXNlLmdvb2dsZWFwaXMuY29tL0JsdXJiEjQK",
             "C2V4cGlyZV90aW1lGAIgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFt",
             "cEID4EECItEBChRTdHJlYW1CbHVyYnNSZXNwb25zZRItCgVibHVyYhgBIAEo",
             "CzIeLmdvb2dsZS5zaG93Y2FzZS52MWJldGExLkJsdXJiEkQKBmFjdGlvbhgC",
@@ -90,48 +90,48 @@ namespace Google.Showcase.V1Beta1 {
             "Y3RDb25maWcSMgoGcGFyZW50GAEgASgJQiL6QR8SHXNob3djYXNlLmdvb2ds",
             "ZWFwaXMuY29tL0JsdXJiQgkKB3JlcXVlc3QyrBMKCU1lc3NhZ2luZxKXAQoK",
             "Q3JlYXRlUm9vbRIqLmdvb2dsZS5zaG93Y2FzZS52MWJldGExLkNyZWF0ZVJv",
-            "b21SZXF1ZXN0Gh0uZ29vZ2xlLnNob3djYXNlLnYxYmV0YTEuUm9vbSI+gtPk",
-            "kwITIg4vdjFiZXRhMS9yb29tczoBKtpBInJvb20uZGlzcGxheV9uYW1lLHJv",
-            "b20uZGVzY3JpcHRpb24SeQoHR2V0Um9vbRInLmdvb2dsZS5zaG93Y2FzZS52",
+            "b21SZXF1ZXN0Gh0uZ29vZ2xlLnNob3djYXNlLnYxYmV0YTEuUm9vbSI+2kEi",
+            "cm9vbS5kaXNwbGF5X25hbWUscm9vbS5kZXNjcmlwdGlvboLT5JMCEyIOL3Yx",
+            "YmV0YTEvcm9vbXM6ASoSeQoHR2V0Um9vbRInLmdvb2dsZS5zaG93Y2FzZS52",
             "MWJldGExLkdldFJvb21SZXF1ZXN0Gh0uZ29vZ2xlLnNob3djYXNlLnYxYmV0",
-            "YTEuUm9vbSImgtPkkwIZEhcvdjFiZXRhMS97bmFtZT1yb29tcy8qfdpBBG5h",
-            "bWUSgwEKClVwZGF0ZVJvb20SKi5nb29nbGUuc2hvd2Nhc2UudjFiZXRhMS5V",
+            "YTEuUm9vbSIm2kEEbmFtZYLT5JMCGRIXL3YxYmV0YTEve25hbWU9cm9vbXMv",
+            "Kn0SgwEKClVwZGF0ZVJvb20SKi5nb29nbGUuc2hvd2Nhc2UudjFiZXRhMS5V",
             "cGRhdGVSb29tUmVxdWVzdBodLmdvb2dsZS5zaG93Y2FzZS52MWJldGExLlJv",
             "b20iKoLT5JMCJDIcL3YxYmV0YTEve3Jvb20ubmFtZT1yb29tcy8qfToEcm9v",
             "bRJ4CgpEZWxldGVSb29tEiouZ29vZ2xlLnNob3djYXNlLnYxYmV0YTEuRGVs",
-            "ZXRlUm9vbVJlcXVlc3QaFi5nb29nbGUucHJvdG9idWYuRW1wdHkiJoLT5JMC",
-            "GSoXL3YxYmV0YTEve25hbWU9cm9vbXMvKn3aQQRuYW1lEnoKCUxpc3RSb29t",
+            "ZXRlUm9vbVJlcXVlc3QaFi5nb29nbGUucHJvdG9idWYuRW1wdHkiJtpBBG5h",
+            "bWWC0+STAhkqFy92MWJldGExL3tuYW1lPXJvb21zLyp9EnoKCUxpc3RSb29t",
             "cxIpLmdvb2dsZS5zaG93Y2FzZS52MWJldGExLkxpc3RSb29tc1JlcXVlc3Qa",
             "Ki5nb29nbGUuc2hvd2Nhc2UudjFiZXRhMS5MaXN0Um9vbXNSZXNwb25zZSIW",
             "gtPkkwIQEg4vdjFiZXRhMS9yb29tcxL2AQoLQ3JlYXRlQmx1cmISKy5nb29n",
             "bGUuc2hvd2Nhc2UudjFiZXRhMS5DcmVhdGVCbHVyYlJlcXVlc3QaHi5nb29n",
-            "bGUuc2hvd2Nhc2UudjFiZXRhMS5CbHVyYiKZAYLT5JMCVCIgL3YxYmV0YTEv",
-            "e3BhcmVudD1yb29tcy8qfS9ibHVyYnM6ASpaLSIoL3YxYmV0YTEve3BhcmVu",
-            "dD11c2Vycy8qL3Byb2ZpbGV9L2JsdXJiczoBKtpBHHBhcmVudCxibHVyYi51",
+            "bGUuc2hvd2Nhc2UudjFiZXRhMS5CbHVyYiKZAdpBHHBhcmVudCxibHVyYi51",
             "c2VyLGJsdXJiLnRleHTaQR1wYXJlbnQsYmx1cmIudXNlcixibHVyYi5pbWFn",
-            "ZRKxAQoIR2V0Qmx1cmISKC5nb29nbGUuc2hvd2Nhc2UudjFiZXRhMS5HZXRC",
+            "ZYLT5JMCVCIgL3YxYmV0YTEve3BhcmVudD1yb29tcy8qfS9ibHVyYnM6ASpa",
+            "LSIoL3YxYmV0YTEve3BhcmVudD11c2Vycy8qL3Byb2ZpbGV9L2JsdXJiczoB",
+            "KhKxAQoIR2V0Qmx1cmISKC5nb29nbGUuc2hvd2Nhc2UudjFiZXRhMS5HZXRC",
             "bHVyYlJlcXVlc3QaHi5nb29nbGUuc2hvd2Nhc2UudjFiZXRhMS5CbHVyYiJb",
-            "gtPkkwJOEiAvdjFiZXRhMS97bmFtZT1yb29tcy8qL2JsdXJicy8qfVoqEigv",
-            "djFiZXRhMS97bmFtZT11c2Vycy8qL3Byb2ZpbGUvYmx1cmJzLyp92kEEbmFt",
-            "ZRLCAQoLVXBkYXRlQmx1cmISKy5nb29nbGUuc2hvd2Nhc2UudjFiZXRhMS5V",
+            "2kEEbmFtZYLT5JMCThIgL3YxYmV0YTEve25hbWU9cm9vbXMvKi9ibHVyYnMv",
+            "Kn1aKhIoL3YxYmV0YTEve25hbWU9dXNlcnMvKi9wcm9maWxlL2JsdXJicy8q",
+            "fRLCAQoLVXBkYXRlQmx1cmISKy5nb29nbGUuc2hvd2Nhc2UudjFiZXRhMS5V",
             "cGRhdGVCbHVyYlJlcXVlc3QaHi5nb29nbGUuc2hvd2Nhc2UudjFiZXRhMS5C",
             "bHVyYiJmgtPkkwJgMiYvdjFiZXRhMS97Ymx1cmIubmFtZT1yb29tcy8qL2Js",
             "dXJicy8qfToBKlozMi4vdjFiZXRhMS97Ymx1cmIubmFtZT11c2Vycy8qL3By",
             "b2ZpbGUvYmx1cmJzLyp9OgEqEq8BCgtEZWxldGVCbHVyYhIrLmdvb2dsZS5z",
             "aG93Y2FzZS52MWJldGExLkRlbGV0ZUJsdXJiUmVxdWVzdBoWLmdvb2dsZS5w",
-            "cm90b2J1Zi5FbXB0eSJbgtPkkwJOKiAvdjFiZXRhMS97bmFtZT1yb29tcy8q",
-            "L2JsdXJicy8qfVoqKigvdjFiZXRhMS97bmFtZT11c2Vycy8qL3Byb2ZpbGUv",
-            "Ymx1cmJzLyp92kEEbmFtZRLEAQoKTGlzdEJsdXJicxIqLmdvb2dsZS5zaG93",
+            "cm90b2J1Zi5FbXB0eSJb2kEEbmFtZYLT5JMCTiogL3YxYmV0YTEve25hbWU9",
+            "cm9vbXMvKi9ibHVyYnMvKn1aKiooL3YxYmV0YTEve25hbWU9dXNlcnMvKi9w",
+            "cm9maWxlL2JsdXJicy8qfRLEAQoKTGlzdEJsdXJicxIqLmdvb2dsZS5zaG93",
             "Y2FzZS52MWJldGExLkxpc3RCbHVyYnNSZXF1ZXN0GisuZ29vZ2xlLnNob3dj",
-            "YXNlLnYxYmV0YTEuTGlzdEJsdXJic1Jlc3BvbnNlIl2C0+STAk4SIC92MWJl",
-            "dGExL3twYXJlbnQ9cm9vbXMvKn0vYmx1cmJzWioSKC92MWJldGExL3twYXJl",
-            "bnQ9dXNlcnMvKi9wcm9maWxlfS9ibHVyYnPaQQZwYXJlbnQSgQIKDFNlYXJj",
+            "YXNlLnYxYmV0YTEuTGlzdEJsdXJic1Jlc3BvbnNlIl3aQQZwYXJlbnSC0+ST",
+            "Ak4SIC92MWJldGExL3twYXJlbnQ9cm9vbXMvKn0vYmx1cmJzWioSKC92MWJl",
+            "dGExL3twYXJlbnQ9dXNlcnMvKi9wcm9maWxlfS9ibHVyYnMSgQIKDFNlYXJj",
             "aEJsdXJicxIsLmdvb2dsZS5zaG93Y2FzZS52MWJldGExLlNlYXJjaEJsdXJi",
-            "c1JlcXVlc3QaHS5nb29nbGUubG9uZ3J1bm5pbmcuT3BlcmF0aW9uIqMBgtPk",
-            "kwJfIicvdjFiZXRhMS97cGFyZW50PXJvb21zLyp9L2JsdXJiczpzZWFyY2g6",
-            "ASpaMSIvL3YxYmV0YTEve3BhcmVudD11c2Vycy8qL3Byb2ZpbGV9L2JsdXJi",
-            "czpzZWFyY2jKQSwKFFNlYXJjaEJsdXJic1Jlc3BvbnNlEhRTZWFyY2hCbHVy",
-            "YnNNZXRhZGF0YdpBDHBhcmVudCxxdWVyeRLTAQoMU3RyZWFtQmx1cmJzEiwu",
+            "c1JlcXVlc3QaHS5nb29nbGUubG9uZ3J1bm5pbmcuT3BlcmF0aW9uIqMBykEs",
+            "ChRTZWFyY2hCbHVyYnNSZXNwb25zZRIUU2VhcmNoQmx1cmJzTWV0YWRhdGHa",
+            "QQxwYXJlbnQscXVlcnmC0+STAl8iJy92MWJldGExL3twYXJlbnQ9cm9vbXMv",
+            "Kn0vYmx1cmJzOnNlYXJjaDoBKloxIi8vdjFiZXRhMS97cGFyZW50PXVzZXJz",
+            "LyovcHJvZmlsZX0vYmx1cmJzOnNlYXJjaBLTAQoMU3RyZWFtQmx1cmJzEiwu",
             "Z29vZ2xlLnNob3djYXNlLnYxYmV0YTEuU3RyZWFtQmx1cmJzUmVxdWVzdBot",
             "Lmdvb2dsZS5zaG93Y2FzZS52MWJldGExLlN0cmVhbUJsdXJic1Jlc3BvbnNl",
             "ImSC0+STAl4iJS92MWJldGExL3tuYW1lPXJvb21zLyp9L2JsdXJiczpzdHJl",
@@ -180,6 +180,7 @@ namespace Google.Showcase.V1Beta1 {
   /// <summary>
   /// A chat room.
   /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class Room : pb::IMessage<Room>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -472,7 +473,11 @@ namespace Google.Showcase.V1Beta1 {
     #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
@@ -513,7 +518,11 @@ namespace Google.Showcase.V1Beta1 {
     void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
@@ -554,6 +563,7 @@ namespace Google.Showcase.V1Beta1 {
   /// The request message for the google.showcase.v1beta1.Messaging\CreateRoom
   /// method.
   /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class CreateRoomRequest : pb::IMessage<CreateRoomRequest>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -715,7 +725,11 @@ namespace Google.Showcase.V1Beta1 {
     #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
@@ -737,7 +751,11 @@ namespace Google.Showcase.V1Beta1 {
     void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
@@ -759,6 +777,7 @@ namespace Google.Showcase.V1Beta1 {
   /// The request message for the google.showcase.v1beta1.Messaging\GetRoom
   /// method.
   /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class GetRoomRequest : pb::IMessage<GetRoomRequest>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -917,7 +936,11 @@ namespace Google.Showcase.V1Beta1 {
     #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
@@ -936,7 +959,11 @@ namespace Google.Showcase.V1Beta1 {
     void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
@@ -955,6 +982,7 @@ namespace Google.Showcase.V1Beta1 {
   /// The request message for the google.showcase.v1beta1.Messaging\UpdateRoom
   /// method.
   /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class UpdateRoomRequest : pb::IMessage<UpdateRoomRequest>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -1152,7 +1180,11 @@ namespace Google.Showcase.V1Beta1 {
     #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
@@ -1181,7 +1213,11 @@ namespace Google.Showcase.V1Beta1 {
     void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
@@ -1210,6 +1246,7 @@ namespace Google.Showcase.V1Beta1 {
   /// The request message for the google.showcase.v1beta1.Messaging\DeleteRoom
   /// method.
   /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class DeleteRoomRequest : pb::IMessage<DeleteRoomRequest>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -1368,7 +1405,11 @@ namespace Google.Showcase.V1Beta1 {
     #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
@@ -1387,7 +1428,11 @@ namespace Google.Showcase.V1Beta1 {
     void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
@@ -1406,6 +1451,7 @@ namespace Google.Showcase.V1Beta1 {
   /// The request message for the google.showcase.v1beta1.Messaging\ListRooms
   /// method.
   /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class ListRoomsRequest : pb::IMessage<ListRoomsRequest>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -1599,7 +1645,11 @@ namespace Google.Showcase.V1Beta1 {
     #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
@@ -1622,7 +1672,11 @@ namespace Google.Showcase.V1Beta1 {
     void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
@@ -1645,6 +1699,7 @@ namespace Google.Showcase.V1Beta1 {
   /// The response message for the google.showcase.v1beta1.Messaging\ListRooms
   /// method.
   /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class ListRoomsResponse : pb::IMessage<ListRoomsResponse>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -1827,7 +1882,11 @@ namespace Google.Showcase.V1Beta1 {
     #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
@@ -1850,7 +1909,11 @@ namespace Google.Showcase.V1Beta1 {
     void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
@@ -1873,6 +1936,7 @@ namespace Google.Showcase.V1Beta1 {
   /// This protocol buffer message represents a blurb sent to a chat room or
   /// posted on a user profile.
   /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class Blurb : pb::IMessage<Blurb>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -2387,7 +2451,11 @@ namespace Google.Showcase.V1Beta1 {
     #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
@@ -2440,7 +2508,11 @@ namespace Google.Showcase.V1Beta1 {
     void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
@@ -2493,6 +2565,7 @@ namespace Google.Showcase.V1Beta1 {
   /// The request message for the google.showcase.v1beta1.Messaging\CreateBlurb
   /// method.
   /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class CreateBlurbRequest : pb::IMessage<CreateBlurbRequest>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -2687,7 +2760,11 @@ namespace Google.Showcase.V1Beta1 {
     #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
@@ -2713,7 +2790,11 @@ namespace Google.Showcase.V1Beta1 {
     void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
@@ -2739,6 +2820,7 @@ namespace Google.Showcase.V1Beta1 {
   /// The request message for the google.showcase.v1beta1.Messaging\GetBlurb
   /// method.
   /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class GetBlurbRequest : pb::IMessage<GetBlurbRequest>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -2897,7 +2979,11 @@ namespace Google.Showcase.V1Beta1 {
     #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
@@ -2916,7 +3002,11 @@ namespace Google.Showcase.V1Beta1 {
     void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
@@ -2935,6 +3025,7 @@ namespace Google.Showcase.V1Beta1 {
   /// The request message for the google.showcase.v1beta1.Messaging\UpdateBlurb
   /// method.
   /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class UpdateBlurbRequest : pb::IMessage<UpdateBlurbRequest>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -3132,7 +3223,11 @@ namespace Google.Showcase.V1Beta1 {
     #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
@@ -3161,7 +3256,11 @@ namespace Google.Showcase.V1Beta1 {
     void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
@@ -3190,6 +3289,7 @@ namespace Google.Showcase.V1Beta1 {
   /// The request message for the google.showcase.v1beta1.Messaging\DeleteBlurb
   /// method.
   /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class DeleteBlurbRequest : pb::IMessage<DeleteBlurbRequest>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -3348,7 +3448,11 @@ namespace Google.Showcase.V1Beta1 {
     #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
@@ -3367,7 +3471,11 @@ namespace Google.Showcase.V1Beta1 {
     void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
@@ -3386,6 +3494,7 @@ namespace Google.Showcase.V1Beta1 {
   /// The request message for the google.showcase.v1beta1.Messaging\ListBlurbs
   /// method.
   /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class ListBlurbsRequest : pb::IMessage<ListBlurbsRequest>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -3612,7 +3721,11 @@ namespace Google.Showcase.V1Beta1 {
     #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
@@ -3639,7 +3752,11 @@ namespace Google.Showcase.V1Beta1 {
     void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
@@ -3666,6 +3783,7 @@ namespace Google.Showcase.V1Beta1 {
   /// The response message for the google.showcase.v1beta1.Messaging\ListBlurbs
   /// method.
   /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class ListBlurbsResponse : pb::IMessage<ListBlurbsResponse>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -3848,7 +3966,11 @@ namespace Google.Showcase.V1Beta1 {
     #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
@@ -3871,7 +3993,11 @@ namespace Google.Showcase.V1Beta1 {
     void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
@@ -3894,6 +4020,7 @@ namespace Google.Showcase.V1Beta1 {
   /// The request message for the google.showcase.v1beta1.Messaging\SearchBlurbs
   /// method.
   /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class SearchBlurbsRequest : pb::IMessage<SearchBlurbsRequest>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -4155,7 +4282,11 @@ namespace Google.Showcase.V1Beta1 {
     #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
@@ -4186,7 +4317,11 @@ namespace Google.Showcase.V1Beta1 {
     void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
@@ -4217,6 +4352,7 @@ namespace Google.Showcase.V1Beta1 {
   /// The operation metadata message for the
   /// google.showcase.v1beta1.Messaging\SearchBlurbs method.
   /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class SearchBlurbsMetadata : pb::IMessage<SearchBlurbsMetadata>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -4378,7 +4514,11 @@ namespace Google.Showcase.V1Beta1 {
     #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
@@ -4400,7 +4540,11 @@ namespace Google.Showcase.V1Beta1 {
     void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
@@ -4422,6 +4566,7 @@ namespace Google.Showcase.V1Beta1 {
   /// The operation response message for the
   /// google.showcase.v1beta1.Messaging\SearchBlurbs method.
   /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class SearchBlurbsResponse : pb::IMessage<SearchBlurbsResponse>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -4604,7 +4749,11 @@ namespace Google.Showcase.V1Beta1 {
     #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
@@ -4627,7 +4776,11 @@ namespace Google.Showcase.V1Beta1 {
     void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
@@ -4650,6 +4803,7 @@ namespace Google.Showcase.V1Beta1 {
   /// The request message for the google.showcase.v1beta1.Messaging\StreamBlurbs
   /// method.
   /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class StreamBlurbsRequest : pb::IMessage<StreamBlurbsRequest>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -4843,7 +4997,11 @@ namespace Google.Showcase.V1Beta1 {
     #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
@@ -4869,7 +5027,11 @@ namespace Google.Showcase.V1Beta1 {
     void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
@@ -4895,6 +5057,7 @@ namespace Google.Showcase.V1Beta1 {
   /// The response message for the google.showcase.v1beta1.Messaging\StreamBlurbs
   /// method.
   /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class StreamBlurbsResponse : pb::IMessage<StreamBlurbsResponse>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -5088,7 +5251,11 @@ namespace Google.Showcase.V1Beta1 {
     #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
@@ -5114,7 +5281,11 @@ namespace Google.Showcase.V1Beta1 {
     void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
@@ -5167,6 +5338,7 @@ namespace Google.Showcase.V1Beta1 {
   /// The response message for the google.showcase.v1beta1.Messaging\SendBlurbs
   /// method.
   /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class SendBlurbsResponse : pb::IMessage<SendBlurbsResponse>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -5314,7 +5486,11 @@ namespace Google.Showcase.V1Beta1 {
     #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
@@ -5333,7 +5509,11 @@ namespace Google.Showcase.V1Beta1 {
     void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
@@ -5352,6 +5532,7 @@ namespace Google.Showcase.V1Beta1 {
   /// The request message for the google.showcase.v1beta1.Messaging\Connect
   /// method.
   /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class ConnectRequest : pb::IMessage<ConnectRequest>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -5582,7 +5763,11 @@ namespace Google.Showcase.V1Beta1 {
     #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
@@ -5615,7 +5800,11 @@ namespace Google.Showcase.V1Beta1 {
     void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
@@ -5647,6 +5836,7 @@ namespace Google.Showcase.V1Beta1 {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static partial class Types {
+      [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
       public sealed partial class ConnectConfig : pb::IMessage<ConnectConfig>
       #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
           , pb::IBufferMessage
@@ -5805,7 +5995,11 @@ namespace Google.Showcase.V1Beta1 {
         #else
           uint tag;
           while ((tag = input.ReadTag()) != 0) {
-            switch(tag) {
+          if ((tag & 7) == 4) {
+            // Abort on any end group tag.
+            return;
+          }
+          switch(tag) {
               default:
                 _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
                 break;
@@ -5824,7 +6018,11 @@ namespace Google.Showcase.V1Beta1 {
         void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
           uint tag;
           while ((tag = input.ReadTag()) != 0) {
-            switch(tag) {
+          if ((tag & 7) == 4) {
+            // Abort on any end group tag.
+            return;
+          }
+          switch(tag) {
               default:
                 _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
                 break;

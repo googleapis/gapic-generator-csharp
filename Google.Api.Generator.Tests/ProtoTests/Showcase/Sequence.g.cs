@@ -47,21 +47,21 @@ namespace Google.Showcase.V1Beta1 {
             "cGlzLmNvbS9TZXF1ZW5jZVJlcG9ydBIjc2VxdWVuY2VzL3tzZXF1ZW5jZX0v",
             "c2VxdWVuY2VSZXBvcnQiTAoVQ3JlYXRlU2VxdWVuY2VSZXF1ZXN0EjMKCHNl",
             "cXVlbmNlGAEgASgLMiEuZ29vZ2xlLnNob3djYXNlLnYxYmV0YTEuU2VxdWVu",
-            "Y2UiUAoWQXR0ZW1wdFNlcXVlbmNlUmVxdWVzdBI2CgRuYW1lGAEgASgJQij6",
-            "QSIKIHNob3djYXNlLmdvb2dsZWFwaXMuY29tL1NlcXVlbmNl4EECIlgKGEdl",
-            "dFNlcXVlbmNlUmVwb3J0UmVxdWVzdBI8CgRuYW1lGAEgASgJQi76QSgKJnNo",
-            "b3djYXNlLmdvb2dsZWFwaXMuY29tL1NlcXVlbmNlUmVwb3J04EECMvQDCg9T",
+            "Y2UiUAoWQXR0ZW1wdFNlcXVlbmNlUmVxdWVzdBI2CgRuYW1lGAEgASgJQijg",
+            "QQL6QSIKIHNob3djYXNlLmdvb2dsZWFwaXMuY29tL1NlcXVlbmNlIlgKGEdl",
+            "dFNlcXVlbmNlUmVwb3J0UmVxdWVzdBI8CgRuYW1lGAEgASgJQi7gQQL6QSgK",
+            "JnNob3djYXNlLmdvb2dsZWFwaXMuY29tL1NlcXVlbmNlUmVwb3J0MvQDCg9T",
             "ZXF1ZW5jZVNlcnZpY2USlAEKDkNyZWF0ZVNlcXVlbmNlEi4uZ29vZ2xlLnNo",
             "b3djYXNlLnYxYmV0YTEuQ3JlYXRlU2VxdWVuY2VSZXF1ZXN0GiEuZ29vZ2xl",
-            "LnNob3djYXNlLnYxYmV0YTEuU2VxdWVuY2UiL4LT5JMCHiISL3YxYmV0YTEv",
-            "c2VxdWVuY2VzOghzZXF1ZW5jZdpBCHNlcXVlbmNlEqoBChFHZXRTZXF1ZW5j",
+            "LnNob3djYXNlLnYxYmV0YTEuU2VxdWVuY2UiL9pBCHNlcXVlbmNlgtPkkwIe",
+            "IhIvdjFiZXRhMS9zZXF1ZW5jZXM6CHNlcXVlbmNlEqoBChFHZXRTZXF1ZW5j",
             "ZVJlcG9ydBIxLmdvb2dsZS5zaG93Y2FzZS52MWJldGExLkdldFNlcXVlbmNl",
             "UmVwb3J0UmVxdWVzdBonLmdvb2dsZS5zaG93Y2FzZS52MWJldGExLlNlcXVl",
-            "bmNlUmVwb3J0IjmC0+STAiwSKi92MWJldGExL3tuYW1lPXNlcXVlbmNlcy8q",
-            "L3NlcXVlbmNlUmVwb3J0fdpBBG5hbWUSiQEKD0F0dGVtcHRTZXF1ZW5jZRIv",
+            "bmNlUmVwb3J0IjnaQQRuYW1lgtPkkwIsEiovdjFiZXRhMS97bmFtZT1zZXF1",
+            "ZW5jZXMvKi9zZXF1ZW5jZVJlcG9ydH0SiQEKD0F0dGVtcHRTZXF1ZW5jZRIv",
             "Lmdvb2dsZS5zaG93Y2FzZS52MWJldGExLkF0dGVtcHRTZXF1ZW5jZVJlcXVl",
-            "c3QaFi5nb29nbGUucHJvdG9idWYuRW1wdHkiLYLT5JMCICIbL3YxYmV0YTEv",
-            "e25hbWU9c2VxdWVuY2VzLyp9OgEq2kEEbmFtZRoRykEObG9jYWxob3N0Ojc0",
+            "c3QaFi5nb29nbGUucHJvdG9idWYuRW1wdHkiLdpBBG5hbWWC0+STAiAiGy92",
+            "MWJldGExL3tuYW1lPXNlcXVlbmNlcy8qfToBKhoRykEObG9jYWxob3N0Ojc0",
             "NjlCcQobY29tLmdvb2dsZS5zaG93Y2FzZS52MWJldGExUAFaNGdpdGh1Yi5j",
             "b20vZ29vZ2xlYXBpcy9nYXBpYy1zaG93Y2FzZS9zZXJ2ZXIvZ2VucHJvdG/q",
             "AhlHb29nbGU6OlNob3djYXNlOjpWMWJldGExYgZwcm90bzM="));
@@ -79,6 +79,7 @@ namespace Google.Showcase.V1Beta1 {
 
   }
   #region Messages
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class Sequence : pb::IMessage<Sequence>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -256,7 +257,11 @@ namespace Google.Showcase.V1Beta1 {
     #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
@@ -279,7 +284,11 @@ namespace Google.Showcase.V1Beta1 {
     void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
@@ -304,6 +313,7 @@ namespace Google.Showcase.V1Beta1 {
       /// <summary>
       /// A server response to an RPC Attempt in a sequence.
       /// </summary>
+      [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
       public sealed partial class Response : pb::IMessage<Response>
       #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
           , pb::IBufferMessage
@@ -500,7 +510,11 @@ namespace Google.Showcase.V1Beta1 {
         #else
           uint tag;
           while ((tag = input.ReadTag()) != 0) {
-            switch(tag) {
+          if ((tag & 7) == 4) {
+            // Abort on any end group tag.
+            return;
+          }
+          switch(tag) {
               default:
                 _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
                 break;
@@ -529,7 +543,11 @@ namespace Google.Showcase.V1Beta1 {
         void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
           uint tag;
           while ((tag = input.ReadTag()) != 0) {
-            switch(tag) {
+          if ((tag & 7) == 4) {
+            // Abort on any end group tag.
+            return;
+          }
+          switch(tag) {
               default:
                 _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
                 break;
@@ -559,6 +577,7 @@ namespace Google.Showcase.V1Beta1 {
 
   }
 
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class SequenceReport : pb::IMessage<SequenceReport>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -735,7 +754,11 @@ namespace Google.Showcase.V1Beta1 {
     #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
@@ -758,7 +781,11 @@ namespace Google.Showcase.V1Beta1 {
     void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
@@ -783,6 +810,7 @@ namespace Google.Showcase.V1Beta1 {
       /// <summary>
       /// Contains metrics on individual RPC Attempts in a sequence.
       /// </summary>
+      [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
       public sealed partial class Attempt : pb::IMessage<Attempt>
       #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
           , pb::IBufferMessage
@@ -1083,7 +1111,11 @@ namespace Google.Showcase.V1Beta1 {
         #else
           uint tag;
           while ((tag = input.ReadTag()) != 0) {
-            switch(tag) {
+          if ((tag & 7) == 4) {
+            // Abort on any end group tag.
+            return;
+          }
+          switch(tag) {
               default:
                 _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
                 break;
@@ -1130,7 +1162,11 @@ namespace Google.Showcase.V1Beta1 {
         void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
           uint tag;
           while ((tag = input.ReadTag()) != 0) {
-            switch(tag) {
+          if ((tag & 7) == 4) {
+            // Abort on any end group tag.
+            return;
+          }
+          switch(tag) {
               default:
                 _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
                 break;
@@ -1178,6 +1214,7 @@ namespace Google.Showcase.V1Beta1 {
 
   }
 
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class CreateSequenceRequest : pb::IMessage<CreateSequenceRequest>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -1336,7 +1373,11 @@ namespace Google.Showcase.V1Beta1 {
     #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
@@ -1358,7 +1399,11 @@ namespace Google.Showcase.V1Beta1 {
     void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
@@ -1376,6 +1421,7 @@ namespace Google.Showcase.V1Beta1 {
 
   }
 
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class AttemptSequenceRequest : pb::IMessage<AttemptSequenceRequest>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -1531,7 +1577,11 @@ namespace Google.Showcase.V1Beta1 {
     #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
@@ -1550,7 +1600,11 @@ namespace Google.Showcase.V1Beta1 {
     void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
@@ -1565,6 +1619,7 @@ namespace Google.Showcase.V1Beta1 {
 
   }
 
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class GetSequenceReportRequest : pb::IMessage<GetSequenceReportRequest>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -1720,7 +1775,11 @@ namespace Google.Showcase.V1Beta1 {
     #else
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
@@ -1739,7 +1798,11 @@ namespace Google.Showcase.V1Beta1 {
     void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
       uint tag;
       while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
