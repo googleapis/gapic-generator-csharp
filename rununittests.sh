@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # This script:
-# - Initializes/updates git submodules (required for common protos)
 # - Builds the Generator solution in Release mode
 # - Runs unit tests for the Generator projects in Release mode
 
@@ -9,9 +8,6 @@ set -ex
 
 # To avoid printing the dotnet CLI welcome message
 export DOTNET_NOLOGO=true
-
-echo "Initializing/updating git submodules"
-git submodule update --init --recursive
 
 echo "Building the solution in Release mode"
 dotnet build Generator.sln -c Release
