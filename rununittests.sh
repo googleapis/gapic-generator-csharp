@@ -10,6 +10,15 @@ set -ex
 # To avoid printing the dotnet CLI welcome message
 export DOTNET_NOLOGO=true
 
+# Only modify git config if running in Kokoro CI environment.
+if [ -n "$KOKORO_BUILD_ID" ]; then
+  echo "Detected Kokoro environment, marking repositories as safe for Git."
+  # Add repo and submodules to safe.directory to allow Git operations by the build runner.
+  git config --global --add safe.directory '*'
+else
+  echo "Not running in Kokoro CI, skipping git config safe.directory modification."
+fi
+
 echo "Initializing/updating git submodules"
 git submodule update --init --recursive
 
