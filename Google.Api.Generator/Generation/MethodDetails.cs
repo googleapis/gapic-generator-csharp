@@ -107,6 +107,12 @@ namespace Google.Api.Generator.Generation
         /// </summary>
         public abstract class Lro : MethodDetails
         {
+            private static readonly PollSettings s_lroDefaultPollSettings = new PollSettings(
+                expiration: Expiration.FromTimeout(TimeSpan.FromHours(24)),
+                delay: TimeSpan.FromSeconds(20),
+                delayMultiplier: 1.5,
+                maxDelay: TimeSpan.FromSeconds(45));
+
             protected Lro(ServiceDetails svc, MethodDescriptor desc)
                 : base(svc, desc)
             {
@@ -114,8 +120,16 @@ namespace Google.Api.Generator.Generation
                 LroClientName = $"{desc.Name}OperationsClient";
                 SyncPollMethodName = $"PollOnce{SyncMethodName}";
                 AsyncPollMethodName = $"PollOnce{AsyncMethodName}";
+                PollSettings = ServiceConfigMethodSettings?.LongRunning is MethodSettings.Types.LongRunning lro
+                    ? new PollSettings(
+                        expiration: Expiration.FromTimeout(lro.TotalPollTimeout.ToTimeSpan()),
+                        delay: lro.InitialPollDelay.ToTimeSpan(),
+                        delayMultiplier: lro.PollDelayMultiplier,
+                        maxDelay: lro.MaxPollDelay.ToTimeSpan())
+                    : s_lroDefaultPollSettings;
             }
 
+            public PollSettings PollSettings { get; }
             public abstract override Typ ApiCallTyp { get; }
             public abstract override Typ SyncReturnTyp { get; }
             public string LroSettingsName { get; }
