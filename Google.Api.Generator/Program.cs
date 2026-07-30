@@ -38,6 +38,9 @@ namespace Google.Api.Generator
         private const string nameTransport = "transport";
         private const string nameRequestNumericEnumJsonEncoding = "rest-numeric-enums";
         private const string nameLogFile = "log";
+        private const ulong CodeGeneratorResponseSupportedFeatures = (ulong) (CodeGeneratorResponse.Types.Feature.Proto3Optional | CodeGeneratorResponse.Types.Feature.SupportsEditions);
+        private const int CodeGeneratorResponseMinimumEdition = (int) Edition.Proto2;
+        private const int CodeGeneratorResponseMaximumEdition = (int) Edition._2023;
 
         private static IImmutableSet<string> s_validParameters = ImmutableHashSet.Create(
             nameGrpcServiceConfig,
@@ -204,9 +207,9 @@ namespace Google.Api.Generator
 
                 codeGenResponse = new CodeGeneratorResponse
                 {
-                    SupportedFeatures = (int) CodeGeneratorResponse.Types.Feature.Proto3Optional | (int) CodeGeneratorResponse.Types.Feature.SupportsEditions,
-                    MinimumEdition = (int) Edition.Proto2,
-                    MaximumEdition = (int) Edition._2023,
+                    SupportedFeatures = CodeGeneratorResponseSupportedFeatures,
+                    MinimumEdition = CodeGeneratorResponseMinimumEdition,
+                    MaximumEdition = CodeGeneratorResponseMaximumEdition,
                     File =
                     {
                         results.Select(x => new CodeGeneratorResponse.Types.File
@@ -222,6 +225,9 @@ namespace Google.Api.Generator
                 // On failure, send the error back to protoc.
                 codeGenResponse = new CodeGeneratorResponse
                 {
+                    SupportedFeatures = CodeGeneratorResponseSupportedFeatures,
+                    MinimumEdition = CodeGeneratorResponseMinimumEdition,
+                    MaximumEdition = CodeGeneratorResponseMaximumEdition,
                     Error = e.ToString()
                 };
                 Logging.LogError(e, "Generation failed");
