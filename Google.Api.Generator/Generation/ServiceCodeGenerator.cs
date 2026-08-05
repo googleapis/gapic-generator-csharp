@@ -71,7 +71,7 @@ namespace Google.Api.Generator.Generation
                     {
                         var propertyName = method.ResourcesFieldName;
                         var genericGetEnumerator = Method(Public, ctx.Type(Typ.Generic(typeof(IEnumerator<>), method.ResourceTyp)), "GetEnumerator")()
-                            .WithBody(Property(Public, ctx.TypeDontCare, propertyName).Call(nameof(IEnumerable<int>.GetEnumerator))())
+                            .WithBody(Property(Public, ctx.TypeDontCare, propertyName).MaybeWithPragmaDisableObsoleteWarning(method.ResponseResourceFieldIsDeprecated).Call(nameof(IEnumerable<int>.GetEnumerator))())
                             .WithXmlDoc(XmlDoc.Summary("Returns an enumerator that iterates through the resources in this response."));
                         var getEnumerator = Method(None, ctx.Type<IEnumerator>(), "GetEnumerator")()
                             .WithExplicitInterfaceSpecifier(ctx.Type<IEnumerable>())
