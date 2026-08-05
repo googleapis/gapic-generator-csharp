@@ -80,6 +80,7 @@ namespace Google.Api.Generator.Generation
                 SyncGrpcType = Typ.Generic(typeof(GrpcPagedEnumerable<,,>), RequestTyp, ResponseTyp, ResourceTyp);
                 AsyncGrpcType = Typ.Generic(typeof(GrpcPagedAsyncEnumerable<,,>), RequestTyp, ResponseTyp, ResourceTyp);
                 ResourcesFieldName = responseResourceField.CSharpPropertyName();
+                ResponseResourceFieldIsDeprecated = responseResourceField.IsDeprecated();
                 PageSizeFieldNumber = pageSizeFieldNumber;
                 PageTokenFieldNumber = pageTokenFieldNumber;
             }
@@ -96,6 +97,7 @@ namespace Google.Api.Generator.Generation
             public Typ SyncGrpcType { get; }
             public Typ AsyncGrpcType { get; }
             public string ResourcesFieldName { get; }
+            public bool ResponseResourceFieldIsDeprecated { get; }
             public int PageSizeFieldNumber { get; }
             public int PageTokenFieldNumber { get; }
         }
