@@ -1,4 +1,4 @@
-﻿// Copyright 2018 Google Inc. All Rights Reserved.
+// Copyright 2018 Google Inc. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,6 +14,7 @@
 
 using Google.Api.Gax;
 using Google.Api.Gax.Grpc;
+using Google.Api.Gax.Grpc.Rest;
 using Google.Api.Generator.Utils;
 using Google.Api.Generator.Utils.Roslyn;
 using Google.LongRunning;
@@ -203,6 +204,9 @@ namespace Google.Api.Generator.Generation
                     case MethodDetails.ClientStreaming client:
                         yield return ClientSettingsProperty(client);
                         break;
+                    case MethodDetails.ResumableUpload resumable:
+                        yield return ResumableUploadSettingsProperty(resumable);
+                        break;
                 }
             }
 
@@ -214,6 +218,14 @@ namespace Google.Api.Generator.Generation
                     .WithInitializer(settingsType.Call("GetDefault")())
                     .WithXmlDoc(XmlDoc.Summary("The settings to use for the ", _ctx.Type(mixin.GapicClientType), " associated with the client."));
             }
+        }
+
+        private PropertyDeclarationSyntax ResumableUploadSettingsProperty(MethodDetails.ResumableUpload method)
+        {
+            var settingsTyp = _ctx.Type<ResumableUploadSettings>();
+            return AutoProperty(Public, settingsTyp, method.ResumableUploadSettingsName, hasSetter: true)
+                .WithInitializer(settingsTyp.Access(nameof(ResumableUploadSettings.Default)))
+                .WithXmlDoc(XmlDoc.Summary("The settings to use for resumable upload calls to ", XmlDoc.C($"{_svc.ClientAbstractTyp.Name}.{method.SyncMethodName}"), "."));
         }
 
         private PropertyDeclarationSyntax LroSettingsProperty(MethodDetails.Lro method) =>
