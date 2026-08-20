@@ -1,4 +1,4 @@
-﻿// Copyright 2018 Google Inc. All Rights Reserved.
+// Copyright 2018 Google Inc. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,6 +14,7 @@
 
 using Google.Api.Gax;
 using Google.Api.Gax.Grpc;
+using Google.Api.Gax.Grpc.Rest;
 using Google.Api.Generator.ProtoUtils;
 using Google.Api.Generator.Utils;
 using Google.Cloud;
@@ -251,6 +252,40 @@ namespace Google.Api.Generator.Generation
             public string ModifyStreamingRequestMethodName { get; }
         }
 
+        /// <summary>
+        /// Details about a resumable upload method.
+        /// </summary>
+        public sealed class ResumableUpload : MethodDetails
+        {
+            private static readonly HashSet<string> s_resumableUploadAllowlist = new HashSet<string>(StringComparer.Ordinal)
+            {
+                "google.showcase.v1beta1.ResumableUploadService.UploadMedia",
+                "google.ads.googleads.v23.services.YouTubeVideoUploadService.CreateYouTubeVideoUpload",
+                "google.ads.googleads.v24.services.YouTubeVideoUploadService.CreateYouTubeVideoUpload",
+                "google.ads.googleads.v25.services.YouTubeVideoUploadService.CreateYouTubeVideoUpload",
+            };
+
+            internal static bool IsResumableUploadMethod(MethodDescriptor desc) => s_resumableUploadAllowlist.Contains(desc.FullName);
+
+            public ResumableUpload(ServiceDetails svc, MethodDescriptor desc) : base(svc, desc)
+            {
+                ApiCallTyp = Typ.Generic(typeof(ApiResumableUploadCall<,>), RequestTyp, ResponseTyp);
+                ResumableUploadSessionTyp = Typ.Generic(typeof(ResumableUploadSession<,>), RequestTyp, ResponseTyp);
+                ResumableUploadSettingsName = $"{desc.Name}ResumableUploadSettings";
+            }
+
+            public override Typ ApiCallTyp { get; }
+            public Typ ResumableUploadSessionTyp { get; }
+            public override Typ SyncReturnTyp => ResumableUploadSessionTyp;
+            public override string ApiCallFieldName => $"_callResumable{Descriptor.Name}";
+
+            /// <summary>The name of the CreateSession method on <see cref="ApiResumableUploadCall{TRequest, TResponse}"/>.</summary>
+            public string CreateSessionMethodName => nameof(ApiResumableUploadCall<Any, Any>.CreateSession);
+
+            /// <summary>The name of the property in the service settings class for resumable upload settings.</summary>
+            public string ResumableUploadSettingsName { get; }
+        }
+
         public sealed class Signature
         {
             public sealed class Field
@@ -360,6 +395,7 @@ namespace Google.Api.Generator.Generation
         }
 
         public static MethodDetails Create(ServiceDetails svc, MethodDescriptor desc) =>
+            ResumableUpload.IsResumableUploadMethod(desc) ? new ResumableUpload(svc, desc) :
             DetectPagination(svc, desc) ?? (
             desc.IsClientStreaming && desc.IsServerStreaming ? new BidiStreaming(svc, desc) :
             desc.IsServerStreaming ? new ServerStreaming(svc, desc) :
@@ -719,7 +755,7 @@ namespace Google.Api.Generator.Generation
         public abstract Typ ApiCallTyp { get; }
 
         /// <summary>The name of the ApiCall<> field.</summary>
-        public string ApiCallFieldName => $"_call{Descriptor.Name}";
+        public virtual string ApiCallFieldName => $"_call{Descriptor.Name}";
 
         /// <summary>The name of the per-method partial method to modify the ApiCall.</summary>
         public string ModifyApiCallMethodName => $"Modify_{Descriptor.Name}ApiCall";

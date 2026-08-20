@@ -1,4 +1,4 @@
-﻿// Copyright 2018 Google Inc. All Rights Reserved.
+// Copyright 2018 Google Inc. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -177,6 +177,9 @@ namespace Google.Api.Generator.Generation
 
         /// <summary>All RPC methods within this service.</summary>
         public IEnumerable<MethodDetails> Methods { get; }
+
+        /// <summary>Whether this service has any resumable upload methods.</summary>
+        public bool HasResumableUploadMethods => Methods.Any(m => m is MethodDetails.ResumableUpload);
 
         /// <summary>The typ of the snippets class for this service.</summary>
         public Typ ServiceSnippetsTyp { get; }
