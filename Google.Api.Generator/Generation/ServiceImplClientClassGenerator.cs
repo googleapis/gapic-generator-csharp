@@ -79,7 +79,7 @@ namespace Google.Api.Generator.Generation
                 var modifyApiCallGeneric = ModifyApiCallGenericPartialMethods().ToArray();
                 var modifyApiCallPerMethod = ModifyPerMethodApiCallPartialMethods().ToArray();
                 var onCtor = OnConstruction();
-                var ctor = CtorGrpcClient(grpcClient, onCtor, modifyApiCallGeneric.First());
+                var ctor = CtorGrpcClient(grpcClient, onCtor, modifyApiCallGeneric.First()).ToArray();
                 var mixIns = Mixins().ToArray();
                 var modifyRequestMethods = ModifyRequestMethods().ToArray();
                 cls = cls.AddMembers(apiCallFields);
@@ -97,14 +97,50 @@ namespace Google.Api.Generator.Generation
 
         private IEnumerable<FieldDeclarationSyntax> ApiCallFields() => _svc.Methods.Select(m => ApiCallField(_ctx, m));
 
-        private MemberDeclarationSyntax CtorGrpcClient(PropertyDeclarationSyntax grpcClientProperty, MethodDeclarationSyntax onCtor, MethodDeclarationSyntax modifyApiCall)
+        public static FieldDeclarationSyntax ResumableUploadApiCallField(SourceFileContext ctx, MethodDetails.ResumableUpload method)
+        {
+        private IEnumerable<MemberDeclarationSyntax> CtorGrpcClient(PropertyDeclarationSyntax grpcClientProperty, MethodDeclarationSyntax onCtor, MethodDeclarationSyntax modifyApiCall)
         {
             var grpcClient = Parameter(_ctx.Type(_svc.GrpcClientTyp), "grpcClient");
+            var restCallInvoker = Parameter(_ctx.Type<CallInvoker>(), "restCallInvoker");
             var settings = Parameter(_ctx.Type(_svc.SettingsTyp), "settings");
             var logger = Parameter(_ctx.Type<ILogger>(), "logger");
             var effectiveSettings = Local(_ctx.Type(_svc.SettingsTyp), "effectiveSettings");
             var clientHelper = Local(_ctx.Type<ClientHelper>(), "clientHelper");
-            return Ctor(Public, _ctx.CurrentTyp)(grpcClient, settings, logger)
+
+            if (_svc.HasResumableUploadMethods)
+            {
+                yield return Ctor(Public, _ctx.CurrentTyp)(grpcClient, restCallInvoker, settings, logger)
+                    .WithBody(
+                        grpcClientProperty.Assign(grpcClient),
+                        effectiveSettings.WithInitializer(settings.NullCoalesce(_ctx.Type(_svc.SettingsTyp).Call("GetDefault")())),
+                        clientHelper.WithInitializer(ClientHelperInitializer()),
+                        _svc.Methods.OfType<MethodDetails.StandardLro>().Select(m => StandardLroClient(m, logger)),
+                        _svc.Methods.OfType<MethodDetails.NonStandardLro>().Select(m => NonStandardLroClient(m, logger)),
+                        _svc.Mixins.Select(m => MixinClient(m, logger)),
+                        _svc.Methods.SelectMany(PerMethod),
+                        This.Call(onCtor)(grpcClient, effectiveSettings, clientHelper)
+                    )
+                    .WithXmlDoc(
+                        XmlDoc.Summary($"Constructs a client wrapper for the {_svc.DocumentationName} service, with the specified gRPC client and settings."),
+                        XmlDoc.Param(grpcClient, "The underlying gRPC client."),
+                        XmlDoc.Param(restCallInvoker, "The REST ", restCallInvoker.Type, " to use for resumable upload operations, or null."),
+                        XmlDoc.Param(settings, "The base ", settings.Type, " used within this client."),
+                        XmlDoc.Param(logger, "Optional ", logger.Type, " to use within this client.")
+                    );
+
+                yield return Ctor(Public, _ctx.CurrentTyp, ThisInitializer(grpcClient, Null, settings, logger))(grpcClient, settings, logger)
+                    .WithBody()
+                    .WithXmlDoc(
+                        XmlDoc.Summary($"Constructs a client wrapper for the {_svc.DocumentationName} service, with the specified gRPC client and settings."),
+                        XmlDoc.Param(grpcClient, "The underlying gRPC client."),
+                        XmlDoc.Param(settings, "The base ", settings.Type, " used within this client."),
+                        XmlDoc.Param(logger, "Optional ", logger.Type, " to use within this client.")
+                    );
+            }
+            else
+            {
+                yield return Ctor(Public, _ctx.CurrentTyp)(grpcClient, settings, logger)
                 .WithBody(
                     grpcClientProperty.Assign(grpcClient),
                     effectiveSettings.WithInitializer(settings.NullCoalesce(_ctx.Type(_svc.SettingsTyp).Call("GetDefault")())),
@@ -121,6 +157,7 @@ namespace Google.Api.Generator.Generation
                     XmlDoc.Param(settings, "The base ", settings.Type, " used within this client."),
                     XmlDoc.Param(logger, "Optional ", logger.Type, " to use within this client.")
                 );
+            }
 
             object ClientHelperInitializer()
             {

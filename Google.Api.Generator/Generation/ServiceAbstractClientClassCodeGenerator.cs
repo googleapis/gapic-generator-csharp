@@ -1,4 +1,4 @@
-﻿// Copyright 2019 Google Inc. All Rights Reserved.
+// Copyright 2019 Google Inc. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -64,12 +64,14 @@ namespace Google.Api.Generator.Generation
                 var channelPool = ChannelPool(serviceMetadata);
                 var createAsync = CreateAsync();
                 var create = Create();
-                var createFromCallInvoker = CreateFromCallInvoker();
+                var createFromCallInvoker = CreateFromCallInvoker().ToArray();
                 var shutdown = ShutdownDefaultChannelsAsync(channelPool, create, createAsync);
                 var grpcClient = GrpcClient();
                 cls = cls.AddMembers(
                     defaultEndpoint, defaultScopes, serviceMetadata, channelPool,
-                    createAsync, create, createFromCallInvoker, shutdown, grpcClient);
+                    createAsync, create);
+                cls = cls.AddMembers(createFromCallInvoker);
+                cls = cls.AddMembers(shutdown, grpcClient);
                 cls = cls.AddMembers(Mixins().ToArray());
                 var methods = ServiceMethodGenerator.Generate(_ctx, _svc, inAbstract: true);
                 cls = cls.AddMembers(methods.ToArray());
@@ -118,28 +120,61 @@ namespace Google.Api.Generator.Generation
 
         // This isn't strictly required; it could be moved into the builder type if we wanted.
         // That can be done later if we want, as this is an internal method.
-        private MethodDeclarationSyntax CreateFromCallInvoker()
+        private IEnumerable<MethodDeclarationSyntax> CreateFromCallInvoker()
         {
             var callInvoker = Parameter(_ctx.Type<CallInvoker>(), "callInvoker");
+            var restCallInvoker = Parameter(_ctx.Type<CallInvoker>(), "restCallInvoker");
             var settings = Parameter(_ctx.Type(_svc.SettingsTyp), "settings", @default: Null);
             var logger = Parameter(_ctx.Type<ILogger>(), "logger", @default: Null);
             var interceptor = Local(_ctx.Type<Interceptor>(), "interceptor");
             var grpcClient = Local(_ctx.Type(_svc.GrpcClientTyp), "grpcClient");
-            return Method(Internal | Static, _ctx.CurrentType, "Create")(callInvoker, settings, logger)
-                .WithBody(
-                    _ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(callInvoker, Nameof(callInvoker)),
-                    interceptor.WithInitializer(settings.Access("Interceptor", conditional: true)),
-                    If(interceptor.NotEqualTo(Null)).Then(
-                        callInvoker.Assign(_ctx.Type(typeof(CallInvokerExtensions)).Call(nameof(CallInvokerExtensions.Intercept))(callInvoker, interceptor))),
-                    grpcClient.WithInitializer(New(_ctx.Type(_svc.GrpcClientTyp))(callInvoker)),
-                    Return(New(_ctx.Type(_svc.ClientImplTyp))(grpcClient, settings, logger))
-                )
-                .WithXmlDoc(
-                    XmlDoc.Summary("Creates a ", _ctx.CurrentType, " which uses the specified call invoker for remote operations."),
-                    XmlDoc.Param(callInvoker, "The ", callInvoker.Type, " for remote operations. Must not be null."),
-                    XmlDoc.Param(settings, "Optional ", settings.Type, "."),
-                    XmlDoc.Param(logger, "Optional ", logger.Type, "."),
-                    XmlDoc.Returns("The created ", _ctx.CurrentType, "."));
+
+            if (_svc.HasResumableUploadMethods)
+            {
+                yield return Method(Internal | Static, _ctx.CurrentType, "Create")(callInvoker, restCallInvoker, settings, logger)
+                    .WithBody(
+                        _ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(callInvoker, Nameof(callInvoker)),
+                        interceptor.WithInitializer(settings.Access("Interceptor", conditional: true)),
+                        If(interceptor.NotEqualTo(Null)).Then(
+                            callInvoker.Assign(_ctx.Type(typeof(CallInvokerExtensions)).Call(nameof(CallInvokerExtensions.Intercept))(callInvoker, interceptor))),
+                        grpcClient.WithInitializer(New(_ctx.Type(_svc.GrpcClientTyp))(callInvoker)),
+                        Return(New(_ctx.Type(_svc.ClientImplTyp))(grpcClient, restCallInvoker, settings, logger))
+                    )
+                    .WithXmlDoc(
+                        XmlDoc.Summary("Creates a ", _ctx.CurrentType, " which uses the specified call invoker for remote operations."),
+                        XmlDoc.Param(callInvoker, "The ", callInvoker.Type, " for remote operations. Must not be null."),
+                        XmlDoc.Param(restCallInvoker, "The optional REST ", restCallInvoker.Type, " for resumable upload operations."),
+                        XmlDoc.Param(settings, "Optional ", settings.Type, "."),
+                        XmlDoc.Param(logger, "Optional ", logger.Type, "."),
+                        XmlDoc.Returns("The created ", _ctx.CurrentType, "."));
+
+                yield return Method(Internal | Static, _ctx.CurrentType, "Create")(callInvoker, settings, logger)
+                    .WithBody(Return(This.Call("Create")(callInvoker, Null, settings, logger)))
+                    .WithXmlDoc(
+                        XmlDoc.Summary("Creates a ", _ctx.CurrentType, " which uses the specified call invoker for remote operations."),
+                        XmlDoc.Param(callInvoker, "The ", callInvoker.Type, " for remote operations. Must not be null."),
+                        XmlDoc.Param(settings, "Optional ", settings.Type, "."),
+                        XmlDoc.Param(logger, "Optional ", logger.Type, "."),
+                        XmlDoc.Returns("The created ", _ctx.CurrentType, "."));
+            }
+            else
+            {
+                yield return Method(Internal | Static, _ctx.CurrentType, "Create")(callInvoker, settings, logger)
+                    .WithBody(
+                        _ctx.Type(typeof(GaxPreconditions)).Call(nameof(GaxPreconditions.CheckNotNull))(callInvoker, Nameof(callInvoker)),
+                        interceptor.WithInitializer(settings.Access("Interceptor", conditional: true)),
+                        If(interceptor.NotEqualTo(Null)).Then(
+                            callInvoker.Assign(_ctx.Type(typeof(CallInvokerExtensions)).Call(nameof(CallInvokerExtensions.Intercept))(callInvoker, interceptor))),
+                        grpcClient.WithInitializer(New(_ctx.Type(_svc.GrpcClientTyp))(callInvoker)),
+                        Return(New(_ctx.Type(_svc.ClientImplTyp))(grpcClient, settings, logger))
+                    )
+                    .WithXmlDoc(
+                        XmlDoc.Summary("Creates a ", _ctx.CurrentType, " which uses the specified call invoker for remote operations."),
+                        XmlDoc.Param(callInvoker, "The ", callInvoker.Type, " for remote operations. Must not be null."),
+                        XmlDoc.Param(settings, "Optional ", settings.Type, "."),
+                        XmlDoc.Param(logger, "Optional ", logger.Type, "."),
+                        XmlDoc.Returns("The created ", _ctx.CurrentType, "."));
+            }
         }
 
         private MethodDeclarationSyntax CreateAsync()
