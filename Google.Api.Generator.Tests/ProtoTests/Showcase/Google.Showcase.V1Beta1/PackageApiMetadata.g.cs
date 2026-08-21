@@ -91,6 +91,7 @@ namespace Google.Showcase.V1Beta1
             yield return EchoReflection.Descriptor;
             yield return IdentityReflection.Descriptor;
             yield return MessagingReflection.Descriptor;
+            yield return ResumableUploadReflection.Descriptor;
             yield return SequenceReflection.Descriptor;
             yield return TestingReflection.Descriptor;
         }

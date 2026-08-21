@@ -316,7 +316,7 @@ namespace Google.Api.Generator.Tests
         public void ResumableUpload() => ProtoTestSingle(testProtoNames: new[] { "ResumableUpload" }, package: "google.ads.googleads.v23.services", ignoreCsProj: true, ignoreSnippets: true, ignoreApiMetadataFile: false, transports: ApiTransports.Grpc | ApiTransports.Rest);
 
         [Fact]
-        public void Showcase() => ProtoTestSingle(testProtoNames: new[] { "compliance", "echo", "identity", "messaging", "sequence", "testing" },
+        public void Showcase() => ProtoTestSingle(testProtoNames: new[] { "compliance", "echo", "identity", "messaging", "resumable_upload", "sequence", "testing" },
             sourceDir: "Showcase/google/showcase/v1beta1",
             outputDir: "Showcase",
             package: "google.showcase.v1beta1",
@@ -337,7 +337,7 @@ namespace Google.Api.Generator.Tests
             CultureInfo.CurrentUICulture = new CultureInfo("fr-FR");
             try
             {
-                ProtoTestSingle(testProtoNames: new[] { "compliance", "echo", "identity", "messaging", "sequence", "testing" },
+                ProtoTestSingle(testProtoNames: new[] { "compliance", "echo", "identity", "messaging", "resumable_upload", "sequence", "testing" },
                     sourceDir: "Showcase/google/showcase/v1beta1",
                     outputDir: "Showcase",
                     package: "google.showcase.v1beta1",
