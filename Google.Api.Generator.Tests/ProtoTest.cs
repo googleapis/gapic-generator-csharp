@@ -313,6 +313,9 @@ namespace Google.Api.Generator.Tests
         public void Editions() => ProtoTestSingle(testProtoNames: new[] { "Edition2023" }, sourceDir: "Editions", ignoreCsProj: true, ignoreSnippets: true);
 
         [Fact]
+        public void ResumableUpload() => ProtoTestSingle(testProtoNames: new[] { "ResumableUpload" }, package: "google.ads.googleads.v23.services", ignoreCsProj: true, ignoreSnippets: true, ignoreApiMetadataFile: false, transports: ApiTransports.Grpc | ApiTransports.Rest);
+
+        [Fact]
         public void Showcase() => ProtoTestSingle(testProtoNames: new[] { "compliance", "echo", "identity", "messaging", "sequence", "testing" },
             sourceDir: "Showcase/google/showcase/v1beta1",
             outputDir: "Showcase",
