@@ -158,6 +158,42 @@ namespace Microsoft.Extensions.DependencyInjection
                 return builder.Build(provider);
             });
 
+        /// <summary>
+        /// Adds a singleton <see cref="gsv::ResumableUploadServiceClient"/> to <paramref name="services"/>.
+        /// </summary>
+        /// <param name="services">
+        /// The service collection to add the client to. The services are used to configure the client when requested.
+        /// </param>
+        /// <param name="action">
+        /// An optional action to invoke on the client builder. This is invoked before services from
+        /// <paramref name="services"/> are used.
+        /// </param>
+        public static IServiceCollection AddResumableUploadServiceClient(this IServiceCollection services, sys::Action<gsv::ResumableUploadServiceClientBuilder> action = null) =>
+            services.AddSingleton(provider =>
+            {
+                gsv::ResumableUploadServiceClientBuilder builder = new gsv::ResumableUploadServiceClientBuilder();
+                action?.Invoke(builder);
+                return builder.Build(provider);
+            });
+
+        /// <summary>
+        /// Adds a singleton <see cref="gsv::ResumableUploadServiceClient"/> to <paramref name="services"/>.
+        /// </summary>
+        /// <param name="services">
+        /// The service collection to add the client to. The services are used to configure the client when requested.
+        /// </param>
+        /// <param name="action">
+        /// An optional action to invoke on the client builder. This is invoked before services from
+        /// <paramref name="services"/> are used.
+        /// </param>
+        public static IServiceCollection AddResumableUploadServiceClient(this IServiceCollection services, sys::Action<sys::IServiceProvider, gsv::ResumableUploadServiceClientBuilder> action) =>
+            services.AddSingleton(provider =>
+            {
+                gsv::ResumableUploadServiceClientBuilder builder = new gsv::ResumableUploadServiceClientBuilder();
+                action?.Invoke(provider, builder);
+                return builder.Build(provider);
+            });
+
         /// <summary>Adds a singleton <see cref="gsv::SequenceServiceClient"/> to <paramref name="services"/>.</summary>
         /// <param name="services">
         /// The service collection to add the client to. The services are used to configure the client when requested.
