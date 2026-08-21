@@ -1,4 +1,4 @@
-﻿// Copyright 2019 Google Inc. All Rights Reserved.
+// Copyright 2019 Google Inc. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,6 +14,7 @@
 
 using Google.Api.Gax;
 using Google.Api.Gax.Grpc;
+using Google.Api.Gax.Grpc.Rest;
 using Google.Api.Generator.ProtoUtils;
 using Google.Api.Generator.Utils;
 using Google.Api.Generator.Utils.Roslyn;
@@ -56,6 +57,9 @@ namespace Google.Api.Generator.Generation
             {
                 switch (method.MethodDetails)
                 {
+                    case MethodDetails.ResumableUpload _:
+                        yield return method.AbstractResumableUploadMethod;
+                        break;
                     case MethodDetails.Normal _:
                         yield return method.AbstractSyncRequestMethod;
                         yield return method.AbstractAsyncCallSettingsRequestMethod;
@@ -134,6 +138,9 @@ namespace Google.Api.Generator.Generation
             {
                 switch (method.MethodDetails)
                 {
+                    case MethodDetails.ResumableUpload _:
+                        yield return method.ImplResumableUploadMethod;
+                        break;
                     case MethodDetails.Normal _:
                         yield return method.ImplSyncRequestMethod;
                         yield return method.ImplAsyncCallSettingsRequestMethod;
@@ -182,6 +189,7 @@ namespace Google.Api.Generator.Generation
             public MethodDetails.BidiStreaming MethodDetailsBidiStream => (MethodDetails.BidiStreaming) MethodDetails;
             public MethodDetails.ClientStreaming MethodDetailsClientStream => (MethodDetails.ClientStreaming) MethodDetails;
             public MethodDetails.ServerStreaming MethodDetailsServerStream => (MethodDetails.ServerStreaming) MethodDetails;
+            public MethodDetails.ResumableUpload MethodDetailsResumableUpload => (MethodDetails.ResumableUpload) MethodDetails;
 
             private MethodDeclarationSyntax ModifyRequestMethod => ServiceImplClientClassGenerator.ModifyRequestPartialMethod(Ctx, MethodDetails);
             private FieldDeclarationSyntax ApiCallField => ServiceImplClientClassGenerator.ApiCallField(Ctx, MethodDetails);
@@ -213,6 +221,8 @@ namespace Google.Api.Generator.Generation
             private DocumentationCommentTriviaSyntax ReturnsServerStreamingXmlDoc => XmlDoc.Returns("The server stream.");
             private DocumentationCommentTriviaSyntax ClientStreamingSettingsXmlDoc => XmlDoc.Param(ClientStreamingSettingsParam, "If not null, applies streaming overrides to this RPC call.");
             private DocumentationCommentTriviaSyntax ReturnsClientStreamingXmlDoc => XmlDoc.Returns("The client stream.");
+            private DocumentationCommentTriviaSyntax ResumableUploadSummaryXmlDoc => XmlDoc.Summary("Creates a ", Ctx.Type(MethodDetails.SyncReturnTyp), " for resumable upload calls to ", XmlDoc.C(MethodDetails.SyncMethodName), ".");
+            private DocumentationCommentTriviaSyntax ReturnsResumableUploadXmlDoc => XmlDoc.Returns("A new ", Ctx.Type(MethodDetails.SyncReturnTyp), " instance.");
 
             // Base abstract members.
 
@@ -233,6 +243,21 @@ namespace Google.Api.Generator.Generation
                     .MaybeWithAttribute(MethodDetails.IsDeprecated, () => Ctx.Type<ObsoleteAttribute>())()
                     .WithBody(This.Call(AbstractAsyncCallSettingsRequestMethod)(RequestParam, Ctx.Type<CallSettings>().Call(nameof(CallSettings.FromCancellationToken))(CancellationTokenParam)))
                     .WithXmlDoc(SummaryXmlDoc, RequestXmlDoc, CancellationTokenXmlDoc, ReturnsAsyncXmlDoc);
+
+            public MethodDeclarationSyntax AbstractResumableUploadMethod =>
+                Method(Public | Virtual, Ctx.Type(MethodDetails.SyncReturnTyp), MethodDetails.SyncMethodName)()
+                    .MaybeWithAttribute(MethodDetails.IsDeprecated, () => Ctx.Type<ObsoleteAttribute>())()
+                    .WithBody(Throw(New(Ctx.Type<NotImplementedException>())()))
+                    .WithXmlDoc(ResumableUploadSummaryXmlDoc, ReturnsResumableUploadXmlDoc);
+
+            public MethodDeclarationSyntax ImplResumableUploadMethod =>
+                Method(Public | Override, Ctx.Type(MethodDetails.SyncReturnTyp), MethodDetails.SyncMethodName)()
+                    .MaybeWithAttribute(MethodDetails.IsDeprecated, () => Ctx.Type<ObsoleteAttribute>())()
+                    .WithBody(
+                        If(Microsoft.CodeAnalysis.CSharp.SyntaxFactory.IdentifierName(MethodDetails.ApiCallFieldName).EqualTo(Null)).Then(
+                            Throw(New(Ctx.Type<InvalidOperationException>())("Resumable uploads require REST transport support / RestCallInvoker."))),
+                        Return(ApiCallField.Call(MethodDetailsResumableUpload.CreateSessionMethodName)()))
+                    .WithXmlDoc(ResumableUploadSummaryXmlDoc, ReturnsResumableUploadXmlDoc);
 
             // Base impl members.
 
