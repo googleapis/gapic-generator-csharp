@@ -1,4 +1,4 @@
-﻿// Copyright 2019 Google Inc. All Rights Reserved.
+// Copyright 2019 Google Inc. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ namespace Google.Api.Generator.Generation
 {
     internal static class CsProjGenerator
     {
-        private const string GaxGrpcVersion = "[4.13.1, 5.0.0)";
+        private const string GaxGrpcVersion = "[4.15.0, 5.0.0)";
         private const string GrpcCoreVersion = "[2.46.6, 3.0.0)";
         private const string LroVersion = "[3.5.0, 4.0.0)";
         private const string IamVersion = "[3.5.0, 4.0.0)";
