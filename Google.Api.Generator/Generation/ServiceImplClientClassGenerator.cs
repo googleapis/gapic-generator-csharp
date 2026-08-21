@@ -1,4 +1,4 @@
-﻿// Copyright 2019 Google Inc. All Rights Reserved.
+// Copyright 2019 Google Inc. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,12 +13,14 @@
 // limitations under the License.
 
 using Google.Api.Gax.Grpc;
+using Google.Api.Gax.Grpc.Rest;
 using Google.Api.Generator.ProtoUtils;
 using Google.Api.Generator.Utils;
 using Google.Api.Generator.Utils.Roslyn;
 using Google.LongRunning;
 using Google.Protobuf;
 using Google.Protobuf.Reflection;
+using Grpc.Core;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -97,8 +99,6 @@ namespace Google.Api.Generator.Generation
 
         private IEnumerable<FieldDeclarationSyntax> ApiCallFields() => _svc.Methods.Select(m => ApiCallField(_ctx, m));
 
-        public static FieldDeclarationSyntax ResumableUploadApiCallField(SourceFileContext ctx, MethodDetails.ResumableUpload method)
-        {
         private IEnumerable<MemberDeclarationSyntax> CtorGrpcClient(PropertyDeclarationSyntax grpcClientProperty, MethodDeclarationSyntax onCtor, MethodDeclarationSyntax modifyApiCall)
         {
             var grpcClient = Parameter(_ctx.Type(_svc.GrpcClientTyp), "grpcClient");
@@ -141,22 +141,22 @@ namespace Google.Api.Generator.Generation
             else
             {
                 yield return Ctor(Public, _ctx.CurrentTyp)(grpcClient, settings, logger)
-                .WithBody(
-                    grpcClientProperty.Assign(grpcClient),
-                    effectiveSettings.WithInitializer(settings.NullCoalesce(_ctx.Type(_svc.SettingsTyp).Call("GetDefault")())),
-                    clientHelper.WithInitializer(ClientHelperInitializer()),
-                    _svc.Methods.OfType<MethodDetails.StandardLro>().Select(m => StandardLroClient(m, logger)),
-                    _svc.Methods.OfType<MethodDetails.NonStandardLro>().Select(m => NonStandardLroClient(m, logger)),
-                    _svc.Mixins.Select(m => MixinClient(m, logger)),
-                    _svc.Methods.SelectMany(PerMethod),
-                    This.Call(onCtor)(grpcClient, effectiveSettings, clientHelper)
-                )
-                .WithXmlDoc(
-                    XmlDoc.Summary($"Constructs a client wrapper for the {_svc.DocumentationName} service, with the specified gRPC client and settings."),
-                    XmlDoc.Param(grpcClient, "The underlying gRPC client."),
-                    XmlDoc.Param(settings, "The base ", settings.Type, " used within this client."),
-                    XmlDoc.Param(logger, "Optional ", logger.Type, " to use within this client.")
-                );
+                    .WithBody(
+                        grpcClientProperty.Assign(grpcClient),
+                        effectiveSettings.WithInitializer(settings.NullCoalesce(_ctx.Type(_svc.SettingsTyp).Call("GetDefault")())),
+                        clientHelper.WithInitializer(ClientHelperInitializer()),
+                        _svc.Methods.OfType<MethodDetails.StandardLro>().Select(m => StandardLroClient(m, logger)),
+                        _svc.Methods.OfType<MethodDetails.NonStandardLro>().Select(m => NonStandardLroClient(m, logger)),
+                        _svc.Mixins.Select(m => MixinClient(m, logger)),
+                        _svc.Methods.SelectMany(PerMethod),
+                        This.Call(onCtor)(grpcClient, effectiveSettings, clientHelper)
+                    )
+                    .WithXmlDoc(
+                        XmlDoc.Summary($"Constructs a client wrapper for the {_svc.DocumentationName} service, with the specified gRPC client and settings."),
+                        XmlDoc.Param(grpcClient, "The underlying gRPC client."),
+                        XmlDoc.Param(settings, "The base ", settings.Type, " used within this client."),
+                        XmlDoc.Param(logger, "Optional ", logger.Type, " to use within this client.")
+                    );
             }
 
             object ClientHelperInitializer()
@@ -197,9 +197,17 @@ namespace Google.Api.Generator.Generation
             IEnumerable<SyntaxNode> PerMethod(MethodDetails method)
             {
                 var apiCallField = ApiCallField(_ctx, method);
-                // Initialize ApiCall field.
                 switch (method)
                 {
+                    case MethodDetails.ResumableUpload methodResumable:
+                        var fieldInitResumable = clientHelper.Call(nameof(ClientHelper.BuildResumableUploadCall), _ctx.Type(methodResumable.RequestTyp), _ctx.Type(methodResumable.ResponseTyp))(
+                            _svc.ServiceFullName,
+                            methodResumable.ProtoRpcName,
+                            restCallInvoker,
+                            effectiveSettings.Access(methodResumable.SettingsName),
+                            effectiveSettings.Access(methodResumable.ResumableUploadSettingsName));
+                        yield return If(restCallInvoker.NotEqualTo(Null)).Then(apiCallField.Assign(fieldInitResumable));
+                        yield break;
                     case MethodDetails.BidiStreaming methodBidi:
                         var fieldInitBidi = clientHelper.MaybeObsoleteCall(nameof(ClientHelper.BuildApiCall), method.IsDeprecated, _ctx.Type(method.RequestTyp), _ctx.Type(method.ResponseTyp))(
                             method.ProtoRpcName, grpcClient.Access(method.SyncMethodName), effectiveSettings.Access(method.SettingsName), effectiveSettings.Access(methodBidi.StreamingSettingsName));
