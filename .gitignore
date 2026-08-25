@@ -11,3 +11,7 @@ bazel-*
 tmp
 launchSettings.json
 .cr/
+/gapic-showcase
+/gapic-showcase.exe
+/showcase.pid
+/showcase.log
