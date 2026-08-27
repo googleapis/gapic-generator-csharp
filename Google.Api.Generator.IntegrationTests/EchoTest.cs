@@ -62,8 +62,9 @@ namespace Google.Api.Generator.IntegrationTests
             Assert.Equal("fr-CH", localizedMessage.Locale);
             Assert.Equal("This LocalizedMessage should be treated specially", localizedMessage.Message);
 
-            // TODO: Add a NotNull assert for custom errors once b/416042532 is resolved
-            Assert.Null(e.GetStatusDetail<PoetryError>());
+            // TODO: Remove skip for REST once b/416042532 is resolved.
+            Skip.If(this is EchoRestTest, "Custom error details are not yet unpacked for REST (b/416042532)");
+            Assert.NotNull(e.GetStatusDetail<PoetryError>());
         }
 
         // Note: header testing is currently at least tricky. (It may be feasible for a gRPC interceptor.)
