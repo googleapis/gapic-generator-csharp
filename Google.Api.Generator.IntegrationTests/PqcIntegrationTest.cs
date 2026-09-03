@@ -33,7 +33,7 @@ namespace Google.Api.Generator.IntegrationTests
         /// <summary>
         /// Ensures raw gRPC metadata negotiated a post-quantum MLKEM curve.
         /// </summary>
-        [SkippableFact]
+        [SkippableFact(Skip = "b/524321047")]
         public async Task TestPqcGrpcNegotiation()
         {
             Skip.If(string.IsNullOrEmpty(s_showcaseEndpoint), "PQC negotiation test requires the SHOWCASE_ENDPOINT environment variable to be set.");
@@ -74,7 +74,7 @@ namespace Google.Api.Generator.IntegrationTests
         /// <summary>
         /// Ensures native HTTP headers negotiated a post-quantum MLKEM curve.
         /// </summary>
-        [SkippableFact]
+        [SkippableFact(Skip = "b/524321418")]
         public async Task TestPqcRestNegotiation()
         {
             Skip.If(string.IsNullOrEmpty(s_showcaseEndpoint), "PQC negotiation test requires the SHOWCASE_ENDPOINT environment variable to be set.");
