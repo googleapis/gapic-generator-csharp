@@ -416,7 +416,13 @@ namespace Google.Api.Generator.Utils.Roslyn
         public static SimpleNameSyntax MaybeWithPragmaDisableObsoleteWarning(this SimpleNameSyntax syntax, bool obsolete) =>
             obsolete ? syntax.WithPragmaWarning(PragmaWarnings.Obsolete) : syntax;
 
+        public static PropertyDeclarationSyntax MaybeWithPragmaDisableObsoleteWarning(this PropertyDeclarationSyntax syntax, bool obsolete) =>
+            obsolete ? syntax.WithPragmaWarning(PragmaWarnings.Obsolete) : syntax;
+
         public static SimpleNameSyntax WithPragmaWarning(this SimpleNameSyntax syntax, string errorCode) =>
+            syntax.WithIdentifier(syntax.Identifier.WithPragmaWarning(errorCode));
+
+        public static PropertyDeclarationSyntax WithPragmaWarning(this PropertyDeclarationSyntax syntax, string errorCode) =>
             syntax.WithIdentifier(syntax.Identifier.WithPragmaWarning(errorCode));
 
         public static SyntaxToken WithPragmaWarning(this SyntaxToken token, string errorCode) =>
