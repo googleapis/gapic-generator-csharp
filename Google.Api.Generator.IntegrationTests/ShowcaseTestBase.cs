@@ -1,4 +1,4 @@
-﻿// Copyright 2022 Google LLC
+// Copyright 2022 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,6 +16,8 @@ using Google.Api.Gax.Grpc;
 using Google.Api.Gax.Grpc.Rest;
 using Grpc.Core;
 using System;
+using System.Net.Http;
+using System.Reflection;
 using Xunit;
 
 namespace Google.Api.Generator.IntegrationTests
@@ -55,12 +57,57 @@ namespace Google.Api.Generator.IntegrationTests
             string endpoint = Environment.GetEnvironmentVariable("SHOWCASE_ENDPOINT");
             Skip.If(string.IsNullOrEmpty(endpoint));
 
-            return new TBuilder
+            var builder = new TBuilder
             {
                 GrpcAdapter = _adapter,
                 Endpoint = endpoint,
-                ChannelCredentials = ChannelCredentials.Insecure
-            }.Build();
+                // Use TLS credentials for Showcase's HTTPS endpoint.
+                ChannelCredentials = ChannelCredentials.SecureSsl
+            };
+            var client = builder.Build();
+            AcceptAnyCertificate(builder.LastCreatedChannel);
+            return client;
+        }
+
+        private static void AcceptAnyCertificate(ChannelBase channel)
+        {
+            if (channel is null)
+            {
+                return;
+            }
+            // No functionality is exposed to modify the internal HTTP handler to bypass certificate validation.
+            // Using reflection allows us to avoid installing the Showcase certificate into the OS root store;
+            // TLS encryption still occurs, we just skip verifying the certificate's Certificate Authority.
+            var invoker = (channel.GetType().GetField("_httpClient", BindingFlags.Instance | BindingFlags.NonPublic)
+                ?? channel.GetType().GetField("<HttpInvoker>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic))
+                ?.GetValue(channel) as HttpMessageInvoker;
+
+            var handler = invoker is null
+                ? null
+                : typeof(HttpMessageInvoker).GetField("_handler", BindingFlags.Instance | BindingFlags.NonPublic)?.GetValue(invoker);
+
+            // Unwrap any DelegatingHandler layers
+            while (handler is DelegatingHandler delegating)
+            {
+                handler = delegating.InnerHandler;
+            }
+
+            if (handler is null)
+            {
+                throw new InvalidOperationException($"Failed to retrieve the internal HTTP handler via reflection for channel type: {channel.GetType().FullName}");
+            }
+
+            switch (handler)
+            {
+                case SocketsHttpHandler socketsHandler: // Used by GrpcChannel
+                    socketsHandler.SslOptions.RemoteCertificateValidationCallback = (_, _, _, _) => true;
+                    break;
+                case HttpClientHandler httpClientHandler: // Used by RestChannel
+                    httpClientHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+                    break;
+                default:
+                    throw new InvalidOperationException($"Unsupported HTTP handler type: {handler.GetType().FullName}");
+            }
         }
     }
 }

@@ -29,16 +29,10 @@ cleanup() {
 }
 trap cleanup EXIT
 
-echo "Setup GAPIC Showcase for standard integration tests"
-./startshowcase.sh --port :7469
-
-export SHOWCASE_ENDPOINT=http://localhost:7469
-dotnet test $DOTNET_TEST_ARGS Google.Api.Generator.IntegrationTests
-
-echo "Setup GAPIC Showcase with TLS for PQC integration tests"
+echo "Setup GAPIC Showcase with TLS for integration tests"
 ./startshowcase.sh --port :7469 --tls
 
 export SHOWCASE_ENDPOINT=https://localhost:7469
-dotnet test $DOTNET_TEST_ARGS Google.Api.Generator.IntegrationTests --filter "FullyQualifiedName~Pqc"
+dotnet test $DOTNET_TEST_ARGS Google.Api.Generator.IntegrationTests
 
 echo "Integration testing completed"
