@@ -22,6 +22,10 @@ namespace Google.Api.Generator.Rest.Models
     /// </summary>
     internal static class Naming
     {
+        internal const string WildcardSegment = "-";
+        internal const string WildcardMemberName = "Wildcard";
+        internal const string WildcardVariableName = "wildcard";
+
         /// <summary>
         /// Creates a member name from the given name in the discovery doc.
         /// This is generally just the upper-camel-case version of the name,
@@ -29,6 +33,10 @@ namespace Google.Api.Generator.Rest.Models
         /// </summary>
         internal static string ToMemberName(this string name, bool addUnderscoresToEscape = true)
         {
+            if (name == WildcardSegment)
+            {
+                return WildcardMemberName;
+            }
             if (char.IsDigit(name[0]))
             {
                 name = "Value" + name;
@@ -74,6 +82,10 @@ namespace Google.Api.Generator.Rest.Models
         /// </summary>
         internal static string ToLocalVariableName(this string name, PackageModel package)
         {
+            if (name == WildcardSegment)
+            {
+                return WildcardVariableName;
+            }
             string lowerCamel = name.ToLowerCamelCase();
             return Keywords.IsKeyword(lowerCamel) ? package.ApiName + name.ToUpperCamelCase() : lowerCamel;
         }

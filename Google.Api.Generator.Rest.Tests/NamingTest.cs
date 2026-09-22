@@ -31,5 +31,19 @@ namespace Google.Api.Generator.Rest.Tests
             Assert.NotEqual(escapedName, name, StringComparer.OrdinalIgnoreCase);
             Assert.False(Keywords.IsReservedName(escapedName));
         }
+
+        [Fact]
+        public void WildcardHyphenToMemberName()
+        {
+            Assert.Equal(Naming.WildcardMemberName, Naming.ToMemberName(Naming.WildcardSegment));
+            Assert.Equal("Wildcard", Naming.WildcardMemberName);
+        }
+
+        [Fact]
+        public void WildcardHyphenToLocalVariableName()
+        {
+            Assert.Equal(Naming.WildcardVariableName, Naming.ToLocalVariableName(Naming.WildcardSegment, null));
+            Assert.Equal("wildcard", Naming.WildcardVariableName);
+        }
     }
 }

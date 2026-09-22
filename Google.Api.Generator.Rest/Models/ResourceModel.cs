@@ -74,8 +74,10 @@ namespace Google.Api.Generator.Rest.Models
             using (ctx.InClass(Typ))
             {
                 // TODO: validate that lower camel case is the right option here.
+                // AIP-159 wildcard resource collections use "-" as the collection identifier.
+                // ToLowerCamelCase would strip non-alphanumeric characters, reducing "-" to an empty string.
                 var resourceString = Field(Modifier.Private | Modifier.Const, ctx.Type<string>(), "Resource")
-                    .WithInitializer(Name.ToLowerCamelCase(upperAfterDigit: null));
+                    .WithInitializer(Name == Naming.WildcardSegment ? Naming.WildcardSegment : Name.ToLowerCamelCase(upperAfterDigit: null));
 
                 var service = Field(Modifier.Private | Modifier.Readonly, ctx.Type<IClientService>(), "service")
                     .WithXmlDoc(XmlDoc.Summary("The service which this resource belongs to."));
