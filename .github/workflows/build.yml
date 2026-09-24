@@ -23,3 +23,47 @@ jobs:
         dotnet build
         dotnet test Google.Api.Generator.Tests --logger:"console;noprogress=true"
         dotnet test Google.Api.Generator.Rest.Tests --logger:"console;noprogress=true"
+
+  integration-tests:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    env:
+      DOTNET_NOLOGO: true
+
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      with:
+        submodules: true
+        persist-credentials: false
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6
+      with:
+        dotnet-version: 8.0.x
+
+    # Ubuntu 24.04 ships with OpenSSL 3.0 (no ML-KEM). Unpack Debian's OpenSSL 3.5+ to LD_LIBRARY_PATH.
+    - name: Enable PQC OpenSSL on Linux
+      if: runner.os == 'Linux'
+      run: |
+        DEB=$(curl -s http://deb.debian.org/debian/pool/main/o/openssl/ | grep -o 'libssl3t64_[^"]*_amd64.deb' | sort -V | tail -n 1)
+        curl -sLO "http://deb.debian.org/debian/pool/main/o/openssl/$DEB"
+        dpkg -x "$DEB" /tmp/openssl-pqc
+        echo "LD_LIBRARY_PATH=/tmp/openssl-pqc/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH" >> $GITHUB_ENV
+
+    # Clear Group Policy curve restrictions and enable ML-KEM in SChannel.
+    - name: Enable PQC on Windows
+      if: runner.os == 'Windows'
+      shell: powershell
+      run: |
+        Remove-Item "HKLM:\SOFTWARE\Policies\Microsoft\Cryptography" -Recurse -Force -ErrorAction SilentlyContinue
+        Enable-TlsEccCurve -Name "x25519_mlkem768" -Position 1
+
+    # Strict PQC mode guards against CI environment regressions if ML-KEM support breaks.
+    - name: Run Integration Tests
+      shell: bash
+      env:
+        SHOWCASE_STRICT_PQC: "true"
+      run: ./runintegrationtests.sh
+
