@@ -21,6 +21,20 @@
       "minimumReleaseAge": "7 days"
     }
   ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "fileMatch": [
+        "(^|/)startshowcase\\.sh$"
+      ],
+      "matchStrings": [
+        "SHOWCASE_VERSION=\"(?<currentValue>.*?)\""
+      ],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "googleapis/gapic-showcase",
+      "extractVersionTemplate": "^v?(?<version>.+)$"
+    }
+  ],
   "schedule": ["before 8am"],
   "timezone": "Europe/London"
 }
