@@ -55,12 +55,14 @@ namespace Google.Api.Generator.IntegrationTests
             string endpoint = Environment.GetEnvironmentVariable("SHOWCASE_ENDPOINT");
             Skip.If(string.IsNullOrEmpty(endpoint));
 
-            return new TBuilder
+            var builder = new TBuilder
             {
                 GrpcAdapter = _adapter,
                 Endpoint = endpoint,
-                ChannelCredentials = ChannelCredentials.Insecure
-            }.Build();
+                // Use TLS credentials for Showcase's HTTPS endpoint.
+                ChannelCredentials = ChannelCredentials.SecureSsl
+            };
+            return builder.Build();
         }
     }
 }
