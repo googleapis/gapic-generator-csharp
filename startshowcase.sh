@@ -18,15 +18,9 @@ fi
 pkill -f "gapic-showcase run" 2>/dev/null || true
 sleep 1
 
-if [ ! -f gapic-showcase ] && [ ! -f gapic-showcase.exe ]; then
-  echo "Resolving the latest GAPIC Showcase version for $OS-$ARCH..."
-  SHOWCASE_VERSION=$(curl -s https://api.github.com/repos/googleapis/gapic-showcase/releases/latest | sed -n 's/.*"tag_name": "v\([^"]*\)".*/\1/p' || true)
-  if [[ -z "$SHOWCASE_VERSION" ]]; then
-    # Fallback to known stable version if GitHub API rate limit is exceeded
-    SHOWCASE_VERSION="0.43.0"
-    echo "Warning: Failed to resolve latest GAPIC Showcase version from GitHub; falling back to v${SHOWCASE_VERSION}." >&2
-  fi
+SHOWCASE_VERSION="0.44.0"
 
+if [ ! -f gapic-showcase ] && [ ! -f gapic-showcase.exe ]; then
   echo "Downloading gapic-showcase-${SHOWCASE_VERSION}-${OS}-${ARCH}..."
   curl -sSL -f https://github.com/googleapis/gapic-showcase/releases/download/v${SHOWCASE_VERSION}/gapic-showcase-${SHOWCASE_VERSION}-${OS}-${ARCH}.tar.gz | tar -zx
 fi
@@ -35,11 +29,13 @@ if [ $# -eq 0 ]; then
   set -- --port :7469
 fi
 
+SHOWCASE_BIN="./gapic-showcase"
 if [[ "$OS" == "windows" ]]; then
-  ./gapic-showcase.exe run "$@" > showcase.log 2>&1 &
-else
-  ./gapic-showcase run "$@" > showcase.log 2>&1 &
+  SHOWCASE_BIN="./gapic-showcase.exe"
 fi
+
+echo "GAPIC Showcase version: $($SHOWCASE_BIN --version 2>&1 || true)"
+$SHOWCASE_BIN run "$@" > showcase.log 2>&1 &
 
 # Write the PID to a file so the caller can easily tear it down
 echo $! > showcase.pid
