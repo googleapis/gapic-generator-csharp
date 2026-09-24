@@ -24,8 +24,8 @@
   "customManagers": [
     {
       "customType": "regex",
-      "fileMatch": [
-        "(^|/)startshowcase\\.sh$"
+      "managerFilePatterns": [
+        "/(^|/)startshowcase\\.sh$/"
       ],
       "matchStrings": [
         "SHOWCASE_VERSION=\"(?<currentValue>.*?)\""
