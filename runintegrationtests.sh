@@ -25,20 +25,35 @@ cleanup() {
     kill "$(cat showcase.pid)" 2>/dev/null || true
     rm -f showcase.pid
   fi
-  rm -f gapic-showcase gapic-showcase.exe
+  if command -v certutil.exe >/dev/null 2>&1; then
+    echo "Cleaning up Cert Store" # will only run on windows
+    certutil -delstore Root "Showcase Auto TLS CA" >/dev/null 2>&1 || true
+    certutil -user -delstore Root "Showcase Auto TLS CA" >/dev/null 2>&1 || true
+  fi
+  rm -f showcase-ca.pem gapic-showcase gapic-showcase.exe
 }
 trap cleanup EXIT
 
-echo "Setup GAPIC Showcase for standard integration tests"
-./startshowcase.sh --port :7469
+echo "Setup GAPIC Showcase with TLS for integration tests"
+./startshowcase.sh --port :7469 --tls --ca-cert-output-file showcase-ca.pem
 
-export SHOWCASE_ENDPOINT=http://localhost:7469
-dotnet test $DOTNET_TEST_ARGS Google.Api.Generator.IntegrationTests
+# We need to wait for the showcase cert to be created before running tests
+# that relies on tls
+for i in {1..50}; do
+  [ -s showcase-ca.pem ] && break
+  sleep 0.1
+done
 
-echo "Setup GAPIC Showcase with TLS for PQC integration tests"
-./startshowcase.sh --port :7469 --tls
+# Trust Showcase's self-signed CA for TLS:
+# - Linux/macOS: .NET OpenSSL honors SSL_CERT_FILE without modifying OS stores.
+# - Windows: SChannel requires importing the CA (LocalMachine for elevated CI, CurrentUser for local dev).
+if [[ "$OSTYPE" == "linux-gnu"* || "$OSTYPE" == "darwin"* ]]; then
+  export SSL_CERT_FILE="$PWD/showcase-ca.pem"
+else
+  certutil -f -addstore Root showcase-ca.pem >/dev/null 2>&1 || certutil -user -f -addstore Root showcase-ca.pem >/dev/null 2>&1 || true
+fi
 
 export SHOWCASE_ENDPOINT=https://localhost:7469
-dotnet test $DOTNET_TEST_ARGS Google.Api.Generator.IntegrationTests --filter "FullyQualifiedName~Pqc"
+dotnet test $DOTNET_TEST_ARGS Google.Api.Generator.IntegrationTests
 
 echo "Integration testing completed"
