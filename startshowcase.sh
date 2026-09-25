@@ -18,7 +18,7 @@ fi
 pkill -f "gapic-showcase run" 2>/dev/null || true
 sleep 1
 
-SHOWCASE_VERSION="0.44.0"
+SHOWCASE_VERSION="0.44.2"
 
 if [ ! -f gapic-showcase ] && [ ! -f gapic-showcase.exe ]; then
   echo "Downloading gapic-showcase-${SHOWCASE_VERSION}-${OS}-${ARCH}..."

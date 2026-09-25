@@ -26,7 +26,7 @@ namespace Google.Api.Generator.IntegrationTests
 {
     public abstract class ResumableUploadTestBase : ShowcaseTestBase<ResumableUploadServiceClient, ResumableUploadServiceClientBuilder>
     {
-        [SkippableFact(Skip = "b/556694369")]
+        [Fact]
         public async Task UploadMedia_Simple()
         {
             var client = CreateClient();
@@ -43,7 +43,7 @@ namespace Google.Api.Generator.IntegrationTests
             Assert.Equal(contentBytes.Length, response.Size);
         }
 
-        [SkippableFact(Skip = "b/556694369")]
+        [Fact]
         public async Task UploadMedia_LargePayload()
         {
             var client = CreateClient();
@@ -64,7 +64,7 @@ namespace Google.Api.Generator.IntegrationTests
             Assert.Equal(contentBytes.Length, response.Size);
         }
 
-        [SkippableFact(Skip = "b/556694369")]
+        [Fact]
         public async Task UploadMedia_ResumeUploadAfterInterruption()
         {
             var client = CreateClient();
@@ -95,7 +95,7 @@ namespace Google.Api.Generator.IntegrationTests
             Assert.Equal(contentBytes.Length, response.Size);
         }
 
-        [SkippableFact(Skip = "b/556694369")]
+        [Fact]
         public async Task UploadMedia_CustomChunkSize()
         {
             var client = CreateClient();
@@ -113,7 +113,7 @@ namespace Google.Api.Generator.IntegrationTests
             Assert.Equal(contentBytes.Length, response.Size);
         }
 
-        [SkippableFact(Skip = "b/556694369")]
+        [Fact]
         public async Task UploadMedia_NonFatalErrorOnStart_RetriesAndSucceeds()
         {
             var client = CreateClient();
@@ -131,7 +131,7 @@ namespace Google.Api.Generator.IntegrationTests
             Assert.Equal(contentBytes.Length, response.Size);
         }
 
-        [SkippableFact(Skip = "b/556694369")]
+        [Fact]
         public async Task UploadMedia_FatalErrorOnStart_ThrowsRpcException()
         {
             var client = CreateClient();
@@ -147,7 +147,7 @@ namespace Google.Api.Generator.IntegrationTests
             await Assert.ThrowsAsync<Grpc.Core.RpcException>(() => session.BeginUploadAsync(request, stream, callSettings: callSettings));
         }
 
-        [SkippableFact(Skip = "b/556694369")]
+        [Fact]
         public async Task UploadMedia_NonFatalErrorOnChunkUpload_RetriesAndSucceeds()
         {
             var client = CreateClient();
@@ -169,7 +169,7 @@ namespace Google.Api.Generator.IntegrationTests
             Assert.Equal(contentBytes.Length, response.Size);
         }
 
-        [SkippableFact(Skip = "b/556694369")]
+        [Fact]
         public async Task UploadMedia_NonFatalErrorOnQuery_RetriesAndSucceeds()
         {
             var client = CreateClient();
