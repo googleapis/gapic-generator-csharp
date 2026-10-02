@@ -46,8 +46,16 @@ namespace Google.Api.Generator.Rest
             JObject raw = JObject.Parse(discoveryJson);
             var descriptions = raw.Descendants()
                 .OfType<JProperty>()
-                .Where(prop => prop.Name == "description" && prop.Value.Type == JTokenType.String);
-            foreach (var description in descriptions)
+                .Where(prop => prop.Name == "description" && prop.Value.Type == JTokenType.String)
+                .Select(prop => (JValue)prop.Value);
+
+            var enumDescriptions = raw.Descendants()
+                .OfType<JProperty>()
+                .Where(prop => prop.Name == "enumDescriptions" && prop.Value.Type == JTokenType.Array)
+                .SelectMany(prop => prop.Value.Children<JValue>())
+                .Where(value => value.Type == JTokenType.String);
+
+            foreach (var description in descriptions.Concat(enumDescriptions))
             {
                 string text = (string) (description.Value);
                 // Remove line breaks, at least for now.
