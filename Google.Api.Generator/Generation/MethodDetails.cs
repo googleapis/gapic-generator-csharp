@@ -257,15 +257,20 @@ namespace Google.Api.Generator.Generation
         /// </summary>
         public sealed class ResumableUpload : MethodDetails
         {
-            private static readonly HashSet<string> s_resumableUploadAllowlist = new HashSet<string>(StringComparer.Ordinal)
+            /// <summary>
+            /// The current allow list for resumable upload methods. The tuples contain the prefix and suffix
+            /// on supported full method names.
+            /// This is to avoid restricting resumable upload to specific Ads API versions.
+            /// </summary>
+            private static readonly (string Prefix, string Suffix)[] s_resumableUploadAllowlist = new[]
             {
-                "google.showcase.v1beta1.ResumableUploadService.UploadMedia",
-                "google.ads.googleads.v23.services.YouTubeVideoUploadService.CreateYouTubeVideoUpload",
-                "google.ads.googleads.v24.services.YouTubeVideoUploadService.CreateYouTubeVideoUpload",
-                "google.ads.googleads.v25.services.YouTubeVideoUploadService.CreateYouTubeVideoUpload",
+                ( "google.showcase.v1beta1.", ".ResumableUploadService.UploadMedia" ),
+                ( "google.ads.googleads.", ".services.YouTubeVideoUploadService.CreateYouTubeVideoUpload" ),
             };
 
-            internal static bool IsResumableUploadMethod(MethodDescriptor desc) => s_resumableUploadAllowlist.Contains(desc.FullName);
+            internal static bool IsResumableUploadMethod(MethodDescriptor desc) => s_resumableUploadAllowlist.Any(allowed =>
+                desc.FullName.StartsWith(allowed.Prefix, StringComparison.Ordinal)
+                && desc.FullName.EndsWith(allowed.Suffix, StringComparison.Ordinal));
 
             public ResumableUpload(ServiceDetails svc, MethodDescriptor desc) : base(svc, desc)
             {
