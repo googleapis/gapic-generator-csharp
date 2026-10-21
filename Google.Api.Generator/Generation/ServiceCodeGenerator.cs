@@ -19,6 +19,7 @@ using Google.Api.Generator.Utils.Roslyn;
 using Google.LongRunning;
 using Google.Protobuf.Reflection;
 using Grpc.Core;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections;
@@ -69,9 +70,10 @@ namespace Google.Api.Generator.Generation
                     var cls = Class(Public | Partial, method.ResponseTyp, baseTypes: ctx.Type(Typ.Generic(typeof(IPageResponse<>), method.ResourceTyp)));
                     using (ctx.InClass(cls))
                     {
-                        var propertyName = method.ResourcesFieldName;
+                        var resources = SyntaxFactory.IdentifierName(method.ResourcesFieldName)
+                            .MaybeWithPragmaDisableObsoleteWarning(method.ResourcesFieldDesc.IsDeprecated());
                         var genericGetEnumerator = Method(Public, ctx.Type(Typ.Generic(typeof(IEnumerator<>), method.ResourceTyp)), "GetEnumerator")()
-                            .WithBody(Property(Public, ctx.TypeDontCare, propertyName).Call(nameof(IEnumerable<int>.GetEnumerator))())
+                            .WithBody(resources.Call(nameof(IEnumerable<int>.GetEnumerator))())
                             .WithXmlDoc(XmlDoc.Summary("Returns an enumerator that iterates through the resources in this response."));
                         var getEnumerator = Method(None, ctx.Type<IEnumerator>(), "GetEnumerator")()
                             .WithExplicitInterfaceSpecifier(ctx.Type<IEnumerable>())

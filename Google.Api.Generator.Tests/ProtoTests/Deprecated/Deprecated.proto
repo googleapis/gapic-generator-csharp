@@ -23,6 +23,19 @@ service Deprecated {
 
   // Test method
   rpc DeprecatedResponseMethod(Request) returns(DeprecatedMessageResponse);
+
+  // Test method
+  rpc DeprecatedResourcesFieldPaginatedMethod(PaginatedRequest) returns(DeprecatedResourcesFieldPaginatedResponse) {
+    option (google.api.method_signature) = "name";
+  };
+
+  // Test method
+  rpc DeprecatedPaginatedMethod(PaginatedRequest) returns(PaginatedResponse) {
+    option deprecated = true;
+  };
+
+  // Test method
+  rpc DeprecatedResponsePaginatedMethod(PaginatedRequest) returns(DeprecatedPaginatedResponse);
 }
 
 // A whole service that's deprecated this time. One RPC which is explicitly
@@ -58,4 +71,27 @@ message DeprecatedMessageResponse {
 }
 
 message Response {
+}
+
+message PaginatedRequest {
+  string name = 1;
+  int32 page_size = 2;
+  string page_token = 3;
+}
+
+message DeprecatedResourcesFieldPaginatedResponse {
+  repeated Response items = 1 [deprecated = true];
+  string next_page_token = 2;
+  repeated Response replacement_items = 3;
+}
+
+message PaginatedResponse {
+  repeated Response items = 1;
+  string next_page_token = 2;
+}
+
+message DeprecatedPaginatedResponse {
+  option deprecated = true;
+  repeated Response items = 1;
+  string next_page_token = 2;
 }
