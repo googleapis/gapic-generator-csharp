@@ -501,6 +501,408 @@
       ]
     },
     {
+      "regionTag": "deprecated_generated_Deprecated_DeprecatedResourcesFieldPaginatedMethod_sync",
+      "title": "DeprecatedResourcesFieldPaginatedMethodRequestObject",
+      "description": "Snippet for DeprecatedResourcesFieldPaginatedMethod",
+      "file": "DeprecatedClient.DeprecatedResourcesFieldPaginatedMethodRequestObjectSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "DeprecatedResourcesFieldPaginatedMethod",
+        "fullName": "Testing.Deprecated.DeprecatedClient.DeprecatedResourcesFieldPaginatedMethod",
+        "parameters": [
+          {
+            "type": "Testing.Deprecated.PaginatedRequest",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
+        "resultType": "Google.Api.Gax.PagedEnumerable<Testing.Deprecated.DeprecatedResourcesFieldPaginatedResponse, Testing.Deprecated.Response>",
+        "client": {
+          "shortName": "DeprecatedClient",
+          "fullName": "Testing.Deprecated.DeprecatedClient"
+        },
+        "method": {
+          "shortName": "DeprecatedResourcesFieldPaginatedMethod",
+          "fullName": "testing.deprecated.Deprecated.DeprecatedResourcesFieldPaginatedMethod",
+          "service": {
+            "shortName": "Deprecated",
+            "fullName": "testing.deprecated.Deprecated"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 75,
+          "type": "FULL"
+        },
+        {
+          "start": 36,
+          "end": 73,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "deprecated_generated_Deprecated_DeprecatedResourcesFieldPaginatedMethod_async",
+      "title": "DeprecatedResourcesFieldPaginatedMethodRequestObjectAsync",
+      "description": "Snippet for DeprecatedResourcesFieldPaginatedMethodAsync",
+      "file": "DeprecatedClient.DeprecatedResourcesFieldPaginatedMethodRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "DeprecatedResourcesFieldPaginatedMethodAsync",
+        "fullName": "Testing.Deprecated.DeprecatedClient.DeprecatedResourcesFieldPaginatedMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Deprecated.PaginatedRequest",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
+        "resultType": "Google.Api.Gax.PagedAsyncEnumerable<Testing.Deprecated.DeprecatedResourcesFieldPaginatedResponse, Testing.Deprecated.Response>",
+        "client": {
+          "shortName": "DeprecatedClient",
+          "fullName": "Testing.Deprecated.DeprecatedClient"
+        },
+        "method": {
+          "shortName": "DeprecatedResourcesFieldPaginatedMethod",
+          "fullName": "testing.deprecated.Deprecated.DeprecatedResourcesFieldPaginatedMethod",
+          "service": {
+            "shortName": "Deprecated",
+            "fullName": "testing.deprecated.Deprecated"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 76,
+          "type": "FULL"
+        },
+        {
+          "start": 37,
+          "end": 74,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "deprecated_generated_Deprecated_DeprecatedResourcesFieldPaginatedMethod_sync_flattened",
+      "title": "DeprecatedResourcesFieldPaginatedMethod",
+      "description": "Snippet for DeprecatedResourcesFieldPaginatedMethod",
+      "file": "DeprecatedClient.DeprecatedResourcesFieldPaginatedMethodSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "DeprecatedResourcesFieldPaginatedMethod",
+        "fullName": "Testing.Deprecated.DeprecatedClient.DeprecatedResourcesFieldPaginatedMethod",
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "name"
+          },
+          {
+            "type": "System.String",
+            "name": "pageToken"
+          },
+          {
+            "type": "System.Nullable[System.Int32]",
+            "name": "pageSize"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
+        "resultType": "Google.Api.Gax.PagedEnumerable<Testing.Deprecated.DeprecatedResourcesFieldPaginatedResponse, Testing.Deprecated.Response>",
+        "client": {
+          "shortName": "DeprecatedClient",
+          "fullName": "Testing.Deprecated.DeprecatedClient"
+        },
+        "method": {
+          "shortName": "DeprecatedResourcesFieldPaginatedMethod",
+          "fullName": "testing.deprecated.Deprecated.DeprecatedResourcesFieldPaginatedMethod",
+          "service": {
+            "shortName": "Deprecated",
+            "fullName": "testing.deprecated.Deprecated"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 75,
+          "type": "FULL"
+        },
+        {
+          "start": 36,
+          "end": 73,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "deprecated_generated_Deprecated_DeprecatedResourcesFieldPaginatedMethod_async_flattened",
+      "title": "DeprecatedResourcesFieldPaginatedMethodAsync",
+      "description": "Snippet for DeprecatedResourcesFieldPaginatedMethodAsync",
+      "file": "DeprecatedClient.DeprecatedResourcesFieldPaginatedMethodAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "DeprecatedResourcesFieldPaginatedMethodAsync",
+        "fullName": "Testing.Deprecated.DeprecatedClient.DeprecatedResourcesFieldPaginatedMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "System.String",
+            "name": "name"
+          },
+          {
+            "type": "System.String",
+            "name": "pageToken"
+          },
+          {
+            "type": "System.Nullable[System.Int32]",
+            "name": "pageSize"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
+        "resultType": "Google.Api.Gax.PagedAsyncEnumerable<Testing.Deprecated.DeprecatedResourcesFieldPaginatedResponse, Testing.Deprecated.Response>",
+        "client": {
+          "shortName": "DeprecatedClient",
+          "fullName": "Testing.Deprecated.DeprecatedClient"
+        },
+        "method": {
+          "shortName": "DeprecatedResourcesFieldPaginatedMethod",
+          "fullName": "testing.deprecated.Deprecated.DeprecatedResourcesFieldPaginatedMethod",
+          "service": {
+            "shortName": "Deprecated",
+            "fullName": "testing.deprecated.Deprecated"
+          }
+        }
+      },
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 76,
+          "type": "FULL"
+        },
+        {
+          "start": 37,
+          "end": 74,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "deprecated_generated_Deprecated_DeprecatedPaginatedMethod_sync",
+      "title": "DeprecatedPaginatedMethodRequestObject",
+      "description": "Snippet for DeprecatedPaginatedMethod",
+      "file": "DeprecatedClient.DeprecatedPaginatedMethodRequestObjectSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "DeprecatedPaginatedMethod",
+        "fullName": "Testing.Deprecated.DeprecatedClient.DeprecatedPaginatedMethod",
+        "parameters": [
+          {
+            "type": "Testing.Deprecated.PaginatedRequest",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
+        "resultType": "Google.Api.Gax.PagedEnumerable<Testing.Deprecated.PaginatedResponse, Testing.Deprecated.Response>",
+        "client": {
+          "shortName": "DeprecatedClient",
+          "fullName": "Testing.Deprecated.DeprecatedClient"
+        },
+        "method": {
+          "shortName": "DeprecatedPaginatedMethod",
+          "fullName": "testing.deprecated.Deprecated.DeprecatedPaginatedMethod",
+          "service": {
+            "shortName": "Deprecated",
+            "fullName": "testing.deprecated.Deprecated"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 77,
+          "type": "FULL"
+        },
+        {
+          "start": 36,
+          "end": 75,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "deprecated_generated_Deprecated_DeprecatedPaginatedMethod_async",
+      "title": "DeprecatedPaginatedMethodRequestObjectAsync",
+      "description": "Snippet for DeprecatedPaginatedMethodAsync",
+      "file": "DeprecatedClient.DeprecatedPaginatedMethodRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "DeprecatedPaginatedMethodAsync",
+        "fullName": "Testing.Deprecated.DeprecatedClient.DeprecatedPaginatedMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Deprecated.PaginatedRequest",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
+        "resultType": "Google.Api.Gax.PagedAsyncEnumerable<Testing.Deprecated.PaginatedResponse, Testing.Deprecated.Response>",
+        "client": {
+          "shortName": "DeprecatedClient",
+          "fullName": "Testing.Deprecated.DeprecatedClient"
+        },
+        "method": {
+          "shortName": "DeprecatedPaginatedMethod",
+          "fullName": "testing.deprecated.Deprecated.DeprecatedPaginatedMethod",
+          "service": {
+            "shortName": "Deprecated",
+            "fullName": "testing.deprecated.Deprecated"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 78,
+          "type": "FULL"
+        },
+        {
+          "start": 37,
+          "end": 76,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "deprecated_generated_Deprecated_DeprecatedResponsePaginatedMethod_sync",
+      "title": "DeprecatedResponsePaginatedMethodRequestObject",
+      "description": "Snippet for DeprecatedResponsePaginatedMethod",
+      "file": "DeprecatedClient.DeprecatedResponsePaginatedMethodRequestObjectSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "DeprecatedResponsePaginatedMethod",
+        "fullName": "Testing.Deprecated.DeprecatedClient.DeprecatedResponsePaginatedMethod",
+        "parameters": [
+          {
+            "type": "Testing.Deprecated.PaginatedRequest",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
+        "resultType": "Google.Api.Gax.PagedEnumerable<Testing.Deprecated.DeprecatedPaginatedResponse, Testing.Deprecated.Response>",
+        "client": {
+          "shortName": "DeprecatedClient",
+          "fullName": "Testing.Deprecated.DeprecatedClient"
+        },
+        "method": {
+          "shortName": "DeprecatedResponsePaginatedMethod",
+          "fullName": "testing.deprecated.Deprecated.DeprecatedResponsePaginatedMethod",
+          "service": {
+            "shortName": "Deprecated",
+            "fullName": "testing.deprecated.Deprecated"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 79,
+          "type": "FULL"
+        },
+        {
+          "start": 36,
+          "end": 77,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
+      "regionTag": "deprecated_generated_Deprecated_DeprecatedResponsePaginatedMethod_async",
+      "title": "DeprecatedResponsePaginatedMethodRequestObjectAsync",
+      "description": "Snippet for DeprecatedResponsePaginatedMethodAsync",
+      "file": "DeprecatedClient.DeprecatedResponsePaginatedMethodRequestObjectAsyncSnippet.g.cs",
+      "language": "C_SHARP",
+      "clientMethod": {
+        "shortName": "DeprecatedResponsePaginatedMethodAsync",
+        "fullName": "Testing.Deprecated.DeprecatedClient.DeprecatedResponsePaginatedMethodAsync",
+        "async": true,
+        "parameters": [
+          {
+            "type": "Testing.Deprecated.PaginatedRequest",
+            "name": "request"
+          },
+          {
+            "type": "Google.Api.Gax.Grpc.CallSettings",
+            "name": "callSettings"
+          }
+        ],
+        "resultType": "Google.Api.Gax.PagedAsyncEnumerable<Testing.Deprecated.DeprecatedPaginatedResponse, Testing.Deprecated.Response>",
+        "client": {
+          "shortName": "DeprecatedClient",
+          "fullName": "Testing.Deprecated.DeprecatedClient"
+        },
+        "method": {
+          "shortName": "DeprecatedResponsePaginatedMethod",
+          "fullName": "testing.deprecated.Deprecated.DeprecatedResponsePaginatedMethod",
+          "service": {
+            "shortName": "Deprecated",
+            "fullName": "testing.deprecated.Deprecated"
+          }
+        }
+      },
+      "canonical": true,
+      "origin": "API_DEFINITION",
+      "segments": [
+        {
+          "start": 20,
+          "end": 80,
+          "type": "FULL"
+        },
+        {
+          "start": 37,
+          "end": 78,
+          "type": "SHORT"
+        }
+      ]
+    },
+    {
       "regionTag": "deprecated_generated_DeprecatedService_NonDeprecatedMethod_sync",
       "title": "NonDeprecatedMethodRequestObject",
       "description": "Snippet for NonDeprecatedMethod",

@@ -21,6 +21,7 @@ using grpccore = Grpc.Core;
 using grpcinter = Grpc.Core.Interceptors;
 using mel = Microsoft.Extensions.Logging;
 using proto = Google.Protobuf;
+using sc = System.Collections;
 using scg = System.Collections.Generic;
 using sco = System.Collections.ObjectModel;
 using st = System.Threading;
@@ -48,6 +49,9 @@ namespace Testing.Deprecated
             DeprecatedMessageMethodSettings = existing.DeprecatedMessageMethodSettings;
             DeprecatedMethodSettings = existing.DeprecatedMethodSettings;
             DeprecatedResponseMethodSettings = existing.DeprecatedResponseMethodSettings;
+            DeprecatedResourcesFieldPaginatedMethodSettings = existing.DeprecatedResourcesFieldPaginatedMethodSettings;
+            DeprecatedPaginatedMethodSettings = existing.DeprecatedPaginatedMethodSettings;
+            DeprecatedResponsePaginatedMethodSettings = existing.DeprecatedResponsePaginatedMethodSettings;
             OnCopy(existing);
         }
 
@@ -100,6 +104,45 @@ namespace Testing.Deprecated
         /// </list>
         /// </remarks>
         public gaxgrpc::CallSettings DeprecatedResponseMethodSettings { get; set; } = gaxgrpc::CallSettings.FromExpiration(gax::Expiration.None);
+
+        /// <summary>
+        /// <see cref="gaxgrpc::CallSettings"/> for synchronous and asynchronous calls to
+        /// <c>DeprecatedClient.DeprecatedResourcesFieldPaginatedMethod</c> and
+        /// <c>DeprecatedClient.DeprecatedResourcesFieldPaginatedMethodAsync</c>.
+        /// </summary>
+        /// <remarks>
+        /// <list type="bullet">
+        /// <item><description>This call will not be retried.</description></item>
+        /// <item><description>No timeout is applied.</description></item>
+        /// </list>
+        /// </remarks>
+        public gaxgrpc::CallSettings DeprecatedResourcesFieldPaginatedMethodSettings { get; set; } = gaxgrpc::CallSettings.FromExpiration(gax::Expiration.None);
+
+        /// <summary>
+        /// <see cref="gaxgrpc::CallSettings"/> for synchronous and asynchronous calls to
+        /// <c>DeprecatedClient.DeprecatedPaginatedMethod</c> and <c>DeprecatedClient.DeprecatedPaginatedMethodAsync</c>
+        /// .
+        /// </summary>
+        /// <remarks>
+        /// <list type="bullet">
+        /// <item><description>This call will not be retried.</description></item>
+        /// <item><description>No timeout is applied.</description></item>
+        /// </list>
+        /// </remarks>
+        public gaxgrpc::CallSettings DeprecatedPaginatedMethodSettings { get; set; } = gaxgrpc::CallSettings.FromExpiration(gax::Expiration.None);
+
+        /// <summary>
+        /// <see cref="gaxgrpc::CallSettings"/> for synchronous and asynchronous calls to
+        /// <c>DeprecatedClient.DeprecatedResponsePaginatedMethod</c> and
+        /// <c>DeprecatedClient.DeprecatedResponsePaginatedMethodAsync</c>.
+        /// </summary>
+        /// <remarks>
+        /// <list type="bullet">
+        /// <item><description>This call will not be retried.</description></item>
+        /// <item><description>No timeout is applied.</description></item>
+        /// </list>
+        /// </remarks>
+        public gaxgrpc::CallSettings DeprecatedResponsePaginatedMethodSettings { get; set; } = gaxgrpc::CallSettings.FromExpiration(gax::Expiration.None);
 
         /// <summary>Creates a deep clone of this object, with all the same property values.</summary>
         /// <returns>A deep clone of this <see cref="DeprecatedSettings"/> object.</returns>
@@ -408,6 +451,126 @@ namespace Testing.Deprecated
         public virtual stt::Task<DeprecatedMessageResponse> DeprecatedResponseMethodAsync(Request request, st::CancellationToken cancellationToken) =>
 #pragma warning restore CS0612
             DeprecatedResponseMethodAsync(request, gaxgrpc::CallSettings.FromCancellationToken(cancellationToken));
+
+        /// <summary>
+        /// Test method
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A pageable sequence of <see cref="Response"/> resources.</returns>
+        public virtual gax::PagedEnumerable<DeprecatedResourcesFieldPaginatedResponse, Response> DeprecatedResourcesFieldPaginatedMethod(PaginatedRequest request, gaxgrpc::CallSettings callSettings = null) =>
+            throw new sys::NotImplementedException();
+
+        /// <summary>
+        /// Test method
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A pageable asynchronous sequence of <see cref="Response"/> resources.</returns>
+        public virtual gax::PagedAsyncEnumerable<DeprecatedResourcesFieldPaginatedResponse, Response> DeprecatedResourcesFieldPaginatedMethodAsync(PaginatedRequest request, gaxgrpc::CallSettings callSettings = null) =>
+            throw new sys::NotImplementedException();
+
+        /// <summary>
+        /// Test method
+        /// </summary>
+        /// <param name="name">
+        /// </param>
+        /// <param name="pageToken">
+        /// The token returned from the previous request. A value of <c>null</c> or an empty string retrieves the first
+        /// page.
+        /// </param>
+        /// <param name="pageSize">
+        /// The size of page to request. The response will not be larger than this, but may be smaller. A value of
+        /// <c>null</c> or <c>0</c> uses a server-defined page size.
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A pageable sequence of <see cref="Response"/> resources.</returns>
+        public virtual gax::PagedEnumerable<DeprecatedResourcesFieldPaginatedResponse, Response> DeprecatedResourcesFieldPaginatedMethod(string name, string pageToken = null, int? pageSize = null, gaxgrpc::CallSettings callSettings = null)
+        {
+            PaginatedRequest request = new PaginatedRequest { Name = name ?? "", };
+            if (pageToken != null)
+            {
+                request.PageToken = pageToken;
+            }
+            if (pageSize != null)
+            {
+                request.PageSize = pageSize.Value;
+            }
+            return DeprecatedResourcesFieldPaginatedMethod(request, callSettings);
+        }
+
+        /// <summary>
+        /// Test method
+        /// </summary>
+        /// <param name="name">
+        /// </param>
+        /// <param name="pageToken">
+        /// The token returned from the previous request. A value of <c>null</c> or an empty string retrieves the first
+        /// page.
+        /// </param>
+        /// <param name="pageSize">
+        /// The size of page to request. The response will not be larger than this, but may be smaller. A value of
+        /// <c>null</c> or <c>0</c> uses a server-defined page size.
+        /// </param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A pageable asynchronous sequence of <see cref="Response"/> resources.</returns>
+        public virtual gax::PagedAsyncEnumerable<DeprecatedResourcesFieldPaginatedResponse, Response> DeprecatedResourcesFieldPaginatedMethodAsync(string name, string pageToken = null, int? pageSize = null, gaxgrpc::CallSettings callSettings = null)
+        {
+            PaginatedRequest request = new PaginatedRequest { Name = name ?? "", };
+            if (pageToken != null)
+            {
+                request.PageToken = pageToken;
+            }
+            if (pageSize != null)
+            {
+                request.PageSize = pageSize.Value;
+            }
+            return DeprecatedResourcesFieldPaginatedMethodAsync(request, callSettings);
+        }
+
+        /// <summary>
+        /// Test method
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A pageable sequence of <see cref="Response"/> resources.</returns>
+        [sys::ObsoleteAttribute]
+        public virtual gax::PagedEnumerable<PaginatedResponse, Response> DeprecatedPaginatedMethod(PaginatedRequest request, gaxgrpc::CallSettings callSettings = null) =>
+            throw new sys::NotImplementedException();
+
+        /// <summary>
+        /// Test method
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A pageable asynchronous sequence of <see cref="Response"/> resources.</returns>
+        [sys::ObsoleteAttribute]
+        public virtual gax::PagedAsyncEnumerable<PaginatedResponse, Response> DeprecatedPaginatedMethodAsync(PaginatedRequest request, gaxgrpc::CallSettings callSettings = null) =>
+            throw new sys::NotImplementedException();
+
+        /// <summary>
+        /// Test method
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A pageable sequence of <see cref="Response"/> resources.</returns>
+        [sys::ObsoleteAttribute]
+#pragma warning disable CS0612
+        public virtual gax::PagedEnumerable<DeprecatedPaginatedResponse, Response> DeprecatedResponsePaginatedMethod(PaginatedRequest request, gaxgrpc::CallSettings callSettings = null) =>
+#pragma warning restore CS0612
+            throw new sys::NotImplementedException();
+
+        /// <summary>
+        /// Test method
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A pageable asynchronous sequence of <see cref="Response"/> resources.</returns>
+        [sys::ObsoleteAttribute]
+#pragma warning disable CS0612
+        public virtual gax::PagedAsyncEnumerable<DeprecatedPaginatedResponse, Response> DeprecatedResponsePaginatedMethodAsync(PaginatedRequest request, gaxgrpc::CallSettings callSettings = null) =>
+#pragma warning restore CS0612
+            throw new sys::NotImplementedException();
     }
 
     /// <summary>Deprecated client wrapper implementation, for convenient use.</summary>
@@ -426,6 +589,14 @@ namespace Testing.Deprecated
 
 #pragma warning disable CS0612
         private readonly gaxgrpc::ApiCall<Request, DeprecatedMessageResponse> _callDeprecatedResponseMethod;
+#pragma warning restore CS0612
+
+        private readonly gaxgrpc::ApiCall<PaginatedRequest, DeprecatedResourcesFieldPaginatedResponse> _callDeprecatedResourcesFieldPaginatedMethod;
+
+        private readonly gaxgrpc::ApiCall<PaginatedRequest, PaginatedResponse> _callDeprecatedPaginatedMethod;
+
+#pragma warning disable CS0612
+        private readonly gaxgrpc::ApiCall<PaginatedRequest, DeprecatedPaginatedResponse> _callDeprecatedResponsePaginatedMethod;
 #pragma warning restore CS0612
 
         /// <summary>
@@ -461,6 +632,19 @@ namespace Testing.Deprecated
 #pragma warning restore CS0612
             Modify_ApiCall(ref _callDeprecatedResponseMethod);
             Modify_DeprecatedResponseMethodApiCall(ref _callDeprecatedResponseMethod);
+            _callDeprecatedResourcesFieldPaginatedMethod = clientHelper.BuildApiCall<PaginatedRequest, DeprecatedResourcesFieldPaginatedResponse>("DeprecatedResourcesFieldPaginatedMethod", grpcClient.DeprecatedResourcesFieldPaginatedMethodAsync, grpcClient.DeprecatedResourcesFieldPaginatedMethod, effectiveSettings.DeprecatedResourcesFieldPaginatedMethodSettings);
+            Modify_ApiCall(ref _callDeprecatedResourcesFieldPaginatedMethod);
+            Modify_DeprecatedResourcesFieldPaginatedMethodApiCall(ref _callDeprecatedResourcesFieldPaginatedMethod);
+#pragma warning disable CS0612
+            _callDeprecatedPaginatedMethod = clientHelper.BuildApiCall<PaginatedRequest, PaginatedResponse>("DeprecatedPaginatedMethod", grpcClient.DeprecatedPaginatedMethodAsync, grpcClient.DeprecatedPaginatedMethod, effectiveSettings.DeprecatedPaginatedMethodSettings);
+#pragma warning restore CS0612
+            Modify_ApiCall(ref _callDeprecatedPaginatedMethod);
+            Modify_DeprecatedPaginatedMethodApiCall(ref _callDeprecatedPaginatedMethod);
+#pragma warning disable CS0612
+            _callDeprecatedResponsePaginatedMethod = clientHelper.BuildApiCall<PaginatedRequest, DeprecatedPaginatedResponse>("DeprecatedResponsePaginatedMethod", grpcClient.DeprecatedResponsePaginatedMethodAsync, grpcClient.DeprecatedResponsePaginatedMethod, effectiveSettings.DeprecatedResponsePaginatedMethodSettings);
+#pragma warning restore CS0612
+            Modify_ApiCall(ref _callDeprecatedResponsePaginatedMethod);
+            Modify_DeprecatedResponsePaginatedMethodApiCall(ref _callDeprecatedResponsePaginatedMethod);
             OnConstruction(grpcClient, effectiveSettings, clientHelper);
         }
 
@@ -478,6 +662,14 @@ namespace Testing.Deprecated
         partial void Modify_DeprecatedResponseMethodApiCall(ref gaxgrpc::ApiCall<Request, DeprecatedMessageResponse> call);
 #pragma warning restore CS0612
 
+        partial void Modify_DeprecatedResourcesFieldPaginatedMethodApiCall(ref gaxgrpc::ApiCall<PaginatedRequest, DeprecatedResourcesFieldPaginatedResponse> call);
+
+        partial void Modify_DeprecatedPaginatedMethodApiCall(ref gaxgrpc::ApiCall<PaginatedRequest, PaginatedResponse> call);
+
+#pragma warning disable CS0612
+        partial void Modify_DeprecatedResponsePaginatedMethodApiCall(ref gaxgrpc::ApiCall<PaginatedRequest, DeprecatedPaginatedResponse> call);
+#pragma warning restore CS0612
+
         partial void OnConstruction(Deprecated.DeprecatedClient grpcClient, DeprecatedSettings effectiveSettings, gaxgrpc::ClientHelper clientHelper);
 
         /// <summary>The underlying gRPC Deprecated client</summary>
@@ -490,6 +682,8 @@ namespace Testing.Deprecated
 #pragma warning restore CS0612
 
         partial void Modify_Request(ref Request request, ref gaxgrpc::CallSettings settings);
+
+        partial void Modify_PaginatedRequest(ref PaginatedRequest request, ref gaxgrpc::CallSettings settings);
 
         /// <summary>
         /// Test method
@@ -600,5 +794,121 @@ namespace Testing.Deprecated
             Modify_Request(ref request, ref callSettings);
             return _callDeprecatedResponseMethod.Async(request, callSettings);
         }
+
+        /// <summary>
+        /// Test method
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A pageable sequence of <see cref="Response"/> resources.</returns>
+        public override gax::PagedEnumerable<DeprecatedResourcesFieldPaginatedResponse, Response> DeprecatedResourcesFieldPaginatedMethod(PaginatedRequest request, gaxgrpc::CallSettings callSettings = null)
+        {
+            Modify_PaginatedRequest(ref request, ref callSettings);
+            return new gaxgrpc::GrpcPagedEnumerable<PaginatedRequest, DeprecatedResourcesFieldPaginatedResponse, Response>(_callDeprecatedResourcesFieldPaginatedMethod, request, callSettings);
+        }
+
+        /// <summary>
+        /// Test method
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A pageable asynchronous sequence of <see cref="Response"/> resources.</returns>
+        public override gax::PagedAsyncEnumerable<DeprecatedResourcesFieldPaginatedResponse, Response> DeprecatedResourcesFieldPaginatedMethodAsync(PaginatedRequest request, gaxgrpc::CallSettings callSettings = null)
+        {
+            Modify_PaginatedRequest(ref request, ref callSettings);
+            return new gaxgrpc::GrpcPagedAsyncEnumerable<PaginatedRequest, DeprecatedResourcesFieldPaginatedResponse, Response>(_callDeprecatedResourcesFieldPaginatedMethod, request, callSettings);
+        }
+
+        /// <summary>
+        /// Test method
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A pageable sequence of <see cref="Response"/> resources.</returns>
+        [sys::ObsoleteAttribute]
+        public override gax::PagedEnumerable<PaginatedResponse, Response> DeprecatedPaginatedMethod(PaginatedRequest request, gaxgrpc::CallSettings callSettings = null)
+        {
+            Modify_PaginatedRequest(ref request, ref callSettings);
+            return new gaxgrpc::GrpcPagedEnumerable<PaginatedRequest, PaginatedResponse, Response>(_callDeprecatedPaginatedMethod, request, callSettings);
+        }
+
+        /// <summary>
+        /// Test method
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A pageable asynchronous sequence of <see cref="Response"/> resources.</returns>
+        [sys::ObsoleteAttribute]
+        public override gax::PagedAsyncEnumerable<PaginatedResponse, Response> DeprecatedPaginatedMethodAsync(PaginatedRequest request, gaxgrpc::CallSettings callSettings = null)
+        {
+            Modify_PaginatedRequest(ref request, ref callSettings);
+            return new gaxgrpc::GrpcPagedAsyncEnumerable<PaginatedRequest, PaginatedResponse, Response>(_callDeprecatedPaginatedMethod, request, callSettings);
+        }
+
+        /// <summary>
+        /// Test method
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A pageable sequence of <see cref="Response"/> resources.</returns>
+        [sys::ObsoleteAttribute]
+#pragma warning disable CS0612
+        public override gax::PagedEnumerable<DeprecatedPaginatedResponse, Response> DeprecatedResponsePaginatedMethod(PaginatedRequest request, gaxgrpc::CallSettings callSettings = null)
+#pragma warning restore CS0612
+        {
+            Modify_PaginatedRequest(ref request, ref callSettings);
+#pragma warning disable CS0612
+            return new gaxgrpc::GrpcPagedEnumerable<PaginatedRequest, DeprecatedPaginatedResponse, Response>(_callDeprecatedResponsePaginatedMethod, request, callSettings);
+#pragma warning restore CS0612
+        }
+
+        /// <summary>
+        /// Test method
+        /// </summary>
+        /// <param name="request">The request object containing all of the parameters for the API call.</param>
+        /// <param name="callSettings">If not null, applies overrides to this RPC call.</param>
+        /// <returns>A pageable asynchronous sequence of <see cref="Response"/> resources.</returns>
+        [sys::ObsoleteAttribute]
+#pragma warning disable CS0612
+        public override gax::PagedAsyncEnumerable<DeprecatedPaginatedResponse, Response> DeprecatedResponsePaginatedMethodAsync(PaginatedRequest request, gaxgrpc::CallSettings callSettings = null)
+#pragma warning restore CS0612
+        {
+            Modify_PaginatedRequest(ref request, ref callSettings);
+#pragma warning disable CS0612
+            return new gaxgrpc::GrpcPagedAsyncEnumerable<PaginatedRequest, DeprecatedPaginatedResponse, Response>(_callDeprecatedResponsePaginatedMethod, request, callSettings);
+#pragma warning restore CS0612
+        }
+    }
+
+    public partial class PaginatedRequest : gaxgrpc::IPageRequest
+    {
+    }
+
+    public partial class DeprecatedResourcesFieldPaginatedResponse : gaxgrpc::IPageResponse<Response>
+    {
+        /// <summary>Returns an enumerator that iterates through the resources in this response.</summary>
+#pragma warning disable CS0612
+        public scg::IEnumerator<Response> GetEnumerator() => Items.GetEnumerator();
+#pragma warning restore CS0612
+
+        sc::IEnumerator sc::IEnumerable.GetEnumerator() => GetEnumerator();
+    }
+
+    public partial class PaginatedResponse : gaxgrpc::IPageResponse<Response>
+    {
+        /// <summary>Returns an enumerator that iterates through the resources in this response.</summary>
+        public scg::IEnumerator<Response> GetEnumerator() => Items.GetEnumerator();
+
+        sc::IEnumerator sc::IEnumerable.GetEnumerator() => GetEnumerator();
+    }
+
+    public partial class DeprecatedPaginatedResponse : gaxgrpc::IPageResponse<Response>
+    {
+        /// <summary>Returns an enumerator that iterates through the resources in this response.</summary>
+#pragma warning disable CS0612
+        public scg::IEnumerator<Response> GetEnumerator() => Items.GetEnumerator();
+#pragma warning restore CS0612
+
+        sc::IEnumerator sc::IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

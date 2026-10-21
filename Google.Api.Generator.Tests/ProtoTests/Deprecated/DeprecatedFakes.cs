@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Google.Protobuf.Collections;
 using Google.Protobuf.Reflection;
 using Grpc.Core;
 using System;
@@ -37,6 +38,12 @@ namespace Testing.Deprecated
             public virtual AsyncUnaryCall<Response> DeprecatedMethodAsync(Request request, CallOptions callOptions) => throw new NotImplementedException();
             public virtual DeprecatedMessageResponse DeprecatedResponseMethod(Request request, CallOptions callOptions) => throw new NotImplementedException();
             public virtual AsyncUnaryCall<DeprecatedMessageResponse> DeprecatedResponseMethodAsync(Request request, CallOptions callOptions) => throw new NotImplementedException();
+            public virtual DeprecatedResourcesFieldPaginatedResponse DeprecatedResourcesFieldPaginatedMethod(PaginatedRequest request, CallOptions callOptions) => throw new NotImplementedException();
+            public virtual AsyncUnaryCall<DeprecatedResourcesFieldPaginatedResponse> DeprecatedResourcesFieldPaginatedMethodAsync(PaginatedRequest request, CallOptions callOptions) => throw new NotImplementedException();
+            public virtual PaginatedResponse DeprecatedPaginatedMethod(PaginatedRequest request, CallOptions callOptions) => throw new NotImplementedException();
+            public virtual AsyncUnaryCall<PaginatedResponse> DeprecatedPaginatedMethodAsync(PaginatedRequest request, CallOptions callOptions) => throw new NotImplementedException();
+            public virtual DeprecatedPaginatedResponse DeprecatedResponsePaginatedMethod(PaginatedRequest request, CallOptions callOptions) => throw new NotImplementedException();
+            public virtual AsyncUnaryCall<DeprecatedPaginatedResponse> DeprecatedResponsePaginatedMethodAsync(PaginatedRequest request, CallOptions callOptions) => throw new NotImplementedException();
         }
     }
 
@@ -72,4 +79,32 @@ namespace Testing.Deprecated
     public class DeprecatedMessageResponse : ProtoMsgFake<DeprecatedMessageResponse> { }
 
     public class Response : ProtoMsgFake<Response> { }
+
+    public partial class PaginatedRequest : ProtoMsgFake<PaginatedRequest>
+    {
+        public string Name { get; set; }
+        public int PageSize { get; set; }
+        public string PageToken { get; set; }
+    }
+
+    public partial class DeprecatedResourcesFieldPaginatedResponse : ProtoMsgFake<DeprecatedResourcesFieldPaginatedResponse>
+    {
+        [Obsolete]
+        public RepeatedField<Response> Items => throw new NotImplementedException();
+        public string NextPageToken { get; set; }
+        public RepeatedField<Response> ReplacementItems => throw new NotImplementedException();
+    }
+
+    public partial class PaginatedResponse : ProtoMsgFake<PaginatedResponse>
+    {
+        public RepeatedField<Response> Items => throw new NotImplementedException();
+        public string NextPageToken { get; set; }
+    }
+
+    [Obsolete]
+    public partial class DeprecatedPaginatedResponse : ProtoMsgFake<DeprecatedPaginatedResponse>
+    {
+        public RepeatedField<Response> Items => throw new NotImplementedException();
+        public string NextPageToken { get; set; }
+    }
 }
