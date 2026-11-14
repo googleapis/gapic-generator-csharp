@@ -22,7 +22,7 @@ SHOWCASE_VERSION="0.44.2"
 
 if [ ! -f gapic-showcase ] && [ ! -f gapic-showcase.exe ]; then
   echo "Downloading gapic-showcase-${SHOWCASE_VERSION}-${OS}-${ARCH}..."
-  curl -sSL -f https://github.com/googleapis/gapic-showcase/releases/download/v${SHOWCASE_VERSION}/gapic-showcase-${SHOWCASE_VERSION}-${OS}-${ARCH}.tar.gz | tar -zx
+  curl --retry 3 --retry-delay 2 -sSL -f https://github.com/googleapis/gapic-showcase/releases/download/v${SHOWCASE_VERSION}/gapic-showcase-${SHOWCASE_VERSION}-${OS}-${ARCH}.tar.gz | tar -zx
 fi
 
 if [ $# -eq 0 ]; then

@@ -30,7 +30,7 @@ cleanup() {
     certutil -delstore Root "Showcase Auto TLS CA" >/dev/null 2>&1 || true
     certutil -user -delstore Root "Showcase Auto TLS CA" >/dev/null 2>&1 || true
   fi
-  rm -f showcase-ca.pem gapic-showcase gapic-showcase.exe
+  rm -f showcase-ca.pem showcase.log gapic-showcase gapic-showcase.exe
 }
 trap cleanup EXIT
 
@@ -54,6 +54,18 @@ else
 fi
 
 export SHOWCASE_ENDPOINT=https://localhost:7469
-dotnet test $DOTNET_TEST_ARGS Google.Api.Generator.IntegrationTests
+TEST_EXIT=0
+# Serialize xUnit test collections while gapic-showcase v0.44.2 has an unsynchronized
+# protoEnumFields map accessed concurrently across parallel REST tests (b/585577537).
+dotnet test $DOTNET_TEST_ARGS Google.Api.Generator.IntegrationTests -- xUnit.ParallelizeTestCollections=false || TEST_EXIT=$?
+
+if [ "$TEST_EXIT" -ne 0 ] && [ -f showcase.log ]; then
+  echo "--- gapic-showcase log ---" >&2
+  cat showcase.log >&2 || true
+fi
+
+if [ "$TEST_EXIT" -ne 0 ]; then
+  exit "$TEST_EXIT"
+fi
 
 echo "Integration testing completed"
